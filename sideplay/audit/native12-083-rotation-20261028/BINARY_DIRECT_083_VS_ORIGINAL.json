@@ -1,0 +1,637 @@
+{
+  "status": "EXACT_DEB_BYTES_SCANNED_STATIC_ONLY_NOT_DEVICE_PROOF",
+  "source_commit": "2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b",
+  "inputs": {
+    "duoface083": {
+      "package_sha256": "ced5f42db8b9a3285ccf159386f25e8e5ea0fa976e14c3b35ea24dd625534c9b",
+      "metadata": "Package: com.duoface.jb.embedded\nVersion: 0.0.83~manualobserver1\nArchitecture: iphoneos-arm64",
+      "dylibs": {
+        "DFTouchOwnerProbe.dylib": {
+          "sha256": "94bb7ee07b5228ce434ebccbdfb9f01e1f79e335a87fe4260b0e44929ca8a0df",
+          "byte_size": 366976,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "interfaceOrientation": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 1,
+              "first_byte_offsets": [
+                168674
+              ]
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": true,
+              "occurrences": 1,
+              "first_byte_offsets": [
+                168724
+              ]
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                168895,
+                169168
+              ]
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        },
+        "DFCarPlayDockOwner.dylib": {
+          "sha256": "a4eb42870571a5474c0d83f975075c87fa447d783e1f3d86a34cb4085fa4a60d",
+          "byte_size": 76576,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "interfaceOrientation": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        },
+        "DFFirstPartyAdmission.dylib": {
+          "sha256": "4b0e9309e2b3ffc78cafdf3fd7b913370f324d0a4fc490a54f36afcb5b4c63fa",
+          "byte_size": 187024,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "interfaceOrientation": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        },
+        "DFNativeDashboardBridgeQA.dylib": {
+          "sha256": "1941b234c8a877cced36fe100e94db4938acdd987012cb0fc0537492e2dc9464",
+          "byte_size": 275520,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "interfaceOrientation": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        },
+        "DFV1APreflight.dylib": {
+          "sha256": "8ccbea168d28fe153237406bc10e300c512f82c3183b418d6af9ef47cf9534d8",
+          "byte_size": 292160,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "interfaceOrientation": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                80530,
+                213778
+              ]
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                80580,
+                213828
+              ]
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        }
+      }
+    },
+    "native12": {
+      "package_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+      "metadata": "Package: com.duoface.independent\nVersion: 0.1.0~native12+speed8compact\nArchitecture: iphoneos-arm64",
+      "dylibs": {
+        "DuoFaceDashboard.dylib": {
+          "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+          "byte_size": 3760032,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "interfaceOrientation": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                3121525,
+                3198435
+              ]
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 1,
+              "first_byte_offsets": [
+                3108501
+              ]
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": true,
+              "occurrences": 1,
+              "first_byte_offsets": [
+                3108551
+              ]
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 1,
+              "first_byte_offsets": [
+                3123446
+              ]
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": true,
+              "occurrences": 1,
+              "first_byte_offsets": [
+                3119286
+              ]
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": true,
+              "occurrences": 1,
+              "first_byte_offsets": [
+                3108702
+              ]
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        }
+      }
+    },
+    "sideplay104": {
+      "package_sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+      "metadata": "Package: com.sideplay\nVersion: 1.0.4-1\nArchitecture: iphoneos-arm64",
+      "dylibs": {
+        "SidePlay.dylib": {
+          "sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971",
+          "byte_size": 899088,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                320269,
+                762633
+              ]
+            },
+            "interfaceOrientation": {
+              "present": true,
+              "occurrences": 4,
+              "first_byte_offsets": [
+                320230,
+                335392,
+                762594,
+                777756
+              ]
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setSceneFrame:orientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                347944,
+                790308
+              ]
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                329557,
+                771921
+              ]
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        }
+      }
+    },
+    "duonavi104": {
+      "package_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+      "metadata": "Package: com.duonavi.app\nVersion: 1.0.4\nArchitecture: iphoneos-arm64",
+      "dylibs": {
+        "DuoNaviDashboard.dylib": {
+          "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+          "byte_size": 7921472,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "interfaceOrientation": {
+              "present": true,
+              "occurrences": 4,
+              "first_byte_offsets": [
+                3327329,
+                3414684,
+                7291973,
+                7379328
+              ]
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                3306275,
+                7270919
+              ]
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                3306325,
+                7270969
+              ]
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                3329448,
+                7294092
+              ]
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                3325044,
+                7289688
+              ]
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "updateSettingsWithBlock:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                3306476,
+                7271120
+              ]
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        }
+      }
+    },
+    "omnicar103": {
+      "package_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+      "metadata": "Package: com.anlai.omnicar\nVersion: 1.0.3\nArchitecture: iphoneos-arm64",
+      "dylibs": {
+        "OmniCarAppBridge.dylib": {
+          "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+          "byte_size": 613376,
+          "selector_bytes": {
+            "setInterfaceOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                188206,
+                488686
+              ]
+            },
+            "interfaceOrientation": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                215755,
+                516275
+              ]
+            },
+            "setContentReferenceSize:withInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setContentReferenceSize:withContentOrientation:andContainerOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "_mainSceneSupportsInterfaceOrientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "supportsInterfaceOrientation:forBundleID:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "setSceneFrame:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            },
+            "effectiveOrientation:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                215063,
+                515583
+              ]
+            },
+            "updateSettingsWithBlock:": {
+              "present": true,
+              "occurrences": 2,
+              "first_byte_offsets": [
+                188171,
+                488651
+              ]
+            },
+            "setBridgeState:width:height:orientation:": {
+              "present": false,
+              "occurrences": 0,
+              "first_byte_offsets": []
+            }
+          }
+        }
+      }
+    }
+  },
+  "comparison": {
+    "duoface083_current_owned_scene_setInterfaceOrientation_selector": false,
+    "duoface083_current_all_dylibs_with_setInterfaceOrientation_selector": [],
+    "native12_original_orientation_support_hook": true,
+    "native12_original_content_reference_2_and_3": true,
+    "omnicar_original_scene_orientation_setter": true,
+    "sideplay_original_frame_and_orientation_selector": true,
+    "duonavi_original_two_reference_selectors": true,
+    "duoface083_source": {
+      "host_setInterfaceOrientation": false,
+      "host_explicit_size_2x": true,
+      "host_content_reference_portrait": true,
+      "host_scene_frame_setter": true,
+      "chrome_pane_focus_change": true,
+      "chrome_host_zoom_change": true,
+      "scope_manual_observer_preserved": true
+    }
+  },
+  "limits": [
+    "Selector bytes in exact binaries prove symbols/strings, not that runtime executes branch.",
+    "Native12 original reference orientation Portrait=1 differs from external CarPlay screen orientation.",
+    "Without iPhone video/scene logs cannot distinguish 90 vs 180, app-own player fullscreen vs pane/host Zoom.",
+    "Do not alter .83 scoped SpringBoard crash fix, Dock, or content reference policy based only on string diff.",
+    "DuoDash repack has preserved ARM64 selector evidence but is not falsely labeled stock or used as input here."
+  ]
+}
