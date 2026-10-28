@@ -1,3 +1,14 @@
+## DUOFACE .90 PUBLIC SILEO PASS — DEVICE VIDEO NOT YET VERIFIED (2026-10-28)
+
+- User requested retry. Source identity 53781cca1ca9285975394754ac9080ca35b57cda; real independent YouTube orientation code derived from ORIGINAL SHA-pinned Native12 ARM64 callback analysis, never vendor license/source. Version bump BLOCKER RESOLVED.
+- Signed integrated rootless DEB 0.0.90~nativegetters1, SHA256 c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27, size 1007564; NativeHost 0.1.99~nativegetters1.
+- Package build run 40674445027 COMPLETED SUCCESS, source archive commit 352374cf9cd8671d445b2b702f14abe72b404cca, exact archive sideplay/jb-embedded-appbridge/evidence/runs/40674445027/, SHA256SUMS and PACKAGING_PROVENANCE verified on GitHub.
+- Publisher repo chuongnguyen89dn-ui/carplaydsp main commit 9832ce4d603d0c2cb432228608bdec5ed52101fe; Sileo Pages run 40674909879 SUCCESS including build, deploy, public verify-duoface-integrated-pages job 122772308857. Source https://chuongnguyen89dn-ui.github.io/carplaydsp/ advertises 0.0.90~nativegetters1 with single com.duoface.jb.embedded APT entry and SHA verification; old .89 and .83 immutable rollback files preserved.
+- Full release report sideplay/audit/native12-083-rotation-20261028/DUOFACE_090_SILEO_PUBLIC_VERIFIED_20261028.md at audit commit 20a21d9dc913122e2feeb03cc5a370de37325612.
+- .89 DEVICE FAIL for YouTube video orientation split; .90 has not been physically tested. Do NOT claim video fixed, SpringBoard stable, or Maps fully native. Maps, Dock and .83 media lifecycle code unchanged.
+- Next: test .90 via Sileo iPhone X rootless iOS16.7.16 in parked CarPlay, YouTube split on initial launch, solo->split, swipe, playback/seek. Export DuoFaceSceneHost.log with youtube-app-handshake-ack virtualization hook count/leaseActive and client/server/controller orientation. If fails, root-cause original viewport metrics vs actual video scene; no random zoom or new unverified DEB.
+
+---
 ## CHECKPOINT 2026-10-28 DuoFace .90 — signed build archived (not hardware-verified)
 
 CI run `40674445027` source `53781cca1ca9285975394754ac9080ca35b57cda`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40674445027/com.duoface.jb.embedded_0.0.90~nativegetters1_iphoneos-arm64.deb`; SHA256 `c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27`.
