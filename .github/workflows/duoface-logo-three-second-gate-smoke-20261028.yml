@@ -1,0 +1,26 @@
+name: DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-logo-three-second-gate-smoke-20261028.yml'
+      - 'sideplay/duoface-native-scene-host/DFLogoHoldGate.h'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_logo_hold_gate.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  production-c-policy-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and execute actual 3-second gesture policy and existing ratio drag
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_hold_gate.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_divider_drag.py' -v
+          echo 'LOGO_GATE_C_TEST_PASS_NOT_IOS_SDK_NOT_DEVICE'
