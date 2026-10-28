@@ -1873,3 +1873,7 @@ Native12 original HUD8 SHA-pinned DEB and Dashboard, method-index Git blob verif
 
 ## 2026-10-28 — actual Native12 original app UIKit rotation function/incoming caller run 40647999364
 Native12 original HUD8 SHA-pinned DEB and Dashboard, method-index Git blob verified. Native12 original CBAppStateListener notification + C helper 0x2ac688 direct-call graph: sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_40647999364.json; Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40647999364. No code or Maps/Dock update, no Sileo/DEB. Next interpret original app-process activation and UIKit geometry target by exact ARM64 and contrast .86 package scope; then design independent YouTube-only scene-owner handshake. Device rotation remains FAIL until tested.
+
+
+## 2026-10-28 — actual Native12 original app UIKit rotation function/incoming caller run 40648090838
+Native12 original HUD8 SHA-pinned DEB and Dashboard, method-index Git blob verified. Native12 original CBAppStateListener notification + C helper 0x2ac688 direct-call graph: sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_40648090838.json; Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40648090838. No code or Maps/Dock update, no Sileo/DEB. Next interpret original app-process activation and UIKit geometry target by exact ARM64 and contrast .86 package scope; then design independent YouTube-only scene-owner handshake. Device rotation remains FAIL until tested.
