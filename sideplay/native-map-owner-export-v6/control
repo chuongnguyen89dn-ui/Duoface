@@ -1,0 +1,9 @@
+Package: com.duoface.carplay.mapownerexport
+Name: DuoFace CarPlay Maps Log Export
+Version: 0.0.1~jsonl1
+Architecture: iphoneos-arm64
+Section: Utilities
+Priority: optional
+Maintainer: DuoFace Independent
+Depends: firmware (>= 16.0)
+Description: Standalone iPhone app to share read-only live CarPlayApp Maps scene/VC/host JSONL diagnostic collected by separate DuoFace native scene probe. No network, no scene mutation, no SpringBoard or CarPlay injection. Sileo install/rollback independent of working DuoFace player.
