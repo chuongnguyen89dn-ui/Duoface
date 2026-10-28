@@ -6,6 +6,8 @@ on:
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneIdentity.h'
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneTimeline.h'
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeMapPaneAssessment.h'
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h'
+      - 'sideplay/native-carplay-scene-v1/tests/native_carplay_map_viewport_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_map_pane_assessment_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_scene_timeline_runtime.m'
       - 'sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m'
@@ -41,6 +43,12 @@ jobs:
             -o "$RUNNER_TEMP/native-map-phone-scene-join"
           "$RUNNER_TEMP/native-map-phone-scene-join"
           echo DUOFACE_ONE_NATIVE_MAP_PLUS_PHONE_SCENE_READONLY_RUNTIME_PASS
+          xcrun clang -fobjc-arc -Wall -Wextra -Werror \
+            -framework Foundation -framework CoreGraphics \
+            sideplay/native-carplay-scene-v1/tests/native_carplay_map_viewport_runtime.m \
+            -o "$RUNNER_TEMP/native-map-measured-viewport"
+          "$RUNNER_TEMP/native-map-measured-viewport"
+          echo DUOFACE_NATIVE_MAPS_MEASURED_DOCK_VIEWPORT_RUNTIME_PASS
       - name: iOS16 ARM64 compile-only + preserve known-good .90 source byte-for-byte
         shell: bash
         run: |
@@ -62,6 +70,9 @@ jobs:
           grep -Fq 'DFCarPlayNativeSceneRoute(entry)' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
           grep -Fq 'DFCarPlayNativeSceneTimelineAdvance(' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
           grep -Fq 'DFCarPlayNativeMapPaneAssessment(' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+          grep -Fq 'DFCarPlayNativeMapViewportPlan(scenes,phoneLayout)' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+          grep -Fq '"mapSceneSizedForPane":@NO' sideplay/native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h
+          grep -Fq '"canAttachPane":@NO' sideplay/native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h
           grep -Fq '"canAttachPane":@NO' sideplay/native-carplay-scene-v1/DFCarPlayNativeMapPaneAssessment.h
           grep -Fq '"nativeMapTilesRendered":@NO' sideplay/native-carplay-scene-v1/DFCarPlayNativeMapPaneAssessment.h
           if grep -E 'foregroundSceneWithSettings|backgroundSceneWithCompletion|requestStateChange:|makeKeyAndVisible|MSHookMessageEx' sideplay/native-carplay-scene-v1/DFCarPlayNativeMapPaneAssessment.h; then exit 1; fi
