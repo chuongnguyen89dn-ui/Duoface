@@ -1,0 +1,51 @@
+name: DuoFace original-verified native CarPlay Maps scene identity only
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneIdentity.h'
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m'
+      - 'sideplay/native-carplay-scene-v1/tests/native_carplay_scene_identity_runtime.m'
+      - '.github/workflows/duoface-native-carplay-scene-identity-source-20261028.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-party-native-owner-gate:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Exercise live observed Google Maps and DuoFace scene identity (Foundation runtime)
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcrun clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation \
+            sideplay/native-carplay-scene-v1/tests/native_carplay_scene_identity_runtime.m \
+            -o "$RUNNER_TEMP/native-carplay-scene-identity"
+          "$RUNNER_TEMP/native-carplay-scene-identity"
+          echo DUOFACE_REAL_NATIVE_GOOGLE_MAPS_SCENE_CLASSIFIER_EXECUTABLE_PASS
+      - name: iOS16 ARM64 compile-only + preserve known-good .90 source byte-for-byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
+            -Wno-deprecated-declarations \
+            sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+          SOURCE='53781cca1ca9285975394754ac9080ca35b57cda'
+          git diff --exit-code "$SOURCE" HEAD -- \
+            sideplay/duoface-native-scene-host/DFYouTubeOrientationVirtualization.m \
+            sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m \
+            sideplay/duoface-native-scene-host/DFSceneHost.m \
+            sideplay/duoface-native-scene-host/DFSceneLifecycle.m \
+            sideplay/duoface-native-scene-host/DFNative12Chrome.m \
+            sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m
+          grep -Fq 'DFCarPlayNativeSceneRoute(entry)' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+          grep -Fq 'DFIntegratedCarPlayCaptureLiveOwnerSnapshot' sideplay/duoface-native-scene-host/build.sh
+          echo DUOFACE_090_WORKING_ORIENTATION_CHROME_MAPS_DOCK_BASELINE_UNCHANGED_PASS
+          echo DUOFACE_CARPLAY_APP_REAL_NATIVE_SCENE_IDENTITY_SOURCE_ONLY_PASS_NO_RELEASE
