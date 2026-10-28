@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-28 DuoFace .88 — signed build archived (not hardware-verified)
+
+CI run `40656378728` source `f3bb72d15111fba6cd22f51122fa05cae05e58b2`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40656378728/com.duoface.jb.embedded_0.0.88~uikitreflow1_iphoneos-arm64.deb`; SHA256 `9f04fb806d207e72e2fc3d5a2516747275b83ec03c7032d317b0fc8be8de6e06`.
+Build provenance, tests and ldid/dpkg verify under GitHub Actions `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40656378728`.
+Changes: Native12 original ARM64 app-reflow 0x2aa2e4 also enumerates internal UIWindow class-side windows. The previous .87 device-failed on orientation (user's two photos and swipe-from-top corrects); .88 extends the independent YouTube-only receiver to exact-owner internal windows, guarded by class method ABI, app scene identity, generation and 3-second lease. Host ACK now counts normal/internal windows and actual UIKit layout. Maps/Dock/chrome, .83 scene lifecycle and original render scale unchanged.
+
+**IMPORTANT:** Build and SHA verification are NOT proof YouTube rotation is corrected on iPhone or that native Google Maps is displayed simultaneously in a DuoFace split pane. Native Maps actual scene still unproven after the CarPlay Dashboard switches to DuoFace, so **native Maps split is NOT IMPLEMENTED**. Do not pretend scene reparent or clone is safe. Device QA and separate native scene lifecycle evidence remain required. Do not auto-deploy or mark Sileo published solely from build. Keep .83/.84 immutable rollback.
+
+Source audit: `sideplay/audit/native12-083-rotation-20261028/YOUTUBE_088_SWIPE_UKIT_REFLOW_20261028.md`.
+
+---
 ## DUOFACE .87 SILEO PUBLIC VERIFIED — RUN 40652547608 (2026-10-28)
 
 - **ĐÃ XÁC MINH PHÁT HÀNH SILEO**: https://chuongnguyen89dn-ui.github.io/carplaydsp/ có đúng một APT entry `com.duoface.jb.embedded` phiên bản `0.0.87~ythandshake1`, tên file `debs/com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb`, SHA256 `7b22d34f4bc2cf78d450dacde1c98369a0e33fdd2e248d3a8a630bec50f5f9e7`; đã tải lại DEB công khai và đối chiếu SHA.
