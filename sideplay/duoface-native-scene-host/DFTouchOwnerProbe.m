@@ -48,7 +48,7 @@ static void DFCaptureFatalException(NSException *exception) {
                  NSMakeRange(0,MIN((NSUInteger)12,stack.count))]
                  componentsJoinedByString:@" | "]:@"(unavailable)";
             NSString *line=[NSString stringWithFormat:
-               @"pid=%d build=0.0.83~manualobserver1 name=%@ reason=%@ stack=%@\n",
+               @"pid=%d build=0.0.84~portraitpolicy1 name=%@ reason=%@ stack=%@\n",
                 getpid(),name,reason,callers];
             NSData *data=[line dataUsingEncoding:NSUTF8StringEncoding];
             int fd=open("/var/mobile/Library/Logs/DuoFaceFatalException.log",
