@@ -1,0 +1,67 @@
+name: DuoFace OmniCar original full UI vs native Maps owner
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-omnicar-original-full-ui-native-map-crosswalk-20261028.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode original UI plus real CarPlay Maps owner
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --break-system-packages capstone==5.0.7
+          python3 -m py_compile sideplay/tools/audit_original_omnicar_full_ui_native_owner_crosswalk_20261028.py
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/bafc2441d280707ac1fbfd210780a51bdf69da95/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/omni.deb"
+          echo "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd  $RUNNER_TEMP/omni.deb" | sha256sum -c -
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/e908517e60b69d8c3f7f2be73b31aa2abad803ab/sideplay/log/DuoFaceCarPlayOwner-4C5C8ADB-EE69-458A-B664-1753AB90C797.jsonl' -o "$RUNNER_TEMP/owner.jsonl"
+          test "$(wc -c < "$RUNNER_TEMP/owner.jsonl" | tr -d ' ')" = 141845
+          python3 sideplay/tools/audit_original_omnicar_full_ui_native_owner_crosswalk_20261028.py --omnicar-deb "$RUNNER_TEMP/omni.deb" --duoface-root . --owner-log "$RUNNER_TEMP/owner.jsonl" --out "$RUNNER_TEMP/crosswalk.json"
+          python3 - "$RUNNER_TEMP/crosswalk.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['original_verified_class_method_count']>=450
+          assert d['existing_native12_hook_count']==36
+          assert d['native_carplay_owner_real_device_log']['native_google_maps_snapshots']==2
+          assert d['native_carplay_owner_real_device_log']['observed_same_controller_maps_to_duoface_handoff']
+          print('ORIGINAL_ALL_UI_MAPS_OWNER_CROSSWALK_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-omnicar-ui-crosswalk
+          path: ${{ runner.temp }}/crosswalk.json
+          if-no-files-found: error
+      - name: Archive original-only crosswalk in DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BR='feature/duoface-jb-embedded-appbridge-20261020'
+          TARGET="sideplay/audit/native12-083-rotation-20261028/OMNICAR_ALL_UI_NATIVE_MAP_CROSSWALK_RUN_$GITHUB_RUN_ID.json"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BR"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            test ! -e "$DIR/$TARGET"
+            mkdir -p "$(dirname "$DIR/$TARGET")"
+            cp "$RUNNER_TEMP/crosswalk.json" "$DIR/$TARGET"
+            git -C "$DIR" add "$TARGET"
+            git -C "$DIR" commit -m "audit: original OmniCar all UI and device Maps owner $GITHUB_RUN_ID [skip ci]"
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BR"; then
+              git worktree remove --force "$DIR"
+              git fetch origin "$BR"
+              git show "FETCH_HEAD:$TARGET" | head -n 2
+              echo 'OMNICAR_FULL_UI_CROSSWALK_GITHUB_ARCHIVED_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
