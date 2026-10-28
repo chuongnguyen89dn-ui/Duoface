@@ -87,7 +87,7 @@ def parse_installer(body: list[dict]) -> list[dict]:
             raise RuntimeError(f"Hook {hex(pc)} lacks ONE x2 target ADR: {choices}")
         addr, delta = choices[0]
         target = addr + delta
-        if target <= INSTALLER_END:
+        if target < INSTALLER_END:
             raise RuntimeError(f"Hook callback computed inside installer: {hex(target)}")
         found.append({
             "class": current_class,
