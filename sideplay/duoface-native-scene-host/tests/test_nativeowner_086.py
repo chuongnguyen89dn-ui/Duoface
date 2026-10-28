@@ -39,7 +39,10 @@ class NativeOwner086(unittest.TestCase):
         self.assertIn('hostedBundleIdentifier',probe)
         self.assertIn('hostedSceneIdentifier',probe)
         self.assertIn('sceneHostViewPointer',probe)
-        self.assertIn('nativeScenePointer',probe)
+        # The source derives nativeScenePointer via the existing
+        # identity-safe DFGetOwnerObject's key+Pointer writer.
+        self.assertIn('DFGetOwnerObject(vc,@"scene",log,@"nativeScene")',probe)
+        self.assertIn('@"Pointer"',probe)
         self.assertIn('CarPlayApp',dock)
         self.assertIn('map-owner-v8',dock)
         self.assertNotIn('sceneHostView addSubview',dock)
