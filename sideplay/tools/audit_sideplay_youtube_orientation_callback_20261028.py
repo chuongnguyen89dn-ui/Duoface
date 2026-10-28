@@ -9,13 +9,18 @@ RAW_SHA="7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c"
 IMAGE_SHA="0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971"
 RANGES={
  "SPPane.orientationForBundleID_idiom":(0x307a0,0x308bc),
+ "SPPane.requestAppOrientation":(0x308bc,0x31050),
+ "SPPane.applySceneOrientation":(0x31050,0x313f8),
  "SPPane.applySceneFrame":(0x313f8,0x31468),
  "SPPane.restoreSceneFrame":(0x31468,0x31500),
  "SPPane.setSceneFrame_orientation":(0x31500,0x31710),
  "SPPane.sceneSettingsBlockInvoke":(0x31768,0x31830),
  "SPPane.loadedOrientationAndWatch":(0x32b68,0x32cb0),
+ "SPPane.scheduleGeometryChecksFor":(0x334f4,0x33ac8),
  "SPPane.watchOrientationFor_token":(0x33ac8,0x33bd8),
  "SPPane.watchOrientationDispatchBlock":(0x33bd8,0x33d40),
+ "SPPane.enforceSceneGeometry":(0x3467c,0x34e38),
+ "SPPane.appReportedOrientation":(0x34e38,0x34f70),
  "SPPane.sceneViewOrientation":(0x34f70,0x35104)
 }
 INSTRUCTION=re.compile(r"^\s*(?:0x)?([0-9a-fA-F]+):\s+(.+)$")
