@@ -1,0 +1,62 @@
+name: DuoFace .90 independent orientation QA checkpoint
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths: [.github/workflows/duoface-090-checkpoint-now-20261028.yml]
+permissions:
+  contents: write
+jobs:
+  checkpoint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepend verified status into existing project handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BR='feature/duoface-jb-embedded-appbridge-20261020'
+          MARK='DUOFACE .90 NATIVE12 ORIGINAL HOOKS — DISTINCT SIGNED BUILD REQUESTED'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BR"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            python3 - "$DIR/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1]);old=p.read_text(encoding="utf8")
+          marker="DUOFACE .90 NATIVE12 ORIGINAL HOOKS — DISTINCT SIGNED BUILD REQUESTED"
+          if marker not in old:
+              note=f"""## {marker} (2026-10-28)
+
+          - User instruction: retry the blocked .90 packaging and Sileo workflow. Exact repository `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-jb-embedded-appbridge-20261020`.
+          - Original .89 **DEVICE FAIL** for YouTube split orientation; do not call any new version hardware PASS.
+          - Based on SHA-pinned ORIGINAL Native12 DEB and 36 real ARM64 hook callbacks from `sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_40667230467.json`, source implements first-party YouTube-only runtime orientation getter/rotation interception. New files: `DFYouTubeOrientationVirtualization.h/.m` in `sideplay/duoface-native-scene-host`; wiring in `DFYouTubeOrientationRelay.m`, `DFSceneHost.m`, and `build.sh`; only YouTube process can inject. Existing .83 player lifecycle, Chrome, Maps, Dock not touched.
+          - Source-only macOS arm64 iOS16 compile/link, unit regressions GitHub Actions **40674327583 SUCCESS**.
+          - **RESOLVED PRIOR BLOCKER:** GitHub version bump succeeded: native `0.1.99~nativegetters1` in `control` and `build.sh`; integrated `0.0.90~nativegetters1` in `sideplay/jb-embedded-appbridge/package_integrated.py` and `.github/workflows/duoface-jb-embedded-appbridge-package.yml`; tests, trace/exporter and archive handoff updated. Current version-specific build request `sideplay/jb-embedded-appbridge/build-request/REQUEST.md` commit `53781cca1ca9285975394754ac9080ca35b57cda`.
+          - **Build actually triggered** GitHub Actions run `40674445027` (macOS-15 rootless Theos, signed one DEB QA). The workflow is in progress at this checkpoint. Source commit is exactly `53781cca1ca9285975394754ac9080ca35b57cda`. The latest SHA, build success, archive and Sileo publication MUST be checked after completion; not yet claimed.
+          - Workflow exact path `.github/workflows/duoface-jb-embedded-appbridge-package.yml`; unit discovery, Foundation ABI runtime, build `bash sideplay/duoface-native-scene-host/build.sh` then `python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 ... --expected-source-sha ...`; GitHub run evidence `sideplay/jb-embedded-appbridge/evidence/runs/40674445027` IF the workflow succeeds. Do not invent SHA/artifact until archived.
+          - **Next:** finish build, verify SHA256 and provenance/README handoff; pin immutable .90 archive with actual SHA into `chuongnguyen89dn-ui/carplaydsp` existing Sileo publisher, preserve .89 rollback and only show .90 in Packages index, verify public HTTPS checksum, then device test two-pane YouTube immediately without SOLO/swipe and collect `DuoFaceSceneHost.log` virtualization ACK. Failure means investigate actual runtime hooks rather than arbitrary zoom changes. No known physical QA for .90.
+
+          ---
+          """
+              p.write_text(note+old,encoding="utf8")
+              assert p.read_text(encoding="utf8")==note+old
+          PY
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add 'sideplay/tiep tuc du an.md'
+            if git -C "$DIR" diff --cached --quiet; then
+              git worktree remove --force "$DIR"
+              exit 0
+            fi
+            git -C "$DIR" commit -m 'handoff: .90 original Native12 hooks build requested, not yet released [skip ci]'
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BR"; then
+              git worktree remove --force "$DIR"
+              git fetch origin "$BR"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARK"
+              echo 'DUOFACE_090_ORIGINAL_SOURCE_BUILD_HANDOFF_PERSISTED_VERIFIED'
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
