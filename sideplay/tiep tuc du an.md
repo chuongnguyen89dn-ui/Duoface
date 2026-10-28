@@ -1,3 +1,14 @@
+## DUOFACE .90 — YOUTUBE CORRECT ROTATION USER DEVICE PASS (2026-10-28)
+
+- **LATEST USER REPORT, DIRECT PHYSICAL DEVICE ACK:** User explicitly confirms installed .90 now displays YouTube video in the correct orientation. Treat this as **user-confirmed pass for the YouTube rotation feature**. Earlier .90 'device untested' note is superseded for this feature ONLY, retained below in history for timeline. We did not personally inspect phone logs/screenshots in this turn.
+- Known-good rotation baseline: **com.duoface.jb.embedded 0.0.90~nativegetters1**, SHA256 c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27. Original source commit 53781cca1ca9285975394754ac9080ca35b57cda; signed DEB CI run 40674445027; public Sileo Pages run 40674909879.
+- Original real Native12 DEB and 36 exact injected app-process ARM64 callbacks were finally examined at machine instruction level (sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_40667230467.json). First-party independently implemented process-local orientation getters and future UIWindow rotation intercepts in sideplay/duoface-native-scene-host/DFYouTubeOrientationVirtualization.m; scoped to exact live owned YouTube scene and lease, original UIKit IMP fallback outside lease.
+- **Retrospective root mistake:** Prior .87-.89 tried only Host->app notification, one-shot UIWindow rotation/geometry, and public UIKit re-evaluation, without consistently virtualizing the orientation values YouTube queries and intercepting its later rotation requests. We should have traced original hook callbacks earlier, instead of repeating uncertain fixes. The actual winning hook among six wrappers is not isolated by an A/B test; do not overclaim a specific one caused success.
+- Preserve functioning .90 orientation behavior intact as regression baseline. No edits to .83 media lifecycle, Maps or system Dock. No new DEB required from this user confirmation.
+- **NOT YET CONFIRMED:** long-session playback/seek, crash/Safe Mode, repeated split/solo, Maps and Dock full parity. Do not claim those are passed. On future user request, test those separately and collect targeted DuoFaceSceneHost.log virtualization phase/hooks/leaseActive only if needed.
+- Evidence report: sideplay/audit/native12-083-rotation-20261028/DUOFACE_090_SILEO_PUBLIC_VERIFIED_20261028.md (new USER-CONFIRMED device update, commit ad9d6fdf3b4d40f6518765d0d4933ed0e569f97c). Repo chuongnguyen89dn-ui/Duoface branch feature/duoface-jb-embedded-appbridge-20261020. This checkpoint is appended at head by GitHub Actions after checkout/fetch/worktree/commit/push and readback.
+
+---
 ## DUOFACE .90 PUBLIC SILEO PASS — DEVICE VIDEO NOT YET VERIFIED (2026-10-28)
 
 - User requested retry. Source identity 53781cca1ca9285975394754ac9080ca35b57cda; real independent YouTube orientation code derived from ORIGINAL SHA-pinned Native12 ARM64 callback analysis, never vendor license/source. Version bump BLOCKER RESOLVED.
