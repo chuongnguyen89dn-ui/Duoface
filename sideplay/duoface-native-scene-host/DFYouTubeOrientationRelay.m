@@ -59,6 +59,7 @@
         }
         // Heartbeats renew a lease, never continuously rotate a video player.
         if(changed || !self.scene)[self apply];
+        else DFYTVirtualUpdateLease(state,self.scene);
     });
 }
 - (void)windowVisible:(NSNotification *)notification {
