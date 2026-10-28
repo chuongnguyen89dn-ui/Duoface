@@ -1,3 +1,13 @@
+## DUOFACE .88 SILEO PUBLIC VERIFIED — RUN 40656863552 (2026-10-28)
+
+- **ĐÃ XÁC MINH PHÁT HÀNH SILEO**: https://chuongnguyen89dn-ui.github.io/carplaydsp/ có đúng một APT entry `com.duoface.jb.embedded` phiên bản `0.0.88~uikitreflow1`, tên file `debs/com.duoface.jb.embedded_0.0.88~uikitreflow1_iphoneos-arm64.deb`, SHA256 `9f04fb806d207e72e2fc3d5a2516747275b83ec03c7032d317b0fc8be8de6e06`; đã tải lại DEB công khai và đối chiếu SHA.
+- Publisher repo `chuongnguyen89dn-ui/carplaydsp`: commit `0ed10efba80f420630854df3bda374b64b86fa82`, workflow `https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40656863552`.
+- Repo thực thi `chuongnguyen89dn-ui/Duoface`; branch `feature/duoface-jb-embedded-appbridge-20261020`; source commit `f3bb72d15111fba6cd22f51122fa05cae05e58b2`, integrated CI `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40656378728`, binary archive commit `1184d01cdad6300adc6b2547f286fc7f70b137e7`, path `sideplay/jb-embedded-appbridge/evidence/runs/40656378728/com.duoface.jb.embedded_0.0.88~uikitreflow1_iphoneos-arm64.deb`.
+- Người dùng xác nhận .87 vẫn sai chiều ở chia đôi; phóng một ô hoặc vuốt từ trên xuống qua giao diện YouTube có thể khiến video tự quay đúng. .88 mở rộng enumerator UIWindow nội bộ theo original Native12 ARM64 0x2aa2e4, vẫn chỉ trong scene/owner/generation hiện tại; ACK đếm normal/internal window và UIKit layout, không suy đoán landscape hoặc tỷ lệ zoom. Maps/Dock và .83 lifecycle/video không đổi. Giữ binary .87/.86/.83 để rollback.
+- **CHƯA KIỂM THỬ TRÊN THIẾT BỊ**: xem YouTube chia 2 ô, Zoom từng ô không bấm fullscreen app, thu nhỏ/phóng to, rồi fullscreen/restore; xác nhận không crash/Exit Safe Mode, Dock vẫn chuẩn, không thay đổi Maps. Trên iPhone X jailbreak iOS16 rootless dùng Sileo refresh repo, nâng cấp `DuoFace Independent (Integrated CarPlay Beta)` lên .88. Chỉ thao tác khi xe đỗ, giữ bản .83 để phục hồi. Lấy log `/var/mobile/Library/Logs/DuoFaceSceneHost.log` với `youtube-app-handshake-ack` (scene ID, windowsApplied, orientation và kích thước thực), crash IPS nếu phát sinh. Nếu sai xoay, không chỉnh zoom tuỳ ý mà phân tích ACK trước.
+- Không kết luận bug xoay đã được sửa trên xe từ CI/đăng Sileo. Không thay đổi bản đồ trước khi có bằng chứng thực tế.
+
+---
 ## CHECKPOINT 2026-10-28 DuoFace .88 — signed build archived (not hardware-verified)
 
 CI run `40656378728` source `f3bb72d15111fba6cd22f51122fa05cae05e58b2`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40656378728/com.duoface.jb.embedded_0.0.88~uikitreflow1_iphoneos-arm64.deb`; SHA256 `9f04fb806d207e72e2fc3d5a2516747275b83ec03c7032d317b0fc8be8de6e06`.
