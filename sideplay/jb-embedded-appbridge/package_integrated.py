@@ -10,10 +10,10 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.99~nativegetters1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.100~nativemapqa1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.90~nativegetters1"
+VERSION="0.0.91~nativemapqa1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -72,6 +72,18 @@ def build(expected_nativehost_sha256,expected_source_sha):
   with relay.with_suffix(".plist").open("rb") as file:
    if plistlib.load(file)!={"Filter":{"Bundles":["com.google.ios.youtube"]}}:
     raise RuntimeError("YouTube relay filter broadened")
+  # A genuine CarPlay process-only, user-armed native Maps UIKit pane
+  # experiment, shipped INSIDE the one DuoFace package (never standalone).
+  # Default OFF. No SpringBoard injection and no vendor/CPWindow payload.
+  native_map=stage/"var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator"
+  if not native_map.with_suffix(".dylib").is_file():
+   raise RuntimeError("Missing first-party native Maps pane coordinator")
+  with native_map.with_suffix(".plist").open("rb") as file:
+   p=plistlib.load(file)
+  if p!={"Filter":{"Executables":["CarPlay","CarPlayApp"]}}:
+   raise RuntimeError("Native Maps coordinator must be CarPlay-process-only")
+  if not (stage/"var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost").is_file():
+   raise RuntimeError("Missing nativehost iPhone opt-in UI")
   # Merged DEBs lose their source maintainer scripts during dpkg-deb -x.
   # Explicitly supply minimal uicache scripts for the ONE DuoFace app.
   scripts=ROOT/"sideplay/jb-embedded-appbridge/scripts"
@@ -121,6 +133,9 @@ def build(expected_nativehost_sha256,expected_source_sha):
     "device_carplay_icon_tested":False,
     "real_two_app_scene_tested":False,
     "native_content_receiver_compiled":True,
+    "native_map_optin_controller_coordinator_compiled":True,
+    "native_map_tiles_device_verified":False,
+    "native_map_navigation_continuity_verified":False,
     "native_content_receiver_device_verified":False,
     "uicache_registration_scripts_included":True,
     "auto_respring_on_install":False,
