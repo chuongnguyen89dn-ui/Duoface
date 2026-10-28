@@ -1,3 +1,13 @@
+# DuoFace .91 native Maps CarPlay same-process controller QA — one DEB CI request (2026-10-28)
+
+- Build `com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb` with the existing macOS signed one-DEB workflow; nativehost `0.1.100~nativemapqa1`. Preserve the complete user-confirmed .90 YouTube playback/rotation source and public .90 DEB SHA256 `c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27`.
+- Implemented native Maps **first-party opt-in QA path**: user opens Google Maps native on CarPlay while car parked, uses DuoFace iPhone app > Bố cục > Thử nghiệm bản đồ CarPlay native > Bản đồ trái/phải or Restore. CarPlay-only `DFNativeMapPaneCoordinator.dylib` matches real `DBApplicationSceneViewController`/FBScene + system Dock bounds and calls `DFNativeMapPaneAdapter` same-process UIKit adopt/restore, never clones `CPWindow`, terminates navigation or scales phone MainDisplay Maps.
+- **DEFAULT OFF; NO AUTOMATIC MAP VIEW MUTATION.** Fails closed if owner/pane/screen mismatch, native Map FBScene not current, more than one owner or absent native Dock. Sileo publication/physical device Maps rendering/route continuity are **NOT** proven by macOS compilation. Do not label a rendered map pass until parked-device acceptance.
+- New QA package includes its own CarPlay-process-only dylib and existing iPhone DuoFace app; not a separate tweak. Existing .90 Sileo remains rollback. Do not delete .90 bytes or remove other packages automatically.
+- Build trigger: `091-native-carplay-maps-optin-owner-dock-bound-20261028`.
+
+---
+
 # DuoFace .90 original Native12 process-local orientation candidate — QA signed DEB request, 2026-10-28
 
 - PRIOR .89 SILEO VERSION IS DEVICE FAIL; do not overwrite or reuse .89 artifacts.
