@@ -1,3 +1,11 @@
+## .91 CI retry 1 — only stale NativeHost .90 version assertions corrected, 2026-10-28
+
+- First GHA run `40688765319` **FAILED before build**, `Self-contained payload / no vendor code unit tests`: legacy tests `test_nativeowner_086` and `test_orientation_policy_084` still asserted old `0.1.99~nativegetters1`; actual bumped module is `0.1.100~nativemapqa1`. Updated those assertions only; all .90 runtime video source remains byte-for-byte unchanged.
+- Repeat complete current-source macOS CI, stage one signed .91 QA DEB only if tests/build succeed. No Sileo publication without verified artifact.
+- Retry marker `091-nativemapqa-legacy-version-guard-updated-20261028`.
+
+---
+
 # DuoFace .91 native Maps CarPlay same-process controller QA — one DEB CI request (2026-10-28)
 
 - Build `com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb` with the existing macOS signed one-DEB workflow; nativehost `0.1.100~nativemapqa1`. Preserve the complete user-confirmed .90 YouTube playback/rotation source and public .90 DEB SHA256 `c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27`.
