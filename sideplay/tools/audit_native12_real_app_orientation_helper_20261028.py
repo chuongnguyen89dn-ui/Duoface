@@ -16,6 +16,7 @@ TARGETS={
     "app_scene_orientation_tail":0x2acc04,
     "app_scene_orientation_callback":0x2accbc,
     "app_state_received_notification":0x2ab98c,
+    "app_state_async_state_apply_block":0x2abd98,
     "app_state_initialization":0x2ab0a0,
     "app_state_send_request":0x2ab7a4,
     "app_state_active_notification":0x2ab948,
