@@ -85,6 +85,7 @@
     if(self.scene && self.scene!=owned)[self reset];
     if(!self.state)return;
     self.scene=owned;
+    DFYTVirtualUpdateLease(self.state,owned);
     if(!self.snapshots)self.snapshots=[NSMapTable weakToStrongObjectsMapTable];
     self.applying=YES;
     CGSize size=CGSizeMake([self.state[@"width"] doubleValue],[self.state[@"height"] doubleValue]);
