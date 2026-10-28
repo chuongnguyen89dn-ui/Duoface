@@ -1,0 +1,121 @@
+name: DuoFace YouTube original DEB orientation ARM64 forensic READ ONLY
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-youtube-original-orientation-dataflow-20261028.yml'
+      - 'sideplay/tools/audit_youtube_original_orientation_dataflow_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-youtube-original-orientation-forensic
+  cancel-in-progress: false
+jobs:
+  original-five-packages:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare original data and first-party ARM64 parser
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/parser" "$RUNNER_TEMP/inputs"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile "$RUNNER_TEMP/parser"/*.py sideplay/tools/audit_youtube_original_orientation_dataflow_20261028.py
+          cp com.sideplay_1.0.4-1_iphoneos-arm64.deb "$RUNNER_TEMP/inputs/sideplay104.deb"
+          cp dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/inputs/duonavi104.deb"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/inputs/native12.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/main/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/inputs/omnicar103.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb' -o "$RUNNER_TEMP/inputs/duodash113_repack.deb"
+          (
+            cd "$RUNNER_TEMP/inputs"
+            printf '%s\n' \
+              '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  native12.deb' \
+              '7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c  sideplay104.deb' \
+              'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd  duonavi104.deb' \
+              'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd  omnicar103.deb' \
+              'ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465  duodash113_repack.deb' | sha256sum -c -
+          )
+          echo FIVE_SHA_PINNED_DEBS_VERIFIED
+      - name: Decode exact original methods and callsites (no DuoFace runtime changes)
+        shell: bash
+        run: |
+          set -euo pipefail
+          export NATIVE_PARSER_DIR="$RUNNER_TEMP/parser"
+          DEST="sideplay/audit/native12-083-rotation-20261028/YOUTUBE_ORIGINAL_DATAFLOW_RUN_$GITHUB_RUN_ID.json"
+          python3 sideplay/tools/audit_youtube_original_orientation_dataflow_20261028.py \
+            --native12 "$RUNNER_TEMP/inputs/native12.deb" \
+            --sideplay104 "$RUNNER_TEMP/inputs/sideplay104.deb" \
+            --duonavi104 "$RUNNER_TEMP/inputs/duonavi104.deb" \
+            --omnicar103 "$RUNNER_TEMP/inputs/omnicar103.deb" \
+            --duodash113_repack "$RUNNER_TEMP/inputs/duodash113_repack.deb" \
+            --out "$DEST"
+          python3 - "$DEST" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert len(d["packages"])==5
+          for k,v in d["packages"].items():
+              count=sum(x["orientation_method_candidates_total"] for x in v["images"].values())
+              assert count>0,(k,count)
+              print("ORIGINAL_ORIENTATION_METHOD_COUNT",k,count)
+          s=d["packages"]["sideplay104"]["images"]["SidePlay.dylib"]["retained_orientation_methods"]
+          assert any(x["selector"]=="setSceneFrame:orientation:" and x["class"]=="SPPane" for x in s)
+          assert any(x["selector"]=="applySceneFrame:" and x["class"]=="SPPane" for x in s)
+          print("ORIGINAL_SIDEPANE_FRAME_ORIENTATION_PROOF_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: youtube-orientation-original-arm64-forensic
+          path: sideplay/audit/native12-083-rotation-20261028/YOUTUBE_ORIGINAL_DATAFLOW_RUN_*.json
+          if-no-files-found: warn
+      - name: Commit audit and append to existing project handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          DEST="sideplay/audit/native12-083-rotation-20261028/YOUTUBE_ORIGINAL_DATAFLOW_RUN_$GITHUB_RUN_ID.json"
+          SRC="$(pwd)/$DEST"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$(dirname "$DEST")"
+            cp "$SRC" "$TMP/$DEST"
+            python3 - "$TMP/sideplay/tiep tuc du an.md" "$DEST" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          handoff=Path(sys.argv[1]);report=sys.argv[2];run=sys.argv[3]
+          assert handoff.exists(), "Original handoff missing"
+          checkpoint=(
+            "\n\n## 2026-10-28 — full original YouTube orientation ARM64 forensic run "+run+"\n"
+            "User confirmed .86 wrong YouTube rotation; freeze native Google Maps. "
+            "First-party scanner: sideplay/tools/audit_youtube_original_orientation_dataflow_20261028.py. "
+            "Five exact DEB SHA256 confirmed: Native12, SidePlay, DuoNavi, OmniCar originals; "
+            "DuoDash 1.1.3 Fullscreen427 is repack, NOT stock. "
+            "Output: "+report+". Run: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/"+run+". "
+            "No runtime/Maps/Dock changes, no signed DEB or Sileo action. "
+            "Next: read exact original ARM64 dataflow, identify owner and event (YouTube fullscreen), "
+            "then independently patch minimum .83-compatible path and test device.\n"
+          )
+          with handoff.open("a",encoding="utf-8") as fd: fd.write(checkpoint)
+          print("EXISTING_HANDOFF_UPDATED")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$DEST" 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m "audit: archive original YouTube ARM64 proof run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "ORIGINAL_YOUTUBE_AUDIT_AND_HANDOFF_GITHUB_SAVED_RUN_ID=$GITHUB_RUN_ID"
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
