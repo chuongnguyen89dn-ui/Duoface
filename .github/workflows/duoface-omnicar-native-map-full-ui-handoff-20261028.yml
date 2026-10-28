@@ -1,0 +1,93 @@
+name: DuoFace original OmniCar 458 full UI method and real Maps owner handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-omnicar-native-map-full-ui-handoff-20261028.yml'
+permissions:
+  contents: write
+jobs:
+  save:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify existing original full UI evidence and independently scoped implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path('sideplay/audit/native12-083-rotation-20261028')
+          report=(base/'OMNICAR_ALL_UI_NATIVE_MAP_CROSSWALK_20261028.md').read_text()
+          doc=json.loads((base/'OMNICAR_ALL_UI_NATIVE_MAP_CROSSWALK_RUN_40679042884.json').read_text())
+          assert doc['original_verified_class_method_count']==458
+          assert len(doc['original_verified_classes'])==10
+          assert doc['existing_native12_hook_count']==36
+          assert doc['native_carplay_owner_real_device_log']['native_google_maps_snapshots']==2
+          assert doc['native_carplay_owner_real_device_log']['observed_same_controller_maps_to_duoface_handoff']
+          assert 'com.google.Maps' in report and 'DFSceneHost.m' in report
+          live=Path('sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m').read_text()
+          assert 'DFCarPlayNativeSceneRoute(entry)' in live
+          h=Path('sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneIdentity.h').read_text()
+          assert 'native-foreign-scene' in h and 'native-duoface-scene' in h
+          print('DUOFACE_ALL_NATIVE_UI_ORIGINAL_METHODS_AND_MAP_OWNER_CROSSWALK_VERIFIED')
+          PY
+      - name: Prepend existing huge handoff without replacing old history
+        shell: bash
+        run: |
+          set -euo pipefail
+          BR='feature/duoface-jb-embedded-appbridge-20261020'
+          MARK='OMNICAR FULL UI 458 METHODS + REAL GOOGLE MAPS SCENE OWNER CROSSWALK'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BR"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            MARK="$MARK" python3 - "$TMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import os,sys
+          p=Path(sys.argv[1])
+          old=p.read_text(encoding='utf8')
+          marker=os.environ['MARK']
+          if marker not in old:
+              checkpoint="""## OMNICAR FULL UI 458 METHODS + REAL GOOGLE MAPS SCENE OWNER CROSSWALK — 2026-10-28
+
+          - LATEST USER REQUIREMENT: recreate the entire UI behavior of original Native12/OmniCar by inspecting actual binary method call ownership; especially **native Google Maps in DuoFace split** while existing CarPlay navigation remains active. No vendor code/license cloning; DO NOT GUESS 80% visual zoom.
+          - CRITICAL PROTECTED BASELINE: DuoFace integrated 0.0.90~nativegetters1 YouTube **rotation USER DEVICE PASS**. Do not modify DFYouTubeOrientationVirtualization.m, DFYouTubeOrientationRelay.m, DFSceneHost.m, DFNative12Chrome.m, DFSceneLifecycle.m or DFCarPlayDockOwner.m except with a separately proven change. Current signed public Sileo .90 SHA256 c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27.
+          - Original SHA-pinned OmniCar 1.0.3 DEB d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd; original Split dylib SHA256 f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754. New read-only original ARM64 full method index **458 methods / 10 classes**, call PCs and CFStrings, grouped eight UI families against current DuoFace source. Script sideplay/tools/audit_original_omnicar_full_ui_native_owner_crosswalk_20261028.py; GitHub Actions run 40679042884 SUCCESS. Immutable JSON sideplay/audit/native12-083-rotation-20261028/OMNICAR_ALL_UI_NATIVE_MAP_CROSSWALK_RUN_40679042884.json; commit 70b57681b939460a769adf2412b3592442fc4572. Historical Native12 indexed 1385 ObjC methods and decoded 36 real app-process hooks; don't misrepresent scope as all C/C++ functions in all DEBs.
+          - NEW VERIFIED REAL DEVICE EVIDENCE from Duoface/main log sideplay/log/DuoFaceCarPlayOwner-4C5C8ADB-EE69-458A-B664-1753AB90C797.jsonl commit e908517e60b69d8c3f7f2be73b31aa2abad803ab (46 snapshots). CarPlayApp PID 68776 snapshot #40/#41: DBApplicationSceneViewController sceneHostView present, hostedBundleIdentifier=com.google.Maps, hostedSceneIdentifier=Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps. Snapshot #42/#43 SAME native controller pointer now hosts com.duoface.native.scenehost. Native Maps actual FBScene exists; **NOT PROVEN** simultaneous native map+Duoface two full scenes in Dashboard. DBMaps widgets are not that scene.
+          - Original OmniCar SCPCarSplit.isCarPlayApp: (0xff20), openApp:slot: (0x164d4), adopt:slot: (0x1942c), sceneOfViewController: (0x1aaf4), pushSceneSizes (0x1c550), native scene-destroy protection (0x1ad58), separate hostApp:inPane: phone AppBridge (0x3e490). Current DuoFace DFSceneHost.m exclusively constructs SBDeviceApplicationSceneEntity for MAIN display for selected apps, i.e. missing separate native CarPlay navigation branch. Native Maps requires CarPlay process scene owner and own lifetime; never copy/reparent foreign Maps CPWindow or terminate existing nav.
+          - ACTUAL SOURCE CHANGES: independent fail-closed read-only native scene classifier sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneIdentity.h (commit 69b69d47356d265661d751cc77052862b7a6f055), wired to EXISTING CarPlayApp snapshot sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m (commit b3f8892e93fff1fcb7965bdef5907cf60e8611b6), and Foundation executable test sideplay/native-carplay-scene-v1/tests/native_carplay_scene_identity_runtime.m. CI 40679475306 PASS Mac Foundation tests, iOS16 ARM64 syntax, diff guard verifies .90 player/Chrome/SceneHost/Dock code unchanged. CI 40679475293 PASS read-only owner observer. Not deployed or device-tested. First compile run 40679358243 failed 'id.length' property; corrected typed NSString and reran successfully.
+          - Full human readable original-to-firstparty source map sideplay/audit/native12-083-rotation-20261028/OMNICAR_ALL_UI_NATIVE_MAP_CROSSWALK_20261028.md (commit dfa54c5b4a0f8078274429a2fb57ce949b0cd9c1), includes native app admission, host/scene, split geometry, drag/SOLO, menu/4s timer, Zoom/Swap/Dock, picker/startup and lifecycle; explicit verified vs unverified.
+          - NEXT: independent source-only native app role/scene lease and ownership contract in CarPlayApp with generation; collect live scene owner in split navigation + switch, verify coexisting native map capability before any rendering or scene mutation. Only then build a separate versioned integrated signed QA and publish Sileo for iPhone X parked test while freezing .90. No new DEB or Sileo built in this turn.
+          - Preservation: repository chuongnguyen89dn-ui/Duoface, feature/duoface-jb-embedded-appbridge-20261020; all source changes committed on branch (no local uncommitted work); old .90 signed production untouched. No secrets.
+
+          ---
+          """
+              p.write_text(checkpoint+old,encoding='utf8')
+              assert p.read_text(encoding='utf8')==checkpoint+old
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TMP" diff --cached --quiet; then
+              git worktree remove --force "$TMP"
+              git fetch --no-tags origin "$BR"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' > "$RUNNER_TEMP/handoff-readback.md"
+              grep -Fq "$MARK" "$RUNNER_TEMP/handoff-readback.md"
+              echo 'DUOFACE_OMNICAR_HANDOFF_ALREADY_VERIFIED'
+              exit 0
+            fi
+            git -C "$TMP" commit -m 'handoff: original OmniCar all UI and real Maps scene owner contract [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BR"; then
+              git worktree remove --force "$TMP"
+              git fetch --no-tags origin "$BR"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' > "$RUNNER_TEMP/handoff-readback.md"
+              grep -Fq "$MARK" "$RUNNER_TEMP/handoff-readback.md"
+              echo 'DUOFACE_OMNICAR_ALL_UI_NATIVE_MAPS_GITHUB_HANDOFF_VERIFIED'
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
