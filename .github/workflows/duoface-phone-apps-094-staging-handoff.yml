@@ -1,0 +1,62 @@
+name: DuoFace .94 staging checkpoint — append existing handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-phone-apps-094/STAGING_REQUEST.md'
+permissions:
+  contents: write
+concurrency:
+  group: duoface-094-staging-handoff
+  cancel-in-progress: false
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read, prepend and verify existing handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import sys
+          file=Path(sys.argv[1])
+          if not file.exists(): raise RuntimeError('existing handoff missing; no duplicate')
+          before=file.read_text(encoding='utf-8')
+          marker='## CHECKPOINT 2026-10-29: .94 phone Apps Manager signed package requested'
+          block=marker+'\n\n'+(
+            '- SOURCE TEST VERIFIED: 40786223749 SUCCESS (macOS Foundation preference runtime, full Python source regressions, iOS16 arm64 syntax, YouTube ABI); source-only iPhone Apps Manager is not yet device-tested.\n'
+            '- STAGING COMMIT a1c260e15a24c2c3b3bc833ae74b89493af0e271: rootless one-DEB 0.0.94~phoneapps1, native 0.1.103~phoneapps1, build run 40786398702, requested not yet concluded at checkpoint. CI workflow reads SHA-pinned central ZIP skills and performs all compile/dpkg/ldid/archival tests.\n'
+            '- CHANGE: App switches/Recommended/All/None persisted, notification hot refresh; original Native12/DuoDash reference; OmniCar phone manager not proven. Full pointers: sideplay/audit/native12-phone-apps-094/REPORT.md, STAGING_REQUEST.md, files DFEnabledAppsPolicy.h / DFNativeHostRootController.m / DFAppPickerVC.m.\n'
+            '- KEEP existing .92 public Sileo and .90 verified YouTube rollback untouched until actual signed QA artifact and remote verification. No on-device result. NEXT: inspect run 40786398702, archive hash, publish only exact .94 through existing carplaydsp Pages, test on iPhone/CarPlay with no scene kill or regression.\n\n---\n\n'
+          )
+          if marker not in before:
+            file.write_text(block+before,encoding='utf-8')
+            assert file.read_text(encoding='utf-8').startswith(block)
+            print('PHONE_APPS_BUILD_HANDOFF_READBACK_PASS')
+          else:
+            print('PHONE_APPS_BUILD_HANDOFF_ALREADY_PRESENT')
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'handoff: .94 signed phone Apps Manager staging requested [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo 'PHONE_APPS_BUILD_HANDOFF_GITHUB_PUSH_VERIFIED'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
