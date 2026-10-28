@@ -1,0 +1,117 @@
+name: DuoFace Native12 original UIKit orientation helper exact ARM64 call graph
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native12-original-app-orientation-helper-20261028.yml'
+      - 'sideplay/tools/audit_native12_real_app_orientation_helper_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-app-orientation-exact-helper
+  cancel-in-progress: false
+jobs:
+  verify-original-app-side-orientation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore verified original Native12 and ABI method/function-start reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/native12-exact/original"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/native12-exact/original/native12.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$RUNNER_TEMP/native12-exact/original/native12.deb" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/native12-exact/original/method-index.json"
+          test "$(git hash-object "$RUNNER_TEMP/native12-exact/original/method-index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/native12-exact/original/audit_native12_license_class_xrefs.py"
+          echo "NATIVE_PARSER_DIR=$RUNNER_TEMP/native12-exact/original" >> "$GITHUB_ENV"
+          if command -v llvm-objdump-18 >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          elif command -v llvm-objdump >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump' >> "$GITHUB_ENV"
+          else
+            sudo apt-get update -qq && sudo apt-get install -y -qq llvm-18
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          fi
+          python3 -m py_compile sideplay/tools/audit_native12_real_app_orientation_helper_20261028.py
+      - name: Resolve original host/app UIKit orientation path and direct callers (NO PATCH)
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST="sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_$GITHUB_RUN_ID.json"
+          python3 sideplay/tools/audit_native12_real_app_orientation_helper_20261028.py \
+            --deb "$RUNNER_TEMP/native12-exact/original/native12.deb" \
+            --index "$RUNNER_TEMP/native12-exact/original/method-index.json" \
+            --out "$DEST"
+          python3 - "$DEST" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["status"]=="NATIVE12_ORIGINAL_APP_SIDE_ORIENTATION_HELPER_EXACT_FUNCTION_BOUNDARIES"
+          assert d["original_deb_sha256"]=="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+          assert d["functions"]["app_scene_UIKit_orientation_reconciler"]["actual_function_start"]=="0x2ac688"
+          assert d["functions"]["app_state_received_notification"]["actual_function_start"]=="0x2ab98c"
+          assert "com.google.ios.youtube" in d["original_dashboard_filter"]["Bundles"]
+          print("NATIVE12_ORIGINAL_FULL_UIKIT_HELPER_AND_OWNER_EXACT_PASS")
+          for k,v in d["functions"].items():
+              print("NATIVE12_EXACT",k,v["actual_function_start"],
+                    v["actual_function_end"],len(v["original_arm64"]),
+                    "BL_INCOMING",len(d["incoming_direct_callers"][k]))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Native12-original-YT-UIKit-rotation-helper-arm64
+          path: sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_*.json
+          if-no-files-found: warn
+      - name: Preserve exact machine evidence and actual project handoff on GitHub
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          DEST="sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_$GITHUB_RUN_ID.json"
+          SOURCE="$(pwd)/$DEST"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -e "$TEMP/$DEST"; then
+              if cmp "$SOURCE" "$TEMP/$DEST"; then
+                git worktree remove --force "$TEMP"
+                exit 0
+              fi
+              git worktree remove --force "$TEMP"
+              exit 1
+            fi
+            mkdir -p "$TEMP/$(dirname "$DEST")"
+            cp "$SOURCE" "$TEMP/$DEST"
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$DEST" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1]);dest=sys.argv[2];run=sys.argv[3]
+          assert p.exists(),"Existing project handoff unavailable"
+          with p.open("a",encoding="utf8") as fd:
+              fd.write("\n\n## 2026-10-28 — actual Native12 original app UIKit rotation function/incoming caller run "+run+"\n"
+                       "Native12 original HUD8 SHA-pinned DEB and Dashboard, method-index Git blob verified. "
+                       "Native12 original CBAppStateListener notification + C helper 0x2ac688 direct-call graph: "+dest+
+                       "; Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/"+run+". "
+                       "No code or Maps/Dock update, no Sileo/DEB. "
+                       "Next interpret original app-process activation and UIKit geometry target by exact ARM64 and contrast .86 package scope; then design independent YouTube-only scene-owner handshake. Device rotation remains FAIL until tested.\n")
+          PY
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST" 'sideplay/tiep tuc du an.md'
+            git -C "$TEMP" commit -m "audit: archive original Native12 app UIKit orientation helper call graph $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "NATIVE12_ORIGINAL_APP_ORIENTATION_CALLGRAPH_SAVED=$GITHUB_RUN_ID"
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
