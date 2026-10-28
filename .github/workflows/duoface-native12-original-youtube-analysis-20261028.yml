@@ -1,0 +1,88 @@
+name: Native12 original YouTube orientation precise ARM64 summary (READ ONLY)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native12-original-youtube-analysis-20261028.yml'
+      - 'sideplay/tools/summarize_native12_youtube_original_run_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-original-youtube-arm64-interpretation
+  cancel-in-progress: false
+jobs:
+  explain-verified-original:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Condense original immutable original SHA-checked Native12 ARM64 evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/tools/summarize_native12_youtube_original_run_20261028.py
+          python3 sideplay/tools/summarize_native12_youtube_original_run_20261028.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path("sideplay/audit/native12-083-rotation-20261028")
+          d=json.loads((base/"NATIVE12_ORIGINAL_YOUTUBE_ROTATION_ANALYSIS_20261028.json").read_text())
+          assert len(d["images"]) == 4
+          assert "com.google.ios.youtube" in json.dumps(d["injection_filters"])
+          assert d["dashboard_hook_arm64"]["main_scene_orientation_policy"]["count"]>0
+          print("NATIVE12_ORIGINAL_EVIDENCE_READBACK_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native12-original-youtube-orientation-summary
+          path: |
+            sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_YOUTUBE_ROTATION_ANALYSIS_20261028.json
+            sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_YOUTUBE_ROTATION_ANALYSIS_20261028.md
+          if-no-files-found: warn
+      - name: Save verified summary to existing DuoFace branch and handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          ROOT='sideplay/audit/native12-083-rotation-20261028'
+          JSON="$ROOT/NATIVE12_ORIGINAL_YOUTUBE_ROTATION_ANALYSIS_20261028.json"
+          MD="$ROOT/NATIVE12_ORIGINAL_YOUTUBE_ROTATION_ANALYSIS_20261028.md"
+          SOURCE="$(pwd)"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$ROOT"
+            cp "$SOURCE/$JSON" "$TMP/$JSON"
+            cp "$SOURCE/$MD" "$TMP/$MD"
+            python3 - "$TMP/sideplay/tiep tuc du an.md" "$JSON" "$MD" <<'PY'
+          from pathlib import Path
+          import sys
+          handoff=Path(sys.argv[1])
+          assert handoff.exists(), "Existing project handoff missing"
+          with handoff.open("a",encoding="utf-8") as f:
+              f.write("\n\n## 2026-10-28 Native12 exact original orientation audit interpretation\n"
+                "Repository chuongnguyen89dn-ui/Duoface; branch feature/duoface-jb-embedded-appbridge-20261020. "
+                "Original Native12 HUD8 DEB SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad; "
+                "original source scan run 40647306779 success. "
+                "Original ARM64 compact report "+sys.argv[2]+" and readable report "+sys.argv[3]+". "
+                "Script sideplay/tools/summarize_native12_youtube_original_run_20261028.py. "
+                "No source/runtime modification; Google Maps/Dock and playback stable state untouched; .86 orientation DEVICE-FAIL. "
+                "Next: interpret exact Native12 process filter and main-scene orientation policy versus app-side UIKit negotiation, "
+                "verify corresponding ownership gap in current .86, independently implement only YouTube-scoped handshake after enough evidence, "
+                "run source regression and package to Sileo only when proof supports. Device orientation not tested by audit.\n")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$JSON" "$MD" 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m "audit: original Native12 YouTube orientation ARM64 summary $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              echo "NATIVE12_ORIGINAL_ANALYSIS_GITHUB_SAVED=$GITHUB_RUN_ID"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
