@@ -1,0 +1,86 @@
+name: DuoFace original OmniCar V3 native CarPlay scene ownership audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/tools/audit_original_omnicar_native_owner_v3.py'
+      - '.github/workflows/duoface-original-omnicar-native-owner-v3.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-omnicar-native-owner-v3
+  cancel-in-progress: false
+jobs:
+  original-native-ownership:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and read two relevant central Gpt-training skills ZIPs
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' -o "$RUNNER_TEMP/ios.zip"
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/05-research-debug-testing.zip' -o "$RUNNER_TEMP/debug.zip"
+          echo 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' " $RUNNER_TEMP/ios.zip" | sha256sum -c -
+          echo 'fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98' " $RUNNER_TEMP/debug.zip" | sha256sum -c -
+          python3 - "$RUNNER_TEMP/ios.zip" "$RUNNER_TEMP/debug.zip" <<'PY'
+          import sys,zipfile
+          for path in sys.argv[1:]:
+              with zipfile.ZipFile(path) as archive:
+                  for member in ("SKILL.md","references/VERIFICATION.md"):
+                      print("SKILL_ZIP_VERIFIED",path,member)
+                      print(archive.read(member).decode("utf-8"))
+          PY
+      - name: Install pinned original ARM64 metadata decoder
+        run: python3 -m pip install --break-system-packages capstone==5.0.7
+      - name: Inspect original SHA-pinned OmniCar native owner, never invoke methods
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/main/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/original-omnicar.deb"
+          echo 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' " $RUNNER_TEMP/original-omnicar.deb" | sha256sum -c -
+          python3 sideplay/tools/audit_original_omnicar_native_owner_v3.py --deb "$RUNNER_TEMP/original-omnicar.deb" --out "$RUNNER_TEMP/OMNICAR_NATIVE_OWNER_V3.json"
+          python3 - "$RUNNER_TEMP/OMNICAR_NATIVE_OWNER_V3.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j["status"]=="ORIGINAL_ONLY_V3_NATIVE_SCENE_ROUTING_STATIC_NOT_DEVICE"
+          assert j["targets_present"]>=17,j["targets_present"]
+          for name in ("pushSceneSizes","adopt:slot:","openApp:slot:","sceneOfViewController:","verifySceneOfPane:expected:retry:","closeSlot:background:","hostApp:inPane:"):
+              assert j["methods"][name]["present"],name
+          assert any("foregroundSceneWithSettings:completion:"==x["literal"] for x in j["methods"]["pushSceneSizes"]["cfstrings"])
+          assert any("sceneHostView"==x["literal"] for x in j["methods"]["pushSceneSizes"]["cfstrings"])
+          print("OMNICAR_V3_REAL_ORIGINAL_NATIVE_SCENE_SELECTOR_GATE_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: omnicar-original-native-owner-v3-${{ github.run_id }}
+          path: ${{ runner.temp }}/OMNICAR_NATIVE_OWNER_V3.json
+          if-no-files-found: error
+      - name: Archive exact read-only original results into right project repo
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          TARGET="sideplay/audit/native12-083-rotation-20261028/OMNICAR_ORIGINAL_NATIVE_OWNER_V3_RUN_$GITHUB_RUN_ID.json"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            WORK="$(mktemp -d)"
+            git worktree add --detach "$WORK" FETCH_HEAD
+            git -C "$WORK" config user.name 'github-actions[bot]'
+            git -C "$WORK" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if test -e "$WORK/$TARGET"; then
+              echo 'Refusing to replace immutable evidence' >&2
+              git worktree remove --force "$WORK"
+              exit 1
+            fi
+            mkdir -p "$(dirname "$WORK/$TARGET")"
+            cp "$RUNNER_TEMP/OMNICAR_NATIVE_OWNER_V3.json" "$WORK/$TARGET"
+            git -C "$WORK" add "$TARGET"
+            git -C "$WORK" commit -m "audit: preserve original OmniCar native map owner V3 run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$WORK" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "OMNICAR_ORIGINAL_OWNER_V3_PERSISTED=$GITHUB_RUN_ID"
+              git worktree remove --force "$WORK"
+              exit 0
+            fi
+            git worktree remove --force "$WORK"
+          done
+          exit 1
