@@ -1,0 +1,42 @@
+import unittest
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+def source(path):return (ROOT/path).read_text()
+class PortraitPolicy84(unittest.TestCase):
+ def test_independent_scoped_policy_and_apple_passthrough(self):
+  s=source("DFSceneOrientationPolicy.m")
+  host=source("DFSceneHost.m")
+  build=source("build.sh")
+  self.assertIn('requested==1',s)
+  self.assertIn('DFIsEligibleAppID(bundleID)',s)
+  self.assertIn('NSThread.isMainThread',s)
+  self.assertIn('sOriginalOrientation(handle,sel,requested)',s)
+  self.assertIn('sOriginalSize2(controller,sel,selected,orientation)',s)
+  self.assertIn('sOriginalSize3(controller,sel,selected,contentOrientation,containerOrientation)',s)
+  self.assertIn('NSMapTable weakToStrongObjectsMapTable',s)
+  self.assertIn('DFOrientationABI(o)',s)
+  self.assertIn('DFSizeABI(a,NO)',s)
+  self.assertIn('DFSizeABI(b,YES)',s)
+  self.assertIn('DFSceneOrientationPolicyRegister(currentHandle,deviceController,self.bundleID',host)
+  self.assertIn('surface.sceneGeneration!=ownedGeneration',host)
+  self.assertIn('DFCall0(currentHandle,@"sceneIfExists")!=ownedScene',host)
+  self.assertIn('surface.owner.live[surface.bundleID]!=surface',host)
+  self.assertGreaterEqual(host.count('[self revokeOrientationPolicy]'),3)
+  self.assertIn('DFSceneOrientationPolicy.m',build)
+ def test_preserve_083_manual_crash_fix_without_orientation_global_writer(self):
+  s=source("DFSceneLifecycle.m")
+  self.assertIn('DFIsOwnedManualSceneObserver',s)
+  self.assertIn('owned-manual-observer-consumed',s)
+  self.assertIn('sPreviousSceneObserver(controller,selector,handle,diff,previousSettings)',s)
+  host=source("DFSceneHost.m")
+  policy=source("DFSceneOrientationPolicy.m")
+  self.assertNotIn('setInterfaceOrientation:',policy)
+  self.assertNotIn('setInterfaceOrientation:',host)
+  self.assertNotIn('setAutomatesLifecycle:',policy)
+  self.assertNotIn('FBScene',policy.split('DFMainSceneSupportsOrientation',1)[1].split('static void DFContentReferenceSize2',1)[0])
+ def test_versioned_isolated_artifact_not_083_overwrite(self):
+  b=source("build.sh")
+  control=source("control")
+  self.assertIn("0.1.93~portraitpolicy1",b)
+  self.assertIn("Version: 0.1.93~portraitpolicy1",control)
+if __name__=="__main__":unittest.main(verbosity=2)
