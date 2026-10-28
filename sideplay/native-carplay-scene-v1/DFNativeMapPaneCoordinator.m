@@ -15,7 +15,6 @@
 static NSString *const DFMapCommandPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
 static NSString *const DFMapAckPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist";
 static NSString *const DFMapOwnerLog=@"/var/mobile/Library/Logs/DuoFaceNativeMapPane.log";
-static const char *const DFMapCommandNotify="com.duoface.nativehost.map-pane.command.v1";
 static const char *const DFMapAckNotify="com.duoface.nativehost.map-pane.ack.v1";
 static BOOL DFMapProcess(void) {
     NSString *p=NSProcessInfo.processInfo.processName;
