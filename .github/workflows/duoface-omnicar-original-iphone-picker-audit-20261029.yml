@@ -99,6 +99,79 @@ jobs:
            for x in data["plists"]:print("PREF_PLIST",x["path"],x.get("content","")[:200])
            for x in data["macho"]:print("MACHO",x["path"],"strings",len(x["strings"]),"objcmatches",len(x["objc_selectors_context"]),"objc_ok",x["objc_meta_ok"])
           PY
+      - name: Trace original OmniCar iPhone AppBridge 105 methods and CarPlay allowlist callsites
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/original-omnicar.deb" "$RUNNER_TEMP/omni-audit" <<'PY'
+          import hashlib,json,pathlib,re,subprocess,sys,tempfile
+          original=pathlib.Path(sys.argv[1]);out=pathlib.Path(sys.argv[2])
+          original_sha=hashlib.sha256(original.read_bytes()).hexdigest()
+          assert original_sha=="d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd"
+          def original_meta(path):
+           p=subprocess.run(["xcrun","llvm-objdump","--macho","--objc-meta-data","--arch=arm64",str(path)],capture_output=True,text=True,errors="replace")
+           assert p.returncode==0,p.stderr[-600:]
+           return p.stdout.splitlines()
+          def methods_for(lines,name):
+           patterns=[re.compile(r"^\s*name\s+0x[0-9a-fA-F]+\s+"+re.escape(name)+r"\s*$")]
+           starts=[i for i,l in enumerate(lines) if any(p.search(l) for p in patterns)]
+           if not starts:return {"error":"class name not in original metadata"}
+           i=starts[0]
+           base=next((j for j in range(i+1,min(i+60,len(lines))) if "baseMethods" in lines[j]),None)
+           if base is None:return {"error":"baseMethods metadata missing"}
+           bound=next((j for j in range(base+1,min(base+2200,len(lines))) if "baseProtocols" in lines[j]),len(lines))
+           selectors=[]
+           for line in lines[base+1:bound]:
+            m=re.match(r"^\s*name\s+0x[0-9a-fA-F]+\s+(.+?)\s*$",line)
+            if m:selectors.append(m.group(1))
+           return {"base_line":base+1,"selector_count":len(selectors),"selectors":selectors}
+          with tempfile.TemporaryDirectory() as td:
+           root=pathlib.Path(td)
+           p=subprocess.run(["dpkg-deb","-x",str(original),str(root)],capture_output=True,text=True)
+           assert p.returncode==0,p.stderr
+           prefs=root/"var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs"
+           split=root/"var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib"
+           assert hashlib.sha256(prefs.read_bytes()).hexdigest()=="15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76"
+           assert hashlib.sha256(split.read_bytes()).hexdigest()=="f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754"
+           m=original_meta(prefs);s=original_meta(split)
+           phone={c:methods_for(m,c) for c in ["OMCRootListController","OMCAppBridgeAppsLinkCell","OMCAppBridgeAppsController","OMCHomeScreenController","OMCSplitScreenAppPickerController"]}
+           split_cls={c:methods_for(s,c) for c in ["SCPCarSplit","SCPCarPane"]}
+           assert phone["OMCAppBridgeAppsController"].get("selector_count",0)>=95,phone["OMCAppBridgeAppsController"]
+           terms=re.compile(r"app|bridge|select|toggle|save|pref|reload|refresh|filter|search|table|switch|enabled|visible|allow|list|notify|update|set|allInstalled|selected",re.I)
+           targeted={k:[x for x in v.get("selectors",[]) if terms.search(x)] for k,v in phone.items()}
+           result={"kind":"ORIGINAL_OMNICAR_IPHONE_APP_MANAGER_METHODS_READ_ONLY",
+            "original_sha256":original_sha,
+            "prefs_binary_sha256":hashlib.sha256(prefs.read_bytes()).hexdigest(),
+            "split_binary_sha256":hashlib.sha256(split.read_bytes()).hexdigest(),
+            "iPhone_preferences_controllers":phone,
+            "iPhone_selector_subset":targeted,
+            "CarPlay_split_classes":split_cls,
+            "reference_prefs_key":"appBridgeApps",
+            "reference_change_notification":"com.anlai.omnicar/prefschanged",
+            "boundary":"Selector metadata shows available methods, not a verified runtime call chain or app selection membership branch."}
+           (out/"ORIGINAL_OMNICAR_APP_MANAGER_METHODS.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
+           rows=["# OmniCar original iPhone AppBridge manager exact class/method scan",
+            "","Original iPhone Settings: Root.plist APPS -> OMCAppBridgeAppsController, class source Objective-C metadata.",
+            "Original prefs SHA: "+result["prefs_binary_sha256"],"Original split SHA: "+result["split_binary_sha256"],
+            "","## iPhone controller methods"]
+           for c,v in phone.items():
+            rows+=["### "+c+" ("+str(v.get("selector_count",0))+" methods)"]
+            rows+=["- "+name for name in v.get("selectors",[])]
+           rows+=["","## Original CarPlay owner selectors"]
+           for c,v in split_cls.items():
+            rows+=["### "+c+" ("+str(v.get("selector_count",0))+" methods)"]
+            rows+=["- "+name for name in v.get("selectors",[]) if terms.search(name)]
+           rows+=["","## Interpretation",
+             "The original has a dedicated iPhone app selection preferences controller, persistent shared appBridgeApps key and app-change notification; the original split owner holds CarPlay app roster/picker selectors.",
+             "Exact membership control flow and read/write notification sites require a dedicated function-body ARM64 trace; do not claim more from names alone.",
+             "No new DuoFace app, source modification or DEB produced.",""]
+           (out/"APP_MANAGER_METHODS.md").write_text("\n".join(rows))
+           print("OMNICAR_ORIGINAL_IPHONE_APP_MANAGER_METHODS_PASS",
+             phone["OMCAppBridgeAppsController"]["selector_count"],
+             len(targeted["OMCAppBridgeAppsController"]))
+           for sel in targeted["OMCAppBridgeAppsController"]:print("OMNI_PHONE_METHOD",sel)
+          PY
+
       - name: Persist original-only evidence and append existing DuoFace handoff
         shell: bash
         run: |
