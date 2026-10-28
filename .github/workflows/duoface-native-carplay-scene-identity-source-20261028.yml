@@ -4,6 +4,8 @@ on:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
     paths:
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneIdentity.h'
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneTimeline.h'
+      - 'sideplay/native-carplay-scene-v1/tests/native_carplay_scene_timeline_runtime.m'
       - 'sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_scene_identity_runtime.m'
       - '.github/workflows/duoface-native-carplay-scene-identity-source-20261028.yml'
@@ -27,6 +29,11 @@ jobs:
             -o "$RUNNER_TEMP/native-carplay-scene-identity"
           "$RUNNER_TEMP/native-carplay-scene-identity"
           echo DUOFACE_REAL_NATIVE_GOOGLE_MAPS_SCENE_CLASSIFIER_EXECUTABLE_PASS
+          xcrun clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation \
+            sideplay/native-carplay-scene-v1/tests/native_carplay_scene_timeline_runtime.m \
+            -o "$RUNNER_TEMP/native-carplay-scene-timeline"
+          "$RUNNER_TEMP/native-carplay-scene-timeline"
+          echo DUOFACE_NATIVE_MAPS_OWNER_REBIND_GENERATION_TIMELINE_PASS
       - name: iOS16 ARM64 compile-only + preserve known-good .90 source byte-for-byte
         shell: bash
         run: |
@@ -46,6 +53,9 @@ jobs:
             sideplay/duoface-native-scene-host/DFNative12Chrome.m \
             sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m
           grep -Fq 'DFCarPlayNativeSceneRoute(entry)' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+          grep -Fq 'DFCarPlayNativeSceneTimelineAdvance(' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+          grep -Fq '"canAttachPane":@NO' sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneTimeline.h
+          if grep -E 'foregroundSceneWithSettings|backgroundSceneWithCompletion|requestStateChange:|makeKeyAndVisible|MSHookMessageEx' sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneTimeline.h; then exit 1; fi
           grep -Fq 'DFIntegratedCarPlayCaptureLiveOwnerSnapshot' sideplay/duoface-native-scene-host/build.sh
           echo DUOFACE_090_WORKING_ORIENTATION_CHROME_MAPS_DOCK_BASELINE_UNCHANGED_PASS
           echo DUOFACE_CARPLAY_APP_REAL_NATIVE_SCENE_IDENTITY_SOURCE_ONLY_PASS_NO_RELEASE
