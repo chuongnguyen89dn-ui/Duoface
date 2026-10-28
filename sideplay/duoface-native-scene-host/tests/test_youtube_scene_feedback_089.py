@@ -11,7 +11,7 @@ class YoutubeSplitFeedback089(unittest.TestCase):
         runtime=read("tests/youtube_handshake_runtime.m")
         self.assertIn('![state[@"version"] isEqual:@2]',header)
         self.assertIn('!DFYTNumber(state[@"isSplit"])',header)
-        self.assertIn('@"isSplit":@(twoPanes)',host)
+        self.assertIn('@"isSplit":@(self.splitUIVisible)',host)
         self.assertIn('self.splitUIVisible',host)
         self.assertIn('setSplitMode:(BOOL)isSplit forHostedView:(UIView *)view',host)
         chrome=read("DFNative12Chrome.m")
