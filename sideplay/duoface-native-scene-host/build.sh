@@ -35,7 +35,7 @@ YT_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientat
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreGraphics \
-  -o "$YT_DYLIB" DFYouTubeOrientationRelay.m
+  -o "$YT_DYLIB" DFYouTubeOrientationRelay.m DFYouTubeOrientationVirtualization.m
 cp DFYouTubeOrientationRelay.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist"
 ldid -S "$YT_DYLIB"
 # Assets are our previously approved DuoFace artwork from the project's source.
