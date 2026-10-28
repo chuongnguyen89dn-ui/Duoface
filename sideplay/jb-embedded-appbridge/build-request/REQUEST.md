@@ -4,4 +4,4 @@ Build the current feature branch as one rootless integrated QA DEB. Original ref
 
 Run all workflow tests, sign and store the immutable candidate in DuoFace GitHub evidence under the Actions run ID. Do not auto-publish to Sileo or claim hardware success. See sideplay/audit/native12-083-rotation-20261028/DUOFACE_086_NATIVE_MAP_YOUTUBE_STAGE_20261028.md.
 
-Build marker: requested-086-firstparty-youtube-native-map-owner.
+Build marker: requested-086-firstparty-youtube-native-map-owner-retry1-after-3-source-test-contract-fixes.
