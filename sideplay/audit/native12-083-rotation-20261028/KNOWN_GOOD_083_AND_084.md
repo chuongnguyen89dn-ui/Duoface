@@ -1,3 +1,18 @@
+## .84 SILEO PUBLISHED + .83 ROLLBACK VERIFIED — 2026-10-28 10:02 ICT
+
+- The official Sileo shared distributor `chuongnguyen89dn-ui/carplaydsp` `main` publisher commit `ba3a182c2a81c176428b002a060d8b9c025d7fd2`, [workflow run 40624072633](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40624072633) **completed SUCCESS**, with jobs: build `122604712275`, deploy `122605475611`, **public integrated DuoFace verifier `122605680196`**, QA shared Pages verifier `122605680365`; YAML verifier [40624072614](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40624072614) SUCCESS.
+- Public source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. One advertised APT record `com.duoface.jb.embedded` `0.0.84~portraitpolicy1`; direct DEB `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.84~portraitpolicy1_iphoneos-arm64.deb` SHA256 **`8cfd377d295b2fb7d5e16f6b81fb03f4744205f0cd0cbfc253d96d7d678de107`**.
+- Raw public verifier logs (run `40624072633`, job `122605680196`) observed actual output:
+  `2026-10-28T03:02:26.6496384Z DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED`
+  `2026-10-28T03:02:27.0164944Z /home/runner/work/_temp/duoface-public.deb: OK`
+  `2026-10-28T03:02:27.0170024Z DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED`
+  `2026-10-28T03:02:27.1429821Z /home/runner/work/_temp/duoface-frozen-083.deb: OK`
+  `2026-10-28T03:02:27.1431565Z DUOFACE_FROZEN_083_PLAYBACK_BASELINE_UNCHANGED_PASS`.
+- **IMPORTANT:** Public Sileo availability and correct package checksum are verified, but **the new .84 rotation fix and continued crash-free playback have NOT been tested on physical iPhone**. User's confirmed .83 playback/no-crash remains the last physical success and is byte-for-byte available online for rollback.
+- Device test expected: refresh Sileo source, install `0.0.84~portraitpolicy1`, test actual YouTube playback, fullscreen orientation split and zoom, Dock/menu/logo. If fail, revert to .83, export `/var/mobile/Library/Logs/DuoFaceDeepTrace.log`, `DuoFaceSceneHost.log`, latest SpringBoard IPS and exact event/time. Do not call CI pass a device pass.
+
+---
+
 ## .84 SIGNED BUILD XÁC MINH — source ≠ device (2026-10-28)
 
 - GitHub Actions **[40623708673](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40623708673)** completed **SUCCESS**; job **122603517125** 5 Python suites, executable .83 lifecycle harness, executable .84 owner-scoped orientation harness, Theos + ldid four builds, package verification, archive to project GitHub all SUCCESS.
