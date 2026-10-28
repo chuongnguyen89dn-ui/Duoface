@@ -63,7 +63,11 @@ def main():
    if k<0 or k+1>=len(starts):raise RuntimeError("Original function interval missing "+hex(pc))
    return starts[k],starts[k+1]
   def owner(pc):
-   lo,hi=bounds(pc)
+   try:
+    lo,hi=bounds(pc)
+   except RuntimeError:
+    return {"function_start":None,"function_end":None,"objc_method":None,
+            "status":"OUTSIDE_LC_FUNCTION_STARTS_OR_STUB_NOT_ASSIGNED"}
    m=objc.get(lo)
    return {"function_start":hex(lo),"function_end":hex(hi),
            "objc_method":({"class":m["class"],"selector":m["selector"],
