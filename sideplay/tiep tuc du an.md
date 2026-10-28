@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-28 DuoFace .86 — signed build archived (not hardware-verified)
+
+CI run `40638250670` source `205ab7121fe04bf37f449c07d53da42489f70e47`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40638250670/com.duoface.jb.embedded_0.0.86~nativeowner1_iphoneos-arm64.deb`; SHA256 `a4871bf76b07844bee9be181340101e779372b7e8bdf065ff658fe99724fa409`.
+Build provenance, tests and ldid/dpkg verify under GitHub Actions `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40638250670`.
+Changes: first-party owner-scoped YouTube main-scene remote orientation candidate from Native12 gold portrait=1 and OmniCar original interfaceOrientation transaction, plus V7 read-only CarPlayApp native FBScene Google Maps identity monitor. `DFSceneLifecycle.m` .83 crash mitigation and 0.50 iPhone-app scale unchanged; rejected .85 map zoom must not return.
+
+**IMPORTANT:** Build and SHA verification are NOT proof YouTube rotation is corrected on iPhone or that native Google Maps is displayed simultaneously in a DuoFace split pane. Native Maps actual scene still unproven after the CarPlay Dashboard switches to DuoFace, so **native Maps split is NOT IMPLEMENTED**. Do not pretend scene reparent or clone is safe. Device QA and separate native scene lifecycle evidence remain required. Do not auto-deploy or mark Sileo published solely from build. Keep .83/.84 immutable rollback.
+
+Source audit: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_086_NATIVE_MAP_YOUTUBE_STAGE_20261028.md`.
+
+---
 ## CHECKPOINT 2026-10-28 12:06 ICT — V7 ĐÃ TÌM RA GOOGLE MAPS FBSCENE VÀ CƠ CHẾ ĐỔI OWNER TRONG DASHBOARD
 
 **LOG GỐC TRÊN GITHUB:** `Duoface/main/sideplay/log/DuoFaceCarPlayOwner-4C5C8ADB-EE69-458A-B664-1753AB90C797.jsonl`, upload main commit `e908517e60b69` 28/10/2026 05:05:51 UTC, blob `ffe9c6e6f0a0382426cf3dd78fd3da45d5a3fecc`, 141845 bytes. Đã đọc toàn bộ 46 JSONL hợp lệ. Trong đó 40 snapshot cũ schema1/PID 68379, 6 snapshot mới schema2 **V7**/PID 68776. V7 có 4 snapshot CarPlay live (2 UIWindowScenes, 21 controllers) và 2 snapshot không có scenes ở 12:04:07/12:04:37; không suy ra crash chỉ vì scene rỗng.
