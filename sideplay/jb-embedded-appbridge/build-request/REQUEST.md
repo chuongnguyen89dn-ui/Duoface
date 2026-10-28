@@ -1,16 +1,11 @@
-# .84 integrated rootless Sileo test build — 2026-10-28
+# Build request — .85 FIRST-PARTY map visual size and scene orientation owner timing — 2026-10-28
 
-User: “Bắt đầu làm đi. Lưu lại những thành công để sau này còn tìm ra.” Continue known-good .83 video/no-crash result by isolating orientation repair as **0.0.84~portraitpolicy1**; NEVER change, delete or relabel immutable .83.
+User requested research and repair from original DEBs, with emphasis on OmniCar's larger map UI and keeping native CarPlay navigation alive.
 
-Source branch: `feature/duoface-jb-embedded-appbridge-20261020`. Build nativehost **0.1.93~portraitpolicy1** from EXACT current checkout; 4 self-owned signed modules; combined package **com.duoface.jb.embedded_0.0.84~portraitpolicy1_iphoneos-arm64.deb**. Require source SHA, SHA256 and unique GitHub artifacts.
-
-Evidence:
-- .83 playback/no-crash confirmed by user; wrong orientation after zoom persists.
-- Read-only five-DEB audit run 40621241302 verified Native12 portrait-only eligible main-scene hook and two native size setters absent in .83.
-- .84 first-party code `DFSceneOrientationPolicy.m` + strict owner registration in `DFSceneHost.m`; **do not modify the .83 manual observer crash fix**.
-- Separate source/runtime gate **40623550032 SUCCESS**; executable fake-SpringBoard, Python and original lifecycle boundary tests passed. Not a device test.
-- Explicit known-good snapshot: `sideplay/audit/native12-083-rotation-20261028/KNOWN_GOOD_083_AND_084.md`.
-
-Packaging safety: use existing `.github/workflows/duoface-jb-embedded-appbridge-package.yml`, macos-15, Theos, ldid, four component builds, integrated provenance, signed binary, one immutable archive by run ID. No vendor source/DEB/licensing, no alternate project repo. Keep all older Sileo binaries.
-
-Acceptance of CI is only SIGNED PACKAGE and checksum; not a real-world fix. Public Sileo publisher in `chuongnguyen89dn-ui/carplaydsp` must be updated ONLY for this new version AFTER package SHA checks. Test on iPhone X/CarPlay: YouTube fullscreen/split/solo, no crash, correct orientation, Dock/Zoom/logo unaffected. If device fail, revert to immutable .83 and collect new scene-orientation traces.
+- Build **0.0.85~mapscene1** from exact current source using current nativehost **0.1.94~mapscene1** and four signed first-party modules. This is one rootless Sileo-testable **candidate**. Freeze .83/.84; no vendor dylib/licensing.
+- **Known device success to preserve:** .83 played video without crash in user's test; .84 Sileo published and 3 photos showed the video turns right only after inner fullscreen and stays right on restore; original orientation still incorrect at first pane focus.
+- **New original proof:** actual OmniCar 1.0.3 signed DEB SHA256 d9297b... scanned by GHA [40626272871](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40626272871), JSON `sideplay/audit/native12-083-rotation-20261028/OMNICAR_ORIGINAL_MAPS_SCENE_SCAN.json`. OmniCar AppBridge zoom preferences clamp 0.6–1.0, updates size+transform+scene settings including orientation; original SplitScreen knows `SCPCarPane`, `com.apple.Maps`, `isCarPlayApp:`; native map scene is **not** a regular phone-scene mirroring guarantee.
+- **Actual .85 source:** `DFHostedMapRenderSize.h` first-party explicit allowlist map apps with proposed scale .80 vs .50 only for other apps; `DFSceneHost.m` now early installs scoped hook before mode-2 and registers exact owned live handle when scene ready, before first deferred content geometry, adds native device controller when available; .83 crash mitigation `DFSceneLifecycle.m` UNMODIFIED.
+- **Tests must pass:** all five Python suites, original .83 manual-scene runtime harness, .84 orientation runtime harness, NEW .85 map profile executable runtime harness (including unchanged nonmap 0.50 geometry), native ARM64 compile, strict one-DEB SHA/source proof and immutable GitHub run archive. Source only GHA [40626703958](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40626703958) completed SUCCESS.
+- **Not yet solved / do not claim:** binding native `CPTemplateApplicationScene` map into split while native CarPlay Maps remains active. A map rendered as navigation instructions only may persist because `SBDeviceApplicationSceneEntity initWithApplicationForMainDisplay:` targets the phone scene; native CPWindow has distinct owner. Scoped UI readability tweak cannot fix that alone. Further owner-oriented work needed based on actual source.
+- **Next only after SHA-pass:** publish newest `0.0.85~mapscene1` on Sileo `chuongnguyen89dn-ui/carplaydsp` keeping .83 and .84 frozen exact SHA; verify GitHub Pages APT and public checksum. User tests in parked car YouTube first focus orientation, inner fullscreen, two-pane restoration, real map vs prompts and whether native map remains active, dock/menu/logo. Do not touch unrelated product packages.
