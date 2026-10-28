@@ -36,7 +36,7 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     if(![bundle isKindOfClass:NSString.class] ||
        ![@[@"com.google.Maps",@"com.apple.Maps",@"com.waze.iphone"]
          containsObject:bundle] ||
-       ![NSStringFromClass(scene.class) isEqual:@"FBScene"] ||
+       ![NSStringFromClass([scene class]) isEqual:@"FBScene"] ||
        ![sid isKindOfClass:NSString.class] ||
        ![sid hasPrefix:@"Car["] ||
        [sid rangeOfString:@"]:com.apple.CarPlayTemplateUIHost:"].location==NSNotFound ||
@@ -52,8 +52,8 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
 @property(nonatomic,strong) UIViewController *oldParent;
 @property(nonatomic,strong) UIView *oldSuperview;
 @property(nonatomic,strong) UIWindow *oldWindow;
-@property(nonatomic,strong) UIViewController *newParent;
-@property(nonatomic,strong) UIView *newContainer;
+@property(nonatomic,strong) UIViewController *assignedParent;
+@property(nonatomic,strong) UIView *assignedContainer;
 @property(nonatomic,assign) NSUInteger oldSubviewIndex;
 @property(nonatomic,assign) CGRect oldFrame;
 @property(nonatomic,assign) UIViewAutoresizing oldAutoresizing;
@@ -123,8 +123,8 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     self.oldParent=vc.parentViewController;
     self.oldSuperview=view.superview;
     self.oldWindow=view.window;
-    self.newParent=parent;
-    self.newContainer=container;
+    self.assignedParent=parent;
+    self.assignedContainer=container;
     self.oldSubviewIndex=[view.superview.subviews indexOfObject:view];
     self.oldFrame=view.frame;
     self.oldAutoresizing=view.autoresizingMask;
@@ -152,8 +152,8 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     UIView *view=vc.viewIfLoaded,*oldView=self.oldSuperview;
     if(!NSThread.isMainThread || !vc || !view || !parent ||
        !oldView || !self.oldWindow ||
-       vc.parentViewController!=self.newParent ||
-       view.superview!=self.newContainer ||
+       vc.parentViewController!=self.assignedParent ||
+       view.superview!=self.assignedContainer ||
        oldView.window!=self.oldWindow ||
        !DFMapExactFBScene(vc)) {
         if(error)*error=@"restoration-owner-changed-no-unsafe-reparent";
@@ -173,7 +173,7 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     [vc didMoveToParentViewController:parent];
     self.attached=NO;
     self.nativeOwner=nil;self.oldParent=nil;self.oldSuperview=nil;
-    self.oldWindow=nil;self.newParent=nil;self.newContainer=nil;
+    self.oldWindow=nil;self.assignedParent=nil;self.assignedContainer=nil;
     return YES;
 }
 @end
