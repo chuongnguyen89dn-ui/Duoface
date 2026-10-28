@@ -1,0 +1,143 @@
+name: DuoFace original Native12 YouTube orientation ARM64 deep scan READ ONLY
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native12-original-youtube-rotation-forensic-20261028.yml'
+      - 'sideplay/tools/audit_native12_youtube_rotation_original_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-original-youtube-rotation-audit
+  cancel-in-progress: false
+jobs:
+  original-native12-app-and-host:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read applicable central iOS/CarPlay skill ZIP on CI
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' -o "$RUNNER_TEMP/duoface-ios-skill.zip"
+          unzip -t "$RUNNER_TEMP/duoface-ios-skill.zip"
+          unzip -Z1 "$RUNNER_TEMP/duoface-ios-skill.zip"
+          while IFS= read -r path; do
+            if [[ "$path" == *SKILL.md || "$path" == *README.md ]]; then
+              unzip -p "$RUNNER_TEMP/duoface-ios-skill.zip" "$path" | head -c 16000
+              printf '\n'
+            fi
+          done < <(unzip -Z1 "$RUNNER_TEMP/duoface-ios-skill.zip")
+      - name: Retrieve exact original Native12 HUD8 and historical ABI index
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/native12-original"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/native12-original/native12.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$RUNNER_TEMP/native12-original/native12.deb" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/native12-original/method-index.json"
+          test "$(git hash-object "$RUNNER_TEMP/native12-original/method-index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
+          echo 'IMMUTABLE_NATIVE12_ORIGINAL_INPUTS_PASS'
+      - name: Prepare ARM64 readonly MachO tools and first-party original parser
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/native12-original/parser"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/native12-original/parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile sideplay/tools/audit_native12_youtube_rotation_original_20261028.py
+          if command -v llvm-objdump-18 >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          elif command -v llvm-objdump >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump' >> "$GITHUB_ENV"
+          else
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm-18
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          fi
+          echo "NATIVE_PARSER_DIR=$RUNNER_TEMP/native12-original/parser" >> "$GITHUB_ENV"
+      - name: SHA verify and disassemble original Native12 app+host orientation callsites
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST="sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_YOUTUBE_ROTATION_RUN_$GITHUB_RUN_ID.json"
+          python3 sideplay/tools/audit_native12_youtube_rotation_original_20261028.py \
+            --native12 "$RUNNER_TEMP/native12-original/native12.deb" \
+            --method-index "$RUNNER_TEMP/native12-original/method-index.json" \
+            --out "$DEST"
+          python3 - "$DEST" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["original_deb_sha256"]=="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+          assert len(d["images"])==4
+          main=d["images"]["DuoFaceDashboard.dylib"]
+          assert main["sha256"]=="9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+          assert main["verified_historical_hook_ranges"]["main_scene_orientation_policy"]["matching_arm64_instructions"]>=5
+          assert any("youtube" in json.dumps(v).lower() for v in d["original_injection_filters"].values())
+          assert any(x["selector"]=="updateSceneSettingsFrame" for x in main["focused_original_implementations"])
+          print("NATIVE12_ORIGINAL_APP_SCENE_ARM64_AUDIT_PASS")
+          for k,v in d["images"].items():
+              print("NATIVE12_IMAGE",k,v["total_arm64_instructions"],
+                    "clientSettings",v["xrefs"]["app_orientation_feedback"]["total_annotated_original_arm64_xrefs"],
+                    "UIKitGeometry",v["xrefs"]["ui_geometry"]["total_annotated_original_arm64_xrefs"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-original-youtube-rotation-arm64
+          path: sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_YOUTUBE_ROTATION_RUN_*.json
+          if-no-files-found: warn
+      - name: Save immutable original scan and append existing handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          DEST="sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_YOUTUBE_ROTATION_RUN_$GITHUB_RUN_ID.json"
+          SRC="$(pwd)/$DEST"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            if test -e "$TMP/$DEST"; then
+              if cmp -s "$SRC" "$TMP/$DEST"; then
+                git worktree remove --force "$TMP"
+                echo 'NATIVE12_ORIGINAL_IDENTICAL_REPORT_ALREADY_SAVED'
+                exit 0
+              fi
+              git worktree remove --force "$TMP"
+              echo 'NATIVE12 original report conflict: no overwrite'
+              exit 1
+            fi
+            mkdir -p "$TMP/$(dirname "$DEST")"
+            cp "$SRC" "$TMP/$DEST"
+            python3 - "$TMP/sideplay/tiep tuc du an.md" "$DEST" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          handoff=Path(sys.argv[1]);report=sys.argv[2];run=sys.argv[3]
+          assert handoff.exists(), "Original DuoFace project handoff missing"
+          with handoff.open("a",encoding="utf8") as f:
+              f.write("\n\n## 2026-10-28 — original Native12 YouTube orientation SHA-pinned ARM64 scan "+run+"\n"
+                      "User specifically requested Native12 original implementation, NOT SidePlay as substitute. "
+                      "Original Native12 HUD8 DEB SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad; "
+                      "first-party scanner sideplay/tools/audit_native12_youtube_rotation_original_20261028.py. "
+                      "Actual full original Host and app-injected Dashboard/FullscreenBridge/UI/VisualHook static xrefs and scene orientation callsites archived at "+report+". "
+                      "Run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/"+run+". "
+                      "STATIC ONLY; no DuoFace runtime patches, no Maps/Dock changes, no .87 DEB/Sileo/device test. "
+                      "Next: interpret original method incoming orientation values and actual app-side orientation ownership, distinguish supported scene and player, then implement minimum independent proven fix.\n")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$DEST" 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m "audit: SHA-verified original Native12 YouTube orientation machine flow run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "NATIVE12_ORIGINAL_YOUTUBE_ANALYSIS_SAVED=$GITHUB_RUN_ID"
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
