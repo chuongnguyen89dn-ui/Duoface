@@ -57,10 +57,10 @@ def stub_target_selector(binary,target,dis):
     pages={}
     for ins in ops[:8]:
         if ins.mnemonic=="adrp":
-            m=re.fullmatch(r"(x\\d+), #(0x[0-9a-f]+)",ins.op_str)
+            m=re.fullmatch(r"(x\d+), #(0x[0-9a-f]+)",ins.op_str)
             if m:pages[m.group(1)]=int(m.group(2),16)
         if ins.mnemonic=="ldr":
-            m=re.fullmatch(r"(x\\d+), \\[(x\\d+)(?:, #(0x[0-9a-f]+))?\\]",ins.op_str)
+            m=re.fullmatch(r"(x\d+), \[(x\d+)(?:, #(0x[0-9a-f]+))?\]",ins.op_str)
             if m and m.group(1)=="x1" and m.group(2) in pages:
                 addr=pages[m.group(2)]+(int(m.group(3),16) if m.group(3) else 0)
                 val=selref(binary,addr)
