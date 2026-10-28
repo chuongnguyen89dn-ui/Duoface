@@ -6,6 +6,18 @@ from pathlib import Path
 R=Path(__file__).resolve().parents[1]
 def file(n):return (R/n).read_text()
 class NativeCarPlayHost(unittest.TestCase):
+ def test_native12_083_scoped_manual_scene_observer_and_apple_passthrough(self):
+  policy=file("DFSceneLifecycle.m")
+  self.assertIn("DFIsOwnedManualSceneObserver",policy)
+  self.assertIn("owned-manual-observer-consumed",policy)
+  self.assertIn("currentHandle!=handle",policy)
+  self.assertIn("currentScene!=scene",policy)
+  self.assertIn("!NSThread.isMainThread",policy)
+  self.assertIn("sPreviousSceneObserver(controller,selector,handle,diff,previousSettings)",policy)
+  self.assertIn("if(!DFObjectUpdateABI(method) || !DFObjectUpdateABI(observerMethod))return NO;",policy)
+  host=file("DFSceneHost.m")
+  self.assertIn('DFHostBool(self.appController, @"setAutomatesLifecycle:", NO)',host)
+  self.assertIn("DFSceneLifecycleUnregister(self.appController)",host)
  def test_native12_host_mode_before_containment_commit_and_passive_scene_foreground(self):
   """Native12 original requests Live before didMove; no UI or FBScene override."""
   src=file("DFSceneHost.m")
