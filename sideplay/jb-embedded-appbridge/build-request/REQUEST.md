@@ -5,3 +5,7 @@ User DEVICE-FAIL .87: video orientation still wrong in split; correct after solo
 Source-only macOS run 40655737990 SUCCESS (including native Foundation ABI executable gate and iOS16 SDK source syntax/link). Trigger ONE full existing integrated rootless .88 package. New host 0.1.97~uikitreflow1 and integrated 0.0.88~uikitreflow1. Verify actual package, checksum, immutable archive and handoff on GitHub. DO NOT assume device rotation now passes; Sileo release separate verified gate. Preserve .83/.84/.86/.87 rollback.
 
 Build marker: 088-original-uikitreflow-1.
+
+## CI rerun after exact regression failure
+Run 40655833401 FAILED only at unit source assertions with stale .87/.1.96 version literals in test_nativeowner_086.py and test_orientation_policy_084.py; new .88 test itself PASS. Updated expected strings to .88/.1.97 at commits 231abdbb and 2d53ca63. No binary compiled in failed run. Re-run current source full package.
+Build marker: 088-original-uikitreflow-2.
