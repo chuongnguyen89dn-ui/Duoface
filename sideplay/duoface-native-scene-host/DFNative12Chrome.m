@@ -1200,6 +1200,15 @@ static void DFCLog(NSString *text) {
         v.hidden=appWindow.hidden;
         // Empty/negotiating panes cannot steal gestures.
         v.userInteractionEnabled=loaded;
+        // Native12 split and SOLO are UI state, not inferred from a second
+        // loaded app or the pane's width. One visible YouTube pane plus one
+        // EMPTY pane is still split. The host owns the app-scene IPC lease.
+        id hosted=self.hostedScenes[(NSUInteger)i];
+        if([hosted isKindOfClass:UIView.class]) {
+            [[DFSceneHost sharedHost] setSplitMode:
+                (activeSlots>1 && self.focus<0 && !self.startupActive)
+                forHostedView:(UIView *)hosted];
+        }
         // Native12 policy: a faint neutral outline identifies EMPTY panes;
         // a RED outline appears only briefly after a real user action; a
         // loaded pane never retains a permanent border while playing media.
