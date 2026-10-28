@@ -1,0 +1,1123 @@
+{
+  "status": "READ_ONLY_STATIC_DEB_SELECTOR_SCAN_NOT_DEVICE_MAP_RENDER_PROOF",
+  "input": {
+    "sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+    "bytes": 1306228,
+    "control": {
+      "Package": "com.anlai.omnicar",
+      "Version": "1.0.3",
+      "Architecture": "iphoneos-arm64"
+    }
+  },
+  "original_payload_modules": [
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+      "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+      "size": 613376,
+      "markers": {
+        "map_bundle_ids": [
+          {
+            "literal": "com.apple.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.waze.iphone",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "native_carplay_navigation": [
+          {
+            "literal": "CPMapTemplate",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPTemplateApplicationScene",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPWindow",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "MKMapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPNavigationSession",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "maps_navigation": [
+          {
+            "literal": "mapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "navigation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "routeGuidance",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "displayMap",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "mapContent",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "bridge": [
+          {
+            "literal": "appBridgeZoom",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "appBridgeOrientation",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "effectiveOrientation:",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "requestedOrientation",
+            "count": 6,
+            "exact": true
+          },
+          {
+            "literal": "layoutPane:",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "sceneBox",
+            "count": 6,
+            "exact": true
+          },
+          {
+            "literal": "setSceneBox:",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "sceneHandle",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "sceneIfExists",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "updateSettingsWithBlock:",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "setInterfaceOrientation:",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "SBSceneView",
+            "count": 4,
+            "exact": true
+          }
+        ],
+        "carplay": [
+          {
+            "literal": "SCPCarSplit",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SCPCarPane",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CarPlay",
+            "count": 28,
+            "exact": true
+          },
+          {
+            "literal": "Dashboard",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CARApp",
+            "count": 2,
+            "exact": false
+          }
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib",
+      "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f",
+      "size": 242784,
+      "markers": {
+        "map_bundle_ids": [
+          {
+            "literal": "com.apple.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.waze.iphone",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "native_carplay_navigation": [
+          {
+            "literal": "CPMapTemplate",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPTemplateApplicationScene",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPWindow",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "MKMapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPNavigationSession",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "maps_navigation": [
+          {
+            "literal": "mapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "navigation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "routeGuidance",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "displayMap",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "mapContent",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "bridge": [
+          {
+            "literal": "appBridgeZoom",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "appBridgeOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "effectiveOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "requestedOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "layoutPane:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneBox",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setSceneBox:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneHandle",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneIfExists",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "updateSettingsWithBlock:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setInterfaceOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SBSceneView",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "carplay": [
+          {
+            "literal": "SCPCarSplit",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SCPCarPane",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CarPlay",
+            "count": 18,
+            "exact": true
+          },
+          {
+            "literal": "Dashboard",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CARApp",
+            "count": 2,
+            "exact": false
+          }
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib",
+      "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5",
+      "size": 276832,
+      "markers": {
+        "map_bundle_ids": [
+          {
+            "literal": "com.apple.Maps",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "com.google.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.waze.iphone",
+            "count": 2,
+            "exact": true
+          }
+        ],
+        "native_carplay_navigation": [
+          {
+            "literal": "CPMapTemplate",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPTemplateApplicationScene",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPWindow",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "MKMapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPNavigationSession",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "maps_navigation": [
+          {
+            "literal": "mapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "navigation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "routeGuidance",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "displayMap",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "mapContent",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "bridge": [
+          {
+            "literal": "appBridgeZoom",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "appBridgeOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "effectiveOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "requestedOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "layoutPane:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneBox",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setSceneBox:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneHandle",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneIfExists",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "updateSettingsWithBlock:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setInterfaceOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SBSceneView",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "carplay": [
+          {
+            "literal": "SCPCarSplit",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SCPCarPane",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CarPlay",
+            "count": 24,
+            "exact": true
+          },
+          {
+            "literal": "Dashboard",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CARApp",
+            "count": 2,
+            "exact": false
+          }
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
+      "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836",
+      "size": 649808,
+      "markers": {
+        "map_bundle_ids": [
+          {
+            "literal": "com.apple.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.waze.iphone",
+            "count": 2,
+            "exact": true
+          }
+        ],
+        "native_carplay_navigation": [
+          {
+            "literal": "CPMapTemplate",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPTemplateApplicationScene",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPWindow",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "MKMapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPNavigationSession",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "maps_navigation": [
+          {
+            "literal": "mapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "navigation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "routeGuidance",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "displayMap",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "mapContent",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "bridge": [
+          {
+            "literal": "appBridgeZoom",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "appBridgeOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "effectiveOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "requestedOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "layoutPane:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneBox",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setSceneBox:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneHandle",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneIfExists",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "updateSettingsWithBlock:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setInterfaceOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SBSceneView",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "carplay": [
+          {
+            "literal": "SCPCarSplit",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SCPCarPane",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CarPlay",
+            "count": 36,
+            "exact": true
+          },
+          {
+            "literal": "Dashboard",
+            "count": 4,
+            "exact": false
+          },
+          {
+            "literal": "CARApp",
+            "count": 2,
+            "exact": false
+          }
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
+      "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754",
+      "size": 1229920,
+      "markers": {
+        "map_bundle_ids": [
+          {
+            "literal": "com.apple.Maps",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "com.google.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.waze.iphone",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "native_carplay_navigation": [
+          {
+            "literal": "CPMapTemplate",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPTemplateApplicationScene",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPWindow",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "MKMapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPNavigationSession",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "maps_navigation": [
+          {
+            "literal": "mapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "navigation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "routeGuidance",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "displayMap",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "mapContent",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "bridge": [
+          {
+            "literal": "appBridgeZoom",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "appBridgeOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "effectiveOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "requestedOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "layoutPane:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneBox",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setSceneBox:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneHandle",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "sceneIfExists",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "updateSettingsWithBlock:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setInterfaceOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SBSceneView",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "carplay": [
+          {
+            "literal": "SCPCarSplit",
+            "count": 16,
+            "exact": true
+          },
+          {
+            "literal": "SCPCarPane",
+            "count": 14,
+            "exact": true
+          },
+          {
+            "literal": "CarPlay",
+            "count": 62,
+            "exact": true
+          },
+          {
+            "literal": "Dashboard",
+            "count": 30,
+            "exact": false
+          },
+          {
+            "literal": "CARApp",
+            "count": 2,
+            "exact": false
+          }
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
+      "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037",
+      "size": 567792,
+      "markers": {
+        "map_bundle_ids": [
+          {
+            "literal": "com.apple.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.Maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.google.maps",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "com.waze.iphone",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "native_carplay_navigation": [
+          {
+            "literal": "CPMapTemplate",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPTemplateApplicationScene",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPWindow",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "MKMapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CPNavigationSession",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "maps_navigation": [
+          {
+            "literal": "mapView",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "navigation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "routeGuidance",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "displayMap",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "mapContent",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "bridge": [
+          {
+            "literal": "appBridgeZoom",
+            "count": 2,
+            "exact": true
+          },
+          {
+            "literal": "appBridgeOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "effectiveOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "requestedOrientation",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "layoutPane:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneBox",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setSceneBox:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneHandle",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "sceneIfExists",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "updateSettingsWithBlock:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "setInterfaceOrientation:",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SBSceneView",
+            "count": 0,
+            "exact": false
+          }
+        ],
+        "carplay": [
+          {
+            "literal": "SCPCarSplit",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "SCPCarPane",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CarPlay",
+            "count": 22,
+            "exact": true
+          },
+          {
+            "literal": "Dashboard",
+            "count": 0,
+            "exact": false
+          },
+          {
+            "literal": "CARApp",
+            "count": 2,
+            "exact": false
+          }
+        ]
+      }
+    }
+  ],
+  "original_injection_filters": [
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.UIKit"
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp"
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.springboard",
+          "com.apple.CarPlayApp",
+          "vn.vietmap.live",
+          "com.lumi.GOFA",
+          "com.waze.iphone",
+          "com.wynauto.wyn"
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      }
+    }
+  ],
+  "duoface_current_source": {
+    "file": "sideplay/duoface-native-scene-host/DFSceneHost.m",
+    "host_main_display_scene": true,
+    "reference_size_fixed_double": true,
+    "no_orientation_only_transaction": true,
+    "early_registration": false
+  },
+  "known_original_ARM64_control_flow_from_sha_pinned_previous_audit": {
+    "ABHost.zoom": "0xae20..0xae90 reads appBridgeZoom/100 clamps 0.6..1.0",
+    "ABHost.layoutPane": "0xed74..0xed80 logical=bounds/zoom, 0xedac transform zoom, 0xf074 sceneBox physical bounds",
+    "ABHost.layoutPane scene transaction": "0xf248 setFrame, 0xf280 setInterfaceOrientation, 0xf2b8 background 0, 0xf30c foreground 1",
+    "references": "Omnicar/audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md and audit/omnicar_native12_verified_layout_policy_20261023.json"
+  },
+  "limits": [
+    "Missing selector literal does not prove absent behavior: original code may use dynamic names, encrypted assets, system APIs",
+    "Presence of literal proves only static binary metadata, not that live Maps uses that method",
+    "Original navigation/Google Maps CarPlay CPWindow may be owned by Apple/Google scene and cannot be equated with phone-main-display hosted scene",
+    "No vendor binary retained in this report; no licensing logic copied",
+    "Do not force CPMapTemplate or imitate another application's entitlement to render its native CarPlay map"
+  ]
+}
