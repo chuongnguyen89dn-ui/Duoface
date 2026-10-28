@@ -1,49 +1,55 @@
 {
-  "checked_at_utc": "2026-10-28T18:55:05.904892+00:00",
+  "checked_at_utc": "2026-10-28T23:18:21.278783+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3101,
+  "total_actions_runs": 3111,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
-    "DuoFace Actions status snapshot": {
-      "recent_runs": 2,
-      "success": 1,
+    "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)": {
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
     },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
       "recent_runs": 9,
-      "success": 2,
+      "success": 1,
       "failure": 5,
-      "other": 2
-    },
-    "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)": {
-      "recent_runs": 4,
-      "success": 4,
-      "failure": 0,
-      "other": 0
+      "other": 3
     },
     "DuoFace .84 owner-scoped orientation source/runtime gate": {
-      "recent_runs": 6,
-      "success": 3,
-      "failure": 3,
+      "recent_runs": 5,
+      "success": 2,
+      "failure": 2,
+      "other": 1
+    },
+    "DuoFace Native12 source-only UIKit and original behavior regression": {
+      "recent_runs": 18,
+      "success": 8,
+      "failure": 5,
+      "other": 5
+    },
+    "DuoFace original-verified native CarPlay Maps scene identity only": {
+      "recent_runs": 18,
+      "success": 9,
+      "failure": 8,
+      "other": 1
+    },
+    "DuoFace Actions status snapshot": {
+      "recent_runs": 3,
+      "success": 2,
+      "failure": 0,
+      "other": 1
+    },
+    "DuoFace .94 iPhone App Manager scope — save existing project handoff": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
       "other": 0
     },
     "DuoFace .93 user rollback — append verified .92 restore checkpoint": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
-      "other": 0
-    },
-    "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 21,
-      "success": 8,
-      "failure": 6,
-      "other": 7
-    },
-    "DuoFace original-verified native CarPlay Maps scene identity only": {
-      "recent_runs": 16,
-      "success": 9,
-      "failure": 7,
       "other": 0
     },
     "DuoFace Native12 UI scope correction – save existing project handoff": {
@@ -111,21 +117,115 @@
       "success": 2,
       "failure": 0,
       "other": 0
-    },
-    "DuoFace .90 independent orientation QA checkpoint": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 40786398762,
+      "name": "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)",
+      "run_number": 5,
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398762",
+      "created_at": "2026-10-28T23:18:17Z",
+      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
+    },
+    {
+      "id": 40786398702,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 333,
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398702",
+      "created_at": "2026-10-28T23:18:17Z",
+      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
+    },
+    {
+      "id": 40786398621,
+      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
+      "run_number": 20,
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398621",
+      "created_at": "2026-10-28T23:18:17Z",
+      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
+    },
+    {
+      "id": 40786398615,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 434,
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398615",
+      "created_at": "2026-10-28T23:18:17Z",
+      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
+    },
+    {
+      "id": 40786398533,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 18,
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398533",
+      "created_at": "2026-10-28T23:18:17Z",
+      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
+    },
+    {
+      "id": 40786384465,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 85,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786384465",
+      "created_at": "2026-10-28T23:18:10Z",
+      "head_sha": "b5d19d6c826147120baa018f35ac53fb2fb5a4c0"
+    },
+    {
+      "id": 40786223869,
+      "name": "DuoFace .94 iPhone App Manager scope — save existing project handoff",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786223869",
+      "created_at": "2026-10-28T23:16:49Z",
+      "head_sha": "e70495a60effcb5d9043c285822c002a97a5dff2"
+    },
+    {
+      "id": 40786223749,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 433,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786223749",
+      "created_at": "2026-10-28T23:16:49Z",
+      "head_sha": "e70495a60effcb5d9043c285822c002a97a5dff2"
+    },
+    {
+      "id": 40786118780,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786118780",
+      "created_at": "2026-10-28T23:15:58Z",
+      "head_sha": "d0477263fbe19ad287d8ee84ad74c0d86fd6fce3"
+    },
+    {
+      "id": 40786118760,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 432,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786118760",
+      "created_at": "2026-10-28T23:15:58Z",
+      "head_sha": "d0477263fbe19ad287d8ee84ad74c0d86fd6fce3"
+    },
+    {
       "id": 40749503565,
       "name": "DuoFace Actions status snapshot",
       "run_number": 84,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40749503565",
       "created_at": "2026-10-28T18:54:49Z",
       "head_sha": "1ab11bd521b43d4babc92ac20dfec45c89e8ab9f"
@@ -319,106 +419,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707030689",
       "created_at": "2026-10-28T14:33:00Z",
       "head_sha": "aadf363d2387248f499ef320fad1c4514a78d71d"
-    },
-    {
-      "id": 40707030595,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 426,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707030595",
-      "created_at": "2026-10-28T14:33:00Z",
-      "head_sha": "aadf363d2387248f499ef320fad1c4514a78d71d"
-    },
-    {
-      "id": 40707030521,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 329,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707030521",
-      "created_at": "2026-10-28T14:33:00Z",
-      "head_sha": "aadf363d2387248f499ef320fad1c4514a78d71d"
-    },
-    {
-      "id": 40707030409,
-      "name": "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707030409",
-      "created_at": "2026-10-28T14:33:00Z",
-      "head_sha": "aadf363d2387248f499ef320fad1c4514a78d71d"
-    },
-    {
-      "id": 40707030359,
-      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707030359",
-      "created_at": "2026-10-28T14:33:00Z",
-      "head_sha": "aadf363d2387248f499ef320fad1c4514a78d71d"
-    },
-    {
-      "id": 40705259552,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 425,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40705259552",
-      "created_at": "2026-10-28T14:22:20Z",
-      "head_sha": "d36c3ab50a8d6dacede260036d8e32302d3f65a6"
-    },
-    {
-      "id": 40704227551,
-      "name": "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40704227551",
-      "created_at": "2026-10-28T14:15:56Z",
-      "head_sha": "f6bdb07d217a14c68770a406ebe5c604d5e16bdc"
-    },
-    {
-      "id": 40703684327,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 424,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40703684327",
-      "created_at": "2026-10-28T14:12:35Z",
-      "head_sha": "ae6c5b1dc3d579704fbba85862861649dd700900"
-    },
-    {
-      "id": 40703528927,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 423,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40703528927",
-      "created_at": "2026-10-28T14:11:38Z",
-      "head_sha": "af5d1fe35d6c2074b2273b179df762a0e01d53c9"
-    },
-    {
-      "id": 40703459408,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 422,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40703459408",
-      "created_at": "2026-10-28T14:11:11Z",
-      "head_sha": "f2bf6850cc55f8ccbcf002ec432cdf969c6cd4ca"
-    },
-    {
-      "id": 40700551205,
-      "name": "Original Native12 UI controller 22 method ARM64 callsite scan (NO RELEASE)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40700551205",
-      "created_at": "2026-10-28T13:53:04Z",
-      "head_sha": "769c19120f2cb52045cce25161d553072341961d"
     }
   ]
 }
