@@ -141,6 +141,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @property(nonatomic,strong) NSTimer *geometryCommitTimer;
 @property(nonatomic) NSTimeInterval lastViewportLogAt;
 @property(nonatomic) NSTimeInterval lastHitLogAt;
+@property(nonatomic) BOOL splitUIVisible;
 @property(nonatomic,copy) NSString *youtubeOwner;
 @property(nonatomic,copy) NSDictionary *youtubeState;
 @property(nonatomic) NSTimeInterval youtubeLastPublish;
@@ -192,22 +193,14 @@ static NSInteger DFObservedSceneForeground(id scene) {
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     if(now-self.youtubeLastPublish<0.75)return;
     CGSize logical=DFHostedLogicalSizeForBundle(committed,self.bundleID);
-    // Native12 original sends a real layout mode alongside the size.
-    // A second actual *visible* hosted pane is evidence of split mode;
-    // do not infer a mode from an arbitrary zoom percentage.
-    BOOL twoPanes=NO;
-    for (DFSceneSurface *other in self.owner.live.allValues) {
-        if(other!=self && !other.stopped && other.ready && other.window==self.window &&
-           !other.hidden && other.alpha>0 && other.bounds.size.width>1 &&
-           other.appController.viewIfLoaded.window==self.window) {
-            twoPanes=YES; break;
-        }
-    }
+    // The actual Native12 Chrome knows SOLO versus split even when the other
+    // pane is empty/failed to attach. It provides mode explicitly through
+    // DFSceneHost.setSplitMode:forHostedView:, not through pane-size guesses.
     NSDictionary *state=@{@"version":@2,@"bundleIdentifier":DFYTBundle,
         @"owner":self.youtubeOwner,@"sceneIdentifier":identifier,
         @"generation":@(self.sceneGeneration),@"issuedAt":@(now),@"active":@YES,
         @"width":@(logical.width),@"height":@(logical.height),@"orientation":@1,
-        @"isSplit":@(twoPanes)};
+        @"isSplit":@(self.splitUIVisible)};
     if(!DFYTValidState(state,now)){[self revokeYouTubeState];return;}
     self.youtubeState=state; self.youtubeLastPublish=now;
     DFYTPost(DFYTStateName,state);
@@ -843,6 +836,18 @@ static NSInteger DFObservedSceneForeground(id scene) {
 }
 - (void)didFinishSurface:(DFSceneSurface *)surface {
     if (self.live[surface.bundleID]==surface) [self.live removeObjectForKey:surface.bundleID];
+}
+- (void)setSplitMode:(BOOL)isSplit forHostedView:(UIView *)view {
+    if(!NSThread.isMainThread || ![view isKindOfClass:DFSceneSurface.class])return;
+    DFSceneSurface *surface=(DFSceneSurface *)view;
+    if(self.live[surface.bundleID]!=surface || surface.stopped)return;
+    if(surface.splitUIVisible==isSplit)return;
+    surface.splitUIVisible=isSplit;
+    // Split/restore is an independent state transition even if the pane size
+    // has not yet changed. The .88 heartbeat used only width/height, causing
+    // orientation-only refresh to be skipped.
+    surface.youtubeLastPublish=0;
+    [surface publishYouTubeState];
 }
 - (void)releaseHostedView:(UIView *)view {
     if (![NSThread isMainThread]) {
