@@ -1,4 +1,4 @@
-name: DuoFace V6 read-only live CarPlayApp Maps controller/scene owner probe
+name: DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe
 on:
   push:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
@@ -28,6 +28,7 @@ jobs:
                             'setRootViewController:', 'requestStateChange:', 'setFrame:'):
               assert forbidden not in s,forbidden
           assert 'mapsNativeOwnerProven' in s and 'viewIfLoaded' in s
+          assert 'DFInspectOwner' in s and 'method_getNumberOfArguments' in s
           print('PASS: read-only diagnostic source gate')
           PY
       - name: Install rootless Theos toolchain
@@ -48,9 +49,9 @@ jobs:
           test "${#debs[@]}" = 1
           deb="${debs[0]}"
           test "$(dpkg-deb -f "$deb" Package)" = "com.duoface.carplay.nativejoinprobe"
-          test "$(dpkg-deb -f "$deb" Version)" = "0.0.4~mapowner1"
+          test "$(dpkg-deb -f "$deb" Version)" = "0.0.5~mapowner2"
           test "$(dpkg-deb -f "$deb" Architecture)" = "iphoneos-arm64"
-          dest="$GITHUB_WORKSPACE/sideplay/test-artifacts/native-map-owner-v6"
+          dest="$GITHUB_WORKSPACE/sideplay/test-artifacts/native-map-owner-v7"
           mkdir -p "$dest"
           cp "$deb" "$dest/"
           dpkg-deb -c "$deb" > "$dest/DEB_FILE_LIST.txt"
@@ -82,15 +83,15 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duoface-native-map-owner-v6
-          path: sideplay/test-artifacts/native-map-owner-v6/
+          name: duoface-native-map-owner-v7
+          path: sideplay/test-artifacts/native-map-owner-v7/
           if-no-files-found: warn
       - name: Persist compiled DEB, checksum and evidence in DuoFace repository
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f sideplay/test-artifacts/native-map-owner-v6/
+          git add -f sideplay/test-artifacts/native-map-owner-v7/
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "artifacts: save isolated V6 CarPlay live owner diagnostic and build evidence"
           # Head may advance while the runner compiles. Rebase only the generated
