@@ -79,7 +79,7 @@ jobs:
               ranges.append({'class':cls,'selector':selector,'file':name,
                         'imp':m['imp'],'end':hex(end),'type_encoding':m.get('type'),
                         'instructions':[],'selector_references':[]})
-            rx=re.compile(r'^\\s*([0-9a-fA-F]+):\\s+')
+            rx=re.compile(r'^\s*([0-9a-fA-F]+):\s+')
             for line in out.stdout.splitlines():
               m=rx.match(line)
               if not m:continue
@@ -96,7 +96,7 @@ jobs:
           result={'kind':'original-machine-imp-static-no-device','immutable_native12_sha256':'2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad',
                 'assumptions_not_proven':['iPhone showActionMenu visibly exposes every operation','any batch operation in CarPlay App picker','user screenshot parity'],
                 'methods':entries}
-          (outroot/'ORIGINAL_PICKER_VS_SETTINGS_IMP.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\\n')
+          (outroot/'ORIGINAL_PICKER_VS_SETTINGS_IMP.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n')
           rows=['# Original Native12 single-slot picker vs SEPARATE iPhone app-manager',
                 '', 'Original DEB SHA verified. Original machine IMPs/selector references, no runtime execution.',
                 '', '**CarPlay appSelected:** 1 tapped bundle selected for 1 requested slot, not multi-select.',
@@ -107,7 +107,7 @@ jobs:
              rows.extend(['## '+x['file']+' / '+x['class']+'.'+x['selector']+' @ '+x['imp'],
                  'Instructions: '+str(len(x['instructions'])),'Selector/CFString references:']+
                  ['    '+y for y in x['selector_references'][:100]]+[''])
-          (outroot/'REPORT.md').write_text('\\n'.join(rows)+'\\n')
+          (outroot/'REPORT.md').write_text('\n'.join(rows)+'\n')
           print('ORIGINAL_PICKER_VS_IPHONE_SETTINGS_DISTINCT_IMP_EXTRACTED',len(entries))
           for row in entries: print(row['file'],row['class'],row['selector'],len(row['instructions']),len(row['selector_references']))
           PY
