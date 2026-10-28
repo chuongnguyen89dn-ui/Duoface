@@ -1,0 +1,122 @@
+name: DuoFace .89 physical FAIL — verify ORIGINAL Native12 DEB UIKit hook ABI
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-089-real-original-abi-gap.yml'
+      - 'sideplay/tools/audit_native12_089_original_abi_gap_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-089-real-original-abi-gap
+  cancel-in-progress: false
+jobs:
+  original-deb-not-a-fix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load SHA-pinned ORIGINAL Native12 DEB and extract its real injected Dashboard
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/original-native12.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/original-native12.deb" | sha256sum -c -
+          dpkg-deb -x "$RUNNER_TEMP/original-native12.deb" "$RUNNER_TEMP/original-native12-unpacked"
+          ORIGINAL_IMAGE="$RUNNER_TEMP/original-native12-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          printf '%s  %s\n' '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea' "$ORIGINAL_IMAGE" | sha256sum -c -
+          echo "ORIGINAL_NATIVE12_ACTUAL_PACKAGE_AND_INJECTED_APP_DYLIB_SHA256_PASS"
+      - name: Independently compare original ARM64 36 hook installation sites with current .89 code
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/tools/audit_native12_089_original_abi_gap_20261028.py
+          OUT="sideplay/audit/native12-083-rotation-20261028/NATIVE12_089_VERIFIED_REAL_DEB_HOOK_GAP.json"
+          python3 sideplay/tools/audit_native12_089_original_abi_gap_20261028.py \
+            --original-json sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_40648090838.json \
+            --original-deb "$RUNNER_TEMP/original-native12.deb" \
+            --original-dashboard "$RUNNER_TEMP/original-native12-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --src . --output "$OUT"
+          python3 - "$OUT" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='NATIVE12_ORIGINAL_ACTUAL_DEB_VERIFIED_NOT_YOUTUBE_DEVICE_FIX'
+          assert d['original_hook_install_sites']==36
+          assert len(d['verified_class_selector_sites'])>=20
+          required={
+            ('UIViewController','supportedInterfaceOrientations'),
+            ('UIWindowScene','interfaceOrientation'),
+            ('UIDevice','orientation'),
+            ('UIScreen','bounds'),
+            ('UIScreen','nativeBounds'),
+            ('UIScreen','_referenceBounds'),
+          }
+          assert required.issubset({(x['class'],x['selector']) for x in d['verified_class_selector_sites']})
+          print('ORIGINAL_36_MACHINE_HOOK_SITES_NOT_EMULATED_BY_089_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-089-vs-original-verified-UIKit-ABI
+          path: sideplay/audit/native12-083-rotation-20261028/NATIVE12_089_VERIFIED_REAL_DEB_HOOK_GAP.json
+          if-no-files-found: error
+      - name: Persist verified original-vs-.89 GAP and latest device fail into existing project handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          REL='sideplay/audit/native12-083-rotation-20261028/NATIVE12_089_VERIFIED_REAL_DEB_HOOK_GAP.json'
+          SOURCE="$(pwd)/$REL"
+          MARK='DUOFACE .89 DEVICE FAIL — REAL NATIVE12 HOOK INSTALLER IS MISSING'
+          for try in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$(dirname "$REL")"
+            if test -f "$TMP/$REL"; then
+              cmp -s "$SOURCE" "$TMP/$REL" || { echo "Existing audit conflict"; exit 1; }
+            else
+              cp "$SOURCE" "$TMP/$REL"
+            fi
+            MARK="$MARK" python3 - "$TMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import os,sys
+          f=Path(sys.argv[1]);run=sys.argv[2];mark=os.environ['MARK']
+          old=f.read_text(encoding='utf8')
+          if mark not in old:
+              note=f"""## {mark} (2026-10-28)
+
+          - User physical confirmation: DuoFace .89 (Sileo 0.0.89~splitscene1) still wrong YouTube video orientation in split. .89 is DEVICE FAIL, despite CI + Sileo SHA PASS. Prior .89 code assumed isSplit + one-shot UIKit geometry update adequately reproduced Native12; this **was an unsupported equivalence guess**.
+          - NEW VERIFIED ACTUAL ORIGINAL DEB (not string-search guess): SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`, extracted genuine `DuoFaceDashboard.dylib` SHA256 `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`. Original ARM64 at 0x2ac688..0x2acc04 has **36 _MSHookMessageEx installer call sites**; original actively sets up multiple UIKit method interception sites: UIViewController supportedInterfaceOrientations, UIWindow frame/bounds/rotation, UIWindowScene interfaceOrientation, UIDevice orientation, UIScreen bounds/nativeBounds/_referenceBounds, plus UIApplication state, notifications and other surfaces. DuoFace .89 has **none of the independent orientation/UIDevice/UIScreen virtualization** and only performs an owner-scoped one-time `requestGeometryUpdate`. Other original app state callback 0x2abd98 directly BL 0x2a9e38 for window reflow. Exact actual original hook CALLBACK behavior and values must still be decoded: existence does not prove which hook fixes YouTube.
+          - Audit artifact: `sideplay/audit/native12-083-rotation-20261028/NATIVE12_089_VERIFIED_REAL_DEB_HOOK_GAP.json`, original disassembly `NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_40648090838.json`. Read-only script `sideplay/tools/audit_native12_089_original_abi_gap_20261028.py`. GitHub Actions evidence run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}, real original DEB git object `1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb`. Commands: `git show` immutable original to /tmp, `sha256sum -c`, `dpkg-deb -x`, `python3 sideplay/tools/audit_native12_089_original_abi_gap_20261028.py --original-json ... --original-deb ... --original-dashboard ... --src . --output ...`, inline assertions, worktree commit/push/readback.
+          - **Decision:** STOP version trial/roulette. Do not publish .90 until the original orientation-related hook target callbacks, their app-bridge activation conditions, split vs solo return values, and phone-mode restore are decoded and compared with observed real YouTube UI rendering. Implement an independent, strictly YouTube-process-scoped minimum, never copy binaries/licenses or install unexamined global hooks. Maintain .83 playback lifecycle, Maps, Dock, immutable .83/.88/.89 rollback. Latest uploaded SceneHost is .88; there is no confirmed .89 runtime ACK log; new data may be required to prove hardware effect.
+          - **Next exact task:** starting original installer @0x2ac688 hook groups, resolve actual callback address @adr x2 and function boundaries for UIViewController.supportedInterfaceOrientations, UIWindowScene.interfaceOrientation, UIDevice.orientation, UIScreen.bounds/nativeBounds/referenceBounds, and body-level predicates using the pinned Mach-O and LC_FUNCTION_STARTS. Record returned values and enabled/disabled branches and restoration before deciding any runtime patch. Success means all relevant original callback semantics are documented and source evidence reviewed, not another passing build.
+
+          ---
+          """
+              f.write_text(note+old,encoding='utf8')
+              assert f.read_text(encoding='utf8')==note+old
+          print('ORIGINAL_089_DEVICE_FAIL_HANDOFF_READBACK_LOCAL_PASS')
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$REL" 'sideplay/tiep tuc du an.md'
+            if git -C "$TMP" diff --cached --quiet; then
+              git worktree remove --force "$TMP"
+              echo 'NATIVE12_089_AUDIT_ALREADY_SAVED'
+              exit 0
+            fi
+            git -C "$TMP" commit -m 'audit: prove .89 device fail vs real Native12 multi-framework hook ABI [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              git fetch --no-tags origin "$BRANCH"
+              git show "FETCH_HEAD:$REL" | grep -F 'original_hook_install_sites'
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARK"
+              echo 'NATIVE12_089_REAL_ORIGINAL_HOOK_AUDIT_GITHUB_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          echo 'FAILED to persist exact original audit' >&2
+          exit 1
