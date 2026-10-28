@@ -1,6 +1,7 @@
 // Only observes existing CarPlay Dashboard owner. Never admits applications,
 // constructs a window, displays a bar, repositions Apple's chrome or injects touch.
 #import "DFNativeSceneContract.h"
+extern void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession);
 #import <UIKit/UIKit.h>
 #import <fcntl.h>
 #import <unistd.h>
@@ -88,6 +89,10 @@ static void DFProbeNativeAppAdmissionABI(void) {
     // CarPlaySupport classes may load after application startup.
     // Repeat type-only inspection every ~30 seconds, never call admission APIs.
     if(self.ticks%20==0)DFProbeNativeAppAdmissionABI();
+    // Record actual controller/scene associations in the running CarPlay process.
+    // Do not create/foreground/background scenes, mutate Dock, or host Maps.
+    if(self.ticks==1 || self.ticks%20==0)
+        DFCarPlayCaptureLiveOwnerSnapshot(self.session);
     CGRect full=CGRectNull, usable=CGRectNull;
     BOOL chrome=NO, dashboard=NO;
     UIWindow *dashboardWindow=nil;
