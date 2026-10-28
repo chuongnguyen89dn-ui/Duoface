@@ -57,7 +57,7 @@ def inspect(archive, src, deb, dashboard):
             class_pending = None
         if "Objc selector ref:" in asm:
             latest_selector = asm.split("Objc selector ref: ", 1)[1]
-        if "_MSHookMessageEx" in asm and (asm.lstrip().startswith(("bl ", "b "))):
+        if "_MSHookMessageEx" in asm and asm.split(None, 1)[0] in ("bl", "b"):
             hooks.append({"pc": pc, "class": current_class,
                           "selector": latest_selector,
                           "installer": "MSHookMessageEx"})
