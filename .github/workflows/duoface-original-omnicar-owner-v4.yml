@@ -17,6 +17,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Install pinned Capstone required by original Mach-O selector parser
+        run: python3 -m pip install --break-system-packages capstone==5.0.7
       - name: Acquire original OmniCar 1.0.3 exact DEB, verify SHA256
         run: |
           set -euo pipefail
