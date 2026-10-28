@@ -3,6 +3,7 @@
 #import "DFCarPlayNativeSceneIdentity.h"
 #import "DFCarPlayNativeSceneTimeline.h"
 #import "DFCarPlayNativeMapPaneAssessment.h"
+#import "DFCarPlayNativeMapViewportPlan.h"
 // Observational state only; never retains UIView/FBScene or manipulates a scene.
 static NSDictionary *DFCarPlayPreviousTimeline = nil;
 #import <UIKit/UIKit.h>
@@ -20,6 +21,8 @@ static NSString *const DFMapOwnerLog = @"/var/mobile/Library/Logs/DuoFaceCarPlay
 // The current SpringBoard DuoFace touch-owner heartbeat: read-only evidence
 // that a split UI session is alive, not ownership of a native Maps FBScene.
 static NSString *const DFPhoneSplitHeartbeat = @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
+// Source-owned DuoFace split preferences, not native scene/window controls.
+static NSString *const DFPhoneSplitLayout = @"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
 static NSString *DFClassName(id value) {
     return value ? NSStringFromClass([value class]) : @"nil";
 }
@@ -186,6 +189,23 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
         NSMutableArray *controllers=[NSMutableArray new];
         NSMutableSet<NSValue *> *visited=[NSMutableSet new];
         NSUInteger sceneCount=0, windowCount=0;
+        // Find the genuine Dashboard UIWindow only to MEASURE the system bar
+        // position, including a bar hosted in a sibling UIWindowScene.
+        // No layout, key-window, visibility or hierarchy mutation.
+        UIWindow *dashboardWindow=nil;
+        NSUInteger dashboardWindowCount=0;
+        for(UIScene *candidate in UIApplication.sharedApplication.connectedScenes){
+            if(![candidate isKindOfClass:UIWindowScene.class])continue;
+            UIWindowScene *ws=(UIWindowScene *)candidate;
+            if(!ws.screen || ws.screen==UIScreen.mainScreen)continue;
+            for(UIWindow *w in ws.windows) {
+                if([NSStringFromClass(w.rootViewController.class)
+                    isEqualToString:@"DBDashboardRootViewController"]) {
+                    dashboardWindow=w;dashboardWindowCount++;
+                }
+            }
+        }
+        if(dashboardWindowCount!=1)dashboardWindow=nil;
         // UIApplication window scenes are an observation, NOT proof of ownership
         // of a Maps scene in another process. Record missing association as missing.
         for(UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
@@ -205,14 +225,25 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
                 NSMutableArray *windows=[NSMutableArray new];
                 for(UIWindow *w in ws.windows){
                     if(windowCount++>=48)break;
-                    [windows addObject:@{
+                    NSMutableDictionary *entry=[@{
                         @"windowClass":DFClassName(w),
                         @"windowPointer":DFPtr(w),
                         @"rootController":DFClassName(w.rootViewController),
                         @"rootPointer":DFPtr(w.rootViewController),
                         @"hidden":@(w.hidden),
+                        @"frame":DFRect(w.frame),
                         @"bounds":DFRect(w.bounds)
-                    }];
+                    } mutableCopy];
+                    if(dashboardWindow && w.screen==dashboardWindow.screen) {
+                        @try {
+                            CGRect rel=[dashboardWindow convertRect:w.bounds fromWindow:w];
+                            entry[@"dashboardRelativeFrame"]=DFRect(rel);
+                        } @catch(NSException *ignored) {
+                            // Unresolved, never synthesize bar on left or right.
+                            (void)ignored;
+                        }
+                    }
+                    [windows addObject:entry];
                     DFVisitController(w.rootViewController,controllers,visited,0);
                 }
                 s[@"windows"]=windows;
@@ -230,8 +261,10 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
         NSDictionary *phonePulse=[NSDictionary dictionaryWithContentsOfFile:DFPhoneSplitHeartbeat];
         NSDictionary *join=DFCarPlayNativeMapPaneAssessment(
             controllers,timeline,phonePulse,sampleUTC.doubleValue,complete);
+        NSDictionary *phoneLayout=[NSDictionary dictionaryWithContentsOfFile:DFPhoneSplitLayout];
+        NSDictionary *mapViewport=DFCarPlayNativeMapViewportPlan(scenes,phoneLayout);
         DFWriteSnapshotLine(@{
-            @"schema":@4,@"kind":@"carplay-live-owner-readonly",
+            @"schema":@5,@"kind":@"carplay-live-owner-readonly",
             @"probeSession":probeSession?:@"unset",
             @"utc":sampleUTC,
             @"process":process,
@@ -239,6 +272,8 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
             @"processPID":@(getpid()),
             @"scenes":scenes,@"controllers":controllers,@"nativeSceneTimeline":timeline,
             @"nativeMapPaneAssessment":join,
+            @"nativeMapViewportPlan":mapViewport,
+            @"dashboardWindowCount":@(dashboardWindowCount),
             @"limitedScenes":@(sceneCount>12),@"limitedWindows":@(windowCount>48),
             @"limitedControllers":@(controllers.count>=72),
             @"mapsNativeOwnerProven":@NO,
