@@ -95,10 +95,10 @@ jobs:
             p=root/path;s=p.read_text()
             result['source_modules'].append({'path':str(p),'sha256':hashlib.sha256(s.encode()).hexdigest(),
               'bytes':p.stat().st_size,
-              'objc_methods_declared':re.findall(r'^\\s*[-+]\\s*\\([^\\n]+',s,re.M),
+              'objc_methods_declared':re.findall(r'^\s*[-+]\s*\([^\n]+',s,re.M),
               'markers':{key:len(re.findall(pattern,s,re.I)) for key,pattern in {
                 'native_map':'native.?map|FBScene|sceneHostView',
-                'logo_hold_3_seconds':r'3\\.0|minimumPressDuration\\s*=\\s*3',
+                'logo_hold_3_seconds':r'3\.0|minimumPressDuration\s*=\s*3',
                 'hud':'speed8|DFNative8SpeedHUDView',
                 'voice':'assistant|speechRecognizer|AVAudioEngine',
                 'app_slot_persist':'saveSlotIndex|splitApp[1-4]|SlotBundle',
@@ -110,7 +110,7 @@ jobs:
                 'restore':'Restore|rollback',
               }.items()}})
           output=pathlib.Path(sys.argv[1])/'CURRENT_091_SOURCE_UI_FUNCTION_INVENTORY.json'
-          output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\\n')
+          output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
           assert len(result['source_modules'])==18
           print('CURRENT_091_SOURCE_AND_PAYLOAD_INVENTORY_RECORDED_NOT_DEVICE_PASS')
           PY
