@@ -25,7 +25,7 @@ def main(args):
     if len(archives) != 1:
         raise ValueError("expected exactly one signed integrated DEB in this run")
     version = archives[0].name.split("com.duoface.jb.embedded_", 1)[1].split("_iphoneos-arm64.deb", 1)[0]
-    if version not in ("0.0.90~nativegetters1", "0.0.91~nativemapqa1", "0.0.92~logo3s1", "0.0.93~appmanager1"):
+    if version not in ("0.0.90~nativegetters1", "0.0.91~nativemapqa1", "0.0.92~logo3s1"):
         raise ValueError("unsupported QA archive version: " + version)
     deb = archives[0]
     digest = hashlib.sha256(deb.read_bytes()).hexdigest()
@@ -57,16 +57,6 @@ Native Maps tile rendering, seamless Google Maps navigation alongside YouTube, c
 {marker}; new first-party **single rootless** DEB: `sideplay/jb-embedded-appbridge/evidence/runs/{run_id}/{deb.name}`; SHA256 `{digest}`.
 Actual macOS one-DEB packaging/test/build evidence: `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run_id}`. Source includes `DFLogoHoldGate.h`, native `DFNative12Chrome.m` 3-second hold/vertical grip, existing split/SOLO control and exact YouTube leased orientation ABI with .90 physical rotation success preserved. Signed module version `0.1.101~logo3s1`, integrated version `0.0.92~logo3s1`. Binary archive contains exact `CI_RESULT.txt`, `SHA256SUMS.txt`, `PACKAGING_PROVENANCE.json` and `BUILD_SOURCE.txt`.
 No on-device logo hold/touch/Maps tile verification and **NO SILEO LIVE proof from this build**. The .91 Native Maps user-opt-in remains experimental, not verified simultaneous navigation. Keep .90 rollback and unchanged system Dock; avoid vendor binaries/licensing. Next: Sileo publisher pin immutable GitHub artifact SHA, exact live APT/DEB check and parked vehicle UX/YouTube/Maps regression.
-
----
-"""
-    if version == "0.0.93~appmanager1":
-        checkpoint = f"""## CHECKPOINT 2026-10-28 DuoFace .93 — first-party iPhone app management + CarPlay filtered picker DEB, device QA pending
-
-{marker}; signed staged integrated DEB `sideplay/jb-embedded-appbridge/evidence/runs/{run_id}/{deb.name}`; SHA256 `{digest}`; macOS iOS16 build, single-DEB packaging and tests at `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run_id}`.
-Replaced phone app tab's inert installed list with functional per-app enable switches and three explicit Apps Manager actions (enable all, add third-party, disable all), stored in first-party `com.duoface.nativehost.enabled-apps.v1.plist`. CarPlay DFAppPickerVC reads this same configured list and still selects ONE app for ONE selected slot. Missing config defaults to previous all-eligible behavior; explicit empty config shows zero eligible apps. Existing .90 YouTube orientation/scene owner, .92 logo and Dock/Maps source unchanged. Original Native12/iPhone 22-method read-only audit sources `sideplay/audit/native12-091-fullscan-20261028/`. No vendor code/license copied.
-
-**NOT CLAIMED:** iPhone native12 slot-specific picker, Add More popup, adaptive grid cols, full settings, multi-slot reorder, native Maps compositor, HUD8 or 1:1 runtime/pixel parity. No physical iPhone CarPlay testing. No Sileo published assertion from builder only.
 
 ---
 """

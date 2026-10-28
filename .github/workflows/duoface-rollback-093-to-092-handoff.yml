@@ -1,0 +1,57 @@
+name: DuoFace .93 user rollback — append verified .92 restore checkpoint
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-091-fullscan-20261028/ROLLBACK_093_TO_092_20261028.md'
+permissions:
+  contents: write
+concurrency:
+  group: duoface-093-to-092-rollback-checkpoint
+  cancel-in-progress: false
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append rollback to existing handoff and verify readback
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" <<'PY'
+          import sys
+          from pathlib import Path
+          p=Path(sys.argv[1])
+          if not p.is_file():raise RuntimeError("handoff missing; no duplicate")
+          old=p.read_text(encoding='utf-8')
+          block="## CHECKPOINT 2026-10-28: USER ROLLBACK .93 TO .92\n\n- USER LATEST: “Quay về bản trc đây cho tai”. STOP .93 (phone Apps Manager / CarPlay filtering) and return exact .92 runtime/deb source, version pins and packaging. Prior 3-second logo task already completed; do not resume it. Previous published Sileo .92 is preserved unchanged, source build 40707934981, Sileo remote QA 40708684634; .90 immutable playback rollback retained. No physical device installation claimed.\n- VERIFIED GitHub rollback evidence and file checklist: `sideplay/audit/native12-091-fullscan-20261028/ROLLBACK_093_TO_092_20261028.md`. New rollback commit has baseline file SHA from b29c5c63a75a71510eed9435950ca3fa90cc4f7e, removes new .93-only source/test, uses a rollback-only skip to avoid a duplicate DEB build. .93 commit/history/audit retained but not shipped. Last released public binary remains SHA256 1f4a495f8b9ba91f71bac4c7abc4e064878fb8f2edd5272df3d48fef3a95e1f0.\n- Next: only if user explicitly requests, continue missing Native12 functional audit/implementation from current .92 baseline; never speculate that .93 is installed or shipped. Physical CarPlay validation still pending.\n\n---\n\n"
+          marker="## CHECKPOINT 2026-10-28: USER ROLLBACK .93 TO .92"
+          if marker not in old:
+            p.write_text(block+old,encoding='utf-8')
+            after=p.read_text(encoding='utf-8')
+            assert after.startswith(block) and after.endswith(old)
+            print('ROLLBACK_HANDOFF_READBACK_PASS')
+          else:
+            print('ROLLBACK_HANDOFF_ALREADY_PRESENT')
+          PY
+            git -C "$TEMP" add "sideplay/tiep tuc du an.md"
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m "handoff: rollback .93 experiment and restore prior published .92 [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo 'ROLLBACK_HANDOFF_GITHUB_PUSH_VERIFIED'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1

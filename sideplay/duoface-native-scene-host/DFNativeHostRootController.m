@@ -2,7 +2,6 @@
 // Do not draw sample split panes, fake app scenes or inert settings controls.
 #import <UIKit/UIKit.h>
 #import "DFAppEligibility.h"
-#import "DFEnabledAppsPolicy.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
 #import <objc/message.h>
@@ -229,20 +228,13 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  (void)tableView;(void)section;
- // Original phone Apps Manager includes one separate actions menu;
- // the CarPlay picker remains a one-bundle, one-slot chooser.
- return self.tabs.selectedSegmentIndex==2?10:(NSInteger)self.installedApps.count+1;
+ return self.tabs.selectedSegmentIndex==2?10:(NSInteger)self.installedApps.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
  if(!cell)cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
                                      reuseIdentifier:@"DuoFaceInstalled"];
- cell.accessoryView=nil;
- if(self.tabs.selectedSegmentIndex==1 && indexPath.row==0){
-    cell.textLabel.text=@"⋯ Tùy chọn ứng dụng";
-    cell.detailTextLabel.text=@"Bật tất cả, bật ứng dụng người dùng hoặc tắt tất cả";
-    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
- } else if(self.tabs.selectedSegmentIndex==2 && indexPath.row==9){
+ if(self.tabs.selectedSegmentIndex==2 && indexPath.row==9){
     cell.textLabel.text=@"Thử nghiệm bản đồ CarPlay native";
     cell.detailTextLabel.text=@"Gắn / khôi phục Maps trên CarPlay, chỉ khi xe đang đỗ";
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -256,82 +248,14 @@
     cell.accessoryType=preset==self.currentPreset?
        UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
  } else {
-    NSDictionary *item=self.installedApps[(NSUInteger)indexPath.row-1];
+    NSDictionary *item=self.installedApps[(NSUInteger)indexPath.row];
     cell.textLabel.text=item[@"name"];cell.detailTextLabel.text=item[@"bundle"];
-    UISwitch *toggle=[UISwitch new];
-    toggle.tag=indexPath.row-1;
-    NSArray *enabled=DFConfiguredEnabledAppIDs();
-    [toggle setOn:(!enabled || [enabled containsObject:item[@"bundle"]]) animated:NO];
-    [toggle addTarget:self action:@selector(appSwitchToggled:)
-         forControlEvents:UIControlEventValueChanged];
-    cell.accessoryView=toggle;
     cell.accessoryType=UITableViewCellAccessoryNone;
  }
  cell.backgroundColor=[UIColor colorWithWhite:.10 alpha:1];
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
-}
-- (void)appSettingsSaveFailed {
- UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Không lưu được ứng dụng"
-   message:@"Không thể lưu danh sách cho phép. Danh sách CarPlay trước đó không thay đổi."
-   preferredStyle:UIAlertControllerStyleAlert];
- [alert addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleDefault handler:nil]];
- [self presentViewController:alert animated:YES completion:nil];
-}
-- (NSArray<NSString *> *)allEligibleBundleIDs {
- NSMutableArray<NSString *> *items=[NSMutableArray new];
- for(NSDictionary *record in self.installedApps){
-   NSString *bid=record[@"bundle"];
-   if(DFIsEligibleAppID(bid))[items addObject:bid];
- }
- return items;
-}
-- (void)appSwitchToggled:(UISwitch *)sender {
- NSInteger index=sender.tag;
- if(index<0 || (NSUInteger)index>=self.installedApps.count)return;
- NSString *bid=self.installedApps[(NSUInteger)index][@"bundle"];
- if(!DFIsEligibleAppID(bid))return;
- NSArray *existing=DFConfiguredEnabledAppIDs();
- NSMutableOrderedSet<NSString *> *updated=[NSMutableOrderedSet orderedSetWithArray:
-     existing?:[self allEligibleBundleIDs]];
- if(sender.on)[updated addObject:bid];else [updated removeObject:bid];
- if(!DFWriteEnabledAppIDs(updated.array)){[sender setOn:!sender.on animated:YES];[self appSettingsSaveFailed];return;}
- [self.appsTable reloadData];
-}
-- (void)showAppSettingsActions {
- UIAlertController *sheet=[UIAlertController alertControllerWithTitle:@"Quản lý ứng dụng DuoFace"
-   message:@"Áp dụng cho danh sách chọn App của DuoFace trên CarPlay. Không đóng ứng dụng đang chạy; mỗi lần chạm trên CarPlay chỉ chọn một app cho một ô."
-   preferredStyle:UIAlertControllerStyleActionSheet];
- __weak typeof(self) weakSelf=self;
- [sheet addAction:[UIAlertAction actionWithTitle:@"Bật tất cả"
-   style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){
-   typeof(self) owner=weakSelf;if(!owner)return;
-   if(!DFWriteEnabledAppIDs([owner allEligibleBundleIDs]))[owner appSettingsSaveFailed];
-   [owner.appsTable reloadData];
- }]];
- [sheet addAction:[UIAlertAction actionWithTitle:@"Bật ứng dụng người dùng"
-   style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){
-   typeof(self) owner=weakSelf;if(!owner)return;
-   NSArray *old=DFConfiguredEnabledAppIDs();
-   NSMutableOrderedSet<NSString *> *set=[NSMutableOrderedSet orderedSetWithArray:
-      old?:[owner allEligibleBundleIDs]];
-   for(NSString *bid in [owner allEligibleBundleIDs])
-      if(![bid hasPrefix:@"com.apple."])[set addObject:bid];
-   if(!DFWriteEnabledAppIDs(set.array))[owner appSettingsSaveFailed];
-   [owner.appsTable reloadData];
- }]];
- [sheet addAction:[UIAlertAction actionWithTitle:@"Tắt tất cả"
-   style:UIAlertActionStyleDestructive handler:^(__unused UIAlertAction *a){
-   typeof(self) owner=weakSelf;if(!owner)return;
-   if(!DFWriteEnabledAppIDs(@[]))[owner appSettingsSaveFailed];
-   [owner.appsTable reloadData];
- }]];
- [sheet addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
- UIPopoverPresentationController *popover=sheet.popoverPresentationController;
- if(popover){popover.sourceView=self.appsTable;popover.sourceRect=CGRectMake(
-        self.appsTable.bounds.size.width-44,24,36,36);}
- [self presentViewController:sheet animated:YES completion:nil];
 }
 - (void)nativeMapPaneCommand:(NSString *)operation slot:(NSInteger)slot {
     // An actual opt-in action from the iPhone app, never an automatic hook
@@ -395,10 +319,6 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
  [tableView deselectRowAtIndexPath:indexPath animated:YES];
- if(self.tabs.selectedSegmentIndex==1){
-   if(indexPath.row==0)[self showAppSettingsActions];
-   return;
- }
  if(self.tabs.selectedSegmentIndex!=2)return;
  if(indexPath.row==9) {
     [self showNativeMapPaneChoices];
