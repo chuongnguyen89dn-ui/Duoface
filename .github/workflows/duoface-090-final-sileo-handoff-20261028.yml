@@ -17,7 +17,7 @@ jobs:
           p=Path('sideplay/jb-embedded-appbridge/evidence/runs/40674445027/SHA256SUMS.txt').read_text()
           assert 'c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27  com.duoface.jb.embedded_0.0.90~nativegetters1_iphoneos-arm64.deb' in p
           q=Path('sideplay/audit/native12-083-rotation-20261028/DUOFACE_090_SILEO_PUBLIC_VERIFIED_20261028.md').read_text()
-          assert '40674909879' in q and 'NOT TESTED' in q
+          assert '40674909879' in q and 'PHYSICAL DEVICE UPDATE — USER-CONFIRMED YOUTUBE ROTATION PASS' in q
           print('DUOFACE_090_SIGNED_AND_RELEASE_REPORT_VALIDATED')
           PY
       - name: Prepend Sileo result to existing handoff with safe retry and readback
@@ -25,7 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           BR='feature/duoface-jb-embedded-appbridge-20261020'
-          MARK='DUOFACE .90 PUBLIC SILEO PASS — DEVICE VIDEO NOT YET VERIFIED'
+          MARK='DUOFACE .90 — YOUTUBE CORRECT ROTATION USER DEVICE PASS'
           for attempt in 1 2 3 4 5; do
             git fetch --no-tags origin "$BR"
             DIR="$(mktemp -d)"
@@ -36,15 +36,15 @@ jobs:
           p=Path(sys.argv[1]);old=p.read_text(encoding='utf8')
           mark=os.environ['MARK']
           if mark not in old:
-              note="""## DUOFACE .90 PUBLIC SILEO PASS — DEVICE VIDEO NOT YET VERIFIED (2026-10-28)
+              note="""## DUOFACE .90 — YOUTUBE CORRECT ROTATION USER DEVICE PASS (2026-10-28)
 
-          - User requested retry. Source identity 53781cca1ca9285975394754ac9080ca35b57cda; real independent YouTube orientation code derived from ORIGINAL SHA-pinned Native12 ARM64 callback analysis, never vendor license/source. Version bump BLOCKER RESOLVED.
-          - Signed integrated rootless DEB 0.0.90~nativegetters1, SHA256 c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27, size 1007564; NativeHost 0.1.99~nativegetters1.
-          - Package build run 40674445027 COMPLETED SUCCESS, source archive commit 352374cf9cd8671d445b2b702f14abe72b404cca, exact archive sideplay/jb-embedded-appbridge/evidence/runs/40674445027/, SHA256SUMS and PACKAGING_PROVENANCE verified on GitHub.
-          - Publisher repo chuongnguyen89dn-ui/carplaydsp main commit 9832ce4d603d0c2cb432228608bdec5ed52101fe; Sileo Pages run 40674909879 SUCCESS including build, deploy, public verify-duoface-integrated-pages job 122772308857. Source https://chuongnguyen89dn-ui.github.io/carplaydsp/ advertises 0.0.90~nativegetters1 with single com.duoface.jb.embedded APT entry and SHA verification; old .89 and .83 immutable rollback files preserved.
-          - Full release report sideplay/audit/native12-083-rotation-20261028/DUOFACE_090_SILEO_PUBLIC_VERIFIED_20261028.md at audit commit 20a21d9dc913122e2feeb03cc5a370de37325612.
-          - .89 DEVICE FAIL for YouTube video orientation split; .90 has not been physically tested. Do NOT claim video fixed, SpringBoard stable, or Maps fully native. Maps, Dock and .83 media lifecycle code unchanged.
-          - Next: test .90 via Sileo iPhone X rootless iOS16.7.16 in parked CarPlay, YouTube split on initial launch, solo->split, swipe, playback/seek. Export DuoFaceSceneHost.log with youtube-app-handshake-ack virtualization hook count/leaseActive and client/server/controller orientation. If fails, root-cause original viewport metrics vs actual video scene; no random zoom or new unverified DEB.
+          - **LATEST USER REPORT, DIRECT PHYSICAL DEVICE ACK:** User explicitly confirms installed .90 now displays YouTube video in the correct orientation. Treat this as **user-confirmed pass for the YouTube rotation feature**. Earlier .90 'device untested' note is superseded for this feature ONLY, retained below in history for timeline. We did not personally inspect phone logs/screenshots in this turn.
+          - Known-good rotation baseline: **com.duoface.jb.embedded 0.0.90~nativegetters1**, SHA256 c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27. Original source commit 53781cca1ca9285975394754ac9080ca35b57cda; signed DEB CI run 40674445027; public Sileo Pages run 40674909879.
+          - Original real Native12 DEB and 36 exact injected app-process ARM64 callbacks were finally examined at machine instruction level (sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_40667230467.json). First-party independently implemented process-local orientation getters and future UIWindow rotation intercepts in sideplay/duoface-native-scene-host/DFYouTubeOrientationVirtualization.m; scoped to exact live owned YouTube scene and lease, original UIKit IMP fallback outside lease.
+          - **Retrospective root mistake:** Prior .87-.89 tried only Host->app notification, one-shot UIWindow rotation/geometry, and public UIKit re-evaluation, without consistently virtualizing the orientation values YouTube queries and intercepting its later rotation requests. We should have traced original hook callbacks earlier, instead of repeating uncertain fixes. The actual winning hook among six wrappers is not isolated by an A/B test; do not overclaim a specific one caused success.
+          - Preserve functioning .90 orientation behavior intact as regression baseline. No edits to .83 media lifecycle, Maps or system Dock. No new DEB required from this user confirmation.
+          - **NOT YET CONFIRMED:** long-session playback/seek, crash/Safe Mode, repeated split/solo, Maps and Dock full parity. Do not claim those are passed. On future user request, test those separately and collect targeted DuoFaceSceneHost.log virtualization phase/hooks/leaseActive only if needed.
+          - Evidence report: sideplay/audit/native12-083-rotation-20261028/DUOFACE_090_SILEO_PUBLIC_VERIFIED_20261028.md (new USER-CONFIRMED device update, commit ad9d6fdf3b4d40f6518765d0d4933ed0e569f97c). Repo chuongnguyen89dn-ui/Duoface branch feature/duoface-jb-embedded-appbridge-20261020. This checkpoint is appended at head by GitHub Actions after checkout/fetch/worktree/commit/push and readback.
 
           ---
           """
@@ -58,12 +58,12 @@ jobs:
               git worktree remove --force "$DIR"
               exit 0
             fi
-            git -C "$DIR" commit -m 'handoff: .90 signed Sileo public SHA PASS, physical video QA still pending [skip ci]'
+            git -C "$DIR" commit -m 'handoff: record direct user-confirmed DuoFace .90 YouTube rotation PASS [skip ci]'
             if git -C "$DIR" push origin "HEAD:refs/heads/$BR"; then
               git worktree remove --force "$DIR"
               git fetch --no-tags origin "$BR"
               git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARK"
-              echo 'DUOFACE_090_SILEO_PUBLIC_HANDOFF_GITHUB_READBACK_PASS'
+              echo 'DUOFACE_090_USER_DEVICE_ROTATION_HANDOFF_GITHUB_READBACK_PASS'
               exit 0
             fi
             git worktree remove --force "$DIR"
