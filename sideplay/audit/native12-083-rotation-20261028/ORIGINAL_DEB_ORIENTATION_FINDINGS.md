@@ -1,3 +1,37 @@
+# BỔ SUNG QUYẾT ĐỊNH — đã quét chính binary của 5 DEB, tìm ra nhánh kiểm soát hướng thiếu trong .83 (2026-10-28)
+
+**Ưu tiên kết luận này so với phần "khả năng cần setInterfaceOrientation theo landscape" bên dưới.** Cả 5 DEB được GitHub Actions tải/giải nén từ byte thật với SHA256 đối chiếu; source .83 được `cmp` với commit build gốc; bản ARM64 Native12 có disassembly mới trong JSON. Đây là kiểm toán tĩnh từ binary thực, chưa phải ảnh/log runtime ngay lúc YouTube phóng to.
+
+- Workflow [40621241302](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40621241302) **completed SUCCESS**; audit raw `sideplay/audit/native12-083-rotation-20261028/BINARY_DIRECT_083_VS_ORIGINAL.json` (Git blob `395a8dbf398cbd3ee839568796d0c404bf05c253`), saved commit `1d980084fc7105d6f8c87e36c7a2fb7ec23ef447`. Inputs exact SHA: signed .83 `ced5f42db8b9a3285ccf159386f25e8e5ea0fa976e14c3b35ea24dd625534c9b`; Native12 `2fe8892c...`, DuoNavi104 `f3f911de...`, SidePlay104 `7f8520b9...`, OmniCar103 `d9297b01...`. DuoDash repack được đối chứng qua `ORIGINAL_DUONAVI_VS_DUODASH_REPACK_IMP.json` cũ, **không** tuyên bố là DEB nguyên bản được tải/quét lại lần này.
+
+## Tìm thấy hành vi khác biệt CÓ CHỨNG CỨ MÃ MÁY
+
+1. **Native12 khóa hướng HỢP LỆ của scene ứng dụng được bridge vào Portrait=1 trong trường hợp đủ điều kiện**, không phải cứ ép màn CarPlay sang Landscape. Exact replacement of `SBDeviceApplicationSceneHandle._mainSceneSupportsInterfaceOrientation:` tại **0x2c8b4c..0x2c8ca4**:
+   - `0x2c8b7c..0x2c8ba4`: `CBBridgeManager sharedInstanceIfExists`, kiểm `isUIAppBridging`.
+   - `0x2c8bac..0x2c8c40`: lấy `sceneHandle.application.bundleIdentifier`, kiểm `shouldBridge:`; nếu không đủ điều kiện, chuyển về hàm hệ thống gốc `0x2c8c6c..0x2c8c80`.
+   - **`0x2c8c44: cmp x19,#0x1; 0x2c8c48: cset w19,eq`**: x19 chứa tham số hướng từ x2@0x2c8b64; trả YES chỉ khi hướng yêu cầu **1 (Portrait)** cho bridge-qualified app. Không tác động ứng dụng không thuộc bridge.
+   - `CBBridgeManager.supportsInterfaceOrientation:forBundleID:` @0x24d118 chỉ `mov w0,#1;ret` là một API nội bộ khác. **Không nhầm luôn hỗ trợ với hook scene ở trên**.
+
+2. **Native12 điều chỉnh kích thước native theo từng bundle ngay tại 2 hàm reference setters**, không chỉ khi pane frame thay đổi:
+   - `SBDeviceApplicationSceneViewController.setContentReferenceSize:withInterfaceOrientation:` replacement **0x2c895c..0x2c8a4c**: chỉ khi `isUIAppBridging && shouldBridge(bundle)`, gọi `renderSizeForBundleID:` @0x2c89f4..0x2c8a00; gửi size trả về qua `v0,v1` cho original IMP @0x2c8a30; giữ orientation đối số `x2` nguyên vẹn.
+   - 3-arg `setContentReferenceSize:withContentOrientation:andContainerOrientation:` replacement **0x2c8a50..0x2c8b48**, cũng lấy `renderSizeForBundleID:` @0x2c8aec..0x2c8af8, original IMP @0x2c8b2c và giữ orientation `x2,x3` nguyên.
+   - Điều này nhất quán với original `CBBridgedUIAppView.refreshSceneLayout`: renderer logical size/allowed orientation đi chung qua bridge policy, còn content reference mặc định vẫn Portrait=1.
+
+3. **Đúng DEB .83 hiện chạy** (đã extract, không chỉ suy từ source): 5 dylib `DFTouchOwnerProbe`, `DFCarPlayDockOwner`, `DFFirstPartyAdmission`, `DFNativeDashboardBridgeQA`, `DFV1APreflight` được quét: **không một dylib nào chứa `_mainSceneSupportsInterfaceOrientation:` hoặc `setInterfaceOrientation:`**. `DFTouchOwnerProbe` có hai selector content-reference nhưng mã nguồn `DFSceneHost.m` đưa kích thước cố định `round(2×pane)` và orientation=Portrait=1, rồi chỉ gửi `FBScene.setFrame:` khi frame đổi. Không có policy `renderSizeForBundleID` cùng host-owned orientation capability. `DFV1APreflight` có selector reference-size, cũng không có scene orientation hook.
+4. **Hai cách khác** xác thực nguồn: SidePlay original có `SPPane.setSceneFrame:orientation:` và `setInterfaceOrientation:`; OmniCar original có `ABHost.layoutPane → FBScene.setInterfaceOrientation:`. DuoNavi gốc cũng có `_mainSceneSupportsInterfaceOrientation:`. Chứng minh các cầu nối có cơ chế hướng bên cạnh hình học, nhưng **Native12 chính xác KHÔNG chọn cách luôn set remote scene theo Landscape của màn xe**.
+
+## Nguyên nhân ở mức mạnh nhất có thể kết luận
+
+- **ĐÃ XÁC MINH (thiếu cơ chế):** trong .83, chính sách **allowed main-scene orientation** và **bundle-aware reference/render size** mà Native12 dùng cho hosted app *không tồn tại trong payload*, trong khi .83 lại giữ content-reference Portrait=1 cùng frame khi Zoom. Khi YouTube tự yêu cầu landscape để phát toàn màn hình, không có chính sách đồng bộ tương ứng để bảo đảm renderer vẫn dùng cùng quy ước. Mismatch này là **nguyên nhân kiến trúc phù hợp nhất** với triệu chứng phát được video nhưng sai hướng khi phóng to.
+- **CHƯA THỂ KHẲNG ĐỊNH tuyệt đối** YouTube có thực sự yêu cầu orientation 3 hay 4, hoặc player xoay 90°/180° ở phiên thiết bị này: chưa có trace tại thời điểm phát, và màn video có thể thuộc UIKit/AVPlayer bên trong app. Vì vậy các phân tích trước cho rằng chỉ cần `setInterfaceOrientation=landscape` đã được **thay thế**: điều đó có thể đi NGƯỢC hợp đồng Native12 gốc và gây crash/rotation tệ hơn.
+- **Đừng sửa `DFSceneLifecycle.m` .83** (owner-scoped observer đã giải quyết crash theo user), hoặc thay nguyên Native12 vendor hooks; hãng dùng proprietary CBBridgeManager/shouldBridge/licensing, dự án độc lập phải viết policy theo danh sách app và scene owner của chính mình.
+
+## Hướng tiếp theo có thể kiểm chứng và không phá .83
+
+Tạo một **chính sách rotation/size độc lập, có scope strict**, áp dụng CHỈ hosted `SBDeviceApplicationSceneHandle` thuộc controller/scene hiện sống và thuộc DuoFace; đối với app chưa xác nhận capability chỉ LOG, không ép. Chính sách hướng cần phân biệt main-scene allowed Portrait (như Native12 original), logical frame, child content reference orientation, actual fullscreen player presentation. Trước mỗi mutation, xác thực ABI/owner, quan sát yêu cầu hướng khi bấm fullscreen và sau Zoom ô/host; không chặn toàn bộ system orientation, không sửa nội dung YouTube. Dùng một build .84 riêng sau source/runtime tests + first-party no-crash observer, giữ .83 sẵn rollback. Chưa sửa runtime hoặc phát hành ở bước kiểm toán này.
+
+---
+
 # DuoFace .83 — nguồn gốc xoay sai khi phóng to (đối chiếu DEB gốc, 2026-10-28)
 
 ## Nghiệm thu thật mới nhất, ưu tiên cao nhất
