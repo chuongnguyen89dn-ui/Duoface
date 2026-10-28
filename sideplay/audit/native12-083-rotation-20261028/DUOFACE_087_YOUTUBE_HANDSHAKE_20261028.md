@@ -60,3 +60,22 @@ orientation without changing the global status bar (intentional narrower scope).
 Source/SDK run 40650190891 and .83 lifecycle/orientation run 40650190759
 PASS for first source revision 8fbea227. Final callback-argument change
 requires a fresh executable gate and integrated build.
+
+## Final verified delivery
+- Source commit: 6aa383e6fdb20e9dddbf5cf271050ef2b1d831b1.
+- Final SDK + arm64 receiver link + protocol executable gate: 40651065915 SUCCESS.
+- Full integrated build: 40651065971 SUCCESS, job 122690979581.
+- Immutable artifact/handoff commit: 4f3c90d6006e8fc311e468eea09befdefc7ceeb7.
+- Package: com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb, 1000988 bytes.
+- SHA256: 7b22d34f4bc2cf78d450dacde1c98369a0e33fdd2e248d3a8a630bec50f5f9e7.
+- Archive: sideplay/jb-embedded-appbridge/evidence/runs/40651065971/.
+- Independently fetched Git blob and extracted DEB: checksum matches; exact YouTube-only
+  plist; receiver 80320 bytes, arm64 Mach-O, LC_CODE_SIGNATURE present; rotation and
+  exact scene-ID selectors present; obsolete broad viewport relay absent.
+- Existing sideplay/tiep tuc du an.md was updated by CI and read back from archive commit.
+- Prior full run 40650496428 failed at link due missing explicit CoreGraphics; fixed
+  in final source and added actual dylib link to source gate. Not a device failure.
+- Device rotation/playback: NOT TESTED. Sileo: NOT PUBLISHED.
+
+Detailed test output: YOUTUBE_087_CI_TESTS.txt.
+Independent artifact readback: YOUTUBE_087_PACKAGE_VERIFICATION.json.

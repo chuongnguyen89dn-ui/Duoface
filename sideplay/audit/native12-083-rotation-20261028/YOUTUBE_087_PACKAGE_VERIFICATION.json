@@ -1,0 +1,23 @@
+{
+  "archive_commit": "4f3c90d6006e8fc311e468eea09befdefc7ceeb7",
+  "source_commit": "6aa383e6fdb20e9dddbf5cf271050ef2b1d831b1",
+  "run_id": 40651065971,
+  "deb_path": "sideplay/jb-embedded-appbridge/evidence/runs/40651065971/com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb",
+  "deb_bytes": 1000988,
+  "sha256": "7b22d34f4bc2cf78d450dacde1c98369a0e33fdd2e248d3a8a630bec50f5f9e7",
+  "filter": {
+    "Filter": {
+      "Bundles": [
+        "com.google.ios.youtube"
+      ]
+    }
+  },
+  "receiver_bytes": 80320,
+  "receiver_arm64": true,
+  "receiver_code_signature_command_present": true,
+  "original_rotation_selector_present": true,
+  "exact_scene_identifier_selector_present": true,
+  "obsolete_viewport_relay_absent": true,
+  "device_tested": false,
+  "sileo_published": false
+}
