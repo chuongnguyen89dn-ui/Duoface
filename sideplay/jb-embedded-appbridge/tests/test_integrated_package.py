@@ -65,7 +65,7 @@ class EmbeddedPackagePolicy(unittest.TestCase):
   self.assertIn('--expected-nativehost-sha256 "$NATIVEHOST_SHA"',workflow)
   self.assertIn('--expected-source-sha "$GITHUB_SHA"',workflow)
   self.assertIn('VERSION="0.0.83~manualobserver1"',src)
-  self.assertIn('0.0.82~sceneowner1',workflow) # Existing staging workflow is frozen; block release until aligned.
+  self.assertIn('0.0.83~manualobserver1',workflow)
  def test_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass(self):
   src=SRC.read_text()
   self.assertIn('2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad',src)
