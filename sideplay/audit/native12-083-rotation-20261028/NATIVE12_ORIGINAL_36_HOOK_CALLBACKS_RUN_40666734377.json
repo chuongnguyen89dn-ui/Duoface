@@ -1,0 +1,5927 @@
+{
+  "status": "NATIVE12_ORIGINAL_36_HOOK_CALLBACK_BODY_EXACT",
+  "original_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "original_dashboard_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "original_index_blob": "efa45df59bc3c16887cc979bf3aedc0c93c92111",
+  "original_thin_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "installer_function": [
+    "0x2ac688",
+    "0x2acc04"
+  ],
+  "original_hooks_count": 36,
+  "callbacks": [
+    {
+      "class": "UIViewController",
+      "selector": "supportedInterfaceOrientations",
+      "installer_pc": "0x2ac6bc",
+      "replacement_adr_pc": "0x2ac6ac",
+      "replacement_callback_pc": "0x2acc04",
+      "exact_start": "0x2acc04",
+      "exact_end": "0x2acc60",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 23,
+      "raw_arm64": [
+        {
+          "pc": "0x2acc04",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2acc08",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc0c",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2acc10",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2acc14",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2acc18",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2acc1c",
+          "asm": "cbz\tw0, 0x2acc44"
+        },
+        {
+          "pc": "0x2acc20",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2acc24",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2acc28",
+          "asm": "csinc\tx8, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2acc2c",
+          "asm": "mov\tw9, #0x1"
+        },
+        {
+          "pc": "0x2acc30",
+          "asm": "lsl\tw8, w9, w8"
+        },
+        {
+          "pc": "0x2acc34",
+          "asm": "sxtw\tx0, w8"
+        },
+        {
+          "pc": "0x2acc38",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc3c",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2acc40",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2acc44",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acc48",
+          "asm": "ldr\tx2, #0xd50b8"
+        },
+        {
+          "pc": "0x2acc4c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acc50",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2acc54",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc58",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2acc5c",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2acc18",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2acc20",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIViewController",
+      "selector": "__supportedInterfaceOrientations",
+      "installer_pc": "0x2ac6dc",
+      "replacement_adr_pc": "0x2ac6c8",
+      "replacement_callback_pc": "0x2acc60",
+      "exact_start": "0x2acc60",
+      "exact_end": "0x2accbc",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 23,
+      "raw_arm64": [
+        {
+          "pc": "0x2acc60",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2acc64",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc68",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2acc6c",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2acc70",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2acc74",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2acc78",
+          "asm": "cbz\tw0, 0x2acca0"
+        },
+        {
+          "pc": "0x2acc7c",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2acc80",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2acc84",
+          "asm": "csinc\tx8, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2acc88",
+          "asm": "mov\tw9, #0x1"
+        },
+        {
+          "pc": "0x2acc8c",
+          "asm": "lsl\tw8, w9, w8"
+        },
+        {
+          "pc": "0x2acc90",
+          "asm": "sxtw\tx0, w8"
+        },
+        {
+          "pc": "0x2acc94",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc98",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2acc9c",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2acca0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acca4",
+          "asm": "ldr\tx2, #0xd5064"
+        },
+        {
+          "pc": "0x2acca8",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2accac",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2accb0",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2accb4",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2accb8",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2acc74",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2acc7c",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindow",
+      "selector": "setFrame:",
+      "installer_pc": "0x2ac708",
+      "replacement_adr_pc": "0x2ac6f8",
+      "replacement_callback_pc": "0x2accbc",
+      "exact_start": "0x2accbc",
+      "exact_end": "0x2acdd8",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 71,
+      "raw_arm64": [
+        {
+          "pc": "0x2accbc",
+          "asm": "stp\td13, d12, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2accc0",
+          "asm": "stp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2accc4",
+          "asm": "stp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2accc8",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acccc",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2accd0",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2accd4",
+          "asm": "mov.16b\tv8, v3"
+        },
+        {
+          "pc": "0x2accd8",
+          "asm": "mov.16b\tv9, v2"
+        },
+        {
+          "pc": "0x2accdc",
+          "asm": "mov.16b\tv10, v1"
+        },
+        {
+          "pc": "0x2acce0",
+          "asm": "mov.16b\tv11, v0"
+        },
+        {
+          "pc": "0x2acce4",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2acce8",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2accec",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2accf0",
+          "asm": "cbz\tw0, 0x2acda0"
+        },
+        {
+          "pc": "0x2accf4",
+          "asm": "bl\t0x2a8098"
+        },
+        {
+          "pc": "0x2accf8",
+          "asm": "mov.16b\tv12, v1"
+        },
+        {
+          "pc": "0x2accfc",
+          "asm": "fmov\td1, #1.00000000"
+        },
+        {
+          "pc": "0x2acd00",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2acd04",
+          "asm": "fccmp\td12, d1, #0x4, gt"
+        },
+        {
+          "pc": "0x2acd08",
+          "asm": "b.le\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd0c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acd10",
+          "asm": "bl\t0x2a8390"
+        },
+        {
+          "pc": "0x2acd14",
+          "asm": "cbz\tw0, 0x2acd30"
+        },
+        {
+          "pc": "0x2acd18",
+          "asm": "bl\t0x2a9024"
+        },
+        {
+          "pc": "0x2acd1c",
+          "asm": "fcmp\td0, #0.0"
+        },
+        {
+          "pc": "0x2acd20",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x2acd24",
+          "asm": "fcsel\td11, d1, d11, gt"
+        },
+        {
+          "pc": "0x2acd28",
+          "asm": "fcsel\td9, d0, d9, gt"
+        },
+        {
+          "pc": "0x2acd2c",
+          "asm": "b\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd30",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acd34",
+          "asm": "ldr\tx1, #0xd1834 ; Objc selector ref: windowLevel"
+        },
+        {
+          "pc": "0x2acd38",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acd3c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 windowLevel]"
+        },
+        {
+          "pc": "0x2acd40",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acd44",
+          "asm": "ldr\tx8, #0x973cc ; literal pool symbol address: _UIWindowLevelNormal"
+        },
+        {
+          "pc": "0x2acd48",
+          "asm": "ldr\td1, [x8]"
+        },
+        {
+          "pc": "0x2acd4c",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2acd50",
+          "asm": "b.hi\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd54",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2acd58",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2acd5c",
+          "asm": "fcmp\td9, d0"
+        },
+        {
+          "pc": "0x2acd60",
+          "asm": "b.ls\t0x2acd74"
+        },
+        {
+          "pc": "0x2acd64",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2acd68",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2acd6c",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2acd70",
+          "asm": "b.hi\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd74",
+          "asm": "bl\t0x2a84a0"
+        },
+        {
+          "pc": "0x2acd78",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2acd7c",
+          "asm": "fmov\td1, x8"
+        },
+        {
+          "pc": "0x2acd80",
+          "asm": "fcmp\td8, #0.0"
+        },
+        {
+          "pc": "0x2acd84",
+          "asm": "fcsel\td2, d8, d12, gt"
+        },
+        {
+          "pc": "0x2acd88",
+          "asm": "fmov\td3, xzr"
+        },
+        {
+          "pc": "0x2acd8c",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2acd90",
+          "asm": "fcsel\td11, d11, d3, le"
+        },
+        {
+          "pc": "0x2acd94",
+          "asm": "fcsel\td10, d10, d3, le"
+        },
+        {
+          "pc": "0x2acd98",
+          "asm": "fcsel\td9, d9, d0, le"
+        },
+        {
+          "pc": "0x2acd9c",
+          "asm": "fcsel\td8, d8, d2, le"
+        },
+        {
+          "pc": "0x2acda0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acda4",
+          "asm": "ldr\tx2, #0xd4f6c"
+        },
+        {
+          "pc": "0x2acda8",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acdac",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2acdb0",
+          "asm": "mov.16b\tv0, v11"
+        },
+        {
+          "pc": "0x2acdb4",
+          "asm": "mov.16b\tv1, v10"
+        },
+        {
+          "pc": "0x2acdb8",
+          "asm": "mov.16b\tv2, v9"
+        },
+        {
+          "pc": "0x2acdbc",
+          "asm": "mov.16b\tv3, v8"
+        },
+        {
+          "pc": "0x2acdc0",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2acdc4",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acdc8",
+          "asm": "ldp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acdcc",
+          "asm": "ldp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acdd0",
+          "asm": "ldp\td13, d12, [sp], #0x50"
+        },
+        {
+          "pc": "0x2acdd4",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2accec",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2accf4",
+          "target": "0x2a8098",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2acd10",
+          "target": "0x2a8390",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2acd18",
+          "target": "0x2a9024",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2acd3c",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2acd74",
+          "target": "0x2a84a0",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindow",
+      "selector": "setBounds:",
+      "installer_pc": "0x2ac728",
+      "replacement_adr_pc": "0x2ac714",
+      "replacement_callback_pc": "0x2acdd8",
+      "exact_start": "0x2acdd8",
+      "exact_end": "0x2acef4",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 71,
+      "raw_arm64": [
+        {
+          "pc": "0x2acdd8",
+          "asm": "stp\td13, d12, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2acddc",
+          "asm": "stp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acde0",
+          "asm": "stp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acde4",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acde8",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2acdec",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2acdf0",
+          "asm": "mov.16b\tv8, v3"
+        },
+        {
+          "pc": "0x2acdf4",
+          "asm": "mov.16b\tv9, v2"
+        },
+        {
+          "pc": "0x2acdf8",
+          "asm": "mov.16b\tv10, v1"
+        },
+        {
+          "pc": "0x2acdfc",
+          "asm": "mov.16b\tv11, v0"
+        },
+        {
+          "pc": "0x2ace00",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ace04",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ace08",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ace0c",
+          "asm": "cbz\tw0, 0x2acebc"
+        },
+        {
+          "pc": "0x2ace10",
+          "asm": "bl\t0x2a8098"
+        },
+        {
+          "pc": "0x2ace14",
+          "asm": "mov.16b\tv12, v1"
+        },
+        {
+          "pc": "0x2ace18",
+          "asm": "fmov\td1, #1.00000000"
+        },
+        {
+          "pc": "0x2ace1c",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2ace20",
+          "asm": "fccmp\td12, d1, #0x4, gt"
+        },
+        {
+          "pc": "0x2ace24",
+          "asm": "b.le\t0x2acebc"
+        },
+        {
+          "pc": "0x2ace28",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ace2c",
+          "asm": "bl\t0x2a8390"
+        },
+        {
+          "pc": "0x2ace30",
+          "asm": "cbz\tw0, 0x2ace4c"
+        },
+        {
+          "pc": "0x2ace34",
+          "asm": "bl\t0x2a9024"
+        },
+        {
+          "pc": "0x2ace38",
+          "asm": "fcmp\td0, #0.0"
+        },
+        {
+          "pc": "0x2ace3c",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x2ace40",
+          "asm": "fcsel\td11, d1, d11, gt"
+        },
+        {
+          "pc": "0x2ace44",
+          "asm": "fcsel\td9, d0, d9, gt"
+        },
+        {
+          "pc": "0x2ace48",
+          "asm": "b\t0x2acebc"
+        },
+        {
+          "pc": "0x2ace4c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ace50",
+          "asm": "ldr\tx1, #0xd1718 ; Objc selector ref: windowLevel"
+        },
+        {
+          "pc": "0x2ace54",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ace58",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 windowLevel]"
+        },
+        {
+          "pc": "0x2ace5c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ace60",
+          "asm": "ldr\tx8, #0x972b0 ; literal pool symbol address: _UIWindowLevelNormal"
+        },
+        {
+          "pc": "0x2ace64",
+          "asm": "ldr\td1, [x8]"
+        },
+        {
+          "pc": "0x2ace68",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2ace6c",
+          "asm": "b.hi\t0x2acebc"
+        },
+        {
+          "pc": "0x2ace70",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2ace74",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2ace78",
+          "asm": "fcmp\td9, d0"
+        },
+        {
+          "pc": "0x2ace7c",
+          "asm": "b.ls\t0x2ace90"
+        },
+        {
+          "pc": "0x2ace80",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2ace84",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2ace88",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2ace8c",
+          "asm": "b.hi\t0x2acebc"
+        },
+        {
+          "pc": "0x2ace90",
+          "asm": "bl\t0x2a84a0"
+        },
+        {
+          "pc": "0x2ace94",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2ace98",
+          "asm": "fmov\td1, x8"
+        },
+        {
+          "pc": "0x2ace9c",
+          "asm": "fcmp\td8, #0.0"
+        },
+        {
+          "pc": "0x2acea0",
+          "asm": "fcsel\td2, d8, d12, gt"
+        },
+        {
+          "pc": "0x2acea4",
+          "asm": "fmov\td3, xzr"
+        },
+        {
+          "pc": "0x2acea8",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2aceac",
+          "asm": "fcsel\td11, d11, d3, le"
+        },
+        {
+          "pc": "0x2aceb0",
+          "asm": "fcsel\td10, d10, d3, le"
+        },
+        {
+          "pc": "0x2aceb4",
+          "asm": "fcsel\td9, d9, d0, le"
+        },
+        {
+          "pc": "0x2aceb8",
+          "asm": "fcsel\td8, d8, d2, le"
+        },
+        {
+          "pc": "0x2acebc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acec0",
+          "asm": "ldr\tx2, #0xd4e58"
+        },
+        {
+          "pc": "0x2acec4",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acec8",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2acecc",
+          "asm": "mov.16b\tv0, v11"
+        },
+        {
+          "pc": "0x2aced0",
+          "asm": "mov.16b\tv1, v10"
+        },
+        {
+          "pc": "0x2aced4",
+          "asm": "mov.16b\tv2, v9"
+        },
+        {
+          "pc": "0x2aced8",
+          "asm": "mov.16b\tv3, v8"
+        },
+        {
+          "pc": "0x2acedc",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2acee0",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acee4",
+          "asm": "ldp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acee8",
+          "asm": "ldp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2aceec",
+          "asm": "ldp\td13, d12, [sp], #0x50"
+        },
+        {
+          "pc": "0x2acef0",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ace08",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ace10",
+          "target": "0x2a8098",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ace2c",
+          "target": "0x2a8390",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ace34",
+          "target": "0x2a9024",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ace58",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ace90",
+          "target": "0x2a84a0",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindow",
+      "selector": "_setRotatableViewOrientation:duration:force:",
+      "installer_pc": "0x2ac748",
+      "replacement_adr_pc": "0x2ac734",
+      "replacement_callback_pc": "0x2acef4",
+      "exact_start": "0x2acef4",
+      "exact_end": "0x2acf64",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 28,
+      "raw_arm64": [
+        {
+          "pc": "0x2acef4",
+          "asm": "stp\td9, d8, [sp, #-0x40]!"
+        },
+        {
+          "pc": "0x2acef8",
+          "asm": "stp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acefc",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acf00",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acf04",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x2acf08",
+          "asm": "mov\tx20, x3"
+        },
+        {
+          "pc": "0x2acf0c",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2acf10",
+          "asm": "mov\tx22, x2"
+        },
+        {
+          "pc": "0x2acf14",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2acf18",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2acf1c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2acf20",
+          "asm": "cbz\tw0, 0x2acf34"
+        },
+        {
+          "pc": "0x2acf24",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2acf28",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2acf2c",
+          "asm": "csinc\tx22, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2acf30",
+          "asm": "mov\tw20, #0x1"
+        },
+        {
+          "pc": "0x2acf34",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acf38",
+          "asm": "ldr\tx4, #0xd4de8"
+        },
+        {
+          "pc": "0x2acf3c",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2acf40",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2acf44",
+          "asm": "mov\tx2, x22"
+        },
+        {
+          "pc": "0x2acf48",
+          "asm": "mov.16b\tv0, v8"
+        },
+        {
+          "pc": "0x2acf4c",
+          "asm": "mov\tx3, x20"
+        },
+        {
+          "pc": "0x2acf50",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acf54",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acf58",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acf5c",
+          "asm": "ldp\td9, d8, [sp], #0x40"
+        },
+        {
+          "pc": "0x2acf60",
+          "asm": "br\tx4"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2acf1c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2acf24",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindow",
+      "selector": "sendEvent:",
+      "installer_pc": "0x2ac768",
+      "replacement_adr_pc": "0x2ac754",
+      "replacement_callback_pc": "0x2acf64",
+      "exact_start": "0x2acf64",
+      "exact_end": "0x2acfd8",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 29,
+      "raw_arm64": [
+        {
+          "pc": "0x2acf64",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x2acf68",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acf6c",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acf70",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x2acf74",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2acf78",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2acf7c",
+          "asm": "mov\tx0, x2"
+        },
+        {
+          "pc": "0x2acf80",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2acf84",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2acf88",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2acf8c",
+          "asm": "cbz\tw0, 0x2acfac"
+        },
+        {
+          "pc": "0x2acf90",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acf94",
+          "asm": "ldr\tx1, #0xd1634 ; Objc selector ref: type"
+        },
+        {
+          "pc": "0x2acf98",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acf9c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 type]"
+        },
+        {
+          "pc": "0x2acfa0",
+          "asm": "cbnz\tx0, 0x2acfac"
+        },
+        {
+          "pc": "0x2acfa4",
+          "asm": "bl\t0x2ec778 ; symbol stub for: _CACurrentMediaTime"
+        },
+        {
+          "pc": "0x2acfa8",
+          "asm": "bl\t0x2a8130"
+        },
+        {
+          "pc": "0x2acfac",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acfb0",
+          "asm": "ldr\tx8, #0xd4d78"
+        },
+        {
+          "pc": "0x2acfb4",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2acfb8",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2acfbc",
+          "asm": "mov\tx2, x20"
+        },
+        {
+          "pc": "0x2acfc0",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2acfc4",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acfc8",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acfcc",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acfd0",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2acfd4",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2acf80",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2acf88",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2acf9c",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2acfa4",
+          "target": "0x2ec778",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2acfa8",
+          "target": "0x2a8130",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindow",
+      "selector": "_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:",
+      "installer_pc": "0x2ac788",
+      "replacement_adr_pc": "0x2ac774",
+      "replacement_callback_pc": "0x2acfd8",
+      "exact_start": "0x2acfd8",
+      "exact_end": "0x2ad054",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 31,
+      "raw_arm64": [
+        {
+          "pc": "0x2acfd8",
+          "asm": "stp\td9, d8, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2acfdc",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acfe0",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acfe4",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acfe8",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2acfec",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2acff0",
+          "asm": "mov\tx19, x4"
+        },
+        {
+          "pc": "0x2acff4",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2acff8",
+          "asm": "mov\tx20, x3"
+        },
+        {
+          "pc": "0x2acffc",
+          "asm": "mov\tx23, x2"
+        },
+        {
+          "pc": "0x2ad000",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2ad004",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2ad008",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad00c",
+          "asm": "cbz\tw0, 0x2ad01c"
+        },
+        {
+          "pc": "0x2ad010",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2ad014",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2ad018",
+          "asm": "csinc\tx23, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2ad01c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad020",
+          "asm": "ldr\tx5, #0xd4d10"
+        },
+        {
+          "pc": "0x2ad024",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad028",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2ad02c",
+          "asm": "mov\tx2, x23"
+        },
+        {
+          "pc": "0x2ad030",
+          "asm": "mov\tx3, x20"
+        },
+        {
+          "pc": "0x2ad034",
+          "asm": "mov.16b\tv0, v8"
+        },
+        {
+          "pc": "0x2ad038",
+          "asm": "mov\tx4, x19"
+        },
+        {
+          "pc": "0x2ad03c",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ad040",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad044",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad048",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad04c",
+          "asm": "ldp\td9, d8, [sp], #0x50"
+        },
+        {
+          "pc": "0x2ad050",
+          "asm": "br\tx5"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad008",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad010",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "applicationState",
+      "installer_pc": "0x2ac7b4",
+      "replacement_adr_pc": "0x2ac7a4",
+      "replacement_callback_pc": "0x2ad054",
+      "exact_start": "0x2ad054",
+      "exact_end": "0x2ad09c",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad054",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad058",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad05c",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad060",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad064",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad068",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad06c",
+          "asm": "tbz\tw0, #0x0, 0x2ad080"
+        },
+        {
+          "pc": "0x2ad070",
+          "asm": "mov\tx0, #0x0"
+        },
+        {
+          "pc": "0x2ad074",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad078",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad07c",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad080",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad084",
+          "asm": "ldr\tx2, #0xd4cb4"
+        },
+        {
+          "pc": "0x2ad088",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad08c",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad090",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad094",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad098",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad068",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "statusBarOrientation",
+      "installer_pc": "0x2ac7d4",
+      "replacement_adr_pc": "0x2ac7c0",
+      "replacement_callback_pc": "0x2ad09c",
+      "exact_start": "0x2ad09c",
+      "exact_end": "0x2ad0ec",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 20,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad09c",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad0a0",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad0a4",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad0a8",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad0ac",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad0b0",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad0b4",
+          "asm": "cbz\tw0, 0x2ad0d0"
+        },
+        {
+          "pc": "0x2ad0b8",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2ad0bc",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2ad0c0",
+          "asm": "csinc\tx0, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2ad0c4",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad0c8",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad0cc",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad0d0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad0d4",
+          "asm": "ldr\tx2, #0xd4c6c"
+        },
+        {
+          "pc": "0x2ad0d8",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad0dc",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad0e0",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad0e4",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad0e8",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad0b0",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad0b8",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "isIdleTimerDisabled",
+      "installer_pc": "0x2ac7f4",
+      "replacement_adr_pc": "0x2ac7e0",
+      "replacement_callback_pc": "0x2ad0ec",
+      "exact_start": "0x2ad0ec",
+      "exact_end": "0x2ad134",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad0ec",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad0f0",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad0f4",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad0f8",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad0fc",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad100",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad104",
+          "asm": "tbz\tw0, #0x0, 0x2ad118"
+        },
+        {
+          "pc": "0x2ad108",
+          "asm": "mov\tw0, #0x1"
+        },
+        {
+          "pc": "0x2ad10c",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad110",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad114",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad118",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad11c",
+          "asm": "ldr\tx2, #0xd4c2c"
+        },
+        {
+          "pc": "0x2ad120",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad124",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad128",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad12c",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad130",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad100",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "setIdleTimerDisabled:",
+      "installer_pc": "0x2ac814",
+      "replacement_adr_pc": "0x2ac800",
+      "replacement_callback_pc": "0x2ad134",
+      "exact_start": "0x2ad134",
+      "exact_end": "0x2ad178",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 17,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad134",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x2ad138",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad13c",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad140",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x2ad144",
+          "asm": "mov\tx19, x2"
+        },
+        {
+          "pc": "0x2ad148",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2ad14c",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2ad150",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad154",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad158",
+          "asm": "ldr\tx3, #0xd4bf8"
+        },
+        {
+          "pc": "0x2ad15c",
+          "asm": "orr\tw2, w0, w19"
+        },
+        {
+          "pc": "0x2ad160",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ad164",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ad168",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad16c",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad170",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2ad174",
+          "asm": "br\tx3"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad150",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "activationState",
+      "installer_pc": "0x2ac83c",
+      "replacement_adr_pc": "0x2ac82c",
+      "replacement_callback_pc": "0x2ad178",
+      "exact_start": "0x2ad178",
+      "exact_end": "0x2ad1c0",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad178",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad17c",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad180",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad184",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad188",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad18c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad190",
+          "asm": "tbz\tw0, #0x0, 0x2ad1a4"
+        },
+        {
+          "pc": "0x2ad194",
+          "asm": "mov\tx0, #0x0"
+        },
+        {
+          "pc": "0x2ad198",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad19c",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad1a0",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad1a4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad1a8",
+          "asm": "ldr\tx2, #0xd4bb0"
+        },
+        {
+          "pc": "0x2ad1ac",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad1b0",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad1b4",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad1b8",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad1bc",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad18c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "setPaused:",
+      "installer_pc": "0x2ac868",
+      "replacement_adr_pc": "0x2ac858",
+      "replacement_callback_pc": "0x2ad1c0",
+      "exact_start": "0x2ad1c0",
+      "exact_end": "0x2ad204",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 17,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad1c0",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x2ad1c4",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad1c8",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad1cc",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x2ad1d0",
+          "asm": "mov\tx19, x2"
+        },
+        {
+          "pc": "0x2ad1d4",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2ad1d8",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2ad1dc",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad1e0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad1e4",
+          "asm": "ldr\tx3, #0xd4b7c"
+        },
+        {
+          "pc": "0x2ad1e8",
+          "asm": "bic\tw2, w19, w0"
+        },
+        {
+          "pc": "0x2ad1ec",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ad1f0",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ad1f4",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad1f8",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad1fc",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2ad200",
+          "asm": "br\tx3"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad1dc",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "isPaused",
+      "installer_pc": "0x2ac888",
+      "replacement_adr_pc": "0x2ac874",
+      "replacement_callback_pc": "0x2ad204",
+      "exact_start": "0x2ad204",
+      "exact_end": "0x2ad24c",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad204",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad208",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad20c",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad210",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad214",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad218",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad21c",
+          "asm": "tbz\tw0, #0x0, 0x2ad230"
+        },
+        {
+          "pc": "0x2ad220",
+          "asm": "mov\tw0, #0x0"
+        },
+        {
+          "pc": "0x2ad224",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad228",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad22c",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad230",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad234",
+          "asm": "ldr\tx2, #0xd4b34"
+        },
+        {
+          "pc": "0x2ad238",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad23c",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad240",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad244",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad248",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad218",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "setPreferredFramesPerSecond:",
+      "installer_pc": "0x2ac8ac",
+      "replacement_adr_pc": "0x2ac894",
+      "replacement_callback_pc": "0x2ad24c",
+      "exact_start": "0x2ad24c",
+      "exact_end": "0x2ad2e0",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 37,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad24c",
+          "asm": "stp\td9, d8, [sp, #-0x40]!"
+        },
+        {
+          "pc": "0x2ad250",
+          "asm": "stp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad254",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad258",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad25c",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x2ad260",
+          "asm": "mov\tx21, x2"
+        },
+        {
+          "pc": "0x2ad264",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad268",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad26c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad270",
+          "asm": "cbz\tw0, 0x2ad27c"
+        },
+        {
+          "pc": "0x2ad274",
+          "asm": "bl\t0x2a813c"
+        },
+        {
+          "pc": "0x2ad278",
+          "asm": "cbz\tw0, 0x2ad2a4"
+        },
+        {
+          "pc": "0x2ad27c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad280",
+          "asm": "ldr\tx3, #0xd4af0"
+        },
+        {
+          "pc": "0x2ad284",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad288",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad28c",
+          "asm": "mov\tx2, x21"
+        },
+        {
+          "pc": "0x2ad290",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad294",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad298",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad29c",
+          "asm": "ldp\td9, d8, [sp], #0x40"
+        },
+        {
+          "pc": "0x2ad2a0",
+          "asm": "br\tx3"
+        },
+        {
+          "pc": "0x2ad2a4",
+          "asm": "bl\t0x2ec778 ; symbol stub for: _CACurrentMediaTime"
+        },
+        {
+          "pc": "0x2ad2a8",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2ad2ac",
+          "asm": "bl\t0x2a8124"
+        },
+        {
+          "pc": "0x2ad2b0",
+          "asm": "fsub\td0, d8, d0"
+        },
+        {
+          "pc": "0x2ad2b4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad2b8",
+          "asm": "ldr\tx3, #0xd4ab8"
+        },
+        {
+          "pc": "0x2ad2bc",
+          "asm": "fmov\td1, #3.00000000"
+        },
+        {
+          "pc": "0x2ad2c0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad2c4",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad2c8",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2ad2cc",
+          "asm": "b.pl\t0x2ad2d8"
+        },
+        {
+          "pc": "0x2ad2d0",
+          "asm": "mov\tw2, #0x3c"
+        },
+        {
+          "pc": "0x2ad2d4",
+          "asm": "b\t0x2ad290"
+        },
+        {
+          "pc": "0x2ad2d8",
+          "asm": "mov\tw2, #0x1e"
+        },
+        {
+          "pc": "0x2ad2dc",
+          "asm": "b\t0x2ad290"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad26c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad274",
+          "target": "0x2a813c",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad2a4",
+          "target": "0x2ec778",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad2ac",
+          "target": "0x2a8124",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "setPreferredFrameRateRange:",
+      "installer_pc": "0x2ac8cc",
+      "replacement_adr_pc": "0x2ac8b8",
+      "replacement_callback_pc": "0x2ad2e0",
+      "exact_start": "0x2ad2e0",
+      "exact_end": "0x2ad3ac",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 51,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad2e0",
+          "asm": "sub\tsp, sp, #0x50"
+        },
+        {
+          "pc": "0x2ad2e4",
+          "asm": "stp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad2e8",
+          "asm": "stp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad2ec",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad2f0",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ad2f4",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2ad2f8",
+          "asm": "mov.16b\tv8, v2"
+        },
+        {
+          "pc": "0x2ad2fc",
+          "asm": "mov.16b\tv9, v1"
+        },
+        {
+          "pc": "0x2ad300",
+          "asm": "mov.16b\tv10, v0"
+        },
+        {
+          "pc": "0x2ad304",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad308",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad30c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad310",
+          "asm": "cbz\tw0, 0x2ad31c"
+        },
+        {
+          "pc": "0x2ad314",
+          "asm": "bl\t0x2a813c"
+        },
+        {
+          "pc": "0x2ad318",
+          "asm": "cbz\tw0, 0x2ad33c"
+        },
+        {
+          "pc": "0x2ad31c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad320",
+          "asm": "ldr\tx2, #0xd4a58"
+        },
+        {
+          "pc": "0x2ad324",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad328",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad32c",
+          "asm": "mov.16b\tv0, v10"
+        },
+        {
+          "pc": "0x2ad330",
+          "asm": "mov.16b\tv1, v9"
+        },
+        {
+          "pc": "0x2ad334",
+          "asm": "mov.16b\tv2, v8"
+        },
+        {
+          "pc": "0x2ad338",
+          "asm": "b\t0x2ad394"
+        },
+        {
+          "pc": "0x2ad33c",
+          "asm": "bl\t0x2ec778 ; symbol stub for: _CACurrentMediaTime"
+        },
+        {
+          "pc": "0x2ad340",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2ad344",
+          "asm": "bl\t0x2a8124"
+        },
+        {
+          "pc": "0x2ad348",
+          "asm": "fsub\td0, d8, d0"
+        },
+        {
+          "pc": "0x2ad34c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad350",
+          "asm": "ldr\tx0, #0xd4a28"
+        },
+        {
+          "pc": "0x2ad354",
+          "asm": "str\tx0, [sp, #0x8]"
+        },
+        {
+          "pc": "0x2ad358",
+          "asm": "fmov\td1, #3.00000000"
+        },
+        {
+          "pc": "0x2ad35c",
+          "asm": "mov\tw8, #0x42700000"
+        },
+        {
+          "pc": "0x2ad360",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2ad364",
+          "asm": "b.pl\t0x2ad378"
+        },
+        {
+          "pc": "0x2ad368",
+          "asm": "fmov\ts1, w8"
+        },
+        {
+          "pc": "0x2ad36c",
+          "asm": "fmov\ts0, #30.00000000"
+        },
+        {
+          "pc": "0x2ad370",
+          "asm": "mov.16b\tv2, v1"
+        },
+        {
+          "pc": "0x2ad374",
+          "asm": "b\t0x2ad384"
+        },
+        {
+          "pc": "0x2ad378",
+          "asm": "fmov\ts1, w8"
+        },
+        {
+          "pc": "0x2ad37c",
+          "asm": "fmov\ts0, #30.00000000"
+        },
+        {
+          "pc": "0x2ad380",
+          "asm": "mov.16b\tv2, v0"
+        },
+        {
+          "pc": "0x2ad384",
+          "asm": "bl\t0x2ec784 ; symbol stub for: _CAFrameRateRangeMake"
+        },
+        {
+          "pc": "0x2ad388",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad38c",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad390",
+          "asm": "ldr\tx2, [sp, #0x8]"
+        },
+        {
+          "pc": "0x2ad394",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ad398",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad39c",
+          "asm": "ldp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad3a0",
+          "asm": "ldp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad3a4",
+          "asm": "add\tsp, sp, #0x50"
+        },
+        {
+          "pc": "0x2ad3a8",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad30c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad314",
+          "target": "0x2a813c",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad33c",
+          "target": "0x2ec778",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad344",
+          "target": "0x2a8124",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad384",
+          "target": "0x2ec784",
+          "callee": null,
+          "is_function_start": false
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "setPreferredFrameRateRange:",
+      "installer_pc": "0x2ac8f0",
+      "replacement_adr_pc": "0x2ac8dc",
+      "replacement_callback_pc": "0x2ad3ac",
+      "exact_start": "0x2ad3ac",
+      "exact_end": "0x2ad440",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 37,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad3ac",
+          "asm": "stp\td9, d8, [sp, #-0x40]!"
+        },
+        {
+          "pc": "0x2ad3b0",
+          "asm": "stp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad3b4",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad3b8",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad3bc",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x2ad3c0",
+          "asm": "mov\tx21, x2"
+        },
+        {
+          "pc": "0x2ad3c4",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad3c8",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad3cc",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad3d0",
+          "asm": "cbz\tw0, 0x2ad3dc"
+        },
+        {
+          "pc": "0x2ad3d4",
+          "asm": "bl\t0x2a813c"
+        },
+        {
+          "pc": "0x2ad3d8",
+          "asm": "cbz\tw0, 0x2ad404"
+        },
+        {
+          "pc": "0x2ad3dc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad3e0",
+          "asm": "ldr\tx3, #0xd49a0"
+        },
+        {
+          "pc": "0x2ad3e4",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad3e8",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad3ec",
+          "asm": "mov\tx2, x21"
+        },
+        {
+          "pc": "0x2ad3f0",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad3f4",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad3f8",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad3fc",
+          "asm": "ldp\td9, d8, [sp], #0x40"
+        },
+        {
+          "pc": "0x2ad400",
+          "asm": "br\tx3"
+        },
+        {
+          "pc": "0x2ad404",
+          "asm": "bl\t0x2ec778 ; symbol stub for: _CACurrentMediaTime"
+        },
+        {
+          "pc": "0x2ad408",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2ad40c",
+          "asm": "bl\t0x2a8124"
+        },
+        {
+          "pc": "0x2ad410",
+          "asm": "fsub\td0, d8, d0"
+        },
+        {
+          "pc": "0x2ad414",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad418",
+          "asm": "ldr\tx3, #0xd4968"
+        },
+        {
+          "pc": "0x2ad41c",
+          "asm": "fmov\td1, #3.00000000"
+        },
+        {
+          "pc": "0x2ad420",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad424",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad428",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2ad42c",
+          "asm": "b.pl\t0x2ad438"
+        },
+        {
+          "pc": "0x2ad430",
+          "asm": "mov\tw2, #0x3c"
+        },
+        {
+          "pc": "0x2ad434",
+          "asm": "b\t0x2ad3f0"
+        },
+        {
+          "pc": "0x2ad438",
+          "asm": "mov\tw2, #0x1e"
+        },
+        {
+          "pc": "0x2ad43c",
+          "asm": "b\t0x2ad3f0"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad3cc",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad3d4",
+          "target": "0x2a813c",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad404",
+          "target": "0x2ec778",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad40c",
+          "target": "0x2a8124",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "postNotificationName:object:userInfo:",
+      "installer_pc": "0x2ac91c",
+      "replacement_adr_pc": "0x2ac90c",
+      "replacement_callback_pc": "0x2ad440",
+      "exact_start": "0x2ad440",
+      "exact_end": "0x2ad594",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 85,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad440",
+          "asm": "stp\tx26, x25, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2ad444",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad448",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad44c",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad450",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ad454",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2ad458",
+          "asm": "mov\tx23, x4"
+        },
+        {
+          "pc": "0x2ad45c",
+          "asm": "mov\tx20, x3"
+        },
+        {
+          "pc": "0x2ad460",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2ad464",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2ad468",
+          "asm": "mov\tx0, x2"
+        },
+        {
+          "pc": "0x2ad46c",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2ad470",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ad474",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad478",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2ad47c",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad480",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2ad484",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2ad488",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2ad48c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad490",
+          "asm": "cbz\tw0, 0x2ad520"
+        },
+        {
+          "pc": "0x2ad494",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ad498",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2ad49c",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2ad4a0",
+          "asm": "cbz\tx0, 0x2ad518"
+        },
+        {
+          "pc": "0x2ad4a4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad4a8",
+          "asm": "ldr\tx8, #0x96be0 ; literal pool symbol address: _UIApplicationDidEnterBackgroundNotification"
+        },
+        {
+          "pc": "0x2ad4ac",
+          "asm": "ldr\tx2, [x8]"
+        },
+        {
+          "pc": "0x2ad4b0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad4b4",
+          "asm": "ldr\tx8, #0x96be4 ; literal pool symbol address: _UIApplicationWillResignActiveNotification"
+        },
+        {
+          "pc": "0x2ad4b8",
+          "asm": "ldr\tx26, [x8]"
+        },
+        {
+          "pc": "0x2ad4bc",
+          "asm": "cmp\tx2, x24"
+        },
+        {
+          "pc": "0x2ad4c0",
+          "asm": "ccmp\tx26, x24, #0x4, ne"
+        },
+        {
+          "pc": "0x2ad4c4",
+          "asm": "b.eq\t0x2ad50c"
+        },
+        {
+          "pc": "0x2ad4c8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad4cc",
+          "asm": "ldr\tx25, #0xcff7c ; Objc selector ref: isEqualToString:"
+        },
+        {
+          "pc": "0x2ad4d0",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2ad4d4",
+          "asm": "mov\tx1, x25"
+        },
+        {
+          "pc": "0x2ad4d8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad4dc",
+          "asm": "tbnz\tw0, #0x0, 0x2ad50c"
+        },
+        {
+          "pc": "0x2ad4e0",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2ad4e4",
+          "asm": "mov\tx1, x25"
+        },
+        {
+          "pc": "0x2ad4e8",
+          "asm": "mov\tx2, x26"
+        },
+        {
+          "pc": "0x2ad4ec",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad4f0",
+          "asm": "tbnz\tw0, #0x0, 0x2ad50c"
+        },
+        {
+          "pc": "0x2ad4f4",
+          "asm": "adr\tx2, #809300 ; Objc cfstring ref: @\"UISceneDidEnterBackgroundNotification\""
+        },
+        {
+          "pc": "0x2ad4f8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad4fc",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2ad500",
+          "asm": "mov\tx1, x25"
+        },
+        {
+          "pc": "0x2ad504",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad508",
+          "asm": "cbz\tw0, 0x2ad56c"
+        },
+        {
+          "pc": "0x2ad50c",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2ad510",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad514",
+          "asm": "b\t0x2ad540"
+        },
+        {
+          "pc": "0x2ad518",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2ad51c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad520",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad524",
+          "asm": "ldr\tx8, #0xd4864"
+        },
+        {
+          "pc": "0x2ad528",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad52c",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2ad530",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2ad534",
+          "asm": "mov\tx3, x20"
+        },
+        {
+          "pc": "0x2ad538",
+          "asm": "mov\tx4, x23"
+        },
+        {
+          "pc": "0x2ad53c",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2ad540",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2ad544",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad548",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad54c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad550",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ad554",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ad558",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad55c",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad560",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad564",
+          "asm": "ldp\tx26, x25, [sp], #0x50"
+        },
+        {
+          "pc": "0x2ad568",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad56c",
+          "asm": "adr\tx2, #809212 ; Objc cfstring ref: @\"UISceneWillDeactivateNotification\""
+        },
+        {
+          "pc": "0x2ad570",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad574",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2ad578",
+          "asm": "mov\tx1, x25"
+        },
+        {
+          "pc": "0x2ad57c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad580",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2ad584",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2ad588",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad58c",
+          "asm": "tbz\tw25, #0x0, 0x2ad520"
+        },
+        {
+          "pc": "0x2ad590",
+          "asm": "b\t0x2ad540"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad46c",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad478",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad484",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad48c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad498",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad4d8",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad4ec",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad504",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad510",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad51c",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad544",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad54c",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad57c",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad588",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "postNotification:",
+      "installer_pc": "0x2ac93c",
+      "replacement_adr_pc": "0x2ac928",
+      "replacement_callback_pc": "0x2ad594",
+      "exact_start": "0x2ad594",
+      "exact_end": "0x2ad6d0",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 79,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad594",
+          "asm": "stp\tx24, x23, [sp, #-0x40]!"
+        },
+        {
+          "pc": "0x2ad598",
+          "asm": "stp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad59c",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad5a0",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad5a4",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x2ad5a8",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2ad5ac",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2ad5b0",
+          "asm": "mov\tx0, x2"
+        },
+        {
+          "pc": "0x2ad5b4",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2ad5b8",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ad5bc",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad5c0",
+          "asm": "cbz\tx19, 0x2ad670"
+        },
+        {
+          "pc": "0x2ad5c4",
+          "asm": "cbz\tw0, 0x2ad670"
+        },
+        {
+          "pc": "0x2ad5c8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad5cc",
+          "asm": "ldr\tx1, #0xcfe94 ; Objc selector ref: name"
+        },
+        {
+          "pc": "0x2ad5d0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ad5d4",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 name]"
+        },
+        {
+          "pc": "0x2ad5d8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ad5dc",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ad5e0",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2ad5e4",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2ad5e8",
+          "asm": "cbz\tx0, 0x2ad668"
+        },
+        {
+          "pc": "0x2ad5ec",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad5f0",
+          "asm": "ldr\tx8, #0x96a98 ; literal pool symbol address: _UIApplicationDidEnterBackgroundNotification"
+        },
+        {
+          "pc": "0x2ad5f4",
+          "asm": "ldr\tx2, [x8]"
+        },
+        {
+          "pc": "0x2ad5f8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad5fc",
+          "asm": "ldr\tx8, #0x96a9c ; literal pool symbol address: _UIApplicationWillResignActiveNotification"
+        },
+        {
+          "pc": "0x2ad600",
+          "asm": "ldr\tx24, [x8]"
+        },
+        {
+          "pc": "0x2ad604",
+          "asm": "cmp\tx2, x22"
+        },
+        {
+          "pc": "0x2ad608",
+          "asm": "ccmp\tx24, x22, #0x4, ne"
+        },
+        {
+          "pc": "0x2ad60c",
+          "asm": "b.eq\t0x2ad654"
+        },
+        {
+          "pc": "0x2ad610",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad614",
+          "asm": "ldr\tx23, #0xcfe34 ; Objc selector ref: isEqualToString:"
+        },
+        {
+          "pc": "0x2ad618",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad61c",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2ad620",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad624",
+          "asm": "tbnz\tw0, #0x0, 0x2ad654"
+        },
+        {
+          "pc": "0x2ad628",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad62c",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2ad630",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x2ad634",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad638",
+          "asm": "tbnz\tw0, #0x0, 0x2ad654"
+        },
+        {
+          "pc": "0x2ad63c",
+          "asm": "adr\tx2, #808972 ; Objc cfstring ref: @\"UISceneDidEnterBackgroundNotification\""
+        },
+        {
+          "pc": "0x2ad640",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad644",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad648",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2ad64c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad650",
+          "asm": "cbz\tw0, 0x2ad6a0"
+        },
+        {
+          "pc": "0x2ad654",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad658",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad65c",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad660",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad664",
+          "asm": "b\t0x2ad688"
+        },
+        {
+          "pc": "0x2ad668",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad66c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad670",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad674",
+          "asm": "ldr\tx8, #0xd471c"
+        },
+        {
+          "pc": "0x2ad678",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ad67c",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ad680",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2ad684",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2ad688",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ad68c",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ad690",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad694",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad698",
+          "asm": "ldp\tx24, x23, [sp], #0x40"
+        },
+        {
+          "pc": "0x2ad69c",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad6a0",
+          "asm": "adr\tx2, #808904 ; Objc cfstring ref: @\"UISceneWillDeactivateNotification\""
+        },
+        {
+          "pc": "0x2ad6a4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad6a8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad6ac",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2ad6b0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2ad6b4",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2ad6b8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad6bc",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad6c0",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad6c4",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ad6c8",
+          "asm": "tbz\tw23, #0x0, 0x2ad670"
+        },
+        {
+          "pc": "0x2ad6cc",
+          "asm": "b\t0x2ad688"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad5b4",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad5bc",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad5d4",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad5dc",
+          "target": "0x2ecd60",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad5e0",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad620",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad634",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad64c",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad658",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad660",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad66c",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad6b0",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad6bc",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ad6c4",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "isOccluded",
+      "installer_pc": "0x2ac968",
+      "replacement_adr_pc": "0x2ac958",
+      "replacement_callback_pc": "0x2ad6d0",
+      "exact_start": "0x2ad6d0",
+      "exact_end": "0x2ad718",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad6d0",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad6d4",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad6d8",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad6dc",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad6e0",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad6e4",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad6e8",
+          "asm": "tbz\tw0, #0x0, 0x2ad6fc"
+        },
+        {
+          "pc": "0x2ad6ec",
+          "asm": "mov\tw0, #0x0"
+        },
+        {
+          "pc": "0x2ad6f0",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad6f4",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad6f8",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad6fc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad700",
+          "asm": "ldr\tx2, #0xd4698"
+        },
+        {
+          "pc": "0x2ad704",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad708",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad70c",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad710",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad714",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad6e4",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "deactivationReasons",
+      "installer_pc": "0x2ac988",
+      "replacement_adr_pc": "0x2ac974",
+      "replacement_callback_pc": "0x2ad718",
+      "exact_start": "0x2ad718",
+      "exact_end": "0x2ad760",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad718",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad71c",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad720",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad724",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad728",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad72c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad730",
+          "asm": "tbz\tw0, #0x0, 0x2ad744"
+        },
+        {
+          "pc": "0x2ad734",
+          "asm": "mov\tx0, #0x0"
+        },
+        {
+          "pc": "0x2ad738",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad73c",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad740",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad744",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad748",
+          "asm": "ldr\tx2, #0xd4658"
+        },
+        {
+          "pc": "0x2ad74c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad750",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad754",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad758",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad75c",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad72c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "isUnderLock",
+      "installer_pc": "0x2ac9b4",
+      "replacement_adr_pc": "0x2ac9a4",
+      "replacement_callback_pc": "0x2ad760",
+      "exact_start": "0x2ad760",
+      "exact_end": "0x2ad7a8",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad760",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad764",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad768",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad76c",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad770",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad774",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad778",
+          "asm": "tbz\tw0, #0x0, 0x2ad78c"
+        },
+        {
+          "pc": "0x2ad77c",
+          "asm": "mov\tw0, #0x0"
+        },
+        {
+          "pc": "0x2ad780",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad784",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad788",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad78c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad790",
+          "asm": "ldr\tx2, #0xd4618"
+        },
+        {
+          "pc": "0x2ad794",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad798",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad79c",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad7a0",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad7a4",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad774",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIApplication",
+      "selector": "canShowWhileLocked",
+      "installer_pc": "0x2ac9d4",
+      "replacement_adr_pc": "0x2ac9c0",
+      "replacement_callback_pc": "0x2ad7a8",
+      "exact_start": "0x2ad7a8",
+      "exact_end": "0x2ad7f0",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad7a8",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad7ac",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad7b0",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad7b4",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad7b8",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad7bc",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad7c0",
+          "asm": "tbz\tw0, #0x0, 0x2ad7d4"
+        },
+        {
+          "pc": "0x2ad7c4",
+          "asm": "mov\tw0, #0x1"
+        },
+        {
+          "pc": "0x2ad7c8",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad7cc",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad7d0",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad7d4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad7d8",
+          "asm": "ldr\tx2, #0xd45d8"
+        },
+        {
+          "pc": "0x2ad7dc",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad7e0",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad7e4",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad7e8",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad7ec",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad7bc",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindowScene",
+      "selector": "interfaceOrientation",
+      "installer_pc": "0x2aca00",
+      "replacement_adr_pc": "0x2ac9f0",
+      "replacement_callback_pc": "0x2ad7f0",
+      "exact_start": "0x2ad7f0",
+      "exact_end": "0x2ad840",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 20,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad7f0",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad7f4",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad7f8",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad7fc",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad800",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad804",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad808",
+          "asm": "cbz\tw0, 0x2ad824"
+        },
+        {
+          "pc": "0x2ad80c",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2ad810",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2ad814",
+          "asm": "csinc\tx0, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2ad818",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad81c",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad820",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad824",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad828",
+          "asm": "ldr\tx2, #0xd4590"
+        },
+        {
+          "pc": "0x2ad82c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad830",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad834",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad838",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad83c",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad804",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad80c",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindowScene",
+      "selector": "_isSuspended",
+      "installer_pc": "0x2aca20",
+      "replacement_adr_pc": "0x2aca0c",
+      "replacement_callback_pc": "0x2ad840",
+      "exact_start": "0x2ad840",
+      "exact_end": "0x2ad888",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad840",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad844",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad848",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad84c",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad850",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad854",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad858",
+          "asm": "tbz\tw0, #0x0, 0x2ad86c"
+        },
+        {
+          "pc": "0x2ad85c",
+          "asm": "mov\tw0, #0x0"
+        },
+        {
+          "pc": "0x2ad860",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad864",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad868",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad86c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad870",
+          "asm": "ldr\tx2, #0xd4550"
+        },
+        {
+          "pc": "0x2ad874",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad878",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad87c",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad880",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad884",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad854",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindowScene",
+      "selector": "_isDeactivated",
+      "installer_pc": "0x2aca40",
+      "replacement_adr_pc": "0x2aca2c",
+      "replacement_callback_pc": "0x2ad888",
+      "exact_start": "0x2ad888",
+      "exact_end": "0x2ad8d0",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad888",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad88c",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad890",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad894",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad898",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad89c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad8a0",
+          "asm": "tbz\tw0, #0x0, 0x2ad8b4"
+        },
+        {
+          "pc": "0x2ad8a4",
+          "asm": "mov\tw0, #0x0"
+        },
+        {
+          "pc": "0x2ad8a8",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad8ac",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad8b0",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad8b4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad8b8",
+          "asm": "ldr\tx2, #0xd4510"
+        },
+        {
+          "pc": "0x2ad8bc",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad8c0",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad8c4",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad8c8",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad8cc",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad89c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIDevice",
+      "selector": "orientation",
+      "installer_pc": "0x2aca6c",
+      "replacement_adr_pc": "0x2aca5c",
+      "replacement_callback_pc": "0x2ad8d0",
+      "exact_start": "0x2ad8d0",
+      "exact_end": "0x2ad920",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 20,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad8d0",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad8d4",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad8d8",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad8dc",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad8e0",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad8e4",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad8e8",
+          "asm": "cbz\tw0, 0x2ad904"
+        },
+        {
+          "pc": "0x2ad8ec",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2ad8f0",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2ad8f4",
+          "asm": "csinc\tx0, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2ad8f8",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad8fc",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad900",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad904",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad908",
+          "asm": "ldr\tx2, #0xd44c8"
+        },
+        {
+          "pc": "0x2ad90c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ad910",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ad914",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad918",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ad91c",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad8e4",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ad8ec",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIDevice",
+      "selector": "setOrientation:animated:",
+      "installer_pc": "0x2aca8c",
+      "replacement_adr_pc": "0x2aca78",
+      "replacement_callback_pc": "0x2ad920",
+      "exact_start": "0x2ad920",
+      "exact_end": "0x2ad980",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 24,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad920",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x2ad924",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad928",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad92c",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x2ad930",
+          "asm": "mov\tx19, x3"
+        },
+        {
+          "pc": "0x2ad934",
+          "asm": "mov\tx20, x2"
+        },
+        {
+          "pc": "0x2ad938",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2ad93c",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2ad940",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad944",
+          "asm": "tbz\tw0, #0x0, 0x2ad958"
+        },
+        {
+          "pc": "0x2ad948",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad94c",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad950",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2ad954",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad958",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad95c",
+          "asm": "ldr\tx4, #0xd447c"
+        },
+        {
+          "pc": "0x2ad960",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2ad964",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2ad968",
+          "asm": "mov\tx2, x20"
+        },
+        {
+          "pc": "0x2ad96c",
+          "asm": "mov\tx3, x19"
+        },
+        {
+          "pc": "0x2ad970",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad974",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad978",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2ad97c",
+          "asm": "br\tx4"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad940",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIDevice",
+      "selector": "setOrientation:",
+      "installer_pc": "0x2acaac",
+      "replacement_adr_pc": "0x2aca98",
+      "replacement_callback_pc": "0x2ad980",
+      "exact_start": "0x2ad980",
+      "exact_end": "0x2ad9d8",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 22,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad980",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x2ad984",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad988",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad98c",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x2ad990",
+          "asm": "mov\tx19, x2"
+        },
+        {
+          "pc": "0x2ad994",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2ad998",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2ad99c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad9a0",
+          "asm": "tbz\tw0, #0x0, 0x2ad9b4"
+        },
+        {
+          "pc": "0x2ad9a4",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad9a8",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad9ac",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2ad9b0",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ad9b4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ad9b8",
+          "asm": "ldr\tx3, #0xd4428"
+        },
+        {
+          "pc": "0x2ad9bc",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ad9c0",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ad9c4",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2ad9c8",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ad9cc",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad9d0",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2ad9d4",
+          "asm": "br\tx3"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad99c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIScreen",
+      "selector": "_userInterfaceIdiom",
+      "installer_pc": "0x2acad8",
+      "replacement_adr_pc": "0x2acac8",
+      "replacement_callback_pc": "0x2ad9d8",
+      "exact_start": "0x2ad9d8",
+      "exact_end": "0x2ada20",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 18,
+      "raw_arm64": [
+        {
+          "pc": "0x2ad9d8",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ad9dc",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad9e0",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ad9e4",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ad9e8",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ad9ec",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ad9f0",
+          "asm": "tbz\tw0, #0x0, 0x2ada04"
+        },
+        {
+          "pc": "0x2ad9f4",
+          "asm": "mov\tx0, #0x0"
+        },
+        {
+          "pc": "0x2ad9f8",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ad9fc",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ada00",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ada04",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ada08",
+          "asm": "ldr\tx2, #0xd43e0"
+        },
+        {
+          "pc": "0x2ada0c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ada10",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ada14",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ada18",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ada1c",
+          "asm": "br\tx2"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ad9ec",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIScreen",
+      "selector": "bounds",
+      "installer_pc": "0x2acaf8",
+      "replacement_adr_pc": "0x2acae4",
+      "replacement_callback_pc": "0x2ada20",
+      "exact_start": "0x2ada20",
+      "exact_end": "0x2adaec",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 51,
+      "raw_arm64": [
+        {
+          "pc": "0x2ada20",
+          "asm": "stp\td9, d8, [sp, #-0x40]!"
+        },
+        {
+          "pc": "0x2ada24",
+          "asm": "stp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ada28",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ada2c",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ada30",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x2ada34",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2ada38",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ada3c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2ada40",
+          "asm": "cbz\tw0, 0x2adabc"
+        },
+        {
+          "pc": "0x2ada44",
+          "asm": "bl\t0x2a84a0"
+        },
+        {
+          "pc": "0x2ada48",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2ada4c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ada50",
+          "asm": "ldr\tx0, #0xd1db0 ; Objc class ref: _OBJC_CLASS_$_UIScreen"
+        },
+        {
+          "pc": "0x2ada54",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ada58",
+          "asm": "ldr\tx1, #0xcff40 ; Objc selector ref: mainScreen"
+        },
+        {
+          "pc": "0x2ada5c",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[UIScreen mainScreen]"
+        },
+        {
+          "pc": "0x2ada60",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ada64",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ada68",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2ada6c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ada70",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2ada74",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2ada78",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2ada7c",
+          "asm": "b.le\t0x2adabc"
+        },
+        {
+          "pc": "0x2ada80",
+          "asm": "cmp\tx21, x20"
+        },
+        {
+          "pc": "0x2ada84",
+          "asm": "b.ne\t0x2adabc"
+        },
+        {
+          "pc": "0x2ada88",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ada8c",
+          "asm": "ldr\tx8, #0xd4364"
+        },
+        {
+          "pc": "0x2ada90",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ada94",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2ada98",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2ada9c",
+          "asm": "mov.16b\tv9, v3"
+        },
+        {
+          "pc": "0x2adaa0",
+          "asm": "bl\t0x2a8098"
+        },
+        {
+          "pc": "0x2adaa4",
+          "asm": "fmov\td0, #1.00000000"
+        },
+        {
+          "pc": "0x2adaa8",
+          "asm": "fcmp\td1, d0"
+        },
+        {
+          "pc": "0x2adaac",
+          "asm": "fcsel\td3, d1, d9, gt"
+        },
+        {
+          "pc": "0x2adab0",
+          "asm": "fmov\td0, xzr"
+        },
+        {
+          "pc": "0x2adab4",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x2adab8",
+          "asm": "b\t0x2adad4"
+        },
+        {
+          "pc": "0x2adabc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adac0",
+          "asm": "ldr\tx8, #0xd4330"
+        },
+        {
+          "pc": "0x2adac4",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2adac8",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2adacc",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2adad0",
+          "asm": "mov.16b\tv8, v2"
+        },
+        {
+          "pc": "0x2adad4",
+          "asm": "mov.16b\tv2, v8"
+        },
+        {
+          "pc": "0x2adad8",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2adadc",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2adae0",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2adae4",
+          "asm": "ldp\td9, d8, [sp], #0x40"
+        },
+        {
+          "pc": "0x2adae8",
+          "asm": "ret"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2ada3c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ada44",
+          "target": "0x2a84a0",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2ada5c",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ada64",
+          "target": "0x2ecd60",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2ada6c",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adaa0",
+          "target": "0x2a8098",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIScreen",
+      "selector": "nativeBounds",
+      "installer_pc": "0x2acb18",
+      "replacement_adr_pc": "0x2acb04",
+      "replacement_callback_pc": "0x2adaec",
+      "exact_start": "0x2adaec",
+      "exact_end": "0x2adbfc",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 68,
+      "raw_arm64": [
+        {
+          "pc": "0x2adaec",
+          "asm": "stp\td11, d10, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2adaf0",
+          "asm": "stp\td9, d8, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2adaf4",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2adaf8",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2adafc",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2adb00",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2adb04",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2adb08",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2adb0c",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2adb10",
+          "asm": "cbz\tw0, 0x2adbd0"
+        },
+        {
+          "pc": "0x2adb14",
+          "asm": "bl\t0x2a84a0"
+        },
+        {
+          "pc": "0x2adb18",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2adb1c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adb20",
+          "asm": "ldr\tx0, #0xd1ce0 ; Objc class ref: _OBJC_CLASS_$_UIScreen"
+        },
+        {
+          "pc": "0x2adb24",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adb28",
+          "asm": "ldr\tx1, #0xcfe70 ; Objc selector ref: mainScreen"
+        },
+        {
+          "pc": "0x2adb2c",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[UIScreen mainScreen]"
+        },
+        {
+          "pc": "0x2adb30",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2adb34",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2adb38",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2adb3c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2adb40",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2adb44",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2adb48",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2adb4c",
+          "asm": "b.le\t0x2adbd0"
+        },
+        {
+          "pc": "0x2adb50",
+          "asm": "cmp\tx21, x20"
+        },
+        {
+          "pc": "0x2adb54",
+          "asm": "b.ne\t0x2adbd0"
+        },
+        {
+          "pc": "0x2adb58",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adb5c",
+          "asm": "ldr\tx21, #0xd0944 ; Objc selector ref: scale"
+        },
+        {
+          "pc": "0x2adb60",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adb64",
+          "asm": "ldr\tx1, #0xcfa74 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x2adb68",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2adb6c",
+          "asm": "mov\tx2, x21"
+        },
+        {
+          "pc": "0x2adb70",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2adb74",
+          "asm": "fmov\td9, #2.00000000"
+        },
+        {
+          "pc": "0x2adb78",
+          "asm": "mov.16b\tv0, v9"
+        },
+        {
+          "pc": "0x2adb7c",
+          "asm": "cbz\tw0, 0x2adb8c"
+        },
+        {
+          "pc": "0x2adb80",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2adb84",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2adb88",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2adb8c",
+          "asm": "fmov\td10, #1.00000000"
+        },
+        {
+          "pc": "0x2adb90",
+          "asm": "fcmp\td0, d10"
+        },
+        {
+          "pc": "0x2adb94",
+          "asm": "fcsel\td11, d9, d0, mi"
+        },
+        {
+          "pc": "0x2adb98",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adb9c",
+          "asm": "ldr\tx8, #0xd425c"
+        },
+        {
+          "pc": "0x2adba0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2adba4",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2adba8",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2adbac",
+          "asm": "mov.16b\tv9, v3"
+        },
+        {
+          "pc": "0x2adbb0",
+          "asm": "bl\t0x2a8098"
+        },
+        {
+          "pc": "0x2adbb4",
+          "asm": "fcmp\td1, d10"
+        },
+        {
+          "pc": "0x2adbb8",
+          "asm": "fcsel\td0, d1, d9, gt"
+        },
+        {
+          "pc": "0x2adbbc",
+          "asm": "fmul\td2, d8, d11"
+        },
+        {
+          "pc": "0x2adbc0",
+          "asm": "fmul\td3, d11, d0"
+        },
+        {
+          "pc": "0x2adbc4",
+          "asm": "fmov\td0, xzr"
+        },
+        {
+          "pc": "0x2adbc8",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x2adbcc",
+          "asm": "b\t0x2adbe4"
+        },
+        {
+          "pc": "0x2adbd0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adbd4",
+          "asm": "ldr\tx8, #0xd4224"
+        },
+        {
+          "pc": "0x2adbd8",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2adbdc",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2adbe0",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2adbe4",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2adbe8",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2adbec",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2adbf0",
+          "asm": "ldp\td9, d8, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2adbf4",
+          "asm": "ldp\td11, d10, [sp], #0x50"
+        },
+        {
+          "pc": "0x2adbf8",
+          "asm": "ret"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2adb0c",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2adb14",
+          "target": "0x2a84a0",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2adb2c",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adb34",
+          "target": "0x2ecd60",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adb3c",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adb70",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adb88",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adbb0",
+          "target": "0x2a8098",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIScreen",
+      "selector": "_referenceBounds",
+      "installer_pc": "0x2acb38",
+      "replacement_adr_pc": "0x2acb24",
+      "replacement_callback_pc": "0x2adbfc",
+      "exact_start": "0x2adbfc",
+      "exact_end": "0x2adcc8",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 51,
+      "raw_arm64": [
+        {
+          "pc": "0x2adbfc",
+          "asm": "stp\td9, d8, [sp, #-0x40]!"
+        },
+        {
+          "pc": "0x2adc00",
+          "asm": "stp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2adc04",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2adc08",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2adc0c",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x2adc10",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2adc14",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2adc18",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2adc1c",
+          "asm": "cbz\tw0, 0x2adc98"
+        },
+        {
+          "pc": "0x2adc20",
+          "asm": "bl\t0x2a84a0"
+        },
+        {
+          "pc": "0x2adc24",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2adc28",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adc2c",
+          "asm": "ldr\tx0, #0xd1bd4 ; Objc class ref: _OBJC_CLASS_$_UIScreen"
+        },
+        {
+          "pc": "0x2adc30",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adc34",
+          "asm": "ldr\tx1, #0xcfd64 ; Objc selector ref: mainScreen"
+        },
+        {
+          "pc": "0x2adc38",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[UIScreen mainScreen]"
+        },
+        {
+          "pc": "0x2adc3c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2adc40",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2adc44",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2adc48",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2adc4c",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2adc50",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2adc54",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2adc58",
+          "asm": "b.le\t0x2adc98"
+        },
+        {
+          "pc": "0x2adc5c",
+          "asm": "cmp\tx21, x20"
+        },
+        {
+          "pc": "0x2adc60",
+          "asm": "b.ne\t0x2adc98"
+        },
+        {
+          "pc": "0x2adc64",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adc68",
+          "asm": "ldr\tx8, #0xd4198"
+        },
+        {
+          "pc": "0x2adc6c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2adc70",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2adc74",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2adc78",
+          "asm": "mov.16b\tv9, v3"
+        },
+        {
+          "pc": "0x2adc7c",
+          "asm": "bl\t0x2a8098"
+        },
+        {
+          "pc": "0x2adc80",
+          "asm": "fmov\td0, #1.00000000"
+        },
+        {
+          "pc": "0x2adc84",
+          "asm": "fcmp\td1, d0"
+        },
+        {
+          "pc": "0x2adc88",
+          "asm": "fcsel\td3, d1, d9, gt"
+        },
+        {
+          "pc": "0x2adc8c",
+          "asm": "fmov\td0, xzr"
+        },
+        {
+          "pc": "0x2adc90",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x2adc94",
+          "asm": "b\t0x2adcb0"
+        },
+        {
+          "pc": "0x2adc98",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adc9c",
+          "asm": "ldr\tx8, #0xd4164"
+        },
+        {
+          "pc": "0x2adca0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2adca4",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2adca8",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2adcac",
+          "asm": "mov.16b\tv8, v2"
+        },
+        {
+          "pc": "0x2adcb0",
+          "asm": "mov.16b\tv2, v8"
+        },
+        {
+          "pc": "0x2adcb4",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2adcb8",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2adcbc",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2adcc0",
+          "asm": "ldp\td9, d8, [sp], #0x40"
+        },
+        {
+          "pc": "0x2adcc4",
+          "asm": "ret"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2adc18",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2adc20",
+          "target": "0x2a84a0",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2adc38",
+          "target": "0x2ecd00",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adc40",
+          "target": "0x2ecd60",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adc48",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2adc7c",
+          "target": "0x2a8098",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIScreenMode",
+      "selector": "size",
+      "installer_pc": "0x2acb60",
+      "replacement_adr_pc": "0x2acb50",
+      "replacement_callback_pc": "0x2adcc8",
+      "exact_start": "0x2adcc8",
+      "exact_end": "0x2add18",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 20,
+      "raw_arm64": [
+        {
+          "pc": "0x2adcc8",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2adccc",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2adcd0",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2adcd4",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2adcd8",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2adcdc",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2adce0",
+          "asm": "cbz\tw0, 0x2adcf8"
+        },
+        {
+          "pc": "0x2adce4",
+          "asm": "bl\t0x2a8098"
+        },
+        {
+          "pc": "0x2adce8",
+          "asm": "fmov\td2, #1.00000000"
+        },
+        {
+          "pc": "0x2adcec",
+          "asm": "fcmp\td0, d2"
+        },
+        {
+          "pc": "0x2adcf0",
+          "asm": "fccmp\td1, d2, #0x4, gt"
+        },
+        {
+          "pc": "0x2adcf4",
+          "asm": "b.gt\t0x2add0c"
+        },
+        {
+          "pc": "0x2adcf8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2adcfc",
+          "asm": "ldr\tx8, #0xd410c"
+        },
+        {
+          "pc": "0x2add00",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2add04",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2add08",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2add0c",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2add10",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2add14",
+          "asm": "ret"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2adcdc",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2adce4",
+          "target": "0x2a8098",
+          "callee": null,
+          "is_function_start": true
+        }
+      ]
+    },
+    {
+      "class": "UIWindowSceneGeometry",
+      "selector": "size",
+      "installer_pc": "0x2acb9c",
+      "replacement_adr_pc": "0x2acb88",
+      "replacement_callback_pc": "0x2add18",
+      "exact_start": "0x2add18",
+      "exact_end": "0x2add84",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 27,
+      "raw_arm64": [
+        {
+          "pc": "0x2add18",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2add1c",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2add20",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2add24",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2add28",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2add2c",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2add30",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2add34",
+          "asm": "cbz\tw0, 0x2add48"
+        },
+        {
+          "pc": "0x2add38",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2add3c",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2add40",
+          "asm": "csinc\tx20, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2add44",
+          "asm": "b\t0x2add6c"
+        },
+        {
+          "pc": "0x2add48",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2add4c",
+          "asm": "ldr\tx8, #0xd40c4"
+        },
+        {
+          "pc": "0x2add50",
+          "asm": "cbz\tx8, 0x2add68"
+        },
+        {
+          "pc": "0x2add54",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2add58",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2add5c",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2add60",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2add64",
+          "asm": "b\t0x2add6c"
+        },
+        {
+          "pc": "0x2add68",
+          "asm": "mov\tw20, #0x1"
+        },
+        {
+          "pc": "0x2add6c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2add70",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2add74",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2add78",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2add7c",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2add80",
+          "asm": "ret"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2add28",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2add30",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2add38",
+          "target": "0x2a8080",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2add70",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        }
+      ]
+    },
+    {
+      "class": "UIWindowScene",
+      "selector": "size",
+      "installer_pc": "0x2acbf4",
+      "replacement_adr_pc": "0x2acbd4",
+      "replacement_callback_pc": "0x2add84",
+      "exact_start": "0x2add84",
+      "exact_end": "0x2ade0c",
+      "starts_at_callback": true,
+      "objc_method": null,
+      "arm64_instruction_count": 34,
+      "raw_arm64": [
+        {
+          "pc": "0x2add84",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x2add88",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2add8c",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2add90",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x2add94",
+          "asm": "mov\tx22, x3"
+        },
+        {
+          "pc": "0x2add98",
+          "asm": "mov\tx21, x2"
+        },
+        {
+          "pc": "0x2add9c",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2adda0",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2adda4",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2adda8",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2addac",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2addb0",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2addb4",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2addb8",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2addbc",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2addc0",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2addc4",
+          "asm": "tbnz\tw0, #0x0, 0x2adde8"
+        },
+        {
+          "pc": "0x2addc8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2addcc",
+          "asm": "ldr\tx8, #0xd404c"
+        },
+        {
+          "pc": "0x2addd0",
+          "asm": "cbz\tx8, 0x2adde8"
+        },
+        {
+          "pc": "0x2addd4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2addd8",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2adddc",
+          "asm": "mov\tx2, x21"
+        },
+        {
+          "pc": "0x2adde0",
+          "asm": "mov\tx3, x22"
+        },
+        {
+          "pc": "0x2adde4",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2adde8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2addec",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2addf0",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2addf4",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2addf8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2addfc",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ade00",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ade04",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x2ade08",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        }
+      ],
+      "direct_calls": [
+        {
+          "pc": "0x2adda0",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2addac",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2addb8",
+          "target": "0x2ecd3c",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2addc0",
+          "target": "0x2a8068",
+          "callee": null,
+          "is_function_start": true
+        },
+        {
+          "pc": "0x2addec",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        },
+        {
+          "pc": "0x2addf4",
+          "target": "0x2ecd30",
+          "callee": null,
+          "is_function_start": false
+        }
+      ]
+    }
+  ],
+  "interpretation_limits": [
+    "Actual original callback ARM64 extracted, but dynamic execution still unobserved",
+    "ADR x2 identifies original callback by exact PC; symbolic names are inference from prior original selector refs",
+    "Unidentified hook destinations/receiver semantics must not be guessed",
+    "Do not copy original hook implementation, binary or licensing into independent DuoFace"
+  ],
+  "device_089": "DEVICE FAIL by user, video wrong orientation in split despite successful Sileo release"
+}
