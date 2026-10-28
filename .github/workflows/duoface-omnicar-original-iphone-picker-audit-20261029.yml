@@ -206,7 +206,7 @@ jobs:
            if tab+8>len(binary):return {"error":"baseMethods out of bounds","table":hex(tab)}
            size=struct.unpack_from("<I",binary,tab)[0]&0xffff
            count=struct.unpack_from("<I",binary,tab+4)[0]
-           if count>300 or size not in (12,24):raise RuntimeError("INVALID ORIGINAL METHOD TABLE "+cls+" "+str((size,count)))
+           if count>1000 or size not in (12,24):raise RuntimeError("INVALID ORIGINAL METHOD TABLE "+cls+" "+str((size,count)))
            selectors=[]
            for j in range(count):
             entry=tab+8+size*j
