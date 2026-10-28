@@ -1,3 +1,13 @@
+## DUOFACE .88 LOG CHECK — 13:18 IPS IS PRE-.88; NO POST-.88 APP ACK (2026-10-28)
+
+- Người dùng đã yêu cầu check log sau báo cáo lỗi xoay YouTube .88. Đã kiểm tra `Duoface/main/sideplay/log`: commit upload mới `f4cc3ab3d9c519547c90da5d10bbc2cc1cd4be3a` lúc 2026-10-28 15:59:17 +07 chỉ thêm `Crash-0-SpringBoard-2026-10-28-131840.ips`.
+- **Mốc thời gian quyết định:** IPS capture 13:18:40 +07 (trước Sileo .88 phát hành ~15:28 +07, run 40656863552), dù upload xảy ra sau. **Không phải crash sau .88**, không thể dùng khẳng định nguyên nhân lỗi xoay bản .88.
+- Verified IPS: iPhone10,6/iOS16.7.16, `EXC_CRASH/SIGABRT`, Objective-C exception stack `SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings: +440` → `DFManagedSceneObserver` trong `DFTouchOwnerProbe.dylib`; `DFUpdateScene` và `AppData.dylib` ImmortalizerHooks xuất hiện trong đường scene update. Ghi nhận đồng hiện, **chưa chứng minh AppData gây crash**. Không có exception reason trong IPS. Hai IPS 08:30/08:32 trước đó cùng scene callback nhưng `SIGTRAP`.
+- Không thấy `DuoFaceSceneHost.log` hay file xuất ACK của .88 được tải lên `sideplay/log`; `DuoFaceAudit 7.txt` cũ. Khác biệt client-vs-host, scene-id/app injection và nguyên nhân sai chiều vẫn **chưa được kiểm chứng từ runtime**. Nguyên tắc: không đổi tỷ lệ zoom, không tạo .89 từ IPS cũ; bảo toàn .83 lifecycle, Maps, Dock.
+- Báo cáo: `sideplay/audit/native12-083-rotation-20261028/LOG_CHECK_20261028_AFTER_088_USER_FAIL.md` (đọc trực tiếp GitHub, đối chiếu 3 IPS, kiểm timestamp). Next: kiểm file `/var/mobile/Library/Logs/DuoFaceSceneHost.log` từ máy đang cài .88 sau chuỗi 2 ô sai → vuốt xuống đúng → SOLO đúng, có `youtube-app-handshake-ack` và readback. Người dùng có thể tải lên thư mục `main:sideplay/log` hiện có; không cần cài thêm tweak.
+- Workflow xác minh: `git fetch --no-tags origin main`, `git show origin/main:sideplay/log/Crash-0-SpringBoard-2026-10-28-131840.ips`, Python json assert timestamps/trace, worktree commit/push and GitHub re-fetch. No DEB source changes, build or physical-device test in this checkpoint.
+
+---
 ## DUOFACE .88 DEVICE FAIL — ORIGINAL NATIVE12 DUONAVI SPLIT/APP FEEDBACK GAP (2026-10-28)
 
 - **Latest physical user test:** public DuoFace .88 `0.0.88~uikitreflow1` STILL ROTATES YouTube VIDEO WRONG in two panes. Opening one pane, internal fullscreen or downward swipe over YouTube can correct orientation. .88 build/Sileo SUCCESS is NOT device rotation success.
