@@ -1,3 +1,12 @@
+## PHYSICAL DEVICE UPDATE — USER-CONFIRMED YOUTUBE ROTATION PASS (2026-10-28)
+
+- **User explicitly confirms the installed DuoFace .90 now rotates YouTube video in the correct direction.** This supersedes the earlier 'not physically tested / outcome unknown' status for the **YouTube orientation behavior**. Evidence is the user's direct report, not a GitHub Actions test or an independently inspected on-device log. No screenshots or newly exported .90 telemetry were supplied in this turn.
+- Known working version: integrated signed Sileo `0.0.90~nativegetters1`; SHA256 `c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27`; source commit `53781cca1ca9285975394754ac9080ca35b57cda`; signed build run `40674445027`; public Sileo run `40674909879`.
+- **Why earlier iterations failed / consumed time:** .87–.89 focused on host->app notifications, a one-shot UIWindow rotation/frame reflow and bounded public geometry refresh. Original Native12 app-process ARM64 was not traced at callback-body level early enough. The successful .90 adds YouTube-process-local ABI-checked hooks of orientation getters and future UIKit UIWindow rotations, activated only for the owned live scene, in addition to the existing .89 bridge. These are the actual differences and a plausible causal mechanism; the precise winning callback remains **unisolated** without runtime hook traces/ablation tests.
+- **Regression gates remain unconfirmed:** extended YouTube playback and seeking, safe-mode/crash stability, switching SOLO->split repeatedly, Maps and real Apple Dock behavior across sessions. Do not equate single-feature user PASS with full DuoFace parity. Do not casually revise the functioning orientation implementation; treat .90 as known-good rotation baseline and preserve immutable .90/.89/.83 rollback artifacts.
+- **Next:** only if the user requests, collect targeted device telemetry for actual hook count/lease and remaining regressions, then fix a specific reproduced issue without changing the orientation path.
+
+---
 # DuoFace .90 — Signed QA / Sileo public verified — 2026-10-28
 
 ## Verified release
