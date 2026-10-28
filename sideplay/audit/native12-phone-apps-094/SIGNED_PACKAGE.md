@@ -1,0 +1,10 @@
+# DuoFace .94: signed source and Sileo publication checkpoint (2026-10-29)
+
+User's first requested missing Native12 function: iPhone app manager with per-app switch and Bật đề xuất / Bật tất cả / Tắt tất cả. DuoDash 1.1.3 has independent phone _readBridged/_enumerateApps/_persistAndNotify and in-car My Apps; OmniCar 1.0.3 proven scene geometry but no verified phone bulk app manager.
+
+- Source commits d0477263fbe19ad287d8ee84ad74c0d86fd6fce3, e70495a60effcb5d9043c285822c002a97a5dff2. Source CI 40786223749 SUCCESS.
+- Rootless one-DEB build 40786398702 completed SUCCESS. Source pinned a1c260e15a24c2c3b3bc833ae74b89493af0e271. Version 0.0.94~phoneapps1; NativeHost 0.1.103~phoneapps1.
+- Signed archive: sideplay/jb-embedded-appbridge/evidence/runs/40786398702/com.duoface.jb.embedded_0.0.94~phoneapps1_iphoneos-arm64.deb. Size 1034444; SHA256 df3a87256e0ed0f8086df77d3eae1a78af8d2392c61286c7c79bc05c894e3be7. SHA256SUMS / BUILD_SOURCE / CI_RESULT / PACKAGING_PROVENANCE were read back and match. Archive HEAD verified 26087eb758999b49cde5ac257de1dea0aac66a73.
+- Sileo publisher existing carplaydsp main workflow pinned new immutable SHA in commit 8e43a788fda54800746161711fde9133ab04693f, keeping .92 and .90 archives byte-identical and APT latest single stanza; YAML actionlint CI 40786982012 SUCCESS. GitHub Pages build, deploy and remote verification run 40786982028 IN PROGRESS when this checkpoint authored. NO claim of public .94 until that succeeds. Existing .92 last verified public.
+- Original .90 YouTube host/rotation, .92 logo, Apple Dock and experimental Maps source unchanged. No physical phone CarPlay test claimed. Bật đề xuất interpreted as eligible non-Apple user-installed apps, not proprietary vendor ranking.
+- NEXT: check carplaydsp run 40786982028 build/deploy/verify, inspect exact failures or verify remote Packages latest version/SHA and downloaded DEB and frozen .90/.92 hashes. Append public release result to existing handoff. Then on parked device check iPhone toggles / bulk app actions, CarPlay picker changes live, playback and crash safety.

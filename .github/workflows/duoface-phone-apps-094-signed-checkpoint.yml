@@ -1,0 +1,67 @@
+name: DuoFace .94 signed package checkpoint handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-phone-apps-094/SIGNED_PACKAGE.md'
+permissions:
+  contents: write
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact archived signed package
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          f=Path("sideplay/jb-embedded-appbridge/evidence/runs/40786398702/com.duoface.jb.embedded_0.0.94~phoneapps1_iphoneos-arm64.deb")
+          h="df3a87256e0ed0f8086df77d3eae1a78af8d2392c61286c7c79bc05c894e3be7"
+          assert f.stat().st_size == 1034444
+          assert hashlib.sha256(f.read_bytes()).hexdigest() == h
+          assert f.with_name("SHA256SUMS.txt").read_text().startswith(h+"  "+f.name)
+          print("DUOFACE_094_SIGNED_READBACK_SUCCESS")
+          PY
+      - name: Save checkpoint into existing handoff on current branch
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$TEMP/sideplay/audit/native12-phone-apps-094/SIGNED_PACKAGE.md" <<'PY'
+          import sys
+          from pathlib import Path
+          target=Path(sys.argv[1])
+          report=Path(sys.argv[2])
+          if not target.is_file() or not report.is_file():
+              raise RuntimeError('missing existing handoff/report; refuse duplicate')
+          old=target.read_text(encoding='utf-8')
+          marker='## CHECKPOINT 2026-10-29: .94 iPhone Apps Manager signed DEB and publisher pending'
+          checkpoint=marker+'\n\n'+report.read_text(encoding='utf-8')+'\n---\n\n'
+          if marker not in old:
+              target.write_text(checkpoint+old,encoding='utf-8')
+              after=target.read_text(encoding='utf-8')
+              assert after.startswith(checkpoint) and after.endswith(old)
+              print("DUOFACE_094_PROJECT_HANDOFF_READBACK_PASS")
+          else:
+              print("DUOFACE_094_PROJECT_HANDOFF_ALREADY_PRESENT")
+          PY
+            git -C "$TEMP" add "sideplay/tiep tuc du an.md"
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m "handoff: .94 signed app-manager DEB SHA, publisher pending [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo 'DUOFACE_094_PROJECT_HANDOFF_PUSH_CONFIRMED'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
