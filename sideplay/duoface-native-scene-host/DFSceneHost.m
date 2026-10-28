@@ -71,6 +71,31 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 // thing as UIWindow.hidden or the host controller's requested Live mode.
 // Never write foreground, mutate private transition context or override
 // SpringBoard's observer to silence a framework assertion.
+// OmniCar 1.0.3 ABHost.layoutPane: writes the REMOTE FBScene orientation
+// separately from frame. Native12 verified hosted-main scene contract is
+// portrait=1; read the real current setting before any scoped correction.
+// Unknown/mismatched private ABI is an explicit NO-OP, never an inferred value.
+static NSInteger DFObservedRemoteInterfaceOrientation(id settings) {
+    if(!settings)return -1;
+    SEL getter=NSSelectorFromString(@"interfaceOrientation");
+    Method method=class_getInstanceMethod(object_getClass(settings),getter);
+    if(!method || method_getNumberOfArguments(method)!=2)return -1;
+    char type[32]={0};
+    method_getReturnType(method,type,sizeof(type));
+    if(type[0]!='q' && type[0]!='i')return -1;
+    return ((NSInteger(*)(id,SEL))objc_msgSend)(settings,getter);
+}
+static BOOL DFMutableRemoteOrientationABI(id settings) {
+    if(!settings)return NO;
+    Method m=class_getInstanceMethod(object_getClass(settings),
+                                     NSSelectorFromString(@"setInterfaceOrientation:"));
+    if(!m || method_getNumberOfArguments(m)!=3)return NO;
+    char result[32]={0},arg[32]={0};
+    method_getReturnType(m,result,sizeof(result));
+    method_getArgumentType(m,2,arg,sizeof(arg));
+    return result[0]=='v' && (arg[0]=='q'||arg[0]=='i');
+}
+
 static NSInteger DFObservedSceneForeground(id scene) {
     id settings=DFCall0(scene,@"settings");
     if(!settings)return -1;
@@ -373,6 +398,19 @@ static NSInteger DFObservedSceneForeground(id scene) {
                 // scene settings update. A differing frame remains writable.
                 BOOL unchanged=NO;
                 id remoteSettings=DFCall0(hostedScene,@"settings");
+                NSInteger remoteOrientation=DFObservedRemoteInterfaceOrientation(remoteSettings);
+                // Only YouTube's OWN hosted phone scene, never native Maps,
+                // other apps, the CarPlay dashboard, or the player subwindow.
+                // No guess from car display aspect ratio. Native12 gold permits
+                // portrait=1 for qualified hosted MAIN scenes; OmniCar original
+                // sets remote orientation in the same scene-settings transaction.
+                BOOL youtubePortraitRepair=[self.bundleID isEqualToString:@"com.google.ios.youtube"] &&
+                     remoteOrientation>=2 && remoteOrientation<=4;
+                if([self.bundleID isEqualToString:@"com.google.ios.youtube"])
+                    DFSceneLog(@"youtube-remote-orientation-observed",self.bundleID,
+                      [NSString stringWithFormat:@"value=%ld repairEligible=%d scene=%p generation=%lu",
+                       (long)remoteOrientation,youtubePortraitRepair,hostedScene,
+                       (unsigned long)self.sceneGeneration]);
                 SEL readFrame=NSSelectorFromString(@"frame");
                 if (remoteSettings && [remoteSettings respondsToSelector:readFrame]) {
                     CGRect observed=((CGRect (*)(id,SEL))objc_msgSend)(remoteSettings,readFrame);
@@ -407,10 +445,22 @@ static NSInteger DFObservedSceneForeground(id scene) {
                     if (settings && [settings respondsToSelector:bgSelector]) {
                         ((void (*)(id,SEL,BOOL))objc_msgSend)(settings,bgSelector,NO);
                     }
+                    // Never force external CarPlay landscape. Correct only
+                    // a measured non-portrait YouTube MAIN scene; preserve
+                    // Native12 portrait content-reference arguments unchanged.
+                    if(youtubePortraitRepair && DFMutableRemoteOrientationABI(settings)) {
+                        SEL setter=NSSelectorFromString(@"setInterfaceOrientation:");
+                        ((void(*)(id,SEL,NSInteger))objc_msgSend)(
+                            settings,setter,(NSInteger)UIInterfaceOrientationPortrait);
+                        DFSceneLog(@"youtube-owned-native12-portrait-repair-requested",
+                                   surface.bundleID,
+                                   [NSString stringWithFormat:@"before=%ld generation=%lu",
+                                     (long)remoteOrientation,(unsigned long)generation]);
+                    }
                     // No lock/idle/occlusion, frame ivar writes or global hooks.
                     // A successful IPC call is NOT a device media ACK.
                 };
-                if (!unchanged) {
+                if (!unchanged || youtubePortraitRepair) {
                     ((void (*)(id,SEL,id))objc_msgSend)(
                         hostedScene,update,setVerifiedNative12Frame);
                     DFSceneLog(@"native12-scene-settings-live-contract-requested",
