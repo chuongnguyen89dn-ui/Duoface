@@ -1,3 +1,12 @@
+## .84 SIGNED BUILD XÁC MINH — source ≠ device (2026-10-28)
+
+- GitHub Actions **[40623708673](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40623708673)** completed **SUCCESS**; job **122603517125** 5 Python suites, executable .83 lifecycle harness, executable .84 owner-scoped orientation harness, Theos + ldid four builds, package verification, archive to project GitHub all SUCCESS.
+- Build input source commit: `c4aabd07573822689025983da53c0b847f754751`. Immutable artifact archive commit: `be8435bc9d7c10be3e48d9f0ed576cb6793f972a`.
+- File: `sideplay/jb-embedded-appbridge/evidence/runs/40623708673/com.duoface.jb.embedded_0.0.84~portraitpolicy1_iphoneos-arm64.deb` (985868 bytes), **SHA256 `8cfd377d295b2fb7d5e16f6b81fb03f4744205f0cd0cbfc253d96d7d678de107`**. Crosschecked with `SHA256SUMS.txt` and `PACKAGING_PROVENANCE.json`, 30 files, nativehost signed module `0.1.93~portraitpolicy1` SHA256 `00b06220151504e8ca7e69a7e5b2c35f4a0007ac40256e8d4b2ca2c6a872a591`.
+- **Not device tested.** The device-validated no-crash/video .83 checksum is unmodified. New Sileo publisher only: `chuongnguyen89dn-ui/carplaydsp` workflow `.github/workflows/build.yml` commit `ba3a182c2a81c176428b002a060d8b9c025d7fd2`, expected Pages run `40624072633`; pin exact immutable .84 bytes, preserve .83 and index only .84. At this checkpoint publisher run in progress, **do not mark deployed yet**.
+
+---
+
 # DuoFace — known-good playback baseline .83 and .84 orientation experiment (2026-10-28)
 
 ## ĐIỀU ĐÃ THÀNH CÔNG PHẢI GIỮ
