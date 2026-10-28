@@ -121,7 +121,7 @@ def main() -> None:
                                        ", found " + str(len(choices)))
                 raw = choices[0].read_bytes()
                 thin = select_arm64(raw)
-                obj = TaggedMachO(thin) if name == "duodash113_repack" else MachO(thin)
+                obj = TaggedMachO(thin)
                 classes = obj.classes()
                 byclass = {}
                 starts = set()
