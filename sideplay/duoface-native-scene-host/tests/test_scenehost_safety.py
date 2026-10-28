@@ -19,8 +19,8 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('DFObservedSceneForeground(scene)',src)
   self.assertIn('scene-foreground-observed-only',src)
   self.assertIn('scene-foreground-readback-unavailable',src)
-  self.assertIn('0.0.82~sceneowner1',file("DFDeepTrace.h"))
-  self.assertIn('0.0.82~sceneowner1',file("DFNativeDiagnostics.m"))
+  self.assertIn('0.0.83~manualobserver1',file("DFDeepTrace.h"))
+  self.assertIn('0.0.83~manualobserver1',file("DFNativeDiagnostics.m"))
   self.assertIn('self.lastObservedForeground=-2;',src)
   self.assertIn('if(fg!=self.lastObservedForeground)',src)
   commit=src.split("void (^setVerifiedNative12Frame)(id)=^(id settings) {",1)[1].split("};",1)[0]
@@ -182,7 +182,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.91~sceneowner1",build)
+  self.assertIn("0.1.92~manualobserver1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -620,7 +620,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.91~sceneowner1",c)
+  self.assertIn("Version: 0.1.92~manualobserver1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1593,7 +1593,7 @@ class CrashReasonCapture076(unittest.TestCase):
   self.assertIn("DFArmFatalReasonRecorder();",probe)
   self.assertIn("DuoFaceFatalException.log",probe)
   self.assertIn("DuoFaceFatalException.log",exporter)
-  self.assertIn("0.0.82~sceneowner1",exporter)
+  self.assertIn("0.0.83~manualobserver1",exporter)
   self.assertIn("if (self.ready && self.scene) {",host)
   self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',host)
   self.assertIn("setContentReferenceSize:withContentOrientation:andContainerOrientation:",host)
