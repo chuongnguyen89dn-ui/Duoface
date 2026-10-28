@@ -33,12 +33,12 @@ ldid -S "$DOCK_DYLIB"
 # User-opted-in in-process native Maps scene UIKit container. Default idle;
 # never touch SpringBoard/Dock or run until an explicit iPhone action.
 MAP_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib"
-xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \\
-  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \\
-  -framework UIKit -framework Foundation -framework CoreGraphics \\
-  -o "$MAP_DYLIB" ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.m \\
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+  -framework UIKit -framework Foundation -framework CoreGraphics \
+  -o "$MAP_DYLIB" ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.m \
   ../native-carplay-scene-v1/DFNativeMapPaneAdapter.m
-cp ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.plist \\
+cp ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.plist \
   "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.plist"
 ldid -S "$MAP_DYLIB"
 
