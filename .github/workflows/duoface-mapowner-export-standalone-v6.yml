@@ -1,0 +1,95 @@
+name: DuoFace V6 independent native Maps owner log exporter iPhone app
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/native-map-owner-export-v6/**'
+      - '.github/workflows/duoface-mapowner-export-standalone-v6.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-mapowner-export-standalone-v6
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test standalone app independent read-only source
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import plistlib
+          base=Path('sideplay/native-map-owner-export-v6')
+          s=(base/'main.m').read_text()
+          ctl=(base/'control').read_text()
+          meta=plistlib.loads((base/'Info.plist').read_bytes())
+          ent=plistlib.loads((base/'entitlements.plist').read_bytes())
+          assert 'Package: com.duoface.carplay.mapownerexport' in ctl
+          assert 'Version: 0.0.1~jsonl1' in ctl
+          assert meta['CFBundleIdentifier']=='com.duoface.mapownerexport'
+          assert ent['com.apple.private.security.no-container'] is True
+          assert 'copyItemAtPath:DFLog toPath:temp' in s
+          assert 'fileURLWithPath:temp' in s
+          for bad in ('%hook','MSHookMessageEx','foregroundSceneWithSettings:',
+                      'backgroundSceneWithCompletion:', 'setFrame:', 'requestStateChange:','system('):
+              assert bad not in s,bad
+          for f in ('postinst','prerm'):
+              t=(base/f).read_text()
+              for bad in ('killall','sbreload','launchctl'):
+                  assert bad not in t,bad
+          print('MAPOWNER_STANDALONE_EXPORT_READONLY_SOURCE_PASS')
+          PY
+      - name: Install tools
+        run: brew install ldid dpkg
+      - name: Build signed standalone iOS16 rootless sharing app
+        run: |
+          set -euo pipefail
+          bash sideplay/native-map-owner-export-v6/build.sh 2>&1 | tee "$RUNNER_TEMP/mapowner-export-build.log"
+          name='com.duoface.carplay.mapownerexport_0.0.1~jsonl1_iphoneos-arm64.deb'
+          deb="sideplay/native-map-owner-export-v6/packages/$name"
+          test -s "$deb"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.carplay.mapownerexport'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.0.1~jsonl1'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          ! dpkg-deb -f "$deb" | grep -E '^(Conflicts|Replaces|Breaks):'
+          mkdir -p "$RUNNER_TEMP/standalone-map-owner"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/standalone-map-owner"
+          app="$RUNNER_TEMP/standalone-map-owner/var/jb/Applications/DuoFaceMapLog.app"
+          test -s "$app/DFMapOwnerExport"
+          test -s "$app/Info.plist"
+          ldid -e "$app/DFMapOwnerExport" | grep -F 'com.apple.private.security.no-container'
+          out="$GITHUB_WORKSPACE/sideplay/test-artifacts/native-map-owner-export-v6"
+          mkdir -p "$out"
+          cp "$deb" "$out/"
+          dpkg-deb -c "$deb" > "$out/DEB_FILE_LIST.txt"
+          cp "$RUNNER_TEMP/mapowner-export-build.log" "$out/BUILD_LOG.txt"
+          (cd "$out" && shasum -a 256 "$name" > SHA256SUMS.txt)
+          {
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "STATUS=COMPILED_ONLY"
+            echo "SILEO_PUBLISHED=false"
+            echo "IPHONe_INSTALLED=false"
+            echo "NATIVE_MAPS_OWNER_VERIFIED=false"
+          } > "$out/BUILD_EVIDENCE.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-mapowner-standalone-export-v6
+          path: sideplay/test-artifacts/native-map-owner-export-v6/
+          if-no-files-found: warn
+      - name: Persist package and evidence in actual project repository
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f sideplay/test-artifacts/native-map-owner-export-v6/
+          if git diff --cached --quiet;then exit 0;fi
+          git commit -m "artifacts: standalone Sileo native Maps owner log exporter DEB"
+          git fetch origin "refs/heads/${GITHUB_REF_NAME}:refs/remotes/origin/${GITHUB_REF_NAME}"
+          git rebase "origin/${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
