@@ -1,0 +1,47 @@
+name: DuoFace .89 public Sileo live binary verification and existing handoff
+on:
+  push:
+    branches:
+      - feature/duoface-jb-embedded-appbridge-20261020
+    paths:
+      - sideplay/jb-embedded-appbridge/publish-request/089.md
+permissions:
+  contents: write
+jobs:
+  verify-and-save:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Verify live Pages APT / DEB, merge existing handoff and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          SOURCE_ROOT="$(pwd)"
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            (cd "$TMP" && python3 "$SOURCE_ROOT/sideplay/tools/persist_089_sileo_handoff.py")
+            if git -C "$TMP" diff --quiet -- 'sideplay/tiep tuc du an.md'; then
+              echo 'PUBLICATION_HANDOFF_ALREADY_SAVED'
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            git -C "$TMP" add 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m 'handoff: verify .89 live public Sileo package and preserve device test boundary [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              echo 'DUOFACE_089_PUBLICATION_HANDOFF_PERSISTED=PASS'
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+            echo "Concurrent branch update: retry $attempt/3"
+          done
+          echo 'DUOFACE_089_HANDOFF_SAVE_FAILED' >&2
+          exit 1
