@@ -1,0 +1,41 @@
+# OmniCar gốc native Maps: giải mã đúng transaction UIViewController + DuoFace stage 2
+
+**Ngày**: 2026-10-28 ICT. **Mục tiêu**: Bản đồ CarPlay native trong ô DuoFace + YouTube phone pane, không tắt Maps khỏi iPhone CarPlay Customize, không phóng to ảnh iPhone, không làm đứt dẫn đường. Giữ nguyên user-verified DuoFace .90 video/rotation, Dock/Chrome.
+
+## Phát hiện quan trọng MỚI so với scan 458 tên hàm
+
+Đã tạo script SHA-pinned original-only
+`sideplay/tools/audit_original_omnicar_native_adopt_selrefs_20261028.py` để giải các call-target **từ lệnh BL ARM64 qua optimized Objective-C selector stubs**. Đợt scan đầu chỉ tìm selector `ADRP/LDR` trong caller nên thấy 0 selector; đó là hạn chế bộ đọc, **không phải original thiếu hàm**. Bản sửa có xác minh thực từ CI:
+
+- GHA [40686166556](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686166556) **SUCCESS**, run [40686003697](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686003697) **SUCCESS** sau khi sửa regex Python trong run 40685781979 FAILED `re.error: unbalanced parenthesis at position 37`. Original DEB SHA256 `d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd`, dylib SHA256 `f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754`.
+- **Thực tế ARM64**: `SCPCarSplit.adoptViewController:` @`0x18d20` có `0x19214: adopt:slot:` và kiểm `pendingSlotForBundle:`, `detachVC:background:` @`0x19034`, `validSlot:`, v.v. (30 optimized Objective-C stub calls resolved).
+- **Trọng tâm**: `SCPCarSplit.adopt:slot:` @`0x1942c`, **62 original Objective-C stub callsites resolved**, trong đó:
+  - `0x19878`: `parentViewController` / `0x1989c` `parentViewController`.
+  - `0x198c0`: `willMoveToParentViewController:`; `0x198c8`: `removeFromParentViewController`; `0x198d4`: `addChildViewController:`.
+  - `0x198ec`: `removeFromSuperview`; `0x19910`: `setHidden:`; `0x19934`: `setAlpha:`; `0x19980`: `setTransform:`; `0x199d8`: `setFrame:`; `0x19a04`: `setAutoresizingMask:`; `0x19a40`: `addSubview:`; `0x19a68`: `didMoveToParentViewController:`; `0x19a80`: `setAdditionalSafeAreaInsets:`.
+  - `0x19a8c`: `setVc:`; `0x19a98`: `setBundleID:`; `0x19aac`: `setSceneSize:`; `0x19b7c`: `relayoutAnimated:`.
+- **Exact detach** `SCPCarSplit.detachVC:background:` @`0x1a77c` selector calls `0x1a7fc willMoveToParentViewController:` → `0x1a814 removeFromSuperview` → `0x1a824 removeFromParentViewController` → `0x1a88c setTransform:`. Shows original **explicit UIKit parent/child lifecycle**, NOT copying native app CPWindow to a dummy phone map.
+- **Native size path** `SCPCarSplit.pushSceneSizes` @`0x1c550`: `0x1c66c frameForSlot:`, `0x1c688 sceneSize`, `0x1c6a4 setSceneSize:`, native `foregroundSceneWithSettings:completion:` CFString at `0x1c738`, `0x1ca64 superview`, `0x1caa0 frame`, `0x1cac8 bounds`, `0x1cbc4 setFrame:`, `0x1ccb8 verifySceneOfPane:expected:retry:`.
+- **ĐÃ XÁC MINH là original machine callsites**. **KHÔNG ĐƯỢC suy ra** thứ tự runtime qua nhánh conditional hay code có thể copy nguyên; chưa biết callback custom original, container/ownership trên iOS16.7.16 của user, hoặc quyền thu nhận một scene native trong một view tree khác. No vendor binary/code/license imported into DuoFace source.
+
+## Chỉnh lại diễn giải quan sát thật
+
+46 JSONL owner snapshots từ `main/sideplay/log/DuoFaceCarPlayOwner-4C5C8ADB-EE69-458A-B664-1753AB90C797.jsonl` là tiến trình **`process = CarPlay`**, PID `68776` (không phải mặc nhiên `CarPlayApp`; observer hỗ trợ cả hai). Số thứ tự **1-based** #41–42 là native Google Maps, #43–44 cùng `DBApplicationSceneViewController`/host pointer đổi sang DuoFace scene; #45–46 không còn quan sát VC, không chứng minh hủy FBScene. iOS16 chia màn thành `statusbar-Car[2-3]` và `DBDashboard-Car[2-3]`, đều là `UIWindowSceneSessionRoleCarPlay`. Native Dashboard bounds **427×240**, cửa sổ `DBStatusBarWindow` bounds **45×240** ở sibling scene, `sceneHostView` Google Maps bounds **427×240**. Log cũ **chỉ có bounds, không có x vị trí native bar**, nên không thể tự nhận Dock luôn nằm bên trái hay crop chính xác 45 từ số đo mơ hồ. Do native Dashboard owner cùng VC đã rebound Maps→DuoFace, **không có bằng chứng Maps native tiếp tục được composite trong lúc DuoFace native scene được trình bày**.
+
+## Mã độc lập đã triển khai sang Stage 2 (chưa active)
+
+1. `sideplay/native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h`: Foundation/CoreGraphics unit, tìm **một real Dashboard UIWindow** + **một actual native status/dock bar** ở cùng external UIScreen, dựa trên **window frame quy đổi thực sang Dashboard**; tính app content và visual pane geometry theo tỷ lệ DuoFace `Ratio` `Version=2` / `Swapped`, không giả Dock left/45px/80% zoom, không thay system views. Trả `mapSceneSizedForPane=NO`, `nativeMapSlotAssigned=NO`, `canAttachPane=NO` vì mới là geometry plan.
+2. `DFCarPlayLiveOwnerSnapshot.m`: `schema 5`; trước khi quét xác định Dashboard UIWindow có chủ; ghi `dashboardRelativeFrame` từ `convertRect:fromWindow:` trên **cùng external UIScreen**, `window.frame` và `nativeMapViewportPlan`. Đọc layout của DuoFace tại `/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist`. Không foreground/background, không mutate Dock hay app view.
+3. `tests/native_carplay_map_viewport_runtime.m`: macOS Foundation executable replay **real 427×240 and native bar 45×240**; cases left/right actual measured position, old no-position snapshots, ambiguous two bars, Dashboard absence, layout ratio illegal. Example with bar **observed left** produces content x45 width382; ratio .5 → pane 191×240, **only in the test**. Actual device left/right awaits log schema5; never turn test example into real measured Dock position.
+4. Source CI [40685235590](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40685235590) job `122805768042` **SUCCESS**: `DUOFACE_NATIVE_MAPS_MEASURED_DOCK_AND_SPLIT_VIEWPORT_PASS_NO_SCENE_MUTATION`, iOS16 ARM64 observer syntax and guard six .90 source files.
+5. `DFNativeMapPaneAdapter.h/.m`: staged first-party UIKit **same-process VC containment** (from original verified lifecycle semantics, not copied implementation): strict `DBApplicationSceneViewController`/native `FBScene`/map bundle/window/screen/parent/container validation, measured Dock-excluding pane bounds, explicit `authorized` argument required; if called it uses standard `willMove/remove/addChild/addSubview/didMove` and keeps original parent/window/frame metadata for rollback. It does **not** call private app-scene foreground/background, does **not** construct/reparent `CPWindow`. **Critically the adapter is NOT wired to any automatic caller or enabled in a DEB** until live owner hierarchy and continuity pass. iOS ARM64 compile-only CI being checked; no real-car render yet.
+
+## Trạng thái build & thiết bị
+
+- Existing diagnostic source workflow `40685195229` **SUCCESS**; isolated diagnostic DEB `com.duoface.carplay.nativejoinprobe_0.0.5~mapowner2_iphoneos-arm64.deb` at `sideplay/test-artifacts/native-map-owner-v7/runs/40685195229-1/`, SHA256 `b01d5396c9000f94f4d95c2bab4b891b63c43a71147113a684e7c64edff07876`; **read-only, no native-map renderer, not Sileo-published**. Binary version same as prior V7; never claim new 5.0 schema is installed.
+- Main DuoFace **.90** on-device YouTube landscape success preserved; no .91 functional DEB, no publish or device test. Source-only or pinned original analysis can't prove visible Maps tiles, touches or live navigation while app switched.
+
+## Next precise work
+- Inspect new schema5 log: native map VC `parentViewController`, host/superview hierarchy and window relative bar frame **while Maps remains enabled in CarPlay Customize**, then identify exact *same process* valid UIKit container owner and second phone app source for YouTube. Current native `CarPlay` process owner and SpringBoard remote YouTube scene are distinct; **do not addSubview across processes**.
+- Only then bind the staged adapter to the actual native owner with explicit user QA path, keep phone YouTube on its existing .90 bridge, validate rollback and active route, build single signed .91 DEB and publish through user-approved Sileo workflow. Never auto-background native Maps, steal CPWindow or tweak arbitrary map zoom.
+
