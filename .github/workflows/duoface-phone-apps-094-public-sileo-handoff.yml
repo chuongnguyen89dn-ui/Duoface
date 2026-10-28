@@ -1,0 +1,67 @@
+name: DuoFace .94 PUBLIC SILEO verified — append existing project handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-phone-apps-094/PUBLIC_SILEO_VERIFIED.md'
+permissions:
+  contents: write
+concurrency:
+  group: duoface-094-public-sileo-handoff
+  cancel-in-progress: false
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check pinned .94 signed archive and append public verified checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from hashlib import sha256
+          file=Path('sideplay/jb-embedded-appbridge/evidence/runs/40786398702/com.duoface.jb.embedded_0.0.94~phoneapps1_iphoneos-arm64.deb')
+          h='df3a87256e0ed0f8086df77d3eae1a78af8d2392c61286c7c79bc05c894e3be7'
+          assert file.is_file() and sha256(file.read_bytes()).hexdigest()==h
+          assert file.with_name('SHA256SUMS.txt').read_text().startswith(h+'  '+file.name)
+          print('SIGNED_094_REMOTE_INDEX_SOURCE_SHA_PIN_CONFIRMED')
+          PY
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$TEMP/sideplay/audit/native12-phone-apps-094/PUBLIC_SILEO_VERIFIED.md" <<'PY'
+          import sys
+          from pathlib import Path
+          p=Path(sys.argv[1])
+          f=Path(sys.argv[2])
+          if not p.is_file() or not f.is_file(): raise RuntimeError('missing existing handoff or evidence; no duplicate')
+          old=p.read_text(encoding='utf-8')
+          marker='## CHECKPOINT 2026-10-29: .94 iPhone Apps Manager PUBLIC SILEO SHA VERIFIED'
+          block=marker+'\n\n'+f.read_text(encoding='utf-8')+'\n---\n\n'
+          if marker not in old:
+            p.write_text(block+old,encoding='utf-8')
+            after=p.read_text(encoding='utf-8')
+            assert after.startswith(block) and after.endswith(old)
+            print('DUOFACE_094_PUBLIC_HANDOFF_READBACK_VERIFIED')
+          else:print('DUOFACE_094_PUBLIC_HANDOFF_ALREADY_PRESENT')
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'handoff: .94 iPhone Apps Manager public Sileo/Pages SHA verified [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo 'DUOFACE_094_PUBLIC_HANDOFF_GITHUB_PUSH_CONFIRMED'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
