@@ -16,9 +16,23 @@ class RecoveryDistribution(unittest.TestCase):
   self.assertIn('surface.sceneGeneration!=generation',host)
  def test_current_ui_preserved(self):
   import hashlib
-  # Blob verified at .73 source; byte-for-byte chrome preservation.
+  # Chrome must remain byte-for-byte identical to working .88 except
+  # a nonvisual one-way split/solo state notification to the scene host.
   b=(R/'DFNative12Chrome.m').read_bytes()
-  self.assertEqual(hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest(),'9e5772b9d6fef1e2c6f7c0baca23367bda03113a')
+  added=b'''        // Native12 split and SOLO are UI state, not inferred from a second
+        // loaded app or the pane's width. One visible YouTube pane plus one
+        // EMPTY pane is still split. The host owns the app-scene IPC lease.
+        id hosted=self.hostedScenes[(NSUInteger)i];
+        if([hosted isKindOfClass:UIView.class]) {
+            [[DFSceneHost sharedHost] setSplitMode:
+                (activeSlots>1 && self.focus<0 && !self.startupActive)
+                forHostedView:(UIView *)hosted];
+        }
+'''
+  self.assertEqual(b.count(added),1)
+  original=b.replace(added,b'')
+  self.assertEqual(hashlib.sha1(b'blob '+str(len(original)).encode()+b'\0'+original).hexdigest(),
+                   '9e5772b9d6fef1e2c6f7c0baca23367bda03113a')
  def test_v37_reference_dispatch_and_touch_wake(self):
   s=(R/'DFSceneHost.m').read_text()
   self.assertIn('BOOL applied=child2Applied||child3Applied||main2Applied;',s)
