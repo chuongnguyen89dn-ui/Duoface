@@ -183,6 +183,30 @@ def decode(deb: Path, index: Path, original_report: Path):
                 "raw_arm64": lines,
                 "direct_calls": calls,
             })
+        # These real compiled first-party state getters are DIRECT callees of
+        # the original orientation/geometry hooks; include their entire bodies
+        # to distinguish bridge-enabled values from pure selector presence.
+        helpers = {}
+        for name, pc in {
+            "bridge_active": 0x2a8068,
+            "desired_orientation": 0x2a8080,
+            "logical_size": 0x2a8098,
+            "display_width_policy": 0x2a84a0,
+            "is_split": 0x2a80b4,
+        }.items():
+            pos = bisect.bisect_right(starts, pc) - 1
+            if pos < 0 or pos + 1 >= len(starts):
+                raise RuntimeError("Original getter not in LC_FUNCTION_STARTS: " + name)
+            lo, hi = starts[pos:pos+2]
+            l, h = bisect.bisect_left(keys, lo), bisect.bisect_left(keys, hi)
+            instr = dis[l:h]
+            if not instr or instr[0]["pc"] != lo:
+                raise RuntimeError("Original state getter body missing: " + name)
+            helpers[name] = {
+                "source_pc": hex(pc), "exact_start": hex(lo),
+                "exact_end": hex(hi), "is_function_start": lo == pc,
+                "arm64": [{"pc": hex(x["pc"]), "asm": x["asm"]} for x in instr],
+            }
     return {
         "status": "NATIVE12_ORIGINAL_36_HOOK_CALLBACK_BODY_EXACT",
         "original_deb_sha256": ORIGINAL_DEB,
@@ -192,6 +216,7 @@ def decode(deb: Path, index: Path, original_report: Path):
         "installer_function": [hex(INSTALLER_START), hex(INSTALLER_END)],
         "original_hooks_count": len(hooked),
         "callbacks": callbacks,
+        "direct_state_helpers": helpers,
         "interpretation_limits": [
             "Actual original callback ARM64 extracted, but dynamic execution still unobserved",
             "ADR x2 identifies original callback by exact PC; symbolic names are inference from prior original selector refs",
