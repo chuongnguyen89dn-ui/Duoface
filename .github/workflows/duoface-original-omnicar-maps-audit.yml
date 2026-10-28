@@ -1,0 +1,75 @@
+name: DuoFace original OmniCar map + rotation read-only audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/tools/audit_original_omnicar_maps_rotation_20261028.py'
+      - '.github/workflows/duoface-original-omnicar-maps-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-omni-map-original-readonly
+  cancel-in-progress: false
+jobs:
+  original-map-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact original OmniCar DEB and compare SHA before unpack
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/main/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/omnicar-original.deb"
+          echo 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' " $RUNNER_TEMP/omnicar-original.deb" | sha256sum -c -
+          dpkg-deb -f "$RUNNER_TEMP/omnicar-original.deb" Package Version Architecture
+      - name: Run real original payload selector and scene layout audit
+        run: |
+          set -euo pipefail
+          python3 sideplay/tools/audit_original_omnicar_maps_rotation_20261028.py --omnicar "$RUNNER_TEMP/omnicar-original.deb" --source sideplay/duoface-native-scene-host/DFSceneHost.m --out "$RUNNER_TEMP/OMNICAR_ORIGINAL_MAPS_SCENE_SCAN.json"
+          python3 - "$RUNNER_TEMP/OMNICAR_ORIGINAL_MAPS_SCENE_SCAN.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j['input']['sha256']=='d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd'
+          assert any('OmniCarAppBridge.dylib' in x['path'] for x in j['original_payload_modules'])
+          assert j['duoface_current_source']['host_main_display_scene']
+          print('OMNICAR_ORIGINAL_MAP_SCENE_SHA_AND_OWNER_AUDIT_PASS')
+          for b in j['original_payload_modules']:
+            if 'AppBridge' in b['path']:
+              print('ORIGINAL_APPBRIDGE_MARKERS:',b['path'],b['markers'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: omnicar-original-map-orientation-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/OMNICAR_ORIGINAL_MAPS_SCENE_SCAN.json
+          if-no-files-found: error
+      - name: Persist read-only evidence to current DuoFace project branch
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          FROM="$RUNNER_TEMP/OMNICAR_ORIGINAL_MAPS_SCENE_SCAN.json"
+          TARGET='sideplay/audit/native12-083-rotation-20261028/OMNICAR_ORIGINAL_MAPS_SCENE_SCAN.json'
+          test -s "$FROM"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            WORK="$(mktemp -d)"
+            git worktree add --detach "$WORK" FETCH_HEAD
+            git -C "$WORK" config user.name 'github-actions[bot]'
+            git -C "$WORK" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if test -e "$WORK/$TARGET"; then
+              echo 'Audit destination exists: no overwrite' >&2
+              git worktree remove --force "$WORK"
+              exit 1
+            fi
+            mkdir -p "$(dirname "$WORK/$TARGET")"
+            cp "$FROM" "$WORK/$TARGET"
+            git -C "$WORK" add "$TARGET"
+            git -C "$WORK" commit -m "audit: persist original OmniCar map/scene SHA-verified run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$WORK" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$WORK"
+              echo "OMNICAR_ORIGINAL_MAP_GITHUB_ARCHIVE=PASS run=$GITHUB_RUN_ID"
+              exit 0
+            fi
+            git worktree remove --force "$WORK"
+          done
+          exit 1
