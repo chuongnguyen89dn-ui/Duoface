@@ -69,7 +69,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           test -d "$SDK"
           cd sideplay/duoface-native-scene-host
-          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFSceneLifecycle.m DFYouTubeOrientationRelay.m DFAppViewportRelay.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
+          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFSceneLifecycle.m DFYouTubeOrientationRelay.m DFYouTubeOrientationVirtualization.m DFAppViewportRelay.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
             echo "COMPILING_SOURCE_ONLY $FILE"
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
               -target arm64-apple-ios16.0 -isysroot "$SDK" \
