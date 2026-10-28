@@ -1,0 +1,5320 @@
+{
+  "status": "ORIGINAL_ONLY_V3_NATIVE_SCENE_ROUTING_STATIC_NOT_DEVICE",
+  "original_deb_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "target_count": 21,
+  "targets_present": 20,
+  "selector_inventory": [
+    {
+      "class": "SCPCarPane",
+      "selector": "slot",
+      "imp": "0xf8c8"
+    },
+    {
+      "class": "SCPCarPane",
+      "selector": "setSlot:",
+      "imp": "0xf8d0"
+    },
+    {
+      "class": "SCPCarPane",
+      "selector": "sceneSize",
+      "imp": "0xfba0"
+    },
+    {
+      "class": "SCPCarPane",
+      "selector": "setSceneSize:",
+      "imp": "0xfba8"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "isCarPlayApp:",
+      "imp": "0xff20"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "paneAtSlot:",
+      "imp": "0x106f0"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "validSlot:",
+      "imp": "0x107cc"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "pendingSlotForBundle:",
+      "imp": "0x10c88"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "slotOccupied:",
+      "imp": "0x10df4"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "mainStackFrameForSlot:inArea:",
+      "imp": "0x11110"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "leftMainStackFrameForSlot:inArea:",
+      "imp": "0x1122c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "slotIsPinned:",
+      "imp": "0x11478"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "autoSlot",
+      "imp": "0x115a0"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "frameForSlot:",
+      "imp": "0x11674"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "innerCornersForSlot:",
+      "imp": "0x118d8"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "neighbourCornersForSlot:",
+      "imp": "0x11a04"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "removePaneAt:background:",
+      "imp": "0x149a8"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "showPickersForEmptySlots",
+      "imp": "0x15648"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "openApp:slot:",
+      "imp": "0x164d4"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "sendLaunch:bundle:tries:",
+      "imp": "0x16e04"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "launchFailed:slot:",
+      "imp": "0x17e70"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "isAdoptableViewController:",
+      "imp": "0x18b5c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "adoptViewController:",
+      "imp": "0x18d20"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "adopt:slot:",
+      "imp": "0x1942c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "detachVC:background:",
+      "imp": "0x1a77c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "sceneOfViewController:",
+      "imp": "0x1aaf4"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "scene:destroyedForViewController:ownScene:",
+      "imp": "0x1ad58"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "relayoutAnimated:pushScenes:",
+      "imp": "0x1b44c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "pushSceneSizes",
+      "imp": "0x1c550"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "verifySceneOfPane:expected:retry:",
+      "imp": "0x1cce0"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "swapSlot:with:",
+      "imp": "0x1d494"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "closeSlot:background:",
+      "imp": "0x1d9b8"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "publishCarPlayApps",
+      "imp": "0x21b1c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "paneBackground:",
+      "imp": "0x28a30"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "runBackgroundForPane:",
+      "imp": "0x28b38"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "showBackgroundToastFor:slot:",
+      "imp": "0x28c48"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "markDismissSlot:",
+      "imp": "0x2be00"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "showPickerForSlot:",
+      "imp": "0x31530"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "hostApp:inPane:",
+      "imp": "0x3e490"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "launchPhoneAppIfNeeded:",
+      "imp": "0x403d0"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "launcherCenterInParent:size:shift:",
+      "imp": "0x409b0"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "raiseLauncher",
+      "imp": "0x42900"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "autoLaunchAttempt:",
+      "imp": "0x44dc4"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "cancelledLaunches",
+      "imp": "0x4581c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setCancelledLaunches:",
+      "imp": "0x45824"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "zoomedSlot",
+      "imp": "0x4590c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setZoomedSlot:",
+      "imp": "0x45914"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "slots",
+      "imp": "0x45a84"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setSlots:",
+      "imp": "0x45a8c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "focusedSlot",
+      "imp": "0x45b3c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setFocusedSlot:",
+      "imp": "0x45b44"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "allowBackground",
+      "imp": "0x45b4c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setAllowBackground:",
+      "imp": "0x45b54"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "nextLaunchAt",
+      "imp": "0x45ba4"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setNextLaunchAt:",
+      "imp": "0x45bac"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "floatReturnSlot",
+      "imp": "0x45dac"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setFloatReturnSlot:",
+      "imp": "0x45db4"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "launcherHost",
+      "imp": "0x45f34"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setLauncherHost:",
+      "imp": "0x45f4c"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "launcherWhere",
+      "imp": "0x45f68"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setLauncherWhere:",
+      "imp": "0x45f70"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "launcherBare",
+      "imp": "0x45fc8"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setLauncherBare:",
+      "imp": "0x45fd0"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "lastLauncherCalc",
+      "imp": "0x45fd8"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setLastLauncherCalc:",
+      "imp": "0x45fe0"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "autoLaunchDone",
+      "imp": "0x45ff8"
+    },
+    {
+      "class": "SCPCarSplit",
+      "selector": "setAutoLaunchDone:",
+      "imp": "0x46000"
+    }
+  ],
+  "methods": {
+    "isCarPlayApp:": {
+      "present": true,
+      "imp": "0xff20",
+      "end": "0x1029c",
+      "instructions": 223,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0xffd8",
+          "literal": "bundleIdentifier",
+          "nearby": [
+            "0xffcc cbz x19, #0x10014",
+            "0xffd0 mov x0, x19",
+            "0xffd4 bl #0x567c4",
+            "0xffd8 adrp x0, #0x79000",
+            "0xffdc add x0, x0, #0x800",
+            "0xffe0 bl #0x56374",
+            "0xffe4 mov x20, x0",
+            "0xffe8 mov x0, x19",
+            "0xffec mov x1, x20",
+            "0xfff0 bl #0x567a0",
+            "0xfff4 tbz w0, #0, #0x1001c",
+            "0xfff8 mov x0, x19",
+            "0xfffc mov x1, x20",
+            "0x10000 bl #0x56758",
+            "0x10004 mov x29, x29",
+            "0x10008 bl #0x567dc",
+            "0x1000c mov x20, x0",
+            "0x10010 b #0x10030"
+          ]
+        },
+        {
+          "at": "0x1001c",
+          "literal": "bundleIdentifier",
+          "nearby": [
+            "0x10010 b #0x10030",
+            "0x10014 mov w21, #0",
+            "0x10018 b #0x10148",
+            "0x1001c adrp x1, #0x79000",
+            "0x10020 add x1, x1, #0x800",
+            "0x10024 mov x0, x19",
+            "0x10028 bl #0x4f330",
+            "0x1002c mov x20, #0",
+            "0x10030 mov x0, x19",
+            "0x10034 bl #0x567b8",
+            "0x10038 mov x0, x20",
+            "0x1003c bl #0x590c0",
+            "0x10040 cbz x0, #0x1013c",
+            "0x10044 adrp x2, #0x7b000",
+            "0x10048 add x2, x2, #0x60",
+            "0x1004c mov x0, x20",
+            "0x10050 bl #0x58d00",
+            "0x10054 tbnz w0, #0, #0x1013c"
+          ]
+        },
+        {
+          "at": "0x10044",
+          "literal": "com.apple.CarPlayTemplateUIHost",
+          "nearby": [
+            "0x10038 mov x0, x20",
+            "0x1003c bl #0x590c0",
+            "0x10040 cbz x0, #0x1013c",
+            "0x10044 adrp x2, #0x7b000",
+            "0x10048 add x2, x2, #0x60",
+            "0x1004c mov x0, x20",
+            "0x10050 bl #0x58d00",
+            "0x10054 tbnz w0, #0, #0x1013c",
+            "0x10058 adrp x2, #0x79000",
+            "0x1005c add x2, x2, #0x580",
+            "0x10060 mov x0, x20",
+            "0x10064 bl #0x58d00",
+            "0x10068 tbnz w0, #0, #0x1013c",
+            "0x1006c adrp x2, #0x7d000",
+            "0x10070 add x2, x2, #0xa60",
+            "0x10074 mov x0, x20",
+            "0x10078 bl #0x58d00",
+            "0x1007c tbnz w0, #0, #0x1013c"
+          ]
+        },
+        {
+          "at": "0x10058",
+          "literal": "com.apple.CarPlayApp",
+          "nearby": [
+            "0x1004c mov x0, x20",
+            "0x10050 bl #0x58d00",
+            "0x10054 tbnz w0, #0, #0x1013c",
+            "0x10058 adrp x2, #0x79000",
+            "0x1005c add x2, x2, #0x580",
+            "0x10060 mov x0, x20",
+            "0x10064 bl #0x58d00",
+            "0x10068 tbnz w0, #0, #0x1013c",
+            "0x1006c adrp x2, #0x7d000",
+            "0x10070 add x2, x2, #0xa60",
+            "0x10074 mov x0, x20",
+            "0x10078 bl #0x58d00",
+            "0x1007c tbnz w0, #0, #0x1013c",
+            "0x10080 adrp x2, #0x7a000",
+            "0x10084 add x2, x2, #0xd20",
+            "0x10088 mov x0, x20",
+            "0x1008c bl #0x58d00",
+            "0x10090 tbnz w0, #0, #0x1013c"
+          ]
+        },
+        {
+          "at": "0x1006c",
+          "literal": "com.apple.CarPlaySettings",
+          "nearby": [
+            "0x10060 mov x0, x20",
+            "0x10064 bl #0x58d00",
+            "0x10068 tbnz w0, #0, #0x1013c",
+            "0x1006c adrp x2, #0x7d000",
+            "0x10070 add x2, x2, #0xa60",
+            "0x10074 mov x0, x20",
+            "0x10078 bl #0x58d00",
+            "0x1007c tbnz w0, #0, #0x1013c",
+            "0x10080 adrp x2, #0x7a000",
+            "0x10084 add x2, x2, #0xd20",
+            "0x10088 mov x0, x20",
+            "0x1008c bl #0x58d00",
+            "0x10090 tbnz w0, #0, #0x1013c",
+            "0x10094 mov x0, x20",
+            "0x10098 bl #0x9980",
+            "0x1009c tbnz w0, #0, #0x1013c",
+            "0x100a0 adrp x0, #0x7a000",
+            "0x100a4 add x0, x0, #0x9e0"
+          ]
+        },
+        {
+          "at": "0x10080",
+          "literal": "com.apple.InCallService",
+          "nearby": [
+            "0x10074 mov x0, x20",
+            "0x10078 bl #0x58d00",
+            "0x1007c tbnz w0, #0, #0x1013c",
+            "0x10080 adrp x2, #0x7a000",
+            "0x10084 add x2, x2, #0xd20",
+            "0x10088 mov x0, x20",
+            "0x1008c bl #0x58d00",
+            "0x10090 tbnz w0, #0, #0x1013c",
+            "0x10094 mov x0, x20",
+            "0x10098 bl #0x9980",
+            "0x1009c tbnz w0, #0, #0x1013c",
+            "0x100a0 adrp x0, #0x7a000",
+            "0x100a4 add x0, x0, #0x9e0",
+            "0x100a8 bl #0x56374",
+            "0x100ac mov x1, x0",
+            "0x100b0 mov x0, x19",
+            "0x100b4 bl #0x567a0",
+            "0x100b8 tbz w0, #0, #0x1013c"
+          ]
+        },
+        {
+          "at": "0x100a0",
+          "literal": "carPlayDeclaration",
+          "nearby": [
+            "0x10094 mov x0, x20",
+            "0x10098 bl #0x9980",
+            "0x1009c tbnz w0, #0, #0x1013c",
+            "0x100a0 adrp x0, #0x7a000",
+            "0x100a4 add x0, x0, #0x9e0",
+            "0x100a8 bl #0x56374",
+            "0x100ac mov x1, x0",
+            "0x100b0 mov x0, x19",
+            "0x100b4 bl #0x567a0",
+            "0x100b8 tbz w0, #0, #0x1013c",
+            "0x100bc mov x0, x19",
+            "0x100c0 bl #0x567c4",
+            "0x100c4 adrp x0, #0x7a000",
+            "0x100c8 add x0, x0, #0x9e0",
+            "0x100cc bl #0x56374",
+            "0x100d0 mov x21, x0",
+            "0x100d4 mov x0, x19",
+            "0x100d8 mov x1, x21"
+          ]
+        },
+        {
+          "at": "0x100c4",
+          "literal": "carPlayDeclaration",
+          "nearby": [
+            "0x100b8 tbz w0, #0, #0x1013c",
+            "0x100bc mov x0, x19",
+            "0x100c0 bl #0x567c4",
+            "0x100c4 adrp x0, #0x7a000",
+            "0x100c8 add x0, x0, #0x9e0",
+            "0x100cc bl #0x56374",
+            "0x100d0 mov x21, x0",
+            "0x100d4 mov x0, x19",
+            "0x100d8 mov x1, x21",
+            "0x100dc bl #0x567a0",
+            "0x100e0 tbz w0, #0, #0x10100",
+            "0x100e4 mov x0, x19",
+            "0x100e8 mov x1, x21",
+            "0x100ec bl #0x56758",
+            "0x100f0 mov x29, x29",
+            "0x100f4 bl #0x567dc",
+            "0x100f8 mov x21, x0",
+            "0x100fc b #0x10114"
+          ]
+        },
+        {
+          "at": "0x10100",
+          "literal": "carPlayDeclaration",
+          "nearby": [
+            "0x100f4 bl #0x567dc",
+            "0x100f8 mov x21, x0",
+            "0x100fc b #0x10114",
+            "0x10100 adrp x1, #0x7a000",
+            "0x10104 add x1, x1, #0x9e0",
+            "0x10108 mov x0, x19",
+            "0x1010c bl #0x4f330",
+            "0x10110 mov x21, #0",
+            "0x10114 mov x0, x19",
+            "0x10118 bl #0x567b8",
+            "0x1011c mov x0, x21",
+            "0x10120 bl #0x567b8",
+            "0x10124 cbz x21, #0x10140",
+            "0x10128 adrp x1, #0x7a000",
+            "0x1012c add x1, x1, #0x580",
+            "0x10130 mov x0, x19",
+            "0x10134 bl #0x17d84",
+            "0x10138 tbz w0, #0, #0x10164"
+          ]
+        },
+        {
+          "at": "0x10128",
+          "literal": "isHidden",
+          "nearby": [
+            "0x1011c mov x0, x21",
+            "0x10120 bl #0x567b8",
+            "0x10124 cbz x21, #0x10140",
+            "0x10128 adrp x1, #0x7a000",
+            "0x1012c add x1, x1, #0x580",
+            "0x10130 mov x0, x19",
+            "0x10134 bl #0x17d84",
+            "0x10138 tbz w0, #0, #0x10164",
+            "0x1013c mov w21, #0",
+            "0x10140 mov x0, x20",
+            "0x10144 bl #0x567b8",
+            "0x10148 mov x0, x19",
+            "0x1014c bl #0x567b8",
+            "0x10150 mov x0, x21",
+            "0x10154 ldp x29, x30, [sp, #0x20]",
+            "0x10158 ldp x20, x19, [sp, #0x10]",
+            "0x1015c ldp x22, x21, [sp], #0x30",
+            "0x10160 ret "
+          ]
+        },
+        {
+          "at": "0x10164",
+          "literal": "presentsFullScreen",
+          "nearby": [
+            "0x10158 ldp x20, x19, [sp, #0x10]",
+            "0x1015c ldp x22, x21, [sp], #0x30",
+            "0x10160 ret ",
+            "0x10164 adrp x1, #0x7a000",
+            "0x10168 add x1, x1, #0x5c0",
+            "0x1016c mov x0, x19",
+            "0x10170 bl #0x17d84",
+            "0x10174 eor w21, w0, #1",
+            "0x10178 b #0x10140",
+            "0x1017c b #0x10180",
+            "0x10180 mov x21, x0",
+            "0x10184 mov x0, x19",
+            "0x10188 bl #0x567b8",
+            "0x1018c b #0x101a4",
+            "0x10190 b #0x10194",
+            "0x10194 mov x21, x0",
+            "0x10198 mov x20, x19",
+            "0x1019c b #0x101a4"
+          ]
+        },
+        {
+          "at": "0x101e0",
+          "literal": "appBridge",
+          "nearby": [
+            "0x101d4 mov x0, x19",
+            "0x101d8 bl #0x590c0",
+            "0x101dc cbz x0, #0x1022c",
+            "0x101e0 adrp x0, #0x7a000",
+            "0x101e4 add x0, x0, #0x380",
+            "0x101e8 bl #0x4f608",
+            "0x101ec tbz w0, #0, #0x1022c",
+            "0x101f0 mov x0, x19",
+            "0x101f4 bl #0x9980",
+            "0x101f8 tbz w0, #0, #0x10204",
+            "0x101fc mov w20, #1",
+            "0x10200 b #0x10230",
+            "0x10204 mov x0, x19",
+            "0x10208 bl #0xe324",
+            "0x1020c mov x29, x29",
+            "0x10210 bl #0x567dc",
+            "0x10214 mov x21, x0",
+            "0x10218 bl #0xffb4"
+          ]
+        }
+      ],
+      "branch_count": 17,
+      "branch_first": [
+        {
+          "pc": "0xff54",
+          "op": "tbz w0, #0, #0xff60"
+        },
+        {
+          "pc": "0xffcc",
+          "op": "cbz x19, #0x10014"
+        },
+        {
+          "pc": "0xfff4",
+          "op": "tbz w0, #0, #0x1001c"
+        },
+        {
+          "pc": "0x10040",
+          "op": "cbz x0, #0x1013c"
+        },
+        {
+          "pc": "0x10054",
+          "op": "tbnz w0, #0, #0x1013c"
+        },
+        {
+          "pc": "0x10068",
+          "op": "tbnz w0, #0, #0x1013c"
+        },
+        {
+          "pc": "0x1007c",
+          "op": "tbnz w0, #0, #0x1013c"
+        },
+        {
+          "pc": "0x10090",
+          "op": "tbnz w0, #0, #0x1013c"
+        },
+        {
+          "pc": "0x1009c",
+          "op": "tbnz w0, #0, #0x1013c"
+        },
+        {
+          "pc": "0x100b8",
+          "op": "tbz w0, #0, #0x1013c"
+        },
+        {
+          "pc": "0x100e0",
+          "op": "tbz w0, #0, #0x10100"
+        },
+        {
+          "pc": "0x10124",
+          "op": "cbz x21, #0x10140"
+        },
+        {
+          "pc": "0x10138",
+          "op": "tbz w0, #0, #0x10164"
+        },
+        {
+          "pc": "0x101dc",
+          "op": "cbz x0, #0x1022c"
+        },
+        {
+          "pc": "0x101ec",
+          "op": "tbz w0, #0, #0x1022c"
+        },
+        {
+          "pc": "0x101f8",
+          "op": "tbz w0, #0, #0x10204"
+        },
+        {
+          "pc": "0x10228",
+          "op": "tbz w20, #0, #0x1024c"
+        }
+      ],
+      "head": [
+        "0xff20 stp x22, x21, [sp, #-0x30]!",
+        "0xff24 stp x20, x19, [sp, #0x10]",
+        "0xff28 stp x29, x30, [sp, #0x20]",
+        "0xff2c add x29, sp, #0x20",
+        "0xff30 mov x19, x2",
+        "0xff34 mov x0, x2",
+        "0xff38 bl #0x567c4",
+        "0xff3c mov x0, x19",
+        "0xff40 bl #0xe324",
+        "0xff44 mov x29, x29",
+        "0xff48 bl #0x567dc",
+        "0xff4c mov x20, x0",
+        "0xff50 bl #0xffb4",
+        "0xff54 tbz w0, #0, #0xff60",
+        "0xff58 mov w21, #1",
+        "0xff5c b #0xff6c",
+        "0xff60 mov x0, x19",
+        "0xff64 bl #0x101bc",
+        "0xff68 mov x21, x0",
+        "0xff6c mov x0, x20",
+        "0xff70 bl #0x567b8",
+        "0xff74 mov x0, x19",
+        "0xff78 bl #0x567b8",
+        "0xff7c mov x0, x21",
+        "0xff80 ldp x29, x30, [sp, #0x20]",
+        "0xff84 ldp x20, x19, [sp, #0x10]",
+        "0xff88 ldp x22, x21, [sp], #0x30",
+        "0xff8c ret ",
+        "0xff90 mov x21, x0",
+        "0xff94 b #0xffa4",
+        "0xff98 mov x21, x0",
+        "0xff9c mov x0, x20",
+        "0xffa0 bl #0x567b8",
+        "0xffa4 mov x0, x19",
+        "0xffa8 bl #0x567b8",
+        "0xffac mov x0, x21",
+        "0xffb0 bl #0x563e0",
+        "0xffb4 stp x22, x21, [sp, #-0x30]!",
+        "0xffb8 stp x20, x19, [sp, #0x10]",
+        "0xffbc stp x29, x30, [sp, #0x20]",
+        "0xffc0 add x29, sp, #0x20",
+        "0xffc4 mov x19, x0",
+        "0xffc8 bl #0x567c4",
+        "0xffcc cbz x19, #0x10014",
+        "0xffd0 mov x0, x19",
+        "0xffd4 bl #0x567c4",
+        "0xffd8 adrp x0, #0x79000",
+        "0xffdc add x0, x0, #0x800",
+        "0xffe0 bl #0x56374",
+        "0xffe4 mov x20, x0",
+        "0xffe8 mov x0, x19",
+        "0xffec mov x1, x20",
+        "0xfff0 bl #0x567a0",
+        "0xfff4 tbz w0, #0, #0x1001c",
+        "0xfff8 mov x0, x19",
+        "0xfffc mov x1, x20",
+        "0x10000 bl #0x56758",
+        "0x10004 mov x29, x29",
+        "0x10008 bl #0x567dc",
+        "0x1000c mov x20, x0"
+      ]
+    },
+    "openApp:slot:": {
+      "present": true,
+      "imp": "0x164d4",
+      "end": "0x16e04",
+      "instructions": 588,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x165a4",
+          "literal": "CarSplit: %@ khong co giao dien CarPlay -> bo qua",
+          "nearby": [
+            "0x16598 adrp x8, #0x87000",
+            "0x1659c ldr x0, [x8, #0x678]",
+            "0x165a0 str x19, [sp]",
+            "0x165a4 adrp x2, #0x7b000",
+            "0x165a8 add x2, x2, #0x480",
+            "0x165ac bl #0x5c440",
+            "0x165b0 mov x29, x29",
+            "0x165b4 bl #0x567dc",
+            "0x165b8 mov x20, x0",
+            "0x165bc adrp x0, #0x79000",
+            "0x165c0 add x0, x0, #0x5c0",
+            "0x165c4 mov x1, x20",
+            "0x165c8 bl #0x4fbf4",
+            "0x165cc mov x0, x20",
+            "0x165d0 bl #0x567b8",
+            "0x165d4 adrp x0, #0x7b000",
+            "0x165d8 add x0, x0, #0x4a0",
+            "0x165dc adrp x1, #0x7b000"
+          ]
+        },
+        {
+          "at": "0x165bc",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x165b0 mov x29, x29",
+            "0x165b4 bl #0x567dc",
+            "0x165b8 mov x20, x0",
+            "0x165bc adrp x0, #0x79000",
+            "0x165c0 add x0, x0, #0x5c0",
+            "0x165c4 mov x1, x20",
+            "0x165c8 bl #0x4fbf4",
+            "0x165cc mov x0, x20",
+            "0x165d0 bl #0x567b8",
+            "0x165d4 adrp x0, #0x7b000",
+            "0x165d8 add x0, x0, #0x4a0",
+            "0x165dc adrp x1, #0x7b000",
+            "0x165e0 add x1, x1, #0x4c0",
+            "0x165e4 bl #0x558fc",
+            "0x165e8 mov x29, x29",
+            "0x165ec bl #0x567dc",
+            "0x165f0 mov x20, x0",
+            "0x165f4 mov x0, x21"
+          ]
+        },
+        {
+          "at": "0x165dc",
+          "literal": "This app doesn't support CarPlay",
+          "nearby": [
+            "0x165d0 bl #0x567b8",
+            "0x165d4 adrp x0, #0x7b000",
+            "0x165d8 add x0, x0, #0x4a0",
+            "0x165dc adrp x1, #0x7b000",
+            "0x165e0 add x1, x1, #0x4c0",
+            "0x165e4 bl #0x558fc",
+            "0x165e8 mov x29, x29",
+            "0x165ec bl #0x567dc",
+            "0x165f0 mov x20, x0",
+            "0x165f4 mov x0, x21",
+            "0x165f8 mov x2, x20",
+            "0x165fc bl #0x5c720",
+            "0x16600 mov x0, x20",
+            "0x16604 bl #0x567b8",
+            "0x16608 b #0x16b90",
+            "0x1660c mov x0, x21",
+            "0x16610 bl #0x57140",
+            "0x16614 mov x23, x0"
+          ]
+        },
+        {
+          "at": "0x16658",
+          "literal": "This pane is pinned",
+          "nearby": [
+            "0x1664c cbz w0, #0x16730",
+            "0x16650 adrp x0, #0x7b000",
+            "0x16654 add x0, x0, #0x4e0",
+            "0x16658 adrp x1, #0x7b000",
+            "0x1665c add x1, x1, #0x500",
+            "0x16660 bl #0x140d0",
+            "0x16664 mov x29, x29",
+            "0x16668 bl #0x567dc",
+            "0x1666c mov x22, x0",
+            "0x16670 mov x0, x21",
+            "0x16674 mov x2, x22",
+            "0x16678 bl #0x5c720",
+            "0x1667c b #0x168dc",
+            "0x16680 cbz x20, #0x166b4",
+            "0x16684 mov x0, x20",
+            "0x16688 bl #0x5c100",
+            "0x1668c cmp w0, w23",
+            "0x16690 b.eq #0x166ac"
+          ]
+        },
+        {
+          "at": "0x166cc",
+          "literal": "%@ is already open in %@",
+          "nearby": [
+            "0x166c0 ldr x25, [x8, #0x678]",
+            "0x166c4 adrp x0, #0x7b000",
+            "0x166c8 add x0, x0, #0x540",
+            "0x166cc adrp x1, #0x7b000",
+            "0x166d0 add x1, x1, #0x560",
+            "0x166d4 bl #0x558fc",
+            "0x166d8 mov x29, x29",
+            "0x166dc bl #0x567dc",
+            "0x166e0 mov x22, x0",
+            "0x166e4 mov x0, x21",
+            "0x166e8 mov x2, x19",
+            "0x166ec bl #0x57ca0",
+            "0x166f0 mov x29, x29",
+            "0x166f4 bl #0x567dc",
+            "0x166f8 mov x23, x0",
+            "0x166fc mov x0, x20",
+            "0x16700 bl #0x5c100",
+            "0x16704 mov x24, x0"
+          ]
+        },
+        {
+          "at": "0x16718",
+          "literal": "the floating window",
+          "nearby": [
+            "0x1670c b.ne #0x16878",
+            "0x16710 adrp x0, #0x7b000",
+            "0x16714 add x0, x0, #0x580",
+            "0x16718 adrp x1, #0x7b000",
+            "0x1671c add x1, x1, #0x5a0",
+            "0x16720 bl #0x140d0",
+            "0x16724 mov x29, x29",
+            "0x16728 bl #0x567dc",
+            "0x1672c b #0x16894",
+            "0x16730 adrp x8, #0x87000",
+            "0x16734 ldr x0, [x8, #0x678]",
+            "0x16738 stp x19, x22, [sp, #8]",
+            "0x1673c str x23, [sp]",
+            "0x16740 adrp x2, #0x7b000",
+            "0x16744 add x2, x2, #0x520",
+            "0x16748 bl #0x5c440",
+            "0x1674c mov x29, x29",
+            "0x16750 bl #0x567dc"
+          ]
+        },
+        {
+          "at": "0x16740",
+          "literal": "CarSplit: o %d dang ghim -> mo %@ vao o %d",
+          "nearby": [
+            "0x16734 ldr x0, [x8, #0x678]",
+            "0x16738 stp x19, x22, [sp, #8]",
+            "0x1673c str x23, [sp]",
+            "0x16740 adrp x2, #0x7b000",
+            "0x16744 add x2, x2, #0x520",
+            "0x16748 bl #0x5c440",
+            "0x1674c mov x29, x29",
+            "0x16750 bl #0x567dc",
+            "0x16754 mov x23, x0",
+            "0x16758 adrp x0, #0x79000",
+            "0x1675c add x0, x0, #0x5c0",
+            "0x16760 mov x1, x23",
+            "0x16764 bl #0x4fbf4",
+            "0x16768 mov x0, x23",
+            "0x1676c bl #0x567b8",
+            "0x16770 mov w26, #1",
+            "0x16774 mov x23, x22",
+            "0x16778 mov x0, x21"
+          ]
+        },
+        {
+          "at": "0x16758",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1674c mov x29, x29",
+            "0x16750 bl #0x567dc",
+            "0x16754 mov x23, x0",
+            "0x16758 adrp x0, #0x79000",
+            "0x1675c add x0, x0, #0x5c0",
+            "0x16760 mov x1, x23",
+            "0x16764 bl #0x4fbf4",
+            "0x16768 mov x0, x23",
+            "0x1676c bl #0x567b8",
+            "0x16770 mov w26, #1",
+            "0x16774 mov x23, x22",
+            "0x16778 mov x0, x21",
+            "0x1677c mov x2, x23",
+            "0x16780 bl #0x597e0",
+            "0x16784 mov x29, x29",
+            "0x16788 bl #0x567dc",
+            "0x1678c mov x22, x0",
+            "0x16790 cbz x0, #0x16b80"
+          ]
+        },
+        {
+          "at": "0x16880",
+          "literal": "another pane",
+          "nearby": [
+            "0x16874 b #0x16b80",
+            "0x16878 adrp x0, #0x7b000",
+            "0x1687c add x0, x0, #0x5c0",
+            "0x16880 adrp x1, #0x7b000",
+            "0x16884 add x1, x1, #0x5e0",
+            "0x16888 bl #0x140d0",
+            "0x1688c mov x29, x29",
+            "0x16890 bl #0x567dc",
+            "0x16894 mov x26, x0",
+            "0x16898 stp x23, x0, [sp]",
+            "0x1689c mov x0, x25",
+            "0x168a0 mov x2, x22",
+            "0x168a4 bl #0x5c440",
+            "0x168a8 mov x29, x29",
+            "0x168ac bl #0x567dc",
+            "0x168b0 mov x25, x0",
+            "0x168b4 mov x0, x21",
+            "0x168b8 mov x2, x25"
+          ]
+        },
+        {
+          "at": "0x16a20",
+          "literal": "CarSplit: mo %@ vao ngan %d sau %.1fs (launchInfo=%@)",
+          "nearby": [
+            "0x16a14 str d8, [sp, #0x10]",
+            "0x16a18 mov x8, x23",
+            "0x16a1c stp x19, x8, [sp]",
+            "0x16a20 adrp x2, #0x7b000",
+            "0x16a24 add x2, x2, #0x600",
+            "0x16a28 bl #0x5c440",
+            "0x16a2c mov x29, x29",
+            "0x16a30 bl #0x567dc",
+            "0x16a34 mov x26, x0",
+            "0x16a38 adrp x0, #0x79000",
+            "0x16a3c add x0, x0, #0x5c0",
+            "0x16a40 mov x1, x26",
+            "0x16a44 bl #0x4fbf4",
+            "0x16a48 mov x0, x26",
+            "0x16a4c bl #0x567b8",
+            "0x16a50 cbz x25, #0x16ae4",
+            "0x16a54 add x0, sp, #0x60",
+            "0x16a58 mov x1, x21"
+          ]
+        },
+        {
+          "at": "0x16a38",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x16a2c mov x29, x29",
+            "0x16a30 bl #0x567dc",
+            "0x16a34 mov x26, x0",
+            "0x16a38 adrp x0, #0x79000",
+            "0x16a3c add x0, x0, #0x5c0",
+            "0x16a40 mov x1, x26",
+            "0x16a44 bl #0x4fbf4",
+            "0x16a48 mov x0, x26",
+            "0x16a4c bl #0x567b8",
+            "0x16a50 cbz x25, #0x16ae4",
+            "0x16a54 add x0, sp, #0x60",
+            "0x16a58 mov x1, x21",
+            "0x16a5c bl #0x56740",
+            "0x16a60 adrp x8, #0x78000",
+            "0x16a64 ldr x8, [x8, #0x338]",
+            "0x16a68 str x8, [sp, #0x28]",
+            "0x16a6c adrp x8, #0x6e000",
+            "0x16a70 ldr d0, [x8, #0xff8]"
+          ]
+        },
+        {
+          "at": "0x16b00",
+          "literal": "Couldn't open %@ in the pane",
+          "nearby": [
+            "0x16af4 ldr x27, [x27, #0x678]",
+            "0x16af8 adrp x0, #0x7b000",
+            "0x16afc add x0, x0, #0x620",
+            "0x16b00 adrp x1, #0x7b000",
+            "0x16b04 add x1, x1, #0x640",
+            "0x16b08 bl #0x140d0",
+            "0x16b0c mov x29, x29",
+            "0x16b10 bl #0x567dc",
+            "0x16b14 mov x23, x0",
+            "0x16b18 mov x0, x21",
+            "0x16b1c mov x2, x19",
+            "0x16b20 bl #0x57ca0",
+            "0x16b24 mov x29, x29",
+            "0x16b28 bl #0x567dc",
+            "0x16b2c mov x26, x0",
+            "0x16b30 str x0, [sp]",
+            "0x16b34 mov x0, x27",
+            "0x16b38 mov x2, x23"
+          ]
+        }
+      ],
+      "branch_count": 25,
+      "branch_first": [
+        {
+          "pc": "0x16524",
+          "op": "cbz x0, #0x16b90"
+        },
+        {
+          "pc": "0x16534",
+          "op": "tbz w0, #0, #0x16598"
+        },
+        {
+          "pc": "0x1654c",
+          "op": "tbz w0, #0, #0x16b90"
+        },
+        {
+          "pc": "0x16580",
+          "op": "tbnz w25, #0, #0x16618"
+        },
+        {
+          "pc": "0x16584",
+          "op": "cbz x20, #0x1660c"
+        },
+        {
+          "pc": "0x16618",
+          "op": "cbnz x20, #0x16680"
+        },
+        {
+          "pc": "0x16620",
+          "op": "b.eq #0x16680"
+        },
+        {
+          "pc": "0x16630",
+          "op": "cbz w0, #0x166b4"
+        },
+        {
+          "pc": "0x1664c",
+          "op": "cbz w0, #0x16730"
+        },
+        {
+          "pc": "0x16680",
+          "op": "cbz x20, #0x166b4"
+        },
+        {
+          "pc": "0x16690",
+          "op": "b.eq #0x166ac"
+        },
+        {
+          "pc": "0x166a0",
+          "op": "b.eq #0x166bc"
+        },
+        {
+          "pc": "0x166a8",
+          "op": "b.eq #0x166bc"
+        },
+        {
+          "pc": "0x1670c",
+          "op": "b.ne #0x16878"
+        },
+        {
+          "pc": "0x16790",
+          "op": "cbz x0, #0x16b80"
+        },
+        {
+          "pc": "0x167a0",
+          "op": "tbz w26, #0, #0x167c8"
+        },
+        {
+          "pc": "0x167b4",
+          "op": "b.ne #0x16848"
+        },
+        {
+          "pc": "0x167d4",
+          "op": "b.eq #0x167f0"
+        },
+        {
+          "pc": "0x167f4",
+          "op": "tbnz w8, #0, #0x16800"
+        },
+        {
+          "pc": "0x16830",
+          "op": "cbz w24, #0x16b80"
+        },
+        {
+          "pc": "0x16850",
+          "op": "cbz w0, #0x168e8"
+        },
+        {
+          "pc": "0x16868",
+          "op": "tbnz w8, #0, #0x16b80"
+        },
+        {
+          "pc": "0x16998",
+          "op": "tbnz w8, #0, #0x169a4"
+        },
+        {
+          "pc": "0x16a50",
+          "op": "cbz x25, #0x16ae4"
+        },
+        {
+          "pc": "0x16bac",
+          "op": "b.ne #0x16bd4"
+        }
+      ],
+      "head": [
+        "0x164d4 sub sp, sp, #0xf0",
+        "0x164d8 stp d9, d8, [sp, #0x80]",
+        "0x164dc stp x28, x27, [sp, #0x90]",
+        "0x164e0 stp x26, x25, [sp, #0xa0]",
+        "0x164e4 stp x24, x23, [sp, #0xb0]",
+        "0x164e8 stp x22, x21, [sp, #0xc0]",
+        "0x164ec stp x20, x19, [sp, #0xd0]",
+        "0x164f0 stp x29, x30, [sp, #0xe0]",
+        "0x164f4 add x29, sp, #0xe0",
+        "0x164f8 mov x23, x3",
+        "0x164fc mov x19, x2",
+        "0x16500 mov x21, x0",
+        "0x16504 adrp x8, #0x78000",
+        "0x16508 ldr x8, [x8, #0x360]",
+        "0x1650c ldr x8, [x8]",
+        "0x16510 stur x8, [x29, #-0x68]",
+        "0x16514 mov x0, x2",
+        "0x16518 bl #0x567c4",
+        "0x1651c mov x0, x19",
+        "0x16520 bl #0x590c0",
+        "0x16524 cbz x0, #0x16b90",
+        "0x16528 mov x0, x21",
+        "0x1652c mov x2, x19",
+        "0x16530 bl #0x58c40",
+        "0x16534 tbz w0, #0, #0x16598",
+        "0x16538 mov x0, x21",
+        "0x1653c bl #0x56b60",
+        "0x16540 mov x24, x0",
+        "0x16544 mov x0, x21",
+        "0x16548 bl #0x56b00",
+        "0x1654c tbz w0, #0, #0x16b90",
+        "0x16550 mov x0, x21",
+        "0x16554 bl #0x59dc0",
+        "0x16558 mov x0, x21",
+        "0x1655c mov x2, x23",
+        "0x16560 bl #0x5ca60",
+        "0x16564 mov x25, x0",
+        "0x16568 mov x0, x21",
+        "0x1656c mov x2, x19",
+        "0x16570 bl #0x59820",
+        "0x16574 mov x29, x29",
+        "0x16578 bl #0x567dc",
+        "0x1657c mov x20, x0",
+        "0x16580 tbnz w25, #0, #0x16618",
+        "0x16584 cbz x20, #0x1660c",
+        "0x16588 mov x0, x20",
+        "0x1658c bl #0x5c100",
+        "0x16590 mov x23, x0",
+        "0x16594 b #0x16684",
+        "0x16598 adrp x8, #0x87000",
+        "0x1659c ldr x0, [x8, #0x678]",
+        "0x165a0 str x19, [sp]",
+        "0x165a4 adrp x2, #0x7b000",
+        "0x165a8 add x2, x2, #0x480",
+        "0x165ac bl #0x5c440",
+        "0x165b0 mov x29, x29",
+        "0x165b4 bl #0x567dc",
+        "0x165b8 mov x20, x0",
+        "0x165bc adrp x0, #0x79000",
+        "0x165c0 add x0, x0, #0x5c0"
+      ]
+    },
+    "adopt:slot:": {
+      "present": true,
+      "imp": "0x1942c",
+      "end": "0x19e04",
+      "instructions": 630,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x194a8",
+          "literal": "applicationInfo",
+          "nearby": [
+            "0x1949c ldr x19, [sp, #0x28]",
+            "0x194a0 mov x0, x19",
+            "0x194a4 bl #0x567c4",
+            "0x194a8 adrp x0, #0x7b000",
+            "0x194ac add x0, x0, #0x3c0",
+            "0x194b0 bl #0x56374",
+            "0x194b4 mov x21, x0",
+            "0x194b8 mov x0, x19",
+            "0x194bc mov x1, x21",
+            "0x194c0 bl #0x567a0",
+            "0x194c4 tbz w0, #0, #0x19534",
+            "0x194c8 ldr x0, [sp, #0x28]",
+            "0x194cc mov x1, x21",
+            "0x194d0 bl #0x56758",
+            "0x194d4 mov x29, x29",
+            "0x194d8 bl #0x567dc",
+            "0x194dc mov x22, x0",
+            "0x194e0 b #0x19548"
+          ]
+        },
+        {
+          "at": "0x194fc",
+          "literal": "CarSplit: bo qua dua VC vao o %d (chi co %d o)",
+          "nearby": [
+            "0x194f0 bl #0x59800",
+            "0x194f4 ldr x8, [sp, #0x20]",
+            "0x194f8 stp x8, x0, [sp]",
+            "0x194fc adrp x2, #0x7b000",
+            "0x19500 add x2, x2, #0x840",
+            "0x19504 mov x0, x19",
+            "0x19508 bl #0x5c440",
+            "0x1950c mov x29, x29",
+            "0x19510 bl #0x567dc",
+            "0x19514 mov x21, x0",
+            "0x19518 adrp x0, #0x79000",
+            "0x1951c add x0, x0, #0x5c0",
+            "0x19520 mov x1, x21",
+            "0x19524 bl #0x4fbf4",
+            "0x19528 mov x0, x21",
+            "0x1952c bl #0x567b8",
+            "0x19530 b #0x19ba0",
+            "0x19534 adrp x1, #0x7b000"
+          ]
+        },
+        {
+          "at": "0x19518",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1950c mov x29, x29",
+            "0x19510 bl #0x567dc",
+            "0x19514 mov x21, x0",
+            "0x19518 adrp x0, #0x79000",
+            "0x1951c add x0, x0, #0x5c0",
+            "0x19520 mov x1, x21",
+            "0x19524 bl #0x4fbf4",
+            "0x19528 mov x0, x21",
+            "0x1952c bl #0x567b8",
+            "0x19530 b #0x19ba0",
+            "0x19534 adrp x1, #0x7b000",
+            "0x19538 add x1, x1, #0x3c0",
+            "0x1953c ldr x0, [sp, #0x28]",
+            "0x19540 bl #0x4f330",
+            "0x19544 mov x22, #0",
+            "0x19548 ldr x25, [sp, #0x28]",
+            "0x1954c mov x0, x25",
+            "0x19550 bl #0x567b8"
+          ]
+        },
+        {
+          "at": "0x19534",
+          "literal": "applicationInfo",
+          "nearby": [
+            "0x19528 mov x0, x21",
+            "0x1952c bl #0x567b8",
+            "0x19530 b #0x19ba0",
+            "0x19534 adrp x1, #0x7b000",
+            "0x19538 add x1, x1, #0x3c0",
+            "0x1953c ldr x0, [sp, #0x28]",
+            "0x19540 bl #0x4f330",
+            "0x19544 mov x22, #0",
+            "0x19548 ldr x25, [sp, #0x28]",
+            "0x1954c mov x0, x25",
+            "0x19550 bl #0x567b8",
+            "0x19554 mov x0, x25",
+            "0x19558 bl #0x567c4",
+            "0x1955c adrp x0, #0x7b000",
+            "0x19560 add x0, x0, #0x3e0",
+            "0x19564 bl #0x56374",
+            "0x19568 mov x21, x0",
+            "0x1956c mov x0, x25"
+          ]
+        },
+        {
+          "at": "0x1955c",
+          "literal": "proxyApplicationInfo",
+          "nearby": [
+            "0x19550 bl #0x567b8",
+            "0x19554 mov x0, x25",
+            "0x19558 bl #0x567c4",
+            "0x1955c adrp x0, #0x7b000",
+            "0x19560 add x0, x0, #0x3e0",
+            "0x19564 bl #0x56374",
+            "0x19568 mov x21, x0",
+            "0x1956c mov x0, x25",
+            "0x19570 mov x1, x21",
+            "0x19574 bl #0x567a0",
+            "0x19578 tbz w0, #0, #0x19598",
+            "0x1957c ldr x0, [sp, #0x28]",
+            "0x19580 mov x1, x21",
+            "0x19584 bl #0x56758",
+            "0x19588 mov x29, x29",
+            "0x1958c bl #0x567dc",
+            "0x19590 mov x25, x0",
+            "0x19594 b #0x195ac"
+          ]
+        },
+        {
+          "at": "0x19598",
+          "literal": "proxyApplicationInfo",
+          "nearby": [
+            "0x1958c bl #0x567dc",
+            "0x19590 mov x25, x0",
+            "0x19594 b #0x195ac",
+            "0x19598 adrp x1, #0x7b000",
+            "0x1959c add x1, x1, #0x3e0",
+            "0x195a0 ldr x0, [sp, #0x28]",
+            "0x195a4 bl #0x4f330",
+            "0x195a8 mov x25, #0",
+            "0x195ac ldr x0, [sp, #0x28]",
+            "0x195b0 bl #0x567b8",
+            "0x195b4 mov x0, x22",
+            "0x195b8 mov x1, x25",
+            "0x195bc bl #0xd950",
+            "0x195c0 mov x29, x29",
+            "0x195c4 bl #0x567dc",
+            "0x195c8 str x0, [sp, #0x38]",
+            "0x195cc mov x0, x25",
+            "0x195d0 bl #0x567b8"
+          ]
+        },
+        {
+          "at": "0x19b08",
+          "literal": "CarSplit: dua %@ (%@) vao o %d",
+          "nearby": [
+            "0x19afc stp x0, x8, [sp, #8]",
+            "0x19b00 ldr x8, [sp, #0x38]",
+            "0x19b04 str x8, [sp]",
+            "0x19b08 adrp x2, #0x7b000",
+            "0x19b0c add x2, x2, #0x860",
+            "0x19b10 mov x0, x28",
+            "0x19b14 bl #0x5c440",
+            "0x19b18 mov x29, x29",
+            "0x19b1c bl #0x567dc",
+            "0x19b20 mov x24, x0",
+            "0x19b24 adrp x0, #0x79000",
+            "0x19b28 add x0, x0, #0x5c0",
+            "0x19b2c mov x1, x24",
+            "0x19b30 bl #0x4fbf4",
+            "0x19b34 mov x0, x24",
+            "0x19b38 bl #0x567b8",
+            "0x19b3c mov x0, x27",
+            "0x19b40 bl #0x567b8"
+          ]
+        },
+        {
+          "at": "0x19b24",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x19b18 mov x29, x29",
+            "0x19b1c bl #0x567dc",
+            "0x19b20 mov x24, x0",
+            "0x19b24 adrp x0, #0x79000",
+            "0x19b28 add x0, x0, #0x5c0",
+            "0x19b2c mov x1, x24",
+            "0x19b30 bl #0x4fbf4",
+            "0x19b34 mov x0, x24",
+            "0x19b38 bl #0x567b8",
+            "0x19b3c mov x0, x27",
+            "0x19b40 bl #0x567b8",
+            "0x19b44 ldr x0, [sp, #0x30]",
+            "0x19b48 bl #0x5a1a0",
+            "0x19b4c ldr x0, [sp, #0x30]",
+            "0x19b50 bl #0x5a1c0",
+            "0x19b54 ldr x0, [sp, #0x30]",
+            "0x19b58 bl #0x59e60",
+            "0x19b5c cbz x22, #0x19b74"
+          ]
+        }
+      ],
+      "branch_count": 20,
+      "branch_first": [
+        {
+          "pc": "0x19498",
+          "op": "cbz x0, #0x194e4"
+        },
+        {
+          "pc": "0x194c4",
+          "op": "tbz w0, #0, #0x19534"
+        },
+        {
+          "pc": "0x19578",
+          "op": "tbz w0, #0, #0x19598"
+        },
+        {
+          "pc": "0x19608",
+          "op": "b.eq #0x19794"
+        },
+        {
+          "pc": "0x19644",
+          "op": "cbz x0, #0x1975c"
+        },
+        {
+          "pc": "0x19660",
+          "op": "b.eq #0x1966c"
+        },
+        {
+          "pc": "0x19678",
+          "op": "b.eq #0x19734"
+        },
+        {
+          "pc": "0x19690",
+          "op": "cbz x0, #0x19734"
+        },
+        {
+          "pc": "0x196c4",
+          "op": "tbz w19, #0, #0x19734"
+        },
+        {
+          "pc": "0x1973c",
+          "op": "b.ne #0x19654"
+        },
+        {
+          "pc": "0x19758",
+          "op": "cbnz x0, #0x19650"
+        },
+        {
+          "pc": "0x19778",
+          "op": "cbz x0, #0x197a4"
+        },
+        {
+          "pc": "0x197f0",
+          "op": "tbnz w19, #0, #0x19844"
+        },
+        {
+          "pc": "0x19850",
+          "op": "b.ne #0x19864"
+        },
+        {
+          "pc": "0x19894",
+          "op": "tbnz w19, #0, #0x198d8"
+        },
+        {
+          "pc": "0x198b4",
+          "op": "tbnz w19, #0, #0x198cc"
+        },
+        {
+          "pc": "0x19a5c",
+          "op": "tbnz w19, #0, #0x19a6c"
+        },
+        {
+          "pc": "0x19ab8",
+          "op": "b.eq #0x19ac8"
+        },
+        {
+          "pc": "0x19b5c",
+          "op": "cbz x22, #0x19b74"
+        },
+        {
+          "pc": "0x19bc4",
+          "op": "b.ne #0x19bf0"
+        }
+      ],
+      "head": [
+        "0x1942c sub sp, sp, #0x1f0",
+        "0x19430 stp d11, d10, [sp, #0x170]",
+        "0x19434 stp d9, d8, [sp, #0x180]",
+        "0x19438 stp x28, x27, [sp, #0x190]",
+        "0x1943c stp x26, x25, [sp, #0x1a0]",
+        "0x19440 stp x24, x23, [sp, #0x1b0]",
+        "0x19444 stp x22, x21, [sp, #0x1c0]",
+        "0x19448 stp x20, x19, [sp, #0x1d0]",
+        "0x1944c stp x29, x30, [sp, #0x1e0]",
+        "0x19450 add x29, sp, #0x1e0",
+        "0x19454 mov x20, x3",
+        "0x19458 mov x19, x0",
+        "0x1945c adrp x8, #0x78000",
+        "0x19460 ldr x8, [x8, #0x360]",
+        "0x19464 ldr x8, [x8]",
+        "0x19468 stur x8, [x29, #-0x80]",
+        "0x1946c str x2, [sp, #0x28]",
+        "0x19470 mov x0, x2",
+        "0x19474 bl #0x567c4",
+        "0x19478 str x19, [sp, #0x30]",
+        "0x1947c mov x0, x19",
+        "0x19480 str x20, [sp, #0x20]",
+        "0x19484 mov x2, x20",
+        "0x19488 bl #0x597e0",
+        "0x1948c mov x29, x29",
+        "0x19490 bl #0x567dc",
+        "0x19494 mov x20, x0",
+        "0x19498 cbz x0, #0x194e4",
+        "0x1949c ldr x19, [sp, #0x28]",
+        "0x194a0 mov x0, x19",
+        "0x194a4 bl #0x567c4",
+        "0x194a8 adrp x0, #0x7b000",
+        "0x194ac add x0, x0, #0x3c0",
+        "0x194b0 bl #0x56374",
+        "0x194b4 mov x21, x0",
+        "0x194b8 mov x0, x19",
+        "0x194bc mov x1, x21",
+        "0x194c0 bl #0x567a0",
+        "0x194c4 tbz w0, #0, #0x19534",
+        "0x194c8 ldr x0, [sp, #0x28]",
+        "0x194cc mov x1, x21",
+        "0x194d0 bl #0x56758",
+        "0x194d4 mov x29, x29",
+        "0x194d8 bl #0x567dc",
+        "0x194dc mov x22, x0",
+        "0x194e0 b #0x19548",
+        "0x194e4 adrp x8, #0x87000",
+        "0x194e8 ldr x19, [x8, #0x678]",
+        "0x194ec ldr x0, [sp, #0x30]",
+        "0x194f0 bl #0x59800",
+        "0x194f4 ldr x8, [sp, #0x20]",
+        "0x194f8 stp x8, x0, [sp]",
+        "0x194fc adrp x2, #0x7b000",
+        "0x19500 add x2, x2, #0x840",
+        "0x19504 mov x0, x19",
+        "0x19508 bl #0x5c440",
+        "0x1950c mov x29, x29",
+        "0x19510 bl #0x567dc",
+        "0x19514 mov x21, x0",
+        "0x19518 adrp x0, #0x79000"
+      ]
+    },
+    "sceneOfViewController:": {
+      "present": true,
+      "imp": "0x1aaf4",
+      "end": "0x1ad58",
+      "instructions": 153,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x1ac64",
+          "literal": "sceneHandle",
+          "nearby": [
+            "0x1ac58 bl #0x57a00",
+            "0x1ac5c mov x21, x0",
+            "0x1ac60 cbnz x0, #0x1abe0",
+            "0x1ac64 adrp x2, #0x7d000",
+            "0x1ac68 add x2, x2, #0xbe0",
+            "0x1ac6c mov x0, x19",
+            "0x1ac70 bl #0x5caa0",
+            "0x1ac74 mov x29, x29",
+            "0x1ac78 bl #0x567dc",
+            "0x1ac7c mov x20, x0",
+            "0x1ac80 cbz x0, #0x1acb0",
+            "0x1ac84 adrp x2, #0x7d000",
+            "0x1ac88 add x2, x2, #0xba0",
+            "0x1ac8c mov x0, x20",
+            "0x1ac90 bl #0x5caa0",
+            "0x1ac94 mov x29, x29",
+            "0x1ac98 bl #0x567dc",
+            "0x1ac9c mov x22, x0"
+          ]
+        },
+        {
+          "at": "0x1ac84",
+          "literal": "scene",
+          "nearby": [
+            "0x1ac78 bl #0x567dc",
+            "0x1ac7c mov x20, x0",
+            "0x1ac80 cbz x0, #0x1acb0",
+            "0x1ac84 adrp x2, #0x7d000",
+            "0x1ac88 add x2, x2, #0xba0",
+            "0x1ac8c mov x0, x20",
+            "0x1ac90 bl #0x5caa0",
+            "0x1ac94 mov x29, x29",
+            "0x1ac98 bl #0x567dc",
+            "0x1ac9c mov x22, x0",
+            "0x1aca0 cbz x0, #0x1acb0",
+            "0x1aca4 mov x0, x20",
+            "0x1aca8 bl #0x567b8",
+            "0x1acac b #0x1acbc",
+            "0x1acb0 mov x0, x20",
+            "0x1acb4 bl #0x567b8",
+            "0x1acb8 mov x22, #0",
+            "0x1acbc mov x0, x19"
+          ]
+        }
+      ],
+      "branch_count": 11,
+      "branch_first": [
+        {
+          "pc": "0x1ab24",
+          "op": "tbz w0, #0, #0x1ab40"
+        },
+        {
+          "pc": "0x1abcc",
+          "op": "cbz x0, #0x1ac64"
+        },
+        {
+          "pc": "0x1abf0",
+          "op": "b.eq #0x1abfc"
+        },
+        {
+          "pc": "0x1ac18",
+          "op": "cbnz x0, #0x1acbc"
+        },
+        {
+          "pc": "0x1ac24",
+          "op": "b.ne #0x1abe4"
+        },
+        {
+          "pc": "0x1ac34",
+          "op": "b.ne #0x1ad40"
+        },
+        {
+          "pc": "0x1ac60",
+          "op": "cbnz x0, #0x1abe0"
+        },
+        {
+          "pc": "0x1ac80",
+          "op": "cbz x0, #0x1acb0"
+        },
+        {
+          "pc": "0x1aca0",
+          "op": "cbz x0, #0x1acb0"
+        },
+        {
+          "pc": "0x1acd8",
+          "op": "b.ne #0x1acfc"
+        },
+        {
+          "pc": "0x1ad20",
+          "op": "b.ne #0x1ad40"
+        }
+      ],
+      "head": [
+        "0x1aaf4 stp x20, x19, [sp, #-0x20]!",
+        "0x1aaf8 stp x29, x30, [sp, #0x10]",
+        "0x1aafc add x29, sp, #0x10",
+        "0x1ab00 mov x19, x2",
+        "0x1ab04 mov x0, x2",
+        "0x1ab08 bl #0x567c4",
+        "0x1ab0c adrp x8, #0x87000",
+        "0x1ab10 ldr x0, [x8, #0x6a0]",
+        "0x1ab14 bl #0x5677c",
+        "0x1ab18 mov x1, x0",
+        "0x1ab1c mov x0, x19",
+        "0x1ab20 bl #0x56788",
+        "0x1ab24 tbz w0, #0, #0x1ab40",
+        "0x1ab28 mov x0, x19",
+        "0x1ab2c bl #0x1ab70",
+        "0x1ab30 mov x29, x29",
+        "0x1ab34 bl #0x567dc",
+        "0x1ab38 mov x20, x0",
+        "0x1ab3c b #0x1ab44",
+        "0x1ab40 mov x20, #0",
+        "0x1ab44 mov x0, x19",
+        "0x1ab48 bl #0x567b8",
+        "0x1ab4c mov x0, x20",
+        "0x1ab50 ldp x29, x30, [sp, #0x10]",
+        "0x1ab54 ldp x20, x19, [sp], #0x20",
+        "0x1ab58 b #0x566e0",
+        "0x1ab5c mov x20, x0",
+        "0x1ab60 mov x0, x19",
+        "0x1ab64 bl #0x567b8",
+        "0x1ab68 mov x0, x20",
+        "0x1ab6c bl #0x563e0",
+        "0x1ab70 sub sp, sp, #0x120",
+        "0x1ab74 stp x28, x27, [sp, #0xd0]",
+        "0x1ab78 stp x24, x23, [sp, #0xe0]",
+        "0x1ab7c stp x22, x21, [sp, #0xf0]",
+        "0x1ab80 stp x20, x19, [sp, #0x100]",
+        "0x1ab84 stp x29, x30, [sp, #0x110]",
+        "0x1ab88 add x29, sp, #0x110",
+        "0x1ab8c mov x19, x0",
+        "0x1ab90 adrp x8, #0x78000",
+        "0x1ab94 ldr x8, [x8, #0x360]",
+        "0x1ab98 ldr x8, [x8]",
+        "0x1ab9c stur x8, [x29, #-0x48]",
+        "0x1aba0 bl #0x567c4",
+        "0x1aba4 movi v0.16b, #0",
+        "0x1aba8 stp q0, q0, [sp]",
+        "0x1abac stp q0, q0, [sp, #0x20]",
+        "0x1abb0 adrp x0, #0x80000",
+        "0x1abb4 add x0, x0, #0x530",
+        "0x1abb8 mov x2, sp",
+        "0x1abbc add x3, sp, #0x48",
+        "0x1abc0 mov w4, #0x10",
+        "0x1abc4 bl #0x57a00",
+        "0x1abc8 mov x21, x0",
+        "0x1abcc cbz x0, #0x1ac64",
+        "0x1abd0 ldr x8, [sp, #0x10]",
+        "0x1abd4 ldr x23, [x8]",
+        "0x1abd8 adrp x20, #0x80000",
+        "0x1abdc add x20, x20, #0x530",
+        "0x1abe0 mov x24, #0"
+      ]
+    },
+    "verifySceneOfPane:expected:retry:": {
+      "present": true,
+      "imp": "0x1cce0",
+      "end": "0x1d494",
+      "instructions": 493,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x1cd9c",
+          "literal": "settings",
+          "nearby": [
+            "0x1cd90 mov x29, x29",
+            "0x1cd94 bl #0x567dc",
+            "0x1cd98 mov x23, x0",
+            "0x1cd9c adrp x0, #0x7d000",
+            "0x1cda0 add x0, x0, #0xc00",
+            "0x1cda4 bl #0x56374",
+            "0x1cda8 mov x1, x0",
+            "0x1cdac mov x0, x23",
+            "0x1cdb0 bl #0x567a0",
+            "0x1cdb4 tbz w0, #0, #0x1ce58",
+            "0x1cdb8 mov x0, x23",
+            "0x1cdbc bl #0x567c4",
+            "0x1cdc0 adrp x0, #0x7d000",
+            "0x1cdc4 add x0, x0, #0xc00",
+            "0x1cdc8 bl #0x56374",
+            "0x1cdcc mov x24, x0",
+            "0x1cdd0 mov x0, x23",
+            "0x1cdd4 mov x1, x24"
+          ]
+        },
+        {
+          "at": "0x1cdc0",
+          "literal": "settings",
+          "nearby": [
+            "0x1cdb4 tbz w0, #0, #0x1ce58",
+            "0x1cdb8 mov x0, x23",
+            "0x1cdbc bl #0x567c4",
+            "0x1cdc0 adrp x0, #0x7d000",
+            "0x1cdc4 add x0, x0, #0xc00",
+            "0x1cdc8 bl #0x56374",
+            "0x1cdcc mov x24, x0",
+            "0x1cdd0 mov x0, x23",
+            "0x1cdd4 mov x1, x24",
+            "0x1cdd8 bl #0x567a0",
+            "0x1cddc tbz w0, #0, #0x1cdfc",
+            "0x1cde0 mov x0, x23",
+            "0x1cde4 mov x1, x24",
+            "0x1cde8 bl #0x56758",
+            "0x1cdec mov x29, x29",
+            "0x1cdf0 bl #0x567dc",
+            "0x1cdf4 mov x25, x0",
+            "0x1cdf8 b #0x1ce10"
+          ]
+        },
+        {
+          "at": "0x1cdfc",
+          "literal": "settings",
+          "nearby": [
+            "0x1cdf0 bl #0x567dc",
+            "0x1cdf4 mov x25, x0",
+            "0x1cdf8 b #0x1ce10",
+            "0x1cdfc adrp x1, #0x7d000",
+            "0x1ce00 add x1, x1, #0xc00",
+            "0x1ce04 mov x0, x23",
+            "0x1ce08 bl #0x4f330",
+            "0x1ce0c mov x25, #0",
+            "0x1ce10 mov x0, x23",
+            "0x1ce14 bl #0x567b8",
+            "0x1ce18 b #0x1ce5c",
+            "0x1ce1c b #0x1ce20",
+            "0x1ce20 mov x25, x1",
+            "0x1ce24 mov x24, x0",
+            "0x1ce28 mov x0, x23",
+            "0x1ce2c bl #0x567b8",
+            "0x1ce30 b #0x1ce44",
+            "0x1ce34 mov x24, x0"
+          ]
+        },
+        {
+          "at": "0x1ce5c",
+          "literal": "frame",
+          "nearby": [
+            "0x1ce50 bl #0x566ec",
+            "0x1ce54 bl #0x56710",
+            "0x1ce58 mov x25, #0",
+            "0x1ce5c adrp x0, #0x7d000",
+            "0x1ce60 add x0, x0, #0xc20",
+            "0x1ce64 bl #0x56374",
+            "0x1ce68 mov x1, x0",
+            "0x1ce6c mov x0, x25",
+            "0x1ce70 bl #0x567a0",
+            "0x1ce74 adrp x24, #0x78000",
+            "0x1ce78 ldr x24, [x24, #0x6b0]",
+            "0x1ce7c tbz w0, #0, #0x1cea4",
+            "0x1ce80 adrp x0, #0x7d000",
+            "0x1ce84 add x0, x0, #0xc20",
+            "0x1ce88 bl #0x56374",
+            "0x1ce8c mov x1, x0",
+            "0x1ce90 mov x0, x25",
+            "0x1ce94 bl #0x56758"
+          ]
+        },
+        {
+          "at": "0x1ce80",
+          "literal": "frame",
+          "nearby": [
+            "0x1ce74 adrp x24, #0x78000",
+            "0x1ce78 ldr x24, [x24, #0x6b0]",
+            "0x1ce7c tbz w0, #0, #0x1cea4",
+            "0x1ce80 adrp x0, #0x7d000",
+            "0x1ce84 add x0, x0, #0xc20",
+            "0x1ce88 bl #0x56374",
+            "0x1ce8c mov x1, x0",
+            "0x1ce90 mov x0, x25",
+            "0x1ce94 bl #0x56758",
+            "0x1ce98 mov v10.16b, v2.16b",
+            "0x1ce9c mov v11.16b, v3.16b",
+            "0x1cea0 b #0x1cea8",
+            "0x1cea4 ldp d10, d11, [x24]",
+            "0x1cea8 mov x0, x25",
+            "0x1ceac bl #0x567b8",
+            "0x1ceb0 mov x0, x23",
+            "0x1ceb4 bl #0x567b8",
+            "0x1ceb8 mov x0, x22"
+          ]
+        },
+        {
+          "at": "0x1cf00",
+          "literal": "CarSplit: khong doc duoc kich thuoc scene %@",
+          "nearby": [
+            "0x1cef4 bl #0x567dc",
+            "0x1cef8 mov x20, x0",
+            "0x1cefc str x0, [sp]",
+            "0x1cf00 adrp x2, #0x7b000",
+            "0x1cf04 add x2, x2, #0x9e0",
+            "0x1cf08 mov x0, x21",
+            "0x1cf0c bl #0x5c440",
+            "0x1cf10 mov x29, x29",
+            "0x1cf14 bl #0x567dc",
+            "0x1cf18 mov x21, x0",
+            "0x1cf1c adrp x0, #0x79000",
+            "0x1cf20 add x0, x0, #0x5c0",
+            "0x1cf24 mov x1, x21",
+            "0x1cf28 bl #0x4fbf4",
+            "0x1cf2c mov x0, x21",
+            "0x1cf30 bl #0x567b8",
+            "0x1cf34 mov x0, x20",
+            "0x1cf38 bl #0x567b8"
+          ]
+        },
+        {
+          "at": "0x1cf1c",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1cf10 mov x29, x29",
+            "0x1cf14 bl #0x567dc",
+            "0x1cf18 mov x21, x0",
+            "0x1cf1c adrp x0, #0x79000",
+            "0x1cf20 add x0, x0, #0x5c0",
+            "0x1cf24 mov x1, x21",
+            "0x1cf28 bl #0x4fbf4",
+            "0x1cf2c mov x0, x21",
+            "0x1cf30 bl #0x567b8",
+            "0x1cf34 mov x0, x20",
+            "0x1cf38 bl #0x567b8",
+            "0x1cf3c b #0x1d14c",
+            "0x1cf40 fabd d1, d10, d9",
+            "0x1cf44 fmov d0, #2.00000000",
+            "0x1cf48 fcmp d1, d0",
+            "0x1cf4c b.pl #0x1cf64",
+            "0x1cf50 fabd d1, d11, d8",
+            "0x1cf54 fcmp d1, d0"
+          ]
+        },
+        {
+          "at": "0x1cfd4",
+          "literal": " -> van sai",
+          "nearby": [
+            "0x1cfc8 mov x29, x29",
+            "0x1cfcc bl #0x567dc",
+            "0x1cfd0 mov x25, x0",
+            "0x1cfd4 adrp x8, #0x7b000",
+            "0x1cfd8 add x8, x8, #0xa40",
+            "0x1cfdc adrp x9, #0x7b000",
+            "0x1cfe0 add x9, x9, #0xa20",
+            "0x1cfe4 cmp w21, #0",
+            "0x1cfe8 csel x8, x9, x8, ne",
+            "0x1cfec adrp x9, #0x7b000",
+            "0x1cff0 add x9, x9, #0x2a0",
+            "0x1cff4 cmp w27, #0",
+            "0x1cff8 csel x8, x9, x8, ne",
+            "0x1cffc stp x22, x23, [sp]",
+            "0x1d000 stp x0, x8, [sp, #0x10]",
+            "0x1d004 adrp x2, #0x7b000",
+            "0x1d008 add x2, x2, #0xa00",
+            "0x1d00c mov x0, x24"
+          ]
+        },
+        {
+          "at": "0x1cfdc",
+          "literal": " -> ve nen roi len lai",
+          "nearby": [
+            "0x1cfd0 mov x25, x0",
+            "0x1cfd4 adrp x8, #0x7b000",
+            "0x1cfd8 add x8, x8, #0xa40",
+            "0x1cfdc adrp x9, #0x7b000",
+            "0x1cfe0 add x9, x9, #0xa20",
+            "0x1cfe4 cmp w21, #0",
+            "0x1cfe8 csel x8, x9, x8, ne",
+            "0x1cfec adrp x9, #0x7b000",
+            "0x1cff0 add x9, x9, #0x2a0",
+            "0x1cff4 cmp w27, #0",
+            "0x1cff8 csel x8, x9, x8, ne",
+            "0x1cffc stp x22, x23, [sp]",
+            "0x1d000 stp x0, x8, [sp, #0x10]",
+            "0x1d004 adrp x2, #0x7b000",
+            "0x1d008 add x2, x2, #0xa00",
+            "0x1d00c mov x0, x24",
+            "0x1d010 bl #0x5c440",
+            "0x1d014 mov x29, x29"
+          ]
+        },
+        {
+          "at": "0x1d004",
+          "literal": "CarSplit: scene %@ that = %@ (can %@)%@",
+          "nearby": [
+            "0x1cff8 csel x8, x9, x8, ne",
+            "0x1cffc stp x22, x23, [sp]",
+            "0x1d000 stp x0, x8, [sp, #0x10]",
+            "0x1d004 adrp x2, #0x7b000",
+            "0x1d008 add x2, x2, #0xa00",
+            "0x1d00c mov x0, x24",
+            "0x1d010 bl #0x5c440",
+            "0x1d014 mov x29, x29",
+            "0x1d018 bl #0x567dc",
+            "0x1d01c mov x24, x0",
+            "0x1d020 adrp x0, #0x79000",
+            "0x1d024 add x0, x0, #0x5c0",
+            "0x1d028 mov x1, x24",
+            "0x1d02c bl #0x4fbf4",
+            "0x1d030 mov x0, x24",
+            "0x1d034 bl #0x567b8",
+            "0x1d038 mov x0, x25",
+            "0x1d03c bl #0x567b8"
+          ]
+        },
+        {
+          "at": "0x1d020",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1d014 mov x29, x29",
+            "0x1d018 bl #0x567dc",
+            "0x1d01c mov x24, x0",
+            "0x1d020 adrp x0, #0x79000",
+            "0x1d024 add x0, x0, #0x5c0",
+            "0x1d028 mov x1, x24",
+            "0x1d02c bl #0x4fbf4",
+            "0x1d030 mov x0, x24",
+            "0x1d034 bl #0x567b8",
+            "0x1d038 mov x0, x25",
+            "0x1d03c bl #0x567b8",
+            "0x1d040 mov x0, x23",
+            "0x1d044 bl #0x567b8",
+            "0x1d048 mov x0, x22",
+            "0x1d04c bl #0x567b8",
+            "0x1d050 cbz w21, #0x1d14c",
+            "0x1d054 eor w8, w27, #1",
+            "0x1d058 tbz w8, #0, #0x1d14c"
+          ]
+        },
+        {
+          "at": "0x1d084",
+          "literal": "backgroundSceneWithCompletion:",
+          "nearby": [
+            "0x1d078 add x2, x0, #1",
+            "0x1d07c mov x0, x20",
+            "0x1d080 bl #0x5a7a0",
+            "0x1d084 adrp x0, #0x7b000",
+            "0x1d088 add x0, x0, #0x8a0",
+            "0x1d08c bl #0x56374",
+            "0x1d090 mov x1, x0",
+            "0x1d094 adrp x2, #0x78000",
+            "0x1d098 add x2, x2, #0xc40",
+            "0x1d09c mov x0, x21",
+            "0x1d0a0 bl #0x56758",
+            "0x1d0a4 mov x0, x20",
+            "0x1d0a8 bl #0x56e60",
+            "0x1d0ac sub x2, x0, #1",
+            "0x1d0b0 mov x0, x20",
+            "0x1d0b4 bl #0x5a7a0",
+            "0x1d0b8 add x0, sp, #0x68",
+            "0x1d0bc mov x1, x20"
+          ]
+        },
+        {
+          "at": "0x1d19c",
+          "literal": "CarSplit: background loi %@",
+          "nearby": [
+            "0x1d190 bl #0x566ec",
+            "0x1d194 ldr x8, [x26, #0x678]",
+            "0x1d198 str x0, [sp]",
+            "0x1d19c adrp x2, #0x7b000",
+            "0x1d1a0 add x2, x2, #0x8c0",
+            "0x1d1a4 mov x0, x8",
+            "0x1d1a8 bl #0x5c440",
+            "0x1d1ac mov x29, x29",
+            "0x1d1b0 bl #0x567dc",
+            "0x1d1b4 mov x22, x0",
+            "0x1d1b8 adrp x0, #0x79000",
+            "0x1d1bc add x0, x0, #0x5c0",
+            "0x1d1c0 mov x1, x22",
+            "0x1d1c4 bl #0x4fbf4",
+            "0x1d1c8 mov x0, x22",
+            "0x1d1cc bl #0x567b8",
+            "0x1d1d0 bl #0x56710",
+            "0x1d1d4 b #0x1d0a4"
+          ]
+        },
+        {
+          "at": "0x1d1b8",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1d1ac mov x29, x29",
+            "0x1d1b0 bl #0x567dc",
+            "0x1d1b4 mov x22, x0",
+            "0x1d1b8 adrp x0, #0x79000",
+            "0x1d1bc add x0, x0, #0x5c0",
+            "0x1d1c0 mov x1, x22",
+            "0x1d1c4 bl #0x4fbf4",
+            "0x1d1c8 mov x0, x22",
+            "0x1d1cc bl #0x567b8",
+            "0x1d1d0 bl #0x56710",
+            "0x1d1d4 b #0x1d0a4",
+            "0x1d1d8 mov x24, x0",
+            "0x1d1dc mov x0, x22",
+            "0x1d1e0 bl #0x567b8",
+            "0x1d1e4 b #0x1d1ec",
+            "0x1d1e8 mov x24, x0",
+            "0x1d1ec bl #0x56710",
+            "0x1d1f0 b #0x1d250"
+          ]
+        },
+        {
+          "at": "0x1d2fc",
+          "literal": "foregroundSceneWithSettings:completion:",
+          "nearby": [
+            "0x1d2f0 cmp x21, x22",
+            "0x1d2f4 b.ne #0x1d394",
+            "0x1d2f8 ldr x21, [x20, #0x28]",
+            "0x1d2fc adrp x0, #0x7b000",
+            "0x1d300 add x0, x0, #0x960",
+            "0x1d304 bl #0x56374",
+            "0x1d308 mov x1, x0",
+            "0x1d30c adrp x3, #0x78000",
+            "0x1d310 add x3, x3, #0xc60",
+            "0x1d314 mov x0, x21",
+            "0x1d318 mov x2, #0",
+            "0x1d31c bl #0x56758",
+            "0x1d320 adrp x8, #0x78000",
+            "0x1d324 ldr x8, [x8, #0x338]",
+            "0x1d328 str x8, [sp, #0x10]",
+            "0x1d32c adrp x8, #0x6e000",
+            "0x1d330 ldr d0, [x8, #0xff8]",
+            "0x1d334 adrp x8, #0x1d000"
+          ]
+        },
+        {
+          "at": "0x1d3d4",
+          "literal": "CarSplit: foregroundScene loi %@",
+          "nearby": [
+            "0x1d3c8 adrp x8, #0x87000",
+            "0x1d3cc ldr x8, [x8, #0x678]",
+            "0x1d3d0 str x0, [sp]",
+            "0x1d3d4 adrp x2, #0x7b000",
+            "0x1d3d8 add x2, x2, #0x980",
+            "0x1d3dc mov x0, x8",
+            "0x1d3e0 bl #0x5c440",
+            "0x1d3e4 mov x29, x29",
+            "0x1d3e8 bl #0x567dc",
+            "0x1d3ec mov x22, x0",
+            "0x1d3f0 adrp x0, #0x79000",
+            "0x1d3f4 add x0, x0, #0x5c0",
+            "0x1d3f8 mov x1, x22",
+            "0x1d3fc bl #0x4fbf4",
+            "0x1d400 mov x0, x22",
+            "0x1d404 bl #0x567b8",
+            "0x1d408 bl #0x56710",
+            "0x1d40c b #0x1d320"
+          ]
+        },
+        {
+          "at": "0x1d3f0",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1d3e4 mov x29, x29",
+            "0x1d3e8 bl #0x567dc",
+            "0x1d3ec mov x22, x0",
+            "0x1d3f0 adrp x0, #0x79000",
+            "0x1d3f4 add x0, x0, #0x5c0",
+            "0x1d3f8 mov x1, x22",
+            "0x1d3fc bl #0x4fbf4",
+            "0x1d400 mov x0, x22",
+            "0x1d404 bl #0x567b8",
+            "0x1d408 bl #0x56710",
+            "0x1d40c b #0x1d320",
+            "0x1d410 mov x21, x0",
+            "0x1d414 mov x0, x22",
+            "0x1d418 bl #0x567b8",
+            "0x1d41c b #0x1d424",
+            "0x1d420 mov x21, x0",
+            "0x1d424 bl #0x56710",
+            "0x1d428 b #0x1d430"
+          ]
+        }
+      ],
+      "branch_count": 16,
+      "branch_first": [
+        {
+          "pc": "0x1cd2c",
+          "op": "cbz w0, #0x1d14c"
+        },
+        {
+          "pc": "0x1cd44",
+          "op": "cbz x0, #0x1d14c"
+        },
+        {
+          "pc": "0x1cd64",
+          "op": "b.ne #0x1d14c"
+        },
+        {
+          "pc": "0x1cd6c",
+          "op": "b.ne #0x1d14c"
+        },
+        {
+          "pc": "0x1cdb4",
+          "op": "tbz w0, #0, #0x1ce58"
+        },
+        {
+          "pc": "0x1cddc",
+          "op": "tbz w0, #0, #0x1cdfc"
+        },
+        {
+          "pc": "0x1ce48",
+          "op": "b.ne #0x1d26c"
+        },
+        {
+          "pc": "0x1ce7c",
+          "op": "tbz w0, #0, #0x1cea4"
+        },
+        {
+          "pc": "0x1ced0",
+          "op": "b.ne #0x1cf40"
+        },
+        {
+          "pc": "0x1cedc",
+          "op": "b.ne #0x1cf40"
+        },
+        {
+          "pc": "0x1d050",
+          "op": "cbz w21, #0x1d14c"
+        },
+        {
+          "pc": "0x1d058",
+          "op": "tbz w8, #0, #0x1d14c"
+        },
+        {
+          "pc": "0x1d188",
+          "op": "b.ne #0x1d250"
+        },
+        {
+          "pc": "0x1d2d0",
+          "op": "cbz w0, #0x1d394"
+        },
+        {
+          "pc": "0x1d2f4",
+          "op": "b.ne #0x1d394"
+        },
+        {
+          "pc": "0x1d3bc",
+          "op": "b.ne #0x1d430"
+        }
+      ],
+      "head": [
+        "0x1cce0 sub sp, sp, #0xf0",
+        "0x1cce4 stp d11, d10, [sp, #0x70]",
+        "0x1cce8 stp d9, d8, [sp, #0x80]",
+        "0x1ccec stp x28, x27, [sp, #0x90]",
+        "0x1ccf0 stp x26, x25, [sp, #0xa0]",
+        "0x1ccf4 stp x24, x23, [sp, #0xb0]",
+        "0x1ccf8 stp x22, x21, [sp, #0xc0]",
+        "0x1ccfc stp x20, x19, [sp, #0xd0]",
+        "0x1cd00 stp x29, x30, [sp, #0xe0]",
+        "0x1cd04 add x29, sp, #0xe0",
+        "0x1cd08 mov x21, x3",
+        "0x1cd0c mov v8.16b, v1.16b",
+        "0x1cd10 mov v9.16b, v0.16b",
+        "0x1cd14 mov x19, x2",
+        "0x1cd18 mov x20, x0",
+        "0x1cd1c mov x0, x2",
+        "0x1cd20 bl #0x567c4",
+        "0x1cd24 mov x0, x20",
+        "0x1cd28 bl #0x56b60",
+        "0x1cd2c cbz w0, #0x1d14c",
+        "0x1cd30 mov x0, x19",
+        "0x1cd34 bl #0x5cae0",
+        "0x1cd38 mov x29, x29",
+        "0x1cd3c bl #0x567dc",
+        "0x1cd40 mov x22, x0",
+        "0x1cd44 cbz x0, #0x1d14c",
+        "0x1cd48 mov x0, x19",
+        "0x1cd4c bl #0x5a5e0",
+        "0x1cd50 mov v11.16b, v0.16b",
+        "0x1cd54 mov v10.16b, v1.16b",
+        "0x1cd58 mov x0, x22",
+        "0x1cd5c bl #0x567b8",
+        "0x1cd60 fcmp d11, d9",
+        "0x1cd64 b.ne #0x1d14c",
+        "0x1cd68 fcmp d10, d8",
+        "0x1cd6c b.ne #0x1d14c",
+        "0x1cd70 mov x0, x19",
+        "0x1cd74 bl #0x5cae0",
+        "0x1cd78 mov x29, x29",
+        "0x1cd7c bl #0x567dc",
+        "0x1cd80 mov x22, x0",
+        "0x1cd84 bl #0x567c4",
+        "0x1cd88 mov x0, x22",
+        "0x1cd8c bl #0x1ab70",
+        "0x1cd90 mov x29, x29",
+        "0x1cd94 bl #0x567dc",
+        "0x1cd98 mov x23, x0",
+        "0x1cd9c adrp x0, #0x7d000",
+        "0x1cda0 add x0, x0, #0xc00",
+        "0x1cda4 bl #0x56374",
+        "0x1cda8 mov x1, x0",
+        "0x1cdac mov x0, x23",
+        "0x1cdb0 bl #0x567a0",
+        "0x1cdb4 tbz w0, #0, #0x1ce58",
+        "0x1cdb8 mov x0, x23",
+        "0x1cdbc bl #0x567c4",
+        "0x1cdc0 adrp x0, #0x7d000",
+        "0x1cdc4 add x0, x0, #0xc00",
+        "0x1cdc8 bl #0x56374",
+        "0x1cdcc mov x24, x0"
+      ]
+    },
+    "pushSceneSizes": {
+      "present": true,
+      "imp": "0x1c550",
+      "end": "0x1cce0",
+      "instructions": 484,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x1c6e4",
+          "literal": "CarSplit: scene %@ -> %@",
+          "nearby": [
+            "0x1c6d8 mov x26, x0",
+            "0x1c6dc stp x28, x0, [sp]",
+            "0x1c6e0 mov x0, x22",
+            "0x1c6e4 adrp x2, #0x7b000",
+            "0x1c6e8 add x2, x2, #0x940",
+            "0x1c6ec bl #0x5c440",
+            "0x1c6f0 mov x29, x29",
+            "0x1c6f4 bl #0x567dc",
+            "0x1c6f8 mov x22, x0",
+            "0x1c6fc adrp x0, #0x79000",
+            "0x1c700 add x0, x0, #0x5c0",
+            "0x1c704 mov x1, x22",
+            "0x1c708 bl #0x4fbf4",
+            "0x1c70c mov x0, x22",
+            "0x1c710 bl #0x567b8",
+            "0x1c714 mov x0, x26",
+            "0x1c718 bl #0x567b8",
+            "0x1c71c mov x0, x28"
+          ]
+        },
+        {
+          "at": "0x1c6fc",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1c6f0 mov x29, x29",
+            "0x1c6f4 bl #0x567dc",
+            "0x1c6f8 mov x22, x0",
+            "0x1c6fc adrp x0, #0x79000",
+            "0x1c700 add x0, x0, #0x5c0",
+            "0x1c704 mov x1, x22",
+            "0x1c708 bl #0x4fbf4",
+            "0x1c70c mov x0, x22",
+            "0x1c710 bl #0x567b8",
+            "0x1c714 mov x0, x26",
+            "0x1c718 bl #0x567b8",
+            "0x1c71c mov x0, x28",
+            "0x1c720 bl #0x567b8",
+            "0x1c724 mov x0, x27",
+            "0x1c728 bl #0x5cae0",
+            "0x1c72c mov x29, x29",
+            "0x1c730 bl #0x567dc",
+            "0x1c734 mov x26, x0"
+          ]
+        },
+        {
+          "at": "0x1c738",
+          "literal": "foregroundSceneWithSettings:completion:",
+          "nearby": [
+            "0x1c72c mov x29, x29",
+            "0x1c730 bl #0x567dc",
+            "0x1c734 mov x26, x0",
+            "0x1c738 adrp x0, #0x7b000",
+            "0x1c73c add x0, x0, #0x960",
+            "0x1c740 bl #0x56374",
+            "0x1c744 mov x1, x0",
+            "0x1c748 mov x0, x26",
+            "0x1c74c mov x2, #0",
+            "0x1c750 adrp x3, #0x78000",
+            "0x1c754 add x3, x3, #0xbf0",
+            "0x1c758 bl #0x56758",
+            "0x1c75c mov x0, x26",
+            "0x1c760 bl #0x567b8",
+            "0x1c764 mov x0, x27",
+            "0x1c768 bl #0x5cae0",
+            "0x1c76c mov x29, x29",
+            "0x1c770 bl #0x567dc"
+          ]
+        },
+        {
+          "at": "0x1c874",
+          "literal": "CarSplit: foregroundScene loi %@",
+          "nearby": [
+            "0x1c868 adrp x8, #0x87000",
+            "0x1c86c ldr x0, [x8, #0x678]",
+            "0x1c870 str x26, [sp]",
+            "0x1c874 adrp x2, #0x7b000",
+            "0x1c878 add x2, x2, #0x980",
+            "0x1c87c bl #0x5c440",
+            "0x1c880 mov x29, x29",
+            "0x1c884 bl #0x567dc",
+            "0x1c888 mov x22, x0",
+            "0x1c88c adrp x0, #0x79000",
+            "0x1c890 add x0, x0, #0x5c0",
+            "0x1c894 mov x1, x22",
+            "0x1c898 bl #0x4fbf4",
+            "0x1c89c mov x0, x22",
+            "0x1c8a0 bl #0x567b8",
+            "0x1c8a4 mov x0, x26",
+            "0x1c8a8 bl #0x567b8",
+            "0x1c8ac bl #0x56710"
+          ]
+        },
+        {
+          "at": "0x1c88c",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1c880 mov x29, x29",
+            "0x1c884 bl #0x567dc",
+            "0x1c888 mov x22, x0",
+            "0x1c88c adrp x0, #0x79000",
+            "0x1c890 add x0, x0, #0x5c0",
+            "0x1c894 mov x1, x22",
+            "0x1c898 bl #0x4fbf4",
+            "0x1c89c mov x0, x22",
+            "0x1c8a0 bl #0x567b8",
+            "0x1c8a4 mov x0, x26",
+            "0x1c8a8 bl #0x567b8",
+            "0x1c8ac bl #0x56710",
+            "0x1c8b0 b #0x1c764",
+            "0x1c8b4 add x2, sp, #0x80",
+            "0x1c8b8 add x3, sp, #0xc0",
+            "0x1c8bc mov x0, x19",
+            "0x1c8c0 mov w4, #0x10",
+            "0x1c8c4 bl #0x57a00"
+          ]
+        },
+        {
+          "at": "0x1ca04",
+          "literal": "sceneHostView",
+          "nearby": [
+            "0x1c9f8 ldr x21, [x0, #0x20]",
+            "0x1c9fc mov x0, x21",
+            "0x1ca00 bl #0x567c4",
+            "0x1ca04 adrp x0, #0x7b000",
+            "0x1ca08 add x0, x0, #0x9a0",
+            "0x1ca0c bl #0x56374",
+            "0x1ca10 mov x19, x0",
+            "0x1ca14 mov x0, x21",
+            "0x1ca18 mov x1, x19",
+            "0x1ca1c bl #0x567a0",
+            "0x1ca20 tbz w0, #0, #0x1ca40",
+            "0x1ca24 mov x0, x21",
+            "0x1ca28 mov x1, x19",
+            "0x1ca2c bl #0x56758",
+            "0x1ca30 mov x29, x29",
+            "0x1ca34 bl #0x567dc",
+            "0x1ca38 mov x19, x0",
+            "0x1ca3c b #0x1ca54"
+          ]
+        },
+        {
+          "at": "0x1ca40",
+          "literal": "sceneHostView",
+          "nearby": [
+            "0x1ca34 bl #0x567dc",
+            "0x1ca38 mov x19, x0",
+            "0x1ca3c b #0x1ca54",
+            "0x1ca40 adrp x1, #0x7b000",
+            "0x1ca44 add x1, x1, #0x9a0",
+            "0x1ca48 mov x0, x21",
+            "0x1ca4c bl #0x4f330",
+            "0x1ca50 mov x19, #0",
+            "0x1ca54 mov x0, x21",
+            "0x1ca58 bl #0x567b8",
+            "0x1ca5c cbz x19, #0x1cbd0",
+            "0x1ca60 mov x0, x19",
+            "0x1ca64 bl #0x5c520",
+            "0x1ca68 mov x29, x29",
+            "0x1ca6c bl #0x567dc",
+            "0x1ca70 mov x21, x0",
+            "0x1ca74 ldr x0, [x20, #0x20]",
+            "0x1ca78 bl #0x5cb60"
+          ]
+        },
+        {
+          "at": "0x1cb5c",
+          "literal": "CarSplit: sceneHostView %@ -> %@",
+          "nearby": [
+            "0x1cb50 bl #0x567dc",
+            "0x1cb54 mov x24, x0",
+            "0x1cb58 stp x21, x0, [sp]",
+            "0x1cb5c adrp x2, #0x7b000",
+            "0x1cb60 add x2, x2, #0x9c0",
+            "0x1cb64 mov x0, x23",
+            "0x1cb68 bl #0x5c440",
+            "0x1cb6c mov x29, x29",
+            "0x1cb70 bl #0x567dc",
+            "0x1cb74 mov x23, x0",
+            "0x1cb78 adrp x0, #0x79000",
+            "0x1cb7c add x0, x0, #0x5c0",
+            "0x1cb80 mov x1, x23",
+            "0x1cb84 bl #0x4fbf4",
+            "0x1cb88 mov x0, x23",
+            "0x1cb8c bl #0x567b8",
+            "0x1cb90 mov x0, x24",
+            "0x1cb94 bl #0x567b8"
+          ]
+        },
+        {
+          "at": "0x1cb78",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1cb6c mov x29, x29",
+            "0x1cb70 bl #0x567dc",
+            "0x1cb74 mov x23, x0",
+            "0x1cb78 adrp x0, #0x79000",
+            "0x1cb7c add x0, x0, #0x5c0",
+            "0x1cb80 mov x1, x23",
+            "0x1cb84 bl #0x4fbf4",
+            "0x1cb88 mov x0, x23",
+            "0x1cb8c bl #0x567b8",
+            "0x1cb90 mov x0, x24",
+            "0x1cb94 bl #0x567b8",
+            "0x1cb98 mov x0, x22",
+            "0x1cb9c bl #0x567b8",
+            "0x1cba0 mov x0, x21",
+            "0x1cba4 bl #0x567b8",
+            "0x1cba8 ldr x0, [x20, #0x20]",
+            "0x1cbac bl #0x5cb60",
+            "0x1cbb0 mov x29, x29"
+          ]
+        }
+      ],
+      "branch_count": 14,
+      "branch_first": [
+        {
+          "pc": "0x1c5c0",
+          "op": "cbz x0, #0x1c8d0"
+        },
+        {
+          "pc": "0x1c600",
+          "op": "b.eq #0x1c60c"
+        },
+        {
+          "pc": "0x1c628",
+          "op": "cbz x0, #0x1c820"
+        },
+        {
+          "pc": "0x1c658",
+          "op": "tbnz w28, #0, #0x1c820"
+        },
+        {
+          "pc": "0x1c694",
+          "op": "b.eq #0x1c820"
+        },
+        {
+          "pc": "0x1c828",
+          "op": "b.ne #0x1c5f4"
+        },
+        {
+          "pc": "0x1c854",
+          "op": "b.ne #0x1c9b8"
+        },
+        {
+          "pc": "0x1c8cc",
+          "op": "cbnz x0, #0x1c5f0"
+        },
+        {
+          "pc": "0x1c8ec",
+          "op": "b.ne #0x1c91c"
+        },
+        {
+          "pc": "0x1ca20",
+          "op": "tbz w0, #0, #0x1ca40"
+        },
+        {
+          "pc": "0x1ca5c",
+          "op": "cbz x19, #0x1cbd0"
+        },
+        {
+          "pc": "0x1ca8c",
+          "op": "b.eq #0x1ca9c"
+        },
+        {
+          "pc": "0x1cb0c",
+          "op": "tbnz w24, #0, #0x1cbd0"
+        },
+        {
+          "pc": "0x1cc78",
+          "op": "b.ne #0x1cc58"
+        }
+      ],
+      "head": [
+        "0x1c550 sub sp, sp, #0x1e0",
+        "0x1c554 stp d13, d12, [sp, #0x150]",
+        "0x1c558 stp d11, d10, [sp, #0x160]",
+        "0x1c55c stp d9, d8, [sp, #0x170]",
+        "0x1c560 stp x28, x27, [sp, #0x180]",
+        "0x1c564 stp x26, x25, [sp, #0x190]",
+        "0x1c568 stp x24, x23, [sp, #0x1a0]",
+        "0x1c56c stp x22, x21, [sp, #0x1b0]",
+        "0x1c570 stp x20, x19, [sp, #0x1c0]",
+        "0x1c574 stp x29, x30, [sp, #0x1d0]",
+        "0x1c578 add x29, sp, #0x1d0",
+        "0x1c57c mov x20, x0",
+        "0x1c580 adrp x8, #0x78000",
+        "0x1c584 ldr x8, [x8, #0x360]",
+        "0x1c588 ldr x8, [x8]",
+        "0x1c58c stur x8, [x29, #-0x90]",
+        "0x1c590 movi v0.16b, #0",
+        "0x1c594 stp q0, q0, [sp, #0x80]",
+        "0x1c598 stp q0, q0, [sp, #0xa0]",
+        "0x1c59c bl #0x56e20",
+        "0x1c5a0 mov x29, x29",
+        "0x1c5a4 bl #0x567dc",
+        "0x1c5a8 mov x19, x0",
+        "0x1c5ac add x2, sp, #0x80",
+        "0x1c5b0 add x3, sp, #0xc0",
+        "0x1c5b4 mov w4, #0x10",
+        "0x1c5b8 bl #0x57a00",
+        "0x1c5bc mov x21, x0",
+        "0x1c5c0 cbz x0, #0x1c8d0",
+        "0x1c5c4 ldr x8, [sp, #0x90]",
+        "0x1c5c8 ldr x24, [x8]",
+        "0x1c5cc fmov d12, #2.00000000",
+        "0x1c5d0 adrp x25, #0x78000",
+        "0x1c5d4 ldr x25, [x25, #0x338]",
+        "0x1c5d8 adrp x8, #0x6e000",
+        "0x1c5dc ldr d13, [x8, #0xff8]",
+        "0x1c5e0 adrp x8, #0x6f000",
+        "0x1c5e4 ldr d8, [x8, #0xc8]",
+        "0x1c5e8 adrp x8, #0x6f000",
+        "0x1c5ec ldr d9, [x8, #0x28]",
+        "0x1c5f0 mov x23, #0",
+        "0x1c5f4 ldr x8, [sp, #0x90]",
+        "0x1c5f8 ldr x8, [x8]",
+        "0x1c5fc cmp x8, x24",
+        "0x1c600 b.eq #0x1c60c",
+        "0x1c604 mov x0, x19",
+        "0x1c608 bl #0x5671c",
+        "0x1c60c ldr x8, [sp, #0x88]",
+        "0x1c610 ldr x27, [x8, x23, lsl #3]",
+        "0x1c614 mov x0, x27",
+        "0x1c618 bl #0x5cae0",
+        "0x1c61c mov x29, x29",
+        "0x1c620 bl #0x567dc",
+        "0x1c624 mov x26, x0",
+        "0x1c628 cbz x0, #0x1c820",
+        "0x1c62c mov x0, x27",
+        "0x1c630 bl #0x5cae0",
+        "0x1c634 mov x29, x29",
+        "0x1c638 bl #0x567dc",
+        "0x1c63c mov x22, x0"
+      ]
+    },
+    "paneSize:forBundle:": {
+      "present": true,
+      "imp": "0x1b328",
+      "end": "0x1b444",
+      "instructions": 71,
+      "native_method_calls": [],
+      "cfstrings": [],
+      "branch_count": 6,
+      "branch_first": [
+        {
+          "pc": "0x1b360",
+          "op": "tbnz w8, #0, #0x1b3a8"
+        },
+        {
+          "pc": "0x1b37c",
+          "op": "cbz x21, #0x1b3a8"
+        },
+        {
+          "pc": "0x1b398",
+          "op": "cbz x0, #0x1b3b0"
+        },
+        {
+          "pc": "0x1b3c0",
+          "op": "tbnz w0, #0x1f, #0x1b3f0"
+        },
+        {
+          "pc": "0x1b3dc",
+          "op": "cbz x20, #0x1b3f4"
+        },
+        {
+          "pc": "0x1b3e0",
+          "op": "tbz w22, #0, #0x1b3f4"
+        }
+      ],
+      "head": [
+        "0x1b328 stp x22, x21, [sp, #-0x30]!",
+        "0x1b32c stp x20, x19, [sp, #0x10]",
+        "0x1b330 stp x29, x30, [sp, #0x20]",
+        "0x1b334 add x29, sp, #0x20",
+        "0x1b338 mov x19, x3",
+        "0x1b33c mov x20, x2",
+        "0x1b340 mov x22, x0",
+        "0x1b344 mov x0, x3",
+        "0x1b348 bl #0x567c4",
+        "0x1b34c mov x0, x22",
+        "0x1b350 bl #0x56b60",
+        "0x1b354 cmp x19, #0",
+        "0x1b358 eor w8, w0, #1",
+        "0x1b35c csinc w8, w8, wzr, ne",
+        "0x1b360 tbnz w8, #0, #0x1b3a8",
+        "0x1b364 mov x0, x22",
+        "0x1b368 bl #0x57800",
+        "0x1b36c mov x29, x29",
+        "0x1b370 bl #0x567dc",
+        "0x1b374 mov x21, x0",
+        "0x1b378 bl #0x567b8",
+        "0x1b37c cbz x21, #0x1b3a8",
+        "0x1b380 mov x0, x22",
+        "0x1b384 mov x2, x19",
+        "0x1b388 bl #0x59820",
+        "0x1b38c mov x29, x29",
+        "0x1b390 bl #0x567dc",
+        "0x1b394 mov x21, x0",
+        "0x1b398 cbz x0, #0x1b3b0",
+        "0x1b39c mov x0, x21",
+        "0x1b3a0 bl #0x5c100",
+        "0x1b3a4 b #0x1b3bc",
+        "0x1b3a8 mov w22, #0",
+        "0x1b3ac b #0x1b3fc",
+        "0x1b3b0 mov x0, x22",
+        "0x1b3b4 mov x2, x19",
+        "0x1b3b8 bl #0x599c0",
+        "0x1b3bc mov x2, x0",
+        "0x1b3c0 tbnz w0, #0x1f, #0x1b3f0",
+        "0x1b3c4 mov x0, x22",
+        "0x1b3c8 bl #0x58360",
+        "0x1b3cc fminnm d0, d2, d3",
+        "0x1b3d0 fmov d1, #2.00000000",
+        "0x1b3d4 fcmp d0, d1",
+        "0x1b3d8 cset w22, pl",
+        "0x1b3dc cbz x20, #0x1b3f4",
+        "0x1b3e0 tbz w22, #0, #0x1b3f4",
+        "0x1b3e4 stp d2, d3, [x20]",
+        "0x1b3e8 mov w22, #1",
+        "0x1b3ec b #0x1b3f4",
+        "0x1b3f0 mov w22, #0",
+        "0x1b3f4 mov x0, x21",
+        "0x1b3f8 bl #0x567b8",
+        "0x1b3fc mov x0, x19",
+        "0x1b400 bl #0x567b8",
+        "0x1b404 mov x0, x22",
+        "0x1b408 ldp x29, x30, [sp, #0x20]",
+        "0x1b40c ldp x20, x19, [sp, #0x10]",
+        "0x1b410 ldp x22, x21, [sp], #0x30",
+        "0x1b414 ret "
+      ]
+    },
+    "relayoutAnimated:pushScenes:": {
+      "present": true,
+      "imp": "0x1b44c",
+      "end": "0x1c550",
+      "instructions": 1089,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x1b5c8",
+          "literal": "CarSplit: bo phong to o %d",
+          "nearby": [
+            "0x1b5bc adrp x8, #0x87000",
+            "0x1b5c0 ldr x0, [x8, #0x678]",
+            "0x1b5c4 str x21, [sp]",
+            "0x1b5c8 adrp x2, #0x7b000",
+            "0x1b5cc add x2, x2, #0x920",
+            "0x1b5d0 bl #0x5c440",
+            "0x1b5d4 mov x29, x29",
+            "0x1b5d8 bl #0x567dc",
+            "0x1b5dc mov x21, x0",
+            "0x1b5e0 adrp x0, #0x79000",
+            "0x1b5e4 add x0, x0, #0x5c0",
+            "0x1b5e8 mov x1, x21",
+            "0x1b5ec bl #0x4fbf4",
+            "0x1b5f0 mov x0, x21",
+            "0x1b5f4 bl #0x567b8",
+            "0x1b5f8 mov x0, x20",
+            "0x1b5fc mov x2, #0",
+            "0x1b600 bl #0x5be60"
+          ]
+        },
+        {
+          "at": "0x1b5e0",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1b5d4 mov x29, x29",
+            "0x1b5d8 bl #0x567dc",
+            "0x1b5dc mov x21, x0",
+            "0x1b5e0 adrp x0, #0x79000",
+            "0x1b5e4 add x0, x0, #0x5c0",
+            "0x1b5e8 mov x1, x21",
+            "0x1b5ec bl #0x4fbf4",
+            "0x1b5f0 mov x0, x21",
+            "0x1b5f4 bl #0x567b8",
+            "0x1b5f8 mov x0, x20",
+            "0x1b5fc mov x2, #0",
+            "0x1b600 bl #0x5be60",
+            "0x1b604 mov x0, x22",
+            "0x1b608 bl #0x567b8",
+            "0x1b60c mov x0, x20",
+            "0x1b610 bl #0x57d80",
+            "0x1b614 mov x24, x0",
+            "0x1b618 mov x0, x20"
+          ]
+        }
+      ],
+      "branch_count": 37,
+      "branch_first": [
+        {
+          "pc": "0x1b4a0",
+          "op": "cbz x21, #0x1b8ec"
+        },
+        {
+          "pc": "0x1b4bc",
+          "op": "cbz x21, #0x1b4c8"
+        },
+        {
+          "pc": "0x1b4e0",
+          "op": "cbz x21, #0x1b60c"
+        },
+        {
+          "pc": "0x1b508",
+          "op": "tbnz w21, #0x1f, #0x1b560"
+        },
+        {
+          "pc": "0x1b57c",
+          "op": "cbz w0, #0x1b5bc"
+        },
+        {
+          "pc": "0x1b5b8",
+          "op": "cbnz x23, #0x1b604"
+        },
+        {
+          "pc": "0x1b630",
+          "op": "cbz x21, #0x1b63c"
+        },
+        {
+          "pc": "0x1b6bc",
+          "op": "cbz w25, #0x1b6f8"
+        },
+        {
+          "pc": "0x1b738",
+          "op": "cbz x0, #0x1b7dc"
+        },
+        {
+          "pc": "0x1b754",
+          "op": "b.eq #0x1b760"
+        },
+        {
+          "pc": "0x1b7bc",
+          "op": "b.ne #0x1b748"
+        },
+        {
+          "pc": "0x1b7d8",
+          "op": "cbnz x0, #0x1b744"
+        },
+        {
+          "pc": "0x1b83c",
+          "op": "cbz x0, #0x1b89c"
+        },
+        {
+          "pc": "0x1b858",
+          "op": "b.eq #0x1b864"
+        },
+        {
+          "pc": "0x1b87c",
+          "op": "b.ne #0x1b84c"
+        },
+        {
+          "pc": "0x1b898",
+          "op": "cbnz x0, #0x1b848"
+        },
+        {
+          "pc": "0x1b8a8",
+          "op": "cbz w8, #0x1b8b4"
+        },
+        {
+          "pc": "0x1b900",
+          "op": "b.ne #0x1b928"
+        },
+        {
+          "pc": "0x1ba90",
+          "op": "cbz x0, #0x1bd28"
+        },
+        {
+          "pc": "0x1bab8",
+          "op": "b.eq #0x1bac4"
+        },
+        {
+          "pc": "0x1bb00",
+          "op": "b.le #0x1bb2c"
+        },
+        {
+          "pc": "0x1bb08",
+          "op": "cbz x0, #0x1bb28"
+        },
+        {
+          "pc": "0x1bd08",
+          "op": "b.ne #0x1baac"
+        },
+        {
+          "pc": "0x1bd24",
+          "op": "cbnz x0, #0x1baa8"
+        },
+        {
+          "pc": "0x1bd64",
+          "op": "cbz x0, #0x1bdf8"
+        },
+        {
+          "pc": "0x1bd80",
+          "op": "b.eq #0x1bd8c"
+        },
+        {
+          "pc": "0x1bdd8",
+          "op": "b.ne #0x1bd74"
+        },
+        {
+          "pc": "0x1bdf4",
+          "op": "cbnz x0, #0x1bd70"
+        },
+        {
+          "pc": "0x1be08",
+          "op": "cbz w0, #0x1be9c"
+        },
+        {
+          "pc": "0x1be34",
+          "op": "tbnz w21, #0, #0x1be9c"
+        },
+        {
+          "pc": "0x1bea0",
+          "op": "cbz x8, #0x1c0a0"
+        },
+        {
+          "pc": "0x1c0a4",
+          "op": "cbz x0, #0x1c164"
+        },
+        {
+          "pc": "0x1c0d8",
+          "op": "cbz w21, #0x1c164"
+        },
+        {
+          "pc": "0x1c168",
+          "op": "cbz x8, #0x1c1b0"
+        },
+        {
+          "pc": "0x1c1cc",
+          "op": "tbnz w19, #0, #0x1c218"
+        }
+      ],
+      "head": [
+        "0x1b44c stp d9, d8, [sp, #-0x70]!",
+        "0x1b450 stp x28, x27, [sp, #0x10]",
+        "0x1b454 stp x26, x25, [sp, #0x20]",
+        "0x1b458 stp x24, x23, [sp, #0x30]",
+        "0x1b45c stp x22, x21, [sp, #0x40]",
+        "0x1b460 stp x20, x19, [sp, #0x50]",
+        "0x1b464 stp x29, x30, [sp, #0x60]",
+        "0x1b468 add x29, sp, #0x60",
+        "0x1b46c sub sp, sp, #0x1f0",
+        "0x1b470 str w3, [sp, #0x1c]",
+        "0x1b474 mov x25, x2",
+        "0x1b478 mov x20, x0",
+        "0x1b47c adrp x8, #0x78000",
+        "0x1b480 ldr x8, [x8, #0x360]",
+        "0x1b484 ldr x8, [x8]",
+        "0x1b488 stur x8, [x29, #-0x70]",
+        "0x1b48c bl #0x57800",
+        "0x1b490 mov x29, x29",
+        "0x1b494 bl #0x567dc",
+        "0x1b498 mov x21, x0",
+        "0x1b49c bl #0x567b8",
+        "0x1b4a0 cbz x21, #0x1b8ec",
+        "0x1b4a4 mov x0, x20",
+        "0x1b4a8 bl #0x59a40",
+        "0x1b4ac mov x29, x29",
+        "0x1b4b0 bl #0x567dc",
+        "0x1b4b4 mov x21, x0",
+        "0x1b4b8 bl #0x567b8",
+        "0x1b4bc cbz x21, #0x1b4c8",
+        "0x1b4c0 mov x0, x20",
+        "0x1b4c4 bl #0x5a100",
+        "0x1b4c8 mov x0, x20",
+        "0x1b4cc bl #0x5cca0",
+        "0x1b4d0 mov x29, x29",
+        "0x1b4d4 bl #0x567dc",
+        "0x1b4d8 mov x21, x0",
+        "0x1b4dc bl #0x567b8",
+        "0x1b4e0 cbz x21, #0x1b60c",
+        "0x1b4e4 mov x0, x20",
+        "0x1b4e8 bl #0x5cca0",
+        "0x1b4ec mov x29, x29",
+        "0x1b4f0 bl #0x567dc",
+        "0x1b4f4 mov x22, x0",
+        "0x1b4f8 bl #0x58bc0",
+        "0x1b4fc mov x21, x0",
+        "0x1b500 mov x0, x22",
+        "0x1b504 bl #0x567b8",
+        "0x1b508 tbnz w21, #0x1f, #0x1b560",
+        "0x1b50c mov x0, x20",
+        "0x1b510 bl #0x5c160",
+        "0x1b514 mov x29, x29",
+        "0x1b518 bl #0x567dc",
+        "0x1b51c mov x23, x0",
+        "0x1b520 bl #0x579e0",
+        "0x1b524 cmp w21, w0",
+        "0x1b528 b.ge #0x1b568",
+        "0x1b52c mov x0, x20",
+        "0x1b530 bl #0x5c160",
+        "0x1b534 mov x29, x29",
+        "0x1b538 bl #0x567dc"
+      ]
+    },
+    "scene:destroyedForViewController:ownScene:": {
+      "present": true,
+      "imp": "0x1ad58",
+      "end": "0x1b328",
+      "instructions": 372,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x1aec4",
+          "literal": "CarSplit: scene cua %@ bi huy (app thoat/crash) -> dong ngan %d",
+          "nearby": [
+            "0x1aeb8 bl #0x5c100",
+            "0x1aebc stp x25, x0, [sp]",
+            "0x1aec0 mov x0, x26",
+            "0x1aec4 adrp x2, #0x7b000",
+            "0x1aec8 add x2, x2, #0x900",
+            "0x1aecc bl #0x5c440",
+            "0x1aed0 mov x29, x29",
+            "0x1aed4 bl #0x567dc",
+            "0x1aed8 mov x26, x0",
+            "0x1aedc adrp x0, #0x79000",
+            "0x1aee0 add x0, x0, #0x5c0",
+            "0x1aee4 mov x1, x26",
+            "0x1aee8 bl #0x4fbf4",
+            "0x1aeec mov x0, x26",
+            "0x1aef0 bl #0x567b8",
+            "0x1aef4 mov x0, x25",
+            "0x1aef8 bl #0x567b8",
+            "0x1aefc add x0, sp, #0x78"
+          ]
+        },
+        {
+          "at": "0x1aedc",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1aed0 mov x29, x29",
+            "0x1aed4 bl #0x567dc",
+            "0x1aed8 mov x26, x0",
+            "0x1aedc adrp x0, #0x79000",
+            "0x1aee0 add x0, x0, #0x5c0",
+            "0x1aee4 mov x1, x26",
+            "0x1aee8 bl #0x4fbf4",
+            "0x1aeec mov x0, x26",
+            "0x1aef0 bl #0x567b8",
+            "0x1aef4 mov x0, x25",
+            "0x1aef8 bl #0x567b8",
+            "0x1aefc add x0, sp, #0x78",
+            "0x1af00 mov x1, x23",
+            "0x1af04 bl #0x56740",
+            "0x1af08 adrp x8, #0x78000",
+            "0x1af0c ldr x8, [x8, #0x338]",
+            "0x1af10 str x8, [sp, #0x40]",
+            "0x1af14 str d8, [sp, #0x48]"
+          ]
+        },
+        {
+          "at": "0x1afc4",
+          "literal": "CarSplit: scene %@ bi huy khong phai cua %@ (%@) -> giu ngan %d",
+          "nearby": [
+            "0x1afb8 stp x8, x0, [sp, #0x10]",
+            "0x1afbc stp x21, x25, [sp]",
+            "0x1afc0 mov x0, x26",
+            "0x1afc4 adrp x2, #0x7b000",
+            "0x1afc8 add x2, x2, #0x8e0",
+            "0x1afcc bl #0x5c440",
+            "0x1afd0 mov x29, x29",
+            "0x1afd4 bl #0x567dc",
+            "0x1afd8 mov x26, x0",
+            "0x1afdc adrp x0, #0x79000",
+            "0x1afe0 add x0, x0, #0x5c0",
+            "0x1afe4 mov x1, x26",
+            "0x1afe8 bl #0x4fbf4",
+            "0x1afec mov x0, x26",
+            "0x1aff0 bl #0x567b8",
+            "0x1aff4 mov x0, x25",
+            "0x1aff8 bl #0x567b8",
+            "0x1affc mov x0, x27"
+          ]
+        },
+        {
+          "at": "0x1afdc",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1afd0 mov x29, x29",
+            "0x1afd4 bl #0x567dc",
+            "0x1afd8 mov x26, x0",
+            "0x1afdc adrp x0, #0x79000",
+            "0x1afe0 add x0, x0, #0x5c0",
+            "0x1afe4 mov x1, x26",
+            "0x1afe8 bl #0x4fbf4",
+            "0x1afec mov x0, x26",
+            "0x1aff0 bl #0x567b8",
+            "0x1aff4 mov x0, x25",
+            "0x1aff8 bl #0x567b8",
+            "0x1affc mov x0, x27",
+            "0x1b000 bl #0x567b8",
+            "0x1b004 mov x0, x28",
+            "0x1b008 bl #0x567b8",
+            "0x1b00c add x19, x19, #1",
+            "0x1b010 cmp x24, x19",
+            "0x1b014 b.ne #0x1ae08"
+          ]
+        },
+        {
+          "at": "0x1b154",
+          "literal": "identifier",
+          "nearby": [
+            "0x1b148 add x29, sp, #0x20",
+            "0x1b14c mov x19, x0",
+            "0x1b150 bl #0x567c4",
+            "0x1b154 adrp x0, #0x79000",
+            "0x1b158 add x0, x0, #0xb80",
+            "0x1b15c bl #0x56374",
+            "0x1b160 mov x1, x0",
+            "0x1b164 mov x0, x19",
+            "0x1b168 bl #0x567a0",
+            "0x1b16c tbz w0, #0, #0x1b208",
+            "0x1b170 mov x0, x19",
+            "0x1b174 bl #0x567c4",
+            "0x1b178 adrp x0, #0x79000",
+            "0x1b17c add x0, x0, #0xb80",
+            "0x1b180 bl #0x56374",
+            "0x1b184 mov x20, x0",
+            "0x1b188 mov x0, x19",
+            "0x1b18c mov x1, x20"
+          ]
+        },
+        {
+          "at": "0x1b178",
+          "literal": "identifier",
+          "nearby": [
+            "0x1b16c tbz w0, #0, #0x1b208",
+            "0x1b170 mov x0, x19",
+            "0x1b174 bl #0x567c4",
+            "0x1b178 adrp x0, #0x79000",
+            "0x1b17c add x0, x0, #0xb80",
+            "0x1b180 bl #0x56374",
+            "0x1b184 mov x20, x0",
+            "0x1b188 mov x0, x19",
+            "0x1b18c mov x1, x20",
+            "0x1b190 bl #0x567a0",
+            "0x1b194 tbz w0, #0, #0x1b1b4",
+            "0x1b198 mov x0, x19",
+            "0x1b19c mov x1, x20",
+            "0x1b1a0 bl #0x56758",
+            "0x1b1a4 mov x29, x29",
+            "0x1b1a8 bl #0x567dc",
+            "0x1b1ac mov x20, x0",
+            "0x1b1b0 b #0x1b1c8"
+          ]
+        },
+        {
+          "at": "0x1b1b4",
+          "literal": "identifier",
+          "nearby": [
+            "0x1b1a8 bl #0x567dc",
+            "0x1b1ac mov x20, x0",
+            "0x1b1b0 b #0x1b1c8",
+            "0x1b1b4 adrp x1, #0x79000",
+            "0x1b1b8 add x1, x1, #0xb80",
+            "0x1b1bc mov x0, x19",
+            "0x1b1c0 bl #0x4f330",
+            "0x1b1c4 mov x20, #0",
+            "0x1b1c8 mov x0, x19",
+            "0x1b1cc bl #0x567b8",
+            "0x1b1d0 b #0x1b20c",
+            "0x1b1d4 b #0x1b1d8",
+            "0x1b1d8 mov x21, x1",
+            "0x1b1dc mov x20, x0",
+            "0x1b1e0 mov x0, x19",
+            "0x1b1e4 bl #0x567b8",
+            "0x1b1e8 b #0x1b1f4",
+            "0x1b1ec mov x21, x1"
+          ]
+        }
+      ],
+      "branch_count": 16,
+      "branch_first": [
+        {
+          "pc": "0x1adf0",
+          "op": "cbz x0, #0x1b034"
+        },
+        {
+          "pc": "0x1ae14",
+          "op": "b.eq #0x1ae20"
+        },
+        {
+          "pc": "0x1ae44",
+          "op": "tbz w21, #0, #0x1b00c"
+        },
+        {
+          "pc": "0x1ae74",
+          "op": "cbz x21, #0x1af78"
+        },
+        {
+          "pc": "0x1ae80",
+          "op": "b.eq #0x1ae98"
+        },
+        {
+          "pc": "0x1ae84",
+          "op": "cbz x28, #0x1af78"
+        },
+        {
+          "pc": "0x1ae94",
+          "op": "tbz w0, #0, #0x1af78"
+        },
+        {
+          "pc": "0x1b014",
+          "op": "b.ne #0x1ae08"
+        },
+        {
+          "pc": "0x1b030",
+          "op": "cbnz x0, #0x1ae04"
+        },
+        {
+          "pc": "0x1b068",
+          "op": "b.ne #0x1b090"
+        },
+        {
+          "pc": "0x1b16c",
+          "op": "tbz w0, #0, #0x1b208"
+        },
+        {
+          "pc": "0x1b194",
+          "op": "tbz w0, #0, #0x1b1b4"
+        },
+        {
+          "pc": "0x1b1f8",
+          "op": "b.ne #0x1b228"
+        },
+        {
+          "pc": "0x1b25c",
+          "op": "cbz x0, #0x1b2dc"
+        },
+        {
+          "pc": "0x1b27c",
+          "op": "b.eq #0x1b28c"
+        },
+        {
+          "pc": "0x1b2bc",
+          "op": "cbz w23, #0x1b2dc"
+        }
+      ],
+      "head": [
+        "0x1ad58 sub sp, sp, #0x1c0",
+        "0x1ad5c stp d9, d8, [sp, #0x150]",
+        "0x1ad60 stp x28, x27, [sp, #0x160]",
+        "0x1ad64 stp x26, x25, [sp, #0x170]",
+        "0x1ad68 stp x24, x23, [sp, #0x180]",
+        "0x1ad6c stp x22, x21, [sp, #0x190]",
+        "0x1ad70 stp x20, x19, [sp, #0x1a0]",
+        "0x1ad74 stp x29, x30, [sp, #0x1b0]",
+        "0x1ad78 add x29, sp, #0x1b0",
+        "0x1ad7c mov x19, x4",
+        "0x1ad80 str x4, [sp, #0x28]",
+        "0x1ad84 mov x20, x3",
+        "0x1ad88 mov x21, x0",
+        "0x1ad8c adrp x8, #0x78000",
+        "0x1ad90 ldr x8, [x8, #0x360]",
+        "0x1ad94 ldr x8, [x8]",
+        "0x1ad98 stur x8, [x29, #-0x70]",
+        "0x1ad9c str x2, [sp, #0x38]",
+        "0x1ada0 mov x0, x2",
+        "0x1ada4 bl #0x567c4",
+        "0x1ada8 mov x0, x20",
+        "0x1adac bl #0x567c4",
+        "0x1adb0 mov x0, x19",
+        "0x1adb4 bl #0x567c4",
+        "0x1adb8 movi v0.16b, #0",
+        "0x1adbc stp q0, q0, [sp, #0x80]",
+        "0x1adc0 stp q0, q0, [sp, #0xa0]",
+        "0x1adc4 str x21, [sp, #0x20]",
+        "0x1adc8 mov x0, x21",
+        "0x1adcc bl #0x56e20",
+        "0x1add0 mov x29, x29",
+        "0x1add4 bl #0x567dc",
+        "0x1add8 add x2, sp, #0x80",
+        "0x1addc add x3, sp, #0xc0",
+        "0x1ade0 str x0, [sp, #0x30]",
+        "0x1ade4 mov w4, #0x10",
+        "0x1ade8 bl #0x57a00",
+        "0x1adec mov x24, x0",
+        "0x1adf0 cbz x0, #0x1b034",
+        "0x1adf4 ldr x8, [sp, #0x90]",
+        "0x1adf8 ldr x22, [x8]",
+        "0x1adfc adrp x8, #0x6e000",
+        "0x1ae00 ldr d8, [x8, #0xff8]",
+        "0x1ae04 mov x19, #0",
+        "0x1ae08 ldr x8, [sp, #0x90]",
+        "0x1ae0c ldr x8, [x8]",
+        "0x1ae10 cmp x8, x22",
+        "0x1ae14 b.eq #0x1ae20",
+        "0x1ae18 ldr x0, [sp, #0x30]",
+        "0x1ae1c bl #0x5671c",
+        "0x1ae20 ldr x8, [sp, #0x88]",
+        "0x1ae24 ldr x23, [x8, x19, lsl #3]",
+        "0x1ae28 mov x0, x23",
+        "0x1ae2c bl #0x5cae0",
+        "0x1ae30 mov x29, x29",
+        "0x1ae34 bl #0x567dc",
+        "0x1ae38 cmp x0, x20",
+        "0x1ae3c cset w21, eq",
+        "0x1ae40 bl #0x567b8",
+        "0x1ae44 tbz w21, #0, #0x1b00c"
+      ]
+    },
+    "closeSlot:background:": {
+      "present": true,
+      "imp": "0x1d9b8",
+      "end": "0x1db48",
+      "instructions": 100,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x1da94",
+          "literal": "CarSplit: dong o %d (%@), con %d o",
+          "nearby": [
+            "0x1da88 bl #0x59800",
+            "0x1da8c stp x20, x0, [sp, #8]",
+            "0x1da90 str x21, [sp]",
+            "0x1da94 adrp x2, #0x7b000",
+            "0x1da98 add x2, x2, #0xa80",
+            "0x1da9c mov x0, x22",
+            "0x1daa0 bl #0x5c440",
+            "0x1daa4 mov x29, x29",
+            "0x1daa8 bl #0x567dc",
+            "0x1daac mov x21, x0",
+            "0x1dab0 adrp x0, #0x79000",
+            "0x1dab4 add x0, x0, #0x5c0",
+            "0x1dab8 mov x1, x21",
+            "0x1dabc bl #0x4fbf4",
+            "0x1dac0 mov x0, x21",
+            "0x1dac4 bl #0x567b8",
+            "0x1dac8 mov x0, x19",
+            "0x1dacc mov x2, x20"
+          ]
+        },
+        {
+          "at": "0x1dab0",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x1daa4 mov x29, x29",
+            "0x1daa8 bl #0x567dc",
+            "0x1daac mov x21, x0",
+            "0x1dab0 adrp x0, #0x79000",
+            "0x1dab4 add x0, x0, #0x5c0",
+            "0x1dab8 mov x1, x21",
+            "0x1dabc bl #0x4fbf4",
+            "0x1dac0 mov x0, x21",
+            "0x1dac4 bl #0x567b8",
+            "0x1dac8 mov x0, x19",
+            "0x1dacc mov x2, x20",
+            "0x1dad0 bl #0x56de0",
+            "0x1dad4 mov x0, x20",
+            "0x1dad8 ldp x29, x30, [sp, #0x50]",
+            "0x1dadc ldp x20, x19, [sp, #0x40]",
+            "0x1dae0 ldp x22, x21, [sp, #0x30]",
+            "0x1dae4 ldp x24, x23, [sp, #0x20]",
+            "0x1dae8 add sp, sp, #0x60"
+          ]
+        }
+      ],
+      "branch_count": 3,
+      "branch_first": [
+        {
+          "pc": "0x1d9dc",
+          "op": "b.ne #0x1da00"
+        },
+        {
+          "pc": "0x1da0c",
+          "op": "tbnz w21, #0x1f, #0x1daf0"
+        },
+        {
+          "pc": "0x1da10",
+          "op": "cbz w0, #0x1daf0"
+        }
+      ],
+      "head": [
+        "0x1d9b8 sub sp, sp, #0x60",
+        "0x1d9bc stp x24, x23, [sp, #0x20]",
+        "0x1d9c0 stp x22, x21, [sp, #0x30]",
+        "0x1d9c4 stp x20, x19, [sp, #0x40]",
+        "0x1d9c8 stp x29, x30, [sp, #0x50]",
+        "0x1d9cc add x29, sp, #0x50",
+        "0x1d9d0 mov x22, x3",
+        "0x1d9d4 mov x19, x0",
+        "0x1d9d8 cmp w2, #9",
+        "0x1d9dc b.ne #0x1da00",
+        "0x1d9e0 mov x0, x19",
+        "0x1d9e4 mov x2, x22",
+        "0x1d9e8 ldp x29, x30, [sp, #0x50]",
+        "0x1d9ec ldp x20, x19, [sp, #0x40]",
+        "0x1d9f0 ldp x22, x21, [sp, #0x30]",
+        "0x1d9f4 ldp x24, x23, [sp, #0x20]",
+        "0x1d9f8 add sp, sp, #0x60",
+        "0x1d9fc b #0x575e0",
+        "0x1da00 mov x21, x2",
+        "0x1da04 mov x0, x19",
+        "0x1da08 bl #0x56b60",
+        "0x1da0c tbnz w21, #0x1f, #0x1daf0",
+        "0x1da10 cbz w0, #0x1daf0",
+        "0x1da14 mov x0, x19",
+        "0x1da18 bl #0x59800",
+        "0x1da1c cmp w21, w0",
+        "0x1da20 b.ge #0x1daf0",
+        "0x1da24 mov x0, x19",
+        "0x1da28 bl #0x5c160",
+        "0x1da2c mov x29, x29",
+        "0x1da30 bl #0x567dc",
+        "0x1da34 mov x23, x0",
+        "0x1da38 mov w2, w21",
+        "0x1da3c bl #0x59620",
+        "0x1da40 mov x29, x29",
+        "0x1da44 bl #0x567dc",
+        "0x1da48 mov x24, x0",
+        "0x1da4c bl #0x57420",
+        "0x1da50 mov x29, x29",
+        "0x1da54 bl #0x567dc",
+        "0x1da58 mov x20, x0",
+        "0x1da5c mov x0, x24",
+        "0x1da60 bl #0x567b8",
+        "0x1da64 mov x0, x23",
+        "0x1da68 bl #0x567b8",
+        "0x1da6c mov x0, x19",
+        "0x1da70 mov x2, x21",
+        "0x1da74 mov x3, x22",
+        "0x1da78 bl #0x5a3c0",
+        "0x1da7c adrp x8, #0x87000",
+        "0x1da80 ldr x22, [x8, #0x678]",
+        "0x1da84 mov x0, x19",
+        "0x1da88 bl #0x59800",
+        "0x1da8c stp x20, x0, [sp, #8]",
+        "0x1da90 str x21, [sp]",
+        "0x1da94 adrp x2, #0x7b000",
+        "0x1da98 add x2, x2, #0xa80",
+        "0x1da9c mov x0, x22",
+        "0x1daa0 bl #0x5c440",
+        "0x1daa4 mov x29, x29"
+      ]
+    },
+    "launchPhoneAppIfNeeded:": {
+      "present": true,
+      "imp": "0x403d0",
+      "end": "0x404fc",
+      "instructions": 75,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x40414",
+          "literal": "AppBridge: cham icon %@ tren man chinh",
+          "nearby": [
+            "0x40408 adrp x8, #0x87000",
+            "0x4040c ldr x0, [x8, #0x678]",
+            "0x40410 str x19, [sp]",
+            "0x40414 adrp x2, #0x7d000",
+            "0x40418 add x2, x2, #0x6a0",
+            "0x4041c bl #0x5c440",
+            "0x40420 mov x29, x29",
+            "0x40424 bl #0x567dc",
+            "0x40428 mov x22, x0",
+            "0x4042c adrp x0, #0x79000",
+            "0x40430 add x0, x0, #0x5c0",
+            "0x40434 mov x1, x22",
+            "0x40438 bl #0x4fbf4",
+            "0x4043c mov x0, x22",
+            "0x40440 bl #0x567b8",
+            "0x40444 mov x0, x21",
+            "0x40448 bl #0x56b60",
+            "0x4044c cbz w0, #0x40464"
+          ]
+        },
+        {
+          "at": "0x4042c",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x40420 mov x29, x29",
+            "0x40424 bl #0x567dc",
+            "0x40428 mov x22, x0",
+            "0x4042c adrp x0, #0x79000",
+            "0x40430 add x0, x0, #0x5c0",
+            "0x40434 mov x1, x22",
+            "0x40438 bl #0x4fbf4",
+            "0x4043c mov x0, x22",
+            "0x40440 bl #0x567b8",
+            "0x40444 mov x0, x21",
+            "0x40448 bl #0x56b60",
+            "0x4044c cbz w0, #0x40464",
+            "0x40450 mov x0, x21",
+            "0x40454 mov x2, x19",
+            "0x40458 mov w3, #-1",
+            "0x4045c bl #0x596a0",
+            "0x40460 b #0x404b0",
+            "0x40464 mov x0, x21"
+          ]
+        }
+      ],
+      "branch_count": 3,
+      "branch_first": [
+        {
+          "pc": "0x40404",
+          "op": "tbz w0, #0, #0x404b0"
+        },
+        {
+          "pc": "0x4044c",
+          "op": "cbz w0, #0x40464"
+        },
+        {
+          "pc": "0x4048c",
+          "op": "tbnz w23, #0, #0x404b0"
+        }
+      ],
+      "head": [
+        "0x403d0 sub sp, sp, #0x50",
+        "0x403d4 stp x24, x23, [sp, #0x10]",
+        "0x403d8 stp x22, x21, [sp, #0x20]",
+        "0x403dc stp x20, x19, [sp, #0x30]",
+        "0x403e0 stp x29, x30, [sp, #0x40]",
+        "0x403e4 add x29, sp, #0x40",
+        "0x403e8 mov x19, x2",
+        "0x403ec mov x21, x0",
+        "0x403f0 mov x0, x2",
+        "0x403f4 bl #0x567c4",
+        "0x403f8 mov x0, x19",
+        "0x403fc bl #0x101bc",
+        "0x40400 mov x20, x0",
+        "0x40404 tbz w0, #0, #0x404b0",
+        "0x40408 adrp x8, #0x87000",
+        "0x4040c ldr x0, [x8, #0x678]",
+        "0x40410 str x19, [sp]",
+        "0x40414 adrp x2, #0x7d000",
+        "0x40418 add x2, x2, #0x6a0",
+        "0x4041c bl #0x5c440",
+        "0x40420 mov x29, x29",
+        "0x40424 bl #0x567dc",
+        "0x40428 mov x22, x0",
+        "0x4042c adrp x0, #0x79000",
+        "0x40430 add x0, x0, #0x5c0",
+        "0x40434 mov x1, x22",
+        "0x40438 bl #0x4fbf4",
+        "0x4043c mov x0, x22",
+        "0x40440 bl #0x567b8",
+        "0x40444 mov x0, x21",
+        "0x40448 bl #0x56b60",
+        "0x4044c cbz w0, #0x40464",
+        "0x40450 mov x0, x21",
+        "0x40454 mov x2, x19",
+        "0x40458 mov w3, #-1",
+        "0x4045c bl #0x596a0",
+        "0x40460 b #0x404b0",
+        "0x40464 mov x0, x21",
+        "0x40468 bl #0x5c1e0",
+        "0x4046c mov x29, x29",
+        "0x40470 bl #0x567dc",
+        "0x40474 mov x22, x0",
+        "0x40478 mov x2, x19",
+        "0x4047c bl #0x58d00",
+        "0x40480 mov x23, x0",
+        "0x40484 mov x0, x22",
+        "0x40488 bl #0x567b8",
+        "0x4048c tbnz w23, #0, #0x404b0",
+        "0x40490 mov x0, x21",
+        "0x40494 bl #0x57ec0",
+        "0x40498 mov x0, x21",
+        "0x4049c mov x2, x19",
+        "0x404a0 bl #0x5c060",
+        "0x404a4 mov x0, x21",
+        "0x404a8 mov x2, x19",
+        "0x404ac bl #0x58740",
+        "0x404b0 mov x0, x19",
+        "0x404b4 bl #0x567b8",
+        "0x404b8 mov x0, x20",
+        "0x404bc ldp x29, x30, [sp, #0x40]"
+      ]
+    },
+    "hostApp:inPane:": {
+      "present": true,
+      "imp": "0x3e490",
+      "end": "0x3ebd0",
+      "instructions": 464,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x3e6f4",
+          "literal": "AppBridge: host %@ vao o %d",
+          "nearby": [
+            "0x3e6e8 mov x0, x19",
+            "0x3e6ec bl #0x5c100",
+            "0x3e6f0 stp x20, x0, [sp]",
+            "0x3e6f4 adrp x2, #0x7d000",
+            "0x3e6f8 add x2, x2, #0x3e0",
+            "0x3e6fc mov x0, x23",
+            "0x3e700 bl #0x5c440",
+            "0x3e704 mov x29, x29",
+            "0x3e708 bl #0x567dc",
+            "0x3e70c mov x23, x0",
+            "0x3e710 adrp x0, #0x79000",
+            "0x3e714 add x0, x0, #0x5c0",
+            "0x3e718 mov x1, x23",
+            "0x3e71c bl #0x4fbf4",
+            "0x3e720 mov x0, x23",
+            "0x3e724 bl #0x567b8",
+            "0x3e728 mov x0, x22",
+            "0x3e72c bl #0x5a1a0"
+          ]
+        },
+        {
+          "at": "0x3e710",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x3e704 mov x29, x29",
+            "0x3e708 bl #0x567dc",
+            "0x3e70c mov x23, x0",
+            "0x3e710 adrp x0, #0x79000",
+            "0x3e714 add x0, x0, #0x5c0",
+            "0x3e718 mov x1, x23",
+            "0x3e71c bl #0x4fbf4",
+            "0x3e720 mov x0, x23",
+            "0x3e724 bl #0x567b8",
+            "0x3e728 mov x0, x22",
+            "0x3e72c bl #0x5a1a0",
+            "0x3e730 mov x0, x22",
+            "0x3e734 bl #0x5a1c0",
+            "0x3e738 mov x0, x22",
+            "0x3e73c bl #0x59e60",
+            "0x3e740 mov x0, x22",
+            "0x3e744 mov w2, #1",
+            "0x3e748 bl #0x5a160"
+          ]
+        },
+        {
+          "at": "0x3ea84",
+          "literal": "com.anlai.omnicar/appbridge.open",
+          "nearby": [
+            "0x3ea78 mov x29, x29",
+            "0x3ea7c bl #0x567dc",
+            "0x3ea80 mov x21, x0",
+            "0x3ea84 adrp x2, #0x7d000",
+            "0x3ea88 add x2, x2, #0x400",
+            "0x3ea8c mov x0, x19",
+            "0x3ea90 mov x3, x21",
+            "0x3ea94 bl #0x58720",
+            "0x3ea98 mov x0, x21",
+            "0x3ea9c bl #0x567b8",
+            "0x3eaa0 mov x0, x20",
+            "0x3eaa4 bl #0x567b8",
+            "0x3eaa8 mov x0, x19",
+            "0x3eaac ldp x29, x30, [sp, #0x40]",
+            "0x3eab0 ldp x20, x19, [sp, #0x30]",
+            "0x3eab4 ldp x22, x21, [sp, #0x20]",
+            "0x3eab8 ldp d9, d8, [sp, #0x10]",
+            "0x3eabc ldp d11, d10, [sp], #0x50"
+          ]
+        }
+      ],
+      "branch_count": 8,
+      "branch_first": [
+        {
+          "pc": "0x3e4e4",
+          "op": "cbz x21, #0x3e57c"
+        },
+        {
+          "pc": "0x3e50c",
+          "op": "cbz w23, #0x3e538"
+        },
+        {
+          "pc": "0x3e6b8",
+          "op": "b.eq #0x3e6d0"
+        },
+        {
+          "pc": "0x3e93c",
+          "op": "b.ne #0x3eaa0"
+        },
+        {
+          "pc": "0x3e968",
+          "op": "tbz w21, #0, #0x3eaa0"
+        },
+        {
+          "pc": "0x3e98c",
+          "op": "cbz w0, #0x3e9e8"
+        },
+        {
+          "pc": "0x3eb44",
+          "op": "cbz x0, #0x3eb94"
+        },
+        {
+          "pc": "0x3eb70",
+          "op": "cbz w22, #0x3eb94"
+        }
+      ],
+      "head": [
+        "0x3e490 sub sp, sp, #0xf0",
+        "0x3e494 stp d11, d10, [sp, #0x90]",
+        "0x3e498 stp d9, d8, [sp, #0xa0]",
+        "0x3e49c stp x24, x23, [sp, #0xb0]",
+        "0x3e4a0 stp x22, x21, [sp, #0xc0]",
+        "0x3e4a4 stp x20, x19, [sp, #0xd0]",
+        "0x3e4a8 stp x29, x30, [sp, #0xe0]",
+        "0x3e4ac add x29, sp, #0xe0",
+        "0x3e4b0 mov x19, x3",
+        "0x3e4b4 mov x20, x2",
+        "0x3e4b8 mov x22, x0",
+        "0x3e4bc mov x0, x2",
+        "0x3e4c0 bl #0x567c4",
+        "0x3e4c4 mov x0, x19",
+        "0x3e4c8 bl #0x567c4",
+        "0x3e4cc mov x0, x19",
+        "0x3e4d0 bl #0x5cae0",
+        "0x3e4d4 mov x29, x29",
+        "0x3e4d8 bl #0x567dc",
+        "0x3e4dc mov x21, x0",
+        "0x3e4e0 bl #0x567b8",
+        "0x3e4e4 cbz x21, #0x3e57c",
+        "0x3e4e8 mov x0, x19",
+        "0x3e4ec bl #0x5cae0",
+        "0x3e4f0 mov x29, x29",
+        "0x3e4f4 bl #0x567dc",
+        "0x3e4f8 mov x21, x0",
+        "0x3e4fc bl #0x14fa4",
+        "0x3e500 mov x23, x0",
+        "0x3e504 mov x0, x21",
+        "0x3e508 bl #0x567b8",
+        "0x3e50c cbz w23, #0x3e538",
+        "0x3e510 mov x0, x19",
+        "0x3e514 bl #0x57420",
+        "0x3e518 mov x29, x29",
+        "0x3e51c bl #0x567dc",
+        "0x3e520 mov x21, x0",
+        "0x3e524 mov x0, x22",
+        "0x3e528 mov x2, x21",
+        "0x3e52c mov w3, #0",
+        "0x3e530 bl #0x58620",
+        "0x3e534 b #0x3e55c",
+        "0x3e538 mov x0, x19",
+        "0x3e53c bl #0x5cae0",
+        "0x3e540 mov x29, x29",
+        "0x3e544 bl #0x567dc",
+        "0x3e548 mov x21, x0",
+        "0x3e54c mov x0, x22",
+        "0x3e550 mov x2, x21",
+        "0x3e554 mov w3, #1",
+        "0x3e558 bl #0x57b40",
+        "0x3e55c mov x0, x21",
+        "0x3e560 bl #0x567b8",
+        "0x3e564 mov x0, x19",
+        "0x3e568 mov x2, #0",
+        "0x3e56c bl #0x5bda0",
+        "0x3e570 mov x0, x19",
+        "0x3e574 mov x2, #0",
+        "0x3e578 bl #0x5a940",
+        "0x3e57c adrp x8, #0x87000"
+      ]
+    },
+    "publishCarPlayApps": {
+      "present": true,
+      "imp": "0x21b1c",
+      "end": "0x22724",
+      "instructions": 770,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x21c68",
+          "literal": "CarSplit: %lu app CarPlay cho Settings, %lu app iPhone da chon (App Bridge)",
+          "nearby": [
+            "0x21c5c mov x20, x0",
+            "0x21c60 bl #0x579e0",
+            "0x21c64 stp x22, x0, [sp]",
+            "0x21c68 adrp x2, #0x7b000",
+            "0x21c6c add x2, x2, #0xe00",
+            "0x21c70 mov x0, x21",
+            "0x21c74 bl #0x5c440",
+            "0x21c78 mov x29, x29",
+            "0x21c7c bl #0x567dc",
+            "0x21c80 mov x22, x0",
+            "0x21c84 adrp x0, #0x79000",
+            "0x21c88 add x0, x0, #0x5c0",
+            "0x21c8c mov x1, x22",
+            "0x21c90 bl #0x4fbf4",
+            "0x21c94 mov x0, x22",
+            "0x21c98 bl #0x567b8",
+            "0x21c9c mov x0, x20",
+            "0x21ca0 bl #0x567b8"
+          ]
+        },
+        {
+          "at": "0x21c84",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x21c78 mov x29, x29",
+            "0x21c7c bl #0x567dc",
+            "0x21c80 mov x22, x0",
+            "0x21c84 adrp x0, #0x79000",
+            "0x21c88 add x0, x0, #0x5c0",
+            "0x21c8c mov x1, x22",
+            "0x21c90 bl #0x4fbf4",
+            "0x21c94 mov x0, x22",
+            "0x21c98 bl #0x567b8",
+            "0x21c9c mov x0, x20",
+            "0x21ca0 bl #0x567b8",
+            "0x21ca4 mov x0, x19",
+            "0x21ca8 bl #0x567b8",
+            "0x21cac ldur x8, [x29, #-0x48]",
+            "0x21cb0 adrp x9, #0x78000",
+            "0x21cb4 ldr x9, [x9, #0x360]",
+            "0x21cb8 ldr x9, [x9]",
+            "0x21cbc cmp x9, x8"
+          ]
+        },
+        {
+          "at": "0x21db4",
+          "literal": "allInstalledApplications",
+          "nearby": [
+            "0x21da8 cbz x0, #0x21df0",
+            "0x21dac mov x0, x19",
+            "0x21db0 bl #0x567c4",
+            "0x21db4 adrp x0, #0x7a000",
+            "0x21db8 add x0, x0, #0x9a0",
+            "0x21dbc bl #0x56374",
+            "0x21dc0 mov x21, x0",
+            "0x21dc4 mov x0, x19",
+            "0x21dc8 mov x1, x21",
+            "0x21dcc bl #0x567a0",
+            "0x21dd0 tbz w0, #0, #0x21df8",
+            "0x21dd4 ldr x0, [sp]",
+            "0x21dd8 mov x1, x21",
+            "0x21ddc bl #0x56758",
+            "0x21de0 mov x29, x29",
+            "0x21de4 bl #0x567dc",
+            "0x21de8 str x0, [sp, #0x10]",
+            "0x21dec b #0x21e0c"
+          ]
+        },
+        {
+          "at": "0x21df8",
+          "literal": "allInstalledApplications",
+          "nearby": [
+            "0x21dec b #0x21e0c",
+            "0x21df0 str xzr, [sp, #0x10]",
+            "0x21df4 b #0x21e14",
+            "0x21df8 adrp x1, #0x7a000",
+            "0x21dfc add x1, x1, #0x9a0",
+            "0x21e00 ldr x0, [sp]",
+            "0x21e04 bl #0x4f330",
+            "0x21e08 str xzr, [sp, #0x10]",
+            "0x21e0c ldr x0, [sp]",
+            "0x21e10 bl #0x567b8",
+            "0x21e14 bl #0xdb30",
+            "0x21e18 mov x29, x29",
+            "0x21e1c bl #0x567dc",
+            "0x21e20 mov x22, x0",
+            "0x21e24 movi v0.16b, #0",
+            "0x21e28 stp q0, q0, [sp, #0x60]",
+            "0x21e2c stp q0, q0, [sp, #0x40]",
+            "0x21e30 ldr x19, [sp, #0x10]"
+          ]
+        },
+        {
+          "at": "0x21e5c",
+          "literal": "displayName",
+          "nearby": [
+            "0x21e50 mov x24, x0",
+            "0x21e54 cbz x0, #0x22008",
+            "0x21e58 ldr x8, [sp, #0x50]",
+            "0x21e5c adrp x23, #0x7b000",
+            "0x21e60 add x23, x23, #0x80",
+            "0x21e64 adrp x25, #0x79000",
+            "0x21e68 add x25, x25, #0x800",
+            "0x21e6c ldr x20, [x8]",
+            "0x21e70 mov x19, #0",
+            "0x21e74 ldr x8, [sp, #0x50]",
+            "0x21e78 ldr x8, [x8]",
+            "0x21e7c cmp x8, x20",
+            "0x21e80 b.eq #0x21e8c",
+            "0x21e84 ldr x0, [sp, #0x10]",
+            "0x21e88 bl #0x5671c",
+            "0x21e8c ldr x8, [sp, #0x48]",
+            "0x21e90 ldr x27, [x8, x19, lsl #3]",
+            "0x21e94 mov x0, x27"
+          ]
+        },
+        {
+          "at": "0x21e64",
+          "literal": "bundleIdentifier",
+          "nearby": [
+            "0x21e58 ldr x8, [sp, #0x50]",
+            "0x21e5c adrp x23, #0x7b000",
+            "0x21e60 add x23, x23, #0x80",
+            "0x21e64 adrp x25, #0x79000",
+            "0x21e68 add x25, x25, #0x800",
+            "0x21e6c ldr x20, [x8]",
+            "0x21e70 mov x19, #0",
+            "0x21e74 ldr x8, [sp, #0x50]",
+            "0x21e78 ldr x8, [x8]",
+            "0x21e7c cmp x8, x20",
+            "0x21e80 b.eq #0x21e8c",
+            "0x21e84 ldr x0, [sp, #0x10]",
+            "0x21e88 bl #0x5671c",
+            "0x21e8c ldr x8, [sp, #0x48]",
+            "0x21e90 ldr x27, [x8, x19, lsl #3]",
+            "0x21e94 mov x0, x27",
+            "0x21e98 bl #0xffb4",
+            "0x21e9c tbz w0, #0, #0x21fe0"
+          ]
+        },
+        {
+          "at": "0x21f78",
+          "literal": "name",
+          "nearby": [
+            "0x21f6c adrp x8, #0x79000",
+            "0x21f70 add x8, x8, #0xe20",
+            "0x21f74 str x8, [sp, #0x90]",
+            "0x21f78 adrp x8, #0x7c000",
+            "0x21f7c add x8, x8, #0x840",
+            "0x21f80 stp x8, x28, [sp, #0x98]",
+            "0x21f84 mov x0, x26",
+            "0x21f88 bl #0x590c0",
+            "0x21f8c cmp x0, #0",
+            "0x21f90 csel x8, x28, x26, eq",
+            "0x21f94 str x8, [sp, #0xa8]",
+            "0x21f98 adrp x8, #0x87000",
+            "0x21f9c ldr x0, [x8, #0x6b8]",
+            "0x21fa0 add x2, sp, #0xa0",
+            "0x21fa4 add x3, sp, #0x90",
+            "0x21fa8 mov w4, #2",
+            "0x21fac bl #0x57bc0",
+            "0x21fb0 mov x29, x29"
+          ]
+        },
+        {
+          "at": "0x22070",
+          "literal": "name",
+          "nearby": [
+            "0x22064 ldr x0, [x8, #0x810]",
+            "0x22068 adrp x8, #0x85000",
+            "0x2206c ldr x4, [x8, #0xc08]",
+            "0x22070 adrp x2, #0x7c000",
+            "0x22074 add x2, x2, #0x840",
+            "0x22078 mov w3, #1",
+            "0x2207c bl #0x5c240",
+            "0x22080 mov x29, x29",
+            "0x22084 bl #0x567dc",
+            "0x22088 mov x24, x0",
+            "0x2208c str x0, [sp, #0x88]",
+            "0x22090 adrp x8, #0x87000",
+            "0x22094 ldr x0, [x8, #0x680]",
+            "0x22098 add x2, sp, #0x88",
+            "0x2209c mov w3, #1",
+            "0x220a0 bl #0x57080",
+            "0x220a4 mov x29, x29",
+            "0x220a8 bl #0x567dc"
+          ]
+        },
+        {
+          "at": "0x22258",
+          "literal": "appBridge",
+          "nearby": [
+            "0x2224c mov x29, x29",
+            "0x22250 bl #0x567dc",
+            "0x22254 str x0, [sp, #8]",
+            "0x22258 adrp x0, #0x7a000",
+            "0x2225c add x0, x0, #0x380",
+            "0x22260 bl #0x4f608",
+            "0x22264 tbz w0, #0, #0x225dc",
+            "0x22268 adrp x0, #0x62000",
+            "0x2226c add x0, x0, #0x6d",
+            "0x22270 bl #0x56734",
+            "0x22274 mov x20, x0",
+            "0x22278 cbz x0, #0x22334",
+            "0x2227c mov x0, x20",
+            "0x22280 bl #0x567c4",
+            "0x22284 adrp x0, #0x7d000",
+            "0x22288 add x0, x0, #0xd60",
+            "0x2228c bl #0x56374",
+            "0x22290 mov x21, x0"
+          ]
+        },
+        {
+          "at": "0x22284",
+          "literal": "defaultWorkspace",
+          "nearby": [
+            "0x22278 cbz x0, #0x22334",
+            "0x2227c mov x0, x20",
+            "0x22280 bl #0x567c4",
+            "0x22284 adrp x0, #0x7d000",
+            "0x22288 add x0, x0, #0xd60",
+            "0x2228c bl #0x56374",
+            "0x22290 mov x21, x0",
+            "0x22294 mov x0, x20",
+            "0x22298 mov x1, x21",
+            "0x2229c bl #0x567a0",
+            "0x222a0 tbz w0, #0, #0x222c0",
+            "0x222a4 mov x0, x20",
+            "0x222a8 mov x1, x21",
+            "0x222ac bl #0x56758",
+            "0x222b0 mov x29, x29",
+            "0x222b4 bl #0x567dc",
+            "0x222b8 mov x21, x0",
+            "0x222bc b #0x222d4"
+          ]
+        },
+        {
+          "at": "0x222c0",
+          "literal": "defaultWorkspace",
+          "nearby": [
+            "0x222b4 bl #0x567dc",
+            "0x222b8 mov x21, x0",
+            "0x222bc b #0x222d4",
+            "0x222c0 adrp x1, #0x7d000",
+            "0x222c4 add x1, x1, #0xd60",
+            "0x222c8 mov x0, x20",
+            "0x222cc bl #0x4f330",
+            "0x222d0 mov x21, #0",
+            "0x222d4 mov x0, x20",
+            "0x222d8 bl #0x567b8",
+            "0x222dc adrp x0, #0x7a000",
+            "0x222e0 add x0, x0, #0x9a0",
+            "0x222e4 bl #0x56374",
+            "0x222e8 mov x20, x0",
+            "0x222ec mov x0, x21",
+            "0x222f0 mov x1, x20",
+            "0x222f4 bl #0x567a0",
+            "0x222f8 tbz w0, #0, #0x22318"
+          ]
+        },
+        {
+          "at": "0x222dc",
+          "literal": "allInstalledApplications",
+          "nearby": [
+            "0x222d0 mov x21, #0",
+            "0x222d4 mov x0, x20",
+            "0x222d8 bl #0x567b8",
+            "0x222dc adrp x0, #0x7a000",
+            "0x222e0 add x0, x0, #0x9a0",
+            "0x222e4 bl #0x56374",
+            "0x222e8 mov x20, x0",
+            "0x222ec mov x0, x21",
+            "0x222f0 mov x1, x20",
+            "0x222f4 bl #0x567a0",
+            "0x222f8 tbz w0, #0, #0x22318",
+            "0x222fc mov x0, x21",
+            "0x22300 mov x1, x20",
+            "0x22304 bl #0x56758",
+            "0x22308 mov x29, x29",
+            "0x2230c bl #0x567dc",
+            "0x22310 mov x20, x0",
+            "0x22314 b #0x2232c"
+          ]
+        },
+        {
+          "at": "0x22318",
+          "literal": "allInstalledApplications",
+          "nearby": [
+            "0x2230c bl #0x567dc",
+            "0x22310 mov x20, x0",
+            "0x22314 b #0x2232c",
+            "0x22318 adrp x1, #0x7a000",
+            "0x2231c add x1, x1, #0x9a0",
+            "0x22320 mov x0, x21",
+            "0x22324 bl #0x4f330",
+            "0x22328 mov x20, #0",
+            "0x2232c mov x0, x21",
+            "0x22330 bl #0x567b8",
+            "0x22334 bl #0x48864",
+            "0x22338 mov x29, x29",
+            "0x2233c bl #0x567dc",
+            "0x22340 mov x21, x0",
+            "0x22344 movi v0.16b, #0",
+            "0x22348 stp q0, q0, [sp, #0x30]",
+            "0x2234c stp q0, q0, [sp, #0x10]",
+            "0x22350 mov x0, x20"
+          ]
+        },
+        {
+          "at": "0x22378",
+          "literal": "bundleIdentifier",
+          "nearby": [
+            "0x2236c mov x23, x0",
+            "0x22370 cbz x0, #0x22558",
+            "0x22374 ldr x8, [sp, #0x20]",
+            "0x22378 adrp x22, #0x79000",
+            "0x2237c add x22, x22, #0x800",
+            "0x22380 ldr x19, [x8]",
+            "0x22384 mov x24, #0",
+            "0x22388 ldr x8, [sp, #0x20]",
+            "0x2238c ldr x8, [x8]",
+            "0x22390 cmp x8, x19",
+            "0x22394 b.eq #0x223a0",
+            "0x22398 mov x0, x20",
+            "0x2239c bl #0x5671c",
+            "0x223a0 ldr x8, [sp, #0x18]",
+            "0x223a4 ldr x26, [x8, x24, lsl #3]",
+            "0x223a8 mov x0, x26",
+            "0x223ac bl #0x567c4",
+            "0x223b0 mov x0, x22"
+          ]
+        },
+        {
+          "at": "0x22438",
+          "literal": "localizedName",
+          "nearby": [
+            "0x2242c mov x0, x27",
+            "0x22430 bl #0x567b8",
+            "0x22434 tbnz w28, #0, #0x22528",
+            "0x22438 adrp x0, #0x7b000",
+            "0x2243c add x0, x0, #0xa0",
+            "0x22440 bl #0x56374",
+            "0x22444 mov x1, x0",
+            "0x22448 mov x0, x26",
+            "0x2244c bl #0x567a0",
+            "0x22450 tbz w0, #0, #0x22498",
+            "0x22454 mov x0, x26",
+            "0x22458 bl #0x567c4",
+            "0x2245c adrp x0, #0x7b000",
+            "0x22460 add x0, x0, #0xa0",
+            "0x22464 bl #0x56374",
+            "0x22468 mov x27, x0",
+            "0x2246c mov x0, x26",
+            "0x22470 mov x1, x27"
+          ]
+        },
+        {
+          "at": "0x2245c",
+          "literal": "localizedName",
+          "nearby": [
+            "0x22450 tbz w0, #0, #0x22498",
+            "0x22454 mov x0, x26",
+            "0x22458 bl #0x567c4",
+            "0x2245c adrp x0, #0x7b000",
+            "0x22460 add x0, x0, #0xa0",
+            "0x22464 bl #0x56374",
+            "0x22468 mov x27, x0",
+            "0x2246c mov x0, x26",
+            "0x22470 mov x1, x27",
+            "0x22474 bl #0x567a0",
+            "0x22478 tbz w0, #0, #0x224a0",
+            "0x2247c mov x0, x26",
+            "0x22480 mov x1, x27",
+            "0x22484 bl #0x56758",
+            "0x22488 mov x29, x29",
+            "0x2248c bl #0x567dc",
+            "0x22490 mov x27, x0",
+            "0x22494 b #0x224b4"
+          ]
+        },
+        {
+          "at": "0x224a4",
+          "literal": "localizedName",
+          "nearby": [
+            "0x22498 mov x27, #0",
+            "0x2249c b #0x224bc",
+            "0x224a0 mov x0, x26",
+            "0x224a4 adrp x1, #0x7b000",
+            "0x224a8 add x1, x1, #0xa0",
+            "0x224ac bl #0x4f330",
+            "0x224b0 mov x27, #0",
+            "0x224b4 mov x0, x26",
+            "0x224b8 bl #0x567b8",
+            "0x224bc adrp x8, #0x79000",
+            "0x224c0 add x8, x8, #0xe20",
+            "0x224c4 str x8, [sp, #0x60]",
+            "0x224c8 adrp x8, #0x7c000",
+            "0x224cc add x8, x8, #0x840",
+            "0x224d0 stp x8, x25, [sp, #0x68]",
+            "0x224d4 mov x0, x27",
+            "0x224d8 bl #0x590c0",
+            "0x224dc cmp x0, #0"
+          ]
+        },
+        {
+          "at": "0x224c8",
+          "literal": "name",
+          "nearby": [
+            "0x224bc adrp x8, #0x79000",
+            "0x224c0 add x8, x8, #0xe20",
+            "0x224c4 str x8, [sp, #0x60]",
+            "0x224c8 adrp x8, #0x7c000",
+            "0x224cc add x8, x8, #0x840",
+            "0x224d0 stp x8, x25, [sp, #0x68]",
+            "0x224d4 mov x0, x27",
+            "0x224d8 bl #0x590c0",
+            "0x224dc cmp x0, #0",
+            "0x224e0 csel x8, x25, x27, eq",
+            "0x224e4 str x8, [sp, #0x78]",
+            "0x224e8 adrp x8, #0x87000",
+            "0x224ec ldr x0, [x8, #0x6b8]",
+            "0x224f0 add x2, sp, #0x70",
+            "0x224f4 add x3, sp, #0x60",
+            "0x224f8 mov w4, #2",
+            "0x224fc bl #0x57bc0",
+            "0x22500 mov x29, x29"
+          ]
+        },
+        {
+          "at": "0x22570",
+          "literal": "name",
+          "nearby": [
+            "0x22564 ldr x0, [x8, #0x810]",
+            "0x22568 adrp x8, #0x85000",
+            "0x2256c ldr x4, [x8, #0xc08]",
+            "0x22570 adrp x2, #0x7c000",
+            "0x22574 add x2, x2, #0x840",
+            "0x22578 mov w3, #1",
+            "0x2257c bl #0x5c240",
+            "0x22580 mov x29, x29",
+            "0x22584 bl #0x567dc",
+            "0x22588 mov x23, x0",
+            "0x2258c str x0, [sp, #0x58]",
+            "0x22590 adrp x8, #0x87000",
+            "0x22594 ldr x0, [x8, #0x680]",
+            "0x22598 add x2, sp, #0x58",
+            "0x2259c mov w3, #1",
+            "0x225a0 bl #0x57080",
+            "0x225a4 mov x29, x29",
+            "0x225a8 bl #0x567dc"
+          ]
+        }
+      ],
+      "branch_count": 33,
+      "branch_first": [
+        {
+          "pc": "0x21b90",
+          "op": "cbz x0, #0x21c18"
+        },
+        {
+          "pc": "0x21bb4",
+          "op": "b.eq #0x21bc0"
+        },
+        {
+          "pc": "0x21bf8",
+          "op": "b.ne #0x21ba8"
+        },
+        {
+          "pc": "0x21c14",
+          "op": "cbnz x0, #0x21ba4"
+        },
+        {
+          "pc": "0x21c28",
+          "op": "cbz x0, #0x21c3c"
+        },
+        {
+          "pc": "0x21cc0",
+          "op": "b.ne #0x21ce0"
+        },
+        {
+          "pc": "0x21da8",
+          "op": "cbz x0, #0x21df0"
+        },
+        {
+          "pc": "0x21dd0",
+          "op": "tbz w0, #0, #0x21df8"
+        },
+        {
+          "pc": "0x21e54",
+          "op": "cbz x0, #0x22008"
+        },
+        {
+          "pc": "0x21e80",
+          "op": "b.eq #0x21e8c"
+        },
+        {
+          "pc": "0x21e9c",
+          "op": "tbz w0, #0, #0x21fe0"
+        },
+        {
+          "pc": "0x21ec0",
+          "op": "tbz w0, #0, #0x21ee0"
+        },
+        {
+          "pc": "0x21f18",
+          "op": "tbz w0, #0, #0x21f38"
+        },
+        {
+          "pc": "0x21f58",
+          "op": "tbnz w21, #0, #0x21f6c"
+        },
+        {
+          "pc": "0x21f68",
+          "op": "tbz w0, #0, #0x21fd0"
+        },
+        {
+          "pc": "0x21fe8",
+          "op": "b.ne #0x21e74"
+        },
+        {
+          "pc": "0x22004",
+          "op": "cbnz x0, #0x21e70"
+        },
+        {
+          "pc": "0x22010",
+          "op": "cbz x22, #0x22060"
+        },
+        {
+          "pc": "0x220f8",
+          "op": "b.ne #0x22120"
+        },
+        {
+          "pc": "0x22264",
+          "op": "tbz w0, #0, #0x225dc"
+        },
+        {
+          "pc": "0x22278",
+          "op": "cbz x0, #0x22334"
+        },
+        {
+          "pc": "0x222a0",
+          "op": "tbz w0, #0, #0x222c0"
+        },
+        {
+          "pc": "0x222f8",
+          "op": "tbz w0, #0, #0x22318"
+        },
+        {
+          "pc": "0x22370",
+          "op": "cbz x0, #0x22558"
+        },
+        {
+          "pc": "0x22394",
+          "op": "b.eq #0x223a0"
+        },
+        {
+          "pc": "0x223c8",
+          "op": "tbz w0, #0, #0x223e8"
+        },
+        {
+          "pc": "0x2240c",
+          "op": "cbz w0, #0x22528"
+        },
+        {
+          "pc": "0x22434",
+          "op": "tbnz w28, #0, #0x22528"
+        },
+        {
+          "pc": "0x22450",
+          "op": "tbz w0, #0, #0x22498"
+        },
+        {
+          "pc": "0x22478",
+          "op": "tbz w0, #0, #0x224a0"
+        },
+        {
+          "pc": "0x22538",
+          "op": "b.ne #0x22388"
+        },
+        {
+          "pc": "0x22554",
+          "op": "cbnz x0, #0x22384"
+        },
+        {
+          "pc": "0x225f0",
+          "op": "b.ne #0x22618"
+        }
+      ],
+      "head": [
+        "0x21b1c sub sp, sp, #0x130",
+        "0x21b20 stp x26, x25, [sp, #0xe0]",
+        "0x21b24 stp x24, x23, [sp, #0xf0]",
+        "0x21b28 stp x22, x21, [sp, #0x100]",
+        "0x21b2c stp x20, x19, [sp, #0x110]",
+        "0x21b30 stp x29, x30, [sp, #0x120]",
+        "0x21b34 add x29, sp, #0x120",
+        "0x21b38 adrp x8, #0x78000",
+        "0x21b3c ldr x8, [x8, #0x360]",
+        "0x21b40 ldr x8, [x8]",
+        "0x21b44 stur x8, [x29, #-0x48]",
+        "0x21b48 adrp x8, #0x87000",
+        "0x21b4c ldr x0, [x8, #0x708]",
+        "0x21b50 bl #0x56fe0",
+        "0x21b54 mov x29, x29",
+        "0x21b58 bl #0x567dc",
+        "0x21b5c mov x19, x0",
+        "0x21b60 movi v0.16b, #0",
+        "0x21b64 stp q0, q0, [sp, #0x10]",
+        "0x21b68 stp q0, q0, [sp, #0x30]",
+        "0x21b6c bl #0x21d4c",
+        "0x21b70 mov x29, x29",
+        "0x21b74 bl #0x567dc",
+        "0x21b78 mov x20, x0",
+        "0x21b7c add x2, sp, #0x10",
+        "0x21b80 add x3, sp, #0x58",
+        "0x21b84 mov w4, #0x10",
+        "0x21b88 bl #0x57a00",
+        "0x21b8c mov x22, x0",
+        "0x21b90 cbz x0, #0x21c18",
+        "0x21b94 ldr x8, [sp, #0x20]",
+        "0x21b98 ldr x24, [x8]",
+        "0x21b9c adrp x21, #0x79000",
+        "0x21ba0 add x21, x21, #0xe20",
+        "0x21ba4 mov x25, #0",
+        "0x21ba8 ldr x8, [sp, #0x20]",
+        "0x21bac ldr x8, [x8]",
+        "0x21bb0 cmp x8, x24",
+        "0x21bb4 b.eq #0x21bc0",
+        "0x21bb8 mov x0, x20",
+        "0x21bbc bl #0x5671c",
+        "0x21bc0 ldr x8, [sp, #0x18]",
+        "0x21bc4 ldr x0, [x8, x25, lsl #3]",
+        "0x21bc8 mov x2, x21",
+        "0x21bcc bl #0x59660",
+        "0x21bd0 mov x29, x29",
+        "0x21bd4 bl #0x567dc",
+        "0x21bd8 mov x23, x0",
+        "0x21bdc mov x0, x19",
+        "0x21be0 mov x2, x23",
+        "0x21be4 bl #0x56ca0",
+        "0x21be8 mov x0, x23",
+        "0x21bec bl #0x567b8",
+        "0x21bf0 add x25, x25, #1",
+        "0x21bf4 cmp x22, x25",
+        "0x21bf8 b.ne #0x21ba8",
+        "0x21bfc add x2, sp, #0x10",
+        "0x21c00 add x3, sp, #0x58",
+        "0x21c04 mov x0, x20",
+        "0x21c08 mov w4, #0x10"
+      ]
+    },
+    "sendLaunch:bundle:tries:": {
+      "present": true,
+      "imp": "0x16e04",
+      "end": "0x1734c",
+      "instructions": 338,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x16e80",
+          "literal": "currentBaseViewController",
+          "nearby": [
+            "0x16e74 mov x29, x29",
+            "0x16e78 bl #0x567dc",
+            "0x16e7c mov x24, x0",
+            "0x16e80 adrp x0, #0x79000",
+            "0x16e84 add x0, x0, #0xf20",
+            "0x16e88 bl #0x56374",
+            "0x16e8c mov x21, x0",
+            "0x16e90 mov x0, x24",
+            "0x16e94 mov x1, x21",
+            "0x16e98 bl #0x567a0",
+            "0x16e9c tbz w0, #0, #0x16ebc",
+            "0x16ea0 mov x0, x24",
+            "0x16ea4 mov x1, x21",
+            "0x16ea8 bl #0x56758",
+            "0x16eac mov x29, x29",
+            "0x16eb0 bl #0x567dc",
+            "0x16eb4 mov x21, x0",
+            "0x16eb8 b #0x16ed0"
+          ]
+        },
+        {
+          "at": "0x16ebc",
+          "literal": "currentBaseViewController",
+          "nearby": [
+            "0x16eb0 bl #0x567dc",
+            "0x16eb4 mov x21, x0",
+            "0x16eb8 b #0x16ed0",
+            "0x16ebc adrp x1, #0x79000",
+            "0x16ec0 add x1, x1, #0xf20",
+            "0x16ec4 mov x0, x24",
+            "0x16ec8 bl #0x4f330",
+            "0x16ecc mov x21, #0",
+            "0x16ed0 add x19, sp, #0xa0",
+            "0x16ed4 mov x0, x24",
+            "0x16ed8 bl #0x567b8",
+            "0x16edc movi v0.16b, #0",
+            "0x16ee0 stp q0, q0, [x19, #0x20]",
+            "0x16ee4 str q0, [x19, #0x10]",
+            "0x16ee8 str q0, [sp, #0xa0]",
+            "0x16eec mov x0, x23",
+            "0x16ef0 bl #0x56e20",
+            "0x16ef4 mov x29, x29"
+          ]
+        },
+        {
+          "at": "0x16ff4",
+          "literal": "CarSplit: DashBoard con trinh bay %@ -> doi ve Home xong roi moi mo %@",
+          "nearby": [
+            "0x16fe8 adrp x8, #0x87000",
+            "0x16fec ldr x0, [x8, #0x678]",
+            "0x16ff0 stp x21, x20, [sp]",
+            "0x16ff4 adrp x2, #0x7b000",
+            "0x16ff8 add x2, x2, #0x660",
+            "0x16ffc bl #0x5c440",
+            "0x17000 mov x29, x29",
+            "0x17004 bl #0x567dc",
+            "0x17008 mov x23, x0",
+            "0x1700c adrp x0, #0x79000",
+            "0x17010 add x0, x0, #0x5c0",
+            "0x17014 mov x1, x23",
+            "0x17018 bl #0x4fbf4",
+            "0x1701c mov x0, x23",
+            "0x17020 bl #0x567b8",
+            "0x17024 adrp x8, #0x78000",
+            "0x17028 ldr x8, [x8, #0x338]",
+            "0x1702c str x8, [sp, #0x58]"
+          ]
+        },
+        {
+          "at": "0x1700c",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x17000 mov x29, x29",
+            "0x17004 bl #0x567dc",
+            "0x17008 mov x23, x0",
+            "0x1700c adrp x0, #0x79000",
+            "0x17010 add x0, x0, #0x5c0",
+            "0x17014 mov x1, x23",
+            "0x17018 bl #0x4fbf4",
+            "0x1701c mov x0, x23",
+            "0x17020 bl #0x567b8",
+            "0x17024 adrp x8, #0x78000",
+            "0x17028 ldr x8, [x8, #0x338]",
+            "0x1702c str x8, [sp, #0x58]",
+            "0x17030 adrp x8, #0x6e000",
+            "0x17034 ldr d0, [x8, #0xff8]",
+            "0x17038 str d0, [sp, #0x60]",
+            "0x1703c adrp x8, #0x17000",
+            "0x17040 add x8, x8, #0x258",
+            "0x17044 adrp x9, #0x78000"
+          ]
+        },
+        {
+          "at": "0x170b4",
+          "literal": "CarSplit: DashBoard van trinh bay %@ sau 3s -> mo %@ luon",
+          "nearby": [
+            "0x170a8 adrp x8, #0x87000",
+            "0x170ac ldr x0, [x8, #0x678]",
+            "0x170b0 stp x21, x20, [sp]",
+            "0x170b4 adrp x2, #0x7b000",
+            "0x170b8 add x2, x2, #0x680",
+            "0x170bc bl #0x5c440",
+            "0x170c0 mov x29, x29",
+            "0x170c4 bl #0x567dc",
+            "0x170c8 mov x23, x0",
+            "0x170cc adrp x0, #0x79000",
+            "0x170d0 add x0, x0, #0x5c0",
+            "0x170d4 mov x1, x23",
+            "0x170d8 bl #0x4fbf4",
+            "0x170dc mov x0, x23",
+            "0x170e0 bl #0x567b8",
+            "0x170e4 mov w0, #4",
+            "0x170e8 ldr x1, [sp, #0x20]",
+            "0x170ec bl #0x162ac"
+          ]
+        },
+        {
+          "at": "0x170cc",
+          "literal": "SplitScreen",
+          "nearby": [
+            "0x170c0 mov x29, x29",
+            "0x170c4 bl #0x567dc",
+            "0x170c8 mov x23, x0",
+            "0x170cc adrp x0, #0x79000",
+            "0x170d0 add x0, x0, #0x5c0",
+            "0x170d4 mov x1, x23",
+            "0x170d8 bl #0x4fbf4",
+            "0x170dc mov x0, x23",
+            "0x170e0 bl #0x567b8",
+            "0x170e4 mov w0, #4",
+            "0x170e8 ldr x1, [sp, #0x20]",
+            "0x170ec bl #0x162ac",
+            "0x170f0 adrp x8, #0x78000",
+            "0x170f4 ldr x8, [x8, #0x338]",
+            "0x170f8 str x8, [sp, #0x28]",
+            "0x170fc adrp x8, #0x6e000",
+            "0x17100 ldr d0, [x8, #0xff8]",
+            "0x17104 str d0, [sp, #0x30]"
+          ]
+        }
+      ],
+      "branch_count": 13,
+      "branch_first": [
+        {
+          "pc": "0x16e5c",
+          "op": "cbz w0, #0x17168"
+        },
+        {
+          "pc": "0x16e6c",
+          "op": "tbnz w0, #0x1f, #0x17168"
+        },
+        {
+          "pc": "0x16e9c",
+          "op": "tbz w0, #0, #0x16ebc"
+        },
+        {
+          "pc": "0x16f1c",
+          "op": "cbz x0, #0x16fb4"
+        },
+        {
+          "pc": "0x16f38",
+          "op": "b.eq #0x16f44"
+        },
+        {
+          "pc": "0x16f60",
+          "op": "cbz x0, #0x16f84"
+        },
+        {
+          "pc": "0x16f94",
+          "op": "b.ne #0x16f2c"
+        },
+        {
+          "pc": "0x16fb0",
+          "op": "cbnz x0, #0x16f28"
+        },
+        {
+          "pc": "0x16fdc",
+          "op": "b.gt #0x170a4"
+        },
+        {
+          "pc": "0x16fe0",
+          "op": "tbnz w8, #0, #0x170a4"
+        },
+        {
+          "pc": "0x16fe4",
+          "op": "cbnz w9, #0x17024"
+        },
+        {
+          "pc": "0x170a4",
+          "op": "tbnz w8, #0, #0x170e4"
+        },
+        {
+          "pc": "0x1718c",
+          "op": "b.ne #0x171b0"
+        }
+      ],
+      "head": [
+        "0x16e04 sub sp, sp, #0x1e0",
+        "0x16e08 stp x28, x27, [sp, #0x180]",
+        "0x16e0c stp x26, x25, [sp, #0x190]",
+        "0x16e10 stp x24, x23, [sp, #0x1a0]",
+        "0x16e14 stp x22, x21, [sp, #0x1b0]",
+        "0x16e18 stp x20, x19, [sp, #0x1c0]",
+        "0x16e1c stp x29, x30, [sp, #0x1d0]",
+        "0x16e20 add x29, sp, #0x1d0",
+        "0x16e24 mov x22, x4",
+        "0x16e28 mov x20, x3",
+        "0x16e2c mov x23, x0",
+        "0x16e30 adrp x8, #0x78000",
+        "0x16e34 ldr x8, [x8, #0x360]",
+        "0x16e38 ldr x8, [x8]",
+        "0x16e3c stur x8, [x29, #-0x68]",
+        "0x16e40 str x2, [sp, #0x20]",
+        "0x16e44 mov x0, x2",
+        "0x16e48 bl #0x567c4",
+        "0x16e4c mov x0, x20",
+        "0x16e50 bl #0x567c4",
+        "0x16e54 mov x0, x23",
+        "0x16e58 bl #0x56b60",
+        "0x16e5c cbz w0, #0x17168",
+        "0x16e60 mov x0, x23",
+        "0x16e64 mov x2, x20",
+        "0x16e68 bl #0x599c0",
+        "0x16e6c tbnz w0, #0x1f, #0x17168",
+        "0x16e70 bl #0x12658",
+        "0x16e74 mov x29, x29",
+        "0x16e78 bl #0x567dc",
+        "0x16e7c mov x24, x0",
+        "0x16e80 adrp x0, #0x79000",
+        "0x16e84 add x0, x0, #0xf20",
+        "0x16e88 bl #0x56374",
+        "0x16e8c mov x21, x0",
+        "0x16e90 mov x0, x24",
+        "0x16e94 mov x1, x21",
+        "0x16e98 bl #0x567a0",
+        "0x16e9c tbz w0, #0, #0x16ebc",
+        "0x16ea0 mov x0, x24",
+        "0x16ea4 mov x1, x21",
+        "0x16ea8 bl #0x56758",
+        "0x16eac mov x29, x29",
+        "0x16eb0 bl #0x567dc",
+        "0x16eb4 mov x21, x0",
+        "0x16eb8 b #0x16ed0",
+        "0x16ebc adrp x1, #0x79000",
+        "0x16ec0 add x1, x1, #0xf20",
+        "0x16ec4 mov x0, x24",
+        "0x16ec8 bl #0x4f330",
+        "0x16ecc mov x21, #0",
+        "0x16ed0 add x19, sp, #0xa0",
+        "0x16ed4 mov x0, x24",
+        "0x16ed8 bl #0x567b8",
+        "0x16edc movi v0.16b, #0",
+        "0x16ee0 stp q0, q0, [x19, #0x20]",
+        "0x16ee4 str q0, [x19, #0x10]",
+        "0x16ee8 str q0, [sp, #0xa0]",
+        "0x16eec mov x0, x23",
+        "0x16ef0 bl #0x56e20"
+      ]
+    },
+    "sendHostFrameForPane:live:": {
+      "present": true,
+      "imp": "0x3dfac",
+      "end": "0x3e238",
+      "instructions": 163,
+      "native_method_calls": [],
+      "cfstrings": [
+        {
+          "at": "0x3e194",
+          "literal": "com.anlai.omnicar/appbridge.frame",
+          "nearby": [
+            "0x3e188 mov x29, x29",
+            "0x3e18c bl #0x567dc",
+            "0x3e190 mov x21, x0",
+            "0x3e194 adrp x2, #0x7d000",
+            "0x3e198 add x2, x2, #0x60",
+            "0x3e19c mov x0, x20",
+            "0x3e1a0 mov x3, x21",
+            "0x3e1a4 bl #0x58720",
+            "0x3e1a8 mov x0, x21",
+            "0x3e1ac bl #0x567b8",
+            "0x3e1b0 mov x0, x20",
+            "0x3e1b4 bl #0x59d80",
+            "0x3e1b8 b #0x3e1c4",
+            "0x3e1bc mov x0, x22",
+            "0x3e1c0 bl #0x567b8",
+            "0x3e1c4 mov x0, x19",
+            "0x3e1c8 ldp x29, x30, [sp, #0x70]",
+            "0x3e1cc ldp x20, x19, [sp, #0x60]"
+          ]
+        }
+      ],
+      "branch_count": 7,
+      "branch_first": [
+        {
+          "pc": "0x3dffc",
+          "op": "tbz w0, #0, #0x3e1bc"
+        },
+        {
+          "pc": "0x3e020",
+          "op": "cbz x23, #0x3e1c4"
+        },
+        {
+          "pc": "0x3e098",
+          "op": "tbnz w21, #0, #0x3e11c"
+        },
+        {
+          "pc": "0x3e0c8",
+          "op": "cbz w0, #0x3e11c"
+        },
+        {
+          "pc": "0x3e0d8",
+          "op": "b.eq #0x3e11c"
+        },
+        {
+          "pc": "0x3e0e8",
+          "op": "b.eq #0x3e11c"
+        },
+        {
+          "pc": "0x3e118",
+          "op": "tbnz w0, #0, #0x3e1c4"
+        }
+      ],
+      "head": [
+        "0x3dfac stp d15, d14, [sp, #-0x80]!",
+        "0x3dfb0 stp d13, d12, [sp, #0x10]",
+        "0x3dfb4 stp d11, d10, [sp, #0x20]",
+        "0x3dfb8 stp d9, d8, [sp, #0x30]",
+        "0x3dfbc stp x24, x23, [sp, #0x40]",
+        "0x3dfc0 stp x22, x21, [sp, #0x50]",
+        "0x3dfc4 stp x20, x19, [sp, #0x60]",
+        "0x3dfc8 stp x29, x30, [sp, #0x70]",
+        "0x3dfcc add x29, sp, #0x70",
+        "0x3dfd0 mov x21, x3",
+        "0x3dfd4 mov x19, x2",
+        "0x3dfd8 mov x20, x0",
+        "0x3dfdc mov x0, x2",
+        "0x3dfe0 bl #0x567c4",
+        "0x3dfe4 mov x0, x19",
+        "0x3dfe8 bl #0x5cae0",
+        "0x3dfec mov x29, x29",
+        "0x3dff0 bl #0x567dc",
+        "0x3dff4 mov x22, x0",
+        "0x3dff8 bl #0x14fa4",
+        "0x3dffc tbz w0, #0, #0x3e1bc",
+        "0x3e000 mov x0, x19",
+        "0x3e004 bl #0x57420",
+        "0x3e008 mov x29, x29",
+        "0x3e00c bl #0x567dc",
+        "0x3e010 mov x23, x0",
+        "0x3e014 bl #0x567b8",
+        "0x3e018 mov x0, x22",
+        "0x3e01c bl #0x567b8",
+        "0x3e020 cbz x23, #0x3e1c4",
+        "0x3e024 mov x0, x20",
+        "0x3e028 mov x2, x19",
+        "0x3e02c bl #0x58680",
+        "0x3e030 mov v9.16b, v0.16b",
+        "0x3e034 mov v10.16b, v1.16b",
+        "0x3e038 mov v11.16b, v2.16b",
+        "0x3e03c mov v8.16b, v3.16b",
+        "0x3e040 mov x0, x20",
+        "0x3e044 mov x2, x19",
+        "0x3e048 bl #0x584e0",
+        "0x3e04c mov v12.16b, v0.16b",
+        "0x3e050 mov v13.16b, v1.16b",
+        "0x3e054 mov v14.16b, v2.16b",
+        "0x3e058 mov v15.16b, v3.16b",
+        "0x3e05c mov v0.16b, v9.16b",
+        "0x3e060 mov v1.16b, v10.16b",
+        "0x3e064 mov v2.16b, v11.16b",
+        "0x3e068 mov v3.16b, v8.16b",
+        "0x3e06c bl #0x56320",
+        "0x3e070 mov x22, x0",
+        "0x3e074 mov x0, x19",
+        "0x3e078 bl #0x57160",
+        "0x3e07c mov x29, x29",
+        "0x3e080 bl #0x567dc",
+        "0x3e084 mov x24, x0",
+        "0x3e088 bl #0x58d20",
+        "0x3e08c mov x23, x0",
+        "0x3e090 mov x0, x24",
+        "0x3e094 bl #0x567b8",
+        "0x3e098 tbnz w21, #0, #0x3e11c"
+      ]
+    },
+    "pushHostFramesLive:": {
+      "present": true,
+      "imp": "0x3e238",
+      "end": "0x3e374",
+      "instructions": 79,
+      "native_method_calls": [],
+      "cfstrings": [],
+      "branch_count": 5,
+      "branch_first": [
+        {
+          "pc": "0x3e29c",
+          "op": "cbz x0, #0x3e300"
+        },
+        {
+          "pc": "0x3e2b8",
+          "op": "b.eq #0x3e2c4"
+        },
+        {
+          "pc": "0x3e2e0",
+          "op": "b.ne #0x3e2ac"
+        },
+        {
+          "pc": "0x3e2fc",
+          "op": "cbnz x0, #0x3e2a8"
+        },
+        {
+          "pc": "0x3e32c",
+          "op": "b.ne #0x3e34c"
+        }
+      ],
+      "head": [
+        "0x3e238 sub sp, sp, #0x120",
+        "0x3e23c stp x28, x27, [sp, #0xd0]",
+        "0x3e240 stp x24, x23, [sp, #0xe0]",
+        "0x3e244 stp x22, x21, [sp, #0xf0]",
+        "0x3e248 stp x20, x19, [sp, #0x100]",
+        "0x3e24c stp x29, x30, [sp, #0x110]",
+        "0x3e250 add x29, sp, #0x110",
+        "0x3e254 mov x21, x2",
+        "0x3e258 mov x19, x0",
+        "0x3e25c adrp x8, #0x78000",
+        "0x3e260 ldr x8, [x8, #0x360]",
+        "0x3e264 ldr x8, [x8]",
+        "0x3e268 stur x8, [x29, #-0x48]",
+        "0x3e26c movi v0.16b, #0",
+        "0x3e270 stp q0, q0, [sp]",
+        "0x3e274 stp q0, q0, [sp, #0x20]",
+        "0x3e278 bl #0x58780",
+        "0x3e27c mov x29, x29",
+        "0x3e280 bl #0x567dc",
+        "0x3e284 mov x20, x0",
+        "0x3e288 mov x2, sp",
+        "0x3e28c add x3, sp, #0x48",
+        "0x3e290 mov w4, #0x10",
+        "0x3e294 bl #0x57a00",
+        "0x3e298 mov x22, x0",
+        "0x3e29c cbz x0, #0x3e300",
+        "0x3e2a0 ldr x8, [sp, #0x10]",
+        "0x3e2a4 ldr x23, [x8]",
+        "0x3e2a8 mov x24, #0",
+        "0x3e2ac ldr x8, [sp, #0x10]",
+        "0x3e2b0 ldr x8, [x8]",
+        "0x3e2b4 cmp x8, x23",
+        "0x3e2b8 b.eq #0x3e2c4",
+        "0x3e2bc mov x0, x20",
+        "0x3e2c0 bl #0x5671c",
+        "0x3e2c4 ldr x8, [sp, #8]",
+        "0x3e2c8 ldr x2, [x8, x24, lsl #3]",
+        "0x3e2cc mov x0, x19",
+        "0x3e2d0 mov x3, x21",
+        "0x3e2d4 bl #0x5a680",
+        "0x3e2d8 add x24, x24, #1",
+        "0x3e2dc cmp x22, x24",
+        "0x3e2e0 b.ne #0x3e2ac",
+        "0x3e2e4 mov x2, sp",
+        "0x3e2e8 add x3, sp, #0x48",
+        "0x3e2ec mov x0, x20",
+        "0x3e2f0 mov w4, #0x10",
+        "0x3e2f4 bl #0x57a00",
+        "0x3e2f8 mov x22, x0",
+        "0x3e2fc cbnz x0, #0x3e2a8",
+        "0x3e300 mov x0, x20",
+        "0x3e304 bl #0x567b8",
+        "0x3e308 mov x0, x19",
+        "0x3e30c bl #0x59da0",
+        "0x3e310 mov x0, x19",
+        "0x3e314 bl #0x5a120",
+        "0x3e318 ldur x8, [x29, #-0x48]",
+        "0x3e31c adrp x9, #0x78000",
+        "0x3e320 ldr x9, [x9, #0x360]",
+        "0x3e324 ldr x9, [x9]"
+      ]
+    },
+    "removePaneAt:background:": {
+      "present": true,
+      "imp": "0x149a8",
+      "end": "0x15000",
+      "instructions": 406,
+      "native_method_calls": [],
+      "cfstrings": [],
+      "branch_count": 13,
+      "branch_first": [
+        {
+          "pc": "0x149d8",
+          "op": "tbnz w2, #0x1f, #0x14e54"
+        },
+        {
+          "pc": "0x14a54",
+          "op": "cbz w24, #0x14a84"
+        },
+        {
+          "pc": "0x14ad4",
+          "op": "cbz x19, #0x14b04"
+        },
+        {
+          "pc": "0x14b44",
+          "op": "cbz x0, #0x14b74"
+        },
+        {
+          "pc": "0x14c48",
+          "op": "cbz x0, #0x14dd4"
+        },
+        {
+          "pc": "0x14c64",
+          "op": "b.eq #0x14c70"
+        },
+        {
+          "pc": "0x14cd4",
+          "op": "b.eq #0x14da4"
+        },
+        {
+          "pc": "0x14ce0",
+          "op": "b.ne #0x14d04"
+        },
+        {
+          "pc": "0x14d04",
+          "op": "b.le #0x14da4"
+        },
+        {
+          "pc": "0x14db4",
+          "op": "b.ne #0x14c58"
+        },
+        {
+          "pc": "0x14dd0",
+          "op": "cbnz x0, #0x14c54"
+        },
+        {
+          "pc": "0x14dec",
+          "op": "b.le #0x14e04"
+        },
+        {
+          "pc": "0x14e68",
+          "op": "b.ne #0x14e8c"
+        }
+      ],
+      "head": [
+        "0x149a8 sub sp, sp, #0x160",
+        "0x149ac stp x28, x27, [sp, #0x100]",
+        "0x149b0 stp x26, x25, [sp, #0x110]",
+        "0x149b4 stp x24, x23, [sp, #0x120]",
+        "0x149b8 stp x22, x21, [sp, #0x130]",
+        "0x149bc stp x20, x19, [sp, #0x140]",
+        "0x149c0 stp x29, x30, [sp, #0x150]",
+        "0x149c4 add x29, sp, #0x150",
+        "0x149c8 adrp x8, #0x78000",
+        "0x149cc ldr x8, [x8, #0x360]",
+        "0x149d0 ldr x8, [x8]",
+        "0x149d4 stur x8, [x29, #-0x60]",
+        "0x149d8 tbnz w2, #0x1f, #0x14e54",
+        "0x149dc mov x23, x3",
+        "0x149e0 mov x21, x2",
+        "0x149e4 mov x20, x0",
+        "0x149e8 bl #0x59800",
+        "0x149ec cmp w21, w0",
+        "0x149f0 b.ge #0x14e54",
+        "0x149f4 mov x0, x20",
+        "0x149f8 bl #0x5c160",
+        "0x149fc mov x29, x29",
+        "0x14a00 bl #0x567dc",
+        "0x14a04 mov x19, x0",
+        "0x14a08 str w21, [sp, #0x14]",
+        "0x14a0c mov w22, w21",
+        "0x14a10 mov x2, x22",
+        "0x14a14 bl #0x59620",
+        "0x14a18 mov x29, x29",
+        "0x14a1c bl #0x567dc",
+        "0x14a20 mov x21, x0",
+        "0x14a24 mov x0, x19",
+        "0x14a28 bl #0x567b8",
+        "0x14a2c str x21, [sp, #8]",
+        "0x14a30 mov x0, x21",
+        "0x14a34 bl #0x5cae0",
+        "0x14a38 mov x29, x29",
+        "0x14a3c bl #0x567dc",
+        "0x14a40 mov x19, x0",
+        "0x14a44 bl #0x14fa4",
+        "0x14a48 mov x24, x0",
+        "0x14a4c mov x0, x19",
+        "0x14a50 bl #0x567b8",
+        "0x14a54 cbz w24, #0x14a84",
+        "0x14a58 ldr x0, [sp, #8]",
+        "0x14a5c bl #0x57420",
+        "0x14a60 mov x29, x29",
+        "0x14a64 bl #0x567dc",
+        "0x14a68 mov x24, x0",
+        "0x14a6c mov x0, x20",
+        "0x14a70 mov x2, x24",
+        "0x14a74 mov w3, #0",
+        "0x14a78 bl #0x58620",
+        "0x14a7c mov x0, x24",
+        "0x14a80 bl #0x567b8",
+        "0x14a84 ldr x0, [sp, #8]",
+        "0x14a88 bl #0x57180",
+        "0x14a8c mov x29, x29",
+        "0x14a90 bl #0x567dc",
+        "0x14a94 mov x19, x0"
+      ]
+    },
+    "paneForBundle:": {
+      "present": true,
+      "imp": "0x10800",
+      "end": "0x109d8",
+      "instructions": 118,
+      "native_method_calls": [],
+      "cfstrings": [],
+      "branch_count": 8,
+      "branch_first": [
+        {
+          "pc": "0x10840",
+          "op": "cbz x19, #0x10924"
+        },
+        {
+          "pc": "0x10878",
+          "op": "cbz x0, #0x1091c"
+        },
+        {
+          "pc": "0x10894",
+          "op": "b.eq #0x108a0"
+        },
+        {
+          "pc": "0x108bc",
+          "op": "cbz x0, #0x108f4"
+        },
+        {
+          "pc": "0x108f0",
+          "op": "tbnz w25, #0, #0x1092c"
+        },
+        {
+          "pc": "0x108fc",
+          "op": "b.ne #0x10888"
+        },
+        {
+          "pc": "0x10918",
+          "op": "cbnz x0, #0x10884"
+        },
+        {
+          "pc": "0x10958",
+          "op": "b.ne #0x10980"
+        }
+      ],
+      "head": [
+        "0x10800 sub sp, sp, #0x130",
+        "0x10804 stp x28, x27, [sp, #0xd0]",
+        "0x10808 stp x26, x25, [sp, #0xe0]",
+        "0x1080c stp x24, x23, [sp, #0xf0]",
+        "0x10810 stp x22, x21, [sp, #0x100]",
+        "0x10814 stp x20, x19, [sp, #0x110]",
+        "0x10818 stp x29, x30, [sp, #0x120]",
+        "0x1081c add x29, sp, #0x120",
+        "0x10820 mov x19, x2",
+        "0x10824 mov x20, x0",
+        "0x10828 adrp x8, #0x78000",
+        "0x1082c ldr x8, [x8, #0x360]",
+        "0x10830 ldr x8, [x8]",
+        "0x10834 stur x8, [x29, #-0x58]",
+        "0x10838 mov x0, x2",
+        "0x1083c bl #0x567c4",
+        "0x10840 cbz x19, #0x10924",
+        "0x10844 movi v0.16b, #0",
+        "0x10848 stp q0, q0, [sp, #0x20]",
+        "0x1084c stp q0, q0, [sp]",
+        "0x10850 mov x0, x20",
+        "0x10854 bl #0x56e20",
+        "0x10858 mov x29, x29",
+        "0x1085c bl #0x567dc",
+        "0x10860 mov x20, x0",
+        "0x10864 mov x2, sp",
+        "0x10868 add x3, sp, #0x48",
+        "0x1086c mov w4, #0x10",
+        "0x10870 bl #0x57a00",
+        "0x10874 mov x21, x0",
+        "0x10878 cbz x0, #0x1091c",
+        "0x1087c ldr x8, [sp, #0x10]",
+        "0x10880 ldr x26, [x8]",
+        "0x10884 mov x27, #0",
+        "0x10888 ldr x8, [sp, #0x10]",
+        "0x1088c ldr x8, [x8]",
+        "0x10890 cmp x8, x26",
+        "0x10894 b.eq #0x108a0",
+        "0x10898 mov x0, x20",
+        "0x1089c bl #0x5671c",
+        "0x108a0 ldr x8, [sp, #8]",
+        "0x108a4 ldr x22, [x8, x27, lsl #3]",
+        "0x108a8 mov x0, x22",
+        "0x108ac bl #0x5cae0",
+        "0x108b0 mov x29, x29",
+        "0x108b4 bl #0x567dc",
+        "0x108b8 mov x23, x0",
+        "0x108bc cbz x0, #0x108f4",
+        "0x108c0 mov x0, x22",
+        "0x108c4 bl #0x57420",
+        "0x108c8 mov x29, x29",
+        "0x108cc bl #0x567dc",
+        "0x108d0 mov x24, x0",
+        "0x108d4 mov x2, x19",
+        "0x108d8 bl #0x58d00",
+        "0x108dc mov x25, x0",
+        "0x108e0 mov x0, x24",
+        "0x108e4 bl #0x567b8",
+        "0x108e8 mov x0, x23",
+        "0x108ec bl #0x567b8"
+      ]
+    },
+    "pendingSlotForBundle:": {
+      "present": true,
+      "imp": "0x10c88",
+      "end": "0x10df4",
+      "instructions": 91,
+      "native_method_calls": [],
+      "cfstrings": [],
+      "branch_count": 3,
+      "branch_first": [
+        {
+          "pc": "0x10cac",
+          "op": "cbz x19, #0x10d6c"
+        },
+        {
+          "pc": "0x10ce0",
+          "op": "cbz x20, #0x10d70"
+        },
+        {
+          "pc": "0x10d3c",
+          "op": "b.gt #0x10d70"
+        }
+      ],
+      "head": [
+        "0x10c88 stp d9, d8, [sp, #-0x40]!",
+        "0x10c8c stp x22, x21, [sp, #0x10]",
+        "0x10c90 stp x20, x19, [sp, #0x20]",
+        "0x10c94 stp x29, x30, [sp, #0x30]",
+        "0x10c98 add x29, sp, #0x30",
+        "0x10c9c mov x19, x2",
+        "0x10ca0 mov x20, x0",
+        "0x10ca4 mov x0, x2",
+        "0x10ca8 bl #0x567c4",
+        "0x10cac cbz x19, #0x10d6c",
+        "0x10cb0 mov x0, x20",
+        "0x10cb4 bl #0x599a0",
+        "0x10cb8 mov x29, x29",
+        "0x10cbc bl #0x567dc",
+        "0x10cc0 mov x22, x0",
+        "0x10cc4 mov x2, x19",
+        "0x10cc8 bl #0x59660",
+        "0x10ccc mov x29, x29",
+        "0x10cd0 bl #0x567dc",
+        "0x10cd4 mov x20, x0",
+        "0x10cd8 mov x0, x22",
+        "0x10cdc bl #0x567b8",
+        "0x10ce0 cbz x20, #0x10d70",
+        "0x10ce4 adrp x8, #0x87000",
+        "0x10ce8 ldr x0, [x8, #0x738]",
+        "0x10cec bl #0x57aa0",
+        "0x10cf0 mov x29, x29",
+        "0x10cf4 bl #0x567dc",
+        "0x10cf8 mov x22, x0",
+        "0x10cfc mov x0, x20",
+        "0x10d00 mov w2, #1",
+        "0x10d04 bl #0x59620",
+        "0x10d08 mov x29, x29",
+        "0x10d0c bl #0x567dc",
+        "0x10d10 mov x21, x0",
+        "0x10d14 mov x0, x22",
+        "0x10d18 mov x2, x21",
+        "0x10d1c bl #0x5c680",
+        "0x10d20 mov v8.16b, v0.16b",
+        "0x10d24 mov x0, x21",
+        "0x10d28 bl #0x567b8",
+        "0x10d2c mov x0, x22",
+        "0x10d30 bl #0x567b8",
+        "0x10d34 fmov d0, #12.00000000",
+        "0x10d38 fcmp d8, d0",
+        "0x10d3c b.gt #0x10d70",
+        "0x10d40 mov x0, x20",
+        "0x10d44 mov x2, #0",
+        "0x10d48 bl #0x59620",
+        "0x10d4c mov x29, x29",
+        "0x10d50 bl #0x567dc",
+        "0x10d54 mov x22, x0",
+        "0x10d58 bl #0x58bc0",
+        "0x10d5c mov x21, x0",
+        "0x10d60 mov x0, x22",
+        "0x10d64 bl #0x567b8",
+        "0x10d68 b #0x10d74",
+        "0x10d6c mov x20, #0",
+        "0x10d70 mov w21, #-1",
+        "0x10d74 mov x0, x20"
+      ]
+    },
+    "openAppsInOrder:": {
+      "present": true,
+      "imp": "0x1869c",
+      "end": "0x18af0",
+      "instructions": 277,
+      "native_method_calls": [],
+      "cfstrings": [],
+      "branch_count": 5,
+      "branch_first": [
+        {
+          "pc": "0x18750",
+          "op": "tbz w0, #0, #0x18798"
+        },
+        {
+          "pc": "0x18774",
+          "op": "cbz x21, #0x187a0"
+        },
+        {
+          "pc": "0x18780",
+          "op": "cbz w0, #0x187c0"
+        },
+        {
+          "pc": "0x18964",
+          "op": "b.ne #0x18990"
+        },
+        {
+          "pc": "0x18a6c",
+          "op": "cbz w0, #0x18ab8"
+        }
+      ],
+      "head": [
+        "0x1869c sub sp, sp, #0xe0",
+        "0x186a0 stp d11, d10, [sp, #0x60]",
+        "0x186a4 stp d9, d8, [sp, #0x70]",
+        "0x186a8 stp x28, x27, [sp, #0x80]",
+        "0x186ac stp x26, x25, [sp, #0x90]",
+        "0x186b0 stp x24, x23, [sp, #0xa0]",
+        "0x186b4 stp x22, x21, [sp, #0xb0]",
+        "0x186b8 stp x20, x19, [sp, #0xc0]",
+        "0x186bc stp x29, x30, [sp, #0xd0]",
+        "0x186c0 add x29, sp, #0xd0",
+        "0x186c4 mov x19, x2",
+        "0x186c8 mov x20, x0",
+        "0x186cc adrp x8, #0x78000",
+        "0x186d0 ldr x8, [x8, #0x360]",
+        "0x186d4 ldr x8, [x8]",
+        "0x186d8 str x8, [sp, #0x58]",
+        "0x186dc mov x0, x2",
+        "0x186e0 bl #0x567c4",
+        "0x186e4 mov x22, #0",
+        "0x186e8 add x27, sp, #8",
+        "0x186ec fmov d8, xzr",
+        "0x186f0 adrp x28, #0x87000",
+        "0x186f4 adrp x8, #0x6e000",
+        "0x186f8 ldr d9, [x8, #0xff8]",
+        "0x186fc adrp x8, #0x6f000",
+        "0x18700 ldr d10, [x8, #0xa0]",
+        "0x18704 mov x0, x20",
+        "0x18708 bl #0x59800",
+        "0x1870c cmp x22, w0, sxtw",
+        "0x18710 b.ge #0x1893c",
+        "0x18714 mov x0, x19",
+        "0x18718 bl #0x579e0",
+        "0x1871c cmp x22, w0, sxtw",
+        "0x18720 b.ge #0x187a0",
+        "0x18724 mov x0, x19",
+        "0x18728 mov x2, x22",
+        "0x1872c bl #0x59620",
+        "0x18730 mov x29, x29",
+        "0x18734 bl #0x567dc",
+        "0x18738 mov x23, x0",
+        "0x1873c ldr x0, [x28, #0x678]",
+        "0x18740 bl #0x5677c",
+        "0x18744 mov x1, x0",
+        "0x18748 mov x0, x23",
+        "0x1874c bl #0x56788",
+        "0x18750 tbz w0, #0, #0x18798",
+        "0x18754 mov x0, x19",
+        "0x18758 mov x2, x22",
+        "0x1875c bl #0x59620",
+        "0x18760 mov x29, x29",
+        "0x18764 bl #0x567dc",
+        "0x18768 mov x21, x0",
+        "0x1876c mov x0, x23",
+        "0x18770 bl #0x567b8",
+        "0x18774 cbz x21, #0x187a0",
+        "0x18778 mov x0, x21",
+        "0x1877c bl #0x101bc",
+        "0x18780 cbz w0, #0x187c0",
+        "0x18784 mov x0, x20",
+        "0x18788 mov x2, x21"
+      ]
+    },
+    "foregroundAppForBundle:": {
+      "present": false
+    }
+  },
+  "limits": [
+    "Method metadata + branch PC are verified, but runtime scenes and owner are not",
+    "No dynamic private calls or vendor code/payload cloned into DuoFace",
+    "An existing navigation CPWindow must not be stolen or disabled",
+    "No app-specific map zoom guessed"
+  ]
+}
