@@ -1,3 +1,12 @@
+## 2026-10-29 — New user decision: combine DuoDash/OmniCar app management, RESEARCH ONLY, DO NOT SILEO
+
+- User requires explicit authorization before any future Sileo publication. Asked whether to combine DuoDash and OmniCar app management inside current independent DuoFace without copying Duonavi; research further, not a build request. Do not modify runtime, launch packaging or publish without a separate request. Prior .94 Sileo publication was not authorization and .94 has no device acceptance.
+- New SHA-pinned original ARM64 deep read-only run 40789537861 SUCCESS. OmniCar original phone loadState @1cdd8 synchronizes CFPreferences, enumerates installed apps and classifies User/System, hidden/placeholder/prohibited. storeChoices @1e920 references independent appBridgeApps, homeScreenHiddenApps, homeScreenShownApps. Original SplitScreen app picker reads appBridgeApps + splitScreenCarPlayApps and posts prefs-changed/CFPreferences; CarPlay publishCarPlayApps distinguishes native CarPlay and selected iPhone AppBridge. DuoDash official documentation confirms My Apps/System Apps and no-restart updates.
+- Full verified audit and independent combined design: sideplay/audit/omnicar-iphone-picker-20261029/DUODASH_OMNICAR_COMBINED_ARCHITECTURE_RESEARCH_20261029.md. Exact evidence runs/40789537861/ORIGINAL_OMNICAR_APP_FILTER_ARM64.json and runs/40788857405/ORIGINAL_OMNICAR_RESOLVED_METHODS.json. Existing DuoFace .94 source is not fully equivalent; especially no separate Home selections or real hidden/placeholder/system classification.
+- Recommended future first-party design: one authoritative eligibility catalog, separated iPhone bridge allowlist / native CarPlay app group / Home visibility / one app per CarPlay pane; prefs migration and generation notification; preserve all existing YouTube .90, logo .92, native Maps/Dock and layout. No vendor code/license. Next: await separate implementation authorization; build and Sileo publication each require separate explicit requests.
+
+---
+
 ## 2026-10-29 — original OmniCar iPhone Settings app selection audit
 
 - User device observation: OmniCar iPhone Settings selects apps and the CarPlay picker only lists those selected. Earlier scene/zoom-only scan did not cover this feature.

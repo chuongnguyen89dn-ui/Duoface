@@ -1,0 +1,43 @@
+# DuoFace independent app management: DuoDash + OmniCar combined architecture research (2026-10-29)
+
+## User decision / hard release gate
+User requests further research on combining DuoDash and OmniCar app selection and management in the current independent DuoFace DEB, NOT a full Duonavi copy. DO NOT build an integrated DEB or publish to Sileo unless separately and explicitly requested; Sileo publication is a distinct authorization after implementation/build. Previous .94 publication happened earlier without this user's approval and is not device-verified. This document is research only: no new app runtime code, no build, no Sileo modification, no vendor binaries or licenses copied.
+
+## Source evidence: original OmniCar 1.0.3
+Original DEB SHA256 d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd. SHA-verified GitHub Actions 40788354747, 40788857405 and 40789537861 SUCCESS. The latest run decodes real original ARM64 function bodies, not just method names. Original binary extraction evidence: sideplay/audit/omnicar-iphone-picker-20261029/runs/40789537861/ORIGINAL_OMNICAR_APP_FILTER_ARM64.json and ORIGINAL_OMNICAR_RESOLVED_METHODS.json.
+
+- Original Preferences Root.plist: APPS screen detail OMCAppBridgeAppsController (105 original methods, 104 decoded); HOME_SCREEN detail OMCHomeScreenController. These are distinct controllers and screens.
+- Original OMCAppBridgeAppsController.loadState at 0x1cdd8: CFPreferencesAppSynchronize at 0x1ce14, LSApplicationWorkspace allInstalledApplications at 0x1ce6c; checks applicationType User/System at 0x1cf88/0x1cfa0; appTags hidden, isLaunchProhibited, isPlaceholder, localizedName. This validates a substantive iPhone application inventory, not indiscriminate filtering by bundle-ID prefix.
+- Original OMCAppBridgeAppsController.storeChoices at 0x1e920: literal appBridgeApps at 0x1ea7c, helper call at 0x1ea88; separate homeScreenHiddenApps at 0x1eac8 and homeScreenShownApps at 0x1eb18. Thus app selection and CarPlay Home visibility use independent saved keys. The helper implementation was not fully decoded; do not invent exact write ordering.
+- OMCAppBridgeAppsController.loadState also refers to homeScreenCarApps at 0x1d234, splitScreenCarPlayApps at 0x1d494 and both Home shown/hidden lists.
+- OMCSplitScreenAppPickerController.viewDidLoad at 0x36438 references splitScreenCarPlayApps at 0x36544, native CarPlay entitlement strings at 0x36668 and playable-content at 0x36788, plus appBridgeApps at 0x3687c. Its tableView:didSelectRowAtIndexPath: at 0x37444 calls notify_post with com.anlai.omnicar/prefschanged at 0x3757c, CFPreferencesSetAppValue at 0x376ec and CFPreferencesAppSynchronize at 0x376f4. These are real original ARM64 direct calls, but do not establish the exact order of every branch.
+- Original OmniCarSplitScreen.dylib SCPCarSplit.publishCarPlayApps at 0x21b1c differentiates native CarPlay apps and selected iPhone AppBridge apps via original format string at 0x21c6c, with bridge policy references. showPickerForSlot: at 0x31530, refreshPickerSheet at 0x31eac, buildPickerSheetForPane: at 0x334cc and pickerAppTapped: at 0x362a0 are distinct CarPlay one-app-per-pane actions.
+- User observed actual OmniCar on device: only apps selected in iPhone Settings appear in CarPlay. Original method/callsite evidence strongly corroborates that observation, without proving exact refresh timing or each runtime branch.
+
+## Source evidence: original DuoDash 1.1.3
+Original DEB SHA256 16ffab22b4246dea9978cae92df7ec635d833ec067b4d9f425a231b26edec601, historical original binary audit in docs/duoface-vs-duodash-app-selection-iphone-carplay-20261016.md.
+- iPhone DuoDashPrefs PSSwitchCell appbridge_enabled and chooseAppsToBridge: action -> DuoDashAppPickerController; original _enumerateApps at 0x4bb4, _readBridged at 0x496c, _persistAndNotify at 0x4b0c.
+- Original CarPlay picker is separate CNABAppPickerController; source binary includes appbridge_app_sections, My Apps, System Apps, com.sensetechlab.appbridge.listchanged.
+- Developer documentation https://sensetechlab.com/vi/duodash/features/ confirms My Apps and System Apps list on iPhone, swipe to move group, in-car picker shows My Apps and changes add/remove without restarting. App Bridge selected apps may also appear as CarPlay Home icons. The website does not claim the three Native12 bulk actions.
+
+## Assessment of current independent DuoFace .94 baseline
+- DFNativeHostRootController.m has a flat installed-app table, per-app toggle and Bật đề xuất/Bật tất cả/Tắt tất cả menu. It does NOT have OmniCar's separated system/native apps vs selected bridged apps grouping, search and dynamic classification of hidden/placeholder/launch-prohibited proxy apps or separate CarPlay Home shown/hidden state.
+- DFEnabledAppsPolicy.h uses a single first-party EnabledBundleIDs plist. Missing file means all eligible apps (legacy .92 compatibility); an explicit empty list means none; invalid file denies all. A redesigned preference schema must migrate settings without enabling apps the user disabled.
+- DFAppPickerVC.m filters installed apps by EnabledBundleIDs, subscribes to notify_register_dispatch while the picker instance exists and reads the config when refreshed. It does NOT by itself prove all actual SceneHost launch/restore paths apply the same allowlist; UI refresh resets the card page and cannot be called perfect hot-sync without device validation.
+- Current Bật đề xuất means any eligible non-Apple app, an independent simple heuristic, NOT original native vendor recommendation semantics. Current .94 does not publish Home icons from configured choices.
+- User-verified successful YouTube rotation in .90, .92 logo, native Maps QA, Dock, Chrome, split/solo/zoom, 4s timer remain protected. .94 itself has source CI/package evidence but no on-device acceptance.
+
+## Recommended combination (independent, not Duonavi clone)
+1. iPhone DuoFace App Manager: keep existing identity, introduce search + grouped selected My Apps / Other installed apps / native CarPlay apps. Expose per-app enable and optional bulk actions, independently labeled recommended preset. Only safe installed user-facing apps; reject hidden/placeholder/prohibited/system service bundles.
+2. Single first-party app catalog and immutable snapshot: real bundle ID/name, user/system classification, native CarPlay entitlement/eligibility, installed/runnable state. Enforce eligibility before UI and before new host launch.
+3. BridgeAllowlist: ordered IDs selected on iPhone; in-car DuoFace picker shows only selected iPhone apps. Native CarPlay apps are a separate independently validated category and do not require disabling Google Maps in CarPlay system settings.
+4. HomeVisibility: separately configured shown/hidden CarPlay Home icons. Do not assume changing the picker is the same as publishing system CarPlay icons; no automatic changes to native CarPlay Customize or Maps.
+5. SlotChoice: one chosen app per actual CarPlay pane, selected from the allowed catalog; do not interpret iPhone multi-select as CarPlay launch-all. Existing running scenes remain alive when a user removes future picker permission until explicit close, but new launches should be checked by owner.
+6. Persist: independent versioned preferences, migrate current .94 EnabledBundleIDs and nil-vs-empty semantics, readback and generation revision, Darwin notify to the live SpringBoard picker, reconnect-safe refresh without restarting or killing apps. Failing read should fail closed. Preserve per-slot app selection separately.
+7. Interface: source-owned iPhone Settings UI and DuoFace app may be integrated without copying any vendor classes, design assets, method bodies, license code or dependency. Keep one independent DEB as currently structured once separately approved.
+
+## Acceptance and authorization gates (not performed)
+- Research now complete enough to choose design, with optional deeper original static trace of storeChoices helper at 0x1cda0 and direct CarPlay membership filters for exhaustive parity.
+- If user explicitly authorizes coding: modify ONLY first-party app catalog/prefs/phone manager and picker owner; add unit tests for missing/empty/corrupt/migrated preferences, iPhone chosen-list vs native CarPlay apps, no duplicate pane app, hot refresh, no killing active apps, correct invalid app suppression. No accidental changes to YouTube, Maps, Dock, logo.
+- Build only when independently requested; return signed one-DEB artifact for review without publishing. Publish Sileo only after a separate explicit user instruction and verified pinned artifact. Real iPhone + parked CarPlay testing is separate from CI.
+
