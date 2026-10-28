@@ -358,6 +358,17 @@ static void DFZWatch(NSUInteger generation) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.5*NSEC_PER_SEC)),
                    dispatch_get_main_queue(),^{ DFZWatch(generation); });
 }
+// Original OmniCar 1.0.3 native map pipeline uses CarPlayApp scene ownership.
+// Reuse the independently built V7 read-only iOS16 Dashboard controller/FBScene
+// observer in this SINGLE DuoFace package. Never steal/clone/reparent Maps CPWindow.
+extern void DFIntegratedCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession);
+static void DFZMapSceneWatch(NSUInteger generation) {
+    if(generation!=DFZGeneration || !DFZCarPlayProcess())return;
+    if([NSProcessInfo.processInfo.processName isEqualToString:@"CarPlayApp"])
+        DFIntegratedCarPlayCaptureLiveOwnerSnapshot(@"duoface-integrated-native-map-owner-v8");
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(8.0*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),^{ DFZMapSceneWatch(generation); });
+}
 __attribute__((constructor))
 static void DFZInstallDockReceiver(void) {
     @autoreleasepool {
@@ -371,6 +382,10 @@ static void DFZInstallDockReceiver(void) {
                 DFZLog([NSString stringWithFormat:@"listener-ready process=%@",
                       NSProcessInfo.processInfo.processName]);
                 DFZWatch(++DFZGeneration);
+                // Eight-second native owner samples distinguish Google Maps
+                // current FBScene from DuoFace after Dashboard foreground swap.
+                // An absent controller does NOT prove Maps' scene was destroyed.
+                DFZMapSceneWatch(DFZGeneration);
             }
         });
     }
