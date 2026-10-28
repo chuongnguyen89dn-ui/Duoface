@@ -8,6 +8,7 @@
 #import "DFSceneHost.h"
 #import "DFSceneLifecycle.h"
 #import "DFSceneOrientationPolicy.h"
+#import "DFHostedMapRenderSize.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <math.h>
@@ -118,6 +119,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 - (void)layoutScene;
 - (void)commitSceneGeometry:(NSTimer *)timer;
 - (void)revokeOrientationPolicy;
+- (void)registerOwnedOrientationForDeviceController:(id)deviceController;
 - (void)pollScene:(NSTimer *)timer;
 - (void)stop;
 - (void)failed:(NSError *)error;
@@ -128,6 +130,49 @@ static NSInteger DFObservedSceneForeground(id scene) {
     DFSceneOrientationPolicyUnregister(self.policySceneHandle,self.policyDeviceController);
     self.policySceneHandle=nil;
     self.policyDeviceController=nil;
+}
+// .85: initial remote-app owner and orientation need to agree before the
+// first delayed geometry transaction. Native12 registration occurs at the
+// qualified bridge scene boundary; a first-time fullscreen must not be the
+// only event causing UIKit to evaluate direction. Only live owned scenes.
+// When the host device controller arrives later, register its size setters.
+- (void)registerOwnedOrientationForDeviceController:(id)deviceController {
+    if(!NSThread.isMainThread || !self.ready || !self.scene || self.stopped ||
+       !self.window || self.appController.viewIfLoaded.window!=self.window ||
+       !DFHostingFlag(self.appController,@"isHostingAnApp",NO))return;
+    id handle=DFCall0(self.appController,@"sceneHandle");
+    if(!handle || DFCall0(handle,@"sceneIfExists")!=self.scene ||
+       self.owner.live[self.bundleID]!=self)return;
+    if(self.policySceneHandle && self.policySceneHandle!=handle)
+        [self revokeOrientationPolicy];
+    if(self.policyDeviceController && deviceController &&
+       self.policyDeviceController!=deviceController)
+        [self revokeOrientationPolicy];
+    if(self.policySceneHandle==handle &&
+       (!deviceController || self.policyDeviceController==deviceController))return;
+    if(!DFSceneOrientationPolicyInstall())return;
+    NSUInteger generation=self.sceneGeneration;
+    id currentScene=self.scene;
+    __weak typeof(self) weakOwner=self;
+    DFSceneOrientationPolicyRegister(handle,deviceController,self.bundleID,^CGSize{
+        DFSceneSurface *surface=weakOwner;
+        if(!NSThread.isMainThread || !surface || surface.stopped ||
+           !surface.started || !surface.ready ||
+           surface.sceneGeneration!=generation || surface.scene!=currentScene ||
+           !surface.window || surface.window.hidden ||
+           surface.appController.viewIfLoaded.window!=surface.window ||
+           !DFHostingFlag(surface.appController,@"isHostingAnApp",NO) ||
+           DFCall0(surface.appController,@"sceneHandle")!=handle ||
+           DFCall0(handle,@"sceneIfExists")!=currentScene ||
+           surface.owner.live[surface.bundleID]!=surface)return CGSizeZero;
+        return DFHostedLogicalSizeForBundle(surface.bounds.size,surface.bundleID);
+    });
+    self.policySceneHandle=handle;
+    if(deviceController)self.policyDeviceController=deviceController;
+    DFSceneLog(@"orientation-early-owned-registered",self.bundleID,
+        [NSString stringWithFormat:@"generation=%lu handle=%p device=%p scale=%.2f",
+            (unsigned long)generation,handle,deviceController,
+            (double)DFHostedViewportScaleForBundle(self.bundleID)]);
 }
 - (UIViewController *)findParentController {
     UIResponder *next = self.nextResponder;
@@ -179,6 +224,9 @@ static NSInteger DFObservedSceneForeground(id scene) {
             return current;
         });
         [self.appController beginAppearanceTransition:YES animated:NO];
+        // Install guarded hook before requesting Live; never force a
+        // nonowned process to portrait. Ownership registers on first poll.
+        (void)DFSceneOrientationPolicyInstall();
         DFHostInt(self.appController, @"setRequestedMode:", 2);
         [self.appController didMoveToParentViewController:parent];
         [self.appController endAppearanceTransition];
@@ -203,7 +251,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
     if (CGSizeEqualToSize(size,self.lastApplied)) return;
     // A divider drag can produce dozens of intermediate frames. Scale the
     // existing UIKit scene immediately and leave the remote player intact.
-    CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
+    CGSize logical=DFHostedLogicalSizeForBundle(size,self.bundleID);
     if(logical.width<=0 || logical.height<=0)return;
     self.layingOutScene=YES;
     @try {
@@ -250,7 +298,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
             return;
         }
     }
-    CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
+    CGSize logical=DFHostedLogicalSizeForBundle(size,self.bundleID);
     self.committingSceneGeometry=YES;
     DFSceneLog(@"geometry-before-reference-setters",self.bundleID,NSStringFromCGSize(size));
     @try {
@@ -268,38 +316,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
                                                       "_deviceAppViewController");
             if (deviceIvar) deviceController=object_getIvar(self.appController,deviceIvar);
         }
-        // .84: register ONLY the current, live, manual host scene for the
-        // independent Native12-derived portrait eligibility/render-size policy.
-        // All mismatched/stale/nonowned scenes call the original Apple IMP.
-        // This does not touch DFSceneLifecycle's working .83 crash-fix observer.
-        if (DFSceneOrientationPolicyInstall()) {
-            [self revokeOrientationPolicy];
-            id currentHandle=DFCall0(self.appController,@"sceneHandle");
-            NSUInteger ownedGeneration=self.sceneGeneration;
-            id ownedScene=self.scene;
-            __weak typeof(self) weakOwner=self;
-            DFSceneOrientationPolicyRegister(currentHandle,deviceController,self.bundleID,^CGSize{
-                DFSceneSurface *surface=weakOwner;
-                if(!NSThread.isMainThread || !surface || surface.stopped ||
-                   !surface.started || !surface.ready ||
-                   surface.sceneGeneration!=ownedGeneration ||
-                   surface.scene!=ownedScene ||
-                   !surface.window || surface.window.hidden ||
-                   surface.appController.viewIfLoaded.window!=surface.window ||
-                   !DFHostingFlag(surface.appController,@"isHostingAnApp",NO) ||
-                   DFCall0(surface.appController,@"sceneHandle")!=currentHandle ||
-                   DFCall0(currentHandle,@"sceneIfExists")!=ownedScene ||
-                   surface.owner.live[surface.bundleID]!=surface)return CGSizeZero;
-                CGSize pane=surface.bounds.size;
-                CGSize render=CGSizeMake(round(pane.width*2),round(pane.height*2));
-                return isfinite(render.width)&&isfinite(render.height)?render:CGSizeZero;
-            });
-            self.policySceneHandle=currentHandle;
-            self.policyDeviceController=deviceController;
-            DFSceneLog(@"orientation-owner-registered",self.bundleID,
-                [NSString stringWithFormat:@"generation=%lu handle=%p device=%p",
-                 (unsigned long)ownedGeneration,currentHandle,deviceController]);
-        }
+        // The .85 policy was installed BEFORE mode-2 request and registered
+        // at first owned scene readiness; add the device controller when
+        // discovered. Geometry-only commits do not toggle ownership.
+        [self registerOwnedOrientationForDeviceController:deviceController];
         // Readiness and stable-geometry gate. Do not guess orientation from
         // CarPlay aspect ratio; actual remote video orientation needs device
         // evidence before changing the portrait compatibility contract.
@@ -505,6 +525,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
                 self.ready=YES;
                 self.lastApplied=CGSizeZero;
                 self.committedReferenceSize=CGSizeZero;
+                [self registerOwnedOrientationForDeviceController:nil];
                 [self layoutScene];
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
