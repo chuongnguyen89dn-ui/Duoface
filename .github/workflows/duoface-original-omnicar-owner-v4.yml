@@ -1,0 +1,72 @@
+name: DuoFace OmniCar V4 original process filter and native scene class proof
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/tools/audit_original_omnicar_process_owner_v4.py'
+      - '.github/workflows/duoface-original-omnicar-owner-v4.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-omnicar-owner-v4
+  cancel-in-progress: false
+jobs:
+  original-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Acquire original OmniCar 1.0.3 exact DEB, verify SHA256
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/main/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/omnicar.original.deb"
+          echo 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' " $RUNNER_TEMP/omnicar.original.deb" | sha256sum -c -
+      - name: Inspect actual original package injection filters, library dependencies and ObjC class metadata
+        run: |
+          set -euo pipefail
+          python3 sideplay/tools/audit_original_omnicar_process_owner_v4.py --deb "$RUNNER_TEMP/omnicar.original.deb" --out "$RUNNER_TEMP/OMNICAR_V4_PROCESS_OWNER.json"
+          python3 - "$RUNNER_TEMP/OMNICAR_V4_PROCESS_OWNER.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j["status"]=="ORIGINAL_SHA_PINNED_PACKAGE_FILTER_OWNER_V4_NO_RUNTIME"
+          assert j["source_deb_sha256"]=="d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd"
+          split=next(x for x in j["runtime_dylibs"] if x["dylib"]=="OmniCarSplitScreen.dylib")
+          assert split["has_arm64_fat_slice"]
+          assert len(j["objc_classes_from_original_image"])>=4
+          assert "sceneOfViewController:" in j["original_split_owner_methods"]
+          print("OMNICAR_ORIGINAL_PROCESS_FILTER_OWNER_V4_VERIFIED_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: omnicar-process-owner-v4-${{ github.run_id }}
+          path: ${{ runner.temp }}/OMNICAR_V4_PROCESS_OWNER.json
+          if-no-files-found: error
+      - name: Commit immutable verified original-only V4 data to correct DuoFace project
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          TARGET="sideplay/audit/native12-083-rotation-20261028/OMNICAR_ORIGINAL_PROCESS_OWNER_V4_RUN_$GITHUB_RUN_ID.json"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if test -e "$TMP/$TARGET"; then
+              echo 'Refuse overwrite existing audit' >&2
+              git worktree remove --force "$TMP"
+              exit 1
+            fi
+            mkdir -p "$(dirname "$TMP/$TARGET")"
+            cp "$RUNNER_TEMP/OMNICAR_V4_PROCESS_OWNER.json" "$TMP/$TARGET"
+            git -C "$TMP" add "$TARGET"
+            git -C "$TMP" commit -m "audit: preserve SHA-pinned OmniCar process owner V4 run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "OMNICAR_ORIGINAL_PROCESS_OWNER_V4_PERSISTED=$GITHUB_RUN_ID"
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
