@@ -2,6 +2,7 @@
 // No swizzling, global UIDevice orientation, player hooks or lifecycle spoofing.
 #import <UIKit/UIKit.h>
 #import "DFYouTubeHostState.h"
+#import "DFYouTubeOrientationVirtualization.h"
 
 @interface DFYTWindowSnapshot : NSObject
 @property(nonatomic) CGRect frame;
