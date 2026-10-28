@@ -17,3 +17,8 @@
 Build signed **one integrated DEB 0.0.89~splitscene1** (nativehost 0.1.98~splitscene1) with existing macOS workflow, run all ABI regression, package SHA and immutable archive `evidence/runs/<run_id>`, update existing project handoff. Ensure .88 and .83 immutable rollback. **Do NOT claim real-device video success from CI.** Publish Sileo .89 only with verified package hash and existing Apt repo. Rootless iPhone X iOS16.7.16, test on parked CarPlay two panes/solo/swipe, confirm zero crashes, correct Dock and maps unchanged.
  
 Build trigger marker: 089-real-scene-client-split-20261028.
+
+## CI retry after source-only test literal mismatch (no code behavior changed)
+- Run 40662947889 FAILED in `Self-contained payload / no vendor code unit tests` before build, because `test_youtube_scene_feedback_089.py` still asserted removed local variable `@"isSplit":@(twoPanes)`. Current source intentionally uses `self.splitUIVisible` from authoritative Native12 Chrome split state.
+- Fixed the stale test literal in commit `48011082299ba8c07449cea5e695790492920eac`. Not a runtime change. Rebuild once with complete current source on macOS; no signed package from failed run.
+- Retry marker: 089-split-ui-controller-test-corrected-2.
