@@ -43,7 +43,7 @@ class OriginalBinaryNinePresetMapping(unittest.TestCase):
   self.assertIn("for(NSInteger idx=0;idx<9;idx++)",chrome)
   self.assertIn('@"Bốn ô"',chrome)
   self.assertIn("selected>8",chrome)
-  self.assertIn("self.tabs.selectedSegmentIndex==2?9:",phone)
+  self.assertIn("self.tabs.selectedSegmentIndex==2?10:",phone)
   self.assertIn("active>4",receiver)
   self.assertTrue(renderer["all_nine_card_visual_shapes_verified"] is False)
   # Exact case targets and authored frame semantics are source-checked;
