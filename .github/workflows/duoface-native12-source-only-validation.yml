@@ -8,6 +8,8 @@ on:
       - 'sideplay/duoface-native-scene-host/tests/test_preview_geometry.py'
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
       - 'sideplay/duoface-native-scene-host/DFDividerDrag.h'
+      - 'sideplay/duoface-native-scene-host/DFLogoHoldGate.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_logo_hold_gate.py'
       - 'sideplay/duoface-native-scene-host/tests/test_divider_drag.py'
       - 'sideplay/duoface-native-scene-host/DFNative12MediaGeometry.h'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
@@ -53,6 +55,7 @@ jobs:
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_speed8_protocol.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_divider_drag.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_hold_gate.py' -v
           echo NATIVE12_SPEED8_HISTORICAL_OWN_DATA_PROTOCOL_COMPILED_NOT_HUD_ENABLED
           python3 -m py_compile sideplay/jb-embedded-appbridge/package_integrated.py
           echo NATIVE12_ONE_DEB_CURRENT_SOURCE_PIN_POLICY_PASS_NO_PACKAGE_BUILD
