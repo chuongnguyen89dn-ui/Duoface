@@ -86,9 +86,9 @@ def inspect(archive, src, deb, dashboard):
             raise RuntimeError("original two-pass UIKit reflow reference missing: " + name)
     apply = archive["functions"]["app_state_async_state_apply_block"]["original_arm64"]
     bl = [(x["pc"], x["asm"]) for x in apply if x["asm"].startswith("bl")]
-    if not any(x[1] == "bl\\t0x2a9e38" for x in bl):
+    if not any(x[1] == "bl\t0x2a9e38" for x in bl):
         raise RuntimeError("original app state callback does not connect to reflow")
-    if not any(x["asm"].startswith("bl\\t0x2ec9a0") for x in original):
+    if not any(x["asm"].startswith("bl\t0x2ec9a0") for x in original):
         raise RuntimeError("original installer has no direct hook stub calls")
     return {
         "status": "NATIVE12_ORIGINAL_ACTUAL_DEB_VERIFIED_NOT_YOUTUBE_DEVICE_FIX",
@@ -106,7 +106,7 @@ def inspect(archive, src, deb, dashboard):
         ],
         "app_state_delivered_then_reflows": {
             "callback": "0x2abd98",
-            "direct_reflow_call": next(x[0] for x in bl if x[1] == "bl\\t0x2a9e38"),
+            "direct_reflow_call": next(x[0] for x in bl if x[1] == "bl\t0x2a9e38"),
             "reflow": "0x2a9e38..0x2aa684",
         },
         "duoface_089_gap_verified": [
