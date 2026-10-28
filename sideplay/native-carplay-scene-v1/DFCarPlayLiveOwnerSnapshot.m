@@ -1,5 +1,6 @@
 // Opt-in, standalone CarPlay process diagnostic. READ-ONLY: no scene creation,
 // no app activation, no view hierarchy mutation, no hooks or private setters.
+#import "DFCarPlayNativeSceneIdentity.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -137,6 +138,8 @@ static void DFVisitController(UIViewController *vc,
     } mutableCopy];
     entry[@"sceneHostViewStatus"]=DFReadHostView(vc,entry);
     DFInspectOwner(vc,entry);
+    if([entry[@"controllerClass"] isEqual:@"DBApplicationSceneViewController"])
+        entry[@"nativeHostedSceneRoute"]=DFCarPlayNativeSceneRoute(entry);
     [records addObject:entry];
     if(records.count>=72)return;
     for(UIViewController *child in vc.childViewControllers){
