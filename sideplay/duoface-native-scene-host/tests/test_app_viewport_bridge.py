@@ -9,7 +9,11 @@ class RecoveryDistribution(unittest.TestCase):
   self.assertNotIn('DFAppViewportRelay.plist',build)
   host=(R/'DFSceneHost.m').read_text()
   self.assertNotIn('notify_set_state',host)
-  self.assertNotIn('setInterfaceOrientation:',host)
+  # The original .83 forbade ALL scene orientation writes. This scoped
+  # .86 candidate permits only observed/ABI-checked owned YouTube main scene.
+  self.assertIn('[self.bundleID isEqualToString:@"com.google.ios.youtube"]',host)
+  self.assertIn('DFMutableRemoteOrientationABI(settings)',host)
+  self.assertIn('surface.sceneGeneration!=generation',host)
  def test_current_ui_preserved(self):
   import hashlib
   # Blob verified at .73 source; byte-for-byte chrome preservation.
