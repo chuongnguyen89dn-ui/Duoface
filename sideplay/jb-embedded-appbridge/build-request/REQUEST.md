@@ -1,3 +1,11 @@
+## DuoFace .91 single DEB retry 3: all NativeHost .90-version test references reviewed, 2026-10-28
+
+- Run `40689188238` failed before build at `test_youtube_scene_feedback_089.py`: legacy native host 0.1.99 assertion. Updated only native host module expected version to 0.1.100; **retained historical .90 YouTube runtime/hook tests and six .90 protected files**.
+- Explicitly scanned 17 test Python files under `sideplay/duoface-native-scene-host/tests` and `sideplay/jb-embedded-appbridge/tests`; remaining strings `0.0.90~nativegetters1` refer to unchanged .90 telemetry and baseline and must NOT be erased.
+- Rerun one build; QA only pending CI PASS, pin hashes and Sileo audit. Trigger `091-test-nativemap-version-cleanup-three-20261028`.
+
+---
+
 ## .91 signed one-DEB retry 2 — preserve nine preset layouts, 2026-10-28
 
 - Run `40688990879` failed before building because stale independent original-nine-presets source test still required exactly 9 table rows; now the iPhone Bố cục screen intentionally shows nine original layouts plus one separately labeled native Maps QA button (10 total). Test updated at `sideplay/duoface-native-scene-host/tests/test_original_nine_preset_binary_reference.py`, no original 9 preset logic changed.
