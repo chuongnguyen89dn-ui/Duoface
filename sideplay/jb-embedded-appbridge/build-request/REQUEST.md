@@ -1,3 +1,12 @@
+## DuoFace .92 immutable one-DEB QA archive retry, 2026-10-28
+
+- Actual CI 40707030521 compiled four current-source modules and merged signed `0.0.92~logo3s1` with SHA256 `3c1031b61147faa6b029080f364dbff137c6ae79f6b6c53651cfed38488b442a`; rootless inputs, YouTube ABI, 3-second logo contracts, macOS build, dpkg tests and artifact upload PASS. GitHub Actions artifact 12824921313 exists, **but run conclusion FAIL due ONLY final archival step**.
+- Exact saver traceback at 2026-10-28T14:36:45Z: `ValueError: expected exactly one signed integrated DEB in this run` (`sideplay/tools/append_086_ci_handoff.py:26`). Existing source checkout contains old .91 integrated DEB and saver blindly `cp packages/*.deb`; old helper also rejects version .92. These are archive script defects, not a failed compilation or device test.
+- Fix scope: archive exact newly signed .92 file, upload just .92, SHA256SUMS just .92, teach existing handoff append helper version .92 and preserve older versions. Re-run same macOS integrated workflow with source HEAD as immutable provenance; no Sileo until archive + checksum verified.
+- Trigger: 092-fix-archive-exact-one-qa-and-handoff-version-20261028.
+
+---
+
 ## DuoFace .92 — USER AUTHORIZED INTEGRATED SIGNED DEB, 2026-10-28
 
 - User: “Ko. Đã quét rồi thì tích hợp vào deb luôn”. Supersedes source-only position of checkpoint 96d2d215. Build one NEW rootless integrated DEB from verified feature source; do not ship .91 renamed as .92 or copy vendor binary/license.

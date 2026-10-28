@@ -25,7 +25,7 @@ def main(args):
     if len(archives) != 1:
         raise ValueError("expected exactly one signed integrated DEB in this run")
     version = archives[0].name.split("com.duoface.jb.embedded_", 1)[1].split("_iphoneos-arm64.deb", 1)[0]
-    if version not in ("0.0.90~nativegetters1", "0.0.91~nativemapqa1"):
+    if version not in ("0.0.90~nativegetters1", "0.0.91~nativemapqa1", "0.0.92~logo3s1"):
         raise ValueError("unsupported QA archive version: " + version)
     deb = archives[0]
     digest = hashlib.sha256(deb.read_bytes()).hexdigest()
@@ -48,6 +48,15 @@ Source audit: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_088_SCENEHO
 {marker}; archived first-party **one** rootless QA package: `sideplay/jb-embedded-appbridge/evidence/runs/{run_id}/{deb.name}`; SHA256 `{digest}`.
 Full compile/test/provenance: `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run_id}`. User-triggered, CarPlay-only `DFNativeMapPaneCoordinator` and iPhone `Bố cục > Thử nghiệm bản đồ CarPlay native` left/right/restore actions are **compiled and packaged**.
 Native Maps tile rendering, seamless Google Maps navigation alongside YouTube, correct touchscreen map position, continuous routing, CarPlay enabled status and SpringBoard crash-safety remain **NOT device tested**. This is an experimental, explicitly user-armed controller containment path; no automatically activated native Maps take-over or private scene lifecycle calls. Preserve immutable public .90 YouTube rotation PASS and DO NOT automatically mark .91 published to Sileo.
+
+---
+"""
+    if version == "0.0.92~logo3s1":
+        checkpoint = f"""## CHECKPOINT 2026-10-28 DuoFace .92 Native12 3s logo — signed one-DEB archived, Sileo/device pending
+
+{marker}; new first-party **single rootless** DEB: `sideplay/jb-embedded-appbridge/evidence/runs/{run_id}/{deb.name}`; SHA256 `{digest}`.
+Actual macOS one-DEB packaging/test/build evidence: `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run_id}`. Source includes `DFLogoHoldGate.h`, native `DFNative12Chrome.m` 3-second hold/vertical grip, existing split/SOLO control and exact YouTube leased orientation ABI with .90 physical rotation success preserved. Signed module version `0.1.101~logo3s1`, integrated version `0.0.92~logo3s1`. Binary archive contains exact `CI_RESULT.txt`, `SHA256SUMS.txt`, `PACKAGING_PROVENANCE.json` and `BUILD_SOURCE.txt`.
+No on-device logo hold/touch/Maps tile verification and **NO SILEO LIVE proof from this build**. The .91 Native Maps user-opt-in remains experimental, not verified simultaneous navigation. Keep .90 rollback and unchanged system Dock; avoid vendor binaries/licensing. Next: Sileo publisher pin immutable GitHub artifact SHA, exact live APT/DEB check and parked vehicle UX/YouTube/Maps regression.
 
 ---
 """

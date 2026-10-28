@@ -162,7 +162,7 @@ jobs:
           PY
           mkdir -p sideplay/jb-embedded-appbridge/evidence
           cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
-          (cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 *.deb > SHA256SUMS.txt)
+          (cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 'com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb' > SHA256SUMS.txt)
           {
             echo 'SOURCE_BUNDLE_CANDIDATE=PASS_NO_DEVICE_PARITY'
             echo 'SILEO_PUBLISHED=false'
@@ -185,7 +185,7 @@ jobs:
         with:
           name: duoface-jb-embedded-carbridge-candidate-${{ github.run_id }}
           path: |
-            sideplay/jb-embedded-appbridge/packages/*.deb
+            sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb
             sideplay/jb-embedded-appbridge/packages/SHA256SUMS.txt
             sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt
             sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
@@ -201,7 +201,7 @@ jobs:
           RUN_DIR="sideplay/jb-embedded-appbridge/evidence/runs/${GITHUB_RUN_ID}"
           test -s "$SRC/packages/CI_RESULT.txt"
           test -s "$SRC/evidence/PACKAGING_PROVENANCE.json"
-          compgen -G "$SRC/packages/*.deb" > /dev/null
+          test -s "$SRC/packages/com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb"
           for attempt in 1 2 3 4 5; do
             git fetch --no-tags origin "$BRANCH"
             TEMP="$(mktemp -d)"
@@ -215,7 +215,7 @@ jobs:
               exit 1
             fi
             mkdir -p "$DEST"
-            cp "$SRC"/packages/*.deb "$DEST/"
+            cp "$SRC/packages/com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb" "$DEST/"
             cp "$SRC/packages/CI_RESULT.txt" "$DEST/"
             cp "$SRC/evidence/PACKAGING_PROVENANCE.json" "$DEST/"
             (cd "$DEST" && shasum -a 256 *.deb > SHA256SUMS.txt)
