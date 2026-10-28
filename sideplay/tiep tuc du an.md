@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-28 — .84 ĐÃ LÊN SILEO, PUBLIC CHECKSUM PASS; .83 PLAYBACK BASELINE CÒN NGUYÊN
+
+**Đã xác minh Sileo publication, không chỉ build:** Publisher repo `chuongnguyen89dn-ui/carplaydsp` main commit `ba3a182c2a81c176428b002a060d8b9c025d7fd2`, workflow [40624072633](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40624072633) **completed SUCCESS** (2026-10-28 03:02:42 UTC): `build`, `deploy`, `verify-duoface-integrated-pages` job `122605680196`, `verify-qa11-pages` all PASS. Log verify thật: `DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED`, `duoface-public.deb: OK`, `DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED`, `duoface-frozen-083.deb: OK`, `DUOFACE_FROZEN_083_PLAYBACK_BASELINE_UNCHANGED_PASS`. Sileo repo: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, latest `com.duoface.jb.embedded 0.0.84~portraitpolicy1` standalone .84 DEB public SHA256 **`8cfd377d295b2fb7d5e16f6b81fb03f4744205f0cd0cbfc253d96d7d678de107`**. **.83 vẫn giữ byte-identical** SHA256 `ced5f42db8b9a3285ccf159386f25e8e5ea0fa976e14c3b35ea24dd625534c9b`, không bị ghi đè.
+
+**Phân biệt mức chứng cứ:** .84 source/runtime/CI, ký binary, GitHub immutable artifact, public Sileo và integrity check đều PASS; **chưa có user test .84 trên iPhone X**, chưa chứng minh hết xoay hay giữ video không crash trên thiết bị. .83 là **KNOWN-GOOD video phát + không crash ở lần thử** do người dùng xác nhận; .83 vẫn lỗi hướng video khi Zoom. Lưu bằng chứng nguyên nhân và tiến bộ tại `sideplay/audit/native12-083-rotation-20261028/KNOWN_GOOD_083_AND_084.md` + `BINARY_DIRECT_083_VS_ORIGINAL.json`; không bỏ nội dung cũ.
+
+**Bước tiếp theo duy nhất:** Sileo làm mới repo và cài .84; khi xe đỗ thử phát YouTube và fullscreen/Zoom ô/Zoom toàn host, split/solo, seek, logo/Dock, Safe Mode. Nếu sai chiều hoặc crash: ghi trạng thái/hành động, lấy `DuoFaceDeepTrace.log` mục `scene-orientation`, `DuoFaceSceneHost.log`, IPS; đối chiếu .83. KHÔNG tự ý sửa `DFSceneLifecycle.m` .83 đã đạt video/no-crash, không quay về .37 hoặc ép landscape 3/4 khi chưa có runtime trace.
+
+---
+
 ## CHECKPOINT 2026-10-28 — SIGNED .84 ROOTLESS DEB PASS, GITHUB ARCHIVE PASS; SILEO PUBLISH IN PROGRESS
 
 - **Hoàn thành:** GitHub Actions `chuongnguyen89dn-ui/Duoface` [40623708673](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40623708673) job `122603517125` **completed success**: tất cả Python suites, .83 manual observer runtime test, .84 orientation runtime harness, toolchain, 4 component builds, integrated archive and evidence preservation. Source `c4aabd07573822689025983da53c0b847f754751`, GitHub immutable artifact commit `be8435bc9d7c10be3e48d9f0ed576cb6793f972a`.
