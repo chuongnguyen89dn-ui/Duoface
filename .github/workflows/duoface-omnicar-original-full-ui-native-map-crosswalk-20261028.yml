@@ -58,7 +58,7 @@ jobs:
             if git -C "$DIR" push origin "HEAD:refs/heads/$BR"; then
               git worktree remove --force "$DIR"
               git fetch origin "$BR"
-              git show "FETCH_HEAD:$TARGET" | head -n 2
+              git cat-file -e "FETCH_HEAD:$TARGET"
               echo 'OMNICAR_FULL_UI_CROSSWALK_GITHUB_ARCHIVED_PASS'
               exit 0
             fi
