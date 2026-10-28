@@ -63,7 +63,7 @@ static BOOL DFMainSceneSupportsOrientation(id handle,SEL sel,NSInteger requested
         BOOL result=requested==1;
         DFDeepTrace(@"scene-orientation",[NSString stringWithFormat:
            @"owned-handle=%p requested=%ld allowed=%d size=%@",
-            handle,(long)requested,result,NSStringFromSize(NSSizeFromCGSize(size))]);
+            handle,(long)requested,result,[NSString stringWithFormat:@"%.0fx%.0f",size.width,size.height]]);
         return result;
     }
     return sOriginalOrientation(handle,sel,requested);
