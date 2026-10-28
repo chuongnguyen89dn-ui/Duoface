@@ -27,7 +27,13 @@ class OriginalOmniMap85(unittest.TestCase):
   host=src("DFSceneHost.m")
   self.assertNotIn('CPMapTemplate',p)
   self.assertNotIn('CPWindow',p)
-  self.assertNotIn('setInterfaceOrientation:',host)
+  # Original OmniCar sets remote orientation from an owned scene transaction;
+  # .86 scopes that ONLY to a measured out-of-portrait YouTube main scene.
+  self.assertIn('DFObservedRemoteInterfaceOrientation(remoteSettings)',host)
+  self.assertIn('DFMutableRemoteOrientationABI(settings)',host)
+  self.assertIn('youtubePortraitRepair',host)
+  self.assertIn('UIInterfaceOrientationPortrait',host)
+  self.assertIn('sceneGeneration!=generation',host)
   self.assertNotIn('requestGeometryUpdate',host)
  def test_known_good_083_lifecycle_unchanged(self):
   a=src("DFSceneLifecycle.m")
