@@ -1,0 +1,1317 @@
+{
+  "original_deb_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "original_control": "Package: com.anlai.omnicar\nVersion: 1.0.3\nArchitecture: iphoneos-arm64\n",
+  "user_device_report": "OmniCar iPhone Settings selects apps; only selected apps appear on CarPlay",
+  "payload_inventory": [
+    {
+      "path": "var/jb/Applications/OmniCar.app/AppIcon60x60@2x.png",
+      "size": 24659
+    },
+    {
+      "path": "var/jb/Applications/OmniCar.app/AppIcon60x60@3x.png",
+      "size": 44470
+    },
+    {
+      "path": "var/jb/Applications/OmniCar.app/Info.plist",
+      "size": 897
+    },
+    {
+      "path": "var/jb/Applications/OmniCar.app/OmniCar",
+      "size": 168880
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+      "size": 613376
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.plist",
+      "size": 87
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib",
+      "size": 242784
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.plist",
+      "size": 92
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib",
+      "size": 276832
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.plist",
+      "size": 93
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
+      "size": 649808
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.plist",
+      "size": 194
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
+      "size": 1229920
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.plist",
+      "size": 118
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
+      "size": 567792
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.plist",
+      "size": 118
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSpeedBubble.plist",
+      "size": 438
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSplitScreen.plist",
+      "size": 453
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureStartupScreen.plist",
+      "size": 4055
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Info.plist",
+      "size": 402
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs",
+      "size": 1303344
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/PackageIcon.png",
+      "size": 74767
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Root.plist",
+      "size": 1033
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon.png",
+      "size": 2092
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon@2x.png",
+      "size": 4963
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon@3x.png",
+      "size": 7688
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon.png",
+      "size": 1567
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon@2x.png",
+      "size": 3150
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon@3x.png",
+      "size": 4912
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/WhatsNew.plist",
+      "size": 334
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/AppBridge.strings",
+      "size": 663
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Car.strings",
+      "size": 5582
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/HomeScreen.strings",
+      "size": 3835
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Localizable.strings",
+      "size": 15237
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Onboarding.strings",
+      "size": 2515
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Profiles.strings",
+      "size": 893
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/SpeedBubble.strings",
+      "size": 5182
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/SplitScreen.strings",
+      "size": 4587
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/StartupScreen.strings",
+      "size": 4995
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/WhatsNew.strings",
+      "size": 1120
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/AppBridge.strings",
+      "size": 553
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Car.strings",
+      "size": 5723
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/HomeScreen.strings",
+      "size": 3970
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Localizable.strings",
+      "size": 15344
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Onboarding.strings",
+      "size": 2799
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Profiles.strings",
+      "size": 920
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/SpeedBubble.strings",
+      "size": 5070
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/SplitScreen.strings",
+      "size": 4509
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/StartupScreen.strings",
+      "size": 4975
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/WhatsNew.strings",
+      "size": 1156
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/AppBridge.strings",
+      "size": 462
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Car.strings",
+      "size": 3245
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/HomeScreen.strings",
+      "size": 2609
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Localizable.strings",
+      "size": 10556
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Onboarding.strings",
+      "size": 2063
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Profiles.strings",
+      "size": 594
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/SpeedBubble.strings",
+      "size": 4134
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/SplitScreen.strings",
+      "size": 3741
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/StartupScreen.strings",
+      "size": 5452
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/WhatsNew.strings",
+      "size": 834
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/AppBridge.strings",
+      "size": 503
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Car.strings",
+      "size": 5259
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/HomeScreen.strings",
+      "size": 3885
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Localizable.strings",
+      "size": 15568
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Onboarding.strings",
+      "size": 2903
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Profiles.strings",
+      "size": 959
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/SpeedBubble.strings",
+      "size": 5369
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/SplitScreen.strings",
+      "size": 4465
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/StartupScreen.strings",
+      "size": 5225
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/WhatsNew.strings",
+      "size": 1150
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/AppBridge.strings",
+      "size": 691
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Car.strings",
+      "size": 6013
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/HomeScreen.strings",
+      "size": 4434
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Localizable.strings",
+      "size": 16972
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Onboarding.strings",
+      "size": 3076
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Profiles.strings",
+      "size": 1046
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/SpeedBubble.strings",
+      "size": 5494
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/SplitScreen.strings",
+      "size": 4797
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/StartupScreen.strings",
+      "size": 5611
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/WhatsNew.strings",
+      "size": 1408
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon.png",
+      "size": 2481
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon@2x.png",
+      "size": 7968
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon@3x.png",
+      "size": 14988
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/AppBridge.strings",
+      "size": 478
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Car.strings",
+      "size": 4438
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/HomeScreen.strings",
+      "size": 2826
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Localizable.strings",
+      "size": 11228
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Onboarding.strings",
+      "size": 2213
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Profiles.strings",
+      "size": 697
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/SpeedBubble.strings",
+      "size": 4273
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/SplitScreen.strings",
+      "size": 3929
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/StartupScreen.strings",
+      "size": 3885
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/WhatsNew.strings",
+      "size": 846
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/AppBridge.strings",
+      "size": 500
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Car.strings",
+      "size": 5370
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/HomeScreen.strings",
+      "size": 3588
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Localizable.strings",
+      "size": 13854
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Onboarding.strings",
+      "size": 2726
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Profiles.strings",
+      "size": 881
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/SpeedBubble.strings",
+      "size": 4910
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/SplitScreen.strings",
+      "size": 4115
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/StartupScreen.strings",
+      "size": 4206
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/WhatsNew.strings",
+      "size": 990
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/AppBridge.strings",
+      "size": 495
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Car.strings",
+      "size": 4431
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/HomeScreen.strings",
+      "size": 2662
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Localizable.strings",
+      "size": 11304
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Onboarding.strings",
+      "size": 1712
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Profiles.strings",
+      "size": 569
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/SpeedBubble.strings",
+      "size": 3989
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/SplitScreen.strings",
+      "size": 3564
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/StartupScreen.strings",
+      "size": 3932
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/WhatsNew.strings",
+      "size": 724
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/AppBridge.strings",
+      "size": 489
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Car.strings",
+      "size": 4433
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/HomeScreen.strings",
+      "size": 2697
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Localizable.strings",
+      "size": 11245
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Onboarding.strings",
+      "size": 1818
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Profiles.strings",
+      "size": 613
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/SpeedBubble.strings",
+      "size": 4059
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/SplitScreen.strings",
+      "size": 3552
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/StartupScreen.strings",
+      "size": 4048
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/WhatsNew.strings",
+      "size": 812
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo.png",
+      "size": 9406
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@2x.png",
+      "size": 27891
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@3x.png",
+      "size": 48665
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/AppBridge.strings",
+      "size": 612
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Car.strings",
+      "size": 5629
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/HomeScreen.strings",
+      "size": 3943
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Localizable.strings",
+      "size": 15011
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Onboarding.strings",
+      "size": 2747
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Profiles.strings",
+      "size": 925
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/SpeedBubble.strings",
+      "size": 4819
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/SplitScreen.strings",
+      "size": 4323
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/StartupScreen.strings",
+      "size": 5383
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/WhatsNew.strings",
+      "size": 1054
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/AppBridge.strings",
+      "size": 715
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Car.strings",
+      "size": 6315
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/HomeScreen.strings",
+      "size": 4264
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Localizable.strings",
+      "size": 17450
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Onboarding.strings",
+      "size": 3107
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Profiles.strings",
+      "size": 1093
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/SpeedBubble.strings",
+      "size": 5960
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/SplitScreen.strings",
+      "size": 5157
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/StartupScreen.strings",
+      "size": 5617
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/WhatsNew.strings",
+      "size": 1338
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/AppBridge.strings",
+      "size": 577
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Car.strings",
+      "size": 5477
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/HomeScreen.strings",
+      "size": 3475
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Localizable.strings",
+      "size": 14455
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Onboarding.strings",
+      "size": 2375
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Profiles.strings",
+      "size": 849
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/SpeedBubble.strings",
+      "size": 5179
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/SplitScreen.strings",
+      "size": 4283
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/StartupScreen.strings",
+      "size": 5029
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/WhatsNew.strings",
+      "size": 1102
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/AppBridge.strings",
+      "size": 572
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/HomeScreen.strings",
+      "size": 3588
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Localizable.strings",
+      "size": 14526
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Onboarding.strings",
+      "size": 2479
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Profiles.strings",
+      "size": 853
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/SpeedBubble.strings",
+      "size": 5233
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/SplitScreen.strings",
+      "size": 4302
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/StartupScreen.strings",
+      "size": 7408
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/WhatsNew.strings",
+      "size": 1212
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/AppBridge.strings",
+      "size": 469
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Car.strings",
+      "size": 3778
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/HomeScreen.strings",
+      "size": 2398
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Localizable.strings",
+      "size": 9498
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Onboarding.strings",
+      "size": 1410
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Profiles.strings",
+      "size": 477
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/SpeedBubble.strings",
+      "size": 3634
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/SplitScreen.strings",
+      "size": 3243
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/StartupScreen.strings",
+      "size": 3354
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/WhatsNew.strings",
+      "size": 620
+    },
+    {
+      "path": "var/jb/Library/PreferenceLoader/Preferences/OmniCarPrefs.plist",
+      "size": 186
+    }
+  ],
+  "plists": [
+    {
+      "path": "var/jb/Applications/OmniCar.app/Info.plist",
+      "content": "{'CFBundleName': 'OmniCar', 'CFBundleIdentifier': 'com.anlai.omnicar.app', 'CFBundleInfoDictionaryVersion': '6.0', 'CFBundleIcons': {'CFBundlePrimaryIcon': {'CFBundleIconFiles': ['AppIcon60x60'], 'UIPrerenderedIcon': True}}, 'CFBundleVersion': '1', 'UIRequiresFullScreen': True, 'CFBundleExecutable': 'OmniCar', 'LSRequiresIPhoneOS': True, 'UISupportedInterfaceOrientations': ['UIInterfaceOrientationPortrait'], 'CFBundleDisplayName': 'OmniCar', 'MinimumOSVersion': '15.0', 'CFBundleSupportedPlatforms': ['iPhoneOS'], 'CFBundleURLTypes': [{'CFBundleURLName': 'com.anlai.omnicar', 'CFBundleURLSchemes': ['omnicar']}], 'CFBundlePackageType': 'APPL', 'CFBundleSignature': '????', 'UIDeviceFamily': [1], 'CFBundleDevelopmentRegion': 'English', 'UIUserInterfaceStyle': 'Dark', 'CFBundleShortVersionString': '1.0.3'}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.plist",
+      "content": "{'Filter': {'Bundles': ['com.apple.UIKit']}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.plist",
+      "content": "{'Filter': {'Bundles': ['com.apple.CarPlayApp']}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.plist",
+      "content": "{'Filter': {'Bundles': ['com.apple.springboard']}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.plist",
+      "content": "{'Filter': {'Bundles': ['com.apple.springboard', 'com.apple.CarPlayApp', 'vn.vietmap.live', 'com.lumi.GOFA', 'com.waze.iphone', 'com.wynauto.wyn']}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.plist",
+      "content": "{'Filter': {'Bundles': ['com.apple.CarPlayApp', 'com.apple.springboard']}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.plist",
+      "content": "{'Filter': {'Bundles': ['com.apple.CarPlayApp', 'com.apple.springboard']}}"
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSpeedBubble.plist",
+      "content": "{'featureLabel': 'SPEEDBUBBLE', 'featureSymbol': 'speedometer', 'title': 'Speed Bubble', 'featureOrder': 20, 'items': [{'cell': 'PSGroupCell'}, {'cell': 'PSSwitchCell', 'label': 'SPEEDBUBBLE_ENABLE', 'key': 'speedBubbleEnabled', 'default': True, 'defaults': 'com.anlai.omnicar', 'PostNotification': 'com.anlai.omnicar/prefschanged'}], 'featureController': 'OMCSpeedBubbleController'}"
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSplitScreen.plist",
+      "content": "{'featureLabel': 'SPLITSCREEN', 'featureSymbol': 'rectangle.split.2x1.fill', 'title': 'Split Screen', 'featureOrder': 30, 'items': [{'cell': 'PSGroupCell'}, {'cell': 'PSSwitchCell', 'label': 'SPLITSCREEN_ENABLE', 'key': 'splitScreenEnabled', 'default': True, 'defaults': 'com.anlai.omnicar', 'PostNotification': 'com.anlai.omnicar/prefschanged'}], 'featureController': 'OMCSplitScreenController'}"
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureStartupScreen.plist",
+      "content": "{'featureLabel': 'STARTUPSCREEN', 'featureSymbol': 'play.rectangle.fill', 'title': 'Startup Screen', 'featureOrder': 10, 'items': [{'cell': 'PSGroupCell'}, {'cell': 'PSSwitchCell', 'label': 'STARTUPSCREEN_ENABLE', 'key': 'startupScreenEnabled', 'default': True, 'defaults': 'com.anlai.omnicar', 'PostNotification': 'com.anlai.omnicar/prefschanged'}, {'cell': 'PSGroupCell', 'label': 'STARTUPSCREEN_VIDEO_GROUP', 'footerText': 'STARTUPSCREEN_VIDEO_FOOTER', 'ssStyles': [0]}, {'detail': 'PSListItemsController', 'id': 'videoName', 'defaults': 'com.anlai.omnicar', 'cell': 'PSLinkListCell', 'dynamicTitles': True, 'label': 'STARTUPSCREEN_CURRENT_VIDEO', 'key': 'startupScreenVideoName', 'ssStyles': [0], 'PostNotification': 'com.anlai.omnicar/prefschanged'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_ADD', 'ssStyles': [0], 'action': 'addVideo'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_PREVIEW', 'ssStyles': [0], 'action': 'previewVideo'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_DELETE', 'ssStyles': [0], 'isDestructive': True, 'action': 'deleteVideo'}, {'cell': 'PSGroupCell', 'label': 'STARTUPSCREEN_DISPLAY_GROUP', 'footerText': 'STARTUPSCREEN_DISPLAY_FOOTER', 'ssStyles': [0]}, {'validValues': [0, 1], 'validTitles': ['STARTUPSCREEN_SCALE_FILL', 'STARTUPSCREEN_SCALE_FIT'], 'defaults': 'com.anlai.omnicar', 'cell': 'PSSegmentCell', 'key': 'startupScreenScaleMode', 'ssStyles': [0], 'PostNotification': 'com.anlai.omnicar/prefschanged', 'default': 0}, {'defaults': 'com.anlai.omnicar', 'cell': 'PSSwitchCell', 'label': 'STARTUPSCREEN_PLAY_FULL', 'key': 'startupScreenPlayFull', 'ssStyles': [0], 'PostNotification': 'com.anlai.omnicar/prefschanged', 'default': False}, {'defaults': 'com.anlai.omnicar', 'cell': 'PSSwitchCell', 'label': 'STARTUPSCREEN_SOUND', 'key': 'startupScreenSound', 'ssStyles': [0], 'PostNotification': 'com.anlai.omnicar/prefschanged', 'default': False}, {'cell': 'PSGroupCell', 'label': 'STARTUPSCREEN_LOGO_GROUP', 'footerText': 'STARTUPSCREEN_LOGO_FOOTER', 'ssStyles': [1]}, {'validValues': [0, 1, 2], 'validTitles': ['STARTUPSCREEN_EFFECT_FADE', 'STARTUPSCREEN_EFFECT_ZOOM', 'STARTUPSCREEN_EFFECT_GLOW'], 'defaults': 'com.anlai.omnicar', 'cell': 'PSSegmentCell', 'key': 'startupScreenLogoEffect', 'ssStyles': [1], 'PostNotification': 'com.anlai.omnicar/prefschanged', 'default': 0}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_LOGO_CHOOSE', 'ssStyles': [1], 'action': 'chooseLogo'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_LOGO_DELETE', 'ssStyles': [1], 'isDestructive': True, 'action': 'deleteLogo'}, {'cell': 'PSGroupCell', 'id': 'nameGroup', 'label': 'STARTUPSCREEN_GREETING_GROUP', 'footerText': 'STARTUPSCREEN_GREETING_FOOTER', 'ssStyles': [2, 3, 6, 8]}, {'placeholder': 'STARTUPSCREEN_NAME_PLACEHOLDER', 'defaults': 'com.anlai.omnicar', 'cell': 'PSEditTextCell', 'label': 'STARTUPSCREEN_NAME', 'key': 'startupScreenGreetingName', 'ssStyles': [2, 3, 6, 8], 'PostNotification': 'com.anlai.omnicar/prefschanged'}, {'cell': 'PSGroupCell', 'id': 'carGroup', 'footerText': 'STARTUPSCREEN_CAR_NAME_FOOTER', 'ssStyles': [4, 7]}, {'id': 'carName', 'defaults': 'com.anlai.omnicar', 'cell': 'PSEditTextCell', 'label': 'STARTUPSCREEN_CAR_NAME', 'key': 'startupScreenCarName', 'ssStyles': [4, 7], 'PostNotification': 'com.anlai.omnicar/prefschanged'}, {'cell': 'PSGroupCell', 'id': 'tempoGroup', 'footerText': 'STARTUPSCREEN_TEMPO_FOOTER', 'ssStyles': [5]}, {'validValues': [0, 1, 2], 'validTitles': ['STARTUPSCREEN_TEMPO_SLOW', 'STARTUPSCREEN_TEMPO_NORMAL', 'STARTUPSCREEN_TEMPO_FAST'], 'defaults': 'com.anlai.omnicar', 'cell': 'PSSegmentCell', 'key': 'startupScreenTempo', 'ssStyles': [5], 'PostNotification': 'com.anlai.omnicar/prefschanged', 'default': 1}, {'cell': 'PSGroupCell', 'label': 'STARTUPSCREEN_RANDOM_GROUP', 'footerText': 'STARTUPSCREEN_RANDOM_FOOTER', 'ssStyles': [9]}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_VIDEO', 'symbol': 'film', 'ssRandomStyle': 0, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_LOGO', 'symbol': 'seal', 'ssRandomStyle': 1, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_GREETING', 'symbol': 'hand.wave', 'ssRandomStyle': 2, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_WEATHER', 'symbol': 'cloud.sun.rain', 'ssRandomStyle': 3, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_ENGINE', 'symbol': 'speedometer', 'ssRandomStyle': 4, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_WELCOME', 'symbol': 'car.fill', 'ssRandomStyle': 5, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_PARTICLES', 'symbol': 'sparkles', 'ssRandomStyle': 6, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_HUD', 'symbol': 'scope', 'ssRandomStyle': 7, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_STYLE_BRIEFING', 'symbol': 'rectangle.grid.2x2', 'ssRandomStyle': 8, 'ssStyles': [9], 'action': 'toggleRandomStyle:'}, {'label': 'STARTUPSCREEN_DURATION_GROUP', 'cell': 'PSGroupCell', 'footerText': 'STARTUPSCREEN_DURATION_FOOTER'}, {'showValue': True, 'min': 1.0, 'defaults': 'com.anlai.omnicar', 'cell': 'PSSliderCell', 'isSegmented': True, 'key': 'startupScreenDuration', 'max': 30.0, 'segmentCount': 29, 'PostNotification': 'com.anlai.omnicar/prefschanged', 'default': 5.0}, {'cell': 'PSSwitchCell', 'label': 'STARTUPSCREEN_TAP_TO_SKIP', 'key': 'startupScreenTapToSkip', 'default': True, 'defaults': 'com.anlai.omnicar', 'PostNotification': 'com.anlai.omnicar/prefschanged'}, {'cell': 'PSGroupCell', 'id': 'soundGroup', 'label': 'STARTUPSCREEN_STARTUP_SOUND_GROUP', 'footerText': 'STARTUPSCREEN_STARTUP_SOUND_FOOTER'}, {'label': 'STARTUPSCREEN_SOUND_CHOOSE', 'cell': 'PSButtonCell', 'action': 'chooseSound'}, {'label': 'STARTUPSCREEN_SOUND_PREVIEW', 'cell': 'PSButtonCell', 'action': 'previewSound'}, {'cell': 'PSButtonCell', 'label': 'STARTUPSCREEN_SOUND_DELETE', 'isDestructive': True, 'action': 'deleteSound'}, {'showValue': True, 'min': 0.0, 'defaults': 'com.anlai.omnicar', 'cell': 'PSSliderCell', 'isSegmented': True, 'key': 'startupScreenSoundVolume', 'max': 100.0, 'segmentCount': 20, 'PostNotification': 'com.anlai.omnicar/prefschanged', 'default': 100.0}, {'cell': 'PSSwitchCell', 'label': 'STARTUPSCREEN_SOUND_SKIP_CALL', 'key': 'startupScreenSoundSkipCall', 'default': True, 'defaults': 'com.anlai.omnicar', 'PostNotification': 'com.anlai.omnicar/prefschanged'}, {'label': 'STARTUPSCREEN_OCCASIONS_GROUP', 'cell': 'PSGroupCell', 'footerText': 'STARTUPSCREEN_OCCASIONS_FOOTER'}, {'cell': 'PSSwitchCell', 'label': 'STARTUPSCREEN_OCCASIONS', 'key': 'startupScreenOccasions', 'default': True, 'defaults': 'com.anlai.omnicar', 'PostNotification': 'com.anlai.omnicar/prefschanged'}, {'id': 'birthday', 'cell': 'PSStaticTextCell', 'label': 'STARTUPSCREEN_BIRTHDAY'}, {'cell': 'PSButtonCell', 'id': 'occasionPreview', 'label': 'STARTUPSCREEN_PREVIEW', 'action': 'previewOccasion'}], 'featureController': 'OMCStartupScreenController'}"
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Info.plist",
+      "content": "{'CFBundleShortVersionString': '1.0.3', 'CFBundleIdentifier': 'com.anlai.omnicar.prefs', 'CFBundleSignature': '????', 'CFBundleInfoDictionaryVersion': '6.0', 'CFBundleDevelopmentRegion': 'English', 'CFBundleExecutable': 'OmniCarPrefs', 'CFBundlePackageType': 'BNDL', 'CFBundleVersion': '1.0', 'NSPrincipalClass': 'OMCRootListController'}"
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Root.plist",
+      "content": "{'title': 'OmniCar', 'items': [{'omcGroup': 'rescue', 'cell': 'PSGroupCell', 'id': 'rescueGroup', 'label': 'RESCUE_GROUP'}, {'omcGroup': 'rescue', 'cell': 'PSButtonCell', 'label': 'RESCUE_RESTORE', 'symbol': 'arrow.uturn.backward', 'action': 'rescueRestore'}, {'omcGroup': 'conflicts', 'cell': 'PSGroupCell', 'id': 'conflictsGroup', 'label': 'CONFLICTS_GROUP'}, {'omcGroup': 'conflicts', 'cell': 'PSStaticTextCell', 'id': 'conflictsRow', 'label': 'CONFLICTS_GROUP', 'symbol': 'exclamationmark.triangle.fill'}, {'label': 'APPS_GROUP', 'cell': 'PSGroupCell'}, {'cell': 'PSLinkCell', 'label': 'APPS', 'detail': 'OMCAppBridgeAppsController', 'symbol': 'square.grid.2x2.fill', 'cellClass': 'OMCAppBridgeAppsLinkCell'}, {'cell': 'PSLinkCell', 'label': 'HOME_SCREEN', 'detail': 'OMCHomeScreenController', 'symbol': 'apps.iphone'}, {'cell': 'PSGroupCell', 'id': 'features', 'label': 'FEATURES_GROUP', 'footerText': 'FEATURES_FOOTER'}, {'cell': 'PSGroupCell'}, {'cell': 'PSLinkCell', 'label': 'PROFILES', 'detail': 'OMCCarProfilesController', 'symbol': 'car.2.fill'}, {'label': 'SUPPORT_GROUP', 'cell': 'PSGroupCell'}, {'cell': 'PSButtonCell', 'id': 'showGuide', 'label': 'ONB_SHOW_AGAIN', 'symbol': 'lightbulb', 'action': 'showGuide'}, {'cell': 'PSButtonCell', 'id': 'whatsNew', 'label': 'WN_ROW', 'symbol': 'sparkles', 'action': 'showWhatsNew'}, {'label': 'DEV_GROUP', 'cell': 'PSGroupCell', 'footerText': 'SUPPORT_FOOTER'}, {'cell': 'PSButtonCell', 'id': 'sendLog', 'label': 'SEND_LOG', 'symbol': 'square.and.arrow.up', 'action': 'sendLog'}]}"
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/WhatsNew.plist",
+      "content": "{'1.0.0': [{'textKey': 'WN_KEYBOARD_TEXT', 'titleKey': 'WN_KEYBOARD_TITLE', 'symbol': 'keyboard'}, {'textKey': 'WN_ZOOM_TEXT', 'titleKey': 'WN_ZOOM_TITLE', 'symbol': 'arrow.up.left.and.arrow.down.right'}, {'textKey': 'WN_LANG_TEXT', 'titleKey': 'WN_LANG_TITLE', 'symbol': 'globe'}, {'textKey': 'WN_GUIDE_TEXT', 'titleKey': 'WN_GUIDE_TITLE', 'symbol': 'lightbulb'}]}"
+    },
+    {
+      "path": "var/jb/Library/PreferenceLoader/Preferences/OmniCarPrefs.plist",
+      "content": "{'entry': {'cell': 'PSLinkCell', 'bundle': 'OmniCarPrefs', 'detail': 'OMCRootListController', 'icon': 'icon.png', 'label': 'OmniCar', 'isController': True}}"
+    }
+  ],
+  "macho": [
+    {
+      "path": "var/jb/Applications/OmniCar.app/OmniCar",
+      "sha256": "8e7dc4ddaf98a73b80910c0d5d00e38a084bfef2e9f97084f8bbdf76313807c8",
+      "strings": [
+        "Settings: Settings > OmniCar",
+        "Open OmniCar Settings",
+        "com.anlai.omnicar/url",
+        "application:didRegisterUserNotificationSettings:",
+        "openSettings",
+        "v32@0:8@\"UIApplication\"16@\"UIUserNotificationSettings\"24"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 970,
+          "context": "        attributes 0x10000533e T@\"UIWindow\",?,&,N | Contents of (__DATA,__objc_selrefs) section |      0x100005eff openSettings |      0x1000053b4 suspend |      0x1000053c1 URLWithString: |      0x1000053d0 absoluteString"
+        },
+        {
+          "line": 1044,
+          "context": "     0x100005b6a application:willChangeStatusBarFrame: |      0x10000547f application:didChangeStatusBarFrame: |      0x100005697 application:didRegisterUserNotificationSettings: |      0x100005659 application:didRegisterForRemoteNotificationsWithDeviceToken: |      0x10000555c application:didFailToRegisterForRemoteNotificationsWithError: |      0x1000055ee application:didReceiveRemoteNotification:"
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+      "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+      "strings": [
+        "com.apple.CarPlaySettings",
+        "com.apple.Preferences",
+        "com.anlai.omnicar/appbridge.orientation",
+        "requestGeometryUpdateWithPreferences:errorHandler:",
+        "AppBridge",
+        "com.anlai.omnicar/appbridge.key",
+        "com.anlai.omnicar/appbridge.apporient",
+        "com.anlai.omnicar/appbridge.keyboard",
+        "SBSuspendedUnderLockManager -_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "FBScene -updateSettings:withTransitionContext:completion:",
+        "com.anlai.omnicar/appbridge.open",
+        "com.anlai.omnicar/appbridge.frame",
+        "com.anlai.omnicar/appbridge.shield",
+        "com.anlai.omnicar/appbridge.close",
+        "com.anlai.omnicar/appbridge.closeall",
+        "com.anlai.omnicar/appbridge.knobs",
+        "bundleIdentifier",
+        "com.anlai.omnicar/appbridge.bardismiss",
+        "com.anlai.omnicar/appbridge.knobtouch",
+        "appBridgeZoom",
+        "appBridge",
+        "appBridgeOrientation",
+        "applicationWithBundleIdentifier:",
+        "Features/AppBridge/ABHost.mm",
+        "_activationSettings",
+        "clearActivationSettings",
+        "primarySceneIdentifierForBundleIdentifier:sceneSessionRole:displayIdentity:",
+        "primarySceneIdentifierForBundleIdentifier:",
+        "primarySceneIdentifierForBundleIdentifier",
+        "updateSettingsWithBlock:",
+        "updateSettings %@ loi %@",
+        "com.anlai.omnicar/appbridge.baraction",
+        "com.anlai.omnicar/appbridge.handledrag",
+        "com.anlai.omnicar/appbridge.handletap",
+        "com.anlai.omnicar/appbridge.state",
+        "bundleidentifier",
+        "appBridgeFps",
+        "OmniCar App Bridge: closed",
+        "appBridgeKeyboardLang",
+        "com.anlai.omnicar",
+        "com.anlai.omnicar/lite",
+        "com.anlai.omnicar/log",
+        "launchInfoForApplication:withActivationSettings:",
+        "com.anlai.omnicar.log",
+        "com.anlai.omnicar/rescue",
+        "com.anlai.omnicar/prefschanged",
+        "com.anlai.omnicar.perf",
+        "com.anlai.omnicar/car.connected",
+        "T@\"NSString\",C,N,V_bundleID",
+        "_bundleID",
+        "_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "bundleID",
+        "setBundleID:",
+        "updateSettings:withTransitionContext:completion:"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 1,
+          "context": "/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmpqjzese4f/root/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib: | Contents of (__DATA_CONST,__objc_classlist) section | 0000000000038e70 0x3e550 _OBJC_CLASS_$_ABBoxView |     isa        0x3e578 _OBJC_METACLASS_$_ABBoxView"
+        },
+        {
+          "line": 281,
+          "context": "            size      1 |             offset    0x3e48c 16 |             name      0x2f9a4 _bundleID |             type      0x32238 @\"NSString\" |             alignment 3 |             size      8"
+        },
+        {
+          "line": 364,
+          "context": "            entsize    16 |             count      17 |             name       0x304f8 bundleID |             attributes 0x2f57d T@\"NSString\",C,N,V_bundleID |             name       0x2fab1 box |             attributes 0x2f9eb T@\"ABBoxView\",&,N,V_box"
+        },
+        {
+          "line": 365,
+          "context": "            count      17 |             name       0x304f8 bundleID |             attributes 0x2f57d T@\"NSString\",C,N,V_bundleID |             name       0x2fab1 box |             attributes 0x2f9eb T@\"ABBoxView\",&,N,V_box |             name       0x302f8 application"
+        },
+        {
+          "line": 1863,
+          "context": "     0x31739 setOrientation:animated: |      0x30405 becomeFirstResponder |      0x31193 requestGeometryUpdateWithPreferences:errorHandler: |      0x316ca setNeedsUpdateOfSupportedInterfaceOrientations |      0x30360 attemptRotationToDeviceOrientation |      0x30acb interfaceOrientations"
+        },
+        {
+          "line": 1868,
+          "context": "     0x30acb interfaceOrientations |      0x30304 applicationDidFinishLaunching: |      0x30025 _shouldBeBackgroundUnderLockForScene:withSettings: |      0x31e62 updateSettings:withTransitionContext:completion: |      0x3006b _updateReferenceSize:andOrientation: |      0x30fdb pointInside:withEvent:"
+        },
+        {
+          "line": 1869,
+          "context": "     0x30304 applicationDidFinishLaunching: |      0x30025 _shouldBeBackgroundUnderLockForScene:withSettings: |      0x31e62 updateSettings:withTransitionContext:completion: |      0x3006b _updateReferenceSize:andOrientation: |      0x30fdb pointInside:withEvent: |      0x30ce5 layoutSubviews"
+        },
+        {
+          "line": 1934,
+          "context": "     0x304de buildPanel |      0x304e9 bundleForHash: |      0x304f8 bundleID |      0x30501 bundleIdentifier |      0x30512 bundlePath |      0x2f5be buttonWithType:"
+        },
+        {
+          "line": 1935,
+          "context": "     0x304e9 bundleForHash: |      0x304f8 bundleID |      0x30501 bundleIdentifier |      0x30512 bundlePath |      0x2f5be buttonWithType: |      0x3051d callStackReturnAddresses"
+        },
+        {
+          "line": 2166,
+          "context": "     0x2f867 setBox: |      0x313b4 setBubble: |      0x313bf setBundleID: |      0x313cc setCarAppArea: |      0x313db setCenter: |      0x313e6 setClipsToBounds:"
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib",
+      "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f",
+      "strings": [
+        "com.anlai.omnicar",
+        "com.anlai.omnicar/lite",
+        "com.anlai.omnicar/log",
+        "launchInfoForApplication:withActivationSettings:",
+        "com.anlai.omnicar.log",
+        "com.anlai.omnicar/rescue",
+        "com.anlai.omnicar/prefschanged",
+        "com.anlai.omnicar.perf",
+        "com.anlai.omnicar/car.connected",
+        "appBridgeZoom",
+        "bundleIdentifier"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 41,
+          "context": "     0xd324 boolValue |      0xd421 bounds |      0xd332 bundleIdentifier |      0xd430 callStackReturnAddresses |      0xd363 callStackSymbols |      0xd459 colorWithRed:green:blue:alpha:"
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib",
+      "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5",
+      "strings": [
+        "com.anlai.omnicar/prefschanged",
+        "com.anlai.omnicar/rescue",
+        "com.anlai.omnicar/car.connected",
+        "com.anlai.omnicar/url",
+        "com.anlai.omnicar/cleanram.now",
+        "com.anlai.omnicar",
+        "Open Settings > OmniCar to turn it back on or send the log to the developer.",
+        "appBridge",
+        "bundleIdentifier",
+        "com.apple.Preferences",
+        "appBridgeApps",
+        "appbridge",
+        "appBridgeEnabled",
+        "com.anlai.omnicar/lite",
+        "com.anlai.omnicar/log",
+        "launchInfoForApplication:withActivationSettings:",
+        "com.anlai.omnicar.log",
+        "com.anlai.omnicar.perf",
+        "appBridgeZoom"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 50,
+          "context": "     0x10073 boolValue |      0xff63 bounds |      0x10085 bundleIdentifier |      0xff6e callStackReturnAddresses |      0x100a6 callStackSymbols |      0xff8f colorWithRed:green:blue:alpha:"
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
+      "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836",
+      "strings": [
+        "com.anlai.omnicar/speedbubble.opencar",
+        "applicationInfoForBundleIdentifier:",
+        "com.anlai.omnicar/speedbubble.speed",
+        "com.anlai.omnicar/location",
+        "com.anlai.omnicar/speedbubble.source",
+        "com.anlai.omnicar/speedbubble.demo",
+        "com.anlai.omnicar/speedbubble.resetlayout",
+        "com.anlai.omnicar/prefschanged",
+        "com.anlai.omnicar/car.busy",
+        "com.anlai.omnicar/car.connected",
+        "applicationWithBundleIdentifier:",
+        "com.anlai.omnicar/speed",
+        "com.anlai.omnicar",
+        "com.anlai.omnicar/lite",
+        "com.anlai.omnicar/log",
+        "launchInfoForApplication:withActivationSettings:",
+        "com.anlai.omnicar.log",
+        "com.anlai.omnicar/rescue",
+        "com.anlai.omnicar.perf",
+        "appBridgeZoom",
+        "T@\"NSHashTable\",&,N,V_appManagers",
+        "_applicationIconImageForBundleIdentifier:format:scale:",
+        "setAppManagers:",
+        "_appManagers",
+        "appManager:running:",
+        "appManagers",
+        "bundleIdentifier"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 257,
+          "context": "            size      8 |             offset    0x431d0 32 |             name      0x33ac6 _appManagers |             type      0x367d5 @\"NSHashTable\" |             alignment 3 |             size      8"
+        },
+        {
+          "line": 274,
+          "context": "            name       0x34a97 last |             attributes 0x32fcd T@\"CLLocation\",&,N,V_last |             name       0x3403d appManagers |             attributes 0x32fef T@\"NSHashTable\",&,N,V_appManagers |             name       0x34ea1 loggedFirst |             attributes 0x3382d TB,N,V_loggedFirst"
+        },
+        {
+          "line": 275,
+          "context": "            attributes 0x32fcd T@\"CLLocation\",&,N,V_last |             name       0x3403d appManagers |             attributes 0x32fef T@\"NSHashTable\",&,N,V_appManagers |             name       0x34ea1 loggedFirst |             attributes 0x3382d TB,N,V_loggedFirst |             name       0x35f74 stopToken"
+        },
+        {
+          "line": 3138,
+          "context": "     0x33512 JSONObjectWithData:options:error: |      0x33ab7 UTF8String |      0x33486 _applicationIconImageForBundleIdentifier:format:scale: |      0x33d98 accessibilityElementAtIndex: |      0x33db5 accessibilityElementCount |      0x33dcf accessibilityElements"
+        },
+        {
+          "line": 3169,
+          "context": "     0x3306a app |      0x3401d appEnabled: |      0x34029 appManager:running: |      0x3403d appManagers |      0x34049 appendFormat: |      0x34057 appendPath:"
+        },
+        {
+          "line": 3170,
+          "context": "     0x3401d appEnabled: |      0x34029 appManager:running: |      0x3403d appManagers |      0x34049 appendFormat: |      0x34057 appendPath: |      0x34063 appendString:"
+        },
+        {
+          "line": 3208,
+          "context": "     0x3434e builtLite |      0x34358 builtStyle |      0x34363 bundleIdentifier |      0x33680 buttonWithType: |      0x34374 callStackReturnAddresses |      0x3438d callStackSymbols"
+        },
+        {
+          "line": 3453,
+          "context": "     0x354e7 setAnimationDuration: |      0x332c9 setApp: |      0x338d3 setAppManagers: |      0x354fd setAppliedRotation: |      0x35511 setArmed: |      0x3551b setAutoresizingMask:"
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
+      "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754",
+      "strings": [
+        "DBApplicationLaunchInfo +launchInfoForApplication:withActivationSettings:",
+        "com.anlai.omnicar/prefschanged",
+        "bundleIdentifier",
+        "com.anlai.omnicar/appbridge.state",
+        "com.anlai.omnicar/appbridge.handletap",
+        "com.anlai.omnicar/appbridge.handledrag",
+        "com.anlai.omnicar/appbridge.baraction",
+        "com.anlai.omnicar/appbridge.bardismiss",
+        "com.anlai.omnicar/appbridge.knobtouch",
+        "com.anlai.omnicar/splitscreen.native",
+        "com.anlai.omnicar/splitscreen.ack",
+        "com.anlai.omnicar/splitscreen.ready",
+        "com.anlai.omnicar/splitscreen.kill",
+        "com.anlai.omnicar/url",
+        "applicationWithBundleIdentifier:",
+        "com.anlai.omnicar",
+        "appBridge",
+        "appBridgeApps",
+        "OmniCarAppBridge",
+        "setBundleIdentifier:",
+        "applicationInfoForBundleIdentifier:",
+        "allInstalledApplications",
+        "DIAG allInstalledApplications: %lu muc",
+        "applicationBundleID",
+        "foregroundSceneWithSettings:completion:",
+        "activeBaseApplicationBundleID",
+        "CarSplit: chi giu %@ (app iPhone) -> App Bridge toan man",
+        "CarSplit: %lu app CarPlay cho Settings, %lu app iPhone da chon (App Bridge)",
+        "AppBridge: %@ app toan man %@ (bang bo cuc)",
+        "com.anlai.omnicar/appbridge.frame",
+        "com.anlai.omnicar/appbridge.shield",
+        "AppBridge: host %@ vao o %d",
+        "com.anlai.omnicar/appbridge.open",
+        "com.anlai.omnicar/appbridge.close",
+        "com.anlai.omnicar/appbridge.knobs",
+        "com.anlai.omnicar/appbridge.closeall",
+        "AppBridge: app toan man %@ %@",
+        "AppBridge: %@ %@ -> dong o %d",
+        "AppBridge: thanh nut %@ cua %@",
+        "AppBridge: %@ toan man %@",
+        "AppBridge: dong app toan man %@",
+        "AppBridge: cham icon %@ tren man chinh",
+        "com.apple.CarPlaySettings",
+        "com.anlai.omnicar/car.busy",
+        "settings",
+        "LSApplicationWorkspace",
+        "com.anlai97.carduo",
+        "com.anlai.omnicar/lite",
+        "com.anlai.omnicar/log",
+        "launchInfoForApplication:withActivationSettings:",
+        "com.anlai.omnicar.log",
+        "com.anlai.omnicar/rescue",
+        "com.anlai.omnicar.perf",
+        "com.anlai.omnicar/car.connected",
+        "appBridgeZoom",
+        "_applicationIconImageForBundleIdentifier:format:scale:",
+        "T@\"NSString\",C,N,V_bundleID",
+        "_bundleID",
+        "applySettings:source:",
+        "bundleID",
+        "isCarPlayApp:",
+        "publishCarPlayApps",
+        "setBundleID:",
+        "showPickerForSlot:"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 488,
+          "context": "            size      4 |             offset    0x87928 16 |             name      0x70589 _bundleID |             type      0x74327 @\"NSString\" |             alignment 3 |             size      8"
+        },
+        {
+          "line": 568,
+          "context": "            name       0x73af9 slot |             attributes 0x6fb7e Ti,N,V_slot |             name       0x70fc1 bundleID |             attributes 0x6fe5a T@\"NSString\",C,N,V_bundleID |             name       0x73fe9 vc |             attributes 0x6f909 T@\"UIViewController\",&,N,V_vc"
+        },
+        {
+          "line": 569,
+          "context": "            attributes 0x6fb7e Ti,N,V_slot |             name       0x70fc1 bundleID |             attributes 0x6fe5a T@\"NSString\",C,N,V_bundleID |             name       0x73fe9 vc |             attributes 0x6f909 T@\"UIViewController\",&,N,V_vc |             name       0x74022 view"
+        },
+        {
+          "line": 667,
+          "context": "            count     1 |             offset    0x87964 8 |             name      0x70589 _bundleID |             type      0x74327 @\"NSString\" |             alignment 3 |             size      8"
+        },
+        {
+          "line": 675,
+          "context": "            entsize    16 |             count      1 |             name       0x70fc1 bundleID |             attributes 0x6fe5a T@\"NSString\",C,N,V_bundleID | Meta Class |     isa        0x0 _OBJC_METACLASS_$_NSObject"
+        },
+        {
+          "line": 676,
+          "context": "            count      1 |             name       0x70fc1 bundleID |             attributes 0x6fe5a T@\"NSString\",C,N,V_bundleID | Meta Class |     isa        0x0 _OBJC_METACLASS_$_NSObject |     superclass 0x0 _OBJC_METACLASS_$_UIViewController"
+        },
+        {
+          "line": 3154,
+          "context": "     0x74036 viewDidDisappear: |      0x71e28 launchInfoForApplication: |      0x71e42 launchInfoForApplication:withActivationSettings: |      0x719b6 iconImageInfo |      0x721c2 numberOfPortraitColumns |      0x721da numberOfPortraitRows"
+        },
+        {
+          "line": 3214,
+          "context": "     0x70540 URLWithString: |      0x6fc5e UTF8String |      0x6fc89 _applicationIconImageForBundleIdentifier:format:scale: |      0x7098c accessibilityIdentifier |      0x709a4 accessibilityTraits |      0x709b8 actionWithHandler:"
+        },
+        {
+          "line": 3256,
+          "context": "     0x70cbd appendFormat: |      0x70ccb appendPath: |      0x70cf6 applySettings:source: |      0x70d0c array |      0x70d12 arrayByAddingObject: |      0x70d27 arrayByAddingObjectsFromArray:"
+        },
+        {
+          "line": 3291,
+          "context": "     0x70f93 bringSubviewToFront: |      0x70fa8 buildPickerSheetForPane: |      0x70fc1 bundleID |      0x70fca bundleIdentifier |      0x6ff90 buttonWithType: |      0x70fdb callStackReturnAddresses"
+        },
+        {
+          "line": 3292,
+          "context": "     0x70fa8 buildPickerSheetForPane: |      0x70fc1 bundleID |      0x70fca bundleIdentifier |      0x6ff90 buttonWithType: |      0x70fdb callStackReturnAddresses |      0x70ff4 callStackSymbols"
+        },
+        {
+          "line": 3484,
+          "context": "     0x71c86 invalidate |      0x71c91 isAdoptableViewController: |      0x71cac isCarPlayApp: |      0x71cba isDescendantOfView: |      0x71cce isEqual: |      0x70203 isEqualToArray:"
+        },
+        {
+          "line": 3620,
+          "context": "     0x726ce protectsViewController: |      0x726fb publishBusy |      0x72707 publishCarPlayApps |      0x6fa5c publishKnobsNow |      0x7271a publishKnobsSoon |      0x7272b publishShield"
+        },
+        {
+          "line": 3716,
+          "context": "     0x703c0 setBorderWidth: |      0x72fa0 setBounds: |      0x72fab setBundleID: |      0x72fce setCancelsTouchesInView: |      0x6fb04 setCarPlayApps: |      0x72fe7 setCenter:"
+        },
+        {
+          "line": 3897,
+          "context": "     0x73a36 showLoaderInPane:bundle: |      0x73a4f showPickerForFocusedPane |      0x73a68 showPickerForSlot: |      0x73a7b showPickersForEmptySlots |      0x73a94 showRatioMenuForDivider: |      0x73aad showRecent"
+        },
+        {
+          "line": 4001,
+          "context": "     0x740f1 zoomedSlot |      0x6fd31 .cxx_destruct |      0x71766 foregroundSceneWithSettings:completion: |      0x6f6be applicationInfo |      0x726e6 proxyApplicationInfo |      0x72bf2 sceneHostView"
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
+      "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037",
+      "strings": [
+        "com.anlai.omnicar.startupscreen.decode",
+        "com.anlai.omnicar/startupscreen.audio.play",
+        "com.anlai.omnicar/startupscreen.audio.stop",
+        "com.anlai.omnicar/startupscreen.weather.request",
+        "com.anlai.omnicar/location",
+        "com.anlai.omnicar/startupscreen.weather.ready",
+        "com.anlai.omnicar/startupscreen.style",
+        "disabled in settings",
+        "no frames for %@ (open Settings > OmniCar > Startup Screen to convert it) -> liquid style",
+        "com.anlai.omnicar",
+        "com.anlai.omnicar/lite",
+        "com.anlai.omnicar/log",
+        "launchInfoForApplication:withActivationSettings:",
+        "com.anlai.omnicar.log",
+        "com.anlai.omnicar/rescue",
+        "com.anlai.omnicar/prefschanged",
+        "com.anlai.omnicar.perf",
+        "com.anlai.omnicar/car.connected",
+        "appBridgeZoom",
+        "bundleIdentifier"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 2207,
+          "context": "     0x2aa49 buildGreetingWithDate:period: |      0x2aa67 buildWeatherWithPeriod: |      0x2aa7f bundleIdentifier |      0x2aa90 bytes |      0x2aa96 calendarWithIdentifier: |      0x2aaae callStackReturnAddresses"
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs",
+      "sha256": "15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76",
+      "strings": [
+        "com.anlai.omnicar",
+        "com.anlai.omnicar/prefschanged",
+        "appBridge",
+        "appBridgeApps",
+        "LSApplicationWorkspace",
+        "OMCAppBridgeAppsController",
+        "APPBRIDGE_APPS_COUNT",
+        "APPBRIDGE_APPS_NONE",
+        "appBridgeAdvancedReset",
+        "appBridgeEnabled",
+        "appBridgeFps",
+        "APPBRIDGE_APPS_OTHER_FOOTER",
+        "APPBRIDGE_APPS_SEARCH",
+        "APPBRIDGE_APPS_NO_MATCH",
+        "APPBRIDGE",
+        "Settings",
+        "allInstalledApplications",
+        "com.anlai.omnicar.app",
+        "com.apple.CarPlaySettings",
+        "bundleIdentifier",
+        "com.anlai.omnicar/speedbubble.demo",
+        "com.anlai.omnicar/speedbubble.resetlayout",
+        "OMCSplitScreenAppPickerController",
+        "appBridgeZoom",
+        "_applicationIconImageForBundleIdentifier:format:scale:",
+        "assetReaderTrackOutputWithTrack:outputSettings:",
+        "preferenceSpecifierNamed:target:set:get:detail:cell:edit:",
+        "OMCAppBridgeAppsLinkCell"
+      ],
+      "objc_meta_ok": true,
+      "objc_meta_error": "",
+      "objc_selectors_context": [
+        {
+          "line": 3682,
+          "context": "        weakIvarLayout 0x0 |         baseProperties 0x0 | 000000000007e8c8 0x8f398 _OBJC_CLASS_$_OMCAppBridgeAppsLinkCell |     isa        0x8f3c0 _OBJC_METACLASS_$_OMCAppBridgeAppsLinkCell |     superclass 0x0 _OBJC_CLASS_$_PSTableCell |     cache      0x0 __objc_empty_cache"
+        },
+        {
+          "line": 3683,
+          "context": "        baseProperties 0x0 | 000000000007e8c8 0x8f398 _OBJC_CLASS_$_OMCAppBridgeAppsLinkCell |     isa        0x8f3c0 _OBJC_METACLASS_$_OMCAppBridgeAppsLinkCell |     superclass 0x0 _OBJC_CLASS_$_PSTableCell |     cache      0x0 __objc_empty_cache |     vtable     0x0"
+        },
+        {
+          "line": 3693,
+          "context": "        reserved       0x00000000 |         ivarLayout     0x0 |         name           0x6ec1c OMCAppBridgeAppsLinkCell |         baseMethods    0x5e800 |             entsize 12 (relative) |             count   2"
+        },
+        {
+          "line": 3718,
+          "context": "        reserved       0x00000000 |         ivarLayout     0x0 |         name           0x6ec1c OMCAppBridgeAppsLinkCell |         baseMethods    0x0 |         baseProtocols  0x0 |         ivars          0x0"
+        },
+        {
+          "line": 3894,
+          "context": "        weakIvarLayout 0x0 |         baseProperties 0x0 | 000000000007e8d8 0x8f438 _OBJC_CLASS_$_OMCAppBridgeAppsController |     isa        0x8f460 _OBJC_METACLASS_$_OMCAppBridgeAppsController |     superclass 0x0 _OBJC_CLASS_$_PSViewController |     cache      0x0 __objc_empty_cache"
+        },
+        {
+          "line": 3895,
+          "context": "        baseProperties 0x0 | 000000000007e8d8 0x8f438 _OBJC_CLASS_$_OMCAppBridgeAppsController |     isa        0x8f460 _OBJC_METACLASS_$_OMCAppBridgeAppsController |     superclass 0x0 _OBJC_CLASS_$_PSViewController |     cache      0x0 __objc_empty_cache |     vtable     0x0"
+        },
+        {
+          "line": 3906,
+          "context": "        ivarLayout     0x6eccb |         layout map:    0x0f 0x01 0x11  |         name           0x6ec44 OMCAppBridgeAppsController |         baseMethods    0x5e308 |             entsize 12 (relative) |             count   105"
+        },
+        {
+          "line": 5260,
+          "context": "        reserved       0x00000000 |         ivarLayout     0x0 |         name           0x6ec44 OMCAppBridgeAppsController |         baseMethods    0x0 |         baseProtocols  0x87228 |             count    5"
+        },
+        {
+          "line": 6150,
+          "context": "000000000007e8e0 0x8f4b0 _OBJC_CLASS_$_OMCHomeScreenController |     isa        0x8f488 _OBJC_METACLASS_$_OMCHomeScreenController |     superclass 0x8f438 _OBJC_CLASS_$_OMCAppBridgeAppsController |     cache      0x0 __objc_empty_cache |     vtable     0x0 |     data       0x876e8"
+        },
+        {
+          "line": 6172,
+          "context": "Meta Class |     isa        0x0 _OBJC_METACLASS_$_NSObject |     superclass 0x8f460 _OBJC_METACLASS_$_OMCAppBridgeAppsController |     cache      0x0 __objc_empty_cache |     vtable     0x0 |     data       0x876a0"
+        },
+        {
+          "line": 7942,
+          "context": "        weakIvarLayout 0x0 |         baseProperties 0x0 | 000000000007e920 0x8f708 _OBJC_CLASS_$_OMCSplitScreenAppPickerController |     isa        0x8f730 _OBJC_METACLASS_$_OMCSplitScreenAppPickerController |     superclass 0x0 _OBJC_CLASS_$_PSViewController |     cache      0x0 __objc_empty_cache"
+        },
+        {
+          "line": 7943,
+          "context": "        baseProperties 0x0 | 000000000007e920 0x8f708 _OBJC_CLASS_$_OMCSplitScreenAppPickerController |     isa        0x8f730 _OBJC_METACLASS_$_OMCSplitScreenAppPickerController |     superclass 0x0 _OBJC_CLASS_$_PSViewController |     cache      0x0 __objc_empty_cache |     vtable     0x0"
+        },
+        {
+          "line": 7954,
+          "context": "        ivarLayout     0x6edd0 |         layout map:    0x13  |         name           0x6edae OMCSplitScreenAppPickerController |         baseMethods    0x5f580 |             entsize 12 (relative) |             count   19"
+        },
+        {
+          "line": 8592,
+          "context": "        reserved       0x00000000 |         ivarLayout     0x0 |         name           0x6edae OMCSplitScreenAppPickerController |         baseMethods    0x0 |         baseProtocols  0x896e0 |             count    2"
+        },
+        {
+          "line": 12807,
+          "context": "000000000008ed38 0x8f2f8 _OBJC_CLASS_$_OMCRootListController | 000000000008ed40 0x8f348 _OBJC_CLASS_$_OMCWhatsNewController | 000000000008ed48 0x8f398 _OBJC_CLASS_$_OMCAppBridgeAppsLinkCell | 000000000008ed50 0x8f3e8 _OBJC_CLASS_$_OMCHSPreview | 000000000008ed58 0x8f438 _OBJC_CLASS_$_OMCAppBridgeAppsController | 000000000008ed60 0x8f4d8 _OBJC_CLASS_$_OMCSpeedBubbleController"
+        },
+        {
+          "line": 12809,
+          "context": "000000000008ed48 0x8f398 _OBJC_CLASS_$_OMCAppBridgeAppsLinkCell | 000000000008ed50 0x8f3e8 _OBJC_CLASS_$_OMCHSPreview | 000000000008ed58 0x8f438 _OBJC_CLASS_$_OMCAppBridgeAppsController | 000000000008ed60 0x8f4d8 _OBJC_CLASS_$_OMCSpeedBubbleController | 000000000008ed68 0x8f528 _OBJC_CLASS_$_SPPGlassView | 000000000008ed70 0x8f578 _OBJC_CLASS_$_SPPIconView"
+        },
+        {
+          "line": 12816,
+          "context": "000000000008ed80 0x8f618 _OBJC_CLASS_$_SPPBubbleView | 000000000008ed88 0x8f6b8 _OBJC_CLASS_$_OMCSplitScreenAppLinkCell | 000000000008ed90 0x8f708 _OBJC_CLASS_$_OMCSplitScreenAppPickerController | 000000000008ed98 0x8f758 _OBJC_CLASS_$_OMCSplitPreview | 000000000008eda0 0x8f7a8 _OBJC_CLASS_$_OMCSplitScreenController | 000000000008eda8 0x8f7f8 _OBJC_CLASS_$_OMCSSStyleTileCell"
+        },
+        {
+          "line": 15057,
+          "context": "     0x67089 JPEGRepresentationOfImage:colorSpace:options: |      0x66f45 URLAssetWithURL:options: |      0x66f6e _applicationIconImageForBundleIdentifier:format:scale: |      0x68144 accessoryView |      0x68152 actionWithTitle:image:identifier:handler: |      0x6817c actionWithTitle:style:handler:"
+        },
+        {
+          "line": 15115,
+          "context": "     0x6862c ascender |      0x68635 assetImageGeneratorWithAsset: |      0x68653 assetReaderTrackOutputWithTrack:outputSettings: |      0x68683 assetReaderWithAsset:error: |      0x6869f attributesOfFileSystemForPath:error: |      0x686c4 attributesOfItemAtPath:error:"
+        },
+        {
+          "line": 15517,
+          "context": "     0x6b1f0 prefChanging: |      0x66c13 prefForKey:def: |      0x6b1fe preferenceSpecifierNamed:target:set:get:detail:cell:edit: |      0x6b238 preferredFontForTextStyle: |      0x67774 preferredFormat |      0x6b253 preferredLanguages"
+        }
+      ]
+    }
+  ],
+  "method": "Static SHA-pinned original plist/ObjC/literal audit; not live iPhone QA"
+}
