@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-28 DuoFace .89 — signed build archived (not hardware-verified)
+
+CI run `40663132909` source `a50a81713641ddfd269239e7141fb511c969d605`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40663132909/com.duoface.jb.embedded_0.0.89~splitscene1_iphoneos-arm64.deb`; SHA256 `90f8a88fc00b6cadeefcc627e8675383acef1f96afd74dcc948cded587af7df2`.
+Build provenance, tests and ldid/dpkg verify under GitHub Actions `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40663132909`.
+Changes (first-party YouTube-only .89): .88 real device log proves host-to-app IPC is delivered (105 ACKs; 17 internal-window ACKs), yet controller orientation=3 transiently while UIWindowScene orientation=1 at lines 7238-7244. Native12 Chrome sends ACTUAL split vs SOLO state even when the second pane is empty; host includes this in v2 owner-scoped IPC. App re-checks controller after 120ms and, only for a remaining portrait-scene/two-pane mismatch, issues at most one public UIKit supported-orientation/geometry refresh per owner/size/mode. Readback now includes host-side clientSettings versus settings orientation; no global hooks, no arbitrary scaling or fixed landscape. No changes to Maps, Dock, .83 video lifecycle or system scene hooks. This is a hypothesis-driven DEVICE CANDIDATE, not a proven fix.
+
+**IMPORTANT:** Build and SHA verification are NOT proof YouTube rotation is corrected on iPhone or that native Google Maps is displayed simultaneously in a DuoFace split pane. Native Maps actual scene still unproven after the CarPlay Dashboard switches to DuoFace, so **native Maps split is NOT IMPLEMENTED**. Do not pretend scene reparent or clone is safe. Device QA and separate native scene lifecycle evidence remain required. Do not auto-deploy or mark Sileo published solely from build. Keep .83/.84 immutable rollback.
+
+Source audit: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_088_SCENEHOST_REAL_DEVICE_ACK_20261028.md`. This .89 does not claim video rotation pass until tested.
+
+---
 ## DUOFACE .88 REAL SCENEHOST UPLOAD — APP IPC WORKS / WINDOW-CONTROLLER MISMATCH (2026-10-28)
 
 - **NEW USER-UPLOADED LOG VERIFIED:** `Duoface/main:sideplay/log/DuoFaceSceneHost.log`, upload commit `fbf9bdbc8afdaf00ce40e6713d0e9c24d7f8e3c7` (2026-10-28T09:03:38Z), blob `cc4f507548c57c15fe37e6ddba95f8e5e52842d6`, 812644 bytes, 7395 lines. Supersedes older assertion that app-scene ACK is unavailable.
