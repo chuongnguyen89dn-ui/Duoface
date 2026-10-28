@@ -27,14 +27,16 @@ static inline BOOL DFYTNumber(id value) {
 }
 static inline BOOL DFYTValidState(NSDictionary *state, NSTimeInterval now) {
     if(![state isKindOfClass:NSDictionary.class] || ![state[@"bundleIdentifier"] isEqual:DFYTBundle] ||
-       ![state[@"version"] isEqual:@1] || !DFYTString(state[@"owner"]) ||
+       ![state[@"version"] isEqual:@2] || !DFYTString(state[@"owner"]) ||
        !DFYTString(state[@"sceneIdentifier"]) || !DFYTNumber(state[@"issuedAt"]) ||
        !DFYTNumber(state[@"active"]) || !DFYTNumber(state[@"orientation"]) ||
-       !DFYTNumber(state[@"width"]) || !DFYTNumber(state[@"height"]))return NO;
+       !DFYTNumber(state[@"width"]) || !DFYTNumber(state[@"height"]) ||
+       !DFYTNumber(state[@"isSplit"]))return NO;
     double age=now-[state[@"issuedAt"] doubleValue];
     double w=[state[@"width"] doubleValue],h=[state[@"height"] doubleValue];
     return isfinite(now) && age>=0 && age<=3.0 &&
         [state[@"orientation"] doubleValue]==1.0 &&
+        ([state[@"isSplit"] doubleValue]==0.0 || [state[@"isSplit"] doubleValue]==1.0) &&
         ([state[@"active"] doubleValue]==0.0 || [state[@"active"] doubleValue]==1.0) && w>=64 && h>=64 && w<=8192 && h<=8192;
 }
 // Reject replay and an old owner's delayed revoke after a new owner attaches.
