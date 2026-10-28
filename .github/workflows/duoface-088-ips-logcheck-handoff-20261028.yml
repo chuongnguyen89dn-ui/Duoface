@@ -1,0 +1,95 @@
+name: DuoFace .88 historic IPS check and existing handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - .github/workflows/duoface-088-ips-logcheck-handoff-20261028.yml
+permissions:
+  contents: write
+jobs:
+  inspect-and-save:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify latest main-branch IPS timestamp and scene observer stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          git show origin/main:sideplay/log/Crash-0-SpringBoard-2026-10-28-131840.ips > "$RUNNER_TEMP/springboard-131840.ips"
+          python3 - "$RUNNER_TEMP/springboard-131840.ips" <<'PY'
+          import json,sys
+          from pathlib import Path
+          s=Path(sys.argv[1]).read_text(encoding="utf-8")
+          h,body=s.split("\n",1)
+          meta=json.loads(h); ips=json.loads(body)
+          assert meta["timestamp"]=="2026-10-28 13:18:40.00 +0700"
+          assert ips["exception"]["signal"]=="SIGABRT"
+          trace=ips["lastExceptionBacktrace"]
+          names=[f["symbol"] for f in trace]
+          for fragment in ("DFManagedSceneObserver","sceneHandle:didUpdateSettingsWithDiff:previousSettings:",
+                           "ImmortalizerHooks", "DFUpdateScene"):
+            assert any(fragment in n for n in names),fragment
+          images=ips["usedImages"]
+          assert any(x["name"]=="DFTouchOwnerProbe.dylib" for x in images)
+          assert any(x["name"]=="AppData.dylib" for x in images)
+          text=Path("sideplay/audit/native12-083-rotation-20261028/LOG_CHECK_20261028_AFTER_088_USER_FAIL.md").read_text()
+          assert "THIS IPS CANNOT BE A POST-.88 INCIDENT" in text
+          print("DUOFACE_LATEST_UPLOAD_HISTORICAL_IPS_SCENE_OBSERVER_STACK_VERIFIED")
+          PY
+      - name: Merge log findings into existing project handoff and verify GitHub push
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          MARKER='DUOFACE .88 LOG CHECK — 13:18 IPS IS PRE-.88; NO POST-.88 APP ACK'
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            MARKER="$MARKER" python3 - "$TMP/sideplay/tiep tuc du an.md" <<'PY'
+          import os,sys
+          from pathlib import Path
+          p=Path(sys.argv[1])
+          old=p.read_text(encoding="utf-8")
+          marker=os.environ["MARKER"]
+          if marker not in old:
+              block=f"""## {marker} (2026-10-28)
+
+          - Người dùng đã yêu cầu check log sau báo cáo lỗi xoay YouTube .88. Đã kiểm tra `Duoface/main/sideplay/log`: commit upload mới `f4cc3ab3d9c519547c90da5d10bbc2cc1cd4be3a` lúc 2026-10-28 15:59:17 +07 chỉ thêm `Crash-0-SpringBoard-2026-10-28-131840.ips`.
+          - **Mốc thời gian quyết định:** IPS capture 13:18:40 +07 (trước Sileo .88 phát hành ~15:28 +07, run 40656863552), dù upload xảy ra sau. **Không phải crash sau .88**, không thể dùng khẳng định nguyên nhân lỗi xoay bản .88.
+          - Verified IPS: iPhone10,6/iOS16.7.16, `EXC_CRASH/SIGABRT`, Objective-C exception stack `SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings: +440` → `DFManagedSceneObserver` trong `DFTouchOwnerProbe.dylib`; `DFUpdateScene` và `AppData.dylib` ImmortalizerHooks xuất hiện trong đường scene update. Ghi nhận đồng hiện, **chưa chứng minh AppData gây crash**. Không có exception reason trong IPS. Hai IPS 08:30/08:32 trước đó cùng scene callback nhưng `SIGTRAP`.
+          - Không thấy `DuoFaceSceneHost.log` hay file xuất ACK của .88 được tải lên `sideplay/log`; `DuoFaceAudit 7.txt` cũ. Khác biệt client-vs-host, scene-id/app injection và nguyên nhân sai chiều vẫn **chưa được kiểm chứng từ runtime**. Nguyên tắc: không đổi tỷ lệ zoom, không tạo .89 từ IPS cũ; bảo toàn .83 lifecycle, Maps, Dock.
+          - Báo cáo: `sideplay/audit/native12-083-rotation-20261028/LOG_CHECK_20261028_AFTER_088_USER_FAIL.md` (đọc trực tiếp GitHub, đối chiếu 3 IPS, kiểm timestamp). Next: kiểm file `/var/mobile/Library/Logs/DuoFaceSceneHost.log` từ máy đang cài .88 sau chuỗi 2 ô sai → vuốt xuống đúng → SOLO đúng, có `youtube-app-handshake-ack` và readback. Người dùng có thể tải lên thư mục `main:sideplay/log` hiện có; không cần cài thêm tweak.
+          - Workflow xác minh: `git fetch --no-tags origin main`, `git show origin/main:sideplay/log/Crash-0-SpringBoard-2026-10-28-131840.ips`, Python json assert timestamps/trace, worktree commit/push and GitHub re-fetch. No DEB source changes, build or physical-device test in this checkpoint.
+
+          ---
+          """
+              p.write_text(block+old,encoding="utf-8")
+              assert p.read_text(encoding="utf-8")==block+old
+              print("DUOFACE_LOG_CHECK_HANDOFF_LOCAL_READBACK_PASS")
+          else:
+              print("DUOFACE_LOG_CHECK_HANDOFF_ALREADY_PRESENT")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if git -C "$TMP" diff --quiet -- 'sideplay/tiep tuc du an.md'; then
+              git worktree remove --force "$TMP"
+              echo 'DUOFACE_LOG_CHECK_HANDOFF_ALREADY_PERSISTED'
+              exit 0
+            fi
+            git -C "$TMP" add 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m 'handoff: distinguish newest pre-.88 IPS scene abort from unsolved .88 YouTube rotation [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              git fetch --no-tags origin "$BRANCH"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARKER"
+              echo 'DUOFACE_LOG_CHECK_HANDOFF_GITHUB_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+            echo "Concurrent edit, attempt $attempt"
+          done
+          echo 'HANDOFF_PUSH_FAILED' >&2
+          exit 1
