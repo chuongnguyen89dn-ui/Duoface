@@ -5,6 +5,8 @@
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12MenuHeader.h"
 #import "DFAppLibrary.h"
+#import "DFEnabledAppsPolicy.h"
+#import <notify.h>
 #import <objc/message.h>
 #import <math.h>
 
@@ -116,8 +118,13 @@
 @property(nonatomic,strong) NSArray<DFAppInfo *> *apps;
 @property(nonatomic,readonly) NSArray<DFAppInfo *> *visibleApps;
 @property(nonatomic,assign) NSUInteger inventoryGeneration;
+@property(nonatomic,assign) int appSettingsNotifyToken;
+@property(nonatomic,assign) BOOL appSettingsObserverActive;
 @end
 @implementation DFAppPickerVC
+- (void)dealloc {
+ if(self.appSettingsObserverActive)notify_cancel(self.appSettingsNotifyToken);
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Original real two-DEB proof @a05e4/a0764/a0834/a089c/a0934:
@@ -252,6 +259,18 @@
     self.apps=@[];
     self.runningBundleIDs=@[];
     [self refreshInstalledApps];
+    __weak typeof(self) weakSelf=self;
+    int token=-1;
+    uint32_t status=notify_register_dispatch(DFEnabledAppsChangedNotification,
+      &token,dispatch_get_main_queue(),^(int ignored){
+        (void)ignored;
+        DFAppPickerVC *owner=weakSelf;
+        if(owner && owner.isViewLoaded)[owner refreshInstalledApps];
+      });
+    if(status==NOTIFY_STATUS_OK){
+      self.appSettingsNotifyToken=token;
+      self.appSettingsObserverActive=YES;
+    }
 }
 - (void)updateNativeModeButtons {
     for(UIButton *tab in self.modeButtons){
@@ -437,7 +456,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             DFAppPickerVC *owner=weakSelf;
             if(!owner || owner.inventoryGeneration!=generation)return;
-            owner.apps=results?:@[];
+            // Re-read config only when an actual user opens/refreshed picker.
+            // No background process restarts, no scene unload on toggles.
+            NSArray<NSString *> *enabled=DFConfiguredEnabledAppIDs();
+            NSMutableArray<DFAppInfo *> *visible=[NSMutableArray new];
+            for(DFAppInfo *app in results)
+                if(DFPickerAllowsApp(app.bundleID,enabled))[visible addObject:app];
+            owner.apps=visible;
             [owner reloadCards];
             NSLog(@"[DuoFace] native-card-picker real-installed-apps=%lu",
                   (unsigned long)owner.apps.count);
