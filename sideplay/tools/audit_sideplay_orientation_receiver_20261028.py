@@ -87,6 +87,44 @@ def main():
                         for x in listing[low:high]]
                 })
             references[key]={"arm64_annotation_count":len(ix),"callsite_windows":targets}
+        # In the verified registration at PC 0x706c, x5 is the original
+        # addObserverForName:object:queue:usingBlock: callback. Decode the
+        # CONSTANT block literal's invoke pointer, rather than guessing a
+        # receiver from coincidentally present UIKit selector strings.
+        from audit_native12_license_class_xrefs import MachO
+        macho=MachO(thin)
+        registration=next((x for x in listing if x["pc"]==0x706c),None)
+        callback={"registration_pc":"0x706c","status":"UNRESOLVED_OR_UNKNOWN_BLOCK_ABI"}
+        if registration:
+            m=re.search(r"\badr\s+x5,\s*#(0x[0-9a-fA-F]+|\d+)",registration["asm"])
+            if m:
+                block_addr=int(m.group(1),0)
+                callback["block_literal_vm"]=hex(block_addr)
+                try:
+                    base=macho.map(block_addr)
+                    import struct
+                    # clang/ObjC ABI: isa, flags, reserved, invoke, descriptor.
+                    isa,flags,reserved,invoke,descriptor=struct.unpack_from(
+                        "<QIIQQ",thin,base)
+                    invoke_unrebased=invoke & 0x0000FFFFFFFFFFFF
+                    callback.update({
+                        "block_header_isa":hex(isa),
+                        "flags":hex(flags),
+                        "reserved":hex(reserved),
+                        "invoke_raw":hex(invoke),
+                        "invoke_unrebased":hex(invoke_unrebased),
+                        "descriptor_vm":hex(descriptor)})
+                    if invoke_unrebased in {x["pc"] for x in listing}:
+                        callback["status"]="INVOKE_ADDRESS_IN_ORIGINAL_ARM64"
+                        pos=next(i for i,x in enumerate(listing)
+                            if x["pc"]==invoke_unrebased)
+                        callback["invoke_instructions"]=[
+                            {"pc":hex(x["pc"]),"asm":x["asm"]}
+                            for x in listing[pos:pos+230]]
+                    else:
+                        callback["status"]="RAW_BLOCK_POINTER_REQUIRES_CHAINED_FIXUP"
+                except (ValueError,IndexError,struct.error) as ex:
+                    callback["error"]=str(ex)[:150]
         result={
             "status":"SHA_PINNED_ORIGINAL_SIDEPLAY_ORIENTATION_RECEIVER_IPC_STATIC_NOT_DEVICE",
             "source_deb_sha256":PIN,
@@ -94,6 +132,7 @@ def main():
             "original_dylib_filters":payload,
             "all_original_dylib_string_occurrences":image_info,
             "arm64_thin_sha256":digest(thin),
+            "original_orientation_notification_registration_block":callback,
             "llvm_instruction_count":len(listing),
             "annotated_original_calls":references,
             "limits":[
