@@ -1,3 +1,12 @@
+## CHECKPOINT 2026-10-28 DuoFace .92 LIVE SILEO SHA-VERIFIED
+
+- **REQUEST COMPLETED THROUGH PUBLIC DELIVERY**: user ordered integrate audited Native12 three-second logo into one DEB. Source pin `a31eb5f6f89eb34a0faff3346c354b3125b365cb`, rootless CI `40707934981` SUCCESS; archived QA commit `a6bf5f9189c76d2f125316f462bcf04ca70b2bfc`, full source/binary record `sideplay/jb-embedded-appbridge/evidence/092-SILEO-RELEASE.md` and `evidence/runs/40707934981/`.
+- **SIGNED PACKAGE**: `com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb` SHA256 `1f4a495f8b9ba91f71bac4c7abc4e064878fb8f2edd5272df3d48fef3a95e1f0`. Nativehost `0.1.101~logo3s1`. Regressions / YouTube ABI + hold C behavior + four-module macOS rootless build/package PASS. Preserve YouTube rotation .90, native Dock, native Maps experiment unchanged; no vendor binary/license.
+- **SILEO PUBLIC VERIFIED**: publisher `chuongnguyen89dn-ui/carplaydsp` commit `74cc19440ed0292f4cd2d1d23c1a17fef01c3f1e`, workflow `40708684634` completed SUCCESS at 2026-10-28T14:47:28Z; exact public APT one entry, downloaded binary SHA match, .90 rollback file SHA verified. YAML `40708684682` PASS. Sileo source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, public package `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb`.
+- **DEVICE NOT VERIFIED**: no install or physical test claimed; native map rendering and touch still pending. Next: parked-car Sileo .92 update, confirm logo long-hold/move vs ratio divider, logo tap, split/SOLO, system Dock, YouTube audio/video orientation and optional native Maps continuous route. Record screenshots/logs; rollback .90 on crash. No auto-respring/Filza.
+
+---
+
 ## CHECKPOINT 2026-10-28 DuoFace .92 Native12 3s logo — signed one-DEB archived, Sileo/device pending
 
 CI run `40707934981` source `a31eb5f6f89eb34a0faff3346c354b3125b365cb`; new first-party **single rootless** DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40707934981/com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb`; SHA256 `1f4a495f8b9ba91f71bac4c7abc4e064878fb8f2edd5272df3d48fef3a95e1f0`.
