@@ -1,0 +1,158 @@
+name: DuoFace 0.0.91 vs original Native12 all UI/function binary static scan (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-091-native12-original-comprehensive-static-audit-20261028.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-091-native12-comprehensive-readonly
+  cancel-in-progress: false
+jobs:
+  audit-two-actual-debs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm pinned reference, signed .91 archive, method ABI index
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duoface-091-original"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/duoface-091-original/native12.deb"
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/duoface-091-original/index.json"
+          CAND='sideplay/jb-embedded-appbridge/evidence/runs/40689380992/com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb'
+          echo "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  $RUNNER_TEMP/duoface-091-original/native12.deb" | sha256sum -c -
+          echo "e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741  $CAND" | sha256sum -c -
+          test "$(git hash-object "$RUNNER_TEMP/duoface-091-original/index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
+          test "$(dpkg-deb -f "$CAND" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$CAND" Version)" = '0.0.91~nativemapqa1'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/duoface-091-original/native12.deb" Package)" = 'com.duoface.independent'
+          echo VERIFIED_ORIGINAL_NATIVE12_AND_ACTUAL_SIGNED_091_SHA_VERSION_ABI
+      - name: Compare every file and original 1385 ObjC methods to actual .91 binary
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST="sideplay/audit/native12-091-fullscan-20261028/runs/$GITHUB_RUN_ID"
+          python3 sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py \
+            --native12 "$RUNNER_TEMP/duoface-091-original/native12.deb" \
+            --new 'sideplay/jb-embedded-appbridge/evidence/runs/40689380992/com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb' \
+            --index "$RUNNER_TEMP/duoface-091-original/index.json" \
+            --new-sha256 e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741 \
+            --expected-new-files 34 --out "$DEST"
+          python3 - "$DEST" <<'PY'
+          import json,sys,pathlib
+          p=pathlib.Path(sys.argv[1])
+          s=json.loads((p/'SUMMARY.json').read_text())
+          assert s['original_objc_methods']==1385 and s['original_macho']==8
+          assert s['native12_sha256']=='2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad'
+          assert s['new_duoface_sha256']=='e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741'
+          assert s['new_files']==34
+          assert len(json.loads((p/'ALL_NATIVE12_1385_METHODS.json').read_text())['methods'])==1385
+          # A selector-string overlap is NEVER proof of callback or behavior.
+          print('REAL_DUOFACE_091_ALL_FILES_AND_NATIVE12_1385_ORIGINAL_METHODS_READONLY_PASS')
+          print(json.dumps(s,ensure_ascii=False))
+          PY
+      - name: Generate current .91 first-party source-to-package UI/action inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST="sideplay/audit/native12-091-fullscan-20261028/runs/$GITHUB_RUN_ID"
+          python3 - "$DEST" <<'PY'
+          import hashlib,json,pathlib,re,sys
+          root=pathlib.Path('sideplay')
+          pkg=json.loads((root/'jb-embedded-appbridge/evidence/runs/40689380992/PACKAGING_PROVENANCE.json').read_text())
+          result={'audit_kind':'source-static-and-compiled-package-inventory-not-runtime',
+                  'package_sha256':pkg['sha256'], 'source_git_commit':pkg['source_git_commit'],
+                  'source_modules':[],'compiled_package_paths':pkg['source_packages'],
+                  'semantics_not_proven':['runtime receiver','native map tiles in DuoFace pane',
+                                          'device app touch','active map navigation',
+                                          '3-second logo hold','original exact pixel parity']}
+          paths=[
+            'duoface-native-scene-host/DFNative12Chrome.m',
+            'duoface-native-scene-host/DFLayoutEngine.m',
+            'duoface-native-scene-host/DFAppPickerVC.m',
+            'duoface-native-scene-host/DFAppLibrary.m',
+            'duoface-native-scene-host/DFNativeHostRootController.m',
+            'duoface-native-scene-host/DFSceneHost.m',
+            'duoface-native-scene-host/DFSceneLifecycle.m',
+            'duoface-native-scene-host/DFTouchOwnerProbe.m',
+            'duoface-native-scene-host/DFCarPlayDockOwner.m',
+            'duoface-native-scene-host/DFDockZoomCoordinator.m',
+            'duoface-native-scene-host/DFNativeHostAppDelegate.m',
+            'duoface-native-scene-host/DFYouTubeOrientationRelay.m',
+            'duoface-native-scene-host/DFYouTubeOrientationVirtualization.m',
+            'duoface-native-scene-host/speed8/DFNative8SpeedHUDView.mm',
+            'native-carplay-scene-v1/DFNativeMapPaneCoordinator.m',
+            'native-carplay-scene-v1/DFNativeMapPaneAdapter.m',
+            'native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h',
+            'native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m']
+          for path in paths:
+            p=root/path;s=p.read_text()
+            result['source_modules'].append({'path':str(p),'sha256':hashlib.sha256(s.encode()).hexdigest(),
+              'bytes':p.stat().st_size,
+              'objc_methods_declared':re.findall(r'^\\s*[-+]\\s*\\([^\\n]+',s,re.M),
+              'markers':{key:len(re.findall(pattern,s,re.I)) for key,pattern in {
+                'native_map':'native.?map|FBScene|sceneHostView',
+                'logo_hold_3_seconds':r'3\\.0|minimumPressDuration\\s*=\\s*3',
+                'hud':'speed8|DFNative8SpeedHUDView',
+                'voice':'assistant|speechRecognizer|AVAudioEngine',
+                'app_slot_persist':'saveSlotIndex|splitApp[1-4]|SlotBundle',
+                'carplay_app_branch':'carPlayDeclaration|isCarPlayApp|native.?(slot|app)',
+                'ui_apps':'DFAppPicker|collectionView|showAppPicker',
+                'touch_event':'hitTest|touchesBegan|sendEvent',
+                'zoom':'Zoom|fullscreen',
+                'ratio':'Ratio|Divider',
+                'restore':'Restore|rollback',
+              }.items()}})
+          output=pathlib.Path(sys.argv[1])/'CURRENT_091_SOURCE_UI_FUNCTION_INVENTORY.json'
+          output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\\n')
+          assert len(result['source_modules'])==18
+          print('CURRENT_091_SOURCE_AND_PAYLOAD_INVENTORY_RECORDED_NOT_DEVICE_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace091-vs-original-Native12-full1385-file-source-readonly
+          path: sideplay/audit/native12-091-fullscan-20261028/runs/
+          if-no-files-found: error
+      - name: Persist immutable per-run evidence on DuoFace branch, never publish a DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          SUB="sideplay/audit/native12-091-fullscan-20261028/runs/$GITHUB_RUN_ID"
+          SOURCE="$(pwd)/$SUB"
+          test -s "$SOURCE/CURRENT_091_SOURCE_UI_FUNCTION_INVENTORY.json"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            if test -e "$TMP/$SUB/SUMMARY.json"; then
+              if cmp -s "$TMP/$SUB/SUMMARY.json" "$SOURCE/SUMMARY.json"; then
+                git worktree remove --force "$TMP"
+                echo SAME_RUN_AUDIT_ALREADY_PERSISTED
+                exit 0
+              fi
+              git worktree remove --force "$TMP"
+              echo SAME_RUN_CONFLICT_REFUSE_OVERWRITE >&2
+              exit 1
+            fi
+            mkdir -p "$TMP/$SUB"
+            cp "$SOURCE"/* "$TMP/$SUB/"
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$SUB"
+            git -C "$TMP" commit -m "audit(native12): archive exact 0.0.91 vs original 1385-method full scan [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              echo EXACT_091_FULL_FORENSIC_SCAN_GITHUB_COMMITTED
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          echo FAILED_TO_PERSIST_AUDIT >&2
+          exit 1
