@@ -27,7 +27,7 @@ static inline NSString *DFCarPlayNativeSceneRoute(NSDictionary *snapshot) {
        [sceneID rangeOfString:@"]:com.apple.CarPlayTemplateUIHost:"].location==NSNotFound)
        return @"unresolved";
     NSString *suffix=[NSString stringWithFormat:@":%@",bundle];
-    if(bundle.length<3 || bundle.length>160 || ![sceneID hasSuffix:suffix])
+    if([(NSString *)bundle length]<3 || [(NSString *)bundle length]>160 || ![(NSString *)sceneID hasSuffix:suffix])
         return @"unresolved";
     if([bundle isEqual:@"com.duoface.native.scenehost"])
         return @"native-duoface-scene";
