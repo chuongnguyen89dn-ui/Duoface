@@ -1,0 +1,103 @@
+name: DuoFace .88 device FAIL verify original Native12/DuoNavi gaps and save handoff
+on:
+  push:
+    branches:
+      - feature/duoface-jb-embedded-appbridge-20261020
+    paths:
+      - .github/workflows/duoface-088-device-fail-native12-duonavi-parity-handoff.yml
+permissions:
+  contents: write
+jobs:
+  verify-gap-save:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read original verified binary reports and verify .88 source gaps
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          root=Path('.')
+          audit=root/'sideplay/audit/native12-083-rotation-20261028'
+          handoff=root/'sideplay/tiep tuc du an.md'
+          assert handoff.is_file()
+          report=(audit/'YOUTUBE_088_DEVICE_FAIL_NATIVE12_DUONAVI_PARITY_20261028.md').read_text()
+          original=(audit/'NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.md').read_text()
+          duonavi=json.loads((root/'sideplay/audit/duodash-duonavi-media-20261027/ORIGINAL_DUONAVI_VS_DUODASH_REPACK_IMP.json').read_text())
+          host=(root/'sideplay/duoface-native-scene-host/DFSceneHost.m').read_text()
+          app=(root/'sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m').read_text()
+          policy=(root/'sideplay/duoface-native-scene-host/DFHostedMapRenderSize.h').read_text()
+          state=(root/'sideplay/duoface-native-scene-host/DFYouTubeHostState.h').read_text()
+          assert 'DEVICE FAIL' in report and 'isSplit' in original and 'displayWidth' in original
+          methods=duonavi['bins']['duonavi104']['methods']
+          render=[m for m in methods if m['selector']=='renderSizeForBundleID:']
+          assert len(render)==1
+          selectors=' '.join(render[0]['semantic_selector_refs'])
+          assert all(x in selectors for x in ['appFrame','splitRatio','splitPreset'])
+          assert 'round(pane.width*2.0)' in policy and 'round(pane.height*2.0)' in policy
+          assert 'clientSettings' not in host and '@"isSplit"' not in state
+          assert 'if (CGSizeEqualToSize(size,self.committedReferenceSize)' in host
+          assert 'if(changed || !self.scene)[self apply]' in app
+          assert 'DFYTVisibleInternalWindows()' in app
+          assert 'DFSceneLifecycle.m' in (root/'sideplay/duoface-native-scene-host/build.sh').read_text()
+          print('DUOFACE_088_ORIGINAL_NATIVE12_DUONAVI_VERIFIED_MISSING_SPLIT_APP_FEEDBACK_NO_PATCH_PASS')
+          PY
+      - name: Append .88 physical FAIL to existing main handoff without overwriting history
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          MARKER='DUOFACE .88 DEVICE FAIL — ORIGINAL NATIVE12 DUONAVI SPLIT/APP FEEDBACK GAP'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            MARKER="$MARKER" python3 - "$TMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import os,sys
+          p=Path(sys.argv[1]);assert p.is_file()
+          old=p.read_text(encoding='utf-8')
+          marker=os.environ['MARKER']
+          if marker in old:
+              print('DUOFACE_088_DEVICE_FAIL_HANDOFF_ALREADY_PRESENT')
+          else:
+              block=f"""## {marker} (2026-10-28)
+
+          - **Latest physical user test:** public DuoFace .88 `0.0.88~uikitreflow1` STILL ROTATES YouTube VIDEO WRONG in two panes. Opening one pane, internal fullscreen or downward swipe over YouTube can correct orientation. .88 build/Sileo SUCCESS is NOT device rotation success.
+          - **Only original-binary supported difference:** Native12 HUD8 `CBBridgeManager.sendStateToApp:shouldBridge:` sends `isSplit`, display width/height and orientation plus app-side reflow; original DuoNavi 1.0.4 `renderSizeForBundleID:` uses actual `appFrame` + `splitPreset` + `splitRatio` and calls `refreshSceneLayout` from split layout. Our .88 ships neither split-mode state to the app nor client/host orientation feedback and uses unconditional `pane*2`. This is a verified architecture gap, NOT proof that any one gap caused the device symptom.
+          - Evidence: `sideplay/audit/native12-083-rotation-20261028/YOUTUBE_088_DEVICE_FAIL_NATIVE12_DUONAVI_PARITY_20261028.md`; Native12 original SHA `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`, run `40648313067`, original DuoNavi SHA `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd`, static run `40445716116`; .88 source `f3bb72d15111fba6cd22f51122fa05cae05e58b2`, build `40656378728`, Sileo run `40656863552`, publisher commit `0ed10efba80f420630854df3bda374b64b86fa82`.
+          - **Do not modify:** Maps, system Dock, split/logo/menu, `DFSceneLifecycle.m` .83 working video/crash baseline, prior immutable rollback DEBs, vendor license/code.
+          - **Blocked:** No post-.88 `DuoFaceSceneHost.log`/`youtube-app-handshake-ack` is present among available main-branch `sideplay/log` uploads; newest upload commit `e908517e60b69d8c3f7f2be73b31aa2abad803ab` predates .88. Without client/host orientation and app message delivery on-device, a new rotation writer would be another unsupported guess.
+          - **Next execution:** collect existing .88 `/var/mobile/Library/Logs/DuoFaceSceneHost.log` after wrong two-pane → swipe correction → solo (user uploads to existing `sideplay/log`); distinguish no ACK, `scene-id-unmatched`, `app-reflow-measured` window counts, server vs app `clientSettings`. Decode original DuoNavi full split render policy before writing independent `split/focus/owner/generation` contract. Do not build or publish .89 until mismatch is proven.
+          - Commands already executed in this workflow from repo root: `python3` inline static source/original JSON assertions; `git fetch --no-tags origin feature/duoface-jb-embedded-appbridge-20261020`; git worktree, append, commit and push with readback. Evidence: this workflow run log. No device compile or test claimed.
+
+          ---
+          """
+              p.write_text(block+old,encoding='utf-8')
+              assert p.read_text(encoding='utf-8')==block+old
+              print('DUOFACE_088_DEVICE_FAIL_HANDOFF_LOCAL_READBACK_PASS')
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if git -C "$TMP" diff --quiet -- 'sideplay/tiep tuc du an.md'; then
+              git worktree remove --force "$TMP"
+              echo 'DUOFACE_088_DEVICE_FAIL_HANDOFF_ALREADY_PERSISTED'
+              exit 0
+            fi
+            git -C "$TMP" add 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m 'handoff: .88 device orientation FAIL, verified original Native12/DuoNavi split-state gaps [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              git fetch --no-tags origin "$BRANCH"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARKER"
+              echo 'DUOFACE_088_DEVICE_FAIL_HANDOFF_GITHUB_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+            echo "Concurrent commit, retry $attempt"
+          done
+          echo 'HANDOFF_PUSH_FAILED' >&2
+          exit 1
