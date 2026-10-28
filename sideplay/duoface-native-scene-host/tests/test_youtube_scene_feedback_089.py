@@ -52,8 +52,8 @@ class YoutubeSplitFeedback089(unittest.TestCase):
         self.assertEqual("0.50",read("DFHostedMapRenderSize.h").split("return (CGFloat)")[1].split(";")[0])
         self.assertIn("<string>com.google.ios.youtube</string>",read("DFYouTubeOrientationRelay.plist"))
     def test_versioning_isolated_previous_baseline(self):
-        self.assertIn("0.1.101~logo3s1",read("build.sh"))
-        self.assertIn("0.1.101~logo3s1",read("control"))
+        self.assertIn("0.1.102~appmanager1",read("build.sh"))
+        self.assertIn("0.1.102~appmanager1",read("control"))
         self.assertIn("0.0.90~nativegetters1",read("DFDeepTrace.h"))
 
 if __name__ == "__main__":

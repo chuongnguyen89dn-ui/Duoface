@@ -1,3 +1,12 @@
+## .93 app-manager & one-slot CarPlay picker — NEW signed DEB authorized per ongoing user instructions, 2026-10-28
+
+- User redirected from already-completed 3s logo to full Native12 original functional audit, especially app selection and iPhone settings. Original run 40699487806 (12 IMP) plus 40700551205 (22 iPhone UI IMP) and full 40696267785 proved two distinct surfaces: phone per-app toggles/bulk actions and **one app per CarPlay slot**; .92 had no phone switches and no shared enabled-app gate.
+- First-party source commits 30a953bd and f7be368: `DFEnabledAppsPolicy.h`, `DFNativeHostRootController.m`, `DFAppPickerVC.m` implement user-initiated individual toggles and three actions on phone; saved enabled-app config gates CarPlay catalog on next picker refresh while each tap selects a single bundleID. Existing running scenes untouched. New Python regression and macOS arm64 syntax test PASS source-only run 40711301704. See full gap audit in `sideplay/audit/native12-091-fullscan-20261028/COMPREHENSIVE_UI_FUNCTION_PARITY_VERDICT_20261028.md`.
+- Build one NEW rootless DEB `com.duoface.jb.embedded_0.0.93~appmanager1_iphoneos-arm64.deb`; native host `0.1.102~appmanager1`, existing four source-owned modules, exact SHA checks and immutable archive. No change to .90 YouTube ABI source, .92 logo, Dock or Maps. No vendor license/binary.
+- New source scope P1 only; do not claim iPhone per-slot split picker, all Settings, 4/5/6 grid, reorder 3–4 or actual native Maps tiles completed. Sileo exact SHA only after green build. Trigger 093-phone-app-manager-carplay-one-slot-20261028.
+
+---
+
 ## DuoFace .92 immutable one-DEB QA archive retry, 2026-10-28
 
 - Actual CI 40707030521 compiled four current-source modules and merged signed `0.0.92~logo3s1` with SHA256 `3c1031b61147faa6b029080f364dbff137c6ae79f6b6c53651cfed38488b442a`; rootless inputs, YouTube ABI, 3-second logo contracts, macOS build, dpkg tests and artifact upload PASS. GitHub Actions artifact 12824921313 exists, **but run conclusion FAIL due ONLY final archival step**.

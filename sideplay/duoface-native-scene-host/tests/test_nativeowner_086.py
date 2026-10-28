@@ -55,7 +55,7 @@ class NativeOwner086(unittest.TestCase):
         self.assertIn('round(pane.width*2.0),round(pane.height*2.0)',p)
         self.assertNotIn('0.80',p.split("NS_INLINE CGFloat DFHostedViewportScaleForBundle",1)[1])
         self.assertIn('0.0.90~nativegetters1',read("DFDeepTrace.h"))
-        self.assertIn('0.1.101~logo3s1',read("control"))
+        self.assertIn('0.1.102~appmanager1',read("control"))
 
 if __name__=="__main__":
     unittest.main(verbosity=2)
