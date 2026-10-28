@@ -27,6 +27,11 @@ on:
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
       - 'sideplay/duoface-native-scene-host/DFEnabledAppsPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFAppCatalogPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFAppLibrary.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_duodash_omnicar_catalog_integration.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_logo_092_exact_regression.py'
+      - 'sideplay/duoface-native-scene-host/tests/catalog_policy_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_native12_phone_apps_manager_094.py'
       - 'sideplay/duoface-native-scene-host/tests/enabled_apps_policy_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_app_tile_original_palette.py'
@@ -56,6 +61,8 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_viewport_bridge.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_tile_original_palette.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native12_phone_apps_manager_094.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_duodash_omnicar_catalog_integration.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_speed8_protocol.py' -v
@@ -77,6 +84,12 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/enabled_apps_policy_runtime.m -o "$RUNNER_TEMP/enabled-apps-runtime"
           "$RUNNER_TEMP/enabled-apps-runtime"
+      - name: Execute independent OmniCar-inspired installed app policy on macOS
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/catalog_policy_runtime.m -o "$RUNNER_TEMP/catalog-policy"
+          "$RUNNER_TEMP/catalog-policy"
       - name: Real Objective-C iOS16 SDK syntax checks; do not package or publish
         shell: bash
         run: |
