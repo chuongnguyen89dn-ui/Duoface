@@ -1,6 +1,9 @@
 // Opt-in, standalone CarPlay process diagnostic. READ-ONLY: no scene creation,
 // no app activation, no view hierarchy mutation, no hooks or private setters.
 #import "DFCarPlayNativeSceneIdentity.h"
+#import "DFCarPlayNativeSceneTimeline.h"
+// Observational state only; never retains UIView/FBScene or manipulates a scene.
+static NSDictionary *DFCarPlayPreviousTimeline = nil;
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -205,14 +208,20 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
             }
             [scenes addObject:s];
         }
+        NSNumber *sampleUTC=@((long long)NSDate.date.timeIntervalSince1970);
+        BOOL complete=(sceneCount<=12 && windowCount<=48 && controllers.count<72);
+        NSDictionary *timeline=DFCarPlayNativeSceneTimelineAdvance(
+            DFCarPlayPreviousTimeline,controllers,probeSession?:@"unset",
+            @(getpid()),sampleUTC,complete);
+        DFCarPlayPreviousTimeline=timeline;
         DFWriteSnapshotLine(@{
-            @"schema":@2,@"kind":@"carplay-live-owner-readonly",
+            @"schema":@3,@"kind":@"carplay-live-owner-readonly",
             @"probeSession":probeSession?:@"unset",
-            @"utc":@((long long)NSDate.date.timeIntervalSince1970),
+            @"utc":sampleUTC,
             @"process":process,
             @"bundle":NSBundle.mainBundle.bundleIdentifier?:@"nil",
             @"processPID":@(getpid()),
-            @"scenes":scenes,@"controllers":controllers,
+            @"scenes":scenes,@"controllers":controllers,@"nativeSceneTimeline":timeline,
             @"limitedScenes":@(sceneCount>12),@"limitedWindows":@(windowCount>48),
             @"limitedControllers":@(controllers.count>=72),
             @"mapsNativeOwnerProven":@NO,
