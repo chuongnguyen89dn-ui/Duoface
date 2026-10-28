@@ -1,0 +1,1218 @@
+{
+  "status": "PINNED_ORIGINAL_V5_HOSTED_CARPLAY_VC_PANE_OWNER_READONLY",
+  "sha256_original_deb": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "classes": {
+    "SCPHostedAppVC": {
+      "num_methods": 9,
+      "methods": [
+        {
+          "selector": "viewDidLoad",
+          "imp": "0xfc58",
+          "end": "0xfd14",
+          "instruction_count": 47,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfc58 sub sp, sp, #0x40",
+            "0xfc5c stp x22, x21, [sp, #0x10]",
+            "0xfc60 stp x20, x19, [sp, #0x20]",
+            "0xfc64 stp x29, x30, [sp, #0x30]",
+            "0xfc68 add x29, sp, #0x30",
+            "0xfc6c mov x20, x0",
+            "0xfc70 adrp x8, #0x87000",
+            "0xfc74 ldr x8, [x8, #0x8f0]",
+            "0xfc78 stp x0, x8, [sp]",
+            "0xfc7c adrp x8, #0x85000",
+            "0xfc80 ldr x1, [x8, #0xb50]",
+            "0xfc84 mov x0, sp",
+            "0xfc88 bl #0x56770",
+            "0xfc8c adrp x8, #0x87000",
+            "0xfc90 ldr x0, [x8, #0x730]",
+            "0xfc94 adrp x8, #0x6f000"
+          ]
+        },
+        {
+          "selector": "backgroundSceneWithCompletion:",
+          "imp": "0xfd14",
+          "end": "0xfd60",
+          "instruction_count": 19,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfd14 stp x20, x19, [sp, #-0x20]!",
+            "0xfd18 stp x29, x30, [sp, #0x10]",
+            "0xfd1c add x29, sp, #0x10",
+            "0xfd20 mov x19, x2",
+            "0xfd24 mov x0, x2",
+            "0xfd28 bl #0x567c4",
+            "0xfd2c cbz x19, #0xfd3c",
+            "0xfd30 ldr x8, [x19, #0x10]",
+            "0xfd34 mov x0, x19",
+            "0xfd38 blr x8",
+            "0xfd3c mov x0, x19",
+            "0xfd40 ldp x29, x30, [sp, #0x10]",
+            "0xfd44 ldp x20, x19, [sp], #0x20",
+            "0xfd48 b #0x567b8",
+            "0xfd4c mov x20, x0",
+            "0xfd50 mov x0, x19"
+          ]
+        },
+        {
+          "selector": "foregroundSceneWithSettings:completion:",
+          "imp": "0xfd60",
+          "end": "0xfdac",
+          "instruction_count": 19,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfd60 stp x20, x19, [sp, #-0x20]!",
+            "0xfd64 stp x29, x30, [sp, #0x10]",
+            "0xfd68 add x29, sp, #0x10",
+            "0xfd6c mov x19, x3",
+            "0xfd70 mov x0, x3",
+            "0xfd74 bl #0x567c4",
+            "0xfd78 cbz x19, #0xfd88",
+            "0xfd7c ldr x8, [x19, #0x10]",
+            "0xfd80 mov x0, x19",
+            "0xfd84 blr x8",
+            "0xfd88 mov x0, x19",
+            "0xfd8c ldp x29, x30, [sp, #0x10]",
+            "0xfd90 ldp x20, x19, [sp], #0x20",
+            "0xfd94 b #0x567b8",
+            "0xfd98 mov x20, x0",
+            "0xfd9c mov x0, x19"
+          ]
+        },
+        {
+          "selector": "applicationInfo",
+          "imp": "0xfdac",
+          "end": "0xfdb4",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfdac mov x0, #0",
+            "0xfdb0 ret "
+          ]
+        },
+        {
+          "selector": "proxyApplicationInfo",
+          "imp": "0xfdb4",
+          "end": "0xfdbc",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfdb4 mov x0, #0",
+            "0xfdb8 ret "
+          ]
+        },
+        {
+          "selector": "sceneHostView",
+          "imp": "0xfdbc",
+          "end": "0xfdc4",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfdbc mov x0, #0",
+            "0xfdc0 ret "
+          ]
+        },
+        {
+          "selector": "bundleID",
+          "imp": "0xfdc4",
+          "end": "0xfdd4",
+          "instruction_count": 4,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfdc4 adrp x8, #0x87000",
+            "0xfdc8 ldrsw x8, [x8, #0x964]",
+            "0xfdcc ldr x0, [x0, x8]",
+            "0xfdd0 ret "
+          ]
+        },
+        {
+          "selector": "setBundleID:",
+          "imp": "0xfdd4",
+          "end": "0xfde0",
+          "instruction_count": 3,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfdd4 adrp x8, #0x87000",
+            "0xfdd8 ldrsw x3, [x8, #0x964]",
+            "0xfddc b #0x56800"
+          ]
+        },
+        {
+          "selector": ".cxx_destruct",
+          "imp": "0xfde0",
+          "end": "0xfe64",
+          "instruction_count": 33,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfde0 adrp x8, #0x87000",
+            "0xfde4 ldrsw x8, [x8, #0x964]",
+            "0xfde8 add x0, x0, x8",
+            "0xfdec mov x1, #0",
+            "0xfdf0 b #0x5680c",
+            "0xfdf4 stp x20, x19, [sp, #-0x20]!",
+            "0xfdf8 stp x29, x30, [sp, #0x10]",
+            "0xfdfc add x29, sp, #0x10",
+            "0xfe00 adrp x8, #0x88000",
+            "0xfe04 ldr x8, [x8, #0x130]",
+            "0xfe08 cmn x8, #1",
+            "0xfe0c b.ne #0xfe30",
+            "0xfe10 adrp x8, #0x88000",
+            "0xfe14 ldr x19, [x8, #0x128]",
+            "0xfe18 mov x0, x19",
+            "0xfe1c bl #0x567c4"
+          ]
+        }
+      ]
+    },
+    "SCPCarPane": {
+      "num_methods": 37,
+      "methods": [
+        {
+          "selector": "slot",
+          "imp": "0xf8c8",
+          "end": "0xf8d0",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf8c8 ldr w0, [x0, #0xc]",
+            "0xf8cc ret "
+          ]
+        },
+        {
+          "selector": "setSlot:",
+          "imp": "0xf8d0",
+          "end": "0xf8d8",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf8d0 str w2, [x0, #0xc]",
+            "0xf8d4 ret "
+          ]
+        },
+        {
+          "selector": "bundleID",
+          "imp": "0xf8d8",
+          "end": "0xf8e0",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf8d8 ldr x0, [x0, #0x10]",
+            "0xf8dc ret "
+          ]
+        },
+        {
+          "selector": "setBundleID:",
+          "imp": "0xf8e0",
+          "end": "0xf8e8",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf8e0 mov w3, #0x10",
+            "0xf8e4 b #0x56800"
+          ]
+        },
+        {
+          "selector": "vc",
+          "imp": "0xf8e8",
+          "end": "0xf8f0",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf8e8 ldr x0, [x0, #0x18]",
+            "0xf8ec ret "
+          ]
+        },
+        {
+          "selector": "setVc:",
+          "imp": "0xf8f0",
+          "end": "0xf920",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf8f0 stp x20, x19, [sp, #-0x20]!",
+            "0xf8f4 stp x29, x30, [sp, #0x10]",
+            "0xf8f8 add x29, sp, #0x10",
+            "0xf8fc mov x19, x2",
+            "0xf900 mov x20, x0",
+            "0xf904 mov x0, x2",
+            "0xf908 bl #0x567c4",
+            "0xf90c ldr x0, [x20, #0x18]",
+            "0xf910 str x19, [x20, #0x18]",
+            "0xf914 ldp x29, x30, [sp, #0x10]",
+            "0xf918 ldp x20, x19, [sp], #0x20",
+            "0xf91c b #0x567b8"
+          ]
+        },
+        {
+          "selector": "view",
+          "imp": "0xf920",
+          "end": "0xf928",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf920 ldr x0, [x0, #0x20]",
+            "0xf924 ret "
+          ]
+        },
+        {
+          "selector": "setView:",
+          "imp": "0xf928",
+          "end": "0xf958",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf928 stp x20, x19, [sp, #-0x20]!",
+            "0xf92c stp x29, x30, [sp, #0x10]",
+            "0xf930 add x29, sp, #0x10",
+            "0xf934 mov x19, x2",
+            "0xf938 mov x20, x0",
+            "0xf93c mov x0, x2",
+            "0xf940 bl #0x567c4",
+            "0xf944 ldr x0, [x20, #0x20]",
+            "0xf948 str x19, [x20, #0x20]",
+            "0xf94c ldp x29, x30, [sp, #0x10]",
+            "0xf950 ldp x20, x19, [sp], #0x20",
+            "0xf954 b #0x567b8"
+          ]
+        },
+        {
+          "selector": "host",
+          "imp": "0xf958",
+          "end": "0xf960",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf958 ldr x0, [x0, #0x28]",
+            "0xf95c ret "
+          ]
+        },
+        {
+          "selector": "setHost:",
+          "imp": "0xf960",
+          "end": "0xf990",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf960 stp x20, x19, [sp, #-0x20]!",
+            "0xf964 stp x29, x30, [sp, #0x10]",
+            "0xf968 add x29, sp, #0x10",
+            "0xf96c mov x19, x2",
+            "0xf970 mov x20, x0",
+            "0xf974 mov x0, x2",
+            "0xf978 bl #0x567c4",
+            "0xf97c ldr x0, [x20, #0x28]",
+            "0xf980 str x19, [x20, #0x28]",
+            "0xf984 ldp x29, x30, [sp, #0x10]",
+            "0xf988 ldp x20, x19, [sp], #0x20",
+            "0xf98c b #0x567b8"
+          ]
+        },
+        {
+          "selector": "handle",
+          "imp": "0xf990",
+          "end": "0xf998",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf990 ldr x0, [x0, #0x30]",
+            "0xf994 ret "
+          ]
+        },
+        {
+          "selector": "setHandle:",
+          "imp": "0xf998",
+          "end": "0xf9c8",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf998 stp x20, x19, [sp, #-0x20]!",
+            "0xf99c stp x29, x30, [sp, #0x10]",
+            "0xf9a0 add x29, sp, #0x10",
+            "0xf9a4 mov x19, x2",
+            "0xf9a8 mov x20, x0",
+            "0xf9ac mov x0, x2",
+            "0xf9b0 bl #0x567c4",
+            "0xf9b4 ldr x0, [x20, #0x30]",
+            "0xf9b8 str x19, [x20, #0x30]",
+            "0xf9bc ldp x29, x30, [sp, #0x10]",
+            "0xf9c0 ldp x20, x19, [sp], #0x20",
+            "0xf9c4 b #0x567b8"
+          ]
+        },
+        {
+          "selector": "bar",
+          "imp": "0xf9c8",
+          "end": "0xf9d0",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf9c8 ldr x0, [x0, #0x38]",
+            "0xf9cc ret "
+          ]
+        },
+        {
+          "selector": "setBar:",
+          "imp": "0xf9d0",
+          "end": "0xfa00",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xf9d0 stp x20, x19, [sp, #-0x20]!",
+            "0xf9d4 stp x29, x30, [sp, #0x10]",
+            "0xf9d8 add x29, sp, #0x10",
+            "0xf9dc mov x19, x2",
+            "0xf9e0 mov x20, x0",
+            "0xf9e4 mov x0, x2",
+            "0xf9e8 bl #0x567c4",
+            "0xf9ec ldr x0, [x20, #0x38]",
+            "0xf9f0 str x19, [x20, #0x38]",
+            "0xf9f4 ldp x29, x30, [sp, #0x10]",
+            "0xf9f8 ldp x20, x19, [sp], #0x20",
+            "0xf9fc b #0x567b8"
+          ]
+        },
+        {
+          "selector": "cover",
+          "imp": "0xfa00",
+          "end": "0xfa08",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfa00 ldr x0, [x0, #0x40]",
+            "0xfa04 ret "
+          ]
+        },
+        {
+          "selector": "setCover:",
+          "imp": "0xfa08",
+          "end": "0xfa38",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfa08 stp x20, x19, [sp, #-0x20]!",
+            "0xfa0c stp x29, x30, [sp, #0x10]",
+            "0xfa10 add x29, sp, #0x10",
+            "0xfa14 mov x19, x2",
+            "0xfa18 mov x20, x0",
+            "0xfa1c mov x0, x2",
+            "0xfa20 bl #0x567c4",
+            "0xfa24 ldr x0, [x20, #0x40]",
+            "0xfa28 str x19, [x20, #0x40]",
+            "0xfa2c ldp x29, x30, [sp, #0x10]",
+            "0xfa30 ldp x20, x19, [sp], #0x20",
+            "0xfa34 b #0x567b8"
+          ]
+        },
+        {
+          "selector": "loader",
+          "imp": "0xfa38",
+          "end": "0xfa40",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfa38 ldr x0, [x0, #0x48]",
+            "0xfa3c ret "
+          ]
+        },
+        {
+          "selector": "setLoader:",
+          "imp": "0xfa40",
+          "end": "0xfa70",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfa40 stp x20, x19, [sp, #-0x20]!",
+            "0xfa44 stp x29, x30, [sp, #0x10]",
+            "0xfa48 add x29, sp, #0x10",
+            "0xfa4c mov x19, x2",
+            "0xfa50 mov x20, x0",
+            "0xfa54 mov x0, x2",
+            "0xfa58 bl #0x567c4",
+            "0xfa5c ldr x0, [x20, #0x48]",
+            "0xfa60 str x19, [x20, #0x48]",
+            "0xfa64 ldp x29, x30, [sp, #0x10]",
+            "0xfa68 ldp x20, x19, [sp], #0x20",
+            "0xfa6c b #0x567b8"
+          ]
+        },
+        {
+          "selector": "popButton",
+          "imp": "0xfa70",
+          "end": "0xfa78",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfa70 ldr x0, [x0, #0x50]",
+            "0xfa74 ret "
+          ]
+        },
+        {
+          "selector": "setPopButton:",
+          "imp": "0xfa78",
+          "end": "0xfaa8",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfa78 stp x20, x19, [sp, #-0x20]!",
+            "0xfa7c stp x29, x30, [sp, #0x10]",
+            "0xfa80 add x29, sp, #0x10",
+            "0xfa84 mov x19, x2",
+            "0xfa88 mov x20, x0",
+            "0xfa8c mov x0, x2",
+            "0xfa90 bl #0x567c4",
+            "0xfa94 ldr x0, [x20, #0x50]",
+            "0xfa98 str x19, [x20, #0x50]",
+            "0xfa9c ldp x29, x30, [sp, #0x10]",
+            "0xfaa0 ldp x20, x19, [sp], #0x20",
+            "0xfaa4 b #0x567b8"
+          ]
+        },
+        {
+          "selector": "soloButton",
+          "imp": "0xfaa8",
+          "end": "0xfab0",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfaa8 ldr x0, [x0, #0x58]",
+            "0xfaac ret "
+          ]
+        },
+        {
+          "selector": "setSoloButton:",
+          "imp": "0xfab0",
+          "end": "0xfae0",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfab0 stp x20, x19, [sp, #-0x20]!",
+            "0xfab4 stp x29, x30, [sp, #0x10]",
+            "0xfab8 add x29, sp, #0x10",
+            "0xfabc mov x19, x2",
+            "0xfac0 mov x20, x0",
+            "0xfac4 mov x0, x2",
+            "0xfac8 bl #0x567c4",
+            "0xfacc ldr x0, [x20, #0x58]",
+            "0xfad0 str x19, [x20, #0x58]",
+            "0xfad4 ldp x29, x30, [sp, #0x10]",
+            "0xfad8 ldp x20, x19, [sp], #0x20",
+            "0xfadc b #0x567b8"
+          ]
+        },
+        {
+          "selector": "barTimer",
+          "imp": "0xfae0",
+          "end": "0xfae8",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfae0 ldr x0, [x0, #0x60]",
+            "0xfae4 ret "
+          ]
+        },
+        {
+          "selector": "setBarTimer:",
+          "imp": "0xfae8",
+          "end": "0xfb18",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfae8 stp x20, x19, [sp, #-0x20]!",
+            "0xfaec stp x29, x30, [sp, #0x10]",
+            "0xfaf0 add x29, sp, #0x10",
+            "0xfaf4 mov x19, x2",
+            "0xfaf8 mov x20, x0",
+            "0xfafc mov x0, x2",
+            "0xfb00 bl #0x567c4",
+            "0xfb04 ldr x0, [x20, #0x60]",
+            "0xfb08 str x19, [x20, #0x60]",
+            "0xfb0c ldp x29, x30, [sp, #0x10]",
+            "0xfb10 ldp x20, x19, [sp], #0x20",
+            "0xfb14 b #0x567b8"
+          ]
+        },
+        {
+          "selector": "picker",
+          "imp": "0xfb18",
+          "end": "0xfb20",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb18 ldr x0, [x0, #0x68]",
+            "0xfb1c ret "
+          ]
+        },
+        {
+          "selector": "setPicker:",
+          "imp": "0xfb20",
+          "end": "0xfb50",
+          "instruction_count": 12,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb20 stp x20, x19, [sp, #-0x20]!",
+            "0xfb24 stp x29, x30, [sp, #0x10]",
+            "0xfb28 add x29, sp, #0x10",
+            "0xfb2c mov x19, x2",
+            "0xfb30 mov x20, x0",
+            "0xfb34 mov x0, x2",
+            "0xfb38 bl #0x567c4",
+            "0xfb3c ldr x0, [x20, #0x68]",
+            "0xfb40 str x19, [x20, #0x68]",
+            "0xfb44 ldp x29, x30, [sp, #0x10]",
+            "0xfb48 ldp x20, x19, [sp], #0x20",
+            "0xfb4c b #0x567b8"
+          ]
+        },
+        {
+          "selector": "hostFrame",
+          "imp": "0xfb50",
+          "end": "0xfb5c",
+          "instruction_count": 3,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb50 ldp d0, d1, [x0, #0x80]",
+            "0xfb54 ldp d2, d3, [x0, #0x90]",
+            "0xfb58 ret "
+          ]
+        },
+        {
+          "selector": "setHostFrame:",
+          "imp": "0xfb5c",
+          "end": "0xfb68",
+          "instruction_count": 3,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb5c stp d0, d1, [x0, #0x80]",
+            "0xfb60 stp d2, d3, [x0, #0x90]",
+            "0xfb64 ret "
+          ]
+        },
+        {
+          "selector": "hostHandle",
+          "imp": "0xfb68",
+          "end": "0xfb70",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb68 ldrb w0, [x0, #8]",
+            "0xfb6c ret "
+          ]
+        },
+        {
+          "selector": "setHostHandle:",
+          "imp": "0xfb70",
+          "end": "0xfb78",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb70 strb w2, [x0, #8]",
+            "0xfb74 ret "
+          ]
+        },
+        {
+          "selector": "hostBar",
+          "imp": "0xfb78",
+          "end": "0xfb80",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb78 ldrb w0, [x0, #9]",
+            "0xfb7c ret "
+          ]
+        },
+        {
+          "selector": "setHostBar:",
+          "imp": "0xfb80",
+          "end": "0xfb88",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb80 strb w2, [x0, #9]",
+            "0xfb84 ret "
+          ]
+        },
+        {
+          "selector": "hostHole",
+          "imp": "0xfb88",
+          "end": "0xfb94",
+          "instruction_count": 3,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb88 ldp d0, d1, [x0, #0xa0]",
+            "0xfb8c ldp d2, d3, [x0, #0xb0]",
+            "0xfb90 ret "
+          ]
+        },
+        {
+          "selector": "setHostHole:",
+          "imp": "0xfb94",
+          "end": "0xfba0",
+          "instruction_count": 3,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfb94 stp d0, d1, [x0, #0xa0]",
+            "0xfb98 stp d2, d3, [x0, #0xb0]",
+            "0xfb9c ret "
+          ]
+        },
+        {
+          "selector": "sceneSize",
+          "imp": "0xfba0",
+          "end": "0xfba8",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfba0 ldp d0, d1, [x0, #0x70]",
+            "0xfba4 ret "
+          ]
+        },
+        {
+          "selector": "setSceneSize:",
+          "imp": "0xfba8",
+          "end": "0xfbb0",
+          "instruction_count": 2,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfba8 stp d0, d1, [x0, #0x70]",
+            "0xfbac ret "
+          ]
+        },
+        {
+          "selector": ".cxx_destruct",
+          "imp": "0xfbb0",
+          "end": "0xfc58",
+          "instruction_count": 42,
+          "cfstrings": [],
+          "leading_arm64": [
+            "0xfbb0 stp x20, x19, [sp, #-0x20]!",
+            "0xfbb4 stp x29, x30, [sp, #0x10]",
+            "0xfbb8 add x29, sp, #0x10",
+            "0xfbbc mov x19, x0",
+            "0xfbc0 add x0, x0, #0x68",
+            "0xfbc4 mov x1, #0",
+            "0xfbc8 bl #0x5680c",
+            "0xfbcc add x0, x19, #0x60",
+            "0xfbd0 mov x1, #0",
+            "0xfbd4 bl #0x5680c",
+            "0xfbd8 add x0, x19, #0x58",
+            "0xfbdc mov x1, #0",
+            "0xfbe0 bl #0x5680c",
+            "0xfbe4 add x0, x19, #0x50",
+            "0xfbe8 mov x1, #0",
+            "0xfbec bl #0x5680c"
+          ]
+        }
+      ]
+    },
+    "SCPCarSplit": {
+      "num_methods": 9,
+      "methods": [
+        {
+          "selector": "openApp:slot:",
+          "imp": "0x164d4",
+          "end": "0x16e04",
+          "instruction_count": 588,
+          "cfstrings": [
+            {
+              "at": "0x165a4",
+              "value": "CarSplit: %@ khong co giao dien CarPlay -> bo qua"
+            },
+            {
+              "at": "0x165bc",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x165dc",
+              "value": "This app doesn't support CarPlay"
+            },
+            {
+              "at": "0x16658",
+              "value": "This pane is pinned"
+            },
+            {
+              "at": "0x166cc",
+              "value": "%@ is already open in %@"
+            },
+            {
+              "at": "0x16718",
+              "value": "the floating window"
+            },
+            {
+              "at": "0x16740",
+              "value": "CarSplit: o %d dang ghim -> mo %@ vao o %d"
+            },
+            {
+              "at": "0x16758",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x16880",
+              "value": "another pane"
+            },
+            {
+              "at": "0x16a20",
+              "value": "CarSplit: mo %@ vao ngan %d sau %.1fs (launchInfo=%@)"
+            },
+            {
+              "at": "0x16a38",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x16b00",
+              "value": "Couldn't open %@ in the pane"
+            }
+          ],
+          "leading_arm64": [
+            "0x164d4 sub sp, sp, #0xf0",
+            "0x164d8 stp d9, d8, [sp, #0x80]",
+            "0x164dc stp x28, x27, [sp, #0x90]",
+            "0x164e0 stp x26, x25, [sp, #0xa0]",
+            "0x164e4 stp x24, x23, [sp, #0xb0]",
+            "0x164e8 stp x22, x21, [sp, #0xc0]",
+            "0x164ec stp x20, x19, [sp, #0xd0]",
+            "0x164f0 stp x29, x30, [sp, #0xe0]",
+            "0x164f4 add x29, sp, #0xe0",
+            "0x164f8 mov x23, x3",
+            "0x164fc mov x19, x2",
+            "0x16500 mov x21, x0",
+            "0x16504 adrp x8, #0x78000",
+            "0x16508 ldr x8, [x8, #0x360]",
+            "0x1650c ldr x8, [x8]",
+            "0x16510 stur x8, [x29, #-0x68]"
+          ]
+        },
+        {
+          "selector": "sendLaunch:bundle:tries:",
+          "imp": "0x16e04",
+          "end": "0x1734c",
+          "instruction_count": 338,
+          "cfstrings": [
+            {
+              "at": "0x16e80",
+              "value": "currentBaseViewController"
+            },
+            {
+              "at": "0x16ebc",
+              "value": "currentBaseViewController"
+            },
+            {
+              "at": "0x16ff4",
+              "value": "CarSplit: DashBoard con trinh bay %@ -> doi ve Home xong roi moi mo %@"
+            },
+            {
+              "at": "0x1700c",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x170b4",
+              "value": "CarSplit: DashBoard van trinh bay %@ sau 3s -> mo %@ luon"
+            },
+            {
+              "at": "0x170cc",
+              "value": "SplitScreen"
+            }
+          ],
+          "leading_arm64": [
+            "0x16e04 sub sp, sp, #0x1e0",
+            "0x16e08 stp x28, x27, [sp, #0x180]",
+            "0x16e0c stp x26, x25, [sp, #0x190]",
+            "0x16e10 stp x24, x23, [sp, #0x1a0]",
+            "0x16e14 stp x22, x21, [sp, #0x1b0]",
+            "0x16e18 stp x20, x19, [sp, #0x1c0]",
+            "0x16e1c stp x29, x30, [sp, #0x1d0]",
+            "0x16e20 add x29, sp, #0x1d0",
+            "0x16e24 mov x22, x4",
+            "0x16e28 mov x20, x3",
+            "0x16e2c mov x23, x0",
+            "0x16e30 adrp x8, #0x78000",
+            "0x16e34 ldr x8, [x8, #0x360]",
+            "0x16e38 ldr x8, [x8]",
+            "0x16e3c stur x8, [x29, #-0x68]",
+            "0x16e40 str x2, [sp, #0x20]"
+          ]
+        },
+        {
+          "selector": "adopt:slot:",
+          "imp": "0x1942c",
+          "end": "0x19e04",
+          "instruction_count": 630,
+          "cfstrings": [
+            {
+              "at": "0x194a8",
+              "value": "applicationInfo"
+            },
+            {
+              "at": "0x194fc",
+              "value": "CarSplit: bo qua dua VC vao o %d (chi co %d o)"
+            },
+            {
+              "at": "0x19518",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x19534",
+              "value": "applicationInfo"
+            },
+            {
+              "at": "0x1955c",
+              "value": "proxyApplicationInfo"
+            },
+            {
+              "at": "0x19598",
+              "value": "proxyApplicationInfo"
+            },
+            {
+              "at": "0x19b08",
+              "value": "CarSplit: dua %@ (%@) vao o %d"
+            },
+            {
+              "at": "0x19b24",
+              "value": "SplitScreen"
+            }
+          ],
+          "leading_arm64": [
+            "0x1942c sub sp, sp, #0x1f0",
+            "0x19430 stp d11, d10, [sp, #0x170]",
+            "0x19434 stp d9, d8, [sp, #0x180]",
+            "0x19438 stp x28, x27, [sp, #0x190]",
+            "0x1943c stp x26, x25, [sp, #0x1a0]",
+            "0x19440 stp x24, x23, [sp, #0x1b0]",
+            "0x19444 stp x22, x21, [sp, #0x1c0]",
+            "0x19448 stp x20, x19, [sp, #0x1d0]",
+            "0x1944c stp x29, x30, [sp, #0x1e0]",
+            "0x19450 add x29, sp, #0x1e0",
+            "0x19454 mov x20, x3",
+            "0x19458 mov x19, x0",
+            "0x1945c adrp x8, #0x78000",
+            "0x19460 ldr x8, [x8, #0x360]",
+            "0x19464 ldr x8, [x8]",
+            "0x19468 stur x8, [x29, #-0x80]"
+          ]
+        },
+        {
+          "selector": "sceneOfViewController:",
+          "imp": "0x1aaf4",
+          "end": "0x1ad58",
+          "instruction_count": 153,
+          "cfstrings": [
+            {
+              "at": "0x1ac64",
+              "value": "sceneHandle"
+            },
+            {
+              "at": "0x1ac84",
+              "value": "scene"
+            }
+          ],
+          "leading_arm64": [
+            "0x1aaf4 stp x20, x19, [sp, #-0x20]!",
+            "0x1aaf8 stp x29, x30, [sp, #0x10]",
+            "0x1aafc add x29, sp, #0x10",
+            "0x1ab00 mov x19, x2",
+            "0x1ab04 mov x0, x2",
+            "0x1ab08 bl #0x567c4",
+            "0x1ab0c adrp x8, #0x87000",
+            "0x1ab10 ldr x0, [x8, #0x6a0]",
+            "0x1ab14 bl #0x5677c",
+            "0x1ab18 mov x1, x0",
+            "0x1ab1c mov x0, x19",
+            "0x1ab20 bl #0x56788",
+            "0x1ab24 tbz w0, #0, #0x1ab40",
+            "0x1ab28 mov x0, x19",
+            "0x1ab2c bl #0x1ab70",
+            "0x1ab30 mov x29, x29"
+          ]
+        },
+        {
+          "selector": "scene:destroyedForViewController:ownScene:",
+          "imp": "0x1ad58",
+          "end": "0x1b328",
+          "instruction_count": 372,
+          "cfstrings": [
+            {
+              "at": "0x1aec4",
+              "value": "CarSplit: scene cua %@ bi huy (app thoat/crash) -> dong ngan %d"
+            },
+            {
+              "at": "0x1aedc",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x1afc4",
+              "value": "CarSplit: scene %@ bi huy khong phai cua %@ (%@) -> giu ngan %d"
+            },
+            {
+              "at": "0x1afdc",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x1b154",
+              "value": "identifier"
+            },
+            {
+              "at": "0x1b178",
+              "value": "identifier"
+            },
+            {
+              "at": "0x1b1b4",
+              "value": "identifier"
+            }
+          ],
+          "leading_arm64": [
+            "0x1ad58 sub sp, sp, #0x1c0",
+            "0x1ad5c stp d9, d8, [sp, #0x150]",
+            "0x1ad60 stp x28, x27, [sp, #0x160]",
+            "0x1ad64 stp x26, x25, [sp, #0x170]",
+            "0x1ad68 stp x24, x23, [sp, #0x180]",
+            "0x1ad6c stp x22, x21, [sp, #0x190]",
+            "0x1ad70 stp x20, x19, [sp, #0x1a0]",
+            "0x1ad74 stp x29, x30, [sp, #0x1b0]",
+            "0x1ad78 add x29, sp, #0x1b0",
+            "0x1ad7c mov x19, x4",
+            "0x1ad80 str x4, [sp, #0x28]",
+            "0x1ad84 mov x20, x3",
+            "0x1ad88 mov x21, x0",
+            "0x1ad8c adrp x8, #0x78000",
+            "0x1ad90 ldr x8, [x8, #0x360]",
+            "0x1ad94 ldr x8, [x8]"
+          ]
+        },
+        {
+          "selector": "pushSceneSizes",
+          "imp": "0x1c550",
+          "end": "0x1cce0",
+          "instruction_count": 484,
+          "cfstrings": [
+            {
+              "at": "0x1c6e4",
+              "value": "CarSplit: scene %@ -> %@"
+            },
+            {
+              "at": "0x1c6fc",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x1c738",
+              "value": "foregroundSceneWithSettings:completion:"
+            },
+            {
+              "at": "0x1c874",
+              "value": "CarSplit: foregroundScene loi %@"
+            },
+            {
+              "at": "0x1c88c",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x1ca04",
+              "value": "sceneHostView"
+            },
+            {
+              "at": "0x1ca40",
+              "value": "sceneHostView"
+            },
+            {
+              "at": "0x1cb5c",
+              "value": "CarSplit: sceneHostView %@ -> %@"
+            },
+            {
+              "at": "0x1cb78",
+              "value": "SplitScreen"
+            }
+          ],
+          "leading_arm64": [
+            "0x1c550 sub sp, sp, #0x1e0",
+            "0x1c554 stp d13, d12, [sp, #0x150]",
+            "0x1c558 stp d11, d10, [sp, #0x160]",
+            "0x1c55c stp d9, d8, [sp, #0x170]",
+            "0x1c560 stp x28, x27, [sp, #0x180]",
+            "0x1c564 stp x26, x25, [sp, #0x190]",
+            "0x1c568 stp x24, x23, [sp, #0x1a0]",
+            "0x1c56c stp x22, x21, [sp, #0x1b0]",
+            "0x1c570 stp x20, x19, [sp, #0x1c0]",
+            "0x1c574 stp x29, x30, [sp, #0x1d0]",
+            "0x1c578 add x29, sp, #0x1d0",
+            "0x1c57c mov x20, x0",
+            "0x1c580 adrp x8, #0x78000",
+            "0x1c584 ldr x8, [x8, #0x360]",
+            "0x1c588 ldr x8, [x8]",
+            "0x1c58c stur x8, [x29, #-0x90]"
+          ]
+        },
+        {
+          "selector": "verifySceneOfPane:expected:retry:",
+          "imp": "0x1cce0",
+          "end": "0x1d494",
+          "instruction_count": 493,
+          "cfstrings": [
+            {
+              "at": "0x1cd9c",
+              "value": "settings"
+            },
+            {
+              "at": "0x1cdc0",
+              "value": "settings"
+            },
+            {
+              "at": "0x1cdfc",
+              "value": "settings"
+            },
+            {
+              "at": "0x1ce5c",
+              "value": "frame"
+            },
+            {
+              "at": "0x1ce80",
+              "value": "frame"
+            },
+            {
+              "at": "0x1cf00",
+              "value": "CarSplit: khong doc duoc kich thuoc scene %@"
+            },
+            {
+              "at": "0x1cf1c",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x1cfd4",
+              "value": " -> van sai"
+            },
+            {
+              "at": "0x1cfdc",
+              "value": " -> ve nen roi len lai"
+            },
+            {
+              "at": "0x1d004",
+              "value": "CarSplit: scene %@ that = %@ (can %@)%@"
+            },
+            {
+              "at": "0x1d020",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x1d084",
+              "value": "backgroundSceneWithCompletion:"
+            },
+            {
+              "at": "0x1d19c",
+              "value": "CarSplit: background loi %@"
+            },
+            {
+              "at": "0x1d1b8",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x1d2fc",
+              "value": "foregroundSceneWithSettings:completion:"
+            },
+            {
+              "at": "0x1d3d4",
+              "value": "CarSplit: foregroundScene loi %@"
+            },
+            {
+              "at": "0x1d3f0",
+              "value": "SplitScreen"
+            }
+          ],
+          "leading_arm64": [
+            "0x1cce0 sub sp, sp, #0xf0",
+            "0x1cce4 stp d11, d10, [sp, #0x70]",
+            "0x1cce8 stp d9, d8, [sp, #0x80]",
+            "0x1ccec stp x28, x27, [sp, #0x90]",
+            "0x1ccf0 stp x26, x25, [sp, #0xa0]",
+            "0x1ccf4 stp x24, x23, [sp, #0xb0]",
+            "0x1ccf8 stp x22, x21, [sp, #0xc0]",
+            "0x1ccfc stp x20, x19, [sp, #0xd0]",
+            "0x1cd00 stp x29, x30, [sp, #0xe0]",
+            "0x1cd04 add x29, sp, #0xe0",
+            "0x1cd08 mov x21, x3",
+            "0x1cd0c mov v8.16b, v1.16b",
+            "0x1cd10 mov v9.16b, v0.16b",
+            "0x1cd14 mov x19, x2",
+            "0x1cd18 mov x20, x0",
+            "0x1cd1c mov x0, x2"
+          ]
+        },
+        {
+          "selector": "closeSlot:background:",
+          "imp": "0x1d9b8",
+          "end": "0x1db48",
+          "instruction_count": 100,
+          "cfstrings": [
+            {
+              "at": "0x1da94",
+              "value": "CarSplit: dong o %d (%@), con %d o"
+            },
+            {
+              "at": "0x1dab0",
+              "value": "SplitScreen"
+            }
+          ],
+          "leading_arm64": [
+            "0x1d9b8 sub sp, sp, #0x60",
+            "0x1d9bc stp x24, x23, [sp, #0x20]",
+            "0x1d9c0 stp x22, x21, [sp, #0x30]",
+            "0x1d9c4 stp x20, x19, [sp, #0x40]",
+            "0x1d9c8 stp x29, x30, [sp, #0x50]",
+            "0x1d9cc add x29, sp, #0x50",
+            "0x1d9d0 mov x22, x3",
+            "0x1d9d4 mov x19, x0",
+            "0x1d9d8 cmp w2, #9",
+            "0x1d9dc b.ne #0x1da00",
+            "0x1d9e0 mov x0, x19",
+            "0x1d9e4 mov x2, x22",
+            "0x1d9e8 ldp x29, x30, [sp, #0x50]",
+            "0x1d9ec ldp x20, x19, [sp, #0x40]",
+            "0x1d9f0 ldp x22, x21, [sp, #0x30]",
+            "0x1d9f4 ldp x24, x23, [sp, #0x20]"
+          ]
+        },
+        {
+          "selector": "hostApp:inPane:",
+          "imp": "0x3e490",
+          "end": "0x3ebd0",
+          "instruction_count": 464,
+          "cfstrings": [
+            {
+              "at": "0x3e6f4",
+              "value": "AppBridge: host %@ vao o %d"
+            },
+            {
+              "at": "0x3e710",
+              "value": "SplitScreen"
+            },
+            {
+              "at": "0x3ea84",
+              "value": "com.anlai.omnicar/appbridge.open"
+            }
+          ],
+          "leading_arm64": [
+            "0x3e490 sub sp, sp, #0xf0",
+            "0x3e494 stp d11, d10, [sp, #0x90]",
+            "0x3e498 stp d9, d8, [sp, #0xa0]",
+            "0x3e49c stp x24, x23, [sp, #0xb0]",
+            "0x3e4a0 stp x22, x21, [sp, #0xc0]",
+            "0x3e4a4 stp x20, x19, [sp, #0xd0]",
+            "0x3e4a8 stp x29, x30, [sp, #0xe0]",
+            "0x3e4ac add x29, sp, #0xe0",
+            "0x3e4b0 mov x19, x3",
+            "0x3e4b4 mov x20, x2",
+            "0x3e4b8 mov x22, x0",
+            "0x3e4bc mov x0, x2",
+            "0x3e4c0 bl #0x567c4",
+            "0x3e4c4 mov x0, x19",
+            "0x3e4c8 bl #0x567c4",
+            "0x3e4cc mov x0, x19"
+          ]
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Original method names and literals prove code, not live CarPlay map scene ownership",
+    "No copying original binary, methods or licensing into DuoFace",
+    "Native CPWindow reuse must be proven before changing app scene lifecycle",
+    "No speculative map zoom"
+  ]
+}
