@@ -7,6 +7,8 @@ on:
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeSceneTimeline.h'
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeMapPaneAssessment.h'
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.h'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_map_viewport_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_map_pane_assessment_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_scene_timeline_runtime.m'
@@ -59,6 +61,13 @@ jobs:
             -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
             -Wno-deprecated-declarations \
             sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+          # Staged same-process UIKit controller binder; no current runtime caller.
+          xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
+            -Wno-deprecated-declarations \
+            sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.m
+          echo DUOFACE_NATIVE_MAPS_STAGED_SAME_PROCESS_CONTAINMENT_SYNTAX_PASS_NO_DEVICE_TEST
           SOURCE='53781cca1ca9285975394754ac9080ca35b57cda'
           git diff --exit-code "$SOURCE" HEAD -- \
             sideplay/duoface-native-scene-host/DFYouTubeOrientationVirtualization.m \
