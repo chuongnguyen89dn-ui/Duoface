@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-10-29 DuoFace .94 iPhone Apps Manager — signed QA archive, Sileo/device unverified
+
+CI run `40786398702` source `a1c260e15a24c2c3b3bc833ae74b89493af0e271`; independent single rootless DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40786398702/com.duoface.jb.embedded_0.0.94~phoneapps1_iphoneos-arm64.deb`; SHA256 `df3a87256e0ed0f8086df77d3eae1a78af8d2392c61286c7c79bc05c894e3be7`.
+Actual macOS multi-module build, unit tests, iOS16 app compile, ldid, dpkg and immutable provenance: `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398702`.
+New own `DFEnabledAppsPolicy.h` + iPhone tab app switches + Recommended/All/None + CarPlay single-per-slot allowlist, prefs atomic write/readback and notify hot reload. Based on Native12 original 12+22 method audit and DuoDash 1.1.3 read-only binary evidence; OmniCar original did NOT establish the equivalent phone manager. No vendor license/DEB reused. .90 user-confirmed YouTube, .92 logo, Apple Dock and experimental Maps unchanged.
+No device test or Sileo delivery is implied by this archive. Next verify pinned publisher APT+DEB remote checksum, then parked iPhone/CarPlay UI regression.
+
+---
 ## CHECKPOINT 2026-10-29: .94 phone Apps Manager signed package requested
 
 - SOURCE TEST VERIFIED: 40786223749 SUCCESS (macOS Foundation preference runtime, full Python source regressions, iOS16 arm64 syntax, YouTube ABI); source-only iPhone Apps Manager is not yet device-tested.
