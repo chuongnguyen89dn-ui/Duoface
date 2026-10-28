@@ -1,0 +1,59 @@
+name: DuoFace correct exact original-audit run link in handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - .github/workflows/duoface-native12-fix-audit-runlink-20261028.yml
+permissions:
+  contents: write
+jobs:
+  correct-verified-run-link:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Repair placeholder in existing GitHub handoff and verify readback
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          BAD='https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/$GITHUB_RUN_ID'
+          GOOD='https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40667408008'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1])
+          old=p.read_text(encoding="utf8")
+          bad="https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/$GITHUB_RUN_ID"
+          good="https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40667408008"
+          if bad in old:
+              assert old.count(bad)==1
+              new=old.replace(bad,good,1)
+              p.write_text(new,encoding="utf8")
+              assert p.read_text(encoding="utf8")==new
+          else:
+              assert good in old
+          print("NATIVE12_ORIGINAL_HOOK_RUN_ID_ACCURATE_READBACK")
+          PY
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if git -C "$TEMP" diff --quiet -- 'sideplay/tiep tuc du an.md'; then
+              git worktree remove --force "$TEMP"
+              echo 'RUN_LINK_ALREADY_CORRECT'
+              exit 0
+            fi
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            git -C "$TEMP" commit -m 'handoff: correct verified original Native12 callback audit run ID [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              git fetch --no-tags origin "$BRANCH"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$GOOD"
+              echo 'NATIVE12_AUDIT_RUN_ID_GITHUB_PERSISTED_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
