@@ -12,10 +12,13 @@ class YoutubeSplitFeedback089(unittest.TestCase):
         self.assertIn('![state[@"version"] isEqual:@2]',header)
         self.assertIn('!DFYTNumber(state[@"isSplit"])',header)
         self.assertIn('@"isSplit":@(twoPanes)',host)
-        self.assertIn('other.window==self.window',host)
-        self.assertIn('other!=self && !other.stopped && other.ready',host)
+        self.assertIn('self.splitUIVisible',host)
+        self.assertIn('setSplitMode:(BOOL)isSplit forHostedView:(UIView *)view',host)
+        chrome=read("DFNative12Chrome.m")
+        self.assertIn('activeSlots>1 && self.focus<0 && !self.startupActive',chrome)
+        self.assertIn('[DFSceneHost sharedHost] setSplitMode:',chrome)
+        self.assertIn('self.hostedScenes[(NSUInteger)i]',chrome)
         self.assertIn('@"isSplit":@YES',runtime)
-        self.assertIn('![state[@"owner"]',header) if False else None
         self.assertIn('DFYTValidState(state,now)',host)
         self.assertIn('DFYTShouldAccept(state,self.state',read("DFYouTubeOrientationRelay.m"))
     def test_real_scene_controller_mismatch_drives_bounded_public_uikit(self):
