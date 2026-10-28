@@ -1,0 +1,28 @@
+# Native Google Maps trong ô DuoFace — thực thi Stage 1 có bằng chứng, 28/10/2026
+
+## Đích cuối
+- Dùng bản đồ Google/Apple Maps **CarPlay native** thật (map tiles), không lấy iPhone MainDisplay scene rồi zoom, **không cần tắt Google Maps trong iPhone CarPlay Customize**, không ngắt lộ trình đang dẫn đường.
+- Một ô native Maps + một ô YouTube AppBridge là đủ; không yêu cầu tạo hai CarPlay Maps FBScene.
+- Phục hồi được swap/solo/ratio, system Dock không bị cắt. Giữ nguyên sáu file .90 player/scene/Chrome/Dock đã được người dùng xác nhận YouTube xoay đúng.
+
+## Code ĐÃ ghi vào DuoFace (không vendor license / binary)
+1. `sideplay/native-carplay-scene-v1/DFCarPlayNativeMapPaneAssessment.h` — first-party pure Foundation fail-closed. Nhận bản ghi app scene thật `DBApplicationSceneViewController` ↔ FBScene appBundle exact CarPlay role, `sceneHostView` và `UIWindow` thực; phân biệt native Google/Apple Maps/Waze với Dashboard map widgets, scene fallback và DuoFace scene; **không đòi hai Maps native**. Nhận riêng heartbeat từ SpringBoard DuoFace session, xác thực UUID + Version 1 + Active YES + Timestamp ≤2,5 giây. Kết luận candidate khi có **một** native map/window duy nhất, complete scan, session phone DuoFace vẫn hoạt động; *không* tự khẳng định video YouTube đang chạy.
+2. `sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m` — integrated observer trong `DFCarPlayDockOwner.dylib` CarPlayApp đã có đường build: JSONL **schema 4** thêm `nativeMapPaneAssessment`. Ghi read-only `sceneHostViewSuperviewClass`, `sceneHostViewWindowClass`, native host/window bounds, hidden/alpha và short-lived phone session; không đọc account hay dẫn đường. Không gọi lifecycle mutator, không thay native Dock, không mở/tắt Maps, không reparent.
+3. `sideplay/native-carplay-scene-v1/tests/native_carplay_map_pane_assessment_runtime.m` — Foundation executable replay đại diện Google Maps owner #41–42, và same-VC DuoFace #43–44. Kiểm fresh/stale session, widget fake, mismatch app↔scene, missing native UIWindow, incomplete scan, hai owner maps, cả hai không được cấp attach.
+4. `.github/workflows/duoface-native-carplay-scene-identity-source-20261028.yml` — macOS/Foundation run và iOS16 ARM64 source syntax, giữ nguyên 6 source .90 byte-for-byte theo tag SHA; kết quả [40683916600](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40683916600) job `122801312880` **SUCCESS**; log `DUOFACE_ONE_NATIVE_MAP_PLUS_PHONE_SCENE_JOIN_ASSESSMENT_PASS_NO_ATTACH`, `DUOFACE_090_WORKING_ORIENTATION_CHROME_MAPS_DOCK_BASELINE_UNCHANGED_PASS`.
+5. `.github/workflows/duoface-live-map-owner-probe-v6.yml` — fix xung đột nhị phân cũ trong cùng path output. Build read-only DEB giữ version `0.0.5~mapowner2`, binary archive **theo run_id/run_attempt** tại `sideplay/test-artifacts/native-map-owner-v7/runs/<run_id>-<attempt>/`, không force-push/xóa artifact khác. CI đang chạy tại mốc viết báo cáo: [40683887982](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40683887982); **không kết luận package DONE** cho tới khi run và blob được xác nhận.
+
+## Cách đọc candidate đúng
+- `one-native-map-plus-phone-session-candidate`: có chứng cứ đang tồn tại native Maps FBScene/window do CarPlayApp host + heartbeat DuoFace SpringBoard; **KHÔNG chứng minh bản đồ đã vẽ trong ô DuoFace** hay nội dung video đang phát, và không là quyền mượn native scene.
+- `native-map-not-observed-duoface-scene-present`: Dashboard controller đã chuyển sang scene DuoFace, như log cũ #43–44; không kết luận Maps đã bị terminate.
+- `nativeMapTilesRendered=false`, `navigationContinuityProven=false`, `canAttachPane=false` luôn là giá trị bảo toàn an toàn ở Stage 1. Chỉ sau thử thực tế trên xe được cập nhật bằng nguồn bằng chứng, **không bật cờ bằng giả định**.
+
+## Chênh lệch CẦN GIẢI QUYẾT để có bản đồ thực
+- OmniCar original `isCarPlayApp:` → `adoptViewController:` / `adopt:slot:` → `sceneOfViewController:` → `pushSceneSizes` dùng native `DBApplicationSceneViewController`/FBScene trong CarPlayApp. AppBridge chỉ dành iPhone app.
+- DuoFace .90 `DFNative12Chrome.m` chọn app qua `DFSceneHost.hostViewForBundleID:`, còn `DFSceneHost.m` tự tạo `SBDeviceApplicationSceneEntity initWithApplicationForMainDisplay:` trong SpringBoard. Hai bên là **hai tiến trình**, không thể chỉ `addSubview:` một `UIView` thuộc CarPlayApp vào pane SpringBoard. Đây là điểm cần một native-owned split compositor + phone scene visual lease đã được xác minh.
+- **Gate kế tiếp:** log schema 4 từ máy khi Google Maps native đang hiển thị và DuoFace phone split session active (Maps vẫn enabled trong CarPlay Customize); lấy đủ owner/window/host/parent hierarchy và quá trình chuyển Home, kể cả session heartbeat. Nếu có bằng chứng hỗ trợ một native Maps host + một phone YouTube remote-surface, mới triển khai source adapter độc lập vào CarPlayApp; không clone/steal `CPWindow`, không gọi `foregroundSceneWithSettings:`/background bừa bãi.
+- Sau khi có native renderer thật, đóng gói **một DuoFace DEB rootless và xuất qua Sileo**; QA trên xe đang đỗ. Bản build chẩn đoán là read-only, không đại diện renderer.
+
+## Mức xác minh
+- **ĐÃ XÁC MINH:** first-party code commit, Foundation executable success, iOS16 ARM64 syntax success, .90 source guard success. Data từ original OmniCar pinned SHA + log thật 46 snapshots.
+- **CHƯA XÁC MINH:** code mới chạy trên iPhone, Maps tiles trong một ô, continuity của guidance, hay DEB mới trên Sileo. Không được báo là thành công.
