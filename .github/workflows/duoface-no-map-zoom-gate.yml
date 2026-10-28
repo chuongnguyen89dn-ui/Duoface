@@ -1,0 +1,35 @@
+name: DuoFace native map owner correction — no synthetic zoom gate
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/duoface-native-scene-host/DFHostedMapRenderSize.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_omnicar_maps_085.py'
+      - 'sideplay/duoface-native-scene-host/tests/map_render_profile_runtime.m'
+      - '.github/workflows/duoface-no-map-zoom-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-unchanged-map-scene-geometry:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source and lifecycle regression suites (all)
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_*.py' -v
+      - name: Compiled exact pre-.85 iPhone viewport invariant, no map zoom
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I . tests/map_render_profile_runtime.m -o "$RUNNER_TEMP/map-no-zoom-runtime"
+          "$RUNNER_TEMP/map-no-zoom-runtime"
+      - name: Preserve .83 manual scene callback runtime behavior
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -Wl,-export_dynamic -I . tests/scene_lifecycle_runtime.m DFSceneLifecycle.m -o "$RUNNER_TEMP/manual-scene-runtime"
+          "$RUNNER_TEMP/manual-scene-runtime"
