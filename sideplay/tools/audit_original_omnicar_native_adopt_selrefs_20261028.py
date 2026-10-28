@@ -132,5 +132,9 @@ def main():
     print("OMNICAR_SELREF",method,value["imp"],value["selector_count"],
           "objc_stub_calls",value["resolved_stub_count"],
           ",".join(x["selector"] for x in value["resolved_objc_stub_calls"][:24]))
+    if method in ("adopt:slot:","adoptViewController:","pushSceneSizes",
+                  "detachVC:background:","scene:destroyedForViewController:ownScene:"):
+        print("OMNICAR_OWNER_FULL_CHAIN",method," | ".join(
+            x["call_pc"]+":"+x["selector"] for x in value["resolved_objc_stub_calls"]))
  print("OMNICAR_ORIGINAL_NATIVE_ADOPT_SELREF_AUDIT_PASS",result["target_count"])
 if __name__=="__main__":main()
