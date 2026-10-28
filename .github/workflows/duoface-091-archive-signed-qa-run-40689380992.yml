@@ -31,7 +31,11 @@ jobs:
           ROOT="$RUNNER_TEMP/already-signed"
           DEB="$(find "$ROOT" -type f -name 'com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb' -print -quit)"
           test -s "$DEB"
-          test "$(find "$ROOT" -type f -name 'com.duoface.jb.embedded_*.deb' | wc -l | tr -d ' ')" = 1
+          # The original upload step included ALL existing historical .deb
+          # files under packages/*.deb. Select ONLY the pinned signed .91;
+          # never require old rollback builds to disappear from the ZIP.
+          find "$ROOT" -type f -name 'com.duoface.jb.embedded_*.deb' -printf '%f\\n'
+          test "$(find "$ROOT" -type f -name 'com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb' | wc -l | tr -d ' ')" = 1
           EXPECT='e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741'
           printf '%s  %s\n' "$EXPECT" "$DEB" | sha256sum -c -
           test "$(dpkg-deb -f "$DEB" Package)" = com.duoface.jb.embedded
