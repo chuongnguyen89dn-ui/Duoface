@@ -30,6 +30,18 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$DOCK_DYLIB" DFCarPlayDockOwner.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
+# User-opted-in in-process native Maps scene UIKit container. Default idle;
+# never touch SpringBoard/Dock or run until an explicit iPhone action.
+MAP_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib"
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \\
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \\
+  -framework UIKit -framework Foundation -framework CoreGraphics \\
+  -o "$MAP_DYLIB" ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.m \\
+  ../native-carplay-scene-v1/DFNativeMapPaneAdapter.m
+cp ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.plist \\
+  "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.plist"
+ldid -S "$MAP_DYLIB"
+
 # YouTube-only first-party receiver; same integrated DEB, no additional app.
 YT_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
@@ -68,6 +80,6 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.99~nativegetters1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.100~nativemapqa1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
