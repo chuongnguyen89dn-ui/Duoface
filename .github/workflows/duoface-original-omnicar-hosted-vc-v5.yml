@@ -1,0 +1,67 @@
+name: DuoFace original OmniCar V5 CarPlay hosted view-controller and pane class audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/tools/audit_original_omnicar_hosted_vc_v5.py'
+      - '.github/workflows/duoface-original-omnicar-hosted-vc-v5.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-omnicar-hosted-vc-v5
+  cancel-in-progress: false
+jobs:
+  original-class-pipeline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned ARM64 decoder
+        run: python3 -m pip install --break-system-packages capstone==5.0.7
+      - name: Fetch SHA verified original OmniCar 1.0.3, enumerate hosting controllers
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/main/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/original.deb"
+          echo 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' " $RUNNER_TEMP/original.deb" | sha256sum -c -
+          python3 sideplay/tools/audit_original_omnicar_hosted_vc_v5.py --deb "$RUNNER_TEMP/original.deb" --out "$RUNNER_TEMP/OMNICAR_HOSTED_VC_V5.json"
+          python3 - "$RUNNER_TEMP/OMNICAR_HOSTED_VC_V5.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j["status"]=="PINNED_ORIGINAL_V5_HOSTED_CARPLAY_VC_PANE_OWNER_READONLY"
+          assert j["sha256_original_deb"]=="d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd"
+          for n in ("SCPCarSplit","SCPCarPane","SCPHostedAppVC"):
+              assert j["classes"][n]["num_methods"]>0,n
+          print("PINNED_OMNICAR_HOSTED_NATIVE_VC_V5_METHODS_VERIFIED_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-omnicar-hosted-vc-v5-${{ github.run_id }}
+          path: ${{ runner.temp }}/OMNICAR_HOSTED_VC_V5.json
+          if-no-files-found: error
+      - name: Persist original-only V5 evidence in DuoFace branch
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          TARGET="sideplay/audit/native12-083-rotation-20261028/OMNICAR_ORIGINAL_HOSTED_VC_V5_RUN_$GITHUB_RUN_ID.json"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if test -e "$TMP/$TARGET"; then
+              echo 'Archive already present; refuse overwrite' >&2
+              git worktree remove --force "$TMP"; exit 1
+            fi
+            mkdir -p "$(dirname "$TMP/$TARGET")"
+            cp "$RUNNER_TEMP/OMNICAR_HOSTED_VC_V5.json" "$TMP/$TARGET"
+            git -C "$TMP" add "$TARGET"
+            git -C "$TMP" commit -m "audit: preserve original OmniCar host VC V5 run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "ORIGINAL_OMNICAR_HOST_VC_V5_ARCHIVED_RUN=$GITHUB_RUN_ID"
+              git worktree remove --force "$TMP"; exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
