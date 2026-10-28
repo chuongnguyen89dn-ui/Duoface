@@ -39,6 +39,12 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -Wl,-export_dynamic -I . tests/scene_orientation_policy_runtime.m DFSceneOrientationPolicy.m -o "$RUNNER_TEMP/orientation-policy-runtime"
           "$RUNNER_TEMP/orientation-policy-runtime"
+      - name: Execute .85 map profile/unchanged media geometry runtime harness
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I . tests/map_render_profile_runtime.m -o "$RUNNER_TEMP/map-render-runtime"
+          "$RUNNER_TEMP/map-render-runtime"
       - name: Prepare rootless Theos and toolchain
         run: |
           set -euo pipefail
