@@ -1,0 +1,106 @@
+name: DuoFace original Native12 callback semantic evidence handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - .github/workflows/duoface-native12-36-hook-semantic-checkpoint-20261028.yml
+permissions:
+  contents: write
+jobs:
+  record-reviewed-machine-semantics:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify 36 real callback bodies and state dataflow against written report
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path("sideplay/audit/native12-083-rotation-20261028")
+          d=json.loads((base/"NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_40667230467.json").read_text())
+          report=(base/"NATIVE12_36_ORIGINAL_CALLBACK_SEMANTICS_VS_089_20261028.md").read_text()
+          assert d["original_hooks_count"]==36
+          assert d["original_deb_sha256"]=="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+          c={(a["class"],a["selector"]):a for a in d["callbacks"]}
+          keys={
+             ("UIViewController","__supportedInterfaceOrientations"):"0x2acc60",
+             ("UIWindowScene","interfaceOrientation"):"0x2ad7f0",
+             ("UIDevice","orientation"):"0x2ad8d0",
+             ("UIWindow","_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:"):"0x2acfd8",
+             ("UIScreen","bounds"):"0x2ada20",
+             ("UIScreen","nativeBounds"):"0x2adaec",
+             ("UIScreen","_referenceBounds"):"0x2adbfc",
+          }
+          for name,pc in keys.items():
+              item=c[name];assert item["exact_start"]==pc
+              assert pc in report and item["starts_at_callback"]
+              assert item["raw_arm64"]
+          helpers=d["direct_state_helpers"]
+          assert helpers["bridge_active"]["exact_start"]=="0x2a8068"
+          assert any("ldrb" in i["asm"] for i in helpers["bridge_active"]["arm64"])
+          assert helpers["desired_orientation"]["exact_start"]=="0x2a8080"
+          assert helpers["logical_size"]["exact_start"]=="0x2a8098"
+          assert helpers["set_logical_size"]["exact_start"]=="0x2a80ac"
+          assert helpers["set_split_state"]["exact_start"]=="0x2a80c0"
+          assert helpers["display_width_policy"]["exact_start"]=="0x2a84a0"
+          assert len(helpers["display_width_policy"]["arm64"])==407
+          assert "DEVICE FAIL" in d["device_089"]
+          print("NATIVE12_ORIGINAL_REAL_HOOK_SEMANTICS_VS_089_INDEPENDENTLY_REVERIFIED_PASS")
+          PY
+      - name: Merge verified semantic checkpoint into existing project handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          MARKER='DUOFACE .89 DEVICE FAIL — ORIGINAL 36 CALLBACK SEMANTICS DECODED'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            MARKER="$MARKER" python3 - "$TMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import os,sys
+          p=Path(sys.argv[1]);old=p.read_text(encoding="utf8");marker=os.environ["MARKER"]
+          if marker not in old:
+              report="sideplay/audit/native12-083-rotation-20261028/NATIVE12_36_ORIGINAL_CALLBACK_SEMANTICS_VS_089_20261028.md"
+              full="sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_40667230467.json"
+              note=f"""## {marker} (2026-10-28)
+
+          - **Người dùng xác nhận .89 DEVICE FAIL**: YouTube sai chiều khi chia hai ô; không được dùng PASS build/Sileo để tuyên bố video đã sửa.
+          - **Actual original DEB reverse engineering verified**, original `DuoFaceDashboard.dylib` SHA256 `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`; SHA-pinned Native12 DEB `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`. Restored original method index `efa45df59bc3c16887cc979bf3aedc0c93c92111`.
+          - **36/36 original `_MSHookMessageEx` implementation callbacks** traced by actual installer ADR-x2 target, exact function start/end, all ARM64 instructions and branches. Full archive: `{full}`, GitHub Actions run `40667230467` SUCCESS. Script: `sideplay/tools/decode_native12_original_orientation_callbacks_20261028.py`; CI exact command as previous workflow, `git show` immutable DEB + index, `sha256sum -c`, `dpkg-deb -x`, original `select_arm64`, `llvm-objdump --macho --disassemble --no-show-raw-insn`, then Python machine validation and archived output.
+          - **PROVEN original active orientation contract:** `UIViewController.supportedInterfaceOrientations` and private `__supportedInterfaceOrientations` both return `1 << max(orientation,1)` when bridged, else original IMP. `UIWindowScene.interfaceOrientation` `0x2ad7f0` and `UIDevice.orientation` `0x2ad8d0` return bridge requested orientation when bridged, saved original IMP otherwise. `UIWindow._rotateWindowToOrientation:...` `0x2acfd8` re-writes later rotation arguments when bridged; window `setFrame:/setBounds:` intercept future geometry. Main `UIScreen.bounds/nativeBounds/_referenceBounds` virtualized under guarded bridge + real logical size; nativeBounds uses scale. `UIWindowScene._isSuspended` and `_isDeactivated` return NO when bridged.
+          - Real original state storage: `0x2a8068` getter loads live bridge-enable byte; `0x2a8080` orientation, `0x2a8098` logical-size doubles; original size setter `0x2a80ac`, split setter `0x2a80c0`. Original width-helper `0x2a84a0` is 407 ARM64 instructions and has a conditional logical-width path + window fallback. All now captured in `{full}`.
+          - **Verified why .89 is not Native12-equivalent:** .89 relies on scoped state notification and one-shot UIKit geometry request, but does NOT implement bridged process-local orientation getters, controller orientation masks, persistent window rotation interception or main-screen logical metric virtualization. These functional omissions are proven; which one actually causes the YouTube renderer to rotate incorrectly still REQUIRES device evidence.
+          - Reviewed semantics with exact ARM64 anchors: `{report}`; this CI rechecks classes/selectors and getter starts. Run: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/$GITHUB_RUN_ID. No original license/code copied into runtime, no new DEB, no Maps/Dock/.83 lifecycle changes. All prior rollback binaries remain.
+          - **Next**: decode exact callback class/scene scoping, whether phone-mode reset and split teardown restore each UIKit getter; implement independent **YouTube-only** minimal orientation consistency hooks only after test evidence and source-level safeguards. Do not publish .90 from binary analysis alone. Accept only wrong-split→correct-at-launch video on physical iPhone X, no SOLO/swipe, no crashes.
+
+          ---
+          """
+              p.write_text(note+old,encoding="utf8")
+              assert p.read_text(encoding="utf8")==note+old
+              print("DUOFACE_VERIFIED_SEMANTIC_HANDOFF_LOCAL_READBACK_PASS")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if git -C "$TMP" diff --quiet -- 'sideplay/tiep tuc du an.md'; then
+              git worktree remove --force "$TMP"
+              echo 'DUOFACE_SEMANTIC_HANDOFF_ALREADY_SAVED'
+              exit 0
+            fi
+            git -C "$TMP" add 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m 'handoff: verified original Native12 36 hook semantics and .89 real-device failure [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              git fetch --no-tags origin "$BRANCH"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARKER"
+              echo 'DUOFACE_SEMANTIC_HANDOFF_GITHUB_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          echo 'DUOFACE_SEMANTIC_HANDOFF_PUSH_FAILED' >&2
+          exit 1
