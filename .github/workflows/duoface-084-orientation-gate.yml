@@ -1,0 +1,36 @@
+name: DuoFace .84 owner-scoped orientation source/runtime gate
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/duoface-native-scene-host/DFSceneOrientationPolicy.*'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_orientation_policy_084.py'
+      - 'sideplay/duoface-native-scene-host/tests/scene_orientation_policy_runtime.m'
+      - '.github/workflows/duoface-084-orientation-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  orientation-policy-source:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run .84 isolated regression and existing scene host tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_*.py' -v
+      - name: Execute scoped orientation hook model with REAL production policy
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -Wl,-export_dynamic -I . tests/scene_orientation_policy_runtime.m DFSceneOrientationPolicy.m -o "$RUNNER_TEMP/orientation-policy-runtime"
+          "$RUNNER_TEMP/orientation-policy-runtime"
+      - name: Verify existing .83 manual observer unchanged with runtime harness
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -Wl,-export_dynamic -I . tests/scene_lifecycle_runtime.m DFSceneLifecycle.m -o "$RUNNER_TEMP/lifecycle-runtime"
+          "$RUNNER_TEMP/lifecycle-runtime"
