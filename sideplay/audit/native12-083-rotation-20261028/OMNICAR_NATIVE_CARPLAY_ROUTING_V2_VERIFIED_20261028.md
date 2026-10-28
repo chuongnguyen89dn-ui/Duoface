@@ -1,0 +1,31 @@
+# Confirmed from OmniCar ORIGINAL 1.0.3: actual native CarPlay-app routing (ARM64 + CFStrings)
+
+**This is the answer to the user's rejection of guessed +80% map zoom.** The original uses separate *native CarPlay app scene* selection/host path and ordinary *phone iPhone AppBridge* path. DuoFace currently routes Apple Maps through the latter, which cannot be fixed by increasing the visual percentage.
+
+## Actual verification (not guessed from names)
+- Original `Omnicar/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb`, SHA256 `d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd` matched in GitHub Actions [40627902229](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40627902229), **SUCCESS**.
+- Read-only script `sideplay/tools/audit_original_omnicar_native_map_cfstrings_v2.py`, pinned Capstone ARM64; output `sideplay/audit/native12-083-rotation-20261028/OMNICAR_ORIGINAL_NATIVE_MAP_BRANCHES_V2_RUN_40627902229.json`, blob `860d8ac70010a13d01df108ac9ad67b3205a5358` independently fetched and decoded. Full original method boundaries, CFString target offsets, conditional branch PCs; no vendor implementation or licenses redistributed into DuoFace.
+- Verified seven original methods, with nonzero full disassembly each: `isCarPlayApp:`, `openApp:slot:`, `hostApp:inPane:`, `paneSize:forBundle:`, `publishCarPlayApps`, `pushSceneSizes`, `pickerMapForPane:height:`.
+
+## Original method / literal evidence (concrete PCs)
+1. `SCPCarSplit.isCarPlayApp:` IMP `0xff20` references `bundleIdentifier` CFString @ `0xffd8`; compares exact special processes `com.apple.CarPlayTemplateUIHost` @ `0x10044`, `com.apple.CarPlayApp` @ `0x10058`, `com.apple.CarPlaySettings` @ `0x1006c`, `com.apple.InCallService` @ `0x10080`, then checks `carPlayDeclaration` @ `0x100a0`/`0x100c4`/`0x10100`, plus `isHidden` `0x10128`, `presentsFullScreen` `0x10164`, `appBridge` `0x101e0`. This is a **real declaration/scene classification gate**, not "bundle name looks like Maps" and not a zoom preference.
+2. `SCPCarSplit.publishCarPlayApps` IMP `0x21b1c` `0x21c68` contains direct original string `CarSplit: %lu app CarPlay cho Settings, %lu app iPhone da chon (App Bridge)`. It separates **native CarPlay roster** from **selected iPhone App Bridge roster**, then obtains `allInstalledApplications`, `bundleIdentifier`, `displayName`, `appBridge` at original PCs `0x21db4` and `0x22258`. This explains how non-native iPhone apps may be selectable without conflating their scene with the actual CarPlay map.
+3. `SCPCarSplit.openApp:slot:` IMP `0x164d4` exact error strings `CarSplit: %@ khong co giao dien CarPlay -> bo qua` @ `0x165a4` and `This app doesn't support CarPlay` @ `0x165dc`; also `%@ is already open in %@` @ `0x166cc` and `another pane` @ `0x16880`. Native-app admission and existing-app awareness exist at original callsites. Merely scaling iPhone Maps ignores this branch.
+4. `SCPCarSplit.hostApp:inPane:` IMP `0x3e490` explicitly logs `AppBridge: host %@ vao o %d` @ `0x3e6f4`, and calls `com.anlai.omnicar/appbridge.open` @ `0x3ea84`. **This is the separate ordinary phone-app pathway**, NOT proof of native Maps CPWindow duplication.
+5. `SCPCarSplit.pushSceneSizes` IMP `0x1c550` references `foregroundSceneWithSettings:completion:` @ `0x1c738`, `sceneHostView` @ `0x1ca04`/`0x1ca40`, logging native scene update and errors. **Strong static support** for a native CarPlay scene geometry/hosting path distinct from iPhone UIView scaling. Runtime receiver and exact scene role need a live owner trace before independently invoking private methods.
+6. `SCPCarSplit.paneSize:forBundle:` IMP `0x1b328` has actual guarded native size result; visual scale constants from phone AppBridge are irrelevant to this native path.
+
+## Verified DuoFace gap
+`sideplay/duoface-native-scene-host/DFSceneHost.m` still constructs `SBDeviceApplicationSceneEntity initWithApplicationForMainDisplay:` for all selected apps, including `com.apple.Maps`. It never selects a native CarPlay navigation scene/role or reuses a native CarPlay `sceneHostView`. Thus it can show iPhone map UI or directions-only while the native CarPlay window is separate. Increasing an arbitrary percentage would leave **the wrong scene source**. The user's explicit requirement to keep native CarPlay Maps running means **do not terminate, disable, spoof or steal the navigation entitlement**.
+
+## Approved course of independent implementation
+- **First-party classifier** must mirror the observable *behavior*, not copy method bodies: query actual CarPlay application declaration/scene role, distinguish native eligible app and phone-only app, look for existing active native scene instead of launching another phone scene, preserve original scene lifecycle. Refuse unsafe unsupported routing rather than pretend the phone UI is native.
+- **Native scene owner** in the CarPlay process must be identified; `foregroundSceneWithSettings:completion:` and `sceneHostView` receiver identity, session and role must be checked at runtime or by further original symbol/callsite decode. Merely reading strings does not prove any UI can be safely rehosted. Do not run guessed private methods on arbitrary objects or detach native navigation's one real CPWindow.
+- **Geometry** should use native host/pane sizes and scene update from that path, not `0.80` or invented constants. Retain .83 rootless no-crash media baseline, .84 public rollback, Dock/menu/logo/zoom and phone-only AppBridge path separately.
+- For YouTube orientation, evidence still points to source scene negotiation vs inner fullscreen; handle in **phone-host** path without affecting independent native map scene.
+
+## Current actions and states
+- The rejected .85 guessed map-only scale `DFHostedMapRenderSize.h` was **reverted** to pre-.85 for all iPhone hosted apps; separate regression tests require no per-map scaling.
+- Signed pre-reversion .85 package is frozen as REJECTED/UNSUPPORTED and **not released to Sileo**; this V2 original audit does not fix native map on device.
+- GitHub native-route V2 audit **SUCCESS**; mobile map runtime owner and hardware behavior **UNTESTED**.
+- Next: verify safe owner/scene selectors and build the independent native CarPlay branch before preparing any new signed release. The user explicitly rejects a cosmetic zoom-only substitute.
