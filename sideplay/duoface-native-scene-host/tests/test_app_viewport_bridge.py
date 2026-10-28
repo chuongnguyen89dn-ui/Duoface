@@ -16,8 +16,9 @@ class RecoveryDistribution(unittest.TestCase):
   self.assertIn('surface.sceneGeneration!=generation',host)
  def test_current_ui_preserved(self):
   import hashlib
-  # Chrome must remain byte-for-byte identical to working .88 except
-  # a nonvisual one-way split/solo state notification to the scene host.
+  # Verified user-approved .91 Chrome logo 3s gate intentionally changed the
+  # prior byte pin; keep this new exact source pin with split/solo isolated.
+  # Legacy .88 pin is superseded, not a failed YouTube video regression.
   b=(R/'DFNative12Chrome.m').read_bytes()
   added=b'''        // Native12 split and SOLO are UI state, not inferred from a second
         // loaded app or the pane's width. One visible YouTube pane plus one
@@ -31,8 +32,10 @@ class RecoveryDistribution(unittest.TestCase):
 '''
   self.assertEqual(b.count(added),1)
   original=b.replace(added,b'')
+  self.assertIn(b'DFLogoHoldAdvance(&self->_logoHoldGate',original)
+  self.assertIn(b'self->_dividerDrag.axis=DFDragLogo',original)
   self.assertEqual(hashlib.sha1(b'blob '+str(len(original)).encode()+b'\0'+original).hexdigest(),
-                   '9e5772b9d6fef1e2c6f7c0baca23367bda03113a')
+                   '107de289688a652ae419d48f7af0ff265b561baa')
  def test_v37_reference_dispatch_and_touch_wake(self):
   s=(R/'DFSceneHost.m').read_text()
   self.assertIn('BOOL applied=child2Applied||child3Applied||main2Applied;',s)
