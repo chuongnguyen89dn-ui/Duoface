@@ -2,6 +2,7 @@
 // no app activation, no view hierarchy mutation, no hooks or private setters.
 #import "DFCarPlayNativeSceneIdentity.h"
 #import "DFCarPlayNativeSceneTimeline.h"
+#import "DFCarPlayNativeMapPaneAssessment.h"
 // Observational state only; never retains UIView/FBScene or manipulates a scene.
 static NSDictionary *DFCarPlayPreviousTimeline = nil;
 #import <UIKit/UIKit.h>
@@ -16,6 +17,9 @@ static NSDictionary *DFCarPlayPreviousTimeline = nil;
 #import <stdlib.h>
 
 static NSString *const DFMapOwnerLog = @"/var/mobile/Library/Logs/DuoFaceCarPlayOwnerSnapshot.log";
+// The current SpringBoard DuoFace touch-owner heartbeat: read-only evidence
+// that a split UI session is alive, not ownership of a native Maps FBScene.
+static NSString *const DFPhoneSplitHeartbeat = @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
 static NSString *DFClassName(id value) {
     return value ? NSStringFromClass([value class]) : @"nil";
 }
@@ -51,6 +55,13 @@ static NSString *DFReadHostView(id vc, NSMutableDictionary *record) {
         record[@"sceneHostViewBounds"]=DFRect(v.bounds);
         record[@"sceneHostViewFrame"]=DFRect(v.frame);
         record[@"sceneHostViewWindow"]=DFPtr(v.window);
+        // Existing UIKit geometry/owner only, no view reparent or layout.
+        record[@"sceneHostViewSuperviewClass"]=DFClassName(v.superview);
+        record[@"sceneHostViewWindowClass"]=DFClassName(v.window);
+        record[@"sceneHostViewWindowHidden"]=@(v.window.hidden);
+        record[@"sceneHostViewHidden"]=@(v.hidden);
+        record[@"sceneHostViewAlpha"]=@(v.alpha);
+        record[@"sceneHostViewWindowBounds"]=v.window?DFRect(v.window.bounds):@"nil";
         UIWindowScene *ws=v.window.windowScene;
         record[@"sceneHostViewScene"]=ws.session.persistentIdentifier?:@"nil";
         return @"present-UIView";
@@ -214,14 +225,20 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
             DFCarPlayPreviousTimeline,controllers,probeSession?:@"unset",
             @(getpid()),sampleUTC,complete);
         DFCarPlayPreviousTimeline=timeline;
+        // Evidence for ONE real native Maps scene plus an already-existing
+        // DuoFace SpringBoard session. This is not a pane attachment or UI.
+        NSDictionary *phonePulse=[NSDictionary dictionaryWithContentsOfFile:DFPhoneSplitHeartbeat];
+        NSDictionary *join=DFCarPlayNativeMapPaneAssessment(
+            controllers,timeline,phonePulse,sampleUTC.doubleValue,complete);
         DFWriteSnapshotLine(@{
-            @"schema":@3,@"kind":@"carplay-live-owner-readonly",
+            @"schema":@4,@"kind":@"carplay-live-owner-readonly",
             @"probeSession":probeSession?:@"unset",
             @"utc":sampleUTC,
             @"process":process,
             @"bundle":NSBundle.mainBundle.bundleIdentifier?:@"nil",
             @"processPID":@(getpid()),
             @"scenes":scenes,@"controllers":controllers,@"nativeSceneTimeline":timeline,
+            @"nativeMapPaneAssessment":join,
             @"limitedScenes":@(sceneCount>12),@"limitedWindows":@(windowCount>48),
             @"limitedControllers":@(controllers.count>=72),
             @"mapsNativeOwnerProven":@NO,
