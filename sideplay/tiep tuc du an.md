@@ -1,3 +1,10 @@
+## CHECKPOINT 2026-10-28 DuoFace .92 Native12 3s logo — signed one-DEB archived, Sileo/device pending
+
+CI run `40707934981` source `a31eb5f6f89eb34a0faff3346c354b3125b365cb`; new first-party **single rootless** DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40707934981/com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb`; SHA256 `1f4a495f8b9ba91f71bac4c7abc4e064878fb8f2edd5272df3d48fef3a95e1f0`.
+Actual macOS one-DEB packaging/test/build evidence: `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707934981`. Source includes `DFLogoHoldGate.h`, native `DFNative12Chrome.m` 3-second hold/vertical grip, existing split/SOLO control and exact YouTube leased orientation ABI with .90 physical rotation success preserved. Signed module version `0.1.101~logo3s1`, integrated version `0.0.92~logo3s1`. Binary archive contains exact `CI_RESULT.txt`, `SHA256SUMS.txt`, `PACKAGING_PROVENANCE.json` and `BUILD_SOURCE.txt`.
+No on-device logo hold/touch/Maps tile verification and **NO SILEO LIVE proof from this build**. The .91 Native Maps user-opt-in remains experimental, not verified simultaneous navigation. Keep .90 rollback and unchanged system Dock; avoid vendor binaries/licensing. Next: Sileo publisher pin immutable GitHub artifact SHA, exact live APT/DEB check and parked vehicle UX/YouTube/Maps regression.
+
+---
 ## 2026-10-28 — CHỐT CI XANH LOGO HOLD 3s / KHÔNG CÓ DEB MỚI
 
 - **USER:** "Sao rồi". Target repo chuongnguyen89dn-ui/Duoface branch feature/duoface-jb-embedded-appbridge-20261020. Work is an independent tweak; no vendor license/binary import. Keep physical .90 YouTube rotation confirmed, current signed .91, Dock and Maps code unchanged.
