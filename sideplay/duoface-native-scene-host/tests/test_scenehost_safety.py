@@ -1194,7 +1194,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('DFSceneHostDidObserveTouchNotification',chrome)
   self.assertIn('DFSceneHostDidObserveTouchNotification',host)
   self.assertIn('DFSceneHostDidObserveTouchNotification',header)
-  self.assertIn('CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));',host)
+  self.assertIn('CGSize logical=DFHostedLogicalSizeForBundle(size,self.bundleID);',host)
   self.assertNotIn('native12-layout-invalidated-deferred-no-sync-flush',host)
   self.assertNotIn('[self.appController.view layoutIfNeeded]',host)
   self.assertIn('logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);',host)
@@ -1254,8 +1254,8 @@ class NativeCarPlayHost(unittest.TestCase):
   host=file("DFSceneHost.m")
   block=host.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
   layout=host.split("- (void)layoutScene {",1)[1].split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[0]
-  self.assertIn('CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));',layout)
-  self.assertIn('CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));',block)
+  self.assertIn('CGSize logical=DFHostedLogicalSizeForBundle(size,self.bundleID);',layout)
+  self.assertIn('CGSize logical=DFHostedLogicalSizeForBundle(size,self.bundleID);',block)
   self.assertIn('CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height)',layout)
   self.assertNotIn('host.layer.cornerRadius=native.cornerRadius',layout)
   self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',block)
