@@ -7,6 +7,7 @@
 // No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
 #import "DFSceneLifecycle.h"
+#import "DFSceneOrientationPolicy.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <math.h>
@@ -101,6 +102,8 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @property(nonatomic) BOOL committingSceneGeometry;
 @property(nonatomic) NSUInteger tries;
 @property(nonatomic) NSUInteger sceneGeneration;
+@property(nonatomic,weak) id policySceneHandle;
+@property(nonatomic,weak) id policyDeviceController;
 // -2 = new scene (no sample); -1 = selector not available; 0/1 = observed.
 @property(nonatomic) NSInteger lastObservedForeground;
 @property(nonatomic) CGSize lastApplied;
@@ -114,12 +117,18 @@ static NSInteger DFObservedSceneForeground(id scene) {
 - (void)start;
 - (void)layoutScene;
 - (void)commitSceneGeometry:(NSTimer *)timer;
+- (void)revokeOrientationPolicy;
 - (void)pollScene:(NSTimer *)timer;
 - (void)stop;
 - (void)failed:(NSError *)error;
 @end
 
 @implementation DFSceneSurface
+- (void)revokeOrientationPolicy {
+    DFSceneOrientationPolicyUnregister(self.policySceneHandle,self.policyDeviceController);
+    self.policySceneHandle=nil;
+    self.policyDeviceController=nil;
+}
 - (UIViewController *)findParentController {
     UIResponder *next = self.nextResponder;
     while (next) {
@@ -258,6 +267,38 @@ static NSInteger DFObservedSceneForeground(id scene) {
             Ivar deviceIvar=class_getInstanceVariable([self.appController class],
                                                       "_deviceAppViewController");
             if (deviceIvar) deviceController=object_getIvar(self.appController,deviceIvar);
+        }
+        // .84: register ONLY the current, live, manual host scene for the
+        // independent Native12-derived portrait eligibility/render-size policy.
+        // All mismatched/stale/nonowned scenes call the original Apple IMP.
+        // This does not touch DFSceneLifecycle's working .83 crash-fix observer.
+        if (DFSceneOrientationPolicyInstall()) {
+            [self revokeOrientationPolicy];
+            id currentHandle=DFCall0(self.appController,@"sceneHandle");
+            NSUInteger ownedGeneration=self.sceneGeneration;
+            id ownedScene=self.scene;
+            __weak typeof(self) weakOwner=self;
+            DFSceneOrientationPolicyRegister(currentHandle,deviceController,self.bundleID,^CGSize{
+                DFSceneSurface *surface=weakOwner;
+                if(!NSThread.isMainThread || !surface || surface.stopped ||
+                   !surface.started || !surface.ready ||
+                   surface.sceneGeneration!=ownedGeneration ||
+                   surface.scene!=ownedScene ||
+                   !surface.window || surface.window.hidden ||
+                   surface.appController.viewIfLoaded.window!=surface.window ||
+                   !DFHostingFlag(surface.appController,@"isHostingAnApp",NO) ||
+                   DFCall0(surface.appController,@"sceneHandle")!=currentHandle ||
+                   DFCall0(currentHandle,@"sceneIfExists")!=ownedScene ||
+                   surface.owner.live[surface.bundleID]!=surface)return CGSizeZero;
+                CGSize pane=surface.bounds.size;
+                CGSize render=CGSizeMake(round(pane.width*2),round(pane.height*2));
+                return isfinite(render.width)&&isfinite(render.height)?render:CGSizeZero;
+            });
+            self.policySceneHandle=currentHandle;
+            self.policyDeviceController=deviceController;
+            DFSceneLog(@"orientation-owner-registered",self.bundleID,
+                [NSString stringWithFormat:@"generation=%lu handle=%p device=%p",
+                 (unsigned long)ownedGeneration,currentHandle,deviceController]);
         }
         // Readiness and stable-geometry gate. Do not guess orientation from
         // CarPlay aspect ratio; actual remote video orientation needs device
@@ -425,6 +466,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
             // SceneHandle may be replaced across app restarts, even while the
             // containing pane and SBAppViewController remain unchanged.
             if (self.scene && self.scene!=scene) {
+                [self revokeOrientationPolicy];
                 ++self.sceneGeneration;
                 DFSceneLog(@"scene-instance-changed",self.bundleID,
                            @"invalidate-old-reference-without-writing-old-scene");
@@ -470,6 +512,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
             return;
         }
         if (self.ready || self.scene) {
+            [self revokeOrientationPolicy];
             ++self.sceneGeneration;
             [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
             self.ready=NO; self.scene=nil; self.sceneSettingsBefore=nil;
@@ -507,6 +550,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 - (void)stop {
     if (self.stopped) return;
     self.stopped=YES;
+    [self revokeOrientationPolicy];
     DFSceneLifecycleUnregister(self.appController);
     ++self.sceneGeneration;
     [self.timer invalidate]; self.timer=nil;
