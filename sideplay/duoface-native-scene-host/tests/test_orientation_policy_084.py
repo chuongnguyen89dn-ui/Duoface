@@ -31,12 +31,14 @@ class PortraitPolicy84(unittest.TestCase):
   host=source("DFSceneHost.m")
   policy=source("DFSceneOrientationPolicy.m")
   self.assertNotIn('setInterfaceOrientation:',policy)
-  self.assertNotIn('setInterfaceOrientation:',host)
+  # No guessed landscape; only observed remote mismatch and exact owner.
+  self.assertIn('DFObservedRemoteInterfaceOrientation(remoteSettings)',host)
+  self.assertIn('youtubePortraitRepair',host)
   self.assertNotIn('setAutomatesLifecycle:',policy)
   self.assertNotIn('FBScene',policy.split('DFMainSceneSupportsOrientation',1)[1].split('static void DFContentReferenceSize2',1)[0])
  def test_versioned_isolated_artifact_not_083_overwrite(self):
   b=source("build.sh")
   control=source("control")
-  self.assertIn("0.1.94~mapscene1",b)
-  self.assertIn("Version: 0.1.94~mapscene1",control)
+  self.assertIn("0.1.95~nativeowner1",b)
+  self.assertIn("Version: 0.1.95~nativeowner1",control)
 if __name__=="__main__":unittest.main(verbosity=2)
