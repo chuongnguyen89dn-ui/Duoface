@@ -1,0 +1,100 @@
+name: DuoFace original SidePlay orientation IPC receiver ARM64 audit READ ONLY
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-sideplay-original-orientation-ipc-receiver-20261028.yml'
+      - 'sideplay/tools/audit_sideplay_orientation_receiver_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-sideplay-orientation-ipc-receiver
+  cancel-in-progress: false
+jobs:
+  inspect-app-receiver:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify first-party original MachO parser and ARM64 toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/original-parser"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/original-parser/audit_native12_license_class_xrefs.py"
+          echo "NATIVE_PARSER_DIR=$RUNNER_TEMP/original-parser" >> "$GITHUB_ENV"
+          if command -v llvm-objdump-18 >/dev/null; then
+            echo "OBJDUMP=llvm-objdump-18" >> "$GITHUB_ENV"
+          elif command -v llvm-objdump >/dev/null; then
+            echo "OBJDUMP=llvm-objdump" >> "$GITHUB_ENV"
+          else
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm-18
+            echo "OBJDUMP=llvm-objdump-18" >> "$GITHUB_ENV"
+          fi
+          python3 -m py_compile sideplay/tools/audit_sideplay_orientation_receiver_20261028.py
+      - name: SHA-pinned original DEB app IPC receiver and private UIKit xrefs
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c  com.sideplay_1.0.4-1_iphoneos-arm64.deb' | sha256sum -c -
+          DEST="sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_ORIENTATION_IPC_RECEIVER_RUN_$GITHUB_RUN_ID.json"
+          python3 sideplay/tools/audit_sideplay_orientation_receiver_20261028.py \
+            --deb com.sideplay_1.0.4-1_iphoneos-arm64.deb --out "$DEST"
+          python3 - "$DEST" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["source_deb_sha256"]=="7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c"
+          assert d["annotated_original_calls"]["com.sideplay.orientation"]["arm64_annotation_count"]>=1
+          print("SIDEPLAY_ORIGINAL_IPC_ARM64_PROOF_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sideplay-original-orientation-ipc-receiver
+          path: sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_ORIENTATION_IPC_RECEIVER_RUN_*.json
+          if-no-files-found: warn
+      - name: Archive immutable report and append existing handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          DEST="sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_ORIENTATION_IPC_RECEIVER_RUN_$GITHUB_RUN_ID.json"
+          SRC="$(pwd)/$DEST"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            if test -e "$TMP/$DEST"; then
+              echo 'immutable report already exists; skip without overwriting'
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            mkdir -p "$TMP/$(dirname "$DEST")"
+            cp "$SRC" "$TMP/$DEST"
+            python3 - "$TMP/sideplay/tiep tuc du an.md" "$DEST" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1]);dest=sys.argv[2];run=sys.argv[3]
+          assert p.exists(), "existing handoff missing"
+          with p.open("a",encoding="utf-8") as f:
+              f.write("\n\n## 2026-10-28 — Original SidePlay app orientation IPC receiver investigation run "+run+"\n"
+                      "User .86 orientation remains wrong. Immutable SHA verified original DEB. Scan all original dylibs and LLVM ARM64 callsites around orientation notification, private UIKit geometry and app callback. Exact report: "+dest+". "
+                      "Workflow https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/"+run+". "
+                      "Read-only; Maps/Dock/.83 video lifecycle unchanged, no DEB or Sileo. "
+                      "Next: distinguish genuine SidePlay app-process receiver from SpringBoard sender, and implement independent owner-scoped YouTube correction only with proven runtime and ABI.\n")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$DEST" 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m "audit: archive SidePlay original orientation IPC receiver run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "SIDEPLAY_ORIGINAL_RECEIVER_EVIDENCE_PERSISTED_RUN=$GITHUB_RUN_ID"
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
