@@ -1,0 +1,313 @@
+{
+  "status": "ORIGINAL_SHA_PINNED_PACKAGE_FILTER_OWNER_V4_NO_RUNTIME",
+  "source_deb_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "deb_control_fields": "Package: com.anlai.omnicar\nVersion: 1.0.3\nArchitecture: iphoneos-arm64",
+  "maintainer_script_names_only": [
+    "control"
+  ],
+  "runtime_dylibs": [
+    {
+      "dylib": "OmniCarAppBridge.dylib",
+      "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+      "filter_plist": "OmniCarAppBridge.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.UIKit"
+        ]
+      },
+      "linked_frameworks": [
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/usr/lib/libc++.1.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      ],
+      "has_arm64_fat_slice": true
+    },
+    {
+      "dylib": "OmniCarCarProbe.dylib",
+      "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f",
+      "filter_plist": "OmniCarCarProbe.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp"
+        ]
+      },
+      "linked_frameworks": [
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      ],
+      "has_arm64_fat_slice": true
+    },
+    {
+      "dylib": "OmniCarCore.dylib",
+      "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5",
+      "filter_plist": "OmniCarCore.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      },
+      "linked_frameworks": [
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      ],
+      "has_arm64_fat_slice": true
+    },
+    {
+      "dylib": "OmniCarSpeedBubble.dylib",
+      "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836",
+      "filter_plist": "OmniCarSpeedBubble.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.springboard",
+          "com.apple.CarPlayApp",
+          "vn.vietmap.live",
+          "com.lumi.GOFA",
+          "com.waze.iphone",
+          "com.wynauto.wyn"
+        ]
+      },
+      "linked_frameworks": [
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation",
+        "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation",
+        "/usr/lib/libc++.1.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      ],
+      "has_arm64_fat_slice": true
+    },
+    {
+      "dylib": "OmniCarSplitScreen.dylib",
+      "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754",
+      "filter_plist": "OmniCarSplitScreen.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      },
+      "linked_frameworks": [
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore",
+        "/System/Library/Frameworks/CoreImage.framework/CoreImage",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation",
+        "/usr/lib/libc++.1.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      ],
+      "has_arm64_fat_slice": true
+    },
+    {
+      "dylib": "OmniCarStartupScreen.dylib",
+      "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037",
+      "filter_plist": "OmniCarStartupScreen.plist",
+      "filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      },
+      "linked_frameworks": [
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation",
+        "/System/Library/Frameworks/ImageIO.framework/ImageIO",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation",
+        "/System/Library/Frameworks/CallKit.framework/CallKit",
+        "/System/Library/Frameworks/EventKit.framework/EventKit",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      ],
+      "has_arm64_fat_slice": true
+    }
+  ],
+  "objc_classes_from_original_image": [
+    {
+      "class": "SCPNoopLayoutAssertion",
+      "class_struct": "0x87ab0",
+      "superclass_pointer_or_bind": "0xe3",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPCButton",
+      "class_struct": "0x87b00",
+      "superclass_pointer_or_bind": "0x109",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPCarSplitView",
+      "class_struct": "0x87b50",
+      "superclass_pointer_or_bind": "0xee",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPCarDividerView",
+      "class_struct": "0x87ba0",
+      "superclass_pointer_or_bind": "0xee",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPCarTabView",
+      "class_struct": "0x87c18",
+      "superclass_pointer_or_bind": "0xee",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPCTouchWatch",
+      "class_struct": "0x87c68",
+      "superclass_pointer_or_bind": "0xee",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPCarPane",
+      "class_struct": "0x87cb8",
+      "superclass_pointer_or_bind": "0xe3",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPHostedAppVC",
+      "class_struct": "0x87ce0",
+      "superclass_pointer_or_bind": "0xe2",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPCarSplit",
+      "class_struct": "0x87ad8",
+      "superclass_pointer_or_bind": "0xe3",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPHomeWallView",
+      "class_struct": "0x87d58",
+      "superclass_pointer_or_bind": "0xee",
+      "objc_category_or_class": "class metadata in original binary"
+    },
+    {
+      "class": "SCPPrefs",
+      "class_struct": "0x87dd0",
+      "superclass_pointer_or_bind": "0xe3",
+      "objc_category_or_class": "class metadata in original binary"
+    }
+  ],
+  "original_split_owner_methods": {
+    "isCarPlayApp:": "0xff20",
+    "paneAtSlot:": "0x106f0",
+    "validSlot:": "0x107cc",
+    "pendingSlotForBundle:": "0x10c88",
+    "slotOccupied:": "0x10df4",
+    "mainStackFrameForSlot:inArea:": "0x11110",
+    "leftMainStackFrameForSlot:inArea:": "0x1122c",
+    "slotIsPinned:": "0x11478",
+    "autoSlot": "0x115a0",
+    "frameForSlot:": "0x11674",
+    "innerCornersForSlot:": "0x118d8",
+    "neighbourCornersForSlot:": "0x11a04",
+    "removePaneAt:background:": "0x149a8",
+    "showPickersForEmptySlots": "0x15648",
+    "openApp:slot:": "0x164d4",
+    "sendLaunch:bundle:tries:": "0x16e04",
+    "launchFailed:slot:": "0x17e70",
+    "isAdoptableViewController:": "0x18b5c",
+    "adoptViewController:": "0x18d20",
+    "adopt:slot:": "0x1942c",
+    "detachVC:background:": "0x1a77c",
+    "sceneOfViewController:": "0x1aaf4",
+    "scene:destroyedForViewController:ownScene:": "0x1ad58",
+    "relayoutAnimated:pushScenes:": "0x1b44c",
+    "pushSceneSizes": "0x1c550",
+    "verifySceneOfPane:expected:retry:": "0x1cce0",
+    "swapSlot:with:": "0x1d494",
+    "closeSlot:background:": "0x1d9b8",
+    "publishCarPlayApps": "0x21b1c",
+    "paneBackground:": "0x28a30",
+    "runBackgroundForPane:": "0x28b38",
+    "showBackgroundToastFor:slot:": "0x28c48",
+    "markDismissSlot:": "0x2be00",
+    "showPickerForSlot:": "0x31530",
+    "hostedPanes": "0x3c778",
+    "hostPost:info:": "0x3c968",
+    "hostFrameForPane:": "0x3ca0c",
+    "hostBarInfoForPane:": "0x3cd60",
+    "hostPassInsetsForPane:": "0x3d1e4",
+    "hostFrameInfo:pane:live:handle:": "0x3d39c",
+    "sendHostFrameForPane:live:": "0x3dfac",
+    "pushHostFramesLive:": "0x3e238",
+    "hostApp:inPane:": "0x3e490",
+    "hostClose:terminate:": "0x3ebd0",
+    "hostCloseAll": "0x3f25c",
+    "hostedApp:state:": "0x3f35c",
+    "hostSolo:": "0x3f9c0",
+    "endHostedSolo": "0x3fe5c",
+    "launchPhoneAppIfNeeded:": "0x403d0",
+    "launcherCenterInParent:size:shift:": "0x409b0",
+    "raiseLauncher": "0x42900",
+    "dockHostForRect:inParent:": "0x42a64",
+    "autoLaunchAttempt:": "0x44dc4",
+    "cancelledLaunches": "0x4581c",
+    "setCancelledLaunches:": "0x45824",
+    "zoomedSlot": "0x4590c",
+    "setZoomedSlot:": "0x45914",
+    "slots": "0x45a84",
+    "setSlots:": "0x45a8c",
+    "focusedSlot": "0x45b3c",
+    "setFocusedSlot:": "0x45b44",
+    "allowBackground": "0x45b4c",
+    "setAllowBackground:": "0x45b54",
+    "nextLaunchAt": "0x45ba4",
+    "setNextLaunchAt:": "0x45bac",
+    "soloHostedBundle": "0x45bb4",
+    "setSoloHostedBundle:": "0x45bbc",
+    "soloHostedFrame": "0x45bc4",
+    "setSoloHostedFrame:": "0x45bd0",
+    "dragGhost": "0x45c30",
+    "setDragGhost:": "0x45c38",
+    "floatReturnSlot": "0x45dac",
+    "setFloatReturnSlot:": "0x45db4",
+    "launcherHost": "0x45f34",
+    "setLauncherHost:": "0x45f4c",
+    "launcherWhere": "0x45f68",
+    "setLauncherWhere:": "0x45f70",
+    "launcherBare": "0x45fc8",
+    "setLauncherBare:": "0x45fd0",
+    "lastLauncherCalc": "0x45fd8",
+    "setLastLauncherCalc:": "0x45fe0",
+    "autoLaunchDone": "0x45ff8",
+    "setAutoLaunchDone:": "0x46000"
+  },
+  "limits": [
+    "Filter proves permitted processes, not that SpringBoard or CarPlay actually loaded this dylib",
+    "Native CarPlay app scene cannot be inferred from bundleID alone",
+    "No copied code, no dynamic execution or entitlement spoofing",
+    "Cannot prove concurrent Maps CPWindow display from static metadata"
+  ]
+}
