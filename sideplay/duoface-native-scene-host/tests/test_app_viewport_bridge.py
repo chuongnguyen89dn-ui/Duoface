@@ -15,27 +15,22 @@ class RecoveryDistribution(unittest.TestCase):
   self.assertIn('DFMutableRemoteOrientationABI(settings)',host)
   self.assertIn('surface.sceneGeneration!=generation',host)
  def test_current_ui_preserved(self):
-  import hashlib
-  # Verified user-approved .91 Chrome logo 3s gate intentionally changed the
-  # prior byte pin; keep this new exact source pin with split/solo isolated.
-  # Legacy .88 pin is superseded, not a failed YouTube video regression.
-  b=(R/'DFNative12Chrome.m').read_bytes()
-  added=b'''        // Native12 split and SOLO are UI state, not inferred from a second
-        // loaded app or the pane's width. One visible YouTube pane plus one
-        // EMPTY pane is still split. The host owns the app-scene IPC lease.
-        id hosted=self.hostedScenes[(NSUInteger)i];
-        if([hosted isKindOfClass:UIView.class]) {
-            [[DFSceneHost sharedHost] setSplitMode:
-                (activeSlots>1 && self.focus<0 && !self.startupActive)
-                forHostedView:(UIView *)hosted];
-        }
-'''
-  self.assertEqual(b.count(added),1)
-  original=b.replace(added,b'')
-  self.assertIn(b'DFLogoHoldAdvance(&self->_logoHoldGate',original)
-  self.assertIn(b'self->_dividerDrag.axis=DFDragLogo',original)
-  self.assertEqual(hashlib.sha1(b'blob '+str(len(original)).encode()+b'\0'+original).hexdigest(),
-                   '107de289688a652ae419d48f7af0ff265b561baa')
+  # Replace an obsolete whole-file .91 SHA. The Chrome now legitimately
+  # includes later workspace/rotation features, but the trusted .92 touch
+  # paths MUST remain byte-identical to the device-approved source.
+  import json
+  b=(R/'DFNative12Chrome.m').read_text(encoding='utf8')
+  golden=json.loads((R/'tests/fixtures/divider92_exact_source.json').read_text())
+  for name,section in golden['parts'].items():
+   i=b.index(section['start'])
+   j=b.index(section['end'],i)
+   self.assertEqual(b[i:j],section['text'],name)
+  logo=(R/'tests/fixtures/logo92_contact_and_swap_baseline.txt').read_text()
+  i=b.index('- (void)logoTouchDown:')
+  j=b.index('// The divider window itself is re-framed',i)
+  self.assertEqual(b[i:j],logo)
+  self.assertIn('DFSlotCountForPreset(self.preset)<=1',b)
+  self.assertIn('divider92-hidden-owner-contact-cancelled-for-next-reveal',b)
  def test_v37_reference_dispatch_and_touch_wake(self):
   s=(R/'DFSceneHost.m').read_text()
   self.assertIn('BOOL applied=child2Applied||child3Applied||main2Applied;',s)
