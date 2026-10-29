@@ -64,6 +64,23 @@ jobs:
           command -v dpkg-deb >/dev/null || brew install dpkg
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
           test -d "$(xcrun --sdk iphoneos --show-sdk-path)"
+      - name: Inspect original untouched DuoNavi Native12 DEB touch and window owner
+        run: |
+          set -euo pipefail
+          ORIG='dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb'
+          EXPECT='f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd'
+          test -s "$ORIG"
+          test "$(shasum -a 256 "$ORIG" | awk '{print $1}')" = "$EXPECT"
+          dpkg-deb -x "$ORIG" "$RUNNER_TEMP/original-duonavi-payload"
+          DASH="$(find "$RUNNER_TEMP/original-duonavi-payload" -name 'DuoFaceDashboard.dylib' -type f -print -quit)"
+          test -n "$DASH"
+          xcrun otool -ov "$DASH" > "$RUNNER_TEMP/original-duonavi-objc-methods.txt"
+          for selector in CBDividerView CBBridgedSplitApp CBWindow 'pointInside:withEvent:' 'hitTest:withEvent:' 'handlePan:'; do
+            grep -Fq "$selector" "$RUNNER_TEMP/original-duonavi-objc-methods.txt"
+            printf 'ORIGINAL_NATIVE12_BINARY_SELECTOR_CONFIRMED=%s\n' "$selector"
+          done
+          echo 'ORIGINAL_NATIVE12_DEB_HASH_AND_OBJC_METHOD_SCAN_PASS'
+          echo 'Original method presence does not prove all-pane wake touch delivery on the car.'
       - name: Compile and sign first-party SpringBoard split module
         run: |
           set -euo pipefail
