@@ -1,3 +1,13 @@
+## 2026-10-29 — USER ORDER: ISSUE SILEO QA BUILD TO VERIFY DISCONNECT AND SECOND PANE
+
+- Explicit instruction: `Ko đưa lên sileo thì xác minh kiểu j?` User requests actual rootless Sileo deployment to the **existing** source for live in-vehicle QA; do not withhold the DEB because hardware test is pending. They reported only one pane restored and actual native Maps still alive >60s unplug.
+- Previously released .109 is OLD SOURCE; not a fix. DuoDash comparison revealed source-only implementation fix: `57c17378e98ac1088e2f3ce7ac76594717db4940` tracks ready managed scenes including pre-existing apps, persists second-slot intent while pending; `168b55ac60b48a499b95e25819a5f2230ef8dd96` stores last user-opted native Maps separately and captures fresh same-session verified lease only; `9c9774579058d6d1554178451ac7faff4aee33a3` native lease tests; CI `40829834478` and `40829834581` SUCCESS, `40830151421` SUCCESS, physical close has NOT been verified.
+- New independent `.110` staged in source commit `619f53fbc05250e027104ae0baca36a0f7a3858c`. Version `0.0.110~duodash-managed-map1`, native `0.1.110~duodash-managed-map1`. Packaging and critical source tests pinned in dedicated `.github/workflows/duoface-110-managed-maps-reconnect-sileo-build.yml` auto-trigger GitHub Actions run [40830475855](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40830475855). Original .109 workflow frozen manual-only. Nothing has been installed on user's iPhone by GitHub.
+- Publication process: only after this run creates one signed iphoneos-arm64 integrated DEB, archives exact binary SHA in DuoFace repo, update `chuongnguyen89dn-ui/carplaydsp` main APT publisher with SHA-pinned .110 and preserve existing .109/.108/.92/.90 archival binaries; verify Pages build/deploy, one advertised latest Sileo record and actual downloaded public DEB SHA. Source/test success does NOT mean CarPlay device confirmation.
+- Actual device test required: enable iPhone option `Đóng app khi ngắt CarPlay` if currently OFF (default OFF), unplug real display, wait >10s, verify `DuoFaceDisconnectClose.log` and ACK `VerifiedExited`, compare Maps PID/audio, reconnect and observe both slots restoration; also preserve vertical logo drag without 3s hold. Native Maps owner captured only if verified in CarPlayApp. Never claim maps process terminated without evidence.
+
+---
+
 ## 2026-10-29 — .109 PUBLIC SILEO VERIFIED — vertical logo correction (device still unverified)
 
 - **ROOT CAUSE**: published .108 hard-disabled DFDragLogo and reset persisted LogoFraction to 0.5. The 2026-10-26 approved independent up/down logo control was missing. The earlier statement that .108 had the full requested divider was incorrect.
