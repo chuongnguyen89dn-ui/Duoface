@@ -17,6 +17,7 @@
 // Tapping an eligible disabled installed app first persists permission to the
 // SAME preferences used by the iPhone; it does NOT start a remote scene.
 @interface DFAddMoreAppsController : UITableViewController
+- (instancetype)initWithDisabledApps:(NSArray<DFAppInfo *> *)apps;
 @property(nonatomic,copy) NSArray<DFAppInfo *> *candidates;
 @property(nonatomic,copy) void (^didEnable)(void);
 @end
