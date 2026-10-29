@@ -1,3 +1,15 @@
+## CHECKPOINT 2026-10-29 DuoFace #5 #6 #7 source CI PASS run 40840853021
+
+- New user requirements: remember 1..4 physical-window app IDs only after real scene ready; reconnect sequentially restores only still-installed AND explicitly iPhone-approved bundles, after splash, with timeout/stop generation gate and explicit phone opt out/clear. This is independent of iPhone preset-based app assignment (cancelled).
+- 3/4-app reorder: clockwise/counterclockwise repositions PHYSICAL host UIWindow frames through validated permutation, never moves hosted SBAppViewController to another parent or recreates media scenes; only when all actual scenes ready, no pending.
+- Running manager: separate owned LIVE scene state, guarded PID lookup from SBApplication + kill(pid,0) read-only, display PID unknown if absent, Close/Restart only owned scene host operations. No claim of actual app-process termination/foreground state without device evidence.
+- Files: DFSlotWorkspacePolicy.h, DFNative12Chrome.m, DFSceneHost.m/.h, DFAppPickerVC.m/.h, DFNativeHostRootController.m; tests/workspace_runtime.m, tests/test_workspace_098.py and byte-for-byte golden .92 logo contact and swap fixture; report at sideplay/audit/duoface-workspace-098/REPORT.md.
+- GitHub Actions https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40840853021 source SHA c66586caf08c530c3cef8082ec05ed4ad156f1ce; Python=success; Foundation runtime=success; iOS16 syntax=success. Permanent evidence sideplay/audit/duoface-workspace-098/ci/runs/40840853021.txt.
+- NO integrated signed DEB, NO Sileo upload, NO CarPlay physical device test. Do not claim parity in app process exit or dual 3/4 gesture until parked-car QA. Preserve .90 YouTube orientation, original .92 3s logo raw methods, system Dock, Maps native trial and nine presets.
+- Next: resolve any failed CI at exact logged file/line; inspect source before package. On actual car test reconnect, no duplicate host, 3/4 swap media continuity, PID correctness vs process list, Close/Restart app vs scene semantics. Do not publish to Sileo without user request.
+
+---
+
 ## CURRENT DuoFace .112 — SIGNED & SILEO PUBLIC VERIFIED, physical hardware QA PENDING (2026-10-29)
 
 - Project: `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-jb-embedded-appbridge-20261020`. Gold references: Native12 HUD8/visual12; independent first-party code only. Keep .90 YouTube playback/orientation, .92 logo/ratio-drag behavior, Apple Dock, Maps-native ownership, reconnect close safeguard; NEVER claim device proof from source/CI.
