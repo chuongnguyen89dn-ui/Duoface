@@ -25,7 +25,7 @@ def main(args):
     if len(archives) != 1:
         raise ValueError("expected exactly one signed integrated DEB in this run")
     version = archives[0].name.split("com.duoface.jb.embedded_", 1)[1].split("_iphoneos-arm64.deb", 1)[0]
-    if version not in ("0.0.90~nativegetters1", "0.0.91~nativemapqa1", "0.0.92~logo3s1", "0.0.94~phoneapps1"):
+    if version not in ("0.0.90~nativegetters1", "0.0.91~nativemapqa1", "0.0.92~logo3s1", "0.0.94~phoneapps1", "0.0.95~duomanager1"):
         raise ValueError("unsupported QA archive version: " + version)
     deb = archives[0]
     digest = hashlib.sha256(deb.read_bytes()).hexdigest()
@@ -68,6 +68,14 @@ Actual macOS multi-module build, unit tests, iOS16 app compile, ldid, dpkg and i
 New own `DFEnabledAppsPolicy.h` + iPhone tab app switches + Recommended/All/None + CarPlay single-per-slot allowlist, prefs atomic write/readback and notify hot reload. Based on Native12 original 12+22 method audit and DuoDash 1.1.3 read-only binary evidence; OmniCar original did NOT establish the equivalent phone manager. No vendor license/DEB reused. .90 user-confirmed YouTube, .92 logo, Apple Dock and experimental Maps unchanged.
 No device test or Sileo delivery is implied by this archive. Next verify pinned publisher APT+DEB remote checksum, then parked iPhone/CarPlay UI regression.
 
+---
+"""
+    if version == "0.0.95~duomanager1":
+        checkpoint = f"""## CHECKPOINT 2026-10-29 DuoFace .95 independent AppBridge Manager QA — NO SILEO
+{marker}; signed one rootless candidate: sideplay/jb-embedded-appbridge/evidence/runs/{run_id}/{deb.name}; SHA256 {digest}.
+GitHub Actions: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run_id}
+Combines independent DuoFace My Apps/other/system iPhone settings search and per-app toggles/bulk choices, eligible proxy filtering, CarPlay picker selected-only and stale tap guard; existing manual native Maps command reachable from Apps settings, live owner scene/adapter remains separate; exact .92 3-second logo and prior .90 YouTube orientation source is hash-pinned. No third-party runtime source or license copied.
+SILEO_PUBLISHED=FALSE; DEVICE_TESTED=FALSE. No native Maps side-by-side scene, physical logo contact, YouTube live playback or external CarPlay validation claimed. Do not publish without a distinct user instruction. Preserve .92/.90 rollback.
 ---
 """
     old = handoff.read_text(encoding="utf-8")
