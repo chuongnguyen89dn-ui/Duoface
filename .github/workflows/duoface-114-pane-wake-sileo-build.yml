@@ -1,18 +1,5 @@
 name: DuoFace 114 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-114-pane-wake-sileo-build.yml'
-      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
-      - 'sideplay/duoface-native-scene-host/tests/test_carplay_home_reentry_111.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_pane_anywhere_wake_114.py'
-      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/duoface-native-scene-host/Info.plist'
-      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
-      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package.py'
   workflow_dispatch:
 permissions:
   contents: write
