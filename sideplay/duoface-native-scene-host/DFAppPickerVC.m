@@ -491,7 +491,7 @@
     // No synthetic entries, no duplicates: only IDs actually observed in
     // the independent scene host by the menu owner.
     NSMutableOrderedSet<NSString *> *unique=[NSMutableOrderedSet new];
-    NSSet<NSString *> *enabled=DFConfiguredEnabledAppIDs();
+    NSArray<NSString *> *enabled=DFConfiguredEnabledAppIDs();
     for(id bid in verifiedBundleIDs)
         if([bid isKindOfClass:NSString.class] && [bid length] &&
            DFPickerAllowsApp(bid,enabled))
