@@ -9,7 +9,6 @@
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
 #import "DFAppPickerVC.h"
-#import "DFAppHabits.h"
 #import "DFLayoutEngine.h"
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
@@ -1552,11 +1551,6 @@ static void DFCLog(NSString *text) {
           if([prior isKindOfClass:UIView.class] && prior!=host)
               [[DFSceneHost sharedHost] releaseHostedView:prior];
           NSInteger visual=(self.swapped && i<2)?1-i:i;
-          // Count a habit only after our own scene host confirms the scene.
-          // This never auto-starts or changes any app's assigned pane.
-          NSString *readyBundle=[[DFSceneHost sharedHost] bundleIDForHostedView:host];
-          if(readyBundle.length && !DFRecordReadyAppHabit(readyBundle))
-              DFCLog(@"habit-count-save-failed-no-scene-impact");
           [self noteUserActivity];
           [self emit:@"App" ratio:@(visual)];
           DFCLog([NSString stringWithFormat:
