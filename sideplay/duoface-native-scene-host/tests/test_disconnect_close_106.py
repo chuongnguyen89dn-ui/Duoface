@@ -63,8 +63,8 @@ class Disconnect106(unittest.TestCase):
     self.assertIn(token,phone)
   build=f("build.sh")
   self.assertIn("DFDisconnectCloseCoordinator.m",build)
-  self.assertIn("0.1.110~duodash-managed-map1",build)
-  self.assertIn("0.1.110~duodash-managed-map1",f("control"))
+  self.assertIn("0.1.111~home-reentry-youtube1",build)
+  self.assertIn("0.1.111~home-reentry-youtube1",f("control"))
  def test_manual_diagnostics_records_disconnect_actual_pid_outcome(self):
   source=f("DFNativeDiagnostics.m")
   self.assertIn("DuoFaceDisconnectClose.log",source)

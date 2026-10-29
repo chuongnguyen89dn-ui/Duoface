@@ -1,12 +1,5 @@
-name: DuoFace 110 managed apps and native Maps after disconnect + two-pane restore signed QA Sileo build
+name: DuoFace 110 archived signed Sileo package (manual only, superseded by Home 111)
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-110-managed-maps-reconnect-sileo-build.yml'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
   workflow_dispatch:
 permissions:
   contents: write
