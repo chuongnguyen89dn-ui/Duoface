@@ -50,6 +50,7 @@
       @"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log",
       @"/var/mobile/Library/Logs/DuoFaceCarPlayOwnerSnapshot.log",
       @"/var/mobile/Library/Logs/DuoFaceNativeMapPane.log",
+      @"/var/mobile/Library/Logs/DuoFaceDisconnectClose.log",
       @"/var/mobile/Library/Logs/DuoFaceFatalException.log"];
     for(NSString *p in ownLogs){
         [summary appendFormat:@"\n=== %@ (last 256 KiB) ===\n%@\n",
@@ -102,6 +103,15 @@
       }
     }
     [summary appendString:@"Native Maps pixels and actual route continuation require CarPlay on-device visual QA; never inferred from ACK.\n"];
+    NSDictionary *closeState=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.nativehost.disconnect-close.ack.v1.plist"];
+    NSNumber *closeTime=closeState[@"Timestamp"];
+    NSTimeInterval closeAge=[closeTime isKindOfClass:NSNumber.class]?
+       NSDate.date.timeIntervalSince1970-closeTime.doubleValue:INFINITY;
+    [summary appendFormat:
+      @"Disconnect close (10s opt-in): status=%@ attempted=%@ verified=%@ age=%.2fs (process exit requires PID check; never an ACK alone)\\n",
+      closeState[@"Status"]?:@"not-observed",closeState[@"Attempted"]?:@0,
+      closeState[@"VerifiedExited"]?:@0,closeAge];
     NSMutableArray<NSDictionary *> *found=[NSMutableArray new];
     NSMutableSet<NSString *> *seen=[NSMutableSet new];
     NSArray<NSString *> *crashDirs=@[
