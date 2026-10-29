@@ -40,7 +40,7 @@ class Disconnect106(unittest.TestCase):
   self.assertIn('@"BundleID":bundle,@"PID":pid',chrome)
   self.assertIn('DFNativeMapFreshLease(session,NSDate.date.timeIntervalSince1970)',f("DFDisconnectCloseCoordinator.m"))
   self.assertIn('captured-verified-native-map-lease',f("DFDisconnectCloseCoordinator.m"))
-  self.assertIn('! [bundle isEqualToString:@"com.apple.Maps"]'.replace('! ','!'),f("DFDisconnectCloseCoordinator.m"))
+  self.assertIn('![bundle isEqualToString:@"com.apple.Maps"]',f("DFDisconnectCloseCoordinator.m"))
  def test_abort_reconnect_disable_stale_pid_and_foreground(self):
   src=f("DFDisconnectCloseCoordinator.m")
   for token in ("DFDisconnectCloseGrace*NSEC_PER_SEC",

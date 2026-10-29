@@ -25,7 +25,7 @@ class DuoDashManagedReconnect110(unittest.TestCase):
   self.assertIn("kill(original,0)",disc) # read-only PID exit check
   self.assertNotIn("kill(pid,SIGTERM)",disc)
   self.assertIn("capture-empty",disc) # explicit evidence when no managed app
- def test_old_only-new-process_filter_is_replaced_with_duodash_managed_scope(self):
+ def test_old_only_new_process_filter_is_replaced_with_duodash_managed_scope(self):
   chrome=f("DFNative12Chrome.m")
   block=chrome.split("- (NSArray<NSDictionary *> *)disconnectTerminationCandidates {")[1].split(
     "- (NSArray<NSDictionary *> *)actualTwoPaneWindowReadback",1)[0]
