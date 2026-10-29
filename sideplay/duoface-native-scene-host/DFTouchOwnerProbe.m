@@ -5,6 +5,7 @@
 #import "DFDeepTrace.h"
 #import "DFNative12Chrome.h"
 #import "DFDockZoomCoordinator.h"
+#import "DFDisconnectCloseCoordinator.h"
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -30,6 +31,8 @@ static NSString *const kCommandFile=@"/var/mobile/Library/Preferences/com.duofac
 static NSDictionary<NSString *,id> *sZoomReceipt;
 static BOOL sZoomFinishing;
 static BOOL DFSessionStillActive(void);
+static void DFEnsureDisconnectMonitor(void);
+static BOOL sDisconnectMonitorArmed;
 // CrashReporter .ips names the exact SpringBoard assertion receiver at
 // SBAppViewController sceneHandle:didUpdateSettingsWithDiff:+440, but omits
 // NSException.name/reason. Do not hook private SpringBoard methods or swallow
@@ -121,6 +124,22 @@ static id DFConnectedCarDisplay(void) {
         if(uid && [ids containsObject:uid])return display;
     }
     return nil;
+}
+static void DFEnsureDisconnectMonitor(void) {
+ if(sDisconnectMonitorArmed)return;
+ if(!sChrome && !DFDisconnectCloseNeedsMonitoring())return;
+ sDisconnectMonitorArmed=YES;
+ dispatch_after(dispatch_time(DISPATCH_TIME_NOW,NSEC_PER_SEC),
+                dispatch_get_main_queue(),^{
+    sDisconnectMonitorArmed=NO;
+    if(sChrome || DFDisconnectCloseNeedsMonitoring()){
+       // Only a missing *real* AVExternalDevice-to-CADisplay association
+       // counts as physical disconnect; Home / foreground owner revocation
+       // alone is never an app termination event.
+       DFDisconnectClosePhysicalObserved(DFConnectedCarDisplay()!=nil);
+       DFEnsureDisconnectMonitor();
+    }
+ });
 }
 static BOOL DFReadFreshSession(void) {
     NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
@@ -234,11 +253,16 @@ static void DFStopProbe(NSString *reason) {
     sLastAckSequence=0;
     sRetryCount=0;sRetryAt=0;
     DFNative12Chrome *old=sChrome;
+    // Capture EXACT live, owner-verified new-process PIDs before stopAllHosts
+    // invalidates the views. These are NOT the saved app favorites/workspace.
+    if(old && sSession)DFDisconnectCloseCapture(
+        [old disconnectTerminationCandidates],sSession);
     sChrome=nil;
     if(old){
         [old stop];
         DFTOLog(@"window-detached",reason);
     }
+    DFEnsureDisconnectMonitor();
 }
 static BOOL DFSessionStillActive(void) {
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
@@ -380,6 +404,11 @@ static void DFStartProbe(void) {
         if(!DFSessionStillActive()){
             DFStopProbe(@"session-revoked-during-window-start");return;
         }
+        DFDisconnectCloseNewActiveSession();
+        DFDisconnectCloseSetConnectionProbe(^BOOL{
+            return DFConnectedCarDisplay()!=nil;
+        });
+        DFEnsureDisconnectMonitor();
         DFTOLog(@"native12-ui-owner-visible",
           [NSString stringWithFormat:@"windowCount=4 content=%@",
            NSStringFromCGRect(region)]);
@@ -414,6 +443,25 @@ static void DFInstallTouchOwnerProbe(void) {
                        dispatch_get_main_queue(),^(int t) {
                 (void)t;DFReceiveAck();
             });
+            static int sClosePolicyToken=-1;
+            notify_register_dispatch("com.duoface.nativehost.disconnect-close.changed.v1",
+               &sClosePolicyToken,dispatch_get_main_queue(),^(__unused int t){
+                  DFDisconnectClosePolicyChanged();
+               });
+            // Physical notifications wake the same guarded monitor sooner,
+            // but never use scene/Home deactivation as physical proof.
+            for(NSString *name in @[UIScreenDidDisconnectNotification,
+                                      UIScreenDidConnectNotification,
+                                      @"CarPlayIsConnectedDidChange"]){
+                [[NSNotificationCenter defaultCenter] addObserverForName:name
+                   object:nil queue:NSOperationQueue.mainQueue
+                   usingBlock:^(__unused NSNotification *note){
+                      if(sChrome || DFDisconnectCloseNeedsMonitoring()){
+                         DFDisconnectClosePhysicalObserved(DFConnectedCarDisplay()!=nil);
+                         DFEnsureDisconnectMonitor();
+                      }
+                   }];
+            }
             int layout=notify_register_dispatch(
                     "com.duoface.nativehost.layout.changed.v1",&sLayoutToken,
                     dispatch_get_main_queue(),^(int t) {
