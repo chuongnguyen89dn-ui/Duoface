@@ -13,6 +13,7 @@
 @property(nonatomic,strong) AVSpeechSynthesizer *speaker;
 @property(nonatomic,copy) void (^done)(NSString *);
 @property(nonatomic,assign) NSUInteger generation;
+@property(nonatomic,assign) BOOL ownsVoiceAudioSession;
 @property(nonatomic,assign,readwrite,getter=isListening) BOOL listening;
 @end
 @implementation DFVoiceAssistant
@@ -30,8 +31,11 @@
  [self.request endAudio];[self.task cancel];self.task=nil;
  self.request=nil;self.engine=nil;self.listening=NO;self.done=nil;
  // Never leave a CarPlay music ducking session active.
- [[AVAudioSession sharedInstance] setActive:NO
-     withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+ if(self.ownsVoiceAudioSession) {
+   self.ownsVoiceAudioSession=NO;
+   [[AVAudioSession sharedInstance] setActive:NO
+       withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+ }
 }
 - (NSString *)voiceReply:(NSString *)input {
  NSString *text=[input lowercaseString];
@@ -104,6 +108,7 @@
     if(callback)callback(error.localizedDescription?:@"Audio session unavailable");
     return;
  }
+ self.ownsVoiceAudioSession=YES;
  AVAudioEngine *engine=[AVAudioEngine new];
  self.engine=engine;
  self.request=[SFSpeechAudioBufferRecognitionRequest new];
