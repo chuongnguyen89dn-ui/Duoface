@@ -53,6 +53,21 @@ jobs:
               verified=p.read_text(encoding="utf-8")
               assert verified.startswith(body) and verified.endswith(old)
               print("APP_HABITS_HANDOFF_READBACK_PASS")
+          checked=p.read_text(encoding="utf-8")
+          passed="## VERIFIED 2026-10-29 app habits source-only macOS runtime and iOS16 compile"
+          if passed not in checked:
+              verification="""## VERIFIED 2026-10-29 app habits source-only macOS runtime and iOS16 compile
+
+          - GitHub Actions run 40795905490 on source c500683170dab9a22f855b496c30643c696d2ade completed SUCCESS; job 123192202265, four Python contracts PASSED, actual macOS clang/Foundation executable emitted APP_HABITS_RUNTIME_PASS, three Objective-C UIKit owners passed iOS16 SDK syntax, run result archived in sideplay/audit/duoface-app-habits-096/ci/LATEST_RESULT.txt and runs/40795905490.txt.
+          - Exact new behavior is independent user default and pinned app ranking plus ready-scene selection counts; no fixed left/right or slot 3/4 iPhone assignments. The existing per-pane CarPlay picker stays manual. Code commits and paths in preceding checkpoint/report.
+          - No new signed DEB or Sileo publication and NO iPhone/CarPlay device QA yet. Old .90 orientation, .92 logo, Dock and native Maps require on-device regression before release. Continue by reviewing source against current .95 stable and, only on new user request, package a new unique QA version and publish via the Sileo pipeline after SHA verification.
+
+          ---
+
+          """
+              p.write_text(verification+checked,encoding="utf-8")
+              assert p.read_text(encoding="utf-8").startswith(verification)
+              print("APP_HABITS_CI_VERIFIED_HANDOFF_READBACK_PASS")
           PY
             git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
             if git -C "$TEMP" diff --cached --quiet; then
