@@ -1856,16 +1856,48 @@ static void DFCLog(NSString *text) {
     UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
     NSString *activeID=[active isKindOfClass:UIView.class]?
          [owner bundleIDForHostedView:active]:nil;
-    if([activeID isEqualToString:bundleID]){
+    BOOL activeIsLive=[active isKindOfClass:UIView.class] &&
+         [owner isLiveSceneForHostedView:active];
+    DFCLog([NSString stringWithFormat:
+        @"app-selection-attempt visual=%ld physical=%ld requested=%@ prior=%@ live=%d pending=%d restore=%d",
+        (long)slot,(long)physicalSlot,bundleID,activeID?:@"",activeIsLive,
+        [pending isKindOfClass:UIView.class],self.restorePending]);
+    // A scene-ready notification is historical, not a current render lease.
+    // A previous Home/CarPlay teardown can leave a cached selected bundle
+    // while the SpringBoard host is no longer live. Do not treat its badge
+    // or identity as proof that selecting the app succeeded.
+    if([active isKindOfClass:UIView.class] && !activeIsLive){
+        [owner releaseHostedView:active];
+        self.hostedScenes[(NSUInteger)physicalSlot]=NSNull.null;
+        self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO;
+        DFCLog([NSString stringWithFormat:
+            @"app-selection-released-stale-scene physical=%ld bundle=%@",
+            (long)physicalSlot,activeID?:@""]);
+        active=nil;activeID=nil;
+    }
+    if(activeIsLive && [activeID isEqualToString:bundleID]){
         self.appPickerVisible=NO;
         self.appPickerWindow.hidden=YES;
         [self layoutControls];
-        DFCLog([NSString stringWithFormat:@"replace-same-app-noop slot=%ld bundle=%@",
+        DFCLog([NSString stringWithFormat:@"replace-same-live-app-noop slot=%ld bundle=%@",
             (long)slot,bundleID]);return;
     }
     if([pending isKindOfClass:UIView.class]){
+        // Manual selection supersedes the pending automatic restore in THIS
+        // physical pane; otherwise its one-at-a-time gate can strand all
+        // later saved slots after the replaced host is invalidated.
+        BOOL interruptedRestore=self.restorePending &&
+                                 self.restoringPhysical==physicalSlot;
         [owner releaseHostedView:pending];
         self.pendingScenes[(NSUInteger)physicalSlot]=NSNull.null;
+        if(interruptedRestore){
+            self.restorePending=NO;
+            self.restoringPhysical=-1;
+            [self.restoreQueue removeObject:@(physicalSlot)];
+            DFCLog([NSString stringWithFormat:
+                @"workspace-restore-interrupted-by-manual-selection physical=%ld",
+                (long)physicalSlot]);
+        }
     }
     NSError *error=nil;
     UIView *host=[owner hostViewForBundleID:bundleID error:&error];
