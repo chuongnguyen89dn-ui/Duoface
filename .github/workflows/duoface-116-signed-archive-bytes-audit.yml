@@ -1,0 +1,39 @@
+name: DuoFace 116 archived signed bytes SHA diagnostic
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-116-signed-archive-bytes-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare immutable repository blob with published raw endpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          PKG='com.duoface.jb.embedded_0.0.116~pane-trace1_iphoneos-arm64.deb'
+          ARCHIVE="sideplay/jb-embedded-appbridge/evidence/runs/40870166155/$PKG"
+          EXPECT='fc87ceb4a8492469563246c00a9a205b838498f7652f8515bb08b9ca356285a8'
+          URL="https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/eaad4d45d8b6fbb6d41b32a04c632592d6f8d3a7/$ARCHIVE"
+          echo LOCAL_ARCHIVE_SHA:
+          sha256sum "$ARCHIVE"
+          echo LOCAL_ARCHIVE_SIZE:
+          wc -c "$ARCHIVE"
+          echo RAW_IMMUTABLE_URL_SHA:
+          curl -fLsS --retry 3 "$URL" -o "$RUNNER_TEMP/downloaded-116.deb"
+          sha256sum "$RUNNER_TEMP/downloaded-116.deb"
+          echo RAW_SIZE:
+          wc -c "$RUNNER_TEMP/downloaded-116.deb"
+          echo GIT_BLOB_SHA:
+          git hash-object "$ARCHIVE"
+          git ls-files --eol "$ARCHIVE"
+          if cmp "$ARCHIVE" "$RUNNER_TEMP/downloaded-116.deb"; then echo GIT_RAW_BYTES_IDENTICAL; else echo GIT_RAW_BYTES_DIFFERENT; fi
+          if printf '%s  %s\n' "$EXPECT" "$ARCHIVE" | sha256sum -c -; then echo SIGNED_ARCHIVE_EXPECTED_SHA_PASS; else echo SIGNED_ARCHIVE_EXPECTED_SHA_MISMATCH; fi
+          dpkg-deb -f "$ARCHIVE" Package Version Architecture
+          echo INPUT_SHA_DIAGNOSTIC_FINISHED
