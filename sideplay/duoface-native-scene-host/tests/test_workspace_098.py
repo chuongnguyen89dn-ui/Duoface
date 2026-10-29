@@ -28,7 +28,7 @@ class Workspace098(unittest.TestCase):
   self.assertIn("installedBundleIDsForRestore",chrome)
   self.assertIn("self.restorePending=YES;",chrome)
   self.assertIn("self.restoringPhysical=physical;",chrome)
-  self.assertIn("self.restoreGeneration!=generation",chrome)
+  self.assertIn("owner.restoreGeneration!=generation",chrome)
   self.assertIn("workspace-restore-timeout-skipped",chrome)
   self.assertIn("self.pendingScenes[(NSUInteger)physical]=surface;",chrome)
   self.assertIn("++self.restoreGeneration;",chrome)
