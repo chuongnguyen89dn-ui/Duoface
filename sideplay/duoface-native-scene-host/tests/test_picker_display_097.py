@@ -31,23 +31,33 @@ class AppPicker097(unittest.TestCase):
   self.assertIn("self.runningMode?1:self.gridRows",picker)
   self.assertIn("notify_cancel(self.displayNotifyToken)",picker)
   self.assertNotIn("DFPickerDisplayPath",read("DFSceneHost.m"))
- def test_add_more_only_allows_explicit_action_no_auto_launch(self):
+ def test_iphone_is_sole_app_permission_owner(self):
   picker=read("DFAppPickerVC.m")
-  for token in ("DFAddMoreAppsController","presentAddMore",
-       'card.title.text=DFLocalize(@"Thêm App",@"Add More")',"DFWriteEnabledAppIDs(updated.array)",
-       "DFConfiguredEnabledAppIDs()?:@[]",
-       "if(!self.runningMode && (NSUInteger)indexPath.item==display.count)"):
-   self.assertIn(token,picker)
-  section=picker.split("@implementation DFAddMoreAppsController",1)[1].split("@end",1)[0]
-  self.assertNotIn("hostViewForBundleID",section)
-  self.assertNotIn("appPicker:self didSelectBundleID",section)
- def test_categories_only_use_filtered_installed_apps(self):
+  phone=read("DFNativeHostRootController.m")
+  self.assertIn("DFPickerAllowsApp(app.bundleID,enabled)",picker)
+  self.assertIn("DFPickerAllowsApp(app.bundleID,DFConfiguredEnabledAppIDs())",picker)
+  self.assertIn("if((NSUInteger)indexPath.item>=display.count)return;",picker)
+  self.assertIn("return [self pageCount]*MAX(1,self.cardsPerPage);",picker)
+  self.assertIn("NSInteger count=(NSInteger)self.visibleApps.count;",picker)
+  for forbidden in ("DFAddMoreAppsController", "presentAddMore", "showCategoryMenu",
+                    "categoryButton", "categoryMode",
+                    "UIAlertController", "UINavigationController",
+                    "DFWriteEnabledAppIDs(", "plus.circle.fill"):
+   self.assertNotIn(forbidden,picker)
+  self.assertIn("My Apps — Đã chọn",phone)
+  self.assertIn("DFWriteEnabledAppIDs",phone)
+  self.assertIn("Bật đề xuất",phone)
+  self.assertIn("Bật tất cả",phone)
+  self.assertIn("Tắt tất cả",phone)
+ def test_carplay_filter_is_not_a_popup_and_only_displays_iphone_selection(self):
   picker=read("DFAppPickerVC.m")
-  self.assertIn("self.categoryMode==1 && pinned",picker)
-  self.assertIn("self.categoryMode==2 && !system",picker)
-  self.assertIn("self.categoryMode==3 && system",picker)
-  self.assertIn('DFLocalize(@"Ưa dùng",@"Favorites")',picker)
   self.assertIn("return self.apps;",picker)
+  self.assertIn("DFRankAppIDsByHabits(",picker)
+  self.assertIn("self.pageControl.frame=CGRectMake(8,",picker)
+  self.assertIn("self.runningMode?4:self.gridColumns",picker)
+  self.assertIn("self.runningMode?1:self.gridRows",picker)
+  self.assertNotIn("DFAddMoreRow",picker)
+  self.assertNotIn("Phân loại ứng dụng",picker)
  def test_keep_original_critical_runtime_untouched(self):
   build=read("build.sh")
   for token in ("DFYouTubeOrientationRelay.m","DFCarPlayDockOwner.m",
