@@ -328,7 +328,7 @@
  NSMutableArray *items=[NSMutableArray new];
  for(NSDictionary *app in self.installedApps){
   NSString *bid=app[@"bundle"],*name=app[@"name"];
-  BOOL selected=!enabled||[enabled containsObject:bid];
+  BOOL selected=enabled && [enabled containsObject:bid];
   BOOL system=[app[@"kind"] isEqual:@"system"];
   BOOL matches=!self.appSearch.length||
     [name localizedCaseInsensitiveContainsString:self.appSearch]||
@@ -387,7 +387,7 @@
     toggle.tag=[self.installedApps indexOfObjectIdenticalTo:item];
      toggle.accessibilityLabel=[NSString stringWithFormat:@"Cho phép %@",item[@"name"]];
     NSArray *enabled=DFConfiguredEnabledAppIDs();
-    [toggle setOn:(!enabled || [enabled containsObject:item[@"bundle"]]) animated:NO];
+    [toggle setOn:(enabled && [enabled containsObject:item[@"bundle"]]) animated:NO];
     [toggle addTarget:self action:@selector(appSwitchToggled:)
          forControlEvents:UIControlEventValueChanged];
     cell.accessoryView=toggle;
@@ -470,7 +470,7 @@
  if(!DFIsEligibleAppID(bid))return;
  NSArray *existing=DFConfiguredEnabledAppIDs();
  NSMutableOrderedSet<NSString *> *updated=[NSMutableOrderedSet orderedSetWithArray:
-     existing?:[self allEligibleBundleIDs]];
+     existing?:@[]];
  if(sender.on)[updated addObject:bid];else [updated removeObject:bid];
  if(!DFWriteEnabledAppIDs(updated.array)){[sender setOn:!sender.on animated:YES];[self appSettingsSaveFailed];return;}
  [self.appsTable reloadData];
