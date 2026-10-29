@@ -1,3 +1,13 @@
+## 2026-10-29 — DuoFace .108 PUBLIC SILEO VERIFIED (device QA pending)
+
+- User explicitly authorized public Sileo. Latest APT entry EXACTLY ONE `com.duoface.jb.embedded`, version `0.0.108~ratio-disconnect-restore1`, iphoneos-arm64, signed one-DEB rootless. Public Sileo source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Direct verified binary `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.108~ratio-disconnect-restore1_iphoneos-arm64.deb`, SHA256 `745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201`.
+- Actual signed DuoFace build [40822276085](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40822276085) SUCCESS, source SHA `696f514eb25c9e9be24ff2689fe2d422b93db85a`, archive commit `4272b46a48d5a616d43705a86808dd24d65e19fb`. Exact bytes and checksums at `sideplay/jb-embedded-appbridge/evidence/runs/40822276085/`. QA artifact 12875007659.
+- Publisher `chuongnguyen89dn-ui/carplaydsp` main commit `ee029484b96702f58a22bbc92425ff6c605aa723`; [run 40822668454](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40822668454) SUCCESS all jobs: build 123278454907, deploy 123279488854, verify-duoface-integrated-pages 123279626959, verify-qa11-pages 123279626922. Actionlint [40822668328](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40822668328) SUCCESS. Public verifier 2026-10-29T05:22:43Z logged `DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED`, `DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED`, `DUOFACE_092_ROLLBACK_PUBLIC_SHA_UNCHANGED_PASS`, `DUOFACE_090_USER_DEVICE_VIDEO_ROLLBACK_UNCHANGED_PASS`. Previous .106 also retained as direct download.
+- Current behavior based on source CI ONLY: no hold 3s, logo travels with ratio divider, tap swap; strict iPhone-app approvals; reconnect restores allowed physical app slots and layout; optional OFF-by-default user-enabled 10s physical disconnect close with PID/foreground guards. No actual iPhone/CarPlay installation, no proof of process termination or app playback/Maps restoration. .107 archive is obsolete and must not replace published .108.
+- User install via Sileo: Sources -> refresh existing carplaydsp source -> DuoFace Independent (Integrated CarPlay Beta) -> Upgrade. Do NOT install via Filza. Preserve original .90/.92 rollback bytes and no forced respring. CarPlay physical QA while parked remains pending.
+
+---
+
 ## 2026-10-29 — SIGNED .108 ONE-DEB BUILD VERIFIED; SILEO PUBLISHER STARTED
 
 - **User authorized Sileo publication**. New corrected integrated release: `com.duoface.jb.embedded`, version **`0.0.108~ratio-disconnect-restore1`**, rootless iOS16 `iphoneos-arm64`, no 3-second logo hold. NativeHost `0.1.108~ratio-disconnect-restore1`.
