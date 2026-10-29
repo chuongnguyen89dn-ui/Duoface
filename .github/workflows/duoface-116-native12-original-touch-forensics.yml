@@ -96,12 +96,31 @@ jobs:
           assert all(m['instructions'] for m in j['methods'])
           print('NATIVE12_TOUCH_CLONE_ATTACHMENT_6_METHODS_EXTRACTED')
           PY
+      - name: Decode original window hitTest, pointInside and sendEvent C IMPs
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST=sideplay/audit/duoface-116-touch-ownership-20261029/original-window-callback-imp
+          python3 sideplay/audit/duoface-116-touch-ownership-20261029/extract_original_passthrough_callbacks.py \
+            --binary "$RUNNER_TEMP/native12-original-touch/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --method-index "$RUNNER_TEMP/native12-original-touch/index.json" \
+            --out "$DEST"
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('sideplay/audit/duoface-116-touch-ownership-20261029/original-window-callback-imp/ORIGINAL_DYNAMIC_UIWINDOW_TOUCH_CALLBACKS.json')
+          j=json.loads(p.read_text())
+          assert j['dashboard_macho_sha256']=='9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea'
+          assert set(j['callbacks'])=={'hitTest:withEvent:','pointInside:withEvent:','sendEvent:'}
+          assert all(len(o['instructions'])>=5 for o in j['callbacks'].values())
+          print('ORIGINAL_NATIVE12_PASS_THROUGH_WINDOW_THREE_C_IMPS_VERIFIED')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: Native12-Original-Touch-Owner-Forensics
           path: |
             sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp/
             sideplay/audit/duoface-116-touch-ownership-20261029/original-owner-imp/
+            sideplay/audit/duoface-116-touch-ownership-20261029/original-window-callback-imp/
           if-no-files-found: error
       - name: Persist exact forensic evidence into DuoFace only, no Sileo or source deployment
         shell: bash
@@ -109,24 +128,27 @@ jobs:
           set -euo pipefail
           SRC="$(pwd)/sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp"
           SRC_OWNER="$(pwd)/sideplay/audit/duoface-116-touch-ownership-20261029/original-owner-imp"
+          SRC_CALLBACK="$(pwd)/sideplay/audit/duoface-116-touch-ownership-20261029/original-window-callback-imp"
           BRANCH=feature/duoface-jb-embedded-appbridge-20261020
           DEST=sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp
           DEST_OWNER=sideplay/audit/duoface-116-touch-ownership-20261029/original-owner-imp
+          DEST_CALLBACK=sideplay/audit/duoface-116-touch-ownership-20261029/original-window-callback-imp
           for attempt in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
             TEMP="$(mktemp -d)"
             git worktree add --detach "$TEMP" FETCH_HEAD
-            if test -s "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" && test -s "$TEMP/$DEST_OWNER/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json"; then
+            if test -s "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" && test -s "$TEMP/$DEST_OWNER/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" && test -s "$TEMP/$DEST_CALLBACK/ORIGINAL_DYNAMIC_UIWINDOW_TOUCH_CALLBACKS.json"; then
               echo ORIGINAL_TOUCH_FORENSICS_ALREADY_PERSISTED
               git worktree remove --force "$TEMP"
               exit 0
             fi
-            mkdir -p "$TEMP/$DEST" "$TEMP/$DEST_OWNER"
+            mkdir -p "$TEMP/$DEST" "$TEMP/$DEST_OWNER" "$TEMP/$DEST_CALLBACK"
             cp "$SRC"/* "$TEMP/$DEST/"
             cp "$SRC_OWNER"/* "$TEMP/$DEST_OWNER/"
+            cp "$SRC_CALLBACK"/* "$TEMP/$DEST_CALLBACK/"
             git -C "$TEMP" config user.name 'github-actions[bot]'
             git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TEMP" add "$DEST" "$DEST_OWNER"
+            git -C "$TEMP" add "$DEST" "$DEST_OWNER" "$DEST_CALLBACK"
             git -C "$TEMP" commit -m 'audit(native12): archive original touch/hitTest method evidence [skip ci]'
             if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
               echo ORIGINAL_TOUCH_FORENSICS_ARCHIVED
