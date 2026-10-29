@@ -189,6 +189,8 @@
 @property(nonatomic,strong) UILabel *emptyTitle;
 @property(nonatomic,strong) UICollectionView *cards;
 @property(nonatomic,strong) UIPageControl *pageControl;
+@property(nonatomic,strong) UIButton *categoryButton;
+@property(nonatomic,assign) NSInteger categoryMode;
 @property(nonatomic,assign) NSInteger cardsPerPage;
 @property(nonatomic,assign) NSInteger gridColumns;
 @property(nonatomic,assign) NSInteger gridRows;
@@ -330,6 +332,13 @@
                 forControlEvents:UIControlEventValueChanged];
     self.pageControl.accessibilityLabel=@"Trang ứng dụng DuoFace";
     [self.sheet addSubview:self.pageControl];
+    self.categoryButton=[UIButton buttonWithType:UIButtonTypeSystem];
+    self.categoryButton.titleLabel.font=[UIFont systemFontOfSize:11 weight:UIFontWeightSemibold];
+    self.categoryButton.accessibilityLabel=@"Lọc nhóm ứng dụng DuoFace";
+    [self.categoryButton addTarget:self action:@selector(showCategoryMenu)
+           forControlEvents:UIControlEventTouchUpInside];
+    [self.sheet addSubview:self.categoryButton];
+    self.categoryMode=0;
     self.closeButton=[UIButton buttonWithType:UIButtonTypeCustom];
     [self.closeButton setImage:[UIImage systemImageNamed:@"xmark"]
                    forState:UIControlStateNormal];
@@ -451,7 +460,12 @@
     CGFloat gridTop=top+(self.runningMode?39:4);
     CGFloat available=MAX(30,h-gridTop-34);
     self.cards.frame=CGRectMake(9,gridTop,MAX(100,w-18),available);
-    self.pageControl.frame=CGRectMake(10,MAX(gridTop,h-32),w-20,26);
+    self.pageControl.frame=CGRectMake(106,MAX(gridTop,h-32),MAX(60,w-116),26);
+    self.categoryButton.frame=CGRectMake(9,MAX(gridTop,h-32),94,25);
+    self.categoryButton.hidden=self.runningMode;
+    NSArray<NSString *> *categoryLabels=@[@"Tất cả",@"Ưa dùng",@"Người dùng",@"Hệ thống"];
+    [self.categoryButton setTitle:categoryLabels[(NSUInteger)MAX(0,MIN(3,self.categoryMode))]
+                       forState:UIControlStateNormal];
     // The app picker includes one Add More tile; running mode has NONE.
     // The actual App cards still represent ONLY installed, explicitly eligible IDs.
     BOOL empty=self.runningMode && self.visibleApps.count==0;
@@ -491,7 +505,42 @@
         }
         return active;
     }
-    return self.apps;
+    if(self.categoryMode==0)return self.apps;
+    NSDictionary *choices=DFCurrentAppChoices();
+    NSMutableArray<DFAppInfo *> *filtered=[NSMutableArray new];
+    for(DFAppInfo *app in self.apps) {
+      BOOL pinned=[choices[@"PinnedBundleIDs"] containsObject:app.bundleID] ||
+           [choices[@"DefaultBundleID"] isEqualToString:app.bundleID];
+      BOOL system=[app.bundleID hasPrefix:@"com.apple."];
+      if((self.categoryMode==1 && pinned) ||
+         (self.categoryMode==2 && !system) ||
+         (self.categoryMode==3 && system))
+          [filtered addObject:app];
+    }
+    return filtered;
+}
+- (void)showCategoryMenu {
+ if(self.runningMode || self.presentedViewController)return;
+ UIAlertController *menu=[UIAlertController alertControllerWithTitle:@"Phân loại ứng dụng"
+     message:@"Chỉ lọc trong những ứng dụng đã bật trên iPhone."
+     preferredStyle:UIAlertControllerStyleActionSheet];
+ NSArray<NSString *> *labels=@[@"Tất cả",@"Ưa dùng",@"Người dùng",@"Hệ thống"];
+ __weak typeof(self) weakSelf=self;
+ for(NSInteger i=0;i<(NSInteger)labels.count;i++) {
+    NSInteger category=i;
+    [menu addAction:[UIAlertAction actionWithTitle:labels[(NSUInteger)i]
+          style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a) {
+             DFAppPickerVC *owner=weakSelf;
+             if(!owner)return;
+             owner.categoryMode=category;
+             [owner reloadCards];
+             [owner.view setNeedsLayout];
+    }]];
+ }
+ [menu addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+ UIPopoverPresentationController *popover=menu.popoverPresentationController;
+ if(popover){popover.sourceView=self.categoryButton;popover.sourceRect=self.categoryButton.bounds;}
+ [self presentViewController:menu animated:YES completion:nil];
 }
 - (NSInteger)pageCount {
     NSInteger count=(NSInteger)self.visibleApps.count+(self.runningMode?0:1);
