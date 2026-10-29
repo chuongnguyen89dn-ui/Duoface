@@ -48,6 +48,7 @@
       @"/var/mobile/Library/Logs/DuoFaceDockOwner.log",
       @"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log",
       @"/var/mobile/Library/Logs/DuoFaceCarPlayOwnerSnapshot.log",
+      @"/var/mobile/Library/Logs/DuoFaceNativeMapPane.log",
       @"/var/mobile/Library/Logs/DuoFaceFatalException.log"];
     for(NSString *p in ownLogs){
         [summary appendFormat:@"\n=== %@ (last 256 KiB) ===\n%@\n",
@@ -66,6 +67,40 @@
        [summary appendFormat:@"%.2f\n",NSDate.date.timeIntervalSince1970-stamp.doubleValue];
     else [summary appendString:@"unknown\n"];
 
+    // Native Maps is owned by CarPlayApp, not SpringBoard. Include its
+    // acknowledged attach result and measured PHYSICAL panes so a human can
+    // distinguish a controller attach from real map tiles/navigation.
+    // Strip request IDs/session UUIDs. Never claim rendering from these.
+    NSDictionary *mapAck=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist"];
+    NSDictionary *physical=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
+    NSNumber *mapStamp=mapAck[@"Timestamp"];
+    double mapAge=[mapStamp isKindOfClass:NSNumber.class]?
+       NSDate.date.timeIntervalSince1970-mapStamp.doubleValue:INFINITY;
+    [summary appendFormat:
+      @"\nNative Map ACK: applied=%@ attached=%@ reason=%@ owner=%@ age=%.2fs\n",
+      [mapAck[@"Applied"] boolValue]?@"YES":@"NO",
+      [mapAck[@"PaneAttached"] boolValue]?@"YES":@"NO",
+      [mapAck[@"Reason"] isKindOfClass:NSString.class]?mapAck[@"Reason"]:@"none",
+      [mapAck[@"OwnerProcess"] isKindOfClass:NSString.class]?mapAck[@"OwnerProcess"]:@"unknown",
+      mapAge];
+    NSArray *physicalFrames=physical[@"Windows"];
+    if([physicalFrames isKindOfClass:NSArray.class]){
+      NSNumber *physicalStamp=physical[@"Timestamp"];
+      NSTimeInterval age=[physicalStamp isKindOfClass:NSNumber.class]?
+         NSDate.date.timeIntervalSince1970-physicalStamp.doubleValue:INFINITY;
+      [summary appendFormat:@"Native Maps physical frame readback: count=%lu age=%.2fs\n",
+         (unsigned long)physicalFrames.count,age];
+      for(id item in physicalFrames){
+        if(![item isKindOfClass:NSDictionary.class])continue;
+        [summary appendFormat:@"  physical=%@ visual=%@ external=%@ visible=%@ app=%@ frame=%@\n",
+          item[@"PhysicalSlot"]?:@"?", item[@"VisualSlot"]?:@"?",
+          item[@"OnExternalScreen"]?:@"?", item[@"WindowVisible"]?:@"?",
+          item[@"HasLiveApp"]?:@"?", item[@"Frame"]?:@"?"];
+      }
+    }
+    [summary appendString:@"Native Maps pixels and actual route continuation require CarPlay on-device visual QA; never inferred from ACK.\n"];
     NSMutableArray<NSDictionary *> *found=[NSMutableArray new];
     NSMutableSet<NSString *> *seen=[NSMutableSet new];
     NSArray<NSString *> *crashDirs=@[
