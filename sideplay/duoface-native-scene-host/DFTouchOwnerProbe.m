@@ -380,26 +380,31 @@ static void DFStartProbe(void) {
         id value=launch[@"ContentRect"];
         CGRect region=CGRectNull;
         if([value isKindOfClass:NSString.class])region=CGRectFromString(value);
-        // Native12: usable panes follow the real CarPlay content insets.
-        // The CPWindow has already published its native safe-area rectangle
-        // to the active session. NEVER impose an independent 42pt/8.2% guard.
-        // If no current owner geometry exists, fail closed rather than
-        // inventing a display region that can overlap the system Dock.
+        // EMERGENCY ROLLBACK .118: .117 passed CPWindow ContentRect x=0
+        // directly to fullscreen appSceneWindows and user confirmed native
+        // Apple Dock disappeared on physical connection. Restore EXACT
+        // .116 verified-Dock-visible geometry behavior pending measured
+        // CarPlay rootWindow.safeAreaInsets/active Dock owner audit.
+        // This retains the known .116 black seam; NOT a seam correction.
+        // CarPlay Dock owns the left rail. Even a mistaken client geometry
+        // cannot place our touch windows in that area.
+        CGFloat safeLeft=CGRectGetMinX(screen)+MAX(42,screen.size.width*.082);
         if(CGRectIsNull(region) || CGRectIsEmpty(region) ||
            !isfinite(region.origin.x) || !isfinite(region.origin.y) ||
-           !isfinite(region.size.width) || !isfinite(region.size.height) ||
-           !CGRectContainsRect(CGRectInset(screen,-1,-1),region) ||
-           region.size.width<300 || region.size.height<145) {
-            DFTOLog(@"native-content-bounds-rejected",
-                [NSString stringWithFormat:@"screen=%@ source=%@",
-                    NSStringFromCGRect(screen),value?:@"missing"]);
-            DFStopProbe(@"native-safe-area-unavailable");
-            return;
+           !CGRectContainsRect(screen,CGRectInset(region,1,1))) {
+            region=CGRectMake(safeLeft,screen.origin.y,
+                    CGRectGetMaxX(screen)-safeLeft,screen.size.height);
+        }else{
+            CGFloat x=MAX(region.origin.x,safeLeft);
+            CGFloat right=MIN(CGRectGetMaxX(region),CGRectGetMaxX(screen));
+            CGFloat y=MAX(region.origin.y,screen.origin.y);
+            CGFloat bottom=MIN(CGRectGetMaxY(region),CGRectGetMaxY(screen));
+            region=CGRectMake(x,y,MAX(0,right-x),MAX(0,bottom-y));
         }
-        DFTOLog(@"native-content-bounds-accepted",
-            [NSString stringWithFormat:@"screen=%@ rect=%@ left=%.2f",
-                NSStringFromCGRect(screen),NSStringFromCGRect(region),
-                CGRectGetMinX(region)-CGRectGetMinX(screen)]);
+        if(region.size.width<300 || region.size.height<145) {
+            DFTOLog(@"preflight-rejected",@"content-too-small");
+            DFStopProbe(@"content-invalid");return;
+        }
         // CarPlay Home may be pressed after the initial file read but before
         // expensive CADisplay/window ABI probing completes. Never show
         // anything from a revoked session or an obsolete queued start.
