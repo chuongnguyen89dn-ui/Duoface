@@ -1212,6 +1212,22 @@ static void DFCLog(NSString *text) {
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
 - (void)layoutControls {
+    // QA .92: the transparent divider pan and the 3-second logo touch are
+    // separate owners. If a modal/solo transition hides their UIWindow while
+    // UIKit has an in-flight contact, the cancelled event is not guaranteed
+    // to reach the now-hidden owner. Drop ONLY that stale contact; never keep
+    // the split ratio gesture blocked on the next reveal.
+    BOOL unavailable=self.startupActive ||
+        DFSlotCountForPreset(self.preset)<=1 || self.focus>=0 ||
+        self.pickerVisible || self.styleVisible || self.appPickerVisible;
+    if(unavailable && (_dividerDrag.active || self.panActive || self.logoTouchPending)){
+        _dividerDrag.active=false;
+        self.panActive=NO;
+        self.logoTouchPending=NO;
+        self.logoWakeOnlyTap=NO;
+        self.logoHoldGate=(DFLogoHoldGate){0};
+        DFCLog(@"divider92-hidden-owner-contact-cancelled-for-next-reveal");
+    }
     CGRect cr=self.contentRect;
     if(self.appPickerController.hostExpanded!=self.hostFullscreen){
         self.appPickerController.hostExpanded=self.hostFullscreen;
