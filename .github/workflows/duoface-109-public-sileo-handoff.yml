@@ -1,0 +1,117 @@
+name: DuoFace 109 public Sileo SHA verified and project handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-109-public-sileo-handoff.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-109-public-sileo-handoff
+  cancel-in-progress: false
+jobs:
+  verify-and-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify .109 exact public Sileo APT entry, signed bytes and old rollback packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          SITE='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          FILE='com.duoface.jb.embedded_0.0.109~logo-vertical-restore1_iphoneos-arm64.deb'
+          SHA='ede059bad08b69618b8e3c9ae1296943fbc1651e7e624aef9a11214dda9014a9'
+          curl -fLsS --retry 3 "$SITE/Packages" -o "$RUNNER_TEMP/Packages"
+          curl -fLsS --retry 3 "$SITE/Release" -o "$RUNNER_TEMP/Release"
+          grep -Fq 'SHA256:' "$RUNNER_TEMP/Release"
+          FILE="$FILE" SHA="$SHA" python3 - <<'PY'
+          from pathlib import Path
+          import os
+          records=[]
+          for raw in Path(os.environ['RUNNER_TEMP'],'Packages').read_text().split('\n\n'):
+              d={}
+              for line in raw.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package')=='com.duoface.jb.embedded': records.append(d)
+          assert len(records)==1,records
+          d=records[0]
+          assert d['Version']=='0.0.109~logo-vertical-restore1',d
+          assert d['SHA256']==os.environ['SHA'],d
+          assert d['Filename']=='debs/'+os.environ['FILE'],d
+          assert d['Architecture']=='iphoneos-arm64',d
+          print('DUOFACE_109_PUBLIC_APT_ONE_SHA_PASS')
+          PY
+          curl -fLsS --retry 3 "$SITE/debs/$FILE" -o "$RUNNER_TEMP/public.deb"
+          printf '%s  %s\n' "$SHA" "$RUNNER_TEMP/public.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/public.deb" Package)" = com.duoface.jb.embedded
+          test "$(dpkg-deb -f "$RUNNER_TEMP/public.deb" Version)" = '0.0.109~logo-vertical-restore1'
+          echo DUOFACE_109_PUBLIC_BINARY_SHA_VERIFIED
+          SITE="$SITE" python3 - <<'PY'
+          import os,hashlib,urllib.request
+          pairs=[
+           ('0.0.108~ratio-disconnect-restore1','745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201'),
+           ('0.0.92~logo3s1','1f4a495f8b9ba91f71bac4c7abc4e064878fb8f2edd5272df3d48fef3a95e1f0'),
+           ('0.0.90~nativegetters1','c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27')]
+          for version,sha in pairs:
+              name=f'com.duoface.jb.embedded_{version}_iphoneos-arm64.deb'
+              actual=hashlib.sha256(urllib.request.urlopen(os.environ['SITE']+'/debs/'+name,timeout=25).read()).hexdigest()
+              assert actual==sha,(version,actual)
+          print('DUOFACE_109_108_092_090_ROLLBACK_SHA_VERIFIED')
+          PY
+      - name: Update existing main project handoff from current remote branch, safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$TEMP/sideplay/audit/duoface-iphone-only-divider-107/REPORT.md" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          file,report=map(Path,sys.argv[1:3]);run=sys.argv[3]
+          assert file.is_file() and report.is_file()
+          audit=report.read_text(encoding='utf8')
+          assert '.109 PUBLIC SILEO VERIFIED' in audit
+          assert 'ede059bad08b69618b8e3c9ae1296943fbc1651e7e624aef9a11214dda9014a9' in audit
+          old=file.read_text(encoding='utf8')
+          mark='## CHECKPOINT 2026-10-29 DuoFace .109 PUBLIC SILEO VERIFIED — vertical logo drag'
+          block=f"""{mark}
+
+          - User correction: .108 omitted vertical logo dragging; was incorrectly declared complete. True historical 2026-10-26 gesture: vertical logo swipe moves circular grip UP/DOWN along divider independently; horizontal swipe changes two-pane ratio, quick tap swaps, NO 3-second hold. In top/bottom layouts axes reverse. Do not remove either axis again.
+          - Corrected production source ec1db1d24a568b49876d900fd0a4fd840330a47c; DFDividerDrag.h + DFNative12Chrome.m implement axis lock, logoFraction save/restore; prior .108 wrongly hardcoded 0.5. Source tests 40824251713,40824251732,40824357040,40824469630 successful; no CarPlay hardware proof.
+          - Signed one-rootless-DEB .109 package build 40824469583 SUCCESS, source ec1db1d24a568b49876d900fd0a4fd840330a47c, archive commit 20d4bc8d40b83c5e161bde78484f71253129d4b8, file sideplay/jb-embedded-appbridge/evidence/runs/40824469583/com.duoface.jb.embedded_0.0.109~logo-vertical-restore1_iphoneos-arm64.deb; SHA256 ede059bad08b69618b8e3c9ae1296943fbc1651e7e624aef9a11214dda9014a9.
+          - PUBLISHED existing Sileo https://chuongnguyen89dn-ui.github.io/carplaydsp/ from publisher carplaydsp/main 9f2cc1df1d2cd19a1f1240551395d68f5a43eec8. Build/deploy/verify run 40824822495 SUCCESS (jobs 123285331443/123286174950/123286250607/123286250741), actionlint 40824822493 SUCCESS. Remote Packages one latest .109 and remote DEB SHA verified in publisher and final handoff run {run}. Public file https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.109~logo-vertical-restore1_iphoneos-arm64.deb. Old .108/.92/.90 direct rollback bytes unchanged.
+          - Device QA PENDING: test physical vertical drag, horizontal ratio, tap swap, 4s auto-hide, persisted logo after reconnect, original Dock/YouTube, optional 10s unplug close, app rehost; collect /var/mobile/Library/Logs/DuoFaceTouchOwner.log. No Filza, no auto-respring, no invented device result. Audit sideplay/audit/duoface-iphone-only-divider-107/REPORT.md.
+
+          ---
+
+          """
+          if mark in old:
+              print('DUOFACE_109_HANDOFF_ALREADY_PRESENT')
+          else:
+              file.write_text(block+old,encoding='utf8')
+              assert file.read_text(encoding='utf8').startswith(block)
+              print('DUOFACE_109_HANDOFF_LOCAL_READBACK_PASS')
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              echo DUOFACE_109_HANDOFF_IDEMPOTENT
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'handoff: verify DuoFace 109 vertical logo Sileo public hash [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo DUOFACE_109_HANDOFF_GITHUB_PUSH_CONFIRMED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1

@@ -1,10 +1,5 @@
-name: DuoFace 108 Sileo public SHA VERIFIED — preserve existing handoff
+name: DuoFace 108 historical public SHA (manual only, superseded by 109)
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-108-public-sileo-handoff.yml'
-      - 'sideplay/audit/duoface-iphone-only-divider-107/REPORT.md'
   workflow_dispatch:
 permissions:
   contents: write
