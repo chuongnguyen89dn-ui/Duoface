@@ -52,7 +52,7 @@ static NSNumber *DFDiscVerifiedCurrentPID(NSString *bundle) {
  SEL shared=NSSelectorFromString(@"sharedInstance");
  if(![appController respondsToSelector:shared])return nil;
  id registry=((id(*)(id,SEL))objc_msgSend)(appController,shared);
- id app=DFDiscCall0(registry,@"dummy-selector-never-used");(void)app;
+ id app=nil;
  SEL lookup=NSSelectorFromString(@"applicationWithBundleIdentifier:");
  if(![registry respondsToSelector:lookup])return nil;
  app=((id(*)(id,SEL,id))objc_msgSend)(registry,lookup,bundle);
