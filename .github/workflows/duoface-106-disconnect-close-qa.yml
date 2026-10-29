@@ -1,0 +1,181 @@
+name: DuoFace 106 DuoDash-style physical unplug auto-close integrated rootless QA DEB (not Sileo)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-106-disconnect-close-qa.yml'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.h'
+      - 'sideplay/duoface-native-scene-host/DFDisconnectClose*'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.h'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_disconnect_close_106.py'
+      - 'sideplay/duoface-native-scene-host/tests/disconnect_close_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_voice_locale_105.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-106-integrated-qa
+  cancel-in-progress: false
+jobs:
+  qa-and-package:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: First-party and backward-compatibility source checks
+        id: source
+        run: |
+          set -euo pipefail
+          for NAME in test_disconnect_close_106.py test_voice_locale_105.py test_workspace_098.py test_picker_display_097.py test_app_habits_096.py test_logo_092_exact_regression.py test_scenehost_safety.py; do
+            python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p "$NAME" -v
+          done
+          for NAME in test_physical_map_binding_099.py test_extended_settings_099.py; do
+            python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p "$NAME" -v
+          done
+      - name: Compile and execute genuine macOS Foundation settings/scene tests
+        id: runtime
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          for SRC in disconnect_close_runtime.m extended_settings_runtime.m workspace_runtime.m picker_display_runtime.m enabled_apps_policy_runtime.m app_habits_runtime.m; do
+            OUT="$RUNNER_TEMP/${SRC%.m}-test"
+            xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . "tests/$SRC" -o "$OUT"
+            "$OUT"
+          done
+          cd ../native-carplay-scene-v1
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I . tests/physical_map_binding_runtime.m -o "$RUNNER_TEMP/df-physical-map"
+          "$RUNNER_TEMP/df-physical-map"
+      - name: Compile-check all updated iOS16 ARM64 sources
+        id: syntax
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          cd sideplay/duoface-native-scene-host
+          for SRC in DFNativeHostRootController.m DFNativeDiagnostics.m DFVoiceAssistant.m DFDisconnectCloseCoordinator.m DFAppPickerVC.m DFNative12Chrome.m DFSceneHost.m DFTouchOwnerProbe.m DFNativeHostAppDelegate.m; do
+            xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
+          done
+          cd ../native-carplay-scene-v1
+          for SRC in DFNativeMapPaneCoordinator.m DFNativeMapPaneAdapter.m; do
+            xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
+          done
+      - name: Install local packaging/signing tools for one rootless test DEB
+        id: dependencies
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          command -v ldid >/dev/null || brew install ldid
+          command -v xcrun
+          dpkg-deb --version | head -n 1
+          ldid -h 2>&1 | head -n 4 || true
+      - name: Build exactly one independent QA DEB, never upload to Sileo
+        id: package
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          DEB='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.106~duodash-disc10s1_iphoneos-arm64.deb'
+          test -s "$DEB"
+          dpkg-deb -f "$DEB" Package Version Architecture
+          test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.carplay.nativescenehost'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.1.106~duodash-disc10s1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$DEB" | tee "$RUNNER_TEMP/duoface-106-package-content.txt"
+          for ITEM in DuoFaceNativeHost.app/DuoFaceNativeHost DFNativeMapPaneCoordinator.dylib DFTouchOwnerProbe.dylib DFCarPlayDockOwner.dylib DFYouTubeOrientationRelay.dylib; do
+            grep -F "$ITEM" "$RUNNER_TEMP/duoface-106-package-content.txt"
+          done
+          shasum -a 256 "$DEB" | tee "$RUNNER_TEMP/duoface-106-sha256.txt"
+          echo "DEB_PATH=$DEB" >> "$GITHUB_ENV"
+      - name: Upload QA package artifact only — NO Sileo deployment
+        id: artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-106-disconnect-close-rootless-qa
+          path: |
+            sideplay/duoface-native-scene-host/packages/*.deb
+          if-no-files-found: error
+          retention-days: 30
+      - name: Persist immutable build and test outcome to existing DuoFace GitHub handoff
+        if: always()
+        env:
+          PY_OUTCOME: ${{ steps.source.outcome }}
+          RUNTIME_OUTCOME: ${{ steps.runtime.outcome }}
+          IOS_OUTCOME: ${{ steps.syntax.outcome }}
+          BUILD_OUTCOME: ${{ steps.package.outcome }}
+          ARTIFACT_OUTCOME: ${{ steps.artifact.outcome }}
+          ARTIFACT_ID: ${{ steps.artifact.outputs.artifact-id }}
+          ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            DEST="$TEMP/sideplay/audit/duoface-disconnect-close-106/ci"
+            mkdir -p "$DEST/runs"
+            RESULT="$DEST/runs/$GITHUB_RUN_ID.txt"
+            test ! -e "$RESULT"
+            {
+              echo "RUN_ID=$GITHUB_RUN_ID"
+              echo "SOURCE_SHA=$GITHUB_SHA"
+              echo "WORKFLOW_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/$GITHUB_RUN_ID"
+              echo "PYTHON_SOURCE=$PY_OUTCOME"
+              echo "MAC_FOUNDATION_RUNTIME=$RUNTIME_OUTCOME"
+              echo "IOS16_ARM64_SYNTAX=$IOS_OUTCOME"
+              echo "ONE_DEB_BUILD=$BUILD_OUTCOME"
+              echo "QA_ARTIFACT=$ARTIFACT_OUTCOME"
+              echo "QA_ARTIFACT_ID=$ARTIFACT_ID"
+              echo "QA_ARTIFACT_URL=$ARTIFACT_URL"
+              echo "SILEO_PUBLISHED=false"
+              echo "CARPLAY_DEVICE_TESTED=false"
+              echo "MAP_TILES_OR_NAVIGATION_PROVEN=false"
+            } > "$RESULT"
+            if test -s "$RUNNER_TEMP/duoface-106-sha256.txt"; then
+              cat "$RUNNER_TEMP/duoface-106-sha256.txt" >> "$RESULT"
+            fi
+            cp "$RESULT" "$DEST/LATEST_RESULT.txt"
+            cmp "$RESULT" "$DEST/LATEST_RESULT.txt"
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$GITHUB_SHA" "$PY_OUTCOME" "$RUNTIME_OUTCOME" "$IOS_OUTCOME" "$BUILD_OUTCOME" "$ARTIFACT_OUTCOME" <<'PY'
+          from pathlib import Path
+          import sys
+          path=Path(sys.argv[1])
+          if not path.is_file():
+              raise RuntimeError("Existing DuoFace handoff absent; no duplicate")
+          run,sha,py,runtime,ios,build,artifact=sys.argv[2:]
+          text=f"""## CHECKPOINT 2026-10-29 DuoFace #8/#10 integrated 0.1.105 QA build run {run}
+
+          - Source branch feature/duoface-jb-embedded-appbridge-20261020 commit {sha}. New feature: separate OFF-by-default user-approved disconnect auto-close option on iPhone; 10-second grace with generation cancellation; only real AVExternalDevice+CADisplay physical disconnect (never CarPlay Home), snapshots newly DuoFace-launched live scene PID BEFORE stop, verifies exact bundle/PID and phone foreground; guarded runtime RunningBoard terminate request and process-exit observation. Maps, voice and language from 105 remain unchanged. Maintains .90 YouTube, .92 3s logo, system Dock and #5-7 slot/scene policy.
+          - Voice requires consent and privacy Info.plist; never auto-opens microphone or apps and only reports verified CarPlay/Dock/Maps status. Maps still needs real device proof for tiles/navigation. TRUE iOS app process termination and YouTube audio stop after CarPlay disconnect are NOT device-verified. Unknown private API/foreground availability fails closed; false positives are unacceptable. Does not kill any app process without user switch ON.
+          - CI run: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}; Python={py}, macOS Foundation={runtime}, iOS16 syntax={ios}; signed rootless package build={build}; GitHub QA artifact upload={artifact}. Package intended: com.duoface.carplay.nativescenehost version 0.1.106~duodash-disc10s1, rootless iphoneos-arm64; no unverified broad OS process kill. Metadata, SHA and artifact URL under sideplay/audit/duoface-disconnect-close-106/ci/runs/{run}.txt.
+          - New one-DEB QA staging is NOT Sileo publishing, NOT proof of installed device or real Maps navigation; do not claim complete unless the actual DEB artifact and on-device verification exist. Exact build command is bash sideplay/duoface-native-scene-host/build.sh from repo root on macOS with Xcode iOS16 SDK, ldid and dpkg-deb.
+          - Next: inspect failed CI step/log if not green. If QA artifact exists, verify SHA/version/content and compare with previous .104, then test on parked CarPlay hardware (native scene map tiles, background navigation, physical pane resize, voice speech permission, language and Dock restoration) before user-approved Sileo publication.
+
+          ---
+
+          """
+          old=path.read_text(encoding="utf-8")
+          if f"run {run}" not in old:
+              path.write_text(text+old,encoding="utf-8")
+              assert path.read_text(encoding="utf-8").startswith(text)
+          print("DF106_HANDOFF_READBACK_PASS")
+          PY
+            git -C "$TEMP" add sideplay/audit/duoface-disconnect-close-106/ci/ 'sideplay/tiep tuc du an.md'
+            git -C "$TEMP" commit -m "ci: checkpoint DuoFace 106 QA build and artifact $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo "DF106_GITHUB_HANDOFF_PUSH_VERIFIED"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+            echo "Concurrent writer retry $attempt/5"
+          done
+          exit 1
