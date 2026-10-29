@@ -12,6 +12,83 @@
 #import <objc/message.h>
 #import <math.h>
 
+
+// Add More is explicitly a SECONDARY management view, never the primary App grid.
+// Tapping an eligible disabled installed app first persists permission to the
+// SAME preferences used by the iPhone; it does NOT start a remote scene.
+@interface DFAddMoreAppsController : UITableViewController
+@property(nonatomic,copy) NSArray<DFAppInfo *> *candidates;
+@property(nonatomic,copy) void (^didEnable)(void);
+@end
+@implementation DFAddMoreAppsController
+- (instancetype)initWithDisabledApps:(NSArray<DFAppInfo *> *)apps {
+ if((self=[super initWithStyle:UITableViewStylePlain]))_candidates=[apps copy];
+ return self;
+}
+- (void)viewDidLoad {
+ [super viewDidLoad];
+ self.title=@"Thêm App";
+ self.tableView.backgroundColor=UIColor.blackColor;
+ self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]
+     initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+     target:self action:@selector(closeAddMore)];
+ UILabel *explanation=[UILabel new];
+ explanation.text=@"Chạm để cho phép ứng dụng. Thay đổi cũng xuất hiện trong cài đặt iPhone. Không tự mở ứng dụng.";
+ explanation.numberOfLines=0;
+ explanation.textAlignment=NSTextAlignmentCenter;
+ explanation.font=[UIFont systemFontOfSize:12];
+ explanation.textColor=UIColor.whiteColor;
+ explanation.frame=CGRectMake(0,0,240,62);
+ self.tableView.tableHeaderView=explanation;
+ if(!self.candidates.count){
+   UILabel *empty=[UILabel new];
+   empty.text=@"Không còn ứng dụng hợp lệ chưa được bật. Có thể quản lý danh sách trong DuoFace trên iPhone.";
+   empty.numberOfLines=0;
+   empty.textAlignment=NSTextAlignmentCenter;
+   empty.textColor=UIColor.whiteColor;
+   self.tableView.backgroundView=empty;
+ }
+}
+- (void)closeAddMore {[self dismissViewControllerAnimated:YES completion:nil];}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+ (void)tableView;(void)section;return (NSInteger)self.candidates.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView
+       cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+ UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DFAddMoreRow"];
+ if(!cell)cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
+                      reuseIdentifier:@"DFAddMoreRow"];
+ DFAppInfo *app=self.candidates[(NSUInteger)indexPath.row];
+ cell.textLabel.text=app.displayName;
+ cell.detailTextLabel.text=@"Cho phép xuất hiện trong DuoFace";
+ cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+ cell.backgroundColor=UIColor.blackColor;
+ cell.textLabel.textColor=UIColor.whiteColor;
+ cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
+ return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+ [tableView deselectRowAtIndexPath:indexPath animated:YES];
+ if((NSUInteger)indexPath.row>=self.candidates.count)return;
+ NSString *bid=self.candidates[(NSUInteger)indexPath.row].bundleID;
+ if(!DFIsEligibleAppID(bid))return;
+ NSArray<NSString *> *allowed=DFConfiguredEnabledAppIDs()?:@[];
+ NSMutableOrderedSet<NSString *> *updated=[NSMutableOrderedSet orderedSetWithArray:allowed];
+ [updated addObject:bid];
+ if(!DFWriteEnabledAppIDs(updated.array)){
+   UIAlertController *error=[UIAlertController alertControllerWithTitle:@"Không thể thêm App"
+      message:@"Cấu hình iPhone chưa xác nhận lưu thành công; ứng dụng vẫn bị ẩn."
+      preferredStyle:UIAlertControllerStyleAlert];
+   [error addAction:[UIAlertAction actionWithTitle:@"Đóng"
+         style:UIAlertActionStyleCancel handler:nil]];
+   [self presentViewController:error animated:YES completion:nil];
+   return;
+ }
+ if(self.didEnable)self.didEnable();
+ [self dismissViewControllerAnimated:YES completion:nil];
+}
+@end
+
 @interface DFNativeAppCard : UICollectionViewCell
 @property(nonatomic,strong) UIImageView *icon;
 @property(nonatomic,strong) UILabel *title;
@@ -673,6 +750,30 @@
     (void)sender;
     if(!self.runningMode || !self.runningBundleIDs.count)return;
     [self.delegate appPickerCloseAllRunning:self];
+}
+- (void)presentAddMore {
+ if(self.runningMode || self.presentedViewController)return;
+ __weak typeof(self) weakSelf=self;
+ dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0), ^{
+   NSArray<NSString *> *enabled=DFConfiguredEnabledAppIDs()?:@[];
+   NSMutableArray<DFAppInfo *> *disabled=[NSMutableArray new];
+   for(DFAppInfo *app in [DFAppLibrary installedUserApps]){
+     if(DFIsEligibleAppID(app.bundleID) && ![enabled containsObject:app.bundleID])
+       [disabled addObject:app];
+   }
+   dispatch_async(dispatch_get_main_queue(), ^{
+     DFAppPickerVC *owner=weakSelf;
+     if(!owner || !owner.isViewLoaded || !owner.view.window ||
+        owner.runningMode || owner.presentedViewController)return;
+     DFAddMoreAppsController *manager=[[DFAddMoreAppsController alloc]
+                                       initWithDisabledApps:disabled];
+     manager.didEnable=^{[weakSelf refreshInstalledApps];};
+     UINavigationController *navigation=[[UINavigationController alloc]
+                                         initWithRootViewController:manager];
+     navigation.modalPresentationStyle=UIModalPresentationFullScreen;
+     [owner presentViewController:navigation animated:YES completion:nil];
+   });
+ });
 }
 - (void)closeTapped {[self.delegate appPickerDidCancel:self];}
 @end
