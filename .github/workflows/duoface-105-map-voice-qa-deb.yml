@@ -1,22 +1,6 @@
 name: DuoFace 105 native Maps + opt-in voice QA integrated rootless DEB (not Sileo)
+# Historical .105-only pipeline, superseded by .106; keep manual rerun access.
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-105-map-voice-qa-deb.yml'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/duoface-native-scene-host/Info.plist'
-      - 'sideplay/duoface-native-scene-host/DFVoiceAssistant.*'
-      - 'sideplay/duoface-native-scene-host/DFExtendedSettingsPolicy.h'
-      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
-      - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
-      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.m'
-      - 'sideplay/duoface-native-scene-host/tests/test_voice_locale_105.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_picker_display_097.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
-      - 'sideplay/duoface-native-scene-host/tests/extended_settings_runtime.m'
-      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m'
   workflow_dispatch:
 permissions:
   contents: write
