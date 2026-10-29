@@ -1,3 +1,15 @@
+## CHECKPOINT 2026-10-29 DuoFace #5 #6 #7 source CI FAILED run 40859830904
+
+- New user requirements: remember 1..4 physical-window app IDs only after real scene ready; reconnect sequentially restores only still-installed AND explicitly iPhone-approved bundles, after splash, with timeout/stop generation gate and explicit phone opt out/clear. This is independent of iPhone preset-based app assignment (cancelled).
+- 3/4-app reorder: clockwise/counterclockwise repositions PHYSICAL host UIWindow frames through validated permutation, never moves hosted SBAppViewController to another parent or recreates media scenes; only when all actual scenes ready, no pending.
+- Running manager: separate owned LIVE scene state, guarded PID lookup from SBApplication + kill(pid,0) read-only, display PID unknown if absent, Close/Restart only owned scene host operations. No claim of actual app-process termination/foreground state without device evidence.
+- Files: DFSlotWorkspacePolicy.h, DFNative12Chrome.m, DFSceneHost.m/.h, DFAppPickerVC.m/.h, DFNativeHostRootController.m; tests/workspace_runtime.m, tests/test_workspace_098.py and byte-for-byte golden .92 logo contact and swap fixture; report at sideplay/audit/duoface-workspace-098/REPORT.md.
+- GitHub Actions https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40859830904 source SHA aa1b8e8c6178372a27e6dd7ddd4843dd768af054; Python=failure; Foundation runtime=skipped; iOS16 syntax=skipped. Permanent evidence sideplay/audit/duoface-workspace-098/ci/runs/40859830904.txt.
+- NO integrated signed DEB, NO Sileo upload, NO CarPlay physical device test. Do not claim parity in app process exit or dual 3/4 gesture until parked-car QA. Preserve .90 YouTube orientation, original .92 3s logo raw methods, system Dock, Maps native trial and nine presets.
+- Next: resolve any failed CI at exact logged file/line; inspect source before package. On actual car test reconnect, no duplicate host, 3/4 swap media continuity, PID correctness vs process list, Close/Restart app vs scene semantics. Do not publish to Sileo without user request.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8 physical native Maps preflight, #10 settings audit: run 40859700919 PASS
 
 - Actual source repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020, CI source SHA 726a3ea275feaaa19f0d037145fbe4350c4b4456. Read-only native map original OmniCar comparison is in audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md of Omnicar repo; never embed proprietary license/code.
