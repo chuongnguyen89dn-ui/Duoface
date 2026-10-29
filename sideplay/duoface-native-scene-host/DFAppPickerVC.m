@@ -531,12 +531,6 @@
                  forControlEvents:UIControlEventTouchUpInside];
     [card setNeedsLayout];
     DFAppInfo *app=display[indexPath.item];
-    // Recheck the iPhone selection on tap, even when a stale tile is visible.
-    // Preserves the .92 scene/YouTube host and does not kill existing scenes.
-    if(!DFPickerAllowsApp(app.bundleID,DFConfiguredEnabledAppIDs())){
-        [self refreshInstalledApps];
-        return;
-    }
     card.title.text=app.displayName;
     BOOL selectedApp=!self.runningMode && self.currentSlotBundleID.length &&
         [self.currentSlotBundleID isEqualToString:app.bundleID];
@@ -571,6 +565,10 @@
     NSArray<DFAppInfo *> *display=[self visibleApps];
     if((NSUInteger)indexPath.item>=display.count)return;
     DFAppInfo *app=display[indexPath.item];
+    if(!DFPickerAllowsApp(app.bundleID,DFConfiguredEnabledAppIDs())){
+        [self refreshInstalledApps];
+        return;
+    }
     if(app.bundleID.length){
         [self.delegate appPicker:self didSelectBundleID:app.bundleID displayName:app.displayName];
     }
