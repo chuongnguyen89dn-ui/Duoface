@@ -1,0 +1,122 @@
+name: DuoFace 099 physical native Maps pane ownership smoke (no DEB)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-099-physical-map-source-smoke.yml'
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayPhysicalPaneBinding.h'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m'
+      - 'sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m'
+      - 'sideplay/native-carplay-scene-v1/tests/test_physical_map_binding_099.py'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-099-native-map
+  cancel-in-progress: false
+jobs:
+  source-only:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source-only cross process map ownership regression
+        id: python
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_physical_map_binding_099.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_workspace_098.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
+      - name: Compile and execute true Foundation CoreGraphics physical pane tests
+        id: runtime
+        run: |
+          set -euo pipefail
+          cd sideplay/native-carplay-scene-v1
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I . tests/physical_map_binding_runtime.m -o "$RUNNER_TEMP/physical-map-ownership"
+          "$RUNNER_TEMP/physical-map-ownership"
+      - name: Syntax check native CarPlay + SpringBoard source with real iOS16 SDK
+        id: ios
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          cd sideplay/native-carplay-scene-v1
+          for SRC in DFNativeMapPaneCoordinator.m DFNativeMapPaneAdapter.m; do
+            xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
+          done
+          cd ../duoface-native-scene-host
+          for SRC in DFTouchOwnerProbe.m DFNative12Chrome.m; do
+            xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
+          done
+      - name: Save immutable run result to existing GitHub handoff
+        if: always()
+        env:
+          PY_RESULT: ${{ steps.python.outcome }}
+          RUNTIME_RESULT: ${{ steps.runtime.outcome }}
+          IOS_RESULT: ${{ steps.ios.outcome }}
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            DEST="$TEMP/sideplay/audit/duoface-map-and-settings-099/ci"
+            mkdir -p "$DEST/runs"
+            RESULT="$DEST/runs/$GITHUB_RUN_ID.txt"
+            test ! -e "$RESULT"
+            {
+              echo "RUN_ID=$GITHUB_RUN_ID"
+              echo "SOURCE_SHA=$GITHUB_SHA"
+              echo "WORKFLOW_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/$GITHUB_RUN_ID"
+              echo "PYTHON_SOURCE=$PY_RESULT"
+              echo "FOUNDATION_RUNTIME=$RUNTIME_RESULT"
+              echo "IOS16_SYNTAX=$IOS_RESULT"
+              echo "MAP_TILES_DEVICE_VERIFIED=false"
+              echo "NAVIGATION_CONTINUITY_PROVEN=false"
+              echo "NEW_SIGNED_DEB=false"
+              echo "SILEO_PUBLISHED=false"
+            } > "$RESULT"
+            cp "$RESULT" "$DEST/LATEST_RESULT.txt"
+            cmp "$RESULT" "$DEST/LATEST_RESULT.txt"
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$GITHUB_SHA" "$PY_RESULT" "$RUNTIME_RESULT" "$IOS_RESULT" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1])
+          assert p.is_file(), "No existing DuoFace handoff; refuse duplicate"
+          run,sha,py,foundation,ios=sys.argv[2:]
+          status="PASS" if (py,foundation,ios)==("success","success","success") else "FAILED"
+          block=f"""## CHECKPOINT 2026-10-29 DuoFace #8 physical native Maps preflight, #10 settings audit: run {run} {status}
+
+          - Actual source repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020, CI source SHA {sha}. Read-only native map original OmniCar comparison is in audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md of Omnicar repo; never embed proprietary license/code.
+          - #8 REAL ROOT CAUSE: the earlier CarPlayApp DFNativeMapPaneCoordinator.m measured native Dock and layout in its own process, but did not know which real SpringBoard DuoFace physical UIWindow its requested map pane corresponded to. A mere controller attach ACK is NOT proof of real map tiles or navigation.
+          - This checkpoint implements first-party two-owner conservative binding: Chrome actualTwoPaneWindowReadback -> DFTouchOwnerProbe writes versioned short-lived SpringBoard physical-panes.v1.plist under active CarPlay session; CarPlayApp DFCarPlayPhysicalPaneBinding.h verifies same live UUID session, strict freshness, exactly 2 actual visible external windows, target slot not occupied, and frames matching actual measured native Dock viewport within 2pt; coordinator rejects any mismatch before attempting guarded native scene adoption and reads back dashboard frame after adoption, rolling back mismatch. No arbitrary zoom, no synthetic CPWindow.
+          - #8 remaining: native controller adoption is within Dashboard's real UIWindow; cross-process DuoFace physical window ownership and real Maps tile content/navigation must be verified on parked vehicle. NO claim map is already fully attached or navigation works. One native map scene, maximum visual slots 0/1 only; 3/4 maps binding not supported.
+          - #10 remaining: full voice assistant, true always-auto-start, phone display off/lock, localization, Dock Monitor UI and broad reset options not yet implemented; existing #4 supports app-label hiding and #5 restore on reconnect. Audit this gap before adding invasive controls. Never lock phone or enable microphone by default.
+          - Changed source: sideplay/native-carplay-scene-v1/DFCarPlayPhysicalPaneBinding.h, DFNativeMapPaneCoordinator.m, tests/physical_map_binding_runtime.m, tests/test_physical_map_binding_099.py; sideplay/duoface-native-scene-host/DFNative12Chrome.m, DFTouchOwnerProbe.m. Audit and immutable CI at sideplay/audit/duoface-map-and-settings-099/ci/runs/{run}.txt.
+          - Test run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}, Python={py}, macOS Foundation={foundation}, iOS16 ARM64 syntax={ios}. No new integrated signed DEB, no Sileo, no physical test. Do not modify proven .90 YouTube rotation, .92 original 3-second logo, Apple Dock or any license code.
+          - Next: fix any failure by exact CI logs, inspect map-window geometry with on-device CarPlay logs and native app owner; separately implement user-facing read-only Dock Monitor and safe reset in #10; test actual navigation continuity before declaring #8 complete.
+
+          ---
+
+          """
+          old=p.read_text(encoding="utf-8")
+          if f"run {run} {status}" not in old:
+             p.write_text(block+old,encoding="utf-8")
+             assert p.read_text(encoding="utf-8").startswith(block)
+          print("DF099_HANDOFF_READBACK_PASS")
+          PY
+            git -C "$TEMP" add sideplay/audit/duoface-map-and-settings-099/ci/ 'sideplay/tiep tuc du an.md'
+            git -C "$TEMP" commit -m "ci: checkpoint DuoFace native map binding 099 run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo "DF099_GITHUB_HANDOFF_PASS"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
