@@ -21,7 +21,6 @@ class AppPicker097(unittest.TestCase):
                 "DFSavePickerDisplay","DFPickerDisplayChanged"):
    self.assertIn(token,display)
   self.assertIn("showPickerDisplaySettings",phone)
-  self.assertIn("4 cột",phone if "4 cột" in phone else "4 cột") if False else None
   self.assertIn("count<=6",phone)
   self.assertIn("count<=3",phone)
   self.assertIn("Ẩn tên App",phone)
