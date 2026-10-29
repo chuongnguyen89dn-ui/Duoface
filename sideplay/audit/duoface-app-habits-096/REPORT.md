@@ -34,3 +34,5 @@ The companion workflow `.github/workflows/duoface-096-app-habits-handoff.yml` ap
 - Four Python source/behavior contracts passed; macOS native compiled and executed Foundation test emitted `APP_HABITS_RUNTIME_PASS`; all three relevant UIKit implementation files passed iOS16 SDK syntax checking.
 - Permanent run evidence: `sideplay/audit/duoface-app-habits-096/ci/runs/40795905490.txt` and `ci/LATEST_RESULT.txt`, saved by GitHub Actions at commit `a0ce3e46655050bd4b8b621a049373d2c01bc415`.
 - These tests do **not** establish an integrated signed DEB for this feature, Sileo installation, or real vehicle behavior. No source-built artifact should be misrepresented as a device acceptance test.
+
+The existing handoff append workflow may read this report to add the separately verified CI checkpoint; verify its GitHub push commit before claiming the handoff status changed.
