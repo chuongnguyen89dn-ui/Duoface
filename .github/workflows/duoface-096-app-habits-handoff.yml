@@ -1,0 +1,71 @@
+name: DuoFace 096 app habits — append project handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/duoface-app-habits-096/REPORT.md'
+permissions:
+  contents: write
+concurrency:
+  group: duoface-096-app-habits-handoff
+  cancel-in-progress: false
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append idempotently to existing DuoFace handoff, read back and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1])
+          if not p.is_file():
+              raise RuntimeError("Cannot locate existing project handoff; refuse duplicate")
+          old=p.read_text(encoding="utf-8")
+          marker="## CHECKPOINT 2026-10-29 DuoFace independent default and habit-based app choices"
+          body="""## CHECKPOINT 2026-10-29 DuoFace independent default and habit-based app choices
+
+          - USER SUPERSEDES earlier requirement #2 and prior assistant assumptions about iPhone left/right or slots 1-4 preassignment. Scope is optional default/favorite app selection plus real use-based ordering when the user opens the CarPlay app picker. No automatic app launch and no pane assignment in the iPhone configuration.
+          - Branch feature/duoface-jb-embedded-appbridge-20261020; independent first-party code DFAppHabits.h, DFNativeHostRootController.m, DFAppPickerVC.m, DFNative12Chrome.m; provenance in sideplay/audit/duoface-app-habits-096/REPORT.md.
+          - Existing iPhone Apps tab adds Mặc định & Ưa dùng manager. The CarPlay app picker retains its per-pane user tap and real eligible installed app allowlist; ordering is default, pinned then successful sceneReady usage count. Preferences saved/read back atomically and notify live refresh; counts updated only after scene-ready callback. No original vendor binaries or license used.
+          - Source commits include 7e01d2c (policy), c6b7d82 (iPhone UI), c14c41b (CarPlay picker), 4dcdb2f (ready-only counts), 60508cf/c3ede65f (tests), 4fb4932 (CI). Verify current branch before editing.
+          - Source-only macOS Foundation executable and iOS16 SDK CI must be checked; no physical CarPlay result or Sileo release implied. Do not overwrite .90 YouTube rotation, .92 logo, system Dock or experimental native Maps. Current integrated build version is independent and must not be claimed upgraded until successful signed package verification.
+          - Next: inspect GitHub Actions source-only validation results; resolve compiler/test failure if any; review preservation of prior .95 source; only prepare a new signed one-DEB QA after CI passes and user explicitly requests Sileo. Test real iPhone preference, picker ordering and no automatic launch on parked CarPlay.
+
+          ---
+
+          """
+          if marker in old:
+              print("APP_HABITS_HANDOFF_ALREADY_PRESENT")
+          else:
+              p.write_text(body+old,encoding="utf-8")
+              verified=p.read_text(encoding="utf-8")
+              assert verified.startswith(body) and verified.endswith(old)
+              print("APP_HABITS_HANDOFF_READBACK_PASS")
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'handoff: independent app defaults and habits scope [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo APP_HABITS_HANDOFF_GITHUB_PUSH_VERIFIED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+            echo "Concurrent branch update; retry $attempt/5"
+          done
+          exit 1
