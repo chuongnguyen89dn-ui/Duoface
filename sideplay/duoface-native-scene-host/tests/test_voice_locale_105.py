@@ -64,8 +64,8 @@ class VoiceAndLocale105(unittest.TestCase):
   build=read("build.sh")
   control=read("control")
   info=read("Info.plist")
-  for s in ("0.1.108~ratio-disconnect-restore1","DFNativeMapPaneCoordinator.m"):
+  for s in ("0.1.109~logo-vertical-restore1","DFNativeMapPaneCoordinator.m"):
    self.assertTrue(s in build or s in control)
-  self.assertIn("Version: 0.1.108~ratio-disconnect-restore1",control)
-  self.assertIn("0.1.108",info)
+  self.assertIn("Version: 0.1.109~logo-vertical-restore1",control)
+  self.assertIn("0.1.109",info)
 if __name__=="__main__":unittest.main(verbosity=2)
