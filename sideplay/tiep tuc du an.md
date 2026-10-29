@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-29 DuoFace independent default and habit-based app choices
+
+- USER SUPERSEDES earlier requirement #2 and prior assistant assumptions about iPhone left/right or slots 1-4 preassignment. Scope is optional default/favorite app selection plus real use-based ordering when the user opens the CarPlay app picker. No automatic app launch and no pane assignment in the iPhone configuration.
+- Branch feature/duoface-jb-embedded-appbridge-20261020; independent first-party code DFAppHabits.h, DFNativeHostRootController.m, DFAppPickerVC.m, DFNative12Chrome.m; provenance in sideplay/audit/duoface-app-habits-096/REPORT.md.
+- Existing iPhone Apps tab adds Mặc định & Ưa dùng manager. The CarPlay app picker retains its per-pane user tap and real eligible installed app allowlist; ordering is default, pinned then successful sceneReady usage count. Preferences saved/read back atomically and notify live refresh; counts updated only after scene-ready callback. No original vendor binaries or license used.
+- Source commits include 7e01d2c (policy), c6b7d82 (iPhone UI), c14c41b (CarPlay picker), 4dcdb2f (ready-only counts), 60508cf/c3ede65f (tests), 4fb4932 (CI). Verify current branch before editing.
+- Source-only macOS Foundation executable and iOS16 SDK CI must be checked; no physical CarPlay result or Sileo release implied. Do not overwrite .90 YouTube rotation, .92 logo, system Dock or experimental native Maps. Current integrated build version is independent and must not be claimed upgraded until successful signed package verification.
+- Next: inspect GitHub Actions source-only validation results; resolve compiler/test failure if any; review preservation of prior .95 source; only prepare a new signed one-DEB QA after CI passes and user explicitly requests Sileo. Test real iPhone preference, picker ordering and no automatic launch on parked CarPlay.
+
+---
+
 ## 2026-10-29 — .95 COMPLETE signed staging QA, no Sileo
 - Current request: give accurate progress. User-approved source implementation DuoDash/OmniCar-inspired App manager, in-app native Maps menu and .92 original 3s logo; **Sileo publication explicitly prohibited until new user request**.
 - Repo chuongnguyen89dn-ui/Duoface branch feature/duoface-jb-embedded-appbridge-20261020. Signed staging SOURCE_SHA=b55164991de540c03e79c4f483f029153902a004; signed staging Actions run 40792514291 **completed SUCCESS** (unit tests, legacy orientation/scene ownership, macOS Foundation policy, iOS16 native-host compilation, integrated package, artifact upload and repository archive all PASS). Source-only CI 40792409702 SUCCESS, orientation CI 40792409693 SUCCESS; historical first staging run 40792246134 FAILED pinned old .94 version in 3 test assertions, fixed at c3d2db6211e41930b64718959e561643134aae88.
