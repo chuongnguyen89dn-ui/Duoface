@@ -27,6 +27,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
       - 'sideplay/duoface-native-scene-host/DFEnabledAppsPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerDisplayPolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/picker_display_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_picker_display_097.py'
       - 'sideplay/duoface-native-scene-host/DFAppHabits.h'
       - 'sideplay/duoface-native-scene-host/tests/test_app_habits_096.py'
       - 'sideplay/duoface-native-scene-host/tests/app_habits_runtime.m'
@@ -65,6 +68,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_tile_original_palette.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native12_phone_apps_manager_094.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_habits_096.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_picker_display_097.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_duodash_omnicar_catalog_integration.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
@@ -88,6 +92,12 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/enabled_apps_policy_runtime.m -o "$RUNNER_TEMP/enabled-apps-runtime"
           "$RUNNER_TEMP/enabled-apps-runtime"
+      - name: Execute strict app picker display and approved-app runtime on macOS
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/picker_display_runtime.m -o "$RUNNER_TEMP/picker-display-runtime"
+          "$RUNNER_TEMP/picker-display-runtime"
       - name: Execute first-party app habits and default ranking policy on macOS
         run: |
           set -euo pipefail
