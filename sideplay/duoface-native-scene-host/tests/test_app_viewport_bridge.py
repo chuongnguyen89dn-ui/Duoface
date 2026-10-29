@@ -28,8 +28,8 @@ class RecoveryDistribution(unittest.TestCase):
    actual=b[i:j]
    expected=section['text']
    if name=='divider_pan_machine':
-    actual=actual.split("// The user's latest contract supersedes",1)[0]
-    expected=expected.split("// User-approved 3s logo hold",1)[0]
+    actual=actual.split("- (void)renderDividerDragFinal:",1)[0]
+    expected=expected.split("- (void)renderDividerDragFinal:",1)[0]
    self.assertEqual(actual,expected,name)
   self.assertIn('[self beginDividerDragAt:point]',b)
   self.assertIn('logo-two-axis-drag-begin-no-hold',b)
