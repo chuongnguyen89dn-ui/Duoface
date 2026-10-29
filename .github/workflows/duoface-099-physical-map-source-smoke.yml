@@ -8,6 +8,8 @@ on:
       - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m'
       - 'sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/test_physical_map_binding_099.py'
+      - 'sideplay/native-carplay-scene-v1/tests/test_extended_settings_099.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
       - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
   workflow_dispatch:
@@ -27,6 +29,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_physical_map_binding_099.py' -v
+          python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_extended_settings_099.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_workspace_098.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
       - name: Compile and execute true Foundation CoreGraphics physical pane tests
@@ -47,7 +50,7 @@ jobs:
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
           done
           cd ../duoface-native-scene-host
-          for SRC in DFTouchOwnerProbe.m DFNative12Chrome.m; do
+          for SRC in DFTouchOwnerProbe.m DFNative12Chrome.m DFNativeHostRootController.m; do
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
           done
       - name: Save immutable run result to existing GitHub handoff
