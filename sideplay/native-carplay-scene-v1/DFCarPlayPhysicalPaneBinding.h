@@ -44,7 +44,7 @@ static inline NSDictionary *DFPhysicalMapVerifyPane(
  double age=now-[sample[@"Timestamp"] doubleValue];
  double pulse=now-[heartbeat[@"Timestamp"] doubleValue];
  if(!isfinite(age)||age<0||age>1.75||!isfinite(pulse)||pulse<0||pulse>2.5)
-   return @ { @"Verified":@NO,@"Reason":@"stale-physical-slot-or-session" };
+   return @{ @"Verified":@NO,@"Reason":@"stale-physical-slot-or-session" };
  NSArray *windows=sample[@"Windows"];
  if(![windows isKindOfClass:NSArray.class] || windows.count!=2)return fail;
  NSMutableSet *seen=[NSMutableSet new];
@@ -72,7 +72,7 @@ static inline NSDictionary *DFPhysicalMapVerifyPane(
    CGRect target=CGRectMake([planned[@"x"] doubleValue],[planned[@"y"] doubleValue],
                [planned[@"width"] doubleValue],[planned[@"height"] doubleValue]);
    if(!DFPhysicalMapNearRect(rects[slot],target,2.0))
-       return @ { @"Verified":@NO,@"Reason":@"native-dock-and-duoface-physical-geometry-disagree" };
+       return @{ @"Verified":@NO,@"Reason":@"native-dock-and-duoface-physical-geometry-disagree" };
  }
  return @{@"Verified":@YES,@"Reason":@"two-owners-measured-same-screen-pane",
           @"Target":NSStringFromCGRect(rects[desiredSlot]),
