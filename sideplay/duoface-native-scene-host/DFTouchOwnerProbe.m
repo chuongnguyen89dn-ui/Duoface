@@ -33,6 +33,7 @@ static BOOL sZoomFinishing;
 static BOOL DFSessionStillActive(void);
 static void DFEnsureDisconnectMonitor(void);
 static BOOL sDisconnectMonitorArmed;
+static BOOL sShownFirstSplashForPhysicalConnection;
 // CrashReporter .ips names the exact SpringBoard assertion receiver at
 // SBAppViewController sceneHandle:didUpdateSettingsWithDiff:+440, but omits
 // NSException.name/reason. Do not hook private SpringBoard methods or swallow
@@ -127,16 +128,21 @@ static id DFConnectedCarDisplay(void) {
 }
 static void DFEnsureDisconnectMonitor(void) {
  if(sDisconnectMonitorArmed)return;
- if(!sChrome && !DFDisconnectCloseNeedsMonitoring())return;
+ if(!sChrome && !DFDisconnectCloseNeedsMonitoring() &&
+    !sShownFirstSplashForPhysicalConnection)return;
  sDisconnectMonitorArmed=YES;
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,NSEC_PER_SEC),
                 dispatch_get_main_queue(),^{
     sDisconnectMonitorArmed=NO;
-    if(sChrome || DFDisconnectCloseNeedsMonitoring()){
-       // Only a missing *real* AVExternalDevice-to-CADisplay association
-       // counts as physical disconnect; Home / foreground owner revocation
-       // alone is never an app termination event.
-       DFDisconnectClosePhysicalObserved(DFConnectedCarDisplay()!=nil);
+    if(sChrome || DFDisconnectCloseNeedsMonitoring() ||
+       sShownFirstSplashForPhysicalConnection){
+       // Actual unplug resets first-start status; CarPlay Home never does.
+       BOOL connected=DFConnectedCarDisplay()!=nil;
+       if(!connected && sShownFirstSplashForPhysicalConnection){
+          sShownFirstSplashForPhysicalConnection=NO;
+          DFTOLog(@"physical-carplay-disconnected-reset-splash",@"");
+       }
+       DFDisconnectClosePhysicalObserved(connected);
        DFEnsureDisconnectMonitor();
     }
  });
@@ -254,6 +260,9 @@ static void DFStopProbe(NSString *reason) {
     sLastAckSequence=0;
     sRetryCount=0;sRetryAt=0;
     DFNative12Chrome *old=sChrome;
+    // HIDE before slow PID collection or remote-scene invalidate. This
+    // avoids the old DuoFace overlay lingering on Apple CarPlay Home.
+    [old hideAllExternalWindowsImmediately];
     // Capture EXACT live, owner-verified new-process PIDs before stopAllHosts
     // invalidates the views. These are NOT the saved app favorites/workspace.
     if(old && previousSession)DFDisconnectCloseCapture(
@@ -399,9 +408,14 @@ static void DFStartProbe(void) {
                  contentRect:region command:^(NSString *action,NSNumber *ratio){
             DFSendCommand(action,ratio);
         }];
+        if(sShownFirstSplashForPhysicalConnection){
+            [sChrome skipStartupSplashForHomeReentry];
+            DFTOLog(@"home-reentry-splash-skipped",@"same-physical-connection");
+        }
         if(![sChrome start]) {
             DFStopProbe(@"chrome-window-create-failed");return;
         }
+        sShownFirstSplashForPhysicalConnection=YES;
         if(!DFSessionStillActive()){
             DFStopProbe(@"session-revoked-during-window-start");return;
         }

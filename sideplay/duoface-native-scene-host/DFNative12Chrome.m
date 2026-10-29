@@ -235,6 +235,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL appPickerVisible;
 @property(nonatomic,strong) UIWindow *splashWindow;
 @property(nonatomic,assign) BOOL startupActive;
+@property(nonatomic,assign) BOOL homeReentrySkipsSplash;
 @property(nonatomic,assign) NSTimeInterval borderUntil;
 @property(nonatomic,assign) NSTimeInterval controlsUntil;
 @property(nonatomic,assign) NSUInteger borderGeneration;
@@ -511,6 +512,14 @@ static void DFCLog(NSString *text) {
     [b addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     return b;
 }
+- (void)skipStartupSplashForHomeReentry {
+    self.homeReentrySkipsSplash=YES;
+}
+- (void)hideAllExternalWindowsImmediately {
+    // Source-owned external windows only, never the native CarPlay Dock.
+    for(UIWindow *w in self.windows)w.hidden=YES;
+    DFCLog(@"home-own-windows-hidden-before-scene-invalidate");
+}
 - (BOOL)start {
     // Fetch the latest iPhone choices for each actual reconnect.
     self.workspace=DFCurrentWorkspace();
@@ -523,6 +532,7 @@ static void DFCLog(NSString *text) {
     _dividerDrag.active=false;
         self.logoWakeOnlyTap=NO;
     self.startupActive=YES;
+    if(self.homeReentrySkipsSplash)self.startupActive=NO;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
@@ -936,8 +946,9 @@ static void DFCLog(NSString *text) {
     self.appPickerWindow=[self makeWindow:chooserRect
           root:self.appPickerController level:4];
     if(!self.appPickerWindow){[self stop];return NO;}
-    // Show genuine DuoFace horizontal logo and animated progress BEFORE chrome.
-    // One source-owned SpringBoard presentation; controls cannot pre-empt launch.
+    // Only first physical connection gets the launch animation. Returning
+    // from Home is a foreground switch and should render saved app slots.
+    if(!self.homeReentrySkipsSplash){
     UIViewController *launch=[self emptyRoot:cr];
     launch.view.backgroundColor=UIColor.blackColor;
     UIImageView *startupLogo=[[UIImageView alloc]initWithImage:DFCArtwork(@"duoface-logo")];
@@ -993,6 +1004,11 @@ static void DFCLog(NSString *text) {
                [owner beginSavedWorkspaceRestore];
            }];
     });
+    }else{
+        [self layoutControls];
+        DFCLog(@"home-reentry-no-startup-splash-restore-saved-scenes");
+        [self beginSavedWorkspaceRestore];
+    }
     DFCLog([NSString stringWithFormat:
         @"native12-chrome-start windows=%lu content=%@",
         (unsigned long)self.windows.count,NSStringFromCGRect(cr)]);
@@ -2141,7 +2157,7 @@ static void DFCLog(NSString *text) {
     // scene invalidation can be slow for media apps, and must never leave
     // divider/menu controls drawn over CarPlay Home during that delay.
     [self.dividerLogo.layer removeAnimationForKey:@"dfNative12GripPulse"];
-    for(UIWindow *w in self.windows)w.hidden=YES;
+    [self hideAllExternalWindowsImmediately];
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
     [[DFSceneHost sharedHost] stopAllHosts];
     for(UIWindow *w in self.windows)w.rootViewController=nil;

@@ -10,6 +10,8 @@ typedef void (^DFNative12ChromeCommand)(NSString *action, NSNumber *ratio);
                   contentRect:(CGRect)content
                       command:(DFNative12ChromeCommand)command;
 - (BOOL)start;
+- (void)skipStartupSplashForHomeReentry;
+- (void)hideAllExternalWindowsImmediately;
 // Immutable post-action state sampled from the actual SpringBoard UI owner.
 // This is the proof of operation relayed to CarPlay; never a second renderer.
 - (NSDictionary<NSString *, id> *)stateSnapshot;
