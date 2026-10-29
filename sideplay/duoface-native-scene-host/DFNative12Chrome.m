@@ -269,6 +269,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSInteger focus;
 @property(nonatomic,assign) NSInteger selectedSlot;
 @property(nonatomic,assign) BOOL panActive;
+@property(nonatomic,assign) BOOL dividerOwnerSuspended;
 @property(nonatomic,assign) BOOL logoTouchPending;
 @property(nonatomic,assign) BOOL logoWakeOnlyTap;
 @property(nonatomic,copy) NSDictionary *workspace;
@@ -1220,6 +1221,28 @@ static void DFCLog(NSString *text) {
     BOOL unavailable=self.startupActive ||
         DFSlotCountForPreset(self.preset)<=1 || self.focus>=0 ||
         self.pickerVisible || self.styleVisible || self.appPickerVisible;
+    // A temporarily hidden UIWindow can leave UIKit's pan recognizer in
+    // a stale touch state even after the independent .92 DFDrag state resets.
+    // Rearm only on the HIDDEN -> VISIBLE transition, on the next main turn.
+    // Never interrupt a live .92 ratio drag or the 3-second logo contact.
+    BOOL returningToSplit=self.dividerOwnerSuspended && !unavailable;
+    self.dividerOwnerSuspended=unavailable;
+    if(returningToSplit) {
+        __weak typeof(self) weakOwner=self;
+        dispatch_async(dispatch_get_main_queue(),^{
+            DFNative12Chrome *owner=weakOwner;
+            if(!owner || !owner.dividerWindow || owner.dividerWindow.hidden ||
+               owner.panActive || owner.logoTouchPending ||
+               owner->_dividerDrag.active)return;
+            for(UIGestureRecognizer *recognizer in owner.dividerTrack.gestureRecognizers){
+                if([recognizer isKindOfClass:UIPanGestureRecognizer.class]){
+                    recognizer.enabled=NO;
+                    recognizer.enabled=YES;
+                }
+            }
+            DFCLog(@"divider92-pan-recognizer-rearmed-after-modal");
+        });
+    }
     if(unavailable && (_dividerDrag.active || self.panActive || self.logoTouchPending)){
         _dividerDrag.active=false;
         self.panActive=NO;
