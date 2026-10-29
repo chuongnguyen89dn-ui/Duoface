@@ -636,7 +636,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertRegex(c,r"(?m)^Version: 0\\.1\\.[0-9]+~[a-z0-9-]+$")
+  self.assertRegex(c,r"(?m)^Version: 0[.]1[.][0-9]+~[a-z0-9-]+$")
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
