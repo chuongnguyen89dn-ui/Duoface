@@ -294,7 +294,7 @@ static void DFCLog(NSString *text) {
             _ratio=[prior[@"Ratio"] doubleValue];
             _secondaryRatio=[prior[@"Secondary"] isKindOfClass:NSNumber.class]?
                    DFCClamp([prior[@"Secondary"] doubleValue]):.5;
-            _logoFraction=.5; // Logo is centered on the movable split divider.
+            _logoFraction=[prior[@"LogoFraction"] doubleValue]; // Restore independent along-divider position.
             _verticalDivider=[prior[@"Vertical"] boolValue];
             _swapped=[prior[@"Swapped"] boolValue];
             _preset=prior[@"Preset"]?[prior[@"Preset"] integerValue]:(_verticalDivider?1:2);
@@ -1146,7 +1146,7 @@ static void DFCLog(NSString *text) {
     self.ratio=[saved[@"Ratio"] doubleValue];
     self.secondaryRatio=[saved[@"Secondary"] isKindOfClass:NSNumber.class]?
            DFCClamp([saved[@"Secondary"] doubleValue]):.5;
-    self.logoFraction=.5; // Legacy independent logo offsets are no longer used.
+    self.logoFraction=[saved[@"LogoFraction"] doubleValue]; // Preserve persisted along-divider position.
     self.swapped=[saved[@"Swapped"] boolValue];
     self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
     NSInteger active=DFSlotCountForPreset(preset);
@@ -1867,7 +1867,8 @@ static void DFCLog(NSString *text) {
     [self emit:@"Close" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
 }
-// Both the circular grip and the surrounding track use this one state machine.
+// Both inputs share one axis-locked state machine. Only the circular grip may
+// move along the divider; the bare 32pt track controls pane ratio only.
 - (void)beginDividerDragAt:(CGPoint)p {
     if(_dividerDrag.active || self.dividerWindow.hidden)return;
     CGFloat extent=self.verticalDivider?self.contentRect.size.width:self.contentRect.size.height;
@@ -1891,7 +1892,7 @@ static void DFCLog(NSString *text) {
     DFDragAxis previous=_dividerDrag.axis;
     DFDragMove(&_dividerDrag,p.x,p.y);
     if(previous!=_dividerDrag.axis)
-        DFCLog(_dividerDrag.axis==DFDragRatio?@"divider-axis-locked-ratio":@"divider-axis-locked-logo-no-hold");
+        DFCLog(_dividerDrag.axis==DFDragRatio?@"divider-axis-locked-ratio":@"divider-axis-locked-logo-vertical-no-hold");
     [self renderDividerDragFinal:NO];
 }
 - (BOOL)finishDividerDragAt:(CGPoint)p cancelled:(BOOL)cancelled {
@@ -1907,9 +1908,10 @@ static void DFCLog(NSString *text) {
     [self noteUserActivity];
     return tap;
 }
-// The user's latest contract supersedes the old .92 3-second logo hold.
-// The circular logo moves WITH the actual divider boundary when ratio changes.
-// Touching the grip itself begins the SAME immediate ratio drag as the track.
+// Historical user-approved two-axis gesture, with the 3-second hold REMOVED:
+// drag logo ALONG the divider -> move the logo vertically (or horizontally
+// on a top/bottom preset); drag ACROSS -> change split ratio immediately.
+// Bare divider track retains ratio-only drag; quick logo tap still swaps.
 - (void)logoTouchDown:(id)sender {
     if(sender!=self.dividerLogo || _dividerDrag.active || self.logoTouchPending)return;
     CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
@@ -1917,7 +1919,8 @@ static void DFCLog(NSString *text) {
     self.logoTouchPending=YES;
     [self beginDividerDragAt:point];
     if(!_dividerDrag.active){self.logoTouchPending=NO;return;}
-    DFCLog(@"logo-ratio-drag-begin-no-hold");
+    _dividerDrag.allowLogo=true; // Only raw touches that started on the logo.
+    DFCLog(@"logo-two-axis-drag-begin-no-hold");
 }
 - (void)logoTouchChanged:(id)sender {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;

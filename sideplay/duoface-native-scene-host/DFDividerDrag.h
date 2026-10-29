@@ -3,10 +3,11 @@
 #include <math.h>
 #include <stdbool.h>
 
-// Shared immediate ratio gesture: logo follows its moving divider; no independent logo reposition.
+// Immediate two-axis grip gesture: along divider moves logo; across divider resizes panes.
+// The plain divider track only resizes panes; no long-press/timer anywhere.
 typedef enum { DFDragUndecided, DFDragRatio, DFDragLogo } DFDragAxis;
 typedef struct {
-    bool active, vertical;
+    bool active, vertical, allowLogo;
     DFDragAxis axis;
     double x, y, ratioStart, logoStart, ratio, logo;
     double ratioExtent, logoExtent, maxExcursion;
@@ -30,14 +31,20 @@ static inline void DFDragMove(DFDividerDrag *d, double x, double y) {
     double dx=x-d->x, dy=y-d->y;
     double perpendicular=d->vertical?dx:dy, parallel=d->vertical?dy:dx;
     d->maxExcursion=fmax(d->maxExcursion,hypot(dx,dy));
-    // Accept only motion across the split boundary. Moving ALONG the line
-    // never repositions the logo or changes ratio. The visible logo is centered
-    // on the same moving divider window, so no second drag mode/timer exists.
-    if(d->axis==DFDragUndecided &&
-       fabs(perpendicular)>7 && fabs(perpendicular)>fabs(parallel)*1.25)
-        d->axis=DFDragRatio;
+    // Lock one direction after real movement to prevent accidental cross-axis
+    // changes on a diagonal. Grip: parallel -> logo, perpendicular -> ratio.
+    // Bare track: perpendicular -> ratio only, never moves the logo.
+    if(d->axis==DFDragUndecided) {
+        if(fabs(perpendicular)>7 && fabs(perpendicular)>fabs(parallel)*1.25)
+            d->axis=DFDragRatio;
+        else if(d->allowLogo && fabs(parallel)>7 &&
+                fabs(parallel)>fabs(perpendicular)*1.25)
+            d->axis=DFDragLogo;
+    }
     if(d->axis==DFDragRatio)
         d->ratio=DFDragClamp(d->ratioStart+perpendicular/d->ratioExtent,1.0/3.0,2.0/3.0);
+    else if(d->axis==DFDragLogo)
+        d->logo=DFDragClamp(d->logoStart+parallel/d->logoExtent,.1,.9);
 }
 static inline bool DFDragFinish(DFDividerDrag *d, double x, double y, bool cancelled) {
     if(!d->active)return false;

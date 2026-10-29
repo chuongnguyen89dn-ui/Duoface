@@ -9,15 +9,18 @@ class NoHoldGate(unittest.TestCase):
                           "DFLogoHoldAdvance(", "DFLogoHoldIsQuickTap(",
                           "logo-3s-hold-armed", "logo-hold-3s-unlocked"):
             self.assertNotIn(forbidden,src)
-        self.assertIn('logo-ratio-drag-begin-no-hold',src)
+        self.assertIn('logo-two-axis-drag-begin-no-hold',src)
         self.assertIn('[self beginDividerDragAt:point]',src)
         self.assertIn('[self updateDividerDragAt:point]',src)
-    def test_only_one_ratio_geometry(self):
+    def test_two_independent_axes_with_no_hold_and_restore(self):
         src=(ROOT/"DFDividerDrag.h").read_text()
-        self.assertNotIn("d->axis=DFDragLogo",src)
-        self.assertNotIn("d->logo=DFDragClamp",src)
+        self.assertIn("d->axis=DFDragLogo",src)
+        self.assertIn("d->logo=DFDragClamp",src)
         self.assertIn("d->axis=DFDragRatio",src)
+        self.assertIn("d->allowLogo &&",src)
         chrome=(ROOT/"DFNative12Chrome.m").read_text()
         self.assertIn("self.dividerWindow.frame=tr;",chrome)
         self.assertIn("self.dividerLogo.frame=self.verticalDivider?",chrome)
+        self.assertIn("_dividerDrag.allowLogo=true;",chrome)
+        self.assertIn("self.logoFraction=[saved[\\\"LogoFraction\\\"] doubleValue];".replace('\\\"','@\\"'),chrome)
 if __name__=="__main__": unittest.main()
