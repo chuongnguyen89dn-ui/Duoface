@@ -1,3 +1,13 @@
+## 2026-10-29 — .95 staging QA checkpoint after running tests (no Sileo)
+
+- User approved first-party combined DuoDash/OmniCar app-management and native Maps link while protecting .92 logo. Sileo publication explicitly forbidden until separate instruction. Repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020.
+- Source and signed version pinned: source app 0.1.104~duomanager1, integrated package 0.0.95~duomanager1. Old .90/.92/.94 snapshots preserved; logo files are byte-for-byte .92. iPhone interface My Apps/other/system + search + switches; CarPlay selected app picker and UI Maps manual attach/restore are in source; real-car Maps integration still unverified.
+- Green source tests run 40792082781 (macOS unit/runtime + iOS16 UIKit compile), .92 logo gate run 40792082860 PASS, Maps owner/orientation gate 40792150439 PASS.
+- Signed staging run 40792246134 FAILURE before compilation because exactly three older tests pinned 0.1.103~phoneapps1 while source/build version changed to 0.1.104~duomanager1: test_nativeowner_086.py, test_orientation_policy_084.py, test_youtube_scene_feedback_089.py. Fixed by commit c3d2db6211e41930b64718959e561643134aae88. Source gates 40792409702 and 40792409693 subsequently SUCCESS.
+- Existing authorized request retry commit b55164991de540c03e79c4f483f029153902a004 launched signed QA stage [40792514291](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40792514291), status in_progress at checkpoint: unit tests + scene/rotation/geometry harness PASS, dependency toolchain setup in progress. No .95 signed artifact confirmed yet, NO Sileo publish. Next check exact job completion, artifact and sha256; if failed, inspect precise log and fix just cause; physical iPhone CarPlay still required.
+
+---
+
 ## 2026-10-29 — Implementation checkpoint: app management + Maps UI, restore .92 logo, no Sileo
 - User approved coding: integrate independent DuoDash+OmniCar app management in existing iPhone DuoFace and its CarPlay picker, continue real native Maps link, restore prior .92 3-second logo. Publishing Sileo is PROHIBITED until user explicitly requests.
 - Repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020. Latest source commit e164867e6029e7f55891ae1486954a85b9db4fe4. Original .92 rollback ref 378ebf9a159e3add4ff22d10d69249cf9798fe22.
