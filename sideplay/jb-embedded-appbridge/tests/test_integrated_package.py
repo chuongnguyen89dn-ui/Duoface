@@ -68,7 +68,7 @@ class EmbeddedPackagePolicy(unittest.TestCase):
   self.assertIn('--expected-nativehost-sha256 "$NATIVEHOST_SHA"',workflow)
   self.assertIn('--expected-source-sha "$GITHUB_SHA"',workflow)
   self.assertIn('VERSION="0.0.113~reentry-queue1"',src)
-  self.assertIn('0.0.112~slot-memory1',workflow)
+  self.assertIn('0.0.113~reentry-queue1',workflow)
   self.assertIn('0.0.112~slot-memory1',old_workflow)
   self.assertIn('SILEO_PUBLISHED=false',workflow)
  def test_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass(self):
