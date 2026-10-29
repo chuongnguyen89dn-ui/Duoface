@@ -1,3 +1,11 @@
+## CHECKPOINT DuoFace .115 integrated release staged, run 40860494881
+
+- DuoFace .115 signed, integrated rootless `com.duoface.jb.embedded` QA build from source 2978bb4c6460d1ed64d92262445f725f31b533fc. Accepted app replacement intent is persisted per physical slot; this is SOURCE behavior only, not proof that both CarPlay scenes restore on device. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40860494881. Exact SHA256 bf7f636acb68b777ec177b2357d20ddb2495660a76e988edd1a0b0622e77d09c. Immutable package/provenance/source archive: sideplay/jb-embedded-appbridge/evidence/runs/40860494881/.
+- This checkpoint ONLY confirms signed, archived package. Sileo publication is authorized but NOT yet accomplished by this staging workflow. Publisher must verify immutable SHA, public Packages, Release and downloaded DEB. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
+- Next: publish to Sileo using existing carplaydsp/main APT publisher, pin archive SHA, verify remote Packages/Release/public bytes, preserve .90/.92 rollback, then append final public release result here. No device install claim.
+
+---
+
 
 ## CHECKPOINT 2026-10-29 DuoFace 097 strict iPhone allowlist and picker grid — source CI PASS
 
