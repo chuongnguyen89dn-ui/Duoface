@@ -102,7 +102,7 @@ static void DFCLog(NSString *text) {
         (void)write(fd,d.bytes,d.length);close(fd);
     }
 }
-#import "DFPaneInputTrace116.h"
+// Emergency QA118: root touch tracer/wake removed from compiled Chrome.
 
 // Primary divider contacts use immediate axis selection without long press.
 // Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
@@ -527,13 +527,11 @@ static void DFCLog(NSString *text) {
     @try {
         id config=((id(*)(id,SEL,id,BOOL))objc_msgSend)(
             [_configurationClass alloc],configSelector,_display,NO);
-        // Only physical app panes receive .116 read-only input diagnostics.
-        // If subclass installation is unavailable use the unchanged UIKit class.
-        BOOL physicalPane=[root.view isKindOfClass:DFNativePanePassthroughView.class];
-        Class traced=physicalPane?DFPane116TraceClass(_externalWindowClass):Nil;
-        Class factory=traced?:_externalWindowClass;
+        // .118: Native12-style original CarPlay UIWindow dispatch only.
+        // No synthetic per-pane sendEvent/hitTest/pointInside subclass:
+        // .117 physically failed logo recall and worsened YouTube input.
         UIWindow *w=((id(*)(id,SEL,id))objc_msgSend)(
-            [factory alloc],windowSelector,config);
+            [_externalWindowClass alloc],windowSelector,config);
         if(![w isKindOfClass:UIWindow.class] || !w.screen ||
            w.screen==UIScreen.mainScreen)return nil;
         w.frame=frame;
@@ -545,26 +543,6 @@ static void DFCLog(NSString *text) {
         w.windowLevel=UIWindowLevelNormal+level;
         w.rootViewController=root;
         root.view.frame=CGRectMake(0,0,frame.size.width,frame.size.height);
-        // A real UIKit pane touch can bypass the hosted child hitTest.
-        // Register on the physical root-window event owner identified in the
-        // SHA-pinned Native12 analysis; preserve the delivered event unchanged.
-        if(physicalPane && traced) {
-            __weak typeof(self) weakChrome=self;
-            DFPane117SetWake(w,^(UIWindow *touchedWindow){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    DFNative12Chrome *owner=weakChrome;
-                    if(!owner || !touchedWindow ||
-                       ![owner.appSceneWindows containsObject:touchedWindow] ||
-                       touchedWindow.hidden ||
-                       touchedWindow.screen==UIScreen.mainScreen ||
-                       owner.startupActive || owner.pickerVisible ||
-                       owner.styleVisible || owner.appPickerVisible)return;
-                    BOOL hidden=NSDate.date.timeIntervalSince1970>owner.controlsUntil;
-                    [owner noteUserActivity];
-                    if(hidden)DFCLog(@"pane117-root-window-woke-hidden-logo-and-controls");
-                });
-            });
-        }
         w.hidden=YES;
         [self.windows addObject:w];
         return w;
@@ -638,8 +616,6 @@ static void DFCLog(NSString *text) {
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneFailed:) name:DFSceneHostDidFailNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-        selector:@selector(realAppTouched:) name:DFSceneHostDidObserveTouchNotification object:nil];
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
        CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
@@ -755,8 +731,6 @@ static void DFCLog(NSString *text) {
     [self.secondaryDividerTrack addGestureRecognizer:secondaryPan];
     self.secondaryDividerWindow=[self makeWindow:divider root:secondRoot level:2];
     if(!self.secondaryDividerWindow){[self stop];return NO;}
-    [self observeActivityInWindow:self.dividerWindow];
-    [self observeActivityInWindow:self.secondaryDividerWindow];
     // Keep the action menu inside the selected split pane rather than
     // covering the whole dual-app display as a centered 470pt sheet.
     CGFloat pw=MIN(470,MAX(180,cr.size.width-16));
@@ -1021,25 +995,9 @@ static void DFCLog(NSString *text) {
                                            slotRect.size.height)];
         slotRoot.view.backgroundColor=UIColor.clearColor;
         slotRoot.view.clipsToBounds=YES;
-        // Passive, full-pane activity wake. This is not a fullscreen touch
-        // overlay: the existing passthrough root keeps identical hit routing.
-        // Schedule UI changes after the original hit-test returns so YouTube,
-        // Maps and any hosted app keep their unmodified touch sequence.
-        __weak typeof(self) weakPaneOwner=self;
-        ((DFNativePanePassthroughView *)slotRoot.view).touchBeganInPane=^(UIWindow *touchedWindow){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                DFNative12Chrome *owner=weakPaneOwner;
-                if(!owner || !touchedWindow ||
-                   ![owner.appSceneWindows containsObject:touchedWindow] ||
-                   touchedWindow.hidden ||
-                   touchedWindow.screen==UIScreen.mainScreen ||
-                   owner.startupActive || owner.pickerVisible || owner.styleVisible ||
-                   owner.appPickerVisible)return;
-                BOOL wasHidden=NSDate.date.timeIntervalSince1970>owner.controlsUntil;
-                [owner noteUserActivity];
-                if(wasHidden)DFCLog(@"pane-anywhere-touch-woke-logo-and-controls");
-            });
-        };
+        // .118: no app-pane activity callback or supplementary recognizer.
+        // Preserve the original hosted YouTube event target; controls are
+        // still operated directly on their own dedicated UIKit windows.
         UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];
         if(!slotWindow){[self stop];return NO;}
         UIView *container=[[UIView alloc]initWithFrame:slotRoot.view.bounds];
@@ -1051,7 +1009,6 @@ static void DFCLog(NSString *text) {
         [slotRoot.view addSubview:container];
         [self.appSceneContainers addObject:container];
         [self.appSceneWindows addObject:slotWindow];
-        [self observeActivityInWindow:slotWindow];
     }
     DFCLog(@"media37-four-physical-scene-windows-restored");
     self.appPickerController=[DFAppPickerVC new];
