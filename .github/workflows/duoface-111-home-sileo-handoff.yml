@@ -1,0 +1,108 @@
+name: DuoFace 111 Home and YouTube Sileo public SHA plus handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-111-home-sileo-handoff.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-111-home-sileo-handoff
+  cancel-in-progress: false
+jobs:
+  verify-and-save:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify actual public Sileo .111 index and signed binary
+        shell: bash
+        run: |
+          set -euo pipefail
+          SITE='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          FILE='com.duoface.jb.embedded_0.0.111~home-reentry-youtube1_iphoneos-arm64.deb'
+          SHA='05519c72474b12274e3cd54a348d54a13203999bb6b710b648b0dd7868e3124c'
+          for i in $(seq 1 24); do
+            if curl -fLsS --max-time 20 "$SITE/Packages" -o "$RUNNER_TEMP/Packages" &&
+               curl -fLsS --max-time 20 "$SITE/Release" -o "$RUNNER_TEMP/Release" &&
+               grep -Fq 'Version: 0.0.111~home-reentry-youtube1' "$RUNNER_TEMP/Packages"; then break; fi
+            sleep 6
+          done
+          FILE="$FILE" SHA="$SHA" python3 - <<'PY'
+          from pathlib import Path
+          import os
+          records=[]
+          for raw in Path(os.environ['RUNNER_TEMP'],'Packages').read_text().split('\n\n'):
+              d={}
+              for line in raw.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      key,val=line.split(': ',1);d[key]=val
+              if d.get('Package')=='com.duoface.jb.embedded':records.append(d)
+          assert len(records)==1,records
+          d=records[0]
+          assert d['Version']=='0.0.111~home-reentry-youtube1',d
+          assert d['SHA256']==os.environ['SHA'],d
+          assert d['Filename']=='debs/'+os.environ['FILE'],d
+          assert d['Architecture']=='iphoneos-arm64',d
+          assert 'SHA256:' in Path(os.environ['RUNNER_TEMP'],'Release').read_text()
+          print('DUOFACE_111_PUBLIC_SILEO_ONE_APT_RECORD_PASS')
+          PY
+          curl -fLsS --retry 4 "$SITE/debs/$FILE" -o "$RUNNER_TEMP/duoface111.deb"
+          printf '%s  %s\n' "$SHA" "$RUNNER_TEMP/duoface111.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/duoface111.deb" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/duoface111.deb" Version)" = '0.0.111~home-reentry-youtube1'
+          echo DUOFACE_111_PUBLIC_SILEO_SIGNED_BINARY_SHA_PASS
+      - name: Add current precise checkpoint to existing project handoff and read back
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$TEMP/sideplay/audit/duoface-home-reentry-111/REPORT.md" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          dest,audit=Path(sys.argv[1]),Path(sys.argv[2])
+          run=sys.argv[3]
+          assert dest.is_file() and audit.is_file(), 'Existing handoff/audit required'
+          assert 'Home/re-entry lifecycle forensic' in audit.read_text(encoding='utf8')
+          marker='## CHECKPOINT 2026-10-29 DuoFace .111 Home/YouTube Sileo public SHA verified'
+          block=f"""{marker}
+
+          - USER REAL DEVICE BUGS on .110: returning from CarPlay Home remembers app selection but YouTube is blank unless manually selected; every Home re-entry repeats the startup splash; DuoFace overlay lingers briefly over Apple Home. Hardware confirmation of the FIX is not yet available. Never claim source tests prove YouTube pixels.
+          - Original reference: Native12/DuoNavi actual binary SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad. Previously disassembled CBBridgedUIAppView.dismiss @0xaf01c (child removeFromSuperview before release), CBWindow.destroyWindows/bridgeDidDeactivate and CBBridgeManager lifecycle. Original exact on-car Home reentry scene retention remains unverified. All independent changes described in sideplay/audit/duoface-home-reentry-111/REPORT.md; do NOT copy license/vendor dylib.
+          - SOURCE FIX: DFTouchOwnerProbe.m immediately hides every owned external UIWindow before Dock cleanup and PID capture; physical AVExternalDevice/CADisplay observation distinguishes Home from real unplug and resets first-start splash only on actual disconnect. DFNative12Chrome.m skips repeated 1.3s startup splash on Home and rehosts allowed saved slots; remote YouTube readiness was previously aborted at 7 seconds while scene poll allows 36*0.35 = 12.6 seconds, now waits 13.5 seconds and does one bounded generation-safe retry on failure, never falsely marks ready. No foreground/private scene setting guesses, original Apple Dock unchanged.
+          - COMMITS: 335e04ba87532112d3463f90d7c57b403ba004fc, 8d355c1184660c2b04c0fef9ebc2f85d31897932, 0c4ff4109e80d0abe2a0a9c1490165cc1abd4d2a, 7d8102814cd37057b2a22837226ddb83dabe71bb, 2c02c0b5ed9972552abfef6fb2cbf8a0a2cfd846. Source tests 40832259218/40832259165/40832259143 and 40832650203/40832650213/40832650277 all SUCCESS, iOS16 ARM64 syntax included.
+          - SIGNED integrated independent rootless DEB .111: source b95ba2a52427cc4c20a6f409a385074c08029d54, build run 40832650431 SUCCESS, archive commit 7cdd1d91bec80b38d51d563a3c8fae1c104806d9, archive sideplay/jb-embedded-appbridge/evidence/runs/40832650431/com.duoface.jb.embedded_0.0.111~home-reentry-youtube1_iphoneos-arm64.deb, SHA256 05519c72474b12274e3cd54a348d54a13203999bb6b710b648b0dd7868e3124c. Previous .110 is archived for rollback.
+          - PUBLIC SILEO source https://chuongnguyen89dn-ui.github.io/carplaydsp/; publisher carplaydsp/main commit f3620ba623038cb99c9750cba74efeff3dceb3c3; CI publisher 40833123461; actual Pages Packages+Release one latest .111 and downloaded binary signed SHA verified AGAIN in handoff run {run} at https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}. No Filza install or device reboot performed.
+          - NEXT hardware QA while parked: CarPlay Home -> reenter multiple times: no repeat splash, both saved apps visible including YouTube without manual selection, immediate disappearance of DuoFace windows on Home, genuine Dock retained; real cable unplug/replug should show splash once; monitor 10-second opt-in Maps closing separately. If YouTube blank, export /var/mobile/Library/Logs/DuoFaceTouchOwner.log and /var/mobile/Library/Logs/DuoFaceSceneHost.log (look for workspace-restore-requeued-after-host-failure, workspace-restore-skipped-allowlist-or-install, scene-host-timeout). NO user hardware fix certification yet.
+
+          ---
+
+          """
+          prior=dest.read_text(encoding='utf8')
+          if marker not in prior:
+              dest.write_text(block+prior,encoding='utf8')
+          assert marker in dest.read_text(encoding='utf8')
+          print('DUOFACE_111_MAIN_HANDOFF_LOCAL_READBACK_PASS')
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              echo DUOFACE_111_MAIN_HANDOFF_IDEMPOTENT
+              exit 0
+            fi
+            git -C "$TEMP" commit -m "handoff: confirm DuoFace 111 Home YouTube public Sileo SHA [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo DUOFACE_111_MAIN_HANDOFF_GITHUB_PUSH_PASS
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
