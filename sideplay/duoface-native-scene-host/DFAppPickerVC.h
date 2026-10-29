@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)appPicker:(DFAppPickerVC *)picker closeRunningBundleID:(NSString *)bundleID;
 - (void)appPicker:(DFAppPickerVC *)picker restartRunningBundleID:(NSString *)bundleID;
 - (void)appPickerCloseAllRunning:(DFAppPickerVC *)picker;
+- (void)appPicker:(DFAppPickerVC *)picker rotateRunningClockwise:(BOOL)clockwise;
 @end
 
 @interface DFAppPickerVC : UIViewController
@@ -39,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 // Scene-ready IDs in the OTHER visible slots, never an installed-app guess.
 @property (nonatomic, copy) NSArray<NSString *> *otherSlotBundleIDs;
 @property (nonatomic, assign) BOOL hostExpanded;
+@property (nonatomic, assign) NSInteger runningRotateCapacity;
+// Keyed by verified live hosted bundle ID. PID omitted when not actually verified.
+@property (nonatomic, copy) NSDictionary<NSString *,NSDictionary *> *runningAppDetails;
 - (void)presentInstalledApps;
 - (void)presentRunningApps:(NSArray<NSString *> *)verifiedBundleIDs;
 
