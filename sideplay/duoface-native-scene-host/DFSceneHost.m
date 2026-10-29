@@ -6,6 +6,7 @@
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
 // No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
+#import "DFAppHabits.h"
 #import "DFSceneLifecycle.h"
 #import "DFSceneOrientationPolicy.h"
 #import "DFHostedMapRenderSize.h"
@@ -665,6 +666,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
                 [self registerOwnedOrientationForDeviceController:nil];
                 [self layoutScene];
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
+                // Record actual scene-ready usage once per observed hosting generation.
+                // No changes to the immutable .92 logo Chrome code or UI scene slots.
+                if(self.bundleID.length && !DFRecordReadyAppHabit(self.bundleID))
+                    DFSceneLog(@"app-habit-save-failed-nonfatal",self.bundleID,@"no-scene-change");
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
             [self publishYouTubeState];
