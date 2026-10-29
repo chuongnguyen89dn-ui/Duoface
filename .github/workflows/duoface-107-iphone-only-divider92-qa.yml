@@ -1,0 +1,184 @@
+name: DuoFace 107 phone-only My Apps and original 92 divider — signed private QA, no Sileo publication
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-107-iphone-only-divider92-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-107-iphone-only-divider92-qa
+  cancel-in-progress: false
+jobs:
+  build-and-archive:
+    runs-on: macos-15
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source pin and contract before signing
+        run: |
+          set -euo pipefail
+          grep -Fq 'VERSION="0.0.107~iphone-only-divider92"' sideplay/jb-embedded-appbridge/package_integrated.py
+          grep -Fq '0.1.107~iphone-only-divider92_iphoneos-arm64.deb' sideplay/jb-embedded-appbridge/package_integrated.py
+          grep -Fq 'DFDisconnectCloseGrace=10.0' sideplay/duoface-native-scene-host/DFDisconnectClosePolicy.h
+          grep -Fq 'CloseOnPhysicalDisconnect' sideplay/duoface-native-scene-host/DFDisconnectClosePolicy.h
+          grep -Fq 'DFDisconnectCloseCoordinator.m' sideplay/duoface-native-scene-host/build.sh
+          grep -Fq 'DFYouTubeOrientationRelay.m' sideplay/duoface-native-scene-host/build.sh
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_disconnect_close_106.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_workspace_098.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_picker_display_097.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_iphone_only_picker_and_divider_107.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_voice_locale_105.py' -v
+      - name: Install rootless Theos toolchain and signing tools
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          test -d "$(xcrun --sdk iphoneos --show-sdk-path)"
+      - name: Compile and sign first-party SpringBoard split module
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          make clean package FINALPACKAGE=1
+          test -s packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb
+      - name: Compile and sign first-party CarPlay Dashboard bridge module
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-native-bridgeqa
+          make clean package FINALPACKAGE=1
+          test -s packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb
+      - name: Compile and sign own app admission module
+        run: |
+          set -euo pipefail
+          cd sideplay/firstparty-carplay-admission
+          make clean package FINALPACKAGE=1
+          test -s packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb
+      - name: Build latest .106 NativeHost, verify version and signed in-package modules
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          F='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.107~iphone-only-divider92_iphoneos-arm64.deb'
+          test -s "$F"
+          test "$(dpkg-deb -f "$F" Package)" = 'com.duoface.carplay.nativescenehost'
+          test "$(dpkg-deb -f "$F" Version)" = '0.1.107~iphone-only-divider92'
+          test "$(dpkg-deb -f "$F" Architecture)" = iphoneos-arm64
+          mkdir -p "$RUNNER_TEMP/nativehost-test"
+          dpkg-deb -x "$F" "$RUNNER_TEMP/nativehost-test"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay; do
+            test -s "$RUNNER_TEMP/nativehost-test/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib"
+            ldid -e "$RUNNER_TEMP/nativehost-test/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib" >/dev/null
+          done
+          SHA="$(shasum -a 256 "$F" | awk '{print $1}')"
+          echo "NATIVEHOST_SHA=$SHA" >> "$GITHUB_ENV"
+          echo "NATIVEHOST_PACKAGE_SHA256=$SHA"
+      - name: Combine exactly one signed independent DuoFace Sileo package 0.0.106
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build \
+            --expected-nativehost-sha256 "$NATIVEHOST_SHA" \
+            --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.107~iphone-only-divider92_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Package)" = com.duoface.jb.embedded
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.107~iphone-only-divider92'
+          test "$(dpkg-deb -f "$OUT" Architecture)" = iphoneos-arm64
+          ! dpkg-deb -f "$OUT" Depends | grep -Eiq 'carbridge|duodash|duonavi|sideplay'
+          mkdir -p "$RUNNER_TEMP/integrated-test"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/integrated-test"
+          export INTEGRATED_ROOT="$RUNNER_TEMP/integrated-test"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,plistlib
+          base=Path(os.environ['INTEGRATED_ROOT'])/'var/jb'
+          dylibs=base/'Library/MobileSubstrate/DynamicLibraries'
+          for n in ['DFTouchOwnerProbe','DFCarPlayDockOwner','DFNativeMapPaneCoordinator','DFYouTubeOrientationRelay']:
+              assert (dylibs/(n+'.dylib')).stat().st_size>5000,n
+          assert plistlib.loads((dylibs/'DFYouTubeOrientationRelay.plist').read_bytes())=={'Filter':{'Bundles':['com.google.ios.youtube']}}
+          assert plistlib.loads((dylibs/'DFNativeMapPaneCoordinator.plist').read_bytes())=={'Filter':{'Executables':['CarPlay','CarPlayApp']}}
+          app=base/'Applications/DuoFaceNativeHost.app'
+          assert (app/'DuoFaceNativeHost').stat().st_size>10000
+          info=plistlib.loads((app/'Info.plist').read_bytes())
+          assert 'NSMicrophoneUsageDescription' in info
+          assert 'NSSpeechRecognitionUsageDescription' in info
+          print('DUOFACE_107_ONE_ROOTLESS_SIGNED_INTEGRATED_PAYLOAD_PASS')
+          PY
+          test -s sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json'))
+          assert len(d['source_packages'])==4
+          assert d['source_git_commit'] and len(d['source_git_commit'])==40
+          assert d['only_original_duoface_code'] and not d['contains_third_party_carbridge']
+          assert d['sileo_published'] is False
+          print('DUOFACE_107_PROVENANCE_SOURCE_PIN_AND_NO_VENDOR_BINARY_PASS')
+          PY
+          shasum -a 256 "$OUT" | tee "$RUNNER_TEMP/duoface-106-integrated.sha256"
+          echo "INTEGRATED_OUTPUT=$OUT" >> "$GITHUB_ENV"
+      - name: Upload temporary signed QA artifact, not Sileo
+        uses: actions/upload-artifact@v4
+        id: artifact
+        with:
+          name: duoface-107-iphone-only-divider92-qa
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.107~iphone-only-divider92_iphoneos-arm64.deb
+          retention-days: 30
+          if-no-files-found: error
+      - name: Archive exact DEB bytes + SHA + source into existing DuoFace repository
+        env:
+          ARTIFACT_ID: ${{ steps.artifact.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            DEST="$TEMP/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$DEST"
+            NAME='com.duoface.jb.embedded_0.0.107~iphone-only-divider92_iphoneos-arm64.deb'
+            test ! -e "$DEST/$NAME"
+            cp "$INTEGRATED_OUTPUT" "$DEST/$NAME"
+            sha256sum "$DEST/$NAME" | awk -v n="$NAME" '{print $1"  "n}' > "$DEST/SHA256SUMS.txt"
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$DEST/PACKAGING_PROVENANCE.json"
+            printf 'SOURCE_SHA=%s\nBUILD_RUN=%s\nARCHIVE_SHA=%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" "$(sha256sum "$DEST/$NAME" | awk '{print $1}')" > "$DEST/BUILD_SOURCE.txt"
+            printf 'BUILD=success\nSIGNED_INTEGRATED_DEB=true\nSILEO_PUBLISHED=false\nDEVICE_TESTED=false\nARTIFACT_ID=%s\n' "$ARTIFACT_ID" > "$DEST/CI_RESULT.txt"
+            ( cd "$DEST" && sha256sum -c SHA256SUMS.txt )
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$GITHUB_SHA" "$DEST/SHA256SUMS.txt" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1])
+          assert p.is_file(), 'Existing handoff required'
+          run,source,sha_file=sys.argv[2:]
+          sha=Path(sha_file).read_text().split()[0]
+          block=f"""## CHECKPOINT DuoFace .107 integrated release staged, run {run}
+          
+          - User reported live .106 UI and divider regressions. .107 is staged for verification only; no new Sileo authorization in this turn. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source {source}. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}. Exact SHA256 {sha}. Archive sideplay/jb-embedded-appbridge/evidence/runs/{run}/; provenance and source SHA alongside DEB.
+          - This checkpoint ONLY confirms signed, archived package. Sileo public Pages publication and public download require separate publisher commit/workflow+remote SHA verification. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
+          - Next: pin archive commit and SHA in carplaydsp main publisher workflow, preserve one latest APT record, verify public Packages/Release and binary SHA, then append final public release result here. No device install claim.
+          
+          ---
+          
+          """
+          old=p.read_text(encoding='utf8')
+          if f"run {run}" not in old:
+              p.write_text(block+old,encoding='utf8')
+              assert p.read_text(encoding='utf8').startswith(block)
+          print('DUOFACE_107_INTEGRATED_HANDOFF_READBACK_PASS')
+          PY
+            git -C "$TEMP" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/" 'sideplay/tiep tuc du an.md'
+            git -C "$TEMP" commit -m "release: archive signed one-DEB DuoFace .107 $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo "DUOFACE_107_SIGNED_ARCHIVE_GITHUB_PUSH_PASS"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
