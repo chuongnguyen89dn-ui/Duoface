@@ -1,3 +1,11 @@
+## CHECKPOINT DuoFace .107 integrated release staged, run 40819218635
+
+- User reported live .106 UI and divider regressions. .107 is staged for verification only; no new Sileo authorization in this turn. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source 052c1968f0cc59bbde145af02ae563cbfd6fa54e. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40819218635. Exact SHA256 c9cc3b5a1f36ae80903b6dc319f95b10341fed4574aadd8c149d990c06af451b. Archive sideplay/jb-embedded-appbridge/evidence/runs/40819218635/; provenance and source SHA alongside DEB.
+- This checkpoint ONLY confirms signed, archived package. Sileo public Pages publication and public download require separate publisher commit/workflow+remote SHA verification. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
+- Next: pin archive commit and SHA in carplaydsp main publisher workflow, preserve one latest APT record, verify public Packages/Release and binary SHA, then append final public release result here. No device install claim.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace .107 phone-only CarPlay picker / .92 divider source parity
 
 - User's real photos show two regressions in installed .106 on a vehicle: in-car “Thêm App” opens Apps Manager to approve apps and “Phân loại ứng dụng” overlays an unfit iOS action sheet. User requires all app approval/enable/disable and category management ONLY in DuoFace iPhone settings; CarPlay picker shows only explicitly approved installed apps, no extra permissions UI. User also reports main split divider no longer drags and demands the .92 version when the original three-second logo hold was introduced.
