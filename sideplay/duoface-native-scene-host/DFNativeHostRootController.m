@@ -8,6 +8,7 @@
 #import "DFAppHabits.h"
 #import "DFSlotWorkspacePolicy.h"
 #import "DFExtendedSettingsPolicy.h"
+#import "DFDisconnectClosePolicy.h"
 #import "DFVoiceAssistant.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
@@ -464,7 +465,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?7:(NSInteger)[self appsInGroup:section].count;
+ return section==0?8:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -472,17 +473,27 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đặt lại tùy chọn",@"Ngôn ngữ / Language"];
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đóng app khi ngắt CarPlay",@"Đặt lại tùy chọn",@"Ngôn ngữ / Language"];
     NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
        @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
        @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô",
        @"Lưới 4/5/6 cột, 2/3 hàng, ẩn/hiện tên ứng dụng",
        [DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue]?@"Đang bật — chỉ app đã cho phép":@"Đang tắt",
+       DFDisconnectCloseEnabled()?@"Đang bật — ngắt thật, chờ 10 giây":@"Đang tắt — không đóng app trên iPhone",
        @"Đặt lại mặc định, ưa dùng hoặc giao diện chọn App",
        [DFCurrentExtended()[@"Language"] isEqual:@"en"]?@"English":@"Tiếng Việt"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    if(indexPath.row==5){
+      UISwitch *control=[UISwitch new];
+      control.on=DFDisconnectCloseEnabled();
+      control.accessibilityLabel=@"Đóng ứng dụng DuoFace khi ngắt CarPlay";
+      [control addTarget:self action:@selector(disconnectCloseSwitchChanged:)
+        forControlEvents:UIControlEventValueChanged];
+      cell.accessoryView=control;
+      cell.accessoryType=UITableViewCellAccessoryNone;
+    }
  } else if(self.tabs.selectedSegmentIndex==2 && indexPath.row==9){
     cell.textLabel.text=@"Thử nghiệm bản đồ CarPlay native";
     cell.detailTextLabel.text=@"Gắn / khôi phục Maps trên CarPlay, chỉ khi xe đang đỗ";
@@ -513,6 +524,29 @@
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)disconnectCloseSwitchChanged:(UISwitch *)control {
+ BOOL enable=control.on;
+ if(!enable){
+   if(!DFDisconnectCloseSetEnabled(NO))[self appSettingsSaveFailed];
+   [self.appsTable reloadData];return;
+ }
+ [control setOn:NO animated:NO]; // consent before enabling process termination
+ UIAlertController *alert=[UIAlertController alertControllerWithTitle:
+    @"Đóng ứng dụng khi ngắt CarPlay"
+    message:@"Tắt mặc định. Khi bật, DuoFace chỉ yêu cầu đóng tiến trình đã xác minh được DuoFace mở cho phiên CarPlay sau 10 giây ngắt thật. Kết nối lại sẽ hủy. Nhạc có thể dừng, dữ liệu chưa lưu có thể mất. Không đóng app đang dùng trên iPhone."
+    preferredStyle:UIAlertControllerStyleAlert];
+ __weak typeof(self) weakSelf=self;
+ [alert addAction:[UIAlertAction actionWithTitle:@"Hủy"
+    style:UIAlertActionStyleCancel handler:^(__unused UIAlertAction *action){
+       [weakSelf.appsTable reloadData];
+    }]];
+ [alert addAction:[UIAlertAction actionWithTitle:@"Bật tự đóng"
+    style:UIAlertActionStyleDestructive handler:^(__unused UIAlertAction *action){
+       if(!DFDisconnectCloseSetEnabled(YES))[weakSelf appSettingsSaveFailed];
+       [weakSelf.appsTable reloadData];
+    }]];
+ [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)showLanguageOptions {
  UIAlertController *menu=[UIAlertController alertControllerWithTitle:
@@ -761,7 +795,14 @@
     else if(indexPath.row==2)[self showHabitSettings];
     else if(indexPath.row==3)[self showPickerDisplaySettings];
     else if(indexPath.row==4)[self showWorkspaceRestoreMenu];
-    else if(indexPath.row==5)[self showResetOptions];
+    else if(indexPath.row==5){
+       UISwitch *control=(UISwitch *)[tableView cellForRowAtIndexPath:indexPath].accessoryView;
+       if([control isKindOfClass:UISwitch.class]){
+          [control setOn:!control.on animated:YES];
+          [self disconnectCloseSwitchChanged:control];
+       }
+    }
+    else if(indexPath.row==6)[self showResetOptions];
     else [self showLanguageOptions];
   } else {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
