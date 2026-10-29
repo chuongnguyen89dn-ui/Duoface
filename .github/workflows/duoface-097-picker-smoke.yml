@@ -1,0 +1,121 @@
+name: DuoFace strict App picker 097 — real macOS/iOS16 source QA (NO DEB)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-097-picker-smoke.yml'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerDisplayPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFEnabledAppsPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.m'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/tests/picker_display_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_picker_display_097.py'
+      - 'sideplay/duoface-native-scene-host/tests/enabled_apps_policy_runtime.m'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-097-picker-source-qa
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Executable Python source integration and legacy regressions
+        id: tests
+        run: |
+          set -euo pipefail
+          for NAME in test_picker_display_097.py test_native12_phone_apps_manager_094.py test_app_habits_096.py test_duodash_omnicar_catalog_integration.py test_logo_092_exact_regression.py test_scenehost_safety.py; do
+            python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p "$NAME" -v
+          done
+      - name: Compile and execute real Foundation policy runtimes
+        id: runtime
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          for SRC in picker_display_runtime.m enabled_apps_policy_runtime.m app_habits_runtime.m catalog_policy_runtime.m; do
+            OUTPUT="$RUNNER_TEMP/${SRC%.m}-qa"
+            xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . "tests/$SRC" -o "$OUTPUT"
+            "$OUTPUT"
+          done
+      - name: iOS16 arm64 syntax check App/iPhone/scene owners, source only
+        id: ios
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          cd sideplay/duoface-native-scene-host
+          for SRC in DFNativeHostRootController.m DFAppPickerVC.m DFNative12Chrome.m DFAppLibrary.m DFSceneHost.m; do
+            echo "CHECKING_IOS16_$SRC"
+            xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
+          done
+      - name: Immutable run evidence + existing handoff checkpoint, verified remote push
+        if: always()
+        env:
+          PYTHON_OUTCOME: ${{ steps.tests.outcome }}
+          RUNTIME_OUTCOME: ${{ steps.runtime.outcome }}
+          IOS_OUTCOME: ${{ steps.ios.outcome }}
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            DEST="$TEMP/sideplay/audit/duoface-picker-097/ci"
+            mkdir -p "$DEST/runs"
+            RESULT="$DEST/runs/$GITHUB_RUN_ID.txt"
+            test ! -e "$RESULT"
+            {
+              echo "RUN_ID=$GITHUB_RUN_ID"
+              echo "SOURCE_SHA=$GITHUB_SHA"
+              echo "WORKFLOW_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/$GITHUB_RUN_ID"
+              echo "PYTHON_REGRESSIONS=$PYTHON_OUTCOME"
+              echo "FOUNDATION_EXECUTABLE=$RUNTIME_OUTCOME"
+              echo "IOS16_ARM64_SYNTAX=$IOS_OUTCOME"
+              echo "SILEO_PUBLISHED=false"
+              echo "NEW_SIGNED_DEB=false"
+              echo "CARPLAY_DEVICE_TESTED=false"
+            } > "$RESULT"
+            cp "$RESULT" "$DEST/LATEST_RESULT.txt"
+            cmp "$RESULT" "$DEST/LATEST_RESULT.txt"
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$GITHUB_SHA" "$PYTHON_OUTCOME" "$RUNTIME_OUTCOME" "$IOS_OUTCOME" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1])
+          if not p.is_file():raise RuntimeError("No existing handoff; refusing a duplicate")
+          run,source,py,mac,ios=sys.argv[2:]
+          marker="## CHECKPOINT 2026-10-29 DuoFace 097 strict iPhone allowlist and picker grid"
+          status="PASS" if (py,mac,ios)==("success","success","success") else "FAILED"
+          block=f"""\n{marker} — source CI {status}
+
+          - New user requirements #3/#4: CarPlay App list must contain only iPhone-approved installed app IDs. Classify All/Favorites/User/System, then sort using user default/pins/real scene-ready usage. A previously absent enabled-app preference now means ZERO selected rather than legacy permissive all.
+          - Independent picker grid options 4/5/6 columns, 2/3 rows and show/hide app titles are configured in DuoFace iPhone Apps settings, not by altering the nine CarPlay pane layouts. CarPlay App picker has Add More tile, opening a separate eligible DISABLED-app management list, and after explicit tap persists selected app to the SAME iPhone allowlist (no auto-host and no app-panes auto-assignment).
+          - Main files: sideplay/duoface-native-scene-host/DFAppPickerDisplayPolicy.h, DFEnabledAppsPolicy.h, DFAppPickerVC.m, DFNativeHostRootController.m, tests/picker_display_runtime.m, tests/test_picker_display_097.py. Original DEB's addMoreAppsTapped selector proves visual action but NOT actual save semantics; implementation is independent.
+          - CI run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}, source={source}, PYTHON_REGRESSIONS={py}, FOUNDATION_EXECUTABLE={mac}, IOS16_ARM64_SYNTAX={ios}, permanent result=sideplay/audit/duoface-picker-097/ci/runs/{run}.txt.
+          - IMPORTANT: Source test is NOT a new signed rootless DEB, NOT Sileo publication, NOT physical CarPlay proof. Preserve .90 YouTube, .92 3s logo, system Dock and experimental native Maps; only build new QA package and publish on explicit user instruction.
+
+          ---
+
+          """
+          old=p.read_text(encoding="utf-8")
+          if f"CI run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}" not in old:
+             p.write_text(block+old,encoding="utf-8")
+             assert p.read_text(encoding="utf-8").startswith(block)
+          print("DF097_HANDOFF_READBACK_VERIFIED")
+          PY
+            git -C "$TEMP" add sideplay/audit/duoface-picker-097/ci/ 'sideplay/tiep tuc du an.md'
+            git -C "$TEMP" commit -m "ci: preserve DuoFace picker 097 source QA $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo "DF097_GITHUB_HANDOFF_ARCHIVE_PASS"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+            echo "Branch updated concurrently; retry $attempt"
+          done
+          exit 1
