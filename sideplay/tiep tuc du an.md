@@ -1,3 +1,12 @@
+## CHECKPOINT DuoFace .115 LIVE Sileo — 2026-10-29
+
+- **Current published Sileo version:** `com.duoface.jb.embedded 0.0.115~app-recover1`, source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, exact signed SHA256 `bf7f636acb68b777ec177b2357d20ddb2495660a76e988edd1a0b0622e77d09c`.
+- **Verified proof chain:** DuoFace signed build+archive run `40860494881` successful; immutable binary archived at `sideplay/jb-embedded-appbridge/evidence/runs/40860494881/` source branch archive commit `9dafcc8bef42d922d18f45415d80ad7d8f8752c4`. carplaydsp main publisher commit `3935281edcf092d998e5e25f5943bf7636a657da`; YAML validator `40861168893` success; publisher build, Pages deploy, public downloaded .115 SHA verify and .90/.92 rollback all success run `40861168854`.
+- **What changed:** manual App selection no longer treats a cached bundle as a live scene; releases stale host, handles interruption of sequential reconnect restore, picker displays blue check ONLY for live owned scene and amber clock for pending accepted host, with explicit selection/host logs. Existing .114 wake behavior preserved. **No physical device result:** YouTube not launching, two-app reconnect failure and delayed partial touch reported by user are not yet confirmed fixed. If QA fails read actual .115 logs, not historic .88.
+- Detailed next action and all source commits: `sideplay/audit/duoface-111-physical-reconnect-one-slot-20261029/SOURCE_FIX_RETRY_CHECKPOINT.md`; read the last two `.115` sections first. Preserve Apple Dock, .90 orientation, .92 divider, independent licensing, old packages.
+
+---
+
 ## CHECKPOINT DuoFace .115 integrated release staged, run 40860494881
 
 - DuoFace .115 signed, integrated rootless `com.duoface.jb.embedded` QA build from source 2978bb4c6460d1ed64d92262445f725f31b533fc. Accepted app replacement intent is persisted per physical slot; this is SOURCE behavior only, not proof that both CarPlay scenes restore on device. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40860494881. Exact SHA256 bf7f636acb68b777ec177b2357d20ddb2495660a76e988edd1a0b0622e77d09c. Immutable package/provenance/source archive: sideplay/jb-embedded-appbridge/evidence/runs/40860494881/.
