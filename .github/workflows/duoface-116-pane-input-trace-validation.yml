@@ -1,0 +1,28 @@
+name: DuoFace 116 input window validation
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-116-pane-input-trace-validation.yml'
+      - 'sideplay/duoface-native-scene-host/DFPaneInputTrace116.h'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_pane_input_trace_116.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check pane and original divider contracts
+        run: |
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_pane_input_trace_116.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
+      - name: Check iOS16 compiler and input source
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -fsyntax-only -x objective-c DFNative12Chrome.m
