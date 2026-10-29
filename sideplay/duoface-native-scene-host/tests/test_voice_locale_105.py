@@ -53,6 +53,13 @@ class VoiceAndLocale105(unittest.TestCase):
   self.assertIn("self.pane.frame=next;",maps)
   self.assertIn("[self restore:&reason]",maps)
   self.assertNotIn("CGAffineTransformMakeScale",maps)
+ def test_phone_manual_diagnostic_exports_actual_native_maps_evidence(self):
+  exporter=read("DFNativeDiagnostics.m")
+  for required in ("DuoFaceNativeMapPane.log", "map-pane.ack.v1.plist",
+                   "physical-panes.v1.plist", "PhysicalSlot",
+                   "HasLiveApp", "Native Maps pixels and actual route continuation"):
+   self.assertIn(required,exporter)
+  self.assertNotIn("mapAck[@\"RequestID\"]",exporter)
  def test_package_has_new_version_and_privacy(self):
   build=read("build.sh")
   control=read("control")
