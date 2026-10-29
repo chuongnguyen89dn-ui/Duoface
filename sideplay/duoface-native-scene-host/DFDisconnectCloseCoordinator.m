@@ -2,6 +2,7 @@
 // The comparator is original DuoDash 1.1.3 arm64; no vendor implementation copied.
 #import "DFDisconnectCloseCoordinator.h"
 #import "DFDisconnectClosePolicy.h"
+#import "DFNativeMapLeasePolicy.h"
 #import <UIKit/UIKit.h>
 #import <objc/message.h>
 #import <objc/runtime.h>
@@ -162,8 +163,24 @@ void DFDisconnectCloseCapture(NSArray<NSDictionary *> *candidates,NSString *sess
      [bundle hasPrefix:@"com.duoface."])continue;
   [ids addObject:bundle];[accepted addObject:@{@"BundleID":bundle,@"PID":pid}];
  }
+ // A user explicitly attached an exact native Maps FBScene in a measured
+ // DuoFace physical pane; it lives in CarPlayApp, not Chrome's SB scene list.
+ // Capture only a FRESH same-session proof and validate process PID in SB.
+ NSDictionary *lease=DFNativeMapFreshLease(session,NSDate.date.timeIntervalSince1970);
+ if(lease){
+    NSString *native=lease[@"BundleID"];
+    if(![ids containsObject:native]){
+        NSNumber *pid=DFDiscVerifiedCurrentPID(native);
+        if(pid && pid.intValue>1){
+            [ids addObject:native];
+            [accepted addObject:@{@"BundleID":native,@"PID":pid,
+                @"PhysicalSlot":lease[@"Slot"],@"NativeMapLease":@YES}];
+            DFDiscLog(@"captured-verified-native-map-lease",native);
+        }else DFDiscLog(@"native-map-pid-unverified",native);
+    }
+ }
  if(!accepted.count){
-    DFDiscLog(@"capture-empty",@"no-live-verified-managed-PID; native-CarPlay-map-is-not-a-managed-host");
+    DFDiscLog(@"capture-empty",@"no-live-verified-managed-PID-or-fresh-native-map-lease");
     DFDiscAck(@"no-eligible-managed-app-or-unverified-pid",0,0);
     return;
  }

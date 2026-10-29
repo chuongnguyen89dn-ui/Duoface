@@ -12,6 +12,9 @@
 #import "DFNativeMapPaneAdapter.h"
 #import "DFCarPlayNativeMapViewportPlan.h"
 #import "DFCarPlayPhysicalPaneBinding.h"
+#import "../duoface-native-scene-host/DFNativeMapLeasePolicy.h"
+#import <objc/runtime.h>
+#import <objc/message.h>
 
 static NSString *const DFMapCommandPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
 static NSString *const DFMapAckPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist";
@@ -29,6 +32,23 @@ static void DFMapLog(NSString *line) {
         NSData *bytes=[text dataUsingEncoding:NSUTF8StringEncoding];
         (void)write(fd,bytes.bytes,bytes.length);close(fd);
     }
+}
+// Same verified bundle whitelist as DFNativeMapPaneAdapter's FBScene check.
+static id DFMapReadObject(id owner,NSString *key) {
+ if(!owner)return nil;
+ SEL sel=NSSelectorFromString(key);
+ Method m=class_getInstanceMethod(object_getClass(owner),sel);
+ if(!m || method_getNumberOfArguments(m)!=2)return nil;
+ char t[8]={0}; method_getReturnType(m,t,sizeof(t));
+ if(t[0]!='@')return nil;
+ @try{return ((id(*)(id,SEL))objc_msgSend)(owner,sel);}
+ @catch(__unused NSException *e){return nil;}
+}
+static NSString *DFMapVerifiedBundle(UIViewController *owner){
+ id info=DFMapReadObject(owner,@"applicationInfo");
+ if(!info)info=DFMapReadObject(owner,@"proxyApplicationInfo");
+ id bundle=DFMapReadObject(info,@"bundleIdentifier");
+ return DFNativeMapAllowedBundle(bundle)?bundle:nil;
 }
 static BOOL DFMapUUID(id value) {
     return [value isKindOfClass:NSString.class] &&
@@ -120,6 +140,8 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
 @property(nonatomic,assign) NSInteger slot;
 @property(nonatomic,assign) NSUInteger invalidFrameTicks;
 @property(nonatomic,copy) NSString *boundSession;
+@property(nonatomic,copy) NSString *lastAutoSession;
+@property(nonatomic,assign) NSTimeInterval lastLeaseWrite;
 @end
 @implementation DFNativeMapPaneCoordinator
 + (instancetype)shared {
@@ -164,9 +186,8 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
     if(outReason)*outReason=reason;
     return ok;
 }
-- (void)handle {
+- (void)handleCommand:(NSDictionary *)cmd {
     if(!NSThread.isMainThread || !DFMapProcess())return;
-    NSDictionary *cmd=[NSDictionary dictionaryWithContentsOfFile:DFMapCommandPath];
     id req=cmd[@"RequestID"], stamp=cmd[@"Timestamp"],operation=cmd[@"Operation"];
     if(![cmd[@"Version"] isEqual:@1] || !DFMapUUID(req) ||
        ![stamp isKindOfClass:NSNumber.class] ||
@@ -178,6 +199,7 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
     if([operation isEqual:@"Restore"]) {
         NSString *reason=nil;
         BOOL ok=[self restore:&reason];
+        if(ok)DFNativeMapForgetChoice(); // Only user's explicit restore disables auto reattach.
         [self reply:cmd ok:ok reason:ok?@"native-owner-restored":reason];
         return;
     }
@@ -265,7 +287,61 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
            @"map-pane-actual-dash-frame-mismatch-restore-deferred"];
         return;
     }
+    NSString *bundle=DFMapVerifiedBundle(self.owner);
+    // A valid FBScene binding, real native UIKit owner and exact measured
+    // physical DuoFace pane were verified above. Save the explicitly selected
+    // native map slot separately from normal per-app SpringBoard scene slots.
+    if(bundle){
+        if(!DFNativeMapSaveChoice(self.slot))
+            DFMapLog(@"native-map-choice-save-failed");
+        if(!DFNativeMapWriteLease(self.boundSession,bundle,self.slot))
+            DFMapLog(@"native-map-lease-write-failed");
+        self.lastLeaseWrite=NSDate.date.timeIntervalSince1970;
+    }else{
+        DFMapLog(@"native-map-bundle-unverified-no-auto-close-lease");
+    }
+    self.lastAutoSession=self.boundSession;
     [self reply:cmd ok:YES reason:@"native-owner-attached-physical-frame-observed-map-tiles-not-verified"];
+}
+- (void)handle {
+    [self handleCommand:[NSDictionary dictionaryWithContentsOfFile:DFMapCommandPath]];
+}
+- (void)autoRestoreAfterReconnectIfVerified {
+    if(self.adapter.isAttached || self.boundSession)return;
+    NSDictionary *saved=DFNativeMapRememberedChoice();
+    if(!saved)return; // No prior user-chosen/verified native map pane.
+    NSDictionary *workspace=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.nativehost.workspace.v1.plist"];
+    if(![workspace[@"RestoreOnReconnect"] isEqual:@YES])return;
+    NSDictionary *heartbeat=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
+    NSString *session=heartbeat[@"Session"];
+    if(![heartbeat[@"Active"] isEqual:@YES] || !DFMapUUID(session) ||
+       [session isEqualToString:self.lastAutoSession] ||
+       ![heartbeat[@"Timestamp"] isKindOfClass:NSNumber.class])return;
+    double age=NSDate.date.timeIntervalSince1970-[heartbeat[@"Timestamp"] doubleValue];
+    if(!isfinite(age)||age<0||age>2.5)return;
+    UIWindow *dashboard=nil;UIViewController *root=nil;
+    NSDictionary *plan=DFMapMeasureLiveDock(&dashboard,&root);
+    if(![plan[@"status"] isEqual:@"measured-carplay-content-split-plan"])return;
+    NSInteger slot=[saved[@"Slot"] integerValue];
+    NSDictionary *physical=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
+    NSDictionary *binding=DFPhysicalMapVerifyPane(physical,heartbeat,plan,
+       slot,NSDate.date.timeIntervalSince1970);
+    if(![binding[@"Verified"] isEqual:@YES])return;
+    NSMutableArray *owners=[NSMutableArray new];
+    DFMapFindVC(root,0,[NSMutableSet new],owners);
+    if(owners.count!=1 || !DFMapIsSceneLive(owners.firstObject))return;
+    // Exactly one safe attempt per fresh, externally verified CarPlay session.
+    // Unlike a fresh Maps launch, this only rehosts an already live native VC.
+    self.lastAutoSession=[session copy];
+    NSString *request=NSUUID.UUID.UUIDString;
+    NSDictionary *cmd=@{@"Version":@1,@"RequestID":request,
+       @"Operation":@"Attach",@"MapSlot":@(slot),
+       @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+    DFMapLog([NSString stringWithFormat:@"native-map-auto-reattach-attempt slot=%ld",(long)slot]);
+    [self handleCommand:cmd];
 }
 - (void)refreshAdoptedNativeMapBounds {
     if(!self.adapter.isAttached || !self.dashboard || !self.pane ||
@@ -333,15 +409,22 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
             [self restore:&reason]; // fail closed on a changed UIKit owner
         } else {
             [self refreshAdoptedNativeMapBounds];
+            if(self.adapter.isAttached &&
+               NSDate.date.timeIntervalSince1970-self.lastLeaseWrite>=1.5){
+                NSString *bundle=DFMapVerifiedBundle(self.owner);
+                if(bundle && DFNativeMapWriteLease(self.boundSession,bundle,self.slot))
+                    self.lastLeaseWrite=NSDate.date.timeIntervalSince1970;
+            }
         }
     }
-    [self handle];
+    [self handle]; // Give fresh explicit iPhone commands priority.
+    [self autoRestoreAfterReconnectIfVerified];
 }
 - (void)start {
     if(self.poll || !DFMapProcess() || !NSThread.isMainThread)return;
     self.poll=[NSTimer scheduledTimerWithTimeInterval:0.5 target:self
                     selector:@selector(tick:) userInfo:nil repeats:YES];
-    DFMapLog(@"native-map-pane-opt-in-listener-ready (no auto attach)");
+    DFMapLog(@"native-map-pane-listener-ready (auto restores only previous verified explicit opt-in)");
 }
 @end
 __attribute__((constructor))

@@ -9,6 +9,7 @@
 #import "DFSlotWorkspacePolicy.h"
 #import "DFExtendedSettingsPolicy.h"
 #import "DFDisconnectClosePolicy.h"
+#import "DFNativeMapLeasePolicy.h"
 #import "DFVoiceAssistant.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
@@ -595,7 +596,7 @@
 - (void)showWorkspaceRestoreMenu {
     BOOL enabled=[DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue];
     UIAlertController *menu=[UIAlertController alertControllerWithTitle:@"Ghi nhớ ứng dụng từng ô"
-        message:@"DuoFace lưu 4 lựa chọn đã chạy thật, chỉ tự khôi phục ứng dụng còn cài và được bạn bật. Đóng ứng dụng trong DuoFace sẽ bỏ ghi nhớ ô đó."
+        message:@"DuoFace ghi nhớ tối đa 4 ứng dụng được chọn vào từng ô, kể cả đang đợi scene thật. Khôi phục chỉ app còn cài và được bật trên iPhone. Bản đồ native là scene CarPlay riêng, chỉ nhớ ô sau một lần ghép native thành công; thử tự ghép lại nếu có cảnh thực và quyền phù hợp."
         preferredStyle:UIAlertControllerStyleActionSheet];
     __weak typeof(self) weakSelf=self;
     [menu addAction:[UIAlertAction actionWithTitle:enabled?@"Tắt tự khôi phục":@"Bật tự khôi phục"
@@ -607,6 +608,7 @@
       style:UIAlertActionStyleDestructive handler:^(__unused UIAlertAction *action) {
         NSMutableDictionary *record=[DFCurrentWorkspace() mutableCopy];
         record[@"PhysicalBundles"]=DFEmptyPhysicalBundles();
+        DFNativeMapForgetChoice();
         if(!DFWriteWorkspace(record))[weakSelf appSettingsSaveFailed];
         [weakSelf.appsTable reloadData];
     }]];
