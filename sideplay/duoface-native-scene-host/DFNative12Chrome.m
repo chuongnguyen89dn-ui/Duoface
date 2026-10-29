@@ -329,6 +329,12 @@ static void DFCLog(NSString *text) {
 // One pending host at a time. Never restore app scene handles or UIWindows.
 - (void)beginSavedWorkspaceRestore {
     if(self.appSceneContainers.count!=4 || self.startupActive)return;
+    // The last session may have saved another physical slot after init.
+    self.workspace=DFCurrentWorkspace();
+    DFCLog([NSString stringWithFormat:
+        @"workspace-restore-snapshot preset=%ld saved=%@ enabledCount=%lu",
+        (long)self.preset,self.workspace[@"PhysicalBundles"],
+        (unsigned long)DFConfiguredEnabledAppIDs().count]);
     ++self.restoreGeneration;
     self.restoreRetryCounts=[NSMutableArray arrayWithArray:@[@0,@0,@0,@0]];
     [self.restoreQueue removeAllObjects];
@@ -396,12 +402,17 @@ static void DFCLog(NSString *text) {
        surface.frame=container.bounds;
        surface.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
        surface.userInteractionEnabled=NO;
-       self.pendingScenes[(NSUInteger)physical]=surface;
-       [container addSubview:surface];
+       // UIKit addSubview may synchronously start the surface, poll an already
+       // hosted scene and post sceneReady:/sceneFailed: before it returns.
+       // Arm ownership first, or a fast first pane leaves pane 2 queued forever.
        self.restorePending=YES;
        self.restoringPhysical=physical;
+       self.pendingScenes[(NSUInteger)physical]=surface;
+       DFCLog([NSString stringWithFormat:
+            @"workspace-restore-attaching physical=%ld bundle=%@ generation=%lu",
+            (long)physical,bundle,(unsigned long)self.restoreGeneration]);
+       [container addSubview:surface];
        [self layoutControls];
-       DFCLog([NSString stringWithFormat:@"workspace-restore-pending physical=%ld",(long)physical]);
        NSUInteger generation=self.restoreGeneration;
        __weak typeof(self) weakOwner=self;
        // DFSceneSurface.pollScene may legitimately take 36 * 0.35s.
