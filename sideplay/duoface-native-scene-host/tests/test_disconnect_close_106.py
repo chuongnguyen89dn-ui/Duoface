@@ -58,8 +58,8 @@ class Disconnect106(unittest.TestCase):
     self.assertIn(token,phone)
   build=f("build.sh")
   self.assertIn("DFDisconnectCloseCoordinator.m",build)
-  self.assertIn("0.1.107~iphone-only-divider92",build)
-  self.assertIn("0.1.107~iphone-only-divider92",f("control"))
+  self.assertIn("0.1.108~ratio-disconnect-restore1",build)
+  self.assertIn("0.1.108~ratio-disconnect-restore1",f("control"))
  def test_manual_diagnostics_records_disconnect_actual_pid_outcome(self):
   source=f("DFNativeDiagnostics.m")
   self.assertIn("DuoFaceDisconnectClose.log",source)
