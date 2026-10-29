@@ -1,3 +1,15 @@
+## CHECKPOINT 2026-10-29 DuoFace #5 #6 #7 source CI PASS run 40869478284
+
+- New user requirements: remember 1..4 physical-window app IDs only after real scene ready; reconnect sequentially restores only still-installed AND explicitly iPhone-approved bundles, after splash, with timeout/stop generation gate and explicit phone opt out/clear. This is independent of iPhone preset-based app assignment (cancelled).
+- 3/4-app reorder: clockwise/counterclockwise repositions PHYSICAL host UIWindow frames through validated permutation, never moves hosted SBAppViewController to another parent or recreates media scenes; only when all actual scenes ready, no pending.
+- Running manager: separate owned LIVE scene state, guarded PID lookup from SBApplication + kill(pid,0) read-only, display PID unknown if absent, Close/Restart only owned scene host operations. No claim of actual app-process termination/foreground state without device evidence.
+- Files: DFSlotWorkspacePolicy.h, DFNative12Chrome.m, DFSceneHost.m/.h, DFAppPickerVC.m/.h, DFNativeHostRootController.m; tests/workspace_runtime.m, tests/test_workspace_098.py and byte-for-byte golden .92 logo contact and swap fixture; report at sideplay/audit/duoface-workspace-098/REPORT.md.
+- GitHub Actions https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40869478284 source SHA c7aed902212c9980e5fe4cc4369177b8b130ed07; Python=success; Foundation runtime=success; iOS16 syntax=success. Permanent evidence sideplay/audit/duoface-workspace-098/ci/runs/40869478284.txt.
+- NO integrated signed DEB, NO Sileo upload, NO CarPlay physical device test. Do not claim parity in app process exit or dual 3/4 gesture until parked-car QA. Preserve .90 YouTube orientation, original .92 3s logo raw methods, system Dock, Maps native trial and nine presets.
+- Next: resolve any failed CI at exact logged file/line; inspect source before package. On actual car test reconnect, no duplicate host, 3/4 swap media continuity, PID correctness vs process list, Close/Restart app vs scene semantics. Do not publish to Sileo without user request.
+
+---
+
 ## CHECKPOINT DuoFace .115 LIVE Sileo — 2026-10-29
 
 - **Current published Sileo version:** `com.duoface.jb.embedded 0.0.115~app-recover1`, source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, exact signed SHA256 `bf7f636acb68b777ec177b2357d20ddb2495660a76e988edd1a0b0622e77d09c`.
