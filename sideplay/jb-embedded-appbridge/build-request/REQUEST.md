@@ -1,3 +1,14 @@
+## .95 signed ONE-DEB development staging request — 2026-10-29 — NO SILEO
+
+- Current explicit user coding request: combine independent DuoDash/OmniCar-inspired app management in current DuoFace, preserve exact .92 3-second logo behavior and connect the existing native Maps QA action into iPhone Apps settings and CarPlay's selected-only app picker. NO vendor code, binaries or licensing.
+- User explicitly forbids Sileo publication until a separate direct request. This is **only** one signed rootless development DEB candidate, saved within the correct DuoFace repo and GitHub Actions artifact, NOT publication or device installation.
+- Source CI: [40792082781](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40792082781) SUCCESS, iOS16 ARM64 compile + independent Foundation tests; logo-3s smoke [40792082860](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40792082860) SUCCESS; Maps real native owner/source [40792150439](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40792150439) SUCCESS. The latter two compile-only/static/simulator tests do not prove hardware behavior.
+- Protect .90 YouTube orientation and .92 exact DFNative12Chrome.m / DFLogoHoldGate.h source. No automatic active-scene termination on iPhone unselect, no forced CarPlay Maps mode, no Dock crop.
+- Build version nativehost `0.1.104~duomanager1`, integrated single rootless `com.duoface.jb.embedded_0.0.95~duomanager1_iphoneos-arm64.deb`. Build from the exact triggering HEAD and archive artifact SHA. Preserves .92/.90 rollback and historic .94 release. Must not modify the Sileo repo or push any release request.
+- QA acceptance needed on physical parked vehicle before any claim: iPhone grouped/switch/search, only selected apps in on-car picker, YouTube orientation, hold/drag original .92 logo, native Maps controller true rendering/navigation, Dock ownership, no crashes. Trigger identifier: `095-duoface-omnicar-duodash-apps-and-maps-source-only-reviewed-no-sileo`.
+
+---
+
 ## NEW .94 iPhone Apps Manager first-party signed DEB staging — 2026-10-29
 
 - LATEST USER request: implement iPhone per-app switch and **Bật đề xuất / Bật tất cả / Tắt tất cả** first after inspecting original OmniCar and DuoDash. This supersedes the previous .93 rollback FOR THIS FEATURE ONLY. Do not restore any other .93 runtime changes.
