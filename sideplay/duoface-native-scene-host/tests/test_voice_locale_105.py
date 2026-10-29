@@ -64,8 +64,14 @@ class VoiceAndLocale105(unittest.TestCase):
   build=read("build.sh")
   control=read("control")
   info=read("Info.plist")
-  for s in ("0.1.111~home-reentry-youtube1","DFNativeMapPaneCoordinator.m"):
-   self.assertTrue(s in build or s in control)
-  self.assertIn("Version: 0.1.111~home-reentry-youtube1",control)
-  self.assertIn("0.1.111",info)
+  import re
+  match=re.search(r"^Version:\s*(\S+)\s*$",control,re.MULTILINE)
+  self.assertIsNotNone(match)
+  version=match.group(1)
+  self.assertIn("com.duoface.carplay.nativescenehost_"+version+"_iphoneos-arm64.deb",build)
+  self.assertIn("DFNativeMapPaneCoordinator.m",build)
+  release=re.match(r"0[.]1[.]([0-9]+)",version)
+  self.assertIsNotNone(release)
+  self.assertIn("<key>CFBundleVersion</key><string>"+release.group(1)+"</string>",info)
+  self.assertIn("<key>CFBundleShortVersionString</key><string>0.1."+release.group(1)+"</string>",info)
 if __name__=="__main__":unittest.main(verbosity=2)
