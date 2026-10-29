@@ -1,0 +1,89 @@
+name: DuoFace app habits 096 source runtime smoke and immutable evidence
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-096-app-habits-smoke.yml'
+      - 'sideplay/duoface-native-scene-host/DFAppHabits.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_app_habits_096.py'
+      - 'sideplay/duoface-native-scene-host/tests/app_habits_runtime.m'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-096-habits-smoke
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python iPhone and CarPlay source integration tests
+        id: source
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_habits_096.py' -v
+      - name: Compile and execute actual Objective-C Foundation habits policy
+        id: runtime
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/app_habits_runtime.m -o "$RUNNER_TEMP/app-habits-runtime"
+          "$RUNNER_TEMP/app-habits-runtime"
+      - name: Syntax-check both UIKit owners with iOS16 SDK
+        id: ios
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          cd sideplay/duoface-native-scene-host
+          for SRC in DFNativeHostRootController.m DFAppPickerVC.m DFNative12Chrome.m; do
+            xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
+          done
+      - name: Save per-run status and readback in project repository
+        if: always()
+        env:
+          SOURCE_RESULT: ${{ steps.source.outcome }}
+          RUNTIME_RESULT: ${{ steps.runtime.outcome }}
+          IOS_RESULT: ${{ steps.ios.outcome }}
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            DIRECTORY="$TEMP/sideplay/audit/duoface-app-habits-096/ci"
+            mkdir -p "$DIRECTORY/runs"
+            RESULT="$DIRECTORY/runs/$GITHUB_RUN_ID.txt"
+            if test -e "$RESULT"; then
+              git worktree remove --force "$TEMP"
+              echo "Evidence run already exists; no overwrite" >&2
+              exit 1
+            fi
+            {
+              echo "RUN_ID=$GITHUB_RUN_ID"
+              echo "SOURCE_SHA=$GITHUB_SHA"
+              echo "WORKFLOW_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/$GITHUB_RUN_ID"
+              echo "PYTHON_CONTRACT=$SOURCE_RESULT"
+              echo "FOUNDATION_EXECUTABLE=$RUNTIME_RESULT"
+              echo "IOS16_SYNTAX=$IOS_RESULT"
+              echo "SILEO_PUBLISHED=false"
+              echo "DEVICE_VERIFIED=false"
+            } > "$RESULT"
+            cp "$RESULT" "$DIRECTORY/LATEST_RESULT.txt"
+            cmp "$RESULT" "$DIRECTORY/LATEST_RESULT.txt"
+            git -C "$TEMP" add sideplay/audit/duoface-app-habits-096/ci/
+            git -C "$TEMP" commit -m "ci: app habits runtime evidence $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo "APP_HABITS_CI_GITHUB_EVIDENCE_PASS"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+            echo "Concurrent branch update, retry $attempt"
+          done
+          exit 1
