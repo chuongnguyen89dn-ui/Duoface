@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-29 DuoFace .107 phone-only CarPlay picker / .92 divider source parity
+
+- User's real photos show two regressions in installed .106 on a vehicle: in-car “Thêm App” opens Apps Manager to approve apps and “Phân loại ứng dụng” overlays an unfit iOS action sheet. User requires all app approval/enable/disable and category management ONLY in DuoFace iPhone settings; CarPlay picker shows only explicitly approved installed apps, no extra permissions UI. User also reports main split divider no longer drags and demands the .92 version when the original three-second logo hold was introduced.
+- Source change committed: DFAppPickerVC.m eliminates in-car Add More, categories and permission-write overlay, preserves DFPickerAllowsApp / DFConfiguredEnabledAppIDs iPhone allowlist. .097 source/macOS/iOS16 QA 40818869874 PASS; not physical car QA. Historical .097 test contract updated.
+- Actual DFNative12Chrome.m five divider source sections byte-compared to user-approved .92 Git blob 367689325f6ff84d8d258ff9891ec85338a7d647; exact logo raw touch fixture stays pinned; only hidden modal/solo startup stale-contact cleanup is additional. This is source parity, NOT proven actual divider working on car. Need actual `divider-pan-begin` and `divider-axis-locked-ratio` device logs. Do not declare successful until tested.
+- New detailed independent handoff sideplay/audit/duoface-iphone-only-picker-divider92-107/REPORT.md, committed 4fcc4ea1e96cf32ff4f446c0020114b4cf0f8f32. 107 integrated signed ROOTLESS PRIVATE QA workflow https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40819218635 was in progress at checkpoint, not publicly Sileo-published. Exact 107 SHA/artifact must be confirmed from completed run; earlier 106 Sileo installation on the user's car is NOT updated by source commits.
+- Next: verify 107 CI build/artifact hash and test on parked car; check App list exclusively iPhone-approved and 2-pane slider drag outside logo (immediate); logo parallel shift only after 3-second hold; divider works after closing picker and after 4-second hide. If no begin event, check UIWindow/hit-test owner and capture logs; never blindly rebuild and claim fixed. Preserve .90 YouTube, native Dock, actual Maps experiments, 106 disconnect close OFF by default.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #5 #6 #7 source CI PASS run 40819177751
 
 - New user requirements: remember 1..4 physical-window app IDs only after real scene ready; reconnect sequentially restores only still-installed AND explicitly iPhone-approved bundles, after splash, with timeout/stop generation gate and explicit phone opt out/clear. This is independent of iPhone preset-based app assignment (cancelled).
