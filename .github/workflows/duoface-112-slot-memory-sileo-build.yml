@@ -7,6 +7,9 @@ on:
       - 'sideplay/duoface-native-scene-host/build.sh'
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
       - 'sideplay/duoface-native-scene-host/tests/test_carplay_home_reentry_111.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_disconnect_close_106.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package.py'
       - 'sideplay/duoface-native-scene-host/control'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
   workflow_dispatch:
@@ -95,7 +98,7 @@ jobs:
           SHA="$(shasum -a 256 "$F" | awk '{print $1}')"
           echo "NATIVEHOST_SHA=$SHA" >> "$GITHUB_ENV"
           echo "NATIVEHOST_PACKAGE_SHA256=$SHA"
-      - name: Combine exactly one signed independent DuoFace Sileo package 0.0.109
+      - name: Combine exactly one signed independent DuoFace Sileo package 0.0.112
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build \
@@ -177,7 +180,7 @@ jobs:
           sha=Path(sha_file).read_text().split()[0]
           block=f"""## CHECKPOINT DuoFace .112 integrated release staged, run {run}
           
-          - User reported live .106 UI and divider regressions. .108 is staged and authorized for Sileo; user explicitly authorized a new Sileo release, pending hash-verified publisher deployment. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source {source}. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}. Exact SHA256 {sha}. Archive sideplay/jb-embedded-appbridge/evidence/runs/{run}/; provenance and source SHA alongside DEB.
+          - DuoFace .112 signed, integrated rootless `com.duoface.jb.embedded` QA build from source {source}. Accepted app replacement intent is persisted per physical slot; this is SOURCE behavior only, not proof that both CarPlay scenes restore on device. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}. Exact SHA256 {sha}. Immutable package/provenance/source archive: sideplay/jb-embedded-appbridge/evidence/runs/{run}/.
           - This checkpoint ONLY confirms signed, archived package. Sileo publication is authorized but NOT yet accomplished by this staging workflow. Publisher must verify immutable SHA, public Packages, Release and downloaded DEB. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
           - Next: publish to Sileo using existing carplaydsp/main APT publisher, pin archive SHA, verify remote Packages/Release/public bytes, preserve .90/.92 rollback, then append final public release result here. No device install claim.
           
