@@ -404,7 +404,9 @@ static void DFCLog(NSString *text) {
        DFCLog([NSString stringWithFormat:@"workspace-restore-pending physical=%ld",(long)physical]);
        NSUInteger generation=self.restoreGeneration;
        __weak typeof(self) weakOwner=self;
-       dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(7*NSEC_PER_SEC)),
+       // DFSceneSurface.pollScene may legitimately take 36 * 0.35s.
+       // Do not invalidate a still-negotiating YouTube host after only 7s.
+       dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(13.5*NSEC_PER_SEC)),
                       dispatch_get_main_queue(),^{
           DFNative12Chrome *owner=weakOwner;
           if(!owner || owner.restoreGeneration!=generation || !owner.restorePending ||

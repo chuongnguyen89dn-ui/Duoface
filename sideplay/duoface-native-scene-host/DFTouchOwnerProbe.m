@@ -252,6 +252,9 @@ static void DFStopProbe(NSString *reason) {
     sGeneration++;
     // Exact old-session cleanup while its ID still exists. The CarPlay
     // process also has an independent heartbeat watchdog restoring the Dock.
+    // On Home the old external overlays must disappear BEFORE any Dock
+    // owner request or slow scene invalidation. Never touch native Dock.
+    [sChrome hideAllExternalWindowsImmediately];
     DFDockZoomDetach(sChrome,sSession);
     sZoomReceipt=nil;sZoomFinishing=NO;
     NSString *previousSession=[sSession copy];
@@ -260,9 +263,8 @@ static void DFStopProbe(NSString *reason) {
     sLastAckSequence=0;
     sRetryCount=0;sRetryAt=0;
     DFNative12Chrome *old=sChrome;
-    // HIDE before slow PID collection or remote-scene invalidate. This
-    // avoids the old DuoFace overlay lingering on Apple CarPlay Home.
-    [old hideAllExternalWindowsImmediately];
+    // Visible windows were concealed before Dock detach; only now capture
+    // exact managed session PIDs while the scene hosts still exist.
     // Capture EXACT live, owner-verified new-process PIDs before stopAllHosts
     // invalidates the views. These are NOT the saved app favorites/workspace.
     if(old && previousSession)DFDisconnectCloseCapture(
