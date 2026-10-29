@@ -116,6 +116,7 @@
 @property(nonatomic,strong) UIImageView *mainLogo;
 @property(nonatomic,strong) UILabel *stateLabel;
 @property(nonatomic,strong) UIButton *diagnosticsButton;
+@property(nonatomic,strong) UIButton *dockMonitorButton;
 @property(nonatomic,strong) UISegmentedControl *tabs;
 @property(nonatomic,strong) UITableView *appsTable;
 @property(nonatomic,strong) NSArray<NSDictionary *> *installedApps;
@@ -190,6 +191,16 @@
  [diagnostics addTarget:self action:@selector(shareCarPlayDiagnostics:)
            forControlEvents:UIControlEventTouchUpInside];
  [self.view addSubview:diagnostics];self.diagnosticsButton=diagnostics;
+ UIButton *dock=[UIButton buttonWithType:UIButtonTypeSystem];
+ dock.translatesAutoresizingMaskIntoConstraints=NO;
+ [dock setTitle:@"Dock Monitor — chỉ xem" forState:UIControlStateNormal];
+ [dock setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+ dock.backgroundColor=[UIColor colorWithWhite:.18 alpha:1];
+ dock.layer.cornerRadius=10;
+ dock.titleLabel.font=[UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
+ [dock addTarget:self action:@selector(showDockMonitor:)
+    forControlEvents:UIControlEventTouchUpInside];
+ [self.view addSubview:dock];self.dockMonitorButton=dock;
  UITableView *list=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
  list.translatesAutoresizingMaskIntoConstraints=NO;list.backgroundColor=UIColor.blackColor;
  list.dataSource=self;list.delegate=self;list.hidden=YES;list.allowsSelection=YES;
@@ -218,6 +229,10 @@
    [diagnostics.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:32],
    [diagnostics.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-32],
    [diagnostics.heightAnchor constraintEqualToConstant:46],
+   [dock.topAnchor constraintEqualToAnchor:diagnostics.bottomAnchor constant:12],
+   [dock.leadingAnchor constraintEqualToAnchor:diagnostics.leadingAnchor],
+   [dock.trailingAnchor constraintEqualToAnchor:diagnostics.trailingAnchor],
+   [dock.heightAnchor constraintEqualToConstant:42],
    [list.topAnchor constraintEqualToAnchor:tabs.bottomAnchor constant:12],
    [list.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:14],
    [list.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-14],
@@ -276,6 +291,41 @@
  notify_post("com.duoface.nativehost.layout.changed.v1");
  return YES;
 }
+- (void)showDockMonitor:(UIButton *)sender {
+ (void)sender;
+ // Read-only first-party CarPlay session and *actual owner* ACK.
+ // Never interpret an old ACK from the previous vehicle as current Dock.
+ NSDictionary *session=[NSDictionary dictionaryWithContentsOfFile:
+    @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
+ NSDictionary *dock=[NSDictionary dictionaryWithContentsOfFile:
+    @"/var/mobile/Library/Preferences/com.duoface.nativehost.dockzoom.ack.plist"];
+ NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+ NSNumber *timestamp=session[@"Timestamp"];
+ NSTimeInterval age=[timestamp isKindOfClass:NSNumber.class]?
+    now-timestamp.doubleValue:INFINITY;
+ BOOL live=[session[@"Active"] isEqual:@YES] && isfinite(age) &&
+    age>=0 && age<=2.5 && [session[@"Session"] isKindOfClass:NSString.class];
+ NSNumber *stamp=dock[@"Timestamp"];
+ NSTimeInterval ackAge=[stamp isKindOfClass:NSNumber.class]?
+    now-stamp.doubleValue:INFINITY;
+ BOOL receipt=live && [dock[@"Session"] isEqualToString:session[@"Session"]] &&
+    [dock[@"DockOwnerVerified"] isEqual:@YES] &&
+    [dock[@"Applied"] isEqual:@YES] &&
+    isfinite(ackAge) && ackAge>=0 && ackAge<=3.0;
+ NSString *connection=live?@"CarPlay: phiên hoạt động":@"CarPlay: chưa xác minh phiên hiện tại";
+ NSString *dockStatus=receipt?
+   ([dock[@"DockHidden"] boolValue]?@"Dock: có ACK xác nhận đang ẩn":
+                                   @"Dock: có ACK xác nhận đang hiển thị"):
+   @"Dock: chưa có ACK hợp lệ của phiên hiện tại";
+ NSString *text=[NSString stringWithFormat:
+    @"%@\n%@\n\nMonitor chỉ đọc thông tin chủ Dock và không điều khiển thanh Dock.",
+    connection,dockStatus];
+ UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Dock Monitor"
+    message:text preferredStyle:UIAlertControllerStyleAlert];
+ [alert addAction:[UIAlertAction actionWithTitle:@"Đóng"
+    style:UIAlertActionStyleDefault handler:nil]];
+ [self presentViewController:alert animated:YES completion:nil];
+}
 - (void)shareCarPlayDiagnostics:(UIButton *)sender {
     if(self.carPlay)return;
     UIAlertController *confirm=[UIAlertController alertControllerWithTitle:@"Xuất chẩn đoán DuoFace"
@@ -312,6 +362,7 @@
 - (void)tabChanged:(UISegmentedControl *)control {
  BOOL showingList=(control.selectedSegmentIndex!=0);
  self.stateLabel.hidden=showingList;self.diagnosticsButton.hidden=showingList;
+ self.dockMonitorButton.hidden=showingList;
  self.appsTable.hidden=!showingList;
  if(showingList){
    if(control.selectedSegmentIndex==1)self.installedApps=[self queryInstalledApps];
@@ -352,7 +403,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?5:(NSInteger)[self appsInGroup:section].count;
+ return section==0?6:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -360,12 +411,13 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại"];
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đặt lại tùy chọn"];
     NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
        @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
        @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô",
        @"Lưới 4/5/6 cột, 2/3 hàng, ẩn/hiện tên ứng dụng",
-       [DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue]?@"Đang bật — chỉ app đã cho phép":@"Đang tắt"];
+       [DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue]?@"Đang bật — chỉ app đã cho phép":@"Đang tắt",
+       @"Đặt lại mặc định, ưa dùng hoặc giao diện chọn App"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -399,6 +451,27 @@
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)showResetOptions {
+ UIAlertController *sheet=[UIAlertController alertControllerWithTitle:@"Đặt lại tùy chọn DuoFace"
+    message:@"Chỉ đặt lại tùy chọn do DuoFace lưu; không đóng app đang chạy, không sửa Dock hoặc Maps native."
+    preferredStyle:UIAlertControllerStyleActionSheet];
+ __weak typeof(self) weakSelf=self;
+ [sheet addAction:[UIAlertAction actionWithTitle:@"Đặt lại mặc định và Ưa dùng"
+    style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action){
+      if(!DFSaveAppChoices(@"",@[]))[weakSelf appSettingsSaveFailed];
+      [weakSelf.appsTable reloadData];
+ }]];
+ [sheet addAction:[UIAlertAction actionWithTitle:@"Đặt lại lưới App (4×2, hiện tên)"
+    style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action){
+      if(!DFSavePickerDisplay(4,2,YES))[weakSelf appSettingsSaveFailed];
+      [weakSelf.appsTable reloadData];
+ }]];
+ [sheet addAction:[UIAlertAction actionWithTitle:@"Hủy"
+    style:UIAlertActionStyleCancel handler:nil]];
+ UIPopoverPresentationController *popover=sheet.popoverPresentationController;
+ if(popover){popover.sourceView=self.appsTable;popover.sourceRect=self.appsTable.bounds;}
+ [self presentViewController:sheet animated:YES completion:nil];
 }
 - (void)showWorkspaceRestoreMenu {
     BOOL enabled=[DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue];
@@ -602,7 +675,8 @@
     else if(indexPath.row==1)[self showNativeMapPaneChoices];
     else if(indexPath.row==2)[self showHabitSettings];
     else if(indexPath.row==3)[self showPickerDisplaySettings];
-    else [self showWorkspaceRestoreMenu];
+    else if(indexPath.row==4)[self showWorkspaceRestoreMenu];
+    else [self showResetOptions];
   } else {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
