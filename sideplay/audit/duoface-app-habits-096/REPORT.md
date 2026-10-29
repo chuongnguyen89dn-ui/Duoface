@@ -26,3 +26,11 @@ Relevant source commits: `7e01d2c`, `c6b7d82`, `c14c41b`, `4dcdb2f`, `60508cf`, 
 - Next: inspect source-only run and fix exact failed step; only after green can stage a separately versioned, signed one-DEB artifact with SHA and user approval for Sileo. Parked vehicle tests: default and pin ranking; habits only after ready; toggled off/uninstalled apps not shown; no automatic app opening, no YouTube/Maps/Dock/logo regressions.
 
 The companion workflow `.github/workflows/duoface-096-app-habits-handoff.yml` appends this decision to the existing `sideplay/tiep tuc du an.md` rather than creating a duplicate. Its GitHub push and readback must be verified separately.
+
+## Source-only CI verified 2026-10-29
+
+- GitHub Actions: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40795905490 — job 123192202265 completed **SUCCESS**.
+- Exact source SHA `c500683170dab9a22f855b496c30643c696d2ade`.
+- Four Python source/behavior contracts passed; macOS native compiled and executed Foundation test emitted `APP_HABITS_RUNTIME_PASS`; all three relevant UIKit implementation files passed iOS16 SDK syntax checking.
+- Permanent run evidence: `sideplay/audit/duoface-app-habits-096/ci/runs/40795905490.txt` and `ci/LATEST_RESULT.txt`, saved by GitHub Actions at commit `a0ce3e46655050bd4b8b621a049373d2c01bc415`.
+- These tests do **not** establish an integrated signed DEB for this feature, Sileo installation, or real vehicle behavior. No source-built artifact should be misrepresented as a device acceptance test.
