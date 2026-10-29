@@ -1,3 +1,18 @@
+## CHECKPOINT VERIFIED 2026-10-29 — SUCCESS source CI after removal of 3-second hold
+
+- Source commit: `7f8b5970eb5cafa1609b3340724bd32550ec8e91`. GitHub Actions **all five completed SUCCESS**, all at that source SHA:
+  - `40821370373` new combined immediate ratio drag + physical disconnect close + remembered-app restore: job `123274360058` SUCCESS, source tests SUCCESS, **actual iOS16 ARM64 Objective-C syntax** SUCCESS, **macOS Foundation executable disconnect/restore policies** SUCCESS.
+  - `40821370339` full Native12 source regression SUCCESS.
+  - `40821370303` immediate ratio-grip/no-3s C test SUCCESS.
+  - `40821370299` 4-app workspace / reconnect memory source QA SUCCESS.
+  - `40821370297` strict iPhone-approved CarPlay app picker source QA SUCCESS.
+- This fixes tests from earlier FAIL runs `40820950442`, `40820950615`, `40821104873`, etc.; retain failures as genuine historical records. No claim about device execution: source/macos/iOS16 compile only.
+- Live physical unplug **process termination** is still UNVERIFIED on iPhone X iOS16 rootless: default setting OFF; explicit ON uses 10-second grace, generation-based cancellation, strict live newly-owned process/PID/foreground/physical disconnection verification, RunningBoard private selector; running worker cannot be recalled after OS termination request has already been issued. App close and remembered-app restore are separate user switches. Reconnect re-hosts permitted installed app IDs and restores slot/layout, NOT arbitrary YouTube playback time or Maps route state.
+- Signed `.107` archive from run `40820015100` predates new logo requirement and has obsolete 3-second code; DO NOT publish it as current. New source requires a separately versioned candidate, one signed DEB and real CarPlay QA before release. Sileo unchanged, no device test.
+- GitHub evidence: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40821370373 and /40821370339 /40821370303 /40821370299 /40821370297. Feature handoff still `sideplay/tiep tuc du an.md`, technical audit `sideplay/audit/duoface-iphone-only-divider-107/REPORT.md`.
+
+---
+
 ## 2026-10-29 — USER REQUIREMENT OVERRIDES .92 3-SECOND HOLD — REQUIRED REAUDIT
 
 - **LATEST USER REQUIREMENT (supersedes older .92 3-second hold instructions):** NO three-second hold anywhere on the split divider. Circular logo must **move together with the physical primary split divider while the user drags the two-pane ratio**. Do not require a 3-second press or independently move logo along divider; keep normal tap-to-swap unless separately overridden. The older .92 gold fixture remains HISTORICAL ONLY and must NOT be used as a gate for the logo hold handlers. Keep safe system Dock, .90 YouTube orientation and phone-only approved-app picker.
