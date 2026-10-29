@@ -1,3 +1,14 @@
+
+## CHECKPOINT 2026-10-29 DuoFace 097 strict iPhone allowlist and picker grid — source CI FAILED
+
+- New user requirements #3/#4: CarPlay App list must contain only iPhone-approved installed app IDs. Classify All/Favorites/User/System, then sort using user default/pins/real scene-ready usage. A previously absent enabled-app preference now means ZERO selected rather than legacy permissive all.
+- Independent picker grid options 4/5/6 columns, 2/3 rows and show/hide app titles are configured in DuoFace iPhone Apps settings, not by altering the nine CarPlay pane layouts. CarPlay App picker has Add More tile, opening a separate eligible DISABLED-app management list, and after explicit tap persists selected app to the SAME iPhone allowlist (no auto-host and no app-panes auto-assignment).
+- Main files: sideplay/duoface-native-scene-host/DFAppPickerDisplayPolicy.h, DFEnabledAppsPolicy.h, DFAppPickerVC.m, DFNativeHostRootController.m, tests/picker_display_runtime.m, tests/test_picker_display_097.py. Original DEB's addMoreAppsTapped selector proves visual action but NOT actual save semantics; implementation is independent.
+- CI run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40797121734, source=326f94f2232ef1ad67c7a6a8ca06ec3088566847, PYTHON_REGRESSIONS=failure, FOUNDATION_EXECUTABLE=skipped, IOS16_ARM64_SYNTAX=skipped, permanent result=sideplay/audit/duoface-picker-097/ci/runs/40797121734.txt.
+- IMPORTANT: Source test is NOT a new signed rootless DEB, NOT Sileo publication, NOT physical CarPlay proof. Preserve .90 YouTube, .92 3s logo, system Dock and experimental native Maps; only build new QA package and publish on explicit user instruction.
+
+---
+
 ## VERIFIED 2026-10-29 app habits source-only macOS runtime and iOS16 compile
 
 - GitHub Actions run 40795905490 on source c500683170dab9a22f855b496c30643c696d2ade completed SUCCESS; job 123192202265, four Python contracts PASSED, actual macOS clang/Foundation executable emitted APP_HABITS_RUNTIME_PASS, three Objective-C UIKit owners passed iOS16 SDK syntax, run result archived in sideplay/audit/duoface-app-habits-096/ci/LATEST_RESULT.txt and runs/40795905490.txt.
