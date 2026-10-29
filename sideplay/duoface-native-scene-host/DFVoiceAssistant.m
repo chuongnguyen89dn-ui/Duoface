@@ -155,7 +155,7 @@
                   completed:(void (^)(NSString *))completion {
  (void)controller;
  if(self.listening){[self stop];if(completion)completion(
-         DFLocalize(@"Đã dừng nghe.","Listening stopped."));return;}
+         DFLocalize(@"Đã dừng nghe.",@"Listening stopped."));return;}
  __weak typeof(self) weakSelf=self;
  [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status){
     dispatch_async(dispatch_get_main_queue(),^{
