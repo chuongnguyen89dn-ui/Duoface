@@ -1,3 +1,14 @@
+
+## CHECKPOINT 2026-10-29 DuoFace 097 strict iPhone allowlist and picker grid — source CI PASS
+
+- New user requirements #3/#4: CarPlay App list must contain only iPhone-approved installed app IDs. Classify All/Favorites/User/System, then sort using user default/pins/real scene-ready usage. A previously absent enabled-app preference now means ZERO selected rather than legacy permissive all.
+- Independent picker grid options 4/5/6 columns, 2/3 rows and show/hide app titles are configured in DuoFace iPhone Apps settings, not by altering the nine CarPlay pane layouts. CarPlay App picker has Add More tile, opening a separate eligible DISABLED-app management list, and after explicit tap persists selected app to the SAME iPhone allowlist (no auto-host and no app-panes auto-assignment).
+- Main files: sideplay/duoface-native-scene-host/DFAppPickerDisplayPolicy.h, DFEnabledAppsPolicy.h, DFAppPickerVC.m, DFNativeHostRootController.m, tests/picker_display_runtime.m, tests/test_picker_display_097.py. Original DEB's addMoreAppsTapped selector proves visual action but NOT actual save semantics; implementation is independent.
+- CI run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40832259128, source=0c4ff4109e80d0abe2a0a9c1490165cc1abd4d2a, PYTHON_REGRESSIONS=success, FOUNDATION_EXECUTABLE=success, IOS16_ARM64_SYNTAX=success, permanent result=sideplay/audit/duoface-picker-097/ci/runs/40832259128.txt.
+- IMPORTANT: Source test is NOT a new signed rootless DEB, NOT Sileo publication, NOT physical CarPlay proof. Preserve .90 YouTube, .92 3s logo, system Dock and experimental native Maps; only build new QA package and publish on explicit user instruction.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8 physical native Maps preflight, #10 settings audit: run 40832073982 PASS
 
 - Actual source repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020, CI source SHA 8d355c1184660c2b04c0fef9ebc2f85d31897932. Read-only native map original OmniCar comparison is in audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md of Omnicar repo; never embed proprietary license/code.
