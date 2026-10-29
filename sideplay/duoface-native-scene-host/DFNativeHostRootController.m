@@ -6,6 +6,7 @@
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerDisplayPolicy.h"
 #import "DFAppHabits.h"
+#import "DFSlotWorkspacePolicy.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
 #import <objc/message.h>
@@ -351,7 +352,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?4:(NSInteger)[self appsInGroup:section].count;
+ return section==0?5:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -359,11 +360,12 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App"];
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại"];
     NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
        @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
        @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô",
-       @"Lưới 4/5/6 cột, 2/3 hàng, ẩn/hiện tên ứng dụng"];
+       @"Lưới 4/5/6 cột, 2/3 hàng, ẩn/hiện tên ứng dụng",
+       [DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue]?@"Đang bật — chỉ app đã cho phép":@"Đang tắt"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -397,6 +399,30 @@
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)showWorkspaceRestoreMenu {
+    BOOL enabled=[DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue];
+    UIAlertController *menu=[UIAlertController alertControllerWithTitle:@"Ghi nhớ ứng dụng từng ô"
+        message:@"DuoFace lưu 4 lựa chọn đã chạy thật, chỉ tự khôi phục ứng dụng còn cài và được bạn bật. Đóng ứng dụng trong DuoFace sẽ bỏ ghi nhớ ô đó."
+        preferredStyle:UIAlertControllerStyleActionSheet];
+    __weak typeof(self) weakSelf=self;
+    [menu addAction:[UIAlertAction actionWithTitle:enabled?@"Tắt tự khôi phục":@"Bật tự khôi phục"
+      style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action) {
+        if(!DFSetRestoreOnReconnect(!enabled))[weakSelf appSettingsSaveFailed];
+        [weakSelf.appsTable reloadData];
+    }]];
+    [menu addAction:[UIAlertAction actionWithTitle:@"Xóa tất cả ghi nhớ"
+      style:UIAlertActionStyleDestructive handler:^(__unused UIAlertAction *action) {
+        NSMutableDictionary *record=[DFCurrentWorkspace() mutableCopy];
+        record[@"PhysicalBundles"]=DFEmptyPhysicalBundles();
+        if(!DFWriteWorkspace(record))[weakSelf appSettingsSaveFailed];
+        [weakSelf.appsTable reloadData];
+    }]];
+    [menu addAction:[UIAlertAction actionWithTitle:@"Hủy"
+      style:UIAlertActionStyleCancel handler:nil]];
+    UIPopoverPresentationController *popover=menu.popoverPresentationController;
+    if(popover){popover.sourceView=self.appsTable;popover.sourceRect=self.appsTable.bounds;}
+    [self presentViewController:menu animated:YES completion:nil];
 }
 - (void)showPickerDisplaySettings {
  NSDictionary *display=DFCurrentPickerDisplay();
@@ -575,7 +601,8 @@
     if(indexPath.row==0)[self showAppSettingsActions];
     else if(indexPath.row==1)[self showNativeMapPaneChoices];
     else if(indexPath.row==2)[self showHabitSettings];
-    else [self showPickerDisplaySettings];
+    else if(indexPath.row==3)[self showPickerDisplaySettings];
+    else [self showWorkspaceRestoreMenu];
   } else {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
