@@ -9,6 +9,8 @@
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
 #import "DFAppPickerVC.h"
+#import "DFSlotWorkspacePolicy.h"
+#import "DFAppLibrary.h"
 #import "DFLayoutEngine.h"
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
@@ -269,6 +271,10 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL panActive;
 @property(nonatomic,assign) BOOL logoTouchPending;
 @property(nonatomic,assign) BOOL logoWakeOnlyTap;
+@property(nonatomic,copy) NSDictionary *workspace;
+@property(nonatomic,strong) NSMutableArray<NSNumber *> *restoreQueue;
+@property(nonatomic,assign) NSUInteger restoreGeneration;
+@property(nonatomic,assign) BOOL restorePending;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -300,7 +306,105 @@ static void DFCLog(NSString *text) {
         _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null],[NSNull null],[NSNull null]]];
         _pendingScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null],[NSNull null],[NSNull null]]];
         _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO,@NO,@NO]];
+        _workspace=DFCurrentWorkspace();
+        _restoreQueue=[NSMutableArray new];
     }return self;
+}
+- (NSInteger)physicalForVisual:(NSInteger)visual {
+    return DFPhysicalForVisual(visual,self.swapped,DFSlotCountForPreset(self.preset),self.workspace);
+}
+- (NSInteger)visualForPhysical:(NSInteger)physical {
+    return DFVisualForPhysical(physical,self.swapped,DFSlotCountForPreset(self.preset),self.workspace);
+}
+- (NSArray<NSString *> *)installedBundleIDsForRestore {
+    NSMutableArray<NSString *> *ids=[NSMutableArray new];
+    for(DFAppInfo *app in [DFAppLibrary installedUserApps])
+      if(app.bundleID.length)[ids addObject:app.bundleID];
+    return ids;
+}
+// Recover only saved, still-installed, explicitly approved apps after startup.
+// One pending host at a time. Never restore app scene handles or UIWindows.
+- (void)beginSavedWorkspaceRestore {
+    if(self.appSceneContainers.count!=4 || self.startupActive)return;
+    ++self.restoreGeneration;
+    [self.restoreQueue removeAllObjects];
+    NSArray<NSString *> *list=DFRestorablePhysicalBundles(self.workspace,
+       DFConfiguredEnabledAppIDs(),[NSSet setWithArray:[self installedBundleIDsForRestore]],
+       DFSlotCountForPreset(self.preset));
+    for(NSInteger i=0;i<(NSInteger)list.count;i++)
+       if([list[(NSUInteger)i] length])[self.restoreQueue addObject:@(i)];
+    self.restorePending=NO;
+    [self restoreNextSavedWorkspaceApp];
+}
+- (void)restoreNextSavedWorkspaceApp {
+    if(self.startupActive || self.restorePending || self.appSceneContainers.count!=4)return;
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    while(self.restoreQueue.count) {
+       NSInteger physical=self.restoreQueue.firstObject.integerValue;
+       [self.restoreQueue removeObjectAtIndex:0];
+       if(physical<0 || physical>=DFSlotCountForPreset(self.preset))continue;
+       NSString *bundle=self.workspace[@"PhysicalBundles"][(NSUInteger)physical];
+       if(!DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs()) ||
+          ![[self installedBundleIDsForRestore] containsObject:bundle])continue;
+       if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
+          [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class])continue;
+       NSError *error=nil;
+       UIView *surface=[host hostViewForBundleID:bundle error:&error];
+       if(!surface) {
+          DFCLog([NSString stringWithFormat:@"workspace-restore-refused slot=%ld reason=%@",
+                 (long)physical,error.localizedDescription?:@"unknown"]);
+          continue;
+       }
+       UIView *container=self.appSceneContainers[(NSUInteger)physical];
+       surface.frame=container.bounds;
+       surface.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+       surface.userInteractionEnabled=NO;
+       self.pendingScenes[(NSUInteger)physical]=surface;
+       [container addSubview:surface];
+       self.restorePending=YES;
+       [self layoutControls];
+       DFCLog([NSString stringWithFormat:@"workspace-restore-pending physical=%ld",(long)physical]);
+       NSUInteger generation=self.restoreGeneration;
+       __weak typeof(self) weakOwner=self;
+       dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(7*NSEC_PER_SEC)),
+                      dispatch_get_main_queue(),^{
+          DFNative12Chrome *owner=weakOwner;
+          if(!owner || owner.restoreGeneration!=generation || !owner.restorePending ||
+             owner.appSceneContainers.count!=4)return;
+          if(owner.pendingScenes[(NSUInteger)physical]==surface){
+             [[DFSceneHost sharedHost] releaseHostedView:surface];
+             owner.pendingScenes[(NSUInteger)physical]=NSNull.null;
+             owner.restorePending=NO;
+             [owner restoreNextSavedWorkspaceApp];
+             DFCLog(@"workspace-restore-timeout-skipped-no-fake-ready");
+          }
+       });
+       return;
+    }
+}
+// Shift physical scene WINDOWS among visible positions; do not reparent
+// SBAppViewController or re-create media scenes. Requires all slots ready.
+- (BOOL)rotateHostedAppsClockwise:(BOOL)clockwise {
+    NSInteger active=DFSlotCountForPreset(self.preset);
+    if(active<3 || active>4 || self.appSceneContainers.count!=4)return NO;
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    for(NSInteger i=0;i<active;i++) {
+      UIView *surface=self.hostedScenes[(NSUInteger)i];
+      if(![surface isKindOfClass:UIView.class] ||
+         ![self.sceneHandleReady[(NSUInteger)i] boolValue] ||
+         [self.pendingScenes[(NSUInteger)i] isKindOfClass:UIView.class] ||
+         surface.superview!=self.appSceneContainers[(NSUInteger)i] ||
+         surface.window!=self.appSceneWindows[(NSUInteger)i] ||
+         ![host bundleIDForHostedView:surface])return NO;
+    }
+    if(!DFRotateWorkspace(active,clockwise))return NO;
+    self.workspace=DFCurrentWorkspace();
+    self.selectedSlot=MIN(self.selectedSlot,active-1);
+    [self layoutControls];
+    [self emit:@"Style" ratio:nil];
+    DFCLog([NSString stringWithFormat:@"workspace-window-rotation size=%ld direction=%@",
+       (long)active,clockwise?@"forward":@"reverse"]);
+    return YES;
 }
 - (UIWindow *)makeWindow:(CGRect)frame root:(UIViewController *)root
                    level:(CGFloat)level {
@@ -854,6 +958,8 @@ static void DFCLog(NSString *text) {
                initial.hidden=YES;
                [owner noteUserActivity];
                DFCLog(@"native12-logo-and-loading-line-completed");
+               // New CarPlay session only, after UI startup has finished.
+               [owner beginSavedWorkspaceRestore];
            }];
     });
     DFCLog([NSString stringWithFormat:
@@ -1078,13 +1184,13 @@ static void DFCLog(NSString *text) {
         // Reproduce Native12 six pill states from DFSPNativeSlotPill:
         // empty/loaded/focused, each normal or compact. An empty or
         // pending slot must not offer a nonfunctional fullscreen action.
-        NSInteger physicalSlot=(self.swapped && i<2)?1-i:i;
+        NSInteger physicalSlot=[self visualForPhysical:i];
         BOOL ready=[self.sceneHandleReady[(NSUInteger)physicalSlot] boolValue];
         BOOL focused=(self.focus==i);
         BOOL show=(self.focus<0 || focused)&&!self.pickerVisible&&!self.styleVisible&&!self.appPickerVisible;
         BOOL allReady=YES;
         for(NSInteger k=0;k<activeSlots;k++){
-            NSInteger actual=(self.swapped && k<2)?1-k:k;
+            NSInteger actual=[self physicalForVisual:k];
             if(![self.sceneHandleReady[(NSUInteger)actual] boolValue]){
                 allReady=NO;break;
             }
@@ -1177,7 +1283,7 @@ static void DFCLog(NSString *text) {
     for(NSInteger i=0;i<4;i++){
         UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
         UIView *v=self.appSceneContainers[(NSUInteger)i];
-        NSInteger visualSlot=(self.swapped && i<2)?1-i:i;
+        NSInteger visualSlot=[self visualForPhysical:i];
         if(visualSlot>=activeSlots){appWindow.hidden=YES;v.hidden=YES;continue;}
         CGRect target=pane[visualSlot];
         if(self.focus>=0 && visualSlot==self.focus)target=cr;
@@ -1287,7 +1393,7 @@ static void DFCLog(NSString *text) {
     [self noteUserActivity];
     NSInteger slot=sender.tag;
     if(slot<0 || slot>=DFSlotCountForPreset(self.preset))return;
-    NSInteger physical=(self.swapped && slot<2)?1-slot:slot;
+    NSInteger physical=[self physicalForVisual:slot];
     // An unloaded scene cannot be focused. Respond by allowing selection of
     // a real app, not by silently ignoring the visible Zoom action.
     if(self.focus!=slot && ![self.sceneHandleReady[(NSUInteger)physical] boolValue]){
@@ -1381,7 +1487,7 @@ static void DFCLog(NSString *text) {
     // LSApplicationWorkspace snapshot across install/remove operations.
     // Read the *actually scene-ready* bundle in this physical slot before
     // showing active App colors. Nothing in the installed list proves selection.
-    NSInteger physical=(self.swapped && slot<2)?1-slot:slot;
+    NSInteger physical=[self physicalForVisual:slot];
     NSString *current=nil;
     if([self.sceneHandleReady[(NSUInteger)physical] boolValue]){
         UIView *surface=self.hostedScenes[(NSUInteger)physical];
@@ -1389,12 +1495,13 @@ static void DFCLog(NSString *text) {
             current=[[DFSceneHost sharedHost] bundleIDForHostedView:surface];
     }
     self.appPickerController.currentSlotBundleID=current;
+    self.appPickerController.runningAppDetails=@{};
     // Original two-branch App badge semantics, but identity comes ONLY from
     // our scene-ready independent host. Respect swapped logical/physical slots.
     NSMutableOrderedSet<NSString *> *others=[NSMutableOrderedSet new];
     for(NSInteger visual=0;visual<DFSlotCountForPreset(self.preset);visual++){
         if(visual==slot)continue;
-        NSInteger otherPhysical=(self.swapped && visual<2)?1-visual:visual;
+        NSInteger otherPhysical=[self physicalForVisual:visual];
         if(otherPhysical<0 || (NSUInteger)otherPhysical>=self.hostedScenes.count)continue;
         if(![self.sceneHandleReady[(NSUInteger)otherPhysical] boolValue])continue;
         UIView *otherScene=self.hostedScenes[(NSUInteger)otherPhysical];
@@ -1434,7 +1541,7 @@ static void DFCLog(NSString *text) {
         NSString *actual=[surface isKindOfClass:UIView.class]?
                      [owner bundleIDForHostedView:surface]:nil;
         if(![actual isEqualToString:bundleID])continue;
-        NSInteger visual=(self.swapped && physical<2)?1-physical:physical;
+        NSInteger visual=[self visualForPhysical:physical];
         if(visual>=0 && visual<count)return visual;
     }
     return -1; // hidden old preset: no speculative scene intervention
@@ -1491,7 +1598,7 @@ static void DFCLog(NSString *text) {
     if(picker!=self.appPickerController || !self.appPickerWindow || 
        ![bundleID isKindOfClass:NSString.class] || !bundleID.length)return;
     NSInteger slot=self.selectedSlot;
-    NSInteger physicalSlot=(self.swapped && slot<2)?1-slot:slot;
+    NSInteger physicalSlot=[self physicalForVisual:slot];
     if(physicalSlot<0 || physicalSlot>=DFSlotCountForPreset(self.preset))return;
     DFSceneHost *owner=[DFSceneHost sharedHost];
     UIView *active=self.hostedScenes[(NSUInteger)physicalSlot];
@@ -1547,10 +1654,18 @@ static void DFCLog(NSString *text) {
           self.hostedScenes[(NSUInteger)i]=host;
           self.sceneHandleReady[(NSUInteger)i]=@YES;
           host.userInteractionEnabled=YES;
+          NSString *bundle=[[DFSceneHost sharedHost] bundleIDForHostedView:host];
+          if(bundle.length && !DFSavePhysicalBundle(i,bundle))
+             DFCLog(@"workspace-slot-save-failed-no-scene-impact");
+          self.workspace=DFCurrentWorkspace();
+          if(self.restorePending){
+             self.restorePending=NO;
+             dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
+          }
           [self layoutControls];
           if([prior isKindOfClass:UIView.class] && prior!=host)
               [[DFSceneHost sharedHost] releaseHostedView:prior];
-          NSInteger visual=(self.swapped && i<2)?1-i:i;
+          NSInteger visual=[self visualForPhysical:i];
           [self noteUserActivity];
           [self emit:@"App" ratio:@(visual)];
           DFCLog([NSString stringWithFormat:
@@ -1566,6 +1681,10 @@ static void DFCLog(NSString *text) {
     for(NSInteger i=0;i<4;i++){
        if(self.pendingScenes[(NSUInteger)i]==host){
           self.pendingScenes[(NSUInteger)i]=NSNull.null;
+          if(self.restorePending){
+             self.restorePending=NO;
+             dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
+          }
           DFCLog([NSString stringWithFormat:
             @"scene-replace-rolled-back-old-app-retained slot=%ld error=%@",
             (long)i,note.userInfo[@"error"]?:@"unknown"]);
@@ -1574,7 +1693,7 @@ static void DFCLog(NSString *text) {
        if(self.hostedScenes[(NSUInteger)i]==host){
           self.hostedScenes[(NSUInteger)i]=NSNull.null;
           self.sceneHandleReady[(NSUInteger)i]=@NO;
-          NSInteger visual=(self.swapped && i<2)?1-i:i;
+          NSInteger visual=[self visualForPhysical:i];
           if(self.focus==visual)self.focus=-1;
           self.appSceneContainers[(NSUInteger)i].hidden=YES;
           DFCLog([NSString stringWithFormat:@"real-scene-failed slot=%ld error=%@",
@@ -1585,7 +1704,7 @@ static void DFCLog(NSString *text) {
 }
 // Original Close ends selected app; X dismisses the menu only.
 - (void)closeHostedSlot:(NSInteger)slot {
-    NSInteger physicalSlot=(self.swapped && slot<2)?1-slot:slot;
+    NSInteger physicalSlot=[self physicalForVisual:slot];
     if(physicalSlot<0||physicalSlot>=DFSlotCountForPreset(self.preset))return;
     DFSceneHost *owner=[DFSceneHost sharedHost];
     UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
@@ -1595,6 +1714,9 @@ static void DFCLog(NSString *text) {
     if([view isKindOfClass:UIView.class])[owner releaseHostedView:view];
     self.hostedScenes[(NSUInteger)physicalSlot]=NSNull.null;
     self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO;
+    if(!DFSavePhysicalBundle(physicalSlot,@""))
+        DFCLog(@"workspace-slot-clear-prefs-failed");
+    self.workspace=DFCurrentWorkspace();
     if(self.focus==slot)self.focus=-1;
     UIView *container=self.appSceneContainers[(NSUInteger)physicalSlot];
     container.hidden=YES;
@@ -1816,7 +1938,7 @@ static void DFCLog(NSString *text) {
                   DFCClamp(self.ratio),self.secondaryRatio,pane);
         NSInteger count=DFSlotCountForPreset(self.preset);
         for(NSInteger i=0;i<count;i++){
-            NSInteger visual=(self.swapped&&i<2)?1-i:i;
+            NSInteger visual=[self visualForPhysical:i];
             // Verification must match layoutControls: a focused/solo pane
             // occupies the whole host, not the preset's split-cell frame.
             CGRect rendered=(self.focus>=0 && visual==self.focus)?actual:pane[visual];
@@ -1864,6 +1986,9 @@ static void DFCLog(NSString *text) {
     DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
 }
 - (void)stop {
+    ++self.restoreGeneration;
+    self.restorePending=NO;
+    [self.restoreQueue removeAllObjects];
     self.logoTouchPending=NO;
     self->_logoHoldGate=(DFLogoHoldGate){0};
     _dividerDrag.active=false;
