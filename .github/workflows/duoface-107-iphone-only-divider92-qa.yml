@@ -15,7 +15,7 @@ permissions:
   contents: write
 concurrency:
   group: duoface-107-iphone-only-divider92-qa
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build-and-archive:
     runs-on: macos-15
