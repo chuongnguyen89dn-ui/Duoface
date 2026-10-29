@@ -1,0 +1,22 @@
+# DuoFace 117 physical fail; 118 emergency rollback and GOFA voice A/B study
+
+## Verified user outcome
+After installing public signed .117, the native Apple CarPlay Dock is missing from initial connection, hidden controls/logo do not wake, and the lower YouTube cards are even less touchable. Previous .117 source/CI success is NOT physical success. Preserve separate .90/.92 releases.
+User suspects GOFA voice robot involvement. This is NOT confirmed; audio by itself cannot be taken as evidence of UIKit touch interception. A GOFA voice HUD or top-level scene could in principle alter CarPlay window/event ownership, but device logs/code for GOFA voice are not available. No GOFA binary or project is changed here.
+
+## Original DEB and specific rollback evidence
+Original Native12 SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad; original 11 IMP forensic run 40893202813 PASS. Original CBWindow.carPlayContentInsets gets real active rootWindow.safeAreaInsets first and conditionally falls back to 64pt; CBWindow.carPlayUsableBounds passes system insets to the split. It does not assume CPWindow safeAreaLayoutFrame is always a nonzero Dock margin.
+Independent .117 source DFTouchOwnerProbe.m forwarded CPWindow ContentRect x=0 directly when valid; this is consistent with the reported full-screen/hidden Dock but actual owner window geometry for that exact car has not been logged.
+Emergency independent .118 DFTouchOwnerProbe.m commit 67206d347f4af512775442b5ef52a4b8177b2dee restores EXACT earlier .116 contentRect handling, which had visible Dock, including the known unwanted black gap. It is a temporary safe rollback, NOT the final Native12 no-gap correction.
+Emergency independent .118 DFNative12Chrome.m commit 018c7b37b77e2d145aca2866a196ceb5d2d288ed removes the .117 per-app-window wake callback, .116 root UIWindow subclass and probes, .114 app-pane touch wake block, app/divider gesture activity observers and scene touch wake registration. No app-wide sendEvent hook, replay or overlay introduced. Direct logo/split menu controls remain when visible. No anywhere-in-app logo wake expected during this requested isolation.
+New contract tests test_emergency_no_wake_dock_118.py commit be97e03486602ba90e0173dd422f6bb3d7e79a93. Signed QA source workflow duoface-118-dock-safe-no-wake-signed-qa.yml commit e9501ec1e5b441095a22b78b255c8c8b932bb383; run 40901000640 was initially QUEUED. Version com.duoface.jb.embedded 0.0.118~dock-rollback1, native host 0.1.118~dock-rollback1. Do not claim built until actual CI pass and immutable GitHub archive readback. Publisher Sileo also needs separate SHA-verified deploy.
+
+## OmniCar historical evidence
+Omnicar main bafc2441d280707ac1fbfd210780a51bdf69da95, audit/OmniCar_QA20_Regression_After_QA19_Recall_Relay_History_20261027.md: QA18 window/local observer did not awaken controls on hosted YouTube area. QA19 added broad app-process UIApplication sendEvent observation after %orig and a Darwin activity broadcast, received by QA20 native timer which rearmed four-second fade. User physically reported improved recall but YouTube-specific central knob no longer hid while other app combinations did. Possible unscoped/continuous event rearm was code-proven conditional, not device-proven exact cause. Therefore do NOT copy broad QA19 relay into DuoFace as a blind replacement.
+
+## GOFA voice A/B on parked vehicle AFTER safe version is publicly verified
+A: YouTube plus Apple Maps, with GOFA entirely absent. Compare upper and lower video taps immediately and after the same elapsed idle time.
+B: YouTube plus GOFA but voice robot NOT activated. Repeat in fresh equivalent CarPlay connection.
+C: YouTube plus GOFA with robot voice activated. Record approximate activation and touch-loss times; if safe, deactivate voice and recheck. No audio recording is necessary.
+If A also fails, GOFA is not a necessary condition; if A works and B fails, examine GOFA window or overlay independent of voice; if only C fails, correlate voice window HUD and CarPlay touch owner. Preserve DuoFaceTouchOwner.log and DuoFaceSceneHost.log from same connection without secrets.
+Acceptance: native Apple Dock remains visible, no fullscreen-forcing; lower YouTube taps remain playable after time, direct split/visible logo still work; .90 YouTube orientation and .92 ratio preserved. No automatic pane wake during isolation, per user instruction. These are device acceptance tests, not CI contracts.
