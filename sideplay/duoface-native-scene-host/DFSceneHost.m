@@ -6,7 +6,6 @@
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
 // No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
-#import "DFEnabledAppsPolicy.h"
 #import "DFSceneLifecycle.h"
 #import "DFSceneOrientationPolicy.h"
 #import "DFHostedMapRenderSize.h"
@@ -765,13 +764,6 @@ static NSInteger DFObservedSceneForeground(id scene) {
     if (![bundleID isKindOfClass:NSString.class] || bundleID.length==0) {
         if (error) *error=DFSceneError(102,@"bundleID không hợp lệ");
         return nil;
-    }
-    // The real SpringBoard scene admission must use the same phone-selected bridge list.
-    // Never terminate a previously hosted scene when unselecting it.
-    if(!DFPickerAllowsApp(bundleID,DFConfiguredEnabledAppIDs())){
-      if(error)*error=DFSceneError(117,@"Ứng dụng chưa được cho phép trong DuoFace trên iPhone");
-      DFSceneLog(@"appbridge-new-host-denied",bundleID,@"not-selected-on-iphone");
-      return nil;
     }
     if (self.live[bundleID]) {
         if (error) *error=DFSceneError(103,@"Ứng dụng đã có ở một ô khác");

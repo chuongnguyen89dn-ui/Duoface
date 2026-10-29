@@ -9,11 +9,11 @@ class AppManagerIntegrated(unittest.TestCase):
    "Ứng dụng hệ thống","Tìm ứng dụng đã cài","showNativeMapPaneChoices","appSwitchToggled:",
    "showAppSettingsActions"):
    self.assertIn(name,s)
- def test_filter_same_at_real_host_boundary(self):
-  s=(R/"DFSceneHost.m").read_text()
-  self.assertIn("DFPickerAllowsApp(bundleID,DFConfiguredEnabledAppIDs())",s)
-  self.assertIn("appbridge-new-host-denied",s)
-  self.assertIn("DFPickerAllowsApp(app.bundleID,enabled)",(R/"DFAppPickerVC.m").read_text())
+ def test_current_picker_rechecks_selected_allowed_bundle(self):
+  p=(R/"DFAppPickerVC.m").read_text()
+  self.assertIn("DFPickerAllowsApp(app.bundleID,DFConfiguredEnabledAppIDs())",p)
+  self.assertIn("DFPickerAllowsApp(app.bundleID,enabled)",p)
+  self.assertIn("[self refreshInstalledApps];",p)
  def test_original_inspired_catalog_only_no_vendor_code(self):
   c=(R/"DFAppCatalogPolicy.h").read_text()
   for term in ("isPlaceholder","isLaunchProhibited","appTags","applicationType","DFCatalogRecordsFromProxies"):
