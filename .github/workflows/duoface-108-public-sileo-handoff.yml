@@ -81,11 +81,15 @@ jobs:
           assert '40822668454' in raw and '745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201' in raw
           marker='## CHECKPOINT 2026-10-29 DuoFace .108 PUBLIC SILEO VERIFIED'
           old=p.read_text(encoding='utf8')
+          # Repair earlier generated historical wording if a concurrent workflow
+          # already inserted the .108 marker with stale inherited .106 metadata.
+          old=old.replace('actionlint 40809650653 SUCCESS. Remote Packages single 0.0.106 APT record',
+                          'actionlint 40822668328 SUCCESS. Remote Packages single 0.0.108 APT record')
           block=f"""{marker}
           
           - User explicitly authorized Sileo publication. Signed one-DEB .108 archive: sideplay/jb-embedded-appbridge/evidence/runs/40822276085/, source 696f514eb25c9e9be24ff2689fe2d422b93db85a, archive commit 4272b46a48d5a616d43705a86808dd24d65e19fb, SHA256 745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201.
           - Published same existing Sileo APT package com.duoface.jb.embedded, version 0.0.108~ratio-disconnect-restore1, rootless iphoneos-arm64. Sileo source https://chuongnguyen89dn-ui.github.io/carplaydsp/. Direct public https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.108~ratio-disconnect-restore1_iphoneos-arm64.deb.
-          - Publisher carplaydsp/main commit ee029484b96702f58a22bbc92425ff6c605aa723; GitHub Actions run 40822668454 build/deploy/verify-duoface-integrated-pages/verify-qa11-pages all SUCCESS, actionlint 40809650653 SUCCESS. Remote Packages single 0.0.106 APT record and public DEB SHA matched in publisher and this handoff action {run}. Previous .90/.92 publicly retained hash-identical.
+          - Publisher carplaydsp/main commit ee029484b96702f58a22bbc92425ff6c605aa723; GitHub Actions run 40822668454 build/deploy/verify-duoface-integrated-pages/verify-qa11-pages all SUCCESS, actionlint 40822668328 SUCCESS. Remote Packages single 0.0.108 APT record and public DEB SHA matched in publisher and this handoff action {run}. Previous .90/.92 publicly retained hash-identical.
           - Full evidence: sideplay/audit/duoface-iphone-only-divider-107/REPORT.md, and GitHub run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}. No physical phone install or actual CarPlay 10s process exit/audio validation, no claim of tested Maps/Siri. Default disconnect auto-close OFF; no forced phone restart. Next user QA: refresh Sileo, install when parked, enable only if desired, unplug and test reconnect before 10s / foreground phone audio/YouTube scene, export DuoFaceDisconnectClose.log. If errors, rollback .90 or .92 from archived signed bytes; do not install via Filza.
           
           ---
@@ -96,7 +100,9 @@ jobs:
              assert p.read_text(encoding='utf8').startswith(block)
              print('DUOFACE_108_PUBLIC_HANDOFF_READBACK_VERIFIED')
           else:
-             print('DUOFACE_108_PUBLIC_HANDOFF_ALREADY_PRESENT')
+             p.write_text(old,encoding='utf8')
+             assert p.read_text(encoding='utf8')==old
+             print('DUOFACE_108_PUBLIC_HANDOFF_READBACK_RECONCILED')
           PY
             git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
             if git -C "$TEMP" diff --cached --quiet; then
@@ -104,7 +110,7 @@ jobs:
                echo 'DUOFACE_108_PUBLIC_HANDOFF_IDEMPOTENT'
                exit 0
             fi
-            git -C "$TEMP" commit -m 'handoff: publicly verified DuoFace 106 one-DEB Sileo SHA [skip ci]'
+            git -C "$TEMP" commit -m 'handoff: publicly verified DuoFace 108 one-DEB Sileo SHA [skip ci]'
             if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
                git worktree remove --force "$TEMP"
                echo 'DUOFACE_108_PUBLIC_HANDOFF_GITHUB_PUSH_CONFIRMED'
