@@ -1,3 +1,15 @@
+## CHECKPOINT 2026-10-29 DuoFace #5 #6 #7 source CI FAILED run 40823915216
+
+- New user requirements: remember 1..4 physical-window app IDs only after real scene ready; reconnect sequentially restores only still-installed AND explicitly iPhone-approved bundles, after splash, with timeout/stop generation gate and explicit phone opt out/clear. This is independent of iPhone preset-based app assignment (cancelled).
+- 3/4-app reorder: clockwise/counterclockwise repositions PHYSICAL host UIWindow frames through validated permutation, never moves hosted SBAppViewController to another parent or recreates media scenes; only when all actual scenes ready, no pending.
+- Running manager: separate owned LIVE scene state, guarded PID lookup from SBApplication + kill(pid,0) read-only, display PID unknown if absent, Close/Restart only owned scene host operations. No claim of actual app-process termination/foreground state without device evidence.
+- Files: DFSlotWorkspacePolicy.h, DFNative12Chrome.m, DFSceneHost.m/.h, DFAppPickerVC.m/.h, DFNativeHostRootController.m; tests/workspace_runtime.m, tests/test_workspace_098.py and byte-for-byte golden .92 logo contact and swap fixture; report at sideplay/audit/duoface-workspace-098/REPORT.md.
+- GitHub Actions https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40823915216 source SHA a12450754d07e75f56b3ffc57a39e94224500800; Python=failure; Foundation runtime=skipped; iOS16 syntax=skipped. Permanent evidence sideplay/audit/duoface-workspace-098/ci/runs/40823915216.txt.
+- NO integrated signed DEB, NO Sileo upload, NO CarPlay physical device test. Do not claim parity in app process exit or dual 3/4 gesture until parked-car QA. Preserve .90 YouTube orientation, original .92 3s logo raw methods, system Dock, Maps native trial and nine presets.
+- Next: resolve any failed CI at exact logged file/line; inspect source before package. On actual car test reconnect, no duplicate host, 3/4 swap media continuity, PID correctness vs process list, Close/Restart app vs scene semantics. Do not publish to Sileo without user request.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace .108 PUBLIC SILEO VERIFIED
 
 - User explicitly authorized Sileo publication. Signed one-DEB .108 archive: sideplay/jb-embedded-appbridge/evidence/runs/40822276085/, source 696f514eb25c9e9be24ff2689fe2d422b93db85a, archive commit 4272b46a48d5a616d43705a86808dd24d65e19fb, SHA256 745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201.
