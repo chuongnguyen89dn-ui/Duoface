@@ -7,6 +7,7 @@ on:
       - 'sideplay/native-carplay-scene-v1/DFCarPlayPhysicalPaneBinding.h'
       - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m'
       - 'sideplay/duoface-native-scene-host/DFNativeMapLeasePolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/native_map_lease_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
       - 'sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/test_physical_map_binding_099.py'
@@ -39,6 +40,9 @@ jobs:
         id: runtime
         run: |
           set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/native_map_lease_runtime.m -o "$RUNNER_TEMP/native-map-lease"
+          "$RUNNER_TEMP/native-map-lease"
           cd sideplay/native-carplay-scene-v1
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I . tests/physical_map_binding_runtime.m -o "$RUNNER_TEMP/physical-map-ownership"
           "$RUNNER_TEMP/physical-map-ownership"

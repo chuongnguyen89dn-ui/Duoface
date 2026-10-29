@@ -10,6 +10,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFSlotWorkspacePolicy.h'
       - 'sideplay/duoface-native-scene-host/tests/test_disconnect_close_106.py'
       - 'sideplay/duoface-native-scene-host/DFNativeMapLeasePolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/native_map_lease_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
       - 'sideplay/duoface-native-scene-host/tests/test_workspace_098.py'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
@@ -44,6 +45,8 @@ jobs:
         run: |
           set -euo pipefail
           cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/native_map_lease_runtime.m -o "$RUNNER_TEMP/native-map-lease"
+          "$RUNNER_TEMP/native-map-lease"
           for name in disconnect_close_runtime workspace_runtime; do
             xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . "tests/$name.m" -o "$RUNNER_TEMP/$name"
             "$RUNNER_TEMP/$name"
