@@ -1,0 +1,61 @@
+- (void)logoTouchDown:(id)sender {
+    if(sender!=self.dividerLogo || _dividerDrag.active || self.logoTouchPending)return;
+    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    self->_logoHoldGate=DFLogoHoldBegin(NSProcessInfo.processInfo.systemUptime,
+                                       point.x,point.y);
+    if(!self->_logoHoldGate.tracking)return;
+    self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
+    self.logoTouchPending=YES;
+    [self noteUserActivity]; // Keep the grip visible during the physical hold.
+    DFCLog(@"logo-3s-hold-armed-no-ratio-drag");
+}
+- (void)logoTouchChanged:(id)sender {
+    if(sender!=self.dividerLogo || !self.logoTouchPending)return;
+    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    if(self->_logoHoldGate.unlocked){
+        [self updateDividerDragAt:point];
+    }else if(DFLogoHoldAdvance(&self->_logoHoldGate,
+                 NSProcessInfo.processInfo.systemUptime,point.x,point.y,
+                 self.verticalDivider)){
+        // Original 0.0.90 video orientation and live scene geometry are NOT
+        // modified; this drag is restricted to the normalized logo position.
+        [self beginDividerDragAt:CGPointMake(self->_logoHoldGate.x,
+                                             self->_logoHoldGate.y)];
+        if(_dividerDrag.active){
+            self->_dividerDrag.axis=DFDragLogo;
+            [self updateDividerDragAt:point];
+            DFCLog(@"logo-hold-3s-unlocked-parallel-only");
+        }
+    }
+    // Do not hide controls on an active, stationary or moving raw contact.
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
+}
+- (void)logoTouchFinished:(id)sender inside:(BOOL)inside cancelled:(BOOL)cancelled {
+    if(sender!=self.dividerLogo || !self.logoTouchPending)return;
+    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    BOOL allowSwap=DFLogoHoldIsQuickTap(&self->_logoHoldGate,
+                       NSProcessInfo.processInfo.systemUptime,
+                       point.x,point.y,inside,cancelled,self.logoWakeOnlyTap);
+    BOOL moved=self->_logoHoldGate.unlocked && _dividerDrag.active;
+    if(moved)[self finishDividerDragAt:point cancelled:cancelled];
+    self->_logoHoldGate=(DFLogoHoldGate){0};
+    self.logoTouchPending=NO;
+    self.logoWakeOnlyTap=NO;
+    if(!moved)[self noteUserActivity];
+    if(allowSwap)[self swapPressed:sender];
+}
+- (void)swapPressed:(id)sender {
+    // A drag never dispatches this tap action.
+    BOOL justWaking=self.logoWakeOnlyTap && sender==self.dividerLogo;
+    self->_logoHoldGate=(DFLogoHoldGate){0};
+    self.logoTouchPending=NO;
+    _dividerDrag.active=false;
+    self.logoWakeOnlyTap=NO;
+    [self noteUserActivity];
+    if(justWaking){DFCLog(@"logo-invisible-first-tap-wake-only");return;}
+    self.swapped=!self.swapped;
+    [self saveSplitState];
+    [self layoutControls];
+    [self emit:@"SWAP" ratio:nil];
+    DFCLog(@"swap-button");
+}
