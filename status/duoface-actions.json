@@ -1,424 +1,412 @@
 {
-  "checked_at_utc": "2026-10-28T23:18:21.278783+00:00",
+  "checked_at_utc": "2026-10-29T05:57:33.635762+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3111,
+  "total_actions_runs": 3409,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
-    "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)": {
-      "recent_runs": 5,
-      "success": 4,
+    "DuoFace Actions status snapshot": {
+      "recent_runs": 1,
+      "success": 0,
       "failure": 0,
       "other": 1
     },
-    "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 9,
+    "DuoFace 109 public Sileo SHA verified and project handoff": {
+      "recent_runs": 1,
       "success": 1,
-      "failure": 5,
-      "other": 3
+      "failure": 0,
+      "other": 0
     },
-    "DuoFace .84 owner-scoped orientation source/runtime gate": {
+    "DuoFace 108 Sileo public SHA VERIFIED — preserve existing handoff": {
       "recent_runs": 5,
-      "success": 2,
-      "failure": 2,
-      "other": 1
+      "success": 5,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)": {
+      "recent_runs": 7,
+      "success": 4,
+      "failure": 3,
+      "other": 0
     },
     "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 18,
-      "success": 8,
-      "failure": 5,
-      "other": 5
+      "recent_runs": 23,
+      "success": 7,
+      "failure": 16,
+      "other": 0
+    },
+    "DuoFace strict App picker 097 — real macOS/iOS16 source QA (NO DEB)": {
+      "recent_runs": 16,
+      "success": 9,
+      "failure": 7,
+      "other": 0
+    },
+    "DuoFace 109 vertical logo + horizontal split without long press signed Sileo package build": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
     },
     "DuoFace original-verified native CarPlay Maps scene identity only": {
-      "recent_runs": 18,
-      "success": 9,
-      "failure": 8,
-      "other": 1
-    },
-    "DuoFace Actions status snapshot": {
       "recent_runs": 3,
-      "success": 2,
-      "failure": 0,
-      "other": 1
-    },
-    "DuoFace .94 iPhone App Manager scope — save existing project handoff": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
+      "success": 0,
+      "failure": 3,
       "other": 0
     },
-    "DuoFace .93 user rollback — append verified .92 restore checkpoint": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace Native12 UI scope correction – save existing project handoff": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace .92 record exact published Sileo checkpoint in existing project handoff": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Original Native12 UI controller 22 method ARM64 callsite scan (NO RELEASE)": {
+    "DuoFace 108 ratio drag, disconnect and reconnect restore signed Sileo package build": {
       "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
-    "Original Native12 single-slot picker vs phone bulk settings ARM64 forensic (NO RELEASE)": {
-      "recent_runs": 1,
       "success": 1,
-      "failure": 0,
+      "failure": 1,
       "other": 0
     },
-    "DuoFace 0.0.91 vs original Native12 all UI/function binary static scan (NO RELEASE)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
+    "DuoFace 098 four-app memory rotation running state source QA": {
+      "recent_runs": 15,
+      "success": 8,
+      "failure": 7,
       "other": 0
     },
-    "DuoFace .91 archive already signed QA artifact from verified CI (NO REBUILD)": {
+    "DuoFace immediate ratio grip and divider C smoke (NO DEB)": {
+      "recent_runs": 8,
+      "success": 6,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace 099 physical native Maps pane ownership smoke (no DEB)": {
       "recent_runs": 4,
       "success": 2,
       "failure": 2,
       "other": 0
     },
-    "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe": {
-      "recent_runs": 21,
-      "success": 13,
+    "DuoFace 107 archived QA reproducibility (manual only, new grip contract requires NEW version)": {
+      "recent_runs": 1,
+      "success": 0,
       "failure": 1,
-      "other": 7
+      "other": 0
     },
-    "DuoFace original OmniCar native scene adoption selector chain audit": {
+    "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)": {
       "recent_runs": 4,
       "success": 3,
       "failure": 1,
       "other": 0
     },
-    "DuoFace original OmniCar 458 full UI method and real Maps owner handoff": {
+    "DuoFace 107 phone-only My Apps and original 92 divider — signed private QA, no Sileo publication": {
+      "recent_runs": 7,
+      "success": 2,
+      "failure": 2,
+      "other": 3
+    },
+    "DuoFace 106 DuoDash-style physical unplug auto-close integrated rootless QA DEB (not Sileo)": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
     },
-    "DuoFace OmniCar original full UI vs native Maps owner": {
-      "recent_runs": 2,
+    "DuoFace 106 Sileo public SHA VERIFIED — preserve existing handoff": {
+      "recent_runs": 1,
       "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace .90 Sileo confirmed persistent project handoff": {
-      "recent_runs": 2,
-      "success": 2,
       "failure": 0,
       "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 40786398762,
-      "name": "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)",
-      "run_number": 5,
-      "status": "queued",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398762",
-      "created_at": "2026-10-28T23:18:17Z",
-      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
-    },
-    {
-      "id": 40786398702,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 333,
-      "status": "queued",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398702",
-      "created_at": "2026-10-28T23:18:17Z",
-      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
-    },
-    {
-      "id": 40786398621,
-      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
-      "run_number": 20,
-      "status": "queued",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398621",
-      "created_at": "2026-10-28T23:18:17Z",
-      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
-    },
-    {
-      "id": 40786398615,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 434,
-      "status": "queued",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398615",
-      "created_at": "2026-10-28T23:18:17Z",
-      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
-    },
-    {
-      "id": 40786398533,
-      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
-      "run_number": 18,
-      "status": "queued",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786398533",
-      "created_at": "2026-10-28T23:18:17Z",
-      "head_sha": "a1c260e15a24c2c3b3bc833ae74b89493af0e271"
-    },
-    {
-      "id": 40786384465,
+      "id": 40826339201,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 85,
+      "run_number": 86,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786384465",
-      "created_at": "2026-10-28T23:18:10Z",
-      "head_sha": "b5d19d6c826147120baa018f35ac53fb2fb5a4c0"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40826339201",
+      "created_at": "2026-10-29T05:57:24Z",
+      "head_sha": "22baa746cbe44f0eb936dd1a1dd3a72ae7867906"
     },
     {
-      "id": 40786223869,
-      "name": "DuoFace .94 iPhone App Manager scope — save existing project handoff",
+      "id": 40825318288,
+      "name": "DuoFace 109 public Sileo SHA verified and project handoff",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786223869",
-      "created_at": "2026-10-28T23:16:49Z",
-      "head_sha": "e70495a60effcb5d9043c285822c002a97a5dff2"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40825318288",
+      "created_at": "2026-10-29T05:46:29Z",
+      "head_sha": "a4157a67800a9fafc3c5506e770fa744468fdb3d"
     },
     {
-      "id": 40786223749,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 433,
+      "id": 40824896744,
+      "name": "DuoFace 108 Sileo public SHA VERIFIED — preserve existing handoff",
+      "run_number": 5,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786223749",
-      "created_at": "2026-10-28T23:16:49Z",
-      "head_sha": "e70495a60effcb5d9043c285822c002a97a5dff2"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824896744",
+      "created_at": "2026-10-29T05:42:01Z",
+      "head_sha": "c8ff8d864f7a9cca9faef61e6fc5a68e19d938d0"
     },
     {
-      "id": 40786118780,
-      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786118780",
-      "created_at": "2026-10-28T23:15:58Z",
-      "head_sha": "d0477263fbe19ad287d8ee84ad74c0d86fd6fce3"
-    },
-    {
-      "id": 40786118760,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 432,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786118760",
-      "created_at": "2026-10-28T23:15:58Z",
-      "head_sha": "d0477263fbe19ad287d8ee84ad74c0d86fd6fce3"
-    },
-    {
-      "id": 40749503565,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 84,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40749503565",
-      "created_at": "2026-10-28T18:54:49Z",
-      "head_sha": "1ab11bd521b43d4babc92ac20dfec45c89e8ab9f"
-    },
-    {
-      "id": 40713104593,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 332,
-      "status": "completed",
-      "conclusion": "skipped",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40713104593",
-      "created_at": "2026-10-28T15:09:34Z",
-      "head_sha": "378ebf9a159e3add4ff22d10d69249cf9798fe22"
-    },
-    {
-      "id": 40713104407,
-      "name": "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)",
+      "id": 40824508384,
+      "name": "DuoFace 108 Sileo public SHA VERIFIED — preserve existing handoff",
       "run_number": 4,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40713104407",
-      "created_at": "2026-10-28T15:09:34Z",
-      "head_sha": "378ebf9a159e3add4ff22d10d69249cf9798fe22"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824508384",
+      "created_at": "2026-10-29T05:37:54Z",
+      "head_sha": "74a36438fe5e96492927cb021a5ec3e1d27d7c7d"
     },
     {
-      "id": 40713104406,
-      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40713104406",
-      "created_at": "2026-10-28T15:09:34Z",
-      "head_sha": "378ebf9a159e3add4ff22d10d69249cf9798fe22"
-    },
-    {
-      "id": 40713104259,
-      "name": "DuoFace .93 user rollback — append verified .92 restore checkpoint",
-      "run_number": 1,
+      "id": 40824469630,
+      "name": "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)",
+      "run_number": 7,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40713104259",
-      "created_at": "2026-10-28T15:09:34Z",
-      "head_sha": "378ebf9a159e3add4ff22d10d69249cf9798fe22"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469630",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
     },
     {
-      "id": 40713104254,
+      "id": 40824469601,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 431,
+      "run_number": 514,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40713104254",
-      "created_at": "2026-10-28T15:09:34Z",
-      "head_sha": "378ebf9a159e3add4ff22d10d69249cf9798fe22"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469601",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
     },
     {
-      "id": 40713104224,
-      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
-      "run_number": 16,
+      "id": 40824469586,
+      "name": "DuoFace strict App picker 097 — real macOS/iOS16 source QA (NO DEB)",
+      "run_number": 34,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40713104224",
-      "created_at": "2026-10-28T15:09:34Z",
-      "head_sha": "378ebf9a159e3add4ff22d10d69249cf9798fe22"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469586",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
     },
     {
-      "id": 40712754755,
-      "name": "DuoFace Native12 UI scope correction – save existing project handoff",
+      "id": 40824469583,
+      "name": "DuoFace 109 vertical logo + horizontal split without long press signed Sileo package build",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40712754755",
-      "created_at": "2026-10-28T15:07:28Z",
-      "head_sha": "6074ae8be76650d1c99abca7f5ea22ea9c090da7"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469583",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
     },
     {
-      "id": 40711856334,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 331,
+      "id": 40824469557,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 37,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711856334",
-      "created_at": "2026-10-28T15:02:08Z",
-      "head_sha": "c868a78534d562b94a26746d004e184b33391b75"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469557",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
     },
     {
-      "id": 40711856032,
-      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711856032",
-      "created_at": "2026-10-28T15:02:07Z",
-      "head_sha": "c868a78534d562b94a26746d004e184b33391b75"
-    },
-    {
-      "id": 40711855912,
-      "name": "DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)",
+      "id": 40824469551,
+      "name": "DuoFace 108 ratio drag, disconnect and reconnect restore signed Sileo package build",
       "run_number": 3,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711855912",
-      "created_at": "2026-10-28T15:02:07Z",
-      "head_sha": "c868a78534d562b94a26746d004e184b33391b75"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469551",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
     },
     {
-      "id": 40711855906,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 430,
+      "id": 40824469542,
+      "name": "DuoFace 098 four-app memory rotation running state source QA",
+      "run_number": 32,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711855906",
-      "created_at": "2026-10-28T15:02:07Z",
-      "head_sha": "c868a78534d562b94a26746d004e184b33391b75"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469542",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
     },
     {
-      "id": 40711855873,
-      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
-      "run_number": 15,
+      "id": 40824469506,
+      "name": "DuoFace immediate ratio grip and divider C smoke (NO DEB)",
+      "run_number": 34,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469506",
+      "created_at": "2026-10-29T05:37:29Z",
+      "head_sha": "ec1db1d24a568b49876d900fd0a4fd840330a47c"
+    },
+    {
+      "id": 40824357040,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 513,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824357040",
+      "created_at": "2026-10-29T05:36:18Z",
+      "head_sha": "373c154b98294a647409065d105291dadaf6764b"
+    },
+    {
+      "id": 40824251732,
+      "name": "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824251732",
+      "created_at": "2026-10-29T05:35:14Z",
+      "head_sha": "c07013f5d29330cf9f1ed260426c216b3e37c0df"
+    },
+    {
+      "id": 40824251726,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 512,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711855873",
-      "created_at": "2026-10-28T15:02:07Z",
-      "head_sha": "c868a78534d562b94a26746d004e184b33391b75"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824251726",
+      "created_at": "2026-10-29T05:35:14Z",
+      "head_sha": "c07013f5d29330cf9f1ed260426c216b3e37c0df"
     },
     {
-      "id": 40711301704,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 429,
+      "id": 40824251721,
+      "name": "DuoFace strict App picker 097 — real macOS/iOS16 source QA (NO DEB)",
+      "run_number": 33,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711301704",
-      "created_at": "2026-10-28T14:58:51Z",
-      "head_sha": "f7be368fd1b8bc30f8b989932c86c3c564c2659e"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824251721",
+      "created_at": "2026-10-29T05:35:14Z",
+      "head_sha": "c07013f5d29330cf9f1ed260426c216b3e37c0df"
     },
     {
-      "id": 40711238392,
-      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
-      "run_number": 14,
+      "id": 40824251713,
+      "name": "DuoFace immediate ratio grip and divider C smoke (NO DEB)",
+      "run_number": 33,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824251713",
+      "created_at": "2026-10-29T05:35:14Z",
+      "head_sha": "c07013f5d29330cf9f1ed260426c216b3e37c0df"
+    },
+    {
+      "id": 40824251708,
+      "name": "DuoFace 098 four-app memory rotation running state source QA",
+      "run_number": 31,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824251708",
+      "created_at": "2026-10-29T05:35:14Z",
+      "head_sha": "c07013f5d29330cf9f1ed260426c216b3e37c0df"
+    },
+    {
+      "id": 40824158241,
+      "name": "DuoFace immediate ratio grip and divider C smoke (NO DEB)",
+      "run_number": 32,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824158241",
+      "created_at": "2026-10-29T05:34:17Z",
+      "head_sha": "16f5f275744e8eb36bac74302c6ddada3f0eeeea"
+    },
+    {
+      "id": 40824158235,
+      "name": "DuoFace strict App picker 097 — real macOS/iOS16 source QA (NO DEB)",
+      "run_number": 32,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711238392",
-      "created_at": "2026-10-28T14:58:28Z",
-      "head_sha": "30a953bd708ef042dda93b5fa59d4dc5fde3ab5d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824158235",
+      "created_at": "2026-10-29T05:34:17Z",
+      "head_sha": "16f5f275744e8eb36bac74302c6ddada3f0eeeea"
     },
     {
-      "id": 40711238385,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 428,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711238385",
-      "created_at": "2026-10-28T14:58:28Z",
-      "head_sha": "30a953bd708ef042dda93b5fa59d4dc5fde3ab5d"
-    },
-    {
-      "id": 40709747707,
-      "name": "DuoFace .92 record exact published Sileo checkpoint in existing project handoff",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40709747707",
-      "created_at": "2026-10-28T14:49:27Z",
-      "head_sha": "04130f46a9212831b96572a99ee292248e16f395"
-    },
-    {
-      "id": 40707935157,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 427,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707935157",
-      "created_at": "2026-10-28T14:38:25Z",
-      "head_sha": "a31eb5f6f89eb34a0faff3346c354b3125b365cb"
-    },
-    {
-      "id": 40707934981,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 330,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707934981",
-      "created_at": "2026-10-28T14:38:25Z",
-      "head_sha": "a31eb5f6f89eb34a0faff3346c354b3125b365cb"
-    },
-    {
-      "id": 40707030689,
-      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
-      "run_number": 13,
+      "id": 40824158193,
+      "name": "DuoFace 098 four-app memory rotation running state source QA",
+      "run_number": 30,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40707030689",
-      "created_at": "2026-10-28T14:33:00Z",
-      "head_sha": "aadf363d2387248f499ef320fad1c4514a78d71d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824158193",
+      "created_at": "2026-10-29T05:34:17Z",
+      "head_sha": "16f5f275744e8eb36bac74302c6ddada3f0eeeea"
+    },
+    {
+      "id": 40824158168,
+      "name": "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824158168",
+      "created_at": "2026-10-29T05:34:17Z",
+      "head_sha": "16f5f275744e8eb36bac74302c6ddada3f0eeeea"
+    },
+    {
+      "id": 40824158164,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 511,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824158164",
+      "created_at": "2026-10-29T05:34:17Z",
+      "head_sha": "16f5f275744e8eb36bac74302c6ddada3f0eeeea"
+    },
+    {
+      "id": 40824083296,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 510,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824083296",
+      "created_at": "2026-10-29T05:33:30Z",
+      "head_sha": "b166695024a5d5d7c6b93a42bf05e2437cf8f930"
+    },
+    {
+      "id": 40824010968,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 509,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824010968",
+      "created_at": "2026-10-29T05:32:44Z",
+      "head_sha": "131d0ef278eb6b6ccb9888a0b38cb53d7212ece4"
+    },
+    {
+      "id": 40824010765,
+      "name": "DuoFace immediate ratio grip and divider C smoke (NO DEB)",
+      "run_number": 31,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824010765",
+      "created_at": "2026-10-29T05:32:44Z",
+      "head_sha": "131d0ef278eb6b6ccb9888a0b38cb53d7212ece4"
+    },
+    {
+      "id": 40824010753,
+      "name": "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824010753",
+      "created_at": "2026-10-29T05:32:44Z",
+      "head_sha": "131d0ef278eb6b6ccb9888a0b38cb53d7212ece4"
+    },
+    {
+      "id": 40824010752,
+      "name": "DuoFace 098 four-app memory rotation running state source QA",
+      "run_number": 29,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824010752",
+      "created_at": "2026-10-29T05:32:44Z",
+      "head_sha": "131d0ef278eb6b6ccb9888a0b38cb53d7212ece4"
+    },
+    {
+      "id": 40824010719,
+      "name": "DuoFace strict App picker 097 — real macOS/iOS16 source QA (NO DEB)",
+      "run_number": 31,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824010719",
+      "created_at": "2026-10-29T05:32:44Z",
+      "head_sha": "131d0ef278eb6b6ccb9888a0b38cb53d7212ece4"
+    },
+    {
+      "id": 40823915216,
+      "name": "DuoFace 098 four-app memory rotation running state source QA",
+      "run_number": 28,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40823915216",
+      "created_at": "2026-10-29T05:31:44Z",
+      "head_sha": "a12450754d07e75f56b3ffc57a39e94224500800"
     }
   ]
 }
