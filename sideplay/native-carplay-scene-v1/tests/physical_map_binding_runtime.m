@@ -24,7 +24,9 @@ int main(void){@autoreleasepool{
                      window(1,1,@"{{276, 0}, {231, 240}}",YES)];
  NSDictionary *ok=DFPhysicalMapVerifyPane(sample(windows),heartbeat,plan,0,now+.5);
  yes([ok[@"Verified"] isEqual:@YES],@"measured empty DuoFace pane accepted");
- yes(CGRectEqualToRect(CGRectFromString(ok[@"Target"]),CGRectMake(45,0,231,240)),
+ CGRect parsed=CGRectZero;
+ yes(DFPhysicalMapValidRect(ok[@"Target"],&parsed),@"native map source format parsed");
+ yes(CGRectEqualToRect(parsed,CGRectMake(45,0,231,240)),
      @"physical target selected not arbitrary scale");
  NSDictionary *occupied=DFPhysicalMapVerifyPane(sample(windows),heartbeat,plan,1,now+.5);
  yes([occupied[@"Reason"] isEqual:@"target-duoface-slot-already-hosts-app"],
