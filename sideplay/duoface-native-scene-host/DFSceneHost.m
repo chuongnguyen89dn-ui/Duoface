@@ -16,6 +16,8 @@
 #import <math.h>
 #import <fcntl.h>
 #import <unistd.h>
+#import <signal.h>
+#import <errno.h>
 
 NSString *const DFSceneHostDidFailNotification = @"com.duoface.scene.failure";
 NSString *const DFSceneHostDidBecomeReadyNotification = @"com.duoface.scene.ready";
@@ -838,6 +840,32 @@ static NSInteger DFObservedSceneForeground(id scene) {
     // Only return identities of actual owned surfaces; do not accept
     // arbitrary views or allow a scene from another process to be replaced.
     return self.live[surface.bundleID]==surface ? surface.bundleID : nil;
+}
+- (BOOL)isLiveSceneForHostedView:(UIView *)view {
+ if(!NSThread.isMainThread || ![view isKindOfClass:DFSceneSurface.class])return NO;
+ DFSceneSurface *surface=(DFSceneSurface *)view;
+ return self.live[surface.bundleID]==surface && surface.ready && !surface.stopped &&
+        surface.window && surface.appController.viewIfLoaded.window==surface.window &&
+        DFHostingFlag(surface.appController,@"isHostingAnApp",NO);
+}
+- (NSNumber *)verifiedPIDForHostedView:(UIView *)view {
+ if(![self isLiveSceneForHostedView:view])return nil;
+ DFSceneSurface *surface=(DFSceneSurface *)view;
+ id registry=DFCall0(NSClassFromString(@"SBApplicationController"),@"sharedInstance");
+ id app=DFCall1(registry,@"applicationWithBundleIdentifier:",surface.bundleID);
+ if(!app)return nil;
+ id actual=DFCall0(app,@"bundleIdentifier");
+ if(![actual isKindOfClass:NSString.class] || ![actual isEqualToString:surface.bundleID])
+     return nil;
+ for(NSString *method in @[@"pid",@"processIdentifier"]){
+    SEL sel=NSSelectorFromString(method);
+    if(![app respondsToSelector:sel])continue;
+    pid_t candidate=((pid_t(*)(id,SEL))objc_msgSend)(app,sel);
+    if(candidate<=1 || candidate==getpid())continue;
+    errno=0;
+    if(kill(candidate,0)==0 || errno==EPERM)return @(candidate);
+ }
+ return nil;
 }
 - (void)didFinishSurface:(DFSceneSurface *)surface {
     if (self.live[surface.bundleID]==surface) [self.live removeObjectForKey:surface.bundleID];
