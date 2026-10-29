@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-29T19:01:30.077799+00:00",
+  "checked_at_utc": "2026-10-29T23:21:57.982029+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3704,
+  "total_actions_runs": 3705,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 2,
-      "success": 1,
+      "recent_runs": 3,
+      "success": 2,
       "failure": 0,
       "other": 1
     },
@@ -95,8 +95,8 @@
       "other": 0
     },
     "DuoFace 099 physical native Maps pane ownership smoke (no DEB)": {
-      "recent_runs": 5,
-      "success": 5,
+      "recent_runs": 4,
+      "success": 4,
       "failure": 0,
       "other": 0
     },
@@ -139,11 +139,21 @@
   },
   "latest_runs": [
     {
+      "id": 40972620316,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 90,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40972620316",
+      "created_at": "2026-10-29T23:21:48Z",
+      "head_sha": "1f05846423336b585bc815345b7b51a4ab9129db"
+    },
+    {
       "id": 40936238919,
       "name": "DuoFace Actions status snapshot",
       "run_number": 89,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40936238919",
       "created_at": "2026-10-29T19:01:20Z",
       "head_sha": "0d70474a973d7aa560d7416f96d753211b1906c9"
@@ -425,16 +435,6 @@
       "status": "completed",
       "conclusion": "failure",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900679301",
-      "created_at": "2026-10-29T15:21:12Z",
-      "head_sha": "018c7b37b77e2d145aca2866a196ceb5d2d288ed"
-    },
-    {
-      "id": 40900679221,
-      "name": "DuoFace immediate ratio grip and divider C smoke (NO DEB)",
-      "run_number": 53,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900679221",
       "created_at": "2026-10-29T15:21:12Z",
       "head_sha": "018c7b37b77e2d145aca2866a196ceb5d2d288ed"
     }
