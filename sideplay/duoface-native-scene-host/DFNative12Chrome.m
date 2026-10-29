@@ -102,6 +102,8 @@ static void DFCLog(NSString *text) {
         (void)write(fd,d.bytes,d.length);close(fd);
     }
 }
+#import "DFPaneInputTrace116.h"
+
 // Primary divider contacts use immediate axis selection without long press.
 // Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
 // A remote hosted scene may deliver its tap directly to its content without
@@ -525,8 +527,13 @@ static void DFCLog(NSString *text) {
     @try {
         id config=((id(*)(id,SEL,id,BOOL))objc_msgSend)(
             [_configurationClass alloc],configSelector,_display,NO);
+        // Only physical app panes receive .116 read-only input diagnostics.
+        // If subclass installation is unavailable use the unchanged UIKit class.
+        BOOL physicalPane=[root.view isKindOfClass:DFNativePanePassthroughView.class];
+        Class traced=physicalPane?DFPane116TraceClass(_externalWindowClass):Nil;
+        Class factory=traced?:_externalWindowClass;
         UIWindow *w=((id(*)(id,SEL,id))objc_msgSend)(
-            [_externalWindowClass alloc],windowSelector,config);
+            [factory alloc],windowSelector,config);
         if(![w isKindOfClass:UIWindow.class] || !w.screen ||
            w.screen==UIScreen.mainScreen)return nil;
         w.frame=frame;
