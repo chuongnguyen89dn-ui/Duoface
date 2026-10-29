@@ -16,10 +16,11 @@ class PaneAnywhereWakeContract(unittest.TestCase):
     def test_original_binary_scan_not_invented(self):
         for selector in (
             "CBDividerView.pointInside:withEvent:",
-            "CBDividerView.hitTest:withEvent:",
             "CBBridgedSplitApp.handleDividerPan:isVertical:state:",
         ):
             self.assertIn(selector, ORIGINAL_AUDIT)
+        # The crosswalk abbreviates the second method within CBDividerView row.
+        self.assertIn("`hitTest:withEvent:` `0xff974`", ORIGINAL_AUDIT)
 
     def test_all_real_physical_panes_have_passive_owner(self):
         section = SOURCE.split("// RESTORE .37's real scene owner:", 1)[1]
