@@ -211,8 +211,7 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
         [self reply:cmd ok:NO reason:binding[@"Reason"]?:@"no-real-duoface-pane-receipt"];
         return;
     }
-    NSString *slotKey=number.integerValue==0?@"visualSlot0":@"visualSlot1";
-    NSDictionary *slot=plan[slotKey],*usable=plan[@"usableRect"];
+    NSDictionary *usable=plan[@"usableRect"];
     CGRect target=CGRectFromString(binding[@"Target"]);
     // Native Dock rectangle and actual SpringBoard physical UIWindow target
     // passed a tight source-owned geometric comparison; no arbitrary zoom.
