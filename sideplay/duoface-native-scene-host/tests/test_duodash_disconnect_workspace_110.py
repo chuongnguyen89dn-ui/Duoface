@@ -40,7 +40,13 @@ class DuoDashManagedReconnect110(unittest.TestCase):
   selected=chrome.split("- (void)appPicker:(DFAppPickerVC *)picker\n didSelectBundleID:",1)[1].split("- (void)sceneReady:",1)[0]
   self.assertLess(selected.index("hostViewForBundleID:bundleID"),
     selected.index("DFSavePhysicalBundle(physicalSlot,bundleID)"))
-  self.assertIn("if(![active isKindOfClass:UIView.class])",selected)
+  # .112 deliberately persists any *accepted* replacement request while
+  # the prior ready scene remains visible; waiting until an empty slot loses
+  # the physical choice on an immediate CarPlay disconnect.
+  self.assertNotIn("if(![active isKindOfClass:UIView.class])",selected)
+  self.assertIn("DFSavePhysicalBundle(physicalSlot,bundleID)",selected)
+  self.assertLess(selected.index("DFSavePhysicalBundle(physicalSlot,bundleID)"),
+                  selected.index("self.appPickerVisible=NO;",selected.index("UIView *container=")))
   self.assertIn("self.workspace=DFCurrentWorkspace();",selected)
   self.assertIn("workspace-intent-saved-pending",selected)
   restore=chrome.split("- (void)restoreNextSavedWorkspaceApp {",1)[1].split(
