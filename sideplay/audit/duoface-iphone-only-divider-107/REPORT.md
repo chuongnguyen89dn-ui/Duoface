@@ -1,3 +1,15 @@
+## 2026-10-29 — EXPLICIT SILEO RELEASE AUTHORIZATION, .108 BUILD STARTED
+
+- User explicitly requested **"Đóng lên sileo ngay"**. This supersedes prior instructions "no Sileo release authorized" for the **new** corrected version only.
+- .107 signed artifact from run `40820015100` contains obsolete three-second grip and **MUST NOT be promoted**.
+- New source `a6b65a4a5036f7335fca0d2aff5dc5181a37fb25` bumped package / native module versions to `0.0.108~ratio-disconnect-restore1` / `0.1.108~ratio-disconnect-restore1`; dedicated actual macOS/iOS16 signed integrated package workflow `.github/workflows/duoface-108-ratio-disconnect-restore-sileo-build.yml`.
+- Initial .108 workflow run `40822161500` FAILED before signing due outdated `test_voice_locale_105.py` version assertion; the *source-level* ratio/disable/restore tests succeeded on the previous source. Fixed app Info.plist CFBundleVersion=108 and test version checks at `696f514eb25c9e9be24ff2689fe2d422b93db85a`.
+- Re-run `40822276085` at exact source `696f514e...` started and was in progress last checked. This is a BUILDER, not a verified public Sileo deployment. No release/public URL should be declared yet.
+- Established Sileo publisher is `chuongnguyen89dn-ui/carplaydsp` main, existing `.github/workflows/build.yml` and Pages at `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Update publisher **only AFTER** signed .108 DEB is archived in the DuoFace repo with verified SHA; replace latest APT entry, preserve prior .106/.92/.90 direct rollback bytes, verify remote Packages/Release/DEB SHA and publisher run conclusion.
+- Physical CarPlay app-closing, navigation, two-pane touch and last-app restore remain unverified; Sileo publication is a distribution action, not hardware QA.
+
+---
+
 ## CHECKPOINT VERIFIED 2026-10-29 — SUCCESS source CI after removal of 3-second hold
 
 - Source commit: `7f8b5970eb5cafa1609b3340724bd32550ec8e91`. GitHub Actions **all five completed SUCCESS**, all at that source SHA:
