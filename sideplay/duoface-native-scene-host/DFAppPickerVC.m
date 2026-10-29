@@ -8,6 +8,7 @@
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppHabits.h"
 #import "DFAppPickerDisplayPolicy.h"
+#import "DFExtendedSettingsPolicy.h"
 #import <notify.h>
 #import <objc/message.h>
 #import <math.h>
@@ -28,7 +29,7 @@
 }
 - (void)viewDidLoad {
  [super viewDidLoad];
- self.title=@"Thêm App";
+ self.title=DFLocalize(@"Thêm App",@"Add More");
  self.tableView.backgroundColor=UIColor.blackColor;
  self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]
      initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -137,7 +138,7 @@
         // Native12 setupRecentAppsCards @0xa678c creates independent
         // OVERLAY_RESTART_SINGLE and OVERLAY_CLOSE_SINGLE controls.
         self.closeRunning=[UIButton buttonWithType:UIButtonTypeCustom];
-        [self.closeRunning setTitle:@"Đóng" forState:UIControlStateNormal];
+        [self.closeRunning setTitle:DFLocalize(@"Đóng",@"Close") forState:UIControlStateNormal];
         self.closeRunning.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
         self.closeRunning.tintColor=UIColor.whiteColor;
         // Match the proven original CLOSE ALL red instead of a guessed shade.
@@ -146,7 +147,7 @@
         self.closeRunning.layer.cornerRadius=6;
         [self.contentView addSubview:self.closeRunning];
         self.restartRunning=[UIButton buttonWithType:UIButtonTypeCustom];
-        [self.restartRunning setTitle:@"Khởi động lại" forState:UIControlStateNormal];
+        [self.restartRunning setTitle:DFLocalize(@"Khởi động lại",@"Restart") forState:UIControlStateNormal];
         self.restartRunning.titleLabel.font=[UIFont systemFontOfSize:9 weight:UIFontWeightMedium];
         self.restartRunning.tintColor=UIColor.whiteColor;
         self.restartRunning.backgroundColor=[UIColor colorWithWhite:.28 alpha:.96];
@@ -272,7 +273,7 @@
     self.modes.layer.cornerCurve=kCACornerCurveContinuous;
     self.modes.clipsToBounds=YES;
     [self.sheet addSubview:self.modes];
-    NSArray<NSString *> *names=@[@"Ứng dụng",@"Bố cục",@"Đang mở"];
+    NSArray<NSString *> *names=@[DFLocalize(@"Ứng dụng",@"Apps"),DFLocalize(@"Bố cục",@"Layouts"),DFLocalize(@"Đang mở",@"Running")];
     NSMutableArray<UIButton *> *actions=[NSMutableArray new];
     for(NSInteger i=0;i<3;i++){
         UIButton *tab=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -299,7 +300,7 @@
     // The original RECENT mode is a list of REAL running apps and provides
     // a separate CLOSE ALL button (original @0xa6c74 / @0xa6d70).
     self.closeAllRunningButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    [self.closeAllRunningButton setTitle:@"Đóng tất cả" forState:UIControlStateNormal];
+    [self.closeAllRunningButton setTitle:DFLocalize(@"Đóng tất cả",@"Close all") forState:UIControlStateNormal];
     self.closeAllRunningButton.titleLabel.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
     self.closeAllRunningButton.tintColor=UIColor.whiteColor;
     // Original Native12 @0xa6ab4..0xa6ad8 exact verified literals:
@@ -318,12 +319,12 @@
     self.runningCountLabel.hidden=YES;
     [self.sheet addSubview:self.runningCountLabel];
     self.rotateForwardButton=[UIButton buttonWithType:UIButtonTypeSystem];
-    [self.rotateForwardButton setTitle:@"Xoay →" forState:UIControlStateNormal];
+    [self.rotateForwardButton setTitle:DFLocalize(@"Xoay →",@"Rotate →") forState:UIControlStateNormal];
     [self.rotateForwardButton addTarget:self action:@selector(rotateForwardTapped)
                          forControlEvents:UIControlEventTouchUpInside];
     [self.sheet addSubview:self.rotateForwardButton];
     self.rotateBackwardButton=[UIButton buttonWithType:UIButtonTypeSystem];
-    [self.rotateBackwardButton setTitle:@"← Xoay" forState:UIControlStateNormal];
+    [self.rotateBackwardButton setTitle:DFLocalize(@"← Xoay",@"← Rotate") forState:UIControlStateNormal];
     [self.rotateBackwardButton addTarget:self action:@selector(rotateBackwardTapped)
                           forControlEvents:UIControlEventTouchUpInside];
     [self.sheet addSubview:self.rotateBackwardButton];
@@ -493,7 +494,7 @@
     self.pageControl.frame=CGRectMake(106,MAX(gridTop,h-32),MAX(60,w-116),26);
     self.categoryButton.frame=CGRectMake(9,MAX(gridTop,h-32),94,25);
     self.categoryButton.hidden=self.runningMode;
-    NSArray<NSString *> *categoryLabels=@[@"Tất cả",@"Ưa dùng",@"Người dùng",@"Hệ thống"];
+    NSArray<NSString *> *categoryLabels=@[DFLocalize(@"Tất cả",@"All"),DFLocalize(@"Ưa dùng",@"Favorites"),DFLocalize(@"Người dùng",@"User"),DFLocalize(@"Hệ thống",@"System")];
     [self.categoryButton setTitle:categoryLabels[(NSUInteger)MAX(0,MIN(3,self.categoryMode))]
                        forState:UIControlStateNormal];
     // The app picker includes one Add More tile; running mode has NONE.
@@ -554,7 +555,7 @@
  UIAlertController *menu=[UIAlertController alertControllerWithTitle:@"Phân loại ứng dụng"
      message:@"Chỉ lọc trong những ứng dụng đã bật trên iPhone."
      preferredStyle:UIAlertControllerStyleActionSheet];
- NSArray<NSString *> *labels=@[@"Tất cả",@"Ưa dùng",@"Người dùng",@"Hệ thống"];
+ NSArray<NSString *> *labels=@[DFLocalize(@"Tất cả",@"All"),DFLocalize(@"Ưa dùng",@"Favorites"),DFLocalize(@"Người dùng",@"User"),DFLocalize(@"Hệ thống",@"System")];
  __weak typeof(self) weakSelf=self;
  for(NSInteger i=0;i<(NSInteger)labels.count;i++) {
     NSInteger category=i;
@@ -723,7 +724,7 @@
         card.hidden=NO;
         card.runningControls=NO;
         card.showsAppName=self.showAppNames;
-        card.title.text=@"Thêm App";
+        card.title.text=DFLocalize(@"Thêm App",@"Add More");
         card.runningDetail.text=nil;
         card.title.textColor=UIColor.whiteColor;
         card.icon.image=[UIImage systemImageNamed:@"plus.circle.fill"];
@@ -733,7 +734,7 @@
         card.appStateBadge.image=nil;
         card.closeRunning.hidden=YES;
         card.restartRunning.hidden=YES;
-        card.accessibilityLabel=@"Thêm ứng dụng được phép";
+        card.accessibilityLabel=DFLocalize(@"Thêm ứng dụng được phép",@"Allow more apps");
         [card setNeedsLayout];
         return card;
     }
@@ -773,7 +774,7 @@
     NSNumber *pid=[details[@"PID"] isKindOfClass:NSNumber.class]?details[@"PID"]:nil;
     card.runningDetail.text=self.runningMode?
          [NSString stringWithFormat:@"%@ · %@",status,
-                 pid? [NSString stringWithFormat:@"PID %@",pid]:@"PID chưa xác minh"] : nil;
+                 pid? [NSString stringWithFormat:@"PID %@",pid]:DFLocalize(@"PID chưa xác minh",@"PID unavailable")] : nil;
     BOOL selectedApp=!self.runningMode && self.currentSlotBundleID.length &&
         [self.currentSlotBundleID isEqualToString:app.bundleID];
     // Original per-App border/text state, independent of the badge palette.
