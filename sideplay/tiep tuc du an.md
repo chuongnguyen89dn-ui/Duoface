@@ -1,3 +1,15 @@
+## CHECKPOINT 2026-10-29 DuoFace #5 #6 #7 source CI PASS run 40808221034
+
+- New user requirements: remember 1..4 physical-window app IDs only after real scene ready; reconnect sequentially restores only still-installed AND explicitly iPhone-approved bundles, after splash, with timeout/stop generation gate and explicit phone opt out/clear. This is independent of iPhone preset-based app assignment (cancelled).
+- 3/4-app reorder: clockwise/counterclockwise repositions PHYSICAL host UIWindow frames through validated permutation, never moves hosted SBAppViewController to another parent or recreates media scenes; only when all actual scenes ready, no pending.
+- Running manager: separate owned LIVE scene state, guarded PID lookup from SBApplication + kill(pid,0) read-only, display PID unknown if absent, Close/Restart only owned scene host operations. No claim of actual app-process termination/foreground state without device evidence.
+- Files: DFSlotWorkspacePolicy.h, DFNative12Chrome.m, DFSceneHost.m/.h, DFAppPickerVC.m/.h, DFNativeHostRootController.m; tests/workspace_runtime.m, tests/test_workspace_098.py and byte-for-byte golden .92 logo contact and swap fixture; report at sideplay/audit/duoface-workspace-098/REPORT.md.
+- GitHub Actions https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40808221034 source SHA fecab6922c60c9328bfc158765f7953fbe4eb295; Python=success; Foundation runtime=success; iOS16 syntax=success. Permanent evidence sideplay/audit/duoface-workspace-098/ci/runs/40808221034.txt.
+- NO integrated signed DEB, NO Sileo upload, NO CarPlay physical device test. Do not claim parity in app process exit or dual 3/4 gesture until parked-car QA. Preserve .90 YouTube orientation, original .92 3s logo raw methods, system Dock, Maps native trial and nine presets.
+- Next: resolve any failed CI at exact logged file/line; inspect source before package. On actual car test reconnect, no duplicate host, 3/4 swap media continuity, PID correctness vs process list, Close/Restart app vs scene semantics. Do not publish to Sileo without user request.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8/#10 integrated 0.1.105 QA build run 40808210453
 
 - Source branch feature/duoface-jb-embedded-appbridge-20261020 commit fb3c541b5c13ddb4bdf2cd232c5bae91f988874e. New feature: separate OFF-by-default user-approved disconnect auto-close option on iPhone; 10-second grace with generation cancellation; only real AVExternalDevice+CADisplay physical disconnect (never CarPlay Home), snapshots newly DuoFace-launched live scene PID BEFORE stop, verifies exact bundle/PID and phone foreground; guarded runtime RunningBoard terminate request and process-exit observation. Maps, voice and language from 105 remain unchanged. Maintains .90 YouTube, .92 3s logo, system Dock and #5-7 slot/scene policy.
