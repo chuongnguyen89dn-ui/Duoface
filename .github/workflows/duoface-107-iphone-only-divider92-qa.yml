@@ -4,6 +4,12 @@ on:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
     paths:
       - '.github/workflows/duoface-107-iphone-only-divider92-qa.yml'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.m'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_iphone_only_picker_and_divider_107.py'
+      - 'sideplay/duoface-native-scene-host/tests/fixtures/divider92_exact_source.json'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
   workflow_dispatch:
 permissions:
   contents: write
