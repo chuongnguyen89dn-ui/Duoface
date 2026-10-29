@@ -266,6 +266,22 @@ static void DFWatchdog(NSUInteger generation) {
         DFStopProbe(@"inactive-or-stale-heartbeat");
         return;
     }
+    // Independent live SpringBoard geometry snapshot for *read-only*
+    // cross-process native map pane alignment. A stale/revoked session fails closed.
+    NSDictionary *physical=[sChrome stateSnapshot];
+    NSArray *frames=physical[@"PhysicalWindowReadback"];
+    if([physical[@"Owner"] isEqual:@"SpringBoard"] &&
+       [physical[@"ActiveSlots"] isEqual:@2] &&
+       [frames isKindOfClass:NSArray.class] && frames.count==2 &&
+       [sSession isKindOfClass:NSString.class]){
+       NSDictionary *record=@{@"Version":@1,@"Owner":@"SpringBoard",
+          @"Session":sSession,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+          @"ActiveSlots":@2,@"Focus":physical[@"Focus"]?:@(-2),
+          @"Preset":physical[@"Preset"]?:@(-1),@"Windows":frames};
+       if(![record writeToFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"
+                        atomically:YES])
+          DFTOLog(@"physical-map-window-snapshot-save-failed",@"");
+    }
     // Darwin notifies may be coalesced or dropped when the CarPlay process is
     // briefly busy. A single atomic file contains the LATEST real-state
     // observation, so retry only its notify/receipt (never re-run a UI command).
