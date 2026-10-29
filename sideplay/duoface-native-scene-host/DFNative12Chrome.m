@@ -275,6 +275,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *restoreQueue;
 @property(nonatomic,assign) NSUInteger restoreGeneration;
 @property(nonatomic,assign) BOOL restorePending;
+@property(nonatomic,assign) NSInteger restoringPhysical;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -307,7 +308,7 @@ static void DFCLog(NSString *text) {
         _pendingScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null],[NSNull null],[NSNull null]]];
         _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO,@NO,@NO]];
         _workspace=DFCurrentWorkspace();
-        _restoreQueue=[NSMutableArray new];
+        _restoreQueue=[NSMutableArray new];_restoringPhysical=-1;
     }return self;
 }
 - (NSInteger)physicalForVisual:(NSInteger)visual {
@@ -343,7 +344,8 @@ static void DFCLog(NSString *text) {
        NSInteger physical=self.restoreQueue.firstObject.integerValue;
        [self.restoreQueue removeObjectAtIndex:0];
        if(physical<0 || physical>=DFSlotCountForPreset(self.preset))continue;
-       NSString *bundle=self.workspace[@"PhysicalBundles"][(NSUInteger)physical];
+       NSArray *savedBundles=self.workspace[@"PhysicalBundles"];
+       NSString *bundle=savedBundles[(NSUInteger)physical];
        if(!DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs()) ||
           ![[self installedBundleIDsForRestore] containsObject:bundle])continue;
        if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
@@ -362,6 +364,7 @@ static void DFCLog(NSString *text) {
        self.pendingScenes[(NSUInteger)physical]=surface;
        [container addSubview:surface];
        self.restorePending=YES;
+       self.restoringPhysical=physical;
        [self layoutControls];
        DFCLog([NSString stringWithFormat:@"workspace-restore-pending physical=%ld",(long)physical]);
        NSUInteger generation=self.restoreGeneration;
@@ -375,6 +378,7 @@ static void DFCLog(NSString *text) {
              [[DFSceneHost sharedHost] releaseHostedView:surface];
              owner.pendingScenes[(NSUInteger)physical]=NSNull.null;
              owner.restorePending=NO;
+             owner.restoringPhysical=-1;
              [owner restoreNextSavedWorkspaceApp];
              DFCLog(@"workspace-restore-timeout-skipped-no-fake-ready");
           }
@@ -1184,7 +1188,7 @@ static void DFCLog(NSString *text) {
         // Reproduce Native12 six pill states from DFSPNativeSlotPill:
         // empty/loaded/focused, each normal or compact. An empty or
         // pending slot must not offer a nonfunctional fullscreen action.
-        NSInteger physicalSlot=[self visualForPhysical:i];
+        NSInteger physicalSlot=[self physicalForVisual:i];
         BOOL ready=[self.sceneHandleReady[(NSUInteger)physicalSlot] boolValue];
         BOOL focused=(self.focus==i);
         BOOL show=(self.focus<0 || focused)&&!self.pickerVisible&&!self.styleVisible&&!self.appPickerVisible;
@@ -1658,8 +1662,9 @@ static void DFCLog(NSString *text) {
           if(bundle.length && !DFSavePhysicalBundle(i,bundle))
              DFCLog(@"workspace-slot-save-failed-no-scene-impact");
           self.workspace=DFCurrentWorkspace();
-          if(self.restorePending){
+          if(self.restorePending && self.restoringPhysical==i){
              self.restorePending=NO;
+             self.restoringPhysical=-1;
              dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
           }
           [self layoutControls];
@@ -1681,8 +1686,9 @@ static void DFCLog(NSString *text) {
     for(NSInteger i=0;i<4;i++){
        if(self.pendingScenes[(NSUInteger)i]==host){
           self.pendingScenes[(NSUInteger)i]=NSNull.null;
-          if(self.restorePending){
+          if(self.restorePending && self.restoringPhysical==i){
              self.restorePending=NO;
+             self.restoringPhysical=-1;
              dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
           }
           DFCLog([NSString stringWithFormat:
@@ -1988,6 +1994,7 @@ static void DFCLog(NSString *text) {
 - (void)stop {
     ++self.restoreGeneration;
     self.restorePending=NO;
+    self.restoringPhysical=-1;
     [self.restoreQueue removeAllObjects];
     self.logoTouchPending=NO;
     self->_logoHoldGate=(DFLogoHoldGate){0};
