@@ -72,8 +72,12 @@ jobs:
           test -s "$ORIG"
           test "$(shasum -a 256 "$ORIG" | awk '{print $1}')" = "$EXPECT"
           dpkg-deb -x "$ORIG" "$RUNNER_TEMP/original-duonavi-payload"
-          DASH="$(find "$RUNNER_TEMP/original-duonavi-payload" -name 'DuoFaceDashboard.dylib' -type f -print -quit)"
-          test -n "$DASH"
+          # Audited 1.0.4 package contains DuoNaviDashboard.dylib, NOT
+          # DuoFaceDashboard.dylib (the latter is a different Native12 DEB).
+          # The exact filename and package hash are in REFERENCE_DEB_AUDIT.json.
+          DASH="$RUNNER_TEMP/original-duonavi-payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+          test -s "$DASH"
+          printf 'ORIGINAL_DUONAVI_DASHBOARD_BINARY=%s\\n' "$DASH"
           xcrun otool -ov "$DASH" > "$RUNNER_TEMP/original-duonavi-objc-methods.txt"
           for selector in CBDividerView CBBridgedSplitApp CBWindow 'pointInside:withEvent:' 'hitTest:withEvent:' 'handlePan:'; do
             grep -Fq "$selector" "$RUNNER_TEMP/original-duonavi-objc-methods.txt"
