@@ -7,6 +7,8 @@
 #import "DFAppPickerDisplayPolicy.h"
 #import "DFAppHabits.h"
 #import "DFSlotWorkspacePolicy.h"
+#import "DFExtendedSettingsPolicy.h"
+#import "DFVoiceAssistant.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
 #import <objc/message.h>
@@ -117,6 +119,8 @@
 @property(nonatomic,strong) UILabel *stateLabel;
 @property(nonatomic,strong) UIButton *diagnosticsButton;
 @property(nonatomic,strong) UIButton *dockMonitorButton;
+@property(nonatomic,strong) UIButton *voiceButton;
+@property(nonatomic,strong) DFVoiceAssistant *voiceAssistant;
 @property(nonatomic,strong) UISegmentedControl *tabs;
 @property(nonatomic,strong) UITableView *appsTable;
 @property(nonatomic,strong) NSArray<NSDictionary *> *installedApps;
@@ -201,6 +205,18 @@
  [dock addTarget:self action:@selector(showDockMonitor:)
     forControlEvents:UIControlEventTouchUpInside];
  [self.view addSubview:dock];self.dockMonitorButton=dock;
+ UIButton *voice=[UIButton buttonWithType:UIButtonTypeSystem];
+ voice.translatesAutoresizingMaskIntoConstraints=NO;
+ [voice setTitle:DFLocalize(@"Trợ lý thoại — chạm để nói",
+                             @"Voice assistant — tap to speak") forState:UIControlStateNormal];
+ voice.backgroundColor=[UIColor colorWithWhite:.16 alpha:1];
+ [voice setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+ voice.titleLabel.font=[UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
+ voice.layer.cornerRadius=10;
+ [voice addTarget:self action:@selector(toggleVoiceAssistant:)
+        forControlEvents:UIControlEventTouchUpInside];
+ [self.view addSubview:voice];self.voiceButton=voice;
+ self.voiceAssistant=[DFVoiceAssistant new];
  UITableView *list=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
  list.translatesAutoresizingMaskIntoConstraints=NO;list.backgroundColor=UIColor.blackColor;
  list.dataSource=self;list.delegate=self;list.hidden=YES;list.allowsSelection=YES;
@@ -233,6 +249,10 @@
    [dock.leadingAnchor constraintEqualToAnchor:diagnostics.leadingAnchor],
    [dock.trailingAnchor constraintEqualToAnchor:diagnostics.trailingAnchor],
    [dock.heightAnchor constraintEqualToConstant:42],
+   [voice.topAnchor constraintEqualToAnchor:dock.bottomAnchor constant:12],
+   [voice.leadingAnchor constraintEqualToAnchor:dock.leadingAnchor],
+   [voice.trailingAnchor constraintEqualToAnchor:dock.trailingAnchor],
+   [voice.heightAnchor constraintEqualToConstant:42],
    [list.topAnchor constraintEqualToAnchor:tabs.bottomAnchor constant:12],
    [list.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:14],
    [list.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-14],
@@ -290,6 +310,45 @@
  // A real SpringBoard owner consumes this; do not render duplicate app panes.
  notify_post("com.duoface.nativehost.layout.changed.v1");
  return YES;
+}
+- (void)toggleVoiceAssistant:(UIButton *)sender {
+ if(self.carPlay || self.presentedViewController)return;
+ if(self.voiceAssistant.isListening){
+    [self.voiceAssistant stop];
+    [sender setTitle:DFLocalize(@"Trợ lý thoại — chạm để nói",
+                                 @"Voice assistant — tap to speak")
+           forState:UIControlStateNormal];
+    return;
+ }
+ UIAlertController *optIn=[UIAlertController alertControllerWithTitle:
+     DFLocalize(@"Trợ lý thoại DuoFace", @"DuoFace voice assistant")
+     message:DFLocalize(@"Chỉ nghe một lệnh khi bạn bấm. Hãy dừng xe trước khi sử dụng. Giọng nói dùng nhận dạng iOS; không gọi Siri, không chuyển app CarPlay.",
+                        @"Listens to one command after you tap. Use while parked. iOS Speech recognition is used; no Siri or CarPlay app switching.")
+     preferredStyle:UIAlertControllerStyleAlert];
+ [optIn addAction:[UIAlertAction actionWithTitle:DFLocalize(@"Hủy",@"Cancel")
+          style:UIAlertActionStyleCancel handler:nil]];
+ __weak typeof(self) weakSelf=self;
+ [optIn addAction:[UIAlertAction actionWithTitle:DFLocalize(@"Bắt đầu nghe",@"Listen")
+   style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action){
+    DFNativeHostRootController *owner=weakSelf;
+    if(!owner)return;
+    [owner.voiceButton setTitle:DFLocalize(@"Đang nghe... chạm để dừng",
+                                            @"Listening... tap to stop")
+                       forState:UIControlStateNormal];
+    [owner.voiceAssistant toggleFromController:owner completed:^(NSString *reply){
+       [weakSelf.voiceButton setTitle:DFLocalize(@"Trợ lý thoại — chạm để nói",
+                                                @"Voice assistant — tap to speak")
+                         forState:UIControlStateNormal];
+       if(!weakSelf || weakSelf.presentedViewController)return;
+       UIAlertController *result=[UIAlertController alertControllerWithTitle:
+          DFLocalize(@"Trợ lý thoại",@"Voice assistant")
+          message:reply preferredStyle:UIAlertControllerStyleAlert];
+       [result addAction:[UIAlertAction actionWithTitle:DFLocalize(@"Đóng",@"Close")
+                                      style:UIAlertActionStyleDefault handler:nil]];
+       [weakSelf presentViewController:result animated:YES completion:nil];
+    }];
+ }]];
+ [self presentViewController:optIn animated:YES completion:nil];
 }
 - (void)showDockMonitor:(UIButton *)sender {
  (void)sender;
@@ -363,6 +422,8 @@
  BOOL showingList=(control.selectedSegmentIndex!=0);
  self.stateLabel.hidden=showingList;self.diagnosticsButton.hidden=showingList;
  self.dockMonitorButton.hidden=showingList;
+ self.voiceButton.hidden=showingList;
+ if(showingList)[self.voiceAssistant stop];
  self.appsTable.hidden=!showingList;
  if(showingList){
    if(control.selectedSegmentIndex==1)self.installedApps=[self queryInstalledApps];
@@ -403,7 +464,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?6:(NSInteger)[self appsInGroup:section].count;
+ return section==0?7:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -411,13 +472,14 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đặt lại tùy chọn"];
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đặt lại tùy chọn",@"Ngôn ngữ / Language"];
     NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
        @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
        @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô",
        @"Lưới 4/5/6 cột, 2/3 hàng, ẩn/hiện tên ứng dụng",
        [DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue]?@"Đang bật — chỉ app đã cho phép":@"Đang tắt",
-       @"Đặt lại mặc định, ưa dùng hoặc giao diện chọn App"];
+       @"Đặt lại mặc định, ưa dùng hoặc giao diện chọn App",
+       [DFCurrentExtended()[@"Language"] isEqual:@"en"]?@"English":@"Tiếng Việt"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -451,6 +513,29 @@
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)showLanguageOptions {
+ UIAlertController *menu=[UIAlertController alertControllerWithTitle:
+     @"Ngôn ngữ / Language"
+     message:@"Chọn ngôn ngữ giao diện và nhận dạng giọng nói của DuoFace."
+     preferredStyle:UIAlertControllerStyleActionSheet];
+ __weak typeof(self) weakSelf=self;
+ for(NSString *lang in @[@"vi",@"en"]){
+   [menu addAction:[UIAlertAction actionWithTitle:
+       [lang isEqual:@"vi"]?@"Tiếng Việt":@"English"
+       style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action){
+         if(!DFSaveExtendedLanguage(lang)){[weakSelf appSettingsSaveFailed];return;}
+         [weakSelf.voiceButton setTitle:DFLocalize(@"Trợ lý thoại — chạm để nói",
+                                      @"Voice assistant — tap to speak")
+                              forState:UIControlStateNormal];
+         [weakSelf.appsTable reloadData];
+   }]];
+ }
+ [menu addAction:[UIAlertAction actionWithTitle:DFLocalize(@"Hủy",@"Cancel")
+                  style:UIAlertActionStyleCancel handler:nil]];
+ UIPopoverPresentationController *popover=menu.popoverPresentationController;
+ if(popover){popover.sourceView=self.appsTable;popover.sourceRect=self.appsTable.bounds;}
+ [self presentViewController:menu animated:YES completion:nil];
 }
 - (void)showResetOptions {
  UIAlertController *sheet=[UIAlertController alertControllerWithTitle:@"Đặt lại tùy chọn DuoFace"
@@ -676,7 +761,8 @@
     else if(indexPath.row==2)[self showHabitSettings];
     else if(indexPath.row==3)[self showPickerDisplaySettings];
     else if(indexPath.row==4)[self showWorkspaceRestoreMenu];
-    else [self showResetOptions];
+    else if(indexPath.row==5)[self showResetOptions];
+    else [self showLanguageOptions];
   } else {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
