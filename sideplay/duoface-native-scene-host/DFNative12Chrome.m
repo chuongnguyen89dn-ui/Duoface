@@ -401,10 +401,37 @@ static void DFCLog(NSString *text) {
          surface.window!=self.appSceneWindows[(NSUInteger)i] ||
          ![host bundleIDForHostedView:surface])return NO;
     }
+    NSDictionary *previous=self.workspace;
     if(!DFRotateWorkspace(active,clockwise))return NO;
     self.workspace=DFCurrentWorkspace();
     self.selectedSlot=MIN(self.selectedSlot,active-1);
     [self layoutControls];
+    // Real UIWindow frame readback prevents reporting a visual rotation
+    // as applied when SpringBoard or the external display refuses geometry.
+    CGRect panes[4];
+    DFComputePresetFramesWithSecondary(self.contentRect,self.preset,
+                        DFCClamp(self.ratio),self.secondaryRatio,panes);
+    BOOL frameVerified=YES;
+    for(NSInteger physical=0;physical<active;physical++){
+        NSInteger visual=[self visualForPhysical:physical];
+        if(visual<0 || visual>=active){frameVerified=NO;break;}
+        CGRect target=(self.focus>=0 && self.focus==visual)?self.contentRect:panes[visual];
+        CGRect observed=self.appSceneWindows[(NSUInteger)physical].frame;
+        if(fabs(target.origin.x-observed.origin.x)>1 ||
+           fabs(target.origin.y-observed.origin.y)>1 ||
+           fabs(target.size.width-observed.size.width)>1 ||
+           fabs(target.size.height-observed.size.height)>1){
+              frameVerified=NO;break;
+        }
+    }
+    if(!frameVerified){
+        if(!DFWriteWorkspace(previous))
+            DFCLog(@"workspace-rotation-rollback-write-failed");
+        self.workspace=previous;
+        [self layoutControls];
+        DFCLog(@"workspace-rotation-rejected-actual-frame-readback");
+        return NO;
+    }
     [self emit:@"Style" ratio:nil];
     DFCLog([NSString stringWithFormat:@"workspace-window-rotation size=%ld direction=%@",
        (long)active,clockwise?@"forward":@"reverse"]);
@@ -486,6 +513,8 @@ static void DFCLog(NSString *text) {
     return b;
 }
 - (BOOL)start {
+    // Fetch the latest iPhone choices for each actual reconnect.
+    self.workspace=DFCurrentWorkspace();
     // A previously stopped Chrome can be reused after reconnect. Do not
     // resurrect an App/Close modal or stale outer menu on CarPlay Home.
     self.pickerVisible=NO;
