@@ -4,6 +4,7 @@
 #import "DFAppEligibility.h"
 #import "DFAppCatalogPolicy.h"
 #import "DFEnabledAppsPolicy.h"
+#import "DFAppHabits.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
 #import <objc/message.h>
@@ -13,6 +14,100 @@
 - (void)start;
 - (void)stop;
 @end
+
+@interface DFAppHabitsController : UITableViewController
+@property(nonatomic,copy) NSArray<NSDictionary *> *inventory;
+- (instancetype)initWithInventory:(NSArray<NSDictionary *> *)inventory;
+@end
+@implementation DFAppHabitsController
+- (instancetype)initWithInventory:(NSArray<NSDictionary *> *)inventory {
+ if((self=[super initWithStyle:UITableViewStyleInsetGrouped]))
+    _inventory=[inventory copy];
+ return self;
+}
+- (void)viewDidLoad {
+ [super viewDidLoad];
+ self.title=@"Mặc định & Ưa dùng";
+ self.tableView.backgroundColor=UIColor.systemBackgroundColor;
+ self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]
+     initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+     target:self action:@selector(closeHabitSettings)];
+}
+- (void)closeHabitSettings {[self dismissViewControllerAnimated:YES completion:nil];}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+ (void)tableView;(void)section;return (NSInteger)self.inventory.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView
+       cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+ UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"habit"];
+ if(!cell)cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"habit"];
+ NSDictionary *app=self.inventory[(NSUInteger)indexPath.row];
+ NSString *bid=app[@"bundle"];
+ NSDictionary *choices=DFCurrentAppChoices();
+ NSDictionary *counts=DFReadAppHabitCountsAtPath(DFAppHabitCountsPath);
+ BOOL isDefault=[choices[@"DefaultBundleID"] isEqualToString:bid];
+ BOOL pinned=[choices[@"PinnedBundleIDs"] containsObject:bid];
+ cell.textLabel.text=app[@"name"];
+ cell.detailTextLabel.text=[NSString stringWithFormat:@"%@%@ · Đã chọn %ld lần",
+     isDefault?@"Mặc định · ":@"",pinned?@"Ưa dùng":@"Ứng dụng khác",
+     (long)[counts[bid] integerValue]];
+ cell.accessoryType=isDefault?UITableViewCellAccessoryCheckmark:
+    (pinned?UITableViewCellAccessoryDetailDisclosureButton:UITableViewCellAccessoryDisclosureIndicator);
+ return cell;
+}
+- (void)saveDefault:(NSString *)preferred pinned:(NSArray<NSString *> *)pinned {
+ if(DFSaveAppChoices(preferred,pinned)){
+     [self.tableView reloadData];return;
+ }
+ UIAlertController *error=[UIAlertController alertControllerWithTitle:@"Không lưu được"
+      message:@"Không xác minh được dữ liệu mặc định/ưa dùng." preferredStyle:UIAlertControllerStyleAlert];
+ [error addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleDefault handler:nil]];
+ [self presentViewController:error animated:YES completion:nil];
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+ [tableView deselectRowAtIndexPath:indexPath animated:YES];
+ if((NSUInteger)indexPath.row>=self.inventory.count)return;
+ NSDictionary *app=self.inventory[(NSUInteger)indexPath.row];
+ NSString *bid=app[@"bundle"];
+ if(!DFIsEligibleAppID(bid))return;
+ NSDictionary *choice=DFCurrentAppChoices();
+ NSString *preferred=choice[@"DefaultBundleID"];
+ NSArray *pinned=choice[@"PinnedBundleIDs"];
+ BOOL isDefault=[preferred isEqualToString:bid];
+ BOOL alreadyPinned=[pinned containsObject:bid];
+ UIAlertController *menu=[UIAlertController alertControllerWithTitle:app[@"name"]
+   message:@"Mặc định chỉ được ưu tiên hiển thị trong bảng chọn CarPlay. Không tự chạy hay gán vào cột/ô."
+   preferredStyle:UIAlertControllerStyleActionSheet];
+ __weak typeof(self) weakSelf=self;
+ if(!isDefault){
+   [menu addAction:[UIAlertAction actionWithTitle:@"Đặt làm ứng dụng mặc định"
+      style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action){
+        [weakSelf saveDefault:bid pinned:pinned];
+   }]];
+ }else{
+   [menu addAction:[UIAlertAction actionWithTitle:@"Bỏ mặc định"
+      style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action){
+        [weakSelf saveDefault:@"" pinned:pinned];
+   }]];
+ }
+ [menu addAction:[UIAlertAction actionWithTitle:
+   alreadyPinned?@"Bỏ khỏi Ưa dùng":@"Thêm vào Ưa dùng"
+   style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action) {
+    NSMutableArray *updated=[pinned mutableCopy];
+    if(alreadyPinned)[updated removeObject:bid];else [updated addObject:bid];
+    [weakSelf saveDefault:preferred pinned:updated];
+ }]];
+ [menu addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+ UIPopoverPresentationController *popover=menu.popoverPresentationController;
+ if(popover){
+    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    popover.sourceView=cell;
+    popover.sourceRect=cell.bounds;
+ }
+ [self presentViewController:menu animated:YES completion:nil];
+}
+@end
+
 @interface DFNativeHostRootController : UIViewController <UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 @property(nonatomic,assign) BOOL carPlay;
 @property(nonatomic,strong) DFNativeHostSurfaceView *nativeSurface;
@@ -255,7 +350,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?2:(NSInteger)[self appsInGroup:section].count;
+ return section==0?3:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -263,9 +358,12 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    cell.textLabel.text=indexPath.row==0?@"⋯ Tùy chọn ứng dụng":@"Bản đồ CarPlay native";
-    cell.detailTextLabel.text=indexPath.row==0?@"Bật đề xuất / Bật tất cả / Tắt tất cả":
-       @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ";
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng"];
+    NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
+       @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
+       @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô"];
+    cell.textLabel.text=titles[(NSUInteger)indexPath.row];
+    cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
  } else if(self.tabs.selectedSegmentIndex==2 && indexPath.row==9){
     cell.textLabel.text=@"Thử nghiệm bản đồ CarPlay native";
@@ -297,6 +395,16 @@
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)showHabitSettings {
+ NSArray *enabled=DFConfiguredEnabledAppIDs();
+ NSMutableArray<NSDictionary *> *candidates=[NSMutableArray new];
+ for(NSDictionary *app in self.installedApps) {
+    if(DFPickerAllowsApp(app[@"bundle"],enabled))[candidates addObject:app];
+ }
+ DFAppHabitsController *manager=[[DFAppHabitsController alloc]initWithInventory:candidates];
+ UINavigationController *navigation=[[UINavigationController alloc]initWithRootViewController:manager];
+ [self presentViewController:navigation animated:YES completion:nil];
 }
 - (void)appSettingsSaveFailed {
  UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Không lưu được ứng dụng"
@@ -423,7 +531,8 @@
  if(self.tabs.selectedSegmentIndex==1){
   if(indexPath.section==0){
     if(indexPath.row==0)[self showAppSettingsActions];
-    else [self showNativeMapPaneChoices];
+    else if(indexPath.row==1)[self showNativeMapPaneChoices];
+    else [self showHabitSettings];
   } else {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
