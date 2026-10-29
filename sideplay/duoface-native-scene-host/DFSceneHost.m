@@ -804,6 +804,21 @@ static NSInteger DFObservedSceneForeground(id scene) {
         if (error) *error=DFSceneError(104,reason);
         return nil;
     }
+    // Ownership provenance: only process instances NOT already running
+    // before DuoFace requested the scene may be eligible for disconnect
+    // termination. A background phone music session must be protected.
+    BOOL preexistingProcess=NO;
+    BOOL pidInspectorAvailable=NO;
+    for(NSString *pidMethod in @[@"pid",@"processIdentifier"]){
+       SEL pidSelector=NSSelectorFromString(pidMethod);
+       if(![app respondsToSelector:pidSelector])continue;
+       pidInspectorAvailable=YES;
+       pid_t before=((pid_t(*)(id,SEL))objc_msgSend)(app,pidSelector);
+       if(before>1 && before!=getpid()){
+         errno=0;
+         if(kill(before,0)==0 || errno==EPERM)preexistingProcess=YES;
+       }
+    }
     @try {
         id entity=[entityClass instancesRespondToSelector:entityInit]
             ? ((id(*)(id,SEL,id))objc_msgSend)([entityClass alloc],entityInit,app)
@@ -819,21 +834,6 @@ static NSInteger DFObservedSceneForeground(id scene) {
             DFSceneLog(@"host-preflight-denied",bundleID,@"SBAppViewController.canHostAnApp=NO");
             if(error)*error=DFSceneError(107,@"SBAppViewController không thể host ứng dụng này");
             return nil;
-        }
-        // Ownership provenance: only process instances NOT already running
-        // before DuoFace requested the scene may be eligible for disconnect
-        // termination. A background phone music session must be protected.
-        BOOL preexistingProcess=NO;
-        BOOL pidInspectorAvailable=NO;
-        for(NSString *pidMethod in @[@"pid",@"processIdentifier"]){
-           SEL pidSelector=NSSelectorFromString(pidMethod);
-           if(![app respondsToSelector:pidSelector])continue;
-           pidInspectorAvailable=YES;
-           pid_t before=((pid_t(*)(id,SEL))objc_msgSend)(app,pidSelector);
-           if(before>1 && before!=getpid()){
-             errno=0;
-             if(kill(before,0)==0 || errno==EPERM)preexistingProcess=YES;
-           }
         }
         DFSceneSurface *view=[DFSceneSurface new];
         view.processDidNotExistBeforeHost=pidInspectorAvailable && !preexistingProcess;
