@@ -1,0 +1,86 @@
+name: DuoFace 106 DuoDash disconnect research handoff only
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-106-disconnect-audit-handoff.yml'
+      - 'sideplay/audit/duoface-duodash-disconnect-106/REPORT.md'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-106-audit-handoff
+  cancel-in-progress: false
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate original DuoDash source attribution and unchanged build policy
+        id: check
+        run: |
+          set -euo pipefail
+          REPORT=sideplay/audit/duoface-duodash-disconnect-106/REPORT.md
+          test -s "$REPORT"
+          grep -Fq '0x491c8' "$REPORT"
+          grep -Fq '0x4941c' "$REPORT"
+          grep -Fq '10,000 ms' "$REPORT"
+          grep -Fq 'READ ONLY' "$REPORT"
+          grep -Fq 'NOT the original DuoDash source code' "$REPORT"
+          grep -Fq 'DFNative12Chrome.m:stop' "$REPORT"
+          test -s 'sideplay/tiep tuc du an.md'
+          echo 'DF106_AUDIT_SOURCE_PROVENANCE_PASS'
+      - name: Append a durable checkpoint to the ONE existing project handoff
+        env:
+          TARGET_BRANCH: feature/duoface-jb-embedded-appbridge-20261020
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$TARGET_BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$GITHUB_SHA" <<'PY'
+          from pathlib import Path
+          import sys
+          path=Path(sys.argv[1])
+          run,sha=sys.argv[2:]
+          assert path.is_file(), 'Must update the existing handoff; never create a duplicate'
+          old=path.read_text(encoding='utf-8')
+          marker=f'## CHECKPOINT 2026-10-29 DuoFace #11 DUODASH DISCONNECT READ-ONLY RESEARCH run {run}'
+          block=f""" {marker}
+
+          - User request: investigate **original DuoDash** auto-closing apps after physical CarPlay disconnect; do not mistake independent carplaydsp split POC for DuoDash binary, do not publish a DEB.
+          - Confirmed developer website: separate Close Apps on CarPlay Disconnect switch OFF by default, closes car-displayed apps about 12s after true disconnect. Original 1.1.3 binary SHA256 16ffab22b4246dea9978cae92df7ec635d833ec067b4d9f425a231b26edec601 was previously audited; source details + addresses are in docs/duoface-vs-duodash-autostart-disconnect-audio-20261016.md.
+          - Binary evidence (archived, not re-disassembled in this turn): bool key disconnect_close_enabled; dispatch_after default 12,000,000,000 ns at 0x491c8/0x49344; generation guard 0x4941c; recheck carPlayConnected 0x49448 and switch 0x49458; physical events UIScreenDidDisconnectNotification/CarPlayIsConnectedDidChange and cleanup call 0x43f7c. FINAL per-app termination selector and actual runtime behavior are unverified.
+          - **Superseding DuoFace requirement from 2026-10-16:** use **10 seconds** (not DuoDash 12), switch independent from Auto Start and OFF by default; only close actually managed current-session apps, cancel on reconnect or switch OFF, do not kill phone-foreground or unrelated media/system applications. Source: audit/duodash-1.1.3/duoface-settings-pro-feature-manifest.json.
+          - Current 0.1.105 code: DFNativeHostAppDelegate.m/DFTouchOwnerProbe.m distinguish current CarPlay foreground-owner session from display state; DFNative12Chrome.m:stop immediately calls DFSceneHost.stopAllHosts to invalidate **scene**, does NOT terminate actual host app process; a remembered app bundle ID does not prove a currently-owned process. No actual disconnect close toggle/10s timer or verified termination chain in this active branch. iPhone YouTube audio continuing after Android CarPlay projection ended was reported before; do not treat it as actual car head unit or iOS NowPlaying proof.
+          - Report: sideplay/audit/duoface-duodash-disconnect-106/REPORT.md, source head {sha}. All production runtime sources untouched this turn, no new DEB/IPA, no Sileo publication, no physical test.
+          - Exact next action: verify real disconnect separately from CarPlay Home; capture current-session verified apps+PIDs **before** scene cleanup; implement optional 10s generation-cancelled close; prove final iOS16 process-termination ABI and actual PID exit with logs; test reconnect <=10s, phone media, foreground iPhone safety, native Maps, original .90 YouTube and .92 logo. No blanket kill.
+
+          ---
+
+          """
+          if marker not in old:
+              path.write_text(block.lstrip()+old,encoding='utf-8')
+              assert path.read_text(encoding='utf-8').startswith(marker)
+          print('DF106_HANDOFF_READBACK_CONFIRMED')
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              echo 'DF106_HANDOFF_ALREADY_PRESENT'
+              exit 0
+            fi
+            git -C "$TEMP" commit -m "audit: hand off verified DuoDash disconnect contrast run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$TARGET_BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo 'DF106_GITHUB_HANDOFF_PUSH_CONFIRMED'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+            echo "Concurrent append; retry $attempt"
+          done
+          exit 1
