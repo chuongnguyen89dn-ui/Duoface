@@ -4,6 +4,10 @@ on:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
     paths:
       - '.github/workflows/duoface-116-pane-input-trace-signed-qa.yml'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package.py'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/DFPaneInputTrace116.h'
   workflow_dispatch:
 permissions:
   contents: write
