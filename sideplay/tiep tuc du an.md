@@ -1,3 +1,9 @@
+## CHECKPOINT 2026-10-29 DuoFace .95 independent AppBridge Manager QA — NO SILEO
+CI run `40792514291` source `b55164991de540c03e79c4f483f029153902a004`; signed one rootless candidate: sideplay/jb-embedded-appbridge/evidence/runs/40792514291/com.duoface.jb.embedded_0.0.95~duomanager1_iphoneos-arm64.deb; SHA256 ad44f64d45e03def401467026c85b6950235d9c1d99bd454fe07266e191eaf33.
+GitHub Actions: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40792514291
+Combines independent DuoFace My Apps/other/system iPhone settings search and per-app toggles/bulk choices, eligible proxy filtering, CarPlay picker selected-only and stale tap guard; existing manual native Maps command reachable from Apps settings, live owner scene/adapter remains separate; exact .92 3-second logo and prior .90 YouTube orientation source is hash-pinned. No third-party runtime source or license copied.
+SILEO_PUBLISHED=FALSE; DEVICE_TESTED=FALSE. No native Maps side-by-side scene, physical logo contact, YouTube live playback or external CarPlay validation claimed. Do not publish without a distinct user instruction. Preserve .92/.90 rollback.
+---
 ## 2026-10-29 — .95 staging QA checkpoint after running tests (no Sileo)
 
 - User approved first-party combined DuoDash/OmniCar app-management and native Maps link while protecting .92 logo. Sileo publication explicitly forbidden until separate instruction. Repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020.
