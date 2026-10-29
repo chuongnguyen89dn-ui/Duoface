@@ -1835,14 +1835,14 @@ static void DFCLog(NSString *text) {
     // DuoDash persists left/right/third as soon as host request is accepted.
     // Previously a pending second pane was lost if disconnected before ready.
     // For replacement, retain the last ready app until the new scene commits.
-    if(![active isKindOfClass:UIView.class]){
-        if(DFSavePhysicalBundle(physicalSlot,bundleID)){
-            self.workspace=DFCurrentWorkspace();
-            DFCLog([NSString stringWithFormat:
-               @"workspace-intent-saved-pending physical=%ld bundle=%@",
-               (long)physicalSlot,bundleID]);
-        } else DFCLog(@"workspace-intent-save-failed");
-    }
+    // Persist the accepted replacement intent even while the previous scene
+    // remains visible. Native12 saves each selected physical slot before replace.
+    if(DFSavePhysicalBundle(physicalSlot,bundleID)){
+        self.workspace=DFCurrentWorkspace();
+        DFCLog([NSString stringWithFormat:
+           @"workspace-intent-saved-pending physical=%ld bundle=%@",
+           (long)physicalSlot,bundleID]);
+    } else DFCLog(@"workspace-intent-save-failed");
     self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
     [self layoutControls];
