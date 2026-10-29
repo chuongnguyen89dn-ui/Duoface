@@ -224,7 +224,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("DFDragFinish(&_dividerDrag",chrome)
   self.assertIn("divider-pan-begin",chrome)
   self.assertIn("divider-pan-end",chrome)
-  self.assertIn("divider-axis-locked-logo-no-hold",chrome)
+  self.assertIn("divider-axis-locked-logo-vertical-no-hold",chrome)
   self.assertIn("self.pillWindows",chrome)
   self.assertNotIn("safety-expiry-600s",file("DFTouchOwnerProbe.m"))
   self.assertNotIn("self.basicController setPresetRatio:",receiver)
