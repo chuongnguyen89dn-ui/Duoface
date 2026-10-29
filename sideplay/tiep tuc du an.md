@@ -1,3 +1,11 @@
+## CHECKPOINT DuoFace .106 integrated release staged, run 40809319208
+
+- User explicitly authorized Sileo publication. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source 98d793faf6867cb23fea6714c3d434325cb17663. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40809319208. Exact SHA256 3ce04db501b6f657bb3dac4eb62610787008aab741112af7929b16b6cec8aa48. Archive sideplay/jb-embedded-appbridge/evidence/runs/40809319208/; provenance and source SHA alongside DEB.
+- This checkpoint ONLY confirms signed, archived package. Sileo public Pages publication and public download require separate publisher commit/workflow+remote SHA verification. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
+- Next: pin archive commit and SHA in carplaydsp main publisher workflow, preserve one latest APT record, verify public Packages/Release and binary SHA, then append final public release result here. No device install claim.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8/#10 integrated 0.1.105 QA build run 40808893519
 
 - Source branch feature/duoface-jb-embedded-appbridge-20261020 commit e66efee1a02e6e22e6a22611aecf53855176d81b. New feature: separate OFF-by-default user-approved disconnect auto-close option on iPhone; 10-second grace with generation cancellation; only real AVExternalDevice+CADisplay physical disconnect (never CarPlay Home), snapshots newly DuoFace-launched live scene PID BEFORE stop, verifies exact bundle/PID and phone foreground; guarded runtime RunningBoard terminate request and process-exit observation. Maps, voice and language from 105 remain unchanged. Maintains .90 YouTube, .92 3s logo, system Dock and #5-7 slot/scene policy.
