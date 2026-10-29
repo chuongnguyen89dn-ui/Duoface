@@ -53,6 +53,7 @@ class AppPicker097(unittest.TestCase):
   for token in ("DFYouTubeOrientationRelay.m","DFCarPlayDockOwner.m",
                "DFNativeMapPaneCoordinator.m","DFNative12Chrome.m"):
    self.assertIn(token,build)
+  self.assertIn("DFRecordReadyAppHabit(self.bundleID)",read("DFSceneHost.m"))
   chrome=read("DFNative12Chrome.m")
-  self.assertIn("DFRecordReadyAppHabit(readyBundle)",chrome)
+  self.assertNotIn("DFRecordReadyAppHabit",chrome)
 if __name__=="__main__":unittest.main(verbosity=2)
