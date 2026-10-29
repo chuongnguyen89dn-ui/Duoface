@@ -1,0 +1,38 @@
+name: DuoFace 116 immutable signed archive download SHA audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-116-verify-archive-download.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare source-branch Git blob against pinned raw download and documented hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE='sideplay/jb-embedded-appbridge/evidence/runs/40870166155/com.duoface.jb.embedded_0.0.116~pane-trace1_iphoneos-arm64.deb'
+          COMMIT='eaad4d45d8b6fbb6d41b32a04c632592d6f8d3a7'
+          EXPECT='fc87ceb4a8492469563246c00a9a205b838498f7652f8515bb08b9ca356285a8'
+          URL="https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/$COMMIT/$FILE"
+          echo "PINNED_URL=$URL"
+          git fetch --no-tags origin "$COMMIT"
+          git show "$COMMIT:$FILE" > "$RUNNER_TEMP/duoface-116-from-git.deb"
+          curl -fLsS --retry 4 "$URL" -o "$RUNNER_TEMP/duoface-116-raw.deb"
+          echo 'SOURCE_GIT_BLOB_FILE_SHA256'
+          sha256sum "$RUNNER_TEMP/duoface-116-from-git.deb"
+          echo 'PINNED_RAW_HTTP_DOWNLOAD_SHA256'
+          sha256sum "$RUNNER_TEMP/duoface-116-raw.deb"
+          echo 'SIZE_AND_MAGIC'
+          wc -c "$RUNNER_TEMP/duoface-116-from-git.deb" "$RUNNER_TEMP/duoface-116-raw.deb"
+          file "$RUNNER_TEMP/duoface-116-from-git.deb" "$RUNNER_TEMP/duoface-116-raw.deb"
+          cmp -s "$RUNNER_TEMP/duoface-116-from-git.deb" "$RUNNER_TEMP/duoface-116-raw.deb" && echo 'RAW_AND_GIT_ARCHIVE_IDENTICAL=PASS' || echo 'RAW_AND_GIT_ARCHIVE_IDENTICAL=FAIL'
+          printf '%s  %s\n' "$EXPECT" "$RUNNER_TEMP/duoface-116-from-git.deb" | sha256sum -c -
+          printf '%s  %s\n' "$EXPECT" "$RUNNER_TEMP/duoface-116-raw.deb" | sha256sum -c -
+          dpkg-deb -f "$RUNNER_TEMP/duoface-116-raw.deb" Version
