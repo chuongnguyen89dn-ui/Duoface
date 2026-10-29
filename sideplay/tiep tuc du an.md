@@ -1,3 +1,11 @@
+## CHECKPOINT DuoFace .107 integrated release staged, run 40820015100
+
+- User reported live .106 UI and divider regressions. .107 is staged for verification only; no new Sileo authorization in this turn. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source 7e1452ebccbd79702fe22b3783d995d29798b779. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40820015100. Exact SHA256 3e389a8de30187fe83ba88584c2dbdc9d58ad33c27fc363069fd1a25ac00bab9. Archive sideplay/jb-embedded-appbridge/evidence/runs/40820015100/; provenance and source SHA alongside DEB.
+- This checkpoint ONLY confirms signed, archived package. Sileo public Pages publication and public download require separate publisher commit/workflow+remote SHA verification. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
+- Next: pin archive commit and SHA in carplaydsp main publisher workflow, preserve one latest APT record, verify public Packages/Release and binary SHA, then append final public release result here. No device install claim.
+
+---
+
 
 ## CHECKPOINT 2026-10-29 DuoFace 097 strict iPhone allowlist and picker grid — source CI PASS
 
