@@ -1,26 +1,21 @@
-"""Guard user-requested exact .92 three-second logo behavior in future builds."""
-import hashlib
+"""Historical .92 divider ratio geometry; newest logo drag supersedes .92 hold."""
 from pathlib import Path
+import json
 import unittest
 BASE=Path(__file__).resolve().parents[1]
-def git_blob(path):
- data=(BASE/path).read_bytes()
- return hashlib.sha1(b"blob "+str(len(data)).encode()+bytes([0])+data).hexdigest()
-class Logo92SourcePin(unittest.TestCase):
- def test_original_092_logo_chrome_exact(self):
-  # Historical whole-file blob applied only while feature scope never edited Chrome.
-  # Requirements #5/#6 extend Chrome but do not permit changes to the
-  # byte-verified three-second touch/swap methods from .92.
-  source=(BASE/"DFNative12Chrome.m").read_text()
-  a=source.index("- (void)logoTouchDown:")
-  z=source.index("// The divider window itself is re-framed",a)
-  golden=(BASE/"tests/fixtures/logo92_contact_and_swap_baseline.txt").read_text()
-  self.assertEqual(source[a:z],golden)
-  self.assertEqual(len(golden),2982)
- def test_original_092_gate_exact(self):
-  self.assertEqual(git_blob("DFLogoHoldGate.h"),"a4ed2919cdf0b6482bf4a08c55a8050683b702b9")
- def test_three_second_raw_contact_source_contract(self):
-  s=(BASE/"DFNative12Chrome.m").read_text()
-  for token in ("logoTouchDown:","logoTouchChanged:","logoTouchFinished:","DFLogoHoldAdvance(","logoTouchPending=YES"):
-   self.assertIn(token,s)
-if __name__=="__main__":unittest.main()
+class DividerGeometryHistoricalPin(unittest.TestCase):
+ def test_ratio_geometry_still_pinned_to_092(self):
+  src=(BASE/"DFNative12Chrome.m").read_text()
+  fixture=json.loads((BASE/"tests/fixtures/divider92_exact_source.json").read_text())
+  # Old .92 grip setup is superseded; keep the actual ratio, coordinate and
+  # window geometry reference, not its obsolete three-second touch path.
+  for name in ("divider_touch_exclusion","divider_window_layout","divider_pan_machine","divider_pan_coordinates"):
+   part=fixture["parts"][name]
+   self.assertEqual(src[src.index(part["start"]):src.index(part["end"],src.index(part["start"]))],part["text"],name)
+ def test_no_three_second_logo_gate_in_active_source(self):
+  src=(BASE/"DFNative12Chrome.m").read_text()
+  for forbidden in ("DFLogoHoldBegin(", "DFLogoHoldAdvance(", "DFLogoHoldIsQuickTap("):
+   self.assertNotIn(forbidden,src)
+  self.assertIn('[self beginDividerDragAt:point]',src)
+  self.assertIn('[self updateDividerDragAt:point]',src)
+if __name__=="__main__": unittest.main()

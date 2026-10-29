@@ -21,14 +21,14 @@ class RecoveryDistribution(unittest.TestCase):
   import json
   b=(R/'DFNative12Chrome.m').read_text(encoding='utf8')
   golden=json.loads((R/'tests/fixtures/divider92_exact_source.json').read_text())
-  for name,section in golden['parts'].items():
+  for name in ('divider_touch_exclusion','divider_window_layout','divider_pan_machine','divider_pan_coordinates'):
+   section=golden['parts'][name]
    i=b.index(section['start'])
    j=b.index(section['end'],i)
    self.assertEqual(b[i:j],section['text'],name)
-  logo=(R/'tests/fixtures/logo92_contact_and_swap_baseline.txt').read_text()
-  i=b.index('- (void)logoTouchDown:')
-  j=b.index('// The divider window itself is re-framed',i)
-  self.assertEqual(b[i:j],logo)
+  self.assertIn('[self beginDividerDragAt:point]',b)
+  self.assertIn('logo-ratio-drag-begin-no-hold',b)
+  self.assertNotIn('DFLogoHoldAdvance(',b)
   self.assertIn('DFSlotCountForPreset(self.preset)<=1',b)
   self.assertIn('divider92-hidden-owner-contact-cancelled-for-next-reveal',b)
  def test_v37_reference_dispatch_and_touch_wake(self):

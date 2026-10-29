@@ -1,5 +1,4 @@
 #import "DFDividerDrag.h"
-#import "DFLogoHoldGate.h"
 #import "DFDeepTrace.h"
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
@@ -261,7 +260,6 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) CGPoint secondaryDragStartPoint;
 @property(nonatomic,assign) CGFloat logoFraction;
 @property(nonatomic,assign) DFDividerDrag dividerDrag;
-@property(nonatomic,assign) DFLogoHoldGate logoHoldGate;
 @property(nonatomic,assign) BOOL verticalDivider;
 @property(nonatomic,assign) NSInteger preset;
 @property(nonatomic,assign) BOOL swapped;
@@ -296,7 +294,7 @@ static void DFCLog(NSString *text) {
             _ratio=[prior[@"Ratio"] doubleValue];
             _secondaryRatio=[prior[@"Secondary"] isKindOfClass:NSNumber.class]?
                    DFCClamp([prior[@"Secondary"] doubleValue]):.5;
-            _logoFraction=[prior[@"LogoFraction"] doubleValue];
+            _logoFraction=.5; // Logo is centered on the movable split divider.
             _verticalDivider=[prior[@"Vertical"] boolValue];
             _swapped=[prior[@"Swapped"] boolValue];
             _preset=prior[@"Preset"]?[prior[@"Preset"] integerValue]:(_verticalDivider?1:2);
@@ -523,8 +521,7 @@ static void DFCLog(NSString *text) {
     self.styleVisible=NO;
     self.logoTouchPending=NO;
     _dividerDrag.active=false;
-    self.logoHoldGate=(DFLogoHoldGate){0};
-    self.logoWakeOnlyTap=NO;
+        self.logoWakeOnlyTap=NO;
     self.startupActive=YES;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -598,10 +595,10 @@ static void DFCLog(NSString *text) {
     [self.dividerTrack addGestureRecognizer:trackPan];
     DFNativeDividerGripButton *logo=[[DFNativeDividerGripButton alloc]initWithFrame:CGRectZero];
     logo.backgroundColor=UIColor.clearColor;
-    // Native8 device-verified layout: one real UIButton owns logo movement;
-    // logo has a 3s hold gate; the surrounding track keeps immediate ratio pan.
+    // The grip is part of the same movable ratio divider. No hold timer.
+    // Grip and surrounding track both resize the two panes immediately.
     __weak typeof(self) weakGripOwner=self;
-    // Raw contact is gated: brief tap swaps, hold then parallel drag moves logo.
+    // Raw contact: drag adjusts split ratio; short tap swaps; never a hold gate.
     logo.touchBegan=^(UIButton *sender){[weakGripOwner logoTouchDown:sender];};
     logo.touchMoved=^(UIButton *sender){[weakGripOwner logoTouchChanged:sender];};
     logo.touchEnded=^(UIButton *sender,BOOL inside,BOOL cancelled){
@@ -1001,7 +998,7 @@ static void DFCLog(NSString *text) {
         (unsigned long)self.windows.count,NSStringFromCGRect(cr)]);
     return YES;
 }
-// Original Native12 separates logo hit/long-press from divider ratio pan.
+// The grip owns its own touch stream but adjusts the SAME split ratio.
 // Give the move-button its +/-12pt touch slop (within the bounded window)
 // without letting the parent track's pan steal the same touch sequence.
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
@@ -1149,7 +1146,7 @@ static void DFCLog(NSString *text) {
     self.ratio=[saved[@"Ratio"] doubleValue];
     self.secondaryRatio=[saved[@"Secondary"] isKindOfClass:NSNumber.class]?
            DFCClamp([saved[@"Secondary"] doubleValue]):.5;
-    self.logoFraction=[saved[@"LogoFraction"] doubleValue];
+    self.logoFraction=.5; // Legacy independent logo offsets are no longer used.
     self.swapped=[saved[@"Swapped"] boolValue];
     self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
     NSInteger active=DFSlotCountForPreset(preset);
@@ -1213,8 +1210,8 @@ static void DFCLog(NSString *text) {
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
 - (void)layoutControls {
-    // QA .92: the transparent divider pan and the 3-second logo touch are
-    // separate owners. If a modal/solo transition hides their UIWindow while
+    // New user contract: transparent track and grip are independent touch
+    // owners of the SAME immediate split-ratio gesture. If a modal/solo transition hides their UIWindow while
     // UIKit has an in-flight contact, the cancelled event is not guaranteed
     // to reach the now-hidden owner. Drop ONLY that stale contact; never keep
     // the split ratio gesture blocked on the next reveal.
@@ -1224,7 +1221,7 @@ static void DFCLog(NSString *text) {
     // A temporarily hidden UIWindow can leave UIKit's pan recognizer in
     // a stale touch state even after the independent .92 DFDrag state resets.
     // Rearm only on the HIDDEN -> VISIBLE transition, on the next main turn.
-    // Never interrupt a live .92 ratio drag or the 3-second logo contact.
+    // Never interrupt any live ratio contact.
     BOOL returningToSplit=self.dividerOwnerSuspended && !unavailable;
     self.dividerOwnerSuspended=unavailable;
     if(returningToSplit) {
@@ -1248,8 +1245,7 @@ static void DFCLog(NSString *text) {
         self.panActive=NO;
         self.logoTouchPending=NO;
         self.logoWakeOnlyTap=NO;
-        self.logoHoldGate=(DFLogoHoldGate){0};
-        DFCLog(@"divider92-hidden-owner-contact-cancelled-for-next-reveal");
+                DFCLog(@"divider92-hidden-owner-contact-cancelled-for-next-reveal");
     }
     CGRect cr=self.contentRect;
     if(self.appPickerController.hostExpanded!=self.hostFullscreen){
@@ -1911,60 +1907,38 @@ static void DFCLog(NSString *text) {
     [self noteUserActivity];
     return tap;
 }
-// User-approved 3s logo hold is deliberately distinct from the original
-// machine-code divider's rotate/swap menu actions. Ratio drag remains available
-// on the surrounding track immediately, not through this circular grip.
+// The user's latest contract supersedes the old .92 3-second logo hold.
+// The circular logo moves WITH the actual divider boundary when ratio changes.
+// Touching the grip itself begins the SAME immediate ratio drag as the track.
 - (void)logoTouchDown:(id)sender {
     if(sender!=self.dividerLogo || _dividerDrag.active || self.logoTouchPending)return;
     CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
-    self->_logoHoldGate=DFLogoHoldBegin(NSProcessInfo.processInfo.systemUptime,
-                                       point.x,point.y);
-    if(!self->_logoHoldGate.tracking)return;
     self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
     self.logoTouchPending=YES;
-    [self noteUserActivity]; // Keep the grip visible during the physical hold.
-    DFCLog(@"logo-3s-hold-armed-no-ratio-drag");
+    [self beginDividerDragAt:point];
+    if(!_dividerDrag.active){self.logoTouchPending=NO;return;}
+    DFCLog(@"logo-ratio-drag-begin-no-hold");
 }
 - (void)logoTouchChanged:(id)sender {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
     CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
-    if(self->_logoHoldGate.unlocked){
-        [self updateDividerDragAt:point];
-    }else if(DFLogoHoldAdvance(&self->_logoHoldGate,
-                 NSProcessInfo.processInfo.systemUptime,point.x,point.y,
-                 self.verticalDivider)){
-        // Original 0.0.90 video orientation and live scene geometry are NOT
-        // modified; this drag is restricted to the normalized logo position.
-        [self beginDividerDragAt:CGPointMake(self->_logoHoldGate.x,
-                                             self->_logoHoldGate.y)];
-        if(_dividerDrag.active){
-            self->_dividerDrag.axis=DFDragLogo;
-            [self updateDividerDragAt:point];
-            DFCLog(@"logo-hold-3s-unlocked-parallel-only");
-        }
-    }
-    // Do not hide controls on an active, stationary or moving raw contact.
+    [self updateDividerDragAt:point];
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside cancelled:(BOOL)cancelled {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
     CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
-    BOOL allowSwap=DFLogoHoldIsQuickTap(&self->_logoHoldGate,
-                       NSProcessInfo.processInfo.systemUptime,
-                       point.x,point.y,inside,cancelled,self.logoWakeOnlyTap);
-    BOOL moved=self->_logoHoldGate.unlocked && _dividerDrag.active;
-    if(moved)[self finishDividerDragAt:point cancelled:cancelled];
-    self->_logoHoldGate=(DFLogoHoldGate){0};
+    BOOL wakeOnly=self.logoWakeOnlyTap;
+    BOOL tap=[self finishDividerDragAt:point cancelled:cancelled];
     self.logoTouchPending=NO;
     self.logoWakeOnlyTap=NO;
-    if(!moved)[self noteUserActivity];
-    if(allowSwap)[self swapPressed:sender];
+    if(tap && inside && !wakeOnly)[self swapPressed:sender];
+    else [self noteUserActivity];
 }
 - (void)swapPressed:(id)sender {
     // A drag never dispatches this tap action.
     BOOL justWaking=self.logoWakeOnlyTap && sender==self.dividerLogo;
-    self->_logoHoldGate=(DFLogoHoldGate){0};
-    self.logoTouchPending=NO;
+        self.logoTouchPending=NO;
     _dividerDrag.active=false;
     self.logoWakeOnlyTap=NO;
     [self noteUserActivity];
@@ -2138,8 +2112,7 @@ static void DFCLog(NSString *text) {
     self.restoringPhysical=-1;
     [self.restoreQueue removeAllObjects];
     self.logoTouchPending=NO;
-    self->_logoHoldGate=(DFLogoHoldGate){0};
-    _dividerDrag.active=false;
+        _dividerDrag.active=false;
     if(self.hostFullscreen)[self restoreHostFullscreenGeometry];
     self.startupActive=NO;
     ++self.borderGeneration;

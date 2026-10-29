@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdbool.h>
 
-// Shared by logo raw touches and the surrounding divider pan. No timer.
+// Shared immediate ratio gesture: logo follows its moving divider; no independent logo reposition.
 typedef enum { DFDragUndecided, DFDragRatio, DFDragLogo } DFDragAxis;
 typedef struct {
     bool active, vertical;
@@ -30,18 +30,14 @@ static inline void DFDragMove(DFDividerDrag *d, double x, double y) {
     double dx=x-d->x, dy=y-d->y;
     double perpendicular=d->vertical?dx:dy, parallel=d->vertical?dy:dx;
     d->maxExcursion=fmax(d->maxExcursion,hypot(dx,dy));
-    // A small movement slop protects taps. Ambiguous diagonals wait; once
-    // selected the axis stays locked until the physical contact finishes.
-    if(d->axis==DFDragUndecided){
-        if(fabs(perpendicular)>7 && fabs(perpendicular)>fabs(parallel)*1.25)
-            d->axis=DFDragRatio;
-        else if(fabs(parallel)>7 && fabs(parallel)>fabs(perpendicular)*1.25)
-            d->axis=DFDragLogo;
-    }
+    // Accept only motion across the split boundary. Moving ALONG the line
+    // never repositions the logo or changes ratio. The visible logo is centered
+    // on the same moving divider window, so no second drag mode/timer exists.
+    if(d->axis==DFDragUndecided &&
+       fabs(perpendicular)>7 && fabs(perpendicular)>fabs(parallel)*1.25)
+        d->axis=DFDragRatio;
     if(d->axis==DFDragRatio)
         d->ratio=DFDragClamp(d->ratioStart+perpendicular/d->ratioExtent,1.0/3.0,2.0/3.0);
-    else if(d->axis==DFDragLogo)
-        d->logo=DFDragClamp(d->logoStart+parallel/d->logoExtent,.1,.9);
 }
 static inline bool DFDragFinish(DFDividerDrag *d, double x, double y, bool cancelled) {
     if(!d->active)return false;

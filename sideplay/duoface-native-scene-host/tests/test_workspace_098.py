@@ -64,12 +64,12 @@ class Workspace098(unittest.TestCase):
   self.assertIn("rotateHostedAppsClockwise:",chrome)
   self.assertIn("if(active<3 || active>4",chrome)
   self.assertIn("self.sceneHandleReady[(NSUInteger)i]",chrome)
- def test_logo_92_raw_contact_is_byte_pinned(self):
+ def test_logo_moves_with_ratio_without_hold(self):
   chrome=src("DFNative12Chrome.m")
-  golden=(ROOT/"tests/fixtures/logo92_contact_and_swap_baseline.txt").read_text()
-  start=chrome.index("- (void)logoTouchDown:")
-  end=chrome.index("// The divider window itself is re-framed",start)
-  self.assertEqual(chrome[start:end],golden)
+  self.assertIn('self.dividerWindow.frame=tr;',chrome)
+  self.assertIn('self.dividerLogo.frame=self.verticalDivider?',chrome)
+  self.assertIn('[self beginDividerDragAt:point]',chrome)
+  self.assertNotIn('DFLogoHoldAdvance(',chrome)
  def test_iphone_restore_enable_and_reset(self):
   phone=src("DFNativeHostRootController.m")
   self.assertIn("showWorkspaceRestoreMenu",phone)

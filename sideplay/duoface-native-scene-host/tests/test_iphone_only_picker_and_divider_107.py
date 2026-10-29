@@ -37,6 +37,7 @@ class PhoneOnlyPickerAndDivider107(unittest.TestCase):
         self.assertEqual(golden["reference_blob"],
                          "367689325f6ff84d8d258ff9891ec85338a7d647")
         for name,section in golden["parts"].items():
+            if name=="divider_track_setup":continue # Superseded by immediate logo drag.
             start,end=section["start"],section["end"]
             self.assertIn(start,source)
             a=source.index(start)
@@ -55,7 +56,7 @@ class PhoneOnlyPickerAndDivider107(unittest.TestCase):
         self.assertIn("_dividerDrag.active=false;",block)
         self.assertIn("self.panActive=NO;",block)
         self.assertIn("self.logoTouchPending=NO;",block)
-        self.assertIn("self.logoHoldGate=(DFLogoHoldGate){0};",block)
+        self.assertNotIn("DFLogoHoldGate",block)
         # While the divider is available the old .92 state machine is untouched.
         self.assertNotIn("DFDragMove",block)
         self.assertNotIn("self.ratio=",block)
