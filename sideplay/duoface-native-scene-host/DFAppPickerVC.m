@@ -441,8 +441,9 @@
             DFAppInfo *match=nil;
             for(DFAppInfo *app in self.apps)
                 if([app.bundleID isEqualToString:bid]){match=app;break;}
-            if(!match){match=[DFAppInfo new];match.bundleID=bid;match.displayName=bid;}
-            [active addObject:match];
+            // Running is not a back door for unapproved iPhone apps.
+            // All CarPlay app tiles come only from the phone-approved list.
+            if(match)[active addObject:match];
         }
         return active;
     }
@@ -490,8 +491,10 @@
     // No synthetic entries, no duplicates: only IDs actually observed in
     // the independent scene host by the menu owner.
     NSMutableOrderedSet<NSString *> *unique=[NSMutableOrderedSet new];
+    NSSet<NSString *> *enabled=DFConfiguredEnabledAppIDs();
     for(id bid in verifiedBundleIDs)
-        if([bid isKindOfClass:NSString.class] && [bid length])
+        if([bid isKindOfClass:NSString.class] && [bid length] &&
+           DFPickerAllowsApp(bid,enabled))
             [unique addObject:bid];
     self.runningBundleIDs=unique.array;
     self.titleLabel.text=@"ĐANG MỞ";
