@@ -534,7 +534,7 @@
  [control setOn:NO animated:NO]; // consent before enabling process termination
  UIAlertController *alert=[UIAlertController alertControllerWithTitle:
     @"Đóng ứng dụng khi ngắt CarPlay"
-    message:@"Tắt mặc định. Khi bật, DuoFace chỉ yêu cầu đóng tiến trình đã xác minh được DuoFace mở cho phiên CarPlay sau 10 giây ngắt thật. Kết nối lại sẽ hủy. Nhạc có thể dừng, dữ liệu chưa lưu có thể mất. Không đóng app đang dùng trên iPhone."
+    message:@"Tắt mặc định, như DuoDash. Khi bật, sau 10 giây ngắt CarPlay thật, DuoFace yêu cầu đóng app đang quản lý qua scene xác minh, kể cả đã chạy trước khi được chọn vào ô. Kết nối lại hủy. Có thể dừng nhạc/dẫn đường, mất dữ liệu chưa lưu. Không đóng app đang mở trên iPhone. Bản đồ native do CarPlay sở hữu cần kiểm chứng riêng."
     preferredStyle:UIAlertControllerStyleAlert];
  __weak typeof(self) weakSelf=self;
  [alert addAction:[UIAlertAction actionWithTitle:@"Hủy"

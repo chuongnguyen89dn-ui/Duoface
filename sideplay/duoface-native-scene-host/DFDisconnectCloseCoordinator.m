@@ -72,25 +72,28 @@ static NSNumber *DFDiscVerifiedCurrentPID(NSString *bundle) {
  return nil;
 }
 static BOOL DFDiscPhoneForegroundIsSafeForClose(NSString *bundle) {
- // Return NO unless a trusted SpringBoard source can observe the PHONE frontmost
- // app and verify it is NOT the process targeted by the user policy.
+ // DuoDash checks _accessibilityFrontMostApplication before an RBS request.
+ // On Home/lock a supported getter may legitimately return nil.
+ // Require at least one supported getter, reject an unreadable bundle.
  Class ctrl=NSClassFromString(@"SBUIController");
  SEL shared=NSSelectorFromString(@"sharedInstance");
  id owner=[ctrl respondsToSelector:shared]?
   ((id(*)(id,SEL))objc_msgSend)(ctrl,shared):nil;
+ BOOL supported=NO;
  for(id target in @[owner?:NSNull.null,UIApplication.sharedApplication?:NSNull.null]){
    if(target==NSNull.null)continue;
    for(NSString *method in @[@"activeApplication",@"_accessibilityFrontMostApplication"]){
       SEL selector=NSSelectorFromString(method);
       if(![target respondsToSelector:selector])continue;
+      supported=YES;
       id app=DFDiscCall0(target,method);
-      if(!app)continue; // nil could mean unknown, not safely Home.
+      if(!app)continue; // Getter available but no phone app frontmost.
       NSString *actual=[app isKindOfClass:NSString.class]?app:DFDiscCall0(app,@"bundleIdentifier");
-      if(![actual isKindOfClass:NSString.class])continue;
-      return ![actual isEqualToString:bundle];
+      if(![actual isKindOfClass:NSString.class]||!actual.length)return NO;
+      if([actual isEqualToString:bundle])return NO;
    }
  }
- return NO;
+ return supported;
 }
 static BOOL DFDiscRequestTermination(NSString *bundle,NSString **reason){
  // RunningBoardServices private API is probed at runtime, no signal-kill.
@@ -154,13 +157,18 @@ void DFDisconnectCloseCapture(NSArray<NSDictionary *> *candidates,NSString *sess
   if(![bundle isKindOfClass:NSString.class]||!bundle.length||bundle.length>180||
      ![pid isKindOfClass:NSNumber.class]||pid.intValue<=1 ||
      [ids containsObject:bundle] ||
-     [bundle hasPrefix:@"com.apple."] ||
+     ([bundle hasPrefix:@"com.apple."] &&
+      ![bundle isEqualToString:@"com.apple.Maps"]) ||
      [bundle hasPrefix:@"com.duoface."])continue;
   [ids addObject:bundle];[accepted addObject:@{@"BundleID":bundle,@"PID":pid}];
  }
- if(!accepted.count)return;
+ if(!accepted.count){
+    DFDiscLog(@"capture-empty",@"no-live-verified-managed-PID; native-CarPlay-map-is-not-a-managed-host");
+    DFDiscAck(@"no-eligible-managed-app-or-unverified-pid",0,0);
+    return;
+ }
  gCandidates=[accepted copy];gSession=[session copy];
- DFDiscLog(@"captured-owned-new-processes",[NSString stringWithFormat:@"count=%lu",(unsigned long)accepted.count]);
+ DFDiscLog(@"captured-managed-live-pids",[NSString stringWithFormat:@"count=%lu",(unsigned long)accepted.count]);
  DFDiscAck(@"candidates-captured-awaiting-physical-disconnect",0,0);
 }
 BOOL DFDisconnectCloseNeedsMonitoring(void) {return gCandidates.count>0;}

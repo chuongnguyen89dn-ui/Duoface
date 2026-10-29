@@ -1071,13 +1071,15 @@ static void DFCLog(NSString *text) {
       physical>=self.sceneHandleReady.count ||
       ![self.sceneHandleReady[physical] boolValue])continue;
    UIView *surface=(UIView *)candidate;
-   if(![host isLiveSceneForHostedView:surface] ||
-      ![host wasProcessAbsentBeforeHostedView:surface])continue;
+   // DuoDash manages even pre-existing processes explicitly hosted in Split.
+   // Accept only a genuinely live ready scene belonging to DuoFace.
+   if(![host isLiveSceneForHostedView:surface])continue;
    NSString *bundle=[host bundleIDForHostedView:surface];
    NSNumber *pid=[host verifiedPIDForHostedView:surface];
    if(!bundle.length || !pid || pid.intValue<=1)continue;
    [items addObject:@{@"BundleID":bundle,@"PID":pid,
-                      @"PhysicalSlot":@(physical)}];
+                      @"PhysicalSlot":@(physical),
+                      @"NewlyStarted":@([host wasProcessAbsentBeforeHostedView:surface])}];
  }
  return [items copy];
 }
@@ -1776,6 +1778,17 @@ static void DFCLog(NSString *text) {
     host.userInteractionEnabled=NO;
     self.pendingScenes[(NSUInteger)physicalSlot]=host;
     [container addSubview:host];
+    // DuoDash persists left/right/third as soon as host request is accepted.
+    // Previously a pending second pane was lost if disconnected before ready.
+    // For replacement, retain the last ready app until the new scene commits.
+    if(![active isKindOfClass:UIView.class]){
+        if(DFSavePhysicalBundle(physicalSlot,bundleID)){
+            self.workspace=DFCurrentWorkspace();
+            DFCLog([NSString stringWithFormat:
+               @"workspace-intent-saved-pending physical=%ld bundle=%@",
+               (long)physicalSlot,bundleID]);
+        } else DFCLog(@"workspace-intent-save-failed");
+    }
     self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
     [self layoutControls];
