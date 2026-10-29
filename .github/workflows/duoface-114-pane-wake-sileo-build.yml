@@ -73,7 +73,7 @@ jobs:
           test "$(shasum -a 256 "$ORIG" | awk '{print $1}')" = "$EXPECT"
           dpkg-deb -x "$ORIG" "$RUNNER_TEMP/original-duonavi-payload"
           # Audited 1.0.4 package contains DuoNaviDashboard.dylib, NOT
-          # DuoFaceDashboard.dylib (the latter is a different Native12 DEB).
+          # DuoNaviDashboard.dylib (the latter is a different Native12 DEB).
           # The exact filename and package hash are in REFERENCE_DEB_AUDIT.json.
           DASH="$RUNNER_TEMP/original-duonavi-payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
           test -s "$DASH"
