@@ -1,20 +1,5 @@
 name: DuoFace 112 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-112-slot-memory-sileo-build.yml'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
-      - 'sideplay/duoface-native-scene-host/tests/test_carplay_home_reentry_111.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
-      - 'sideplay/duoface-native-scene-host/Info.plist'
-      - 'sideplay/duoface-native-scene-host/tests/test_voice_locale_105.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_disconnect_close_106.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
-      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package.py'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
   workflow_dispatch:
 permissions:
   contents: write
