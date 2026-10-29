@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-29 DuoFace #8/#10 integrated 0.1.105 QA build run 40807935718
+
+- Source branch feature/duoface-jb-embedded-appbridge-20261020 commit 8b33e026e2745f8855496f42427d4579c227138e. New feature: Maps follows actual physical window and Dock geometry with per-frame session-bound reflow and rollback; user-initiated Vietnamese/English single-command iOS Speech recognition + voice reply; UI language preferences on iPhone and CarPlay picker. Maintains .90 YouTube, .92 3s logo, system Dock and #5-7 slot/scene policy.
+- Voice requires consent and privacy Info.plist; never auto-opens microphone or apps and only reports verified CarPlay/Dock/Maps status. Maps still needs real device proof for tiles/navigation. True auto-launch of CarPlay from system Home and force-lock of iPhone screen remain UNIMPLEMENTED, not silently simulated.
+- CI run: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40807935718; Python=failure, macOS Foundation=skipped, iOS16 syntax=skipped; signed rootless package build=skipped; GitHub QA artifact upload=skipped. Package intended: com.duoface.carplay.nativescenehost version 0.1.105~native-map-voice1, rootless iphoneos-arm64. Metadata, SHA and artifact URL under sideplay/audit/duoface-map-voice-105/ci/runs/40807935718.txt.
+- New one-DEB QA staging is NOT Sileo publishing, NOT proof of installed device or real Maps navigation; do not claim complete unless the actual DEB artifact and on-device verification exist. Exact build command is bash sideplay/duoface-native-scene-host/build.sh from repo root on macOS with Xcode iOS16 SDK, ldid and dpkg-deb.
+- Next: inspect failed CI step/log if not green. If QA artifact exists, verify SHA/version/content and compare with previous .104, then test on parked CarPlay hardware (native scene map tiles, background navigation, physical pane resize, voice speech permission, language and Dock restoration) before optional Sileo release.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8 physical native Maps preflight, #10 settings audit: run 40807871981 PASS
 
 - Actual source repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020, CI source SHA cb40c563f2eb10b6f6553bf35703ccbee09f4fd5. Read-only native map original OmniCar comparison is in audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md of Omnicar repo; never embed proprietary license/code.
