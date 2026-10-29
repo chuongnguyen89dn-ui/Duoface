@@ -33,12 +33,14 @@ class HabitsSource(unittest.TestCase):
         self.assertIn("didSelectBundleID:app.bundleID",p)
 
     def test_only_scene_ready_records_usage(self):
-        p=file("DFNative12Chrome.m")
-        source=p.split("- (void)sceneReady:(NSNotification *)note {",1)[1]
-        ready=source.split("- (void)sceneFailed:",1)[0]
-        self.assertIn("DFRecordReadyAppHabit(readyBundle)",ready)
-        self.assertIn("self.sceneHandleReady[(NSUInteger)i]=@YES;",ready)
-        self.assertIn('DFRecordReadyAppHabit(readyBundle)',ready.split('sceneHandleReady[(NSUInteger)i]=@YES;',1)[1])
+        p=file("DFSceneHost.m")
+        ready=p.split("if (!self.ready) {",1)[1].split("[self publishYouTubeState];",1)[0]
+        self.assertIn("self.ready=YES;",ready)
+        self.assertIn("DFRecordReadyAppHabit(self.bundleID)",ready)
+        self.assertIn("DFSceneHostDidBecomeReadyNotification",ready)
+        self.assertIn("self.ready=YES;",ready.split("DFRecordReadyAppHabit(self.bundleID)",1)[0])
+        chrome=file("DFNative12Chrome.m")
+        self.assertNotIn("DFRecordReadyAppHabit",chrome)
 
 if __name__=="__main__":
     unittest.main(verbosity=2)
