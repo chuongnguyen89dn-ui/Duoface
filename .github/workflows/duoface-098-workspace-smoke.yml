@@ -12,6 +12,7 @@ on:
       - 'sideplay/duoface-native-scene-host/tests/workspace_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_workspace_098.py'
       - 'sideplay/duoface-native-scene-host/tests/test_logo_092_exact_regression.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
       - 'sideplay/duoface-native-scene-host/tests/fixtures/logo92_contact_and_swap_baseline.txt'
   workflow_dispatch:
 permissions:
