@@ -77,7 +77,7 @@ jobs:
           cd sideplay/firstparty-carplay-admission
           make clean package FINALPACKAGE=1
           test -s packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb
-      - name: Build latest .111 NativeHost, verify version and signed in-package modules
+      - name: Build latest .112 NativeHost, verify version and signed in-package modules
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
@@ -124,7 +124,7 @@ jobs:
           info=plistlib.loads((app/'Info.plist').read_bytes())
           assert 'NSMicrophoneUsageDescription' in info
           assert 'NSSpeechRecognitionUsageDescription' in info
-          print('DUOFACE_111_ONE_ROOTLESS_SIGNED_INTEGRATED_PAYLOAD_PASS')
+          print('DUOFACE_112_ONE_ROOTLESS_SIGNED_INTEGRATED_PAYLOAD_PASS')
           PY
           test -s sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json
           python3 - <<'PY'
@@ -134,9 +134,9 @@ jobs:
           assert d['source_git_commit'] and len(d['source_git_commit'])==40
           assert d['only_original_duoface_code'] and not d['contains_third_party_carbridge']
           assert d['sileo_published'] is False
-          print('DUOFACE_111_PROVENANCE_SOURCE_PIN_AND_NO_VENDOR_BINARY_PASS')
+          print('DUOFACE_112_PROVENANCE_SOURCE_PIN_AND_NO_VENDOR_BINARY_PASS')
           PY
-          shasum -a 256 "$OUT" | tee "$RUNNER_TEMP/duoface-111-integrated.sha256"
+          shasum -a 256 "$OUT" | tee "$RUNNER_TEMP/duoface-112-integrated.sha256"
           echo "INTEGRATED_OUTPUT=$OUT" >> "$GITHUB_ENV"
       - name: Upload temporary signed QA artifact, not Sileo
         uses: actions/upload-artifact@v4
@@ -188,13 +188,13 @@ jobs:
           if f"run {run}" not in old:
               p.write_text(block+old,encoding='utf8')
               assert p.read_text(encoding='utf8').startswith(block)
-          print('DUOFACE_111_INTEGRATED_HANDOFF_READBACK_PASS')
+          print('DUOFACE_112_INTEGRATED_HANDOFF_READBACK_PASS')
           PY
             git -C "$TEMP" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/" 'sideplay/tiep tuc du an.md'
             git -C "$TEMP" commit -m "release: archive signed one-DEB DuoFace .112 $GITHUB_RUN_ID [skip ci]"
             if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
               git worktree remove --force "$TEMP"
-              echo "DUOFACE_111_SIGNED_ARCHIVE_GITHUB_PUSH_PASS"
+              echo "DUOFACE_112_SIGNED_ARCHIVE_GITHUB_PUSH_PASS"
               exit 0
             fi
             git worktree remove --force "$TEMP"
