@@ -10,6 +10,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
       - 'sideplay/duoface-native-scene-host/tests/picker_display_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_picker_display_097.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_iphone_only_picker_and_divider_107.py'
+      - 'sideplay/duoface-native-scene-host/tests/fixtures/divider92_exact_source.json'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
       - 'sideplay/duoface-native-scene-host/tests/test_app_habits_096.py'
@@ -30,7 +32,7 @@ jobs:
         id: tests
         run: |
           set -euo pipefail
-          for NAME in test_picker_display_097.py test_native12_phone_apps_manager_094.py test_app_habits_096.py test_duodash_omnicar_catalog_integration.py test_logo_092_exact_regression.py test_scenehost_safety.py; do
+          for NAME in test_iphone_only_picker_and_divider_107.py test_picker_display_097.py test_native12_phone_apps_manager_094.py test_app_habits_096.py test_duodash_omnicar_catalog_integration.py test_logo_092_exact_regression.py test_scenehost_safety.py; do
             python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p "$NAME" -v
           done
       - name: Compile and execute real Foundation policy runtimes
