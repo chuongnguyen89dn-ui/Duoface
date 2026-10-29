@@ -34,7 +34,7 @@ class AppPicker097(unittest.TestCase):
  def test_add_more_only_allows_explicit_action_no_auto_launch(self):
   picker=read("DFAppPickerVC.m")
   for token in ("DFAddMoreAppsController","presentAddMore",
-       'card.title.text=@"Thêm App"',"DFWriteEnabledAppIDs(updated.array)",
+       'card.title.text=DFLocalize(@"Thêm App",@"Add More")',"DFWriteEnabledAppIDs(updated.array)",
        "DFConfiguredEnabledAppIDs()?:@[]",
        "if(!self.runningMode && (NSUInteger)indexPath.item==display.count)"):
    self.assertIn(token,picker)
@@ -46,7 +46,7 @@ class AppPicker097(unittest.TestCase):
   self.assertIn("self.categoryMode==1 && pinned",picker)
   self.assertIn("self.categoryMode==2 && !system",picker)
   self.assertIn("self.categoryMode==3 && system",picker)
-  self.assertIn('@"Ưa dùng",@"Người dùng",@"Hệ thống"',picker)
+  self.assertIn('DFLocalize(@"Ưa dùng",@"Favorites")',picker)
   self.assertIn("return self.apps;",picker)
  def test_keep_original_critical_runtime_untouched(self):
   build=read("build.sh")
