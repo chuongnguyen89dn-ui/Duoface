@@ -49,7 +49,7 @@ void run(int vertical, int grip, double width, double height, double *xy, int co
         self.assertEqual(self.drag([(100,140)],grip=False),[.5,.5,0,0])
 
     def test_ratio_track_drag_cannot_reposition_logo(self):
-        self.assertEqual(self.drag([(100,140),(140,140)],grip=False),[.6,.5,1,0])
+        self.assertEqual(self.drag([(100,120),(140,120)],grip=False),[.6,.5,1,0])
         self.assertEqual(self.drag([(120,100)],grip=False),[.55,.5,1,0])
 
     def test_horizontal_ratio_keeps_logo(self):
