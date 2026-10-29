@@ -25,6 +25,11 @@ class PhoneOnlyPickerAndDivider107(unittest.TestCase):
                           "Phân loại ứng dụng","plus.circle.fill"):
             self.assertNotIn(forbidden,picker,forbidden)
         self.assertIn("My Apps — Đã chọn",phone)
+        # Even the separate Running scene manager must not fabricate
+        # a tile for an app disabled from phone settings.
+        self.assertIn("DFPickerAllowsApp(bid,enabled)",picker)
+        self.assertIn("if(match)[active addObject:match];",picker)
+        self.assertNotIn("if(!match){match=[DFAppInfo new]",picker)
 
     def test_all_five_critical_divider_sections_identical_to_working_092(self):
         source=load("DFNative12Chrome.m")
