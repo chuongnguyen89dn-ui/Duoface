@@ -1546,7 +1546,7 @@ class WholeHostZoomGeometry059(unittest.TestCase):
   assert "DFZEmergencyRestore(session)" in z
 
 class ImmediateDividerDragContract(unittest.TestCase):
- def test_grip_and_track_immediately_adjust_one_ratio_without_hold(self):
+ def test_grip_moves_along_divider_and_track_resizes_without_hold(self):
   c=file("DFNative12Chrome.m")
   drag=file("DFDividerDrag.h")
   for token in ("DFDragMove(&_dividerDrag,p.x,p.y)", "DFDragFinish(&_dividerDrag,p.x,p.y,cancelled)", "self.touchEnded(self,NO,YES);", "BOOL controlsVisible=self.panActive || self.logoTouchPending ||", "blink.toValue=@1.18;", "self.dividerWindow.frame=tr;", "self.dividerLogo.frame=self.verticalDivider?", "logo-two-axis-drag-begin-no-hold"):
@@ -1554,8 +1554,8 @@ class ImmediateDividerDragContract(unittest.TestCase):
   for obsolete in ("DFLogoHoldBegin(", "DFLogoHoldAdvance(", "DFLogoHoldIsQuickTap(", "self->_dividerDrag.axis=DFDragLogo;"):
    self.assertNotIn(obsolete,c)
   self.assertIn("d->axis=DFDragLogo",drag)
-   self.assertIn("d->allowLogo &&",drag)
-  self.assertNotIn("d->logo=DFDragClamp",drag)
+  self.assertIn("d->allowLogo &&",drag)
+  self.assertIn("d->logo=DFDragClamp",drag)
   begin=c[c.index("- (void)logoTouchDown:"):c.index("- (void)logoTouchChanged:")]
   self.assertIn("[self beginDividerDragAt:point]",begin)
   track=c[c.index("- (void)dividerPan:"):c.index("- (CGPoint)secondaryTouchOnScreen:")]

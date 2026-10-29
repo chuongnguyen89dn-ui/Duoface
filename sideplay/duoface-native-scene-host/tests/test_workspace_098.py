@@ -70,7 +70,7 @@ class Workspace098(unittest.TestCase):
   self.assertIn('self.dividerLogo.frame=self.verticalDivider?',chrome)
   self.assertIn('[self beginDividerDragAt:point]',chrome)
   self.assertIn('_dividerDrag.allowLogo=true;',chrome)
-  self.assertIn('self.logoFraction=[prior[@"LogoFraction"] doubleValue];',chrome)
+  self.assertIn('_logoFraction=[prior[@"LogoFraction"] doubleValue];',chrome)
   self.assertIn('self.logoFraction=[saved[@"LogoFraction"] doubleValue];',chrome)
   self.assertNotIn('DFLogoHoldAdvance(',chrome)
  def test_iphone_restore_enable_and_reset(self):
