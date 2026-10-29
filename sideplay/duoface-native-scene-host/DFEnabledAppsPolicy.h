@@ -8,7 +8,8 @@ static NSString *const DFEnabledAppsPath =
  @"/var/mobile/Library/Preferences/com.duoface.nativehost.enabled-apps.v1.plist";
 static const char *const DFEnabledAppsChangedNotification =
  "com.duoface.nativehost.enabled-apps.changed.v1";
-// Absent preference: preserve .92 old all-eligible list. Explicit [] = none.
+// Strict new rule: absent preference selects NO apps. An explicit allowlist is required.
+// Previously .92 and .94 treated missing prefs as allow all; user supersedes that policy.
 // Invalid existing file: fail-closed rather than silently enable all.
 NS_INLINE NSArray<NSString *> *DFReadEnabledAppIDsAtPath(NSString *path) {
  if(![path isKindOfClass:NSString.class] || !path.length)return @[];
@@ -44,7 +45,7 @@ NS_INLINE BOOL DFWriteEnabledAppIDs(NSArray<NSString *> *bundleIDs) {
 NS_INLINE BOOL DFPickerAllowsApp(NSString *bundleID,
                                   NSArray<NSString *> *enabled) {
  return DFIsEligibleAppID(bundleID) &&
-        (!enabled || [enabled containsObject:bundleID]);
+        (enabled && [enabled containsObject:bundleID]);
 }
 // Original Enable Recommended invokes enableAllUserApps. Independently
 // interpret as user-installed non-Apple apps; no vendor scoring is copied.
