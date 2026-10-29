@@ -52,6 +52,12 @@
       @"/var/mobile/Library/Logs/DuoFaceNativeMapPane.log",
       @"/var/mobile/Library/Logs/DuoFaceDisconnectClose.log",
       @"/var/mobile/Library/Logs/DuoFaceFatalException.log"];
+    for(NSString *process in @[@"DuoFaceNativeHost",@"SpringBoard",@"CarPlayApp",@"CarPlay",@"Dashboard"]){
+        NSString *name=[NSString stringWithFormat:@"DuoFaceGeometry119-%@.jsonl",process];
+        NSString *path=[@"/var/mobile/Library/Logs" stringByAppendingPathComponent:name];
+        [summary appendFormat:@"\n=== %@ (last 256 KiB; read-only geometry, no physical PASS) ===\n%@\n",
+            name,[self tailAtPath:path maxBytes:256*1024]];
+    }
     for(NSString *p in ownLogs){
         [summary appendFormat:@"\n=== %@ (last 256 KiB) ===\n%@\n",
            p.lastPathComponent,[self tailAtPath:p maxBytes:256*1024]];

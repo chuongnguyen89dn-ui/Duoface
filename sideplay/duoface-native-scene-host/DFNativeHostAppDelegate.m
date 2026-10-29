@@ -1,6 +1,7 @@
 // Independent DuoFace native CarPlay scene-entry proof. NO vendor bridge code.
 #import <UIKit/UIKit.h>
 #import "DFDeepTrace.h"
+#import "DFGeometrySnapshot119.h"
 #import <CarPlay/CarPlay.h>
 #import "DFNative12BasicController.h"
 #import <Foundation/Foundation.h>
@@ -44,6 +45,8 @@ void DFNativeHostLog(NSString *message) {
 @property(nonatomic,assign) NSUInteger lastTouchSequence;
 @property(nonatomic,strong) NSTimer *touchHeartbeat;
 @property(nonatomic,weak) CPTemplateApplicationScene *touchOwnerScene;
+@property(nonatomic,copy) NSString *geometrySample;
+@property(nonatomic,assign) NSTimeInterval geometrySampleTime;
 - (void)consumeTouchCommand;
 - (void)startTouchOwnerForScene:(CPTemplateApplicationScene *)scene;
 - (void)stopTouchOwnerWithReason:(NSString *)reason;
@@ -176,6 +179,7 @@ void DFNativeHostLog(NSString *message) {
              reason?:@"unknown",revoked,rc]);
     }
     self.touchSession=nil;
+    self.geometrySample=nil;self.geometrySampleTime=0;
     self.lastTouchSequence=0;
     [[NSFileManager defaultManager] removeItemAtPath:DFAckPath error:nil];
 }
@@ -191,9 +195,16 @@ void DFNativeHostLog(NSString *message) {
     if(CGRectIsEmpty(safe))safe=w.bounds;
     CGRect content=CGRectMake(frame.origin.x+safe.origin.x,
          frame.origin.y+safe.origin.y,safe.size.width,safe.size.height);
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    BOOL newSample=!self.geometrySample || now-self.geometrySampleTime>=3.0;
+    if(newSample){self.geometrySample=NSUUID.UUID.UUIDString;self.geometrySampleTime=now;}
     NSDictionary *pulse=@{@"Version":@1,@"Session":self.touchSession,
             @"Active":@YES,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
-            @"ContentRect":NSStringFromCGRect(content)};
+            @"ContentRect":NSStringFromCGRect(content),
+            @"GeometrySample":self.geometrySample,@"GeometrySampleTime":@(self.geometrySampleTime)};
+    if(newSample)DFGWrite(pulse,@{@"CPWindow":DFGWindow(w),
+        @"PreClampContentRect":NSStringFromCGRect(content),
+        @"EmptySafeFrameFallback":@(CGRectIsEmpty(w.safeAreaLayoutGuide.layoutFrame))});
     NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
     if(![pulse writeToFile:path atomically:YES])
         [self stopTouchOwnerWithReason:@"heartbeat-write-failed"];

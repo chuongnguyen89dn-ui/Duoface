@@ -1,4 +1,5 @@
 #import "DFDeepTrace.h"
+#import "DFGeometrySnapshot119.h"
 // DuoFace independent native CarPlay UI Dock owner (iOS16, rootless).
 // Separate CarPlay/CarPlayApp process. No Native12 vendor class, binary or license.
 // Only acts upon a fresh, foreground DuoFace session + exact request ID.
@@ -344,11 +345,56 @@ static void DFZHandleCommand(void) {
                  klass,bounds);
     }
 }
+// Diagnostics only; the measured rectangles are NEVER passed to layout/Zoom.
+static void DFZGeometry119(void) {
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
+    static NSString *lastSample;
+    if(!DFGFresh(pulse,NSDate.date.timeIntervalSince1970) ||
+       [lastSample isEqual:pulse[@"GeometrySample"]])return;
+    lastSample=[pulse[@"GeometrySample"] copy];
+    NSMutableOrderedSet<UIWindow *> *all=[NSMutableOrderedSet orderedSetWithArray:UIApplication.sharedApplication.windows];
+    for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
+        if([scene isKindOfClass:UIWindowScene.class])
+            [all addObjectsFromArray:((UIWindowScene *)scene).windows];
+    NSMutableArray *windows=[NSMutableArray new],*docks=[NSMutableArray new];
+    for(UIWindow *w in all){
+        if(windows.count>=48)break;
+        NSMutableDictionary *item=[DFGWindow(w) mutableCopy];
+        // rootWindow is optional and may be a vendor wrapper in the original.
+        // Do not equate ordinary CPWindow with the original native root owner.
+        id root=DFGObject(w,@"rootWindow");
+        item[@"RootWindowGetterStatus"]=[root isKindOfClass:UIWindow.class]?@"observed":@"unresolved";
+        if([root isKindOfClass:UIWindow.class])item[@"RootWindow"]=DFGWindow(root);
+        [windows addObject:item];
+        UIView *dock=DFZControllerDockView(w.rootViewController,w,0);
+        if(!dock)dock=DFZDockClassView(w,w,0);
+        if(!dock && [NSStringFromClass(w.class) isEqual:@"DBDockWindow"] &&
+           DFZVisibleDockGeometry(w,w))dock=w;
+        if(dock){
+            CGRect rect=[dock convertRect:dock.bounds toCoordinateSpace:w.screen.coordinateSpace];
+            [docks addObject:@{@"ViewClass":NSStringFromClass(dock.class),
+                @"FrameInScreen":NSStringFromCGRect(rect),@"OwnerWindow":DFGWindow(w)}];
+        }
+    }
+    // Do not accept the historical statusbar fallback as a measured AppDock.
+    NSMutableArray *activeRoots=[NSMutableArray new];
+    for(id source in @[UIApplication.sharedApplication,UIApplication.sharedApplication.delegate?:NSNull.null]){
+        id active=DFGObject(source,@"activeCarPlayWindow");
+        id root=DFGObject(active,@"rootWindow");
+        if([root isKindOfClass:UIWindow.class])
+            [activeRoots addObject:@{@"GetterOwner":NSStringFromClass([source class]),@"RootWindow":DFGWindow(root)}];
+    }
+    DFGWrite(pulse,@{@"NativeWindows":windows,@"DockCandidates":docks,
+        @"ActiveCarPlayRootCandidates":activeRoots,
+        @"OriginalRootOwnerStatus":activeRoots.count==1?@"getter-observed-not-yet-crosschecked":@"unresolved",
+        @"InventoryTruncated":@(all.count>48),@"LayoutChanged":@NO});
+}
 static void DFZWatch(NSUInteger generation) {
     if(generation!=DFZGeneration || !DFZCarPlayProcess())return;
     // Unlike before, recover a missed Darwin command edge by re-reading only
     // the validated, fresh Session/RequestID/Sequence request record.
     DFZHandleCommand();
+    DFZGeometry119();
     if(DFZDockView) {
         if(!DFZOwnerSession || !DFZFreshSession(DFZOwnerSession) ||
            !DFZWindow || (DFZWindow.hidden && DFZDockView!=DFZWindow) || !DFZWindow.screen) {

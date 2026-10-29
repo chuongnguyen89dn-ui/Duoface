@@ -1,3 +1,11 @@
+## ACTIVE 2026-10-29 QA119 read-only same-session geometry — source prepared, not a size-fix claim
+- Continuation baseline `d0b22ee0c768d5e8df9ef6ae3522b219549406ec`, branch `feature/duoface-jb-embedded-appbridge-20261020`, repo `chuongnguyen89dn-ui/Duoface`. Read central SKILL_INDEX, rules and actual ZIPs 01/02/05, source and exact original comparison. Latest relevant runs 40904918475 and 40901000640 completed success; no duplicate build launched.
+- New user asks continue and fix sizing according to checkpoint. Its strict prerequisite is native same-session geometry BEFORE changing frame: implemented diagnostic sample UUID, actual CPWindow/scene/safeArea readback, SpringBoard pre/post clamp + all physical windows, native CarPlay window/root getter/Dock candidates, existing iPhone log export and offline analyzer. Details and exact commands: `sideplay/audit/dock-geometry-119/REPORT.md`. No guessed pixel fix or change to .118 runtime geometry. No .90/.92/GOFA/input changes.
+- Local unit/source/packaging checks: 20 PASS, `git diff --check` PASS; evidence `sideplay/audit/dock-geometry-119/LOCAL_TESTS.txt`. iOS compile/sign/Sileo/device are not yet verified at this checkpoint. Distinct planned integrated version `0.0.119~geometry-probe1`.
+- NEXT: existing macOS build workflow `.github/workflows/duoface-119-geometry-readonly-signed-qa.yml`, inspect actual run before any publish. Then collect parked-car export from **Xuất log / lỗi CarPlay**; offline analyzer groups same session/sample, rejects stale or ambiguous results. Only verified native owner measurements permit removing second margin. If unavailable, keep Dock-visible rollback. This diagnostic version is NOT a black-strip fix.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8 physical native Maps preflight, #10 settings audit: run 40900679067 PASS
 
 - Actual source repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020, CI source SHA 018c7b37b77e2d145aca2866a196ceb5d2d288ed. Read-only native map original OmniCar comparison is in audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md of Omnicar repo; never embed proprietary license/code.

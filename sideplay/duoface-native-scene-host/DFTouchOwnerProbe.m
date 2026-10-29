@@ -3,6 +3,7 @@
 // system Dock manipulation, fabricated UIKit touches, or autorun overlay.
 #import <UIKit/UIKit.h>
 #import "DFDeepTrace.h"
+#import "DFGeometrySnapshot119.h"
 #import "DFNative12Chrome.h"
 #import "DFDockZoomCoordinator.h"
 #import "DFDisconnectCloseCoordinator.h"
@@ -21,6 +22,8 @@ static DFNative12Chrome *sChrome;
 static NSString *sSession;
 static NSUInteger sSequence, sGeneration;
 
+static NSString *sGeometrySample119;
+static NSDictionary *sLaunchGeometry119;
 static BOOL sActivated;
 static int sStartToken=-1, sStopToken=-1, sAckToken=-1, sLayoutToken=-1;
 static NSUInteger sLastAckSequence=0;
@@ -259,6 +262,7 @@ static void DFStopProbe(NSString *reason) {
     sZoomReceipt=nil;sZoomFinishing=NO;
     NSString *previousSession=[sSession copy];
     sActivated=NO;
+    sGeometrySample119=nil;sLaunchGeometry119=nil;
     sSession=nil;
     sLastAckSequence=0;
     sRetryCount=0;sRetryAt=0;
@@ -301,6 +305,13 @@ static void DFWatchdog(NSUInteger generation) {
             age,pulse[@"Active"],[pulse[@"Session"] isEqualToString:sSession]]);
         DFStopProbe(@"inactive-or-stale-heartbeat");
         return;
+    }
+    if(DFGFresh(pulse,NSDate.date.timeIntervalSince1970) &&
+       ![sGeometrySample119 isEqual:pulse[@"GeometrySample"]]){
+        sGeometrySample119=[pulse[@"GeometrySample"] copy];
+        DFGWrite(pulse,@{@"LaunchGeometry":sLaunchGeometry119?:@{},
+            @"CurrentPulseContentRect":pulse[@"ContentRect"]?:@"unavailable",
+            @"PhysicalGeometry":[sChrome geometryReadback119]});
     }
     // Independent live SpringBoard geometry snapshot for *read-only*
     // cross-process native map pane alignment. A stale/revoked session fails closed.
@@ -405,6 +416,10 @@ static void DFStartProbe(void) {
             DFTOLog(@"preflight-rejected",@"content-too-small");
             DFStopProbe(@"content-invalid");return;
         }
+        sLaunchGeometry119=@{@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+            @"PreClampContentRect":value?:@"unavailable",
+            @"PostClampRegion":NSStringFromCGRect(region),
+            @"ScreenBounds":NSStringFromCGRect(screen),@"DiscoveryWindow":DFGWindow(discovery)};
         // CarPlay Home may be pressed after the initial file read but before
         // expensive CADisplay/window ABI probing completes. Never show
         // anything from a revoked session or an obsolete queued start.

@@ -1,3 +1,4 @@
+#import "DFGeometrySnapshot119.h"
 #import "DFDividerDrag.h"
 #import "DFDeepTrace.h"
 #import "DFNative12CardHeaderGeometry.h"
@@ -1194,6 +1195,17 @@ static void DFCLog(NSString *text) {
           @"HasLiveApp":@([self.sceneHandleReady[(NSUInteger)physical] boolValue])}];
     }
     return result;
+}
+// Pure observation of all four actual windows, including hidden/solo/startup.
+- (NSDictionary *)geometryReadback119 {
+    NSMutableArray *windows=[NSMutableArray new];
+    for(NSUInteger i=0;i<self.appSceneWindows.count;i++){
+        NSMutableDictionary *item=[DFGWindow(self.appSceneWindows[i]) mutableCopy];
+        item[@"PhysicalSlot"]=@(i);item[@"VisualSlot"]=@([self visualForPhysical:(NSInteger)i]);
+        [windows addObject:item];
+    }
+    return @{@"Windows":windows,@"CurrentContentRect":NSStringFromCGRect(self.contentRect),
+        @"Fullscreen":@(self.hostFullscreen),@"Startup":@(self.startupActive),@"Focus":@(self.focus)};
 }
 - (NSDictionary<NSString *,id> *)stateSnapshot {
     // A post-action observation of REAL owned scenes and layout; never

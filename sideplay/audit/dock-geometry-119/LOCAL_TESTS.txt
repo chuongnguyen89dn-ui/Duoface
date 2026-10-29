@@ -1,0 +1,48 @@
+COMMAND: python -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_geometry_119.py -v
+test_invalid_rect (test_geometry_119.Geometry119.test_invalid_rect) ... ok
+test_joins_candidate_without_claiming_fix (test_geometry_119.Geometry119.test_joins_candidate_without_claiming_fix) ... ok
+test_negative_overlap_reported_not_clamped (test_geometry_119.Geometry119.test_negative_overlap_reported_not_clamped) ... ok
+test_probe_is_observational (test_geometry_119.Geometry119.test_probe_is_observational) ... ok
+test_rejects_cross_session (test_geometry_119.Geometry119.test_rejects_cross_session) ... ok
+test_rejects_duplicate_dock_and_process (test_geometry_119.Geometry119.test_rejects_duplicate_dock_and_process) ... ok
+test_rejects_screen_scale_and_fullscreen (test_geometry_119.Geometry119.test_rejects_screen_scale_and_fullscreen) ... ok
+test_rejects_stale_or_clock_skew (test_geometry_119.Geometry119.test_rejects_stale_or_clock_skew) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.002s
+
+OK
+EXIT=0
+COMMAND: python -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_emergency_no_wake_dock_118.py -v
+test_dock_known_visible_116_rollback_exact (test_emergency_no_wake_dock_118.Emergency118.test_dock_known_visible_116_rollback_exact) ... ok
+test_no_input_root_subclass_and_no_app_pane_wake_registration (test_emergency_no_wake_dock_118.Emergency118.test_no_input_root_subclass_and_no_app_pane_wake_registration) ... ok
+test_preserve_per_pane_and_original_scene (test_emergency_no_wake_dock_118.Emergency118.test_preserve_per_pane_and_original_scene) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+EXIT=0
+COMMAND: python -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_logo_092_exact_regression.py -v
+test_no_three_second_logo_gate_in_active_source (test_logo_092_exact_regression.DividerGeometryHistoricalPin.test_no_three_second_logo_gate_in_active_source) ... ok
+test_ratio_geometry_still_pinned_to_092 (test_logo_092_exact_regression.DividerGeometryHistoricalPin.test_ratio_geometry_still_pinned_to_092) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK
+EXIT=0
+COMMAND: python -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p test_integrated_package.py -v
+test_does_not_publish_or_claim_carplay_success (test_integrated_package.EmbeddedPackagePolicy.test_does_not_publish_or_claim_carplay_success) ... ok
+test_final_one_deb_does_not_archive_stale_native_host_47 (test_integrated_package.EmbeddedPackagePolicy.test_final_one_deb_does_not_archive_stale_native_host_47) ... ok
+test_merged_one_app_uicache_scripts (test_integrated_package.EmbeddedPackagePolicy.test_merged_one_app_uicache_scripts) ... ok
+test_nativehost_version_matches_real_build_output (test_integrated_package.EmbeddedPackagePolicy.test_nativehost_version_matches_real_build_output) ... ok
+test_only_owned_inputs (test_integrated_package.EmbeddedPackagePolicy.test_only_owned_inputs) ... ok
+test_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass (test_integrated_package.EmbeddedPackagePolicy.test_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass) ... ok
+test_will_not_redistribute_vendor_and_does_not_auto_restart (test_integrated_package.EmbeddedPackagePolicy.test_will_not_redistribute_vendor_and_does_not_auto_restart) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+OK
+EXIT=0
