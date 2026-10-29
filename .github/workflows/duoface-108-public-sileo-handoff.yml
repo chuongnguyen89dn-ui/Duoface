@@ -85,6 +85,11 @@ jobs:
           # already inserted the .108 marker with stale inherited .106 metadata.
           old=old.replace('actionlint 40809650653 SUCCESS. Remote Packages single 0.0.106 APT record',
                           'actionlint 40822668328 SUCCESS. Remote Packages single 0.0.108 APT record')
+          # Scope current release correction to its own checkpoint; preserve
+          # original .106 history verbatim even after previous reconciliation.
+          old=old.replace(
+              'Publisher carplaydsp/main commit 4fe98c37e5ec06a927cd1006981fb30abab892fd; GitHub Actions run 40809650669 build/deploy/verify-duoface-integrated-pages/verify-qa11-pages all SUCCESS, actionlint 40822668328 SUCCESS. Remote Packages single 0.0.108 APT record',
+              'Publisher carplaydsp/main commit 4fe98c37e5ec06a927cd1006981fb30abab892fd; GitHub Actions run 40809650669 build/deploy/verify-duoface-integrated-pages/verify-qa11-pages all SUCCESS, actionlint 40809650653 SUCCESS. Remote Packages single 0.0.106 APT record')
           block=f"""{marker}
           
           - User explicitly authorized Sileo publication. Signed one-DEB .108 archive: sideplay/jb-embedded-appbridge/evidence/runs/40822276085/, source 696f514eb25c9e9be24ff2689fe2d422b93db85a, archive commit 4272b46a48d5a616d43705a86808dd24d65e19fb, SHA256 745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201.
