@@ -1,0 +1,109 @@
+name: DuoFace exact original DuoNavi 1.0.4 vs signed 118 Dock-geometry DEB
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-duonavi104-vs-signed118-dock-real-deb-audit.yml'
+      - 'sideplay/audit/duonavi104-vs-duoface118-dock-20261029/scan_exact_two_signed_debs.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-duonavi104-vs-signed118-dock-exact
+  cancel-in-progress: false
+jobs:
+  read-only-binary-crosswalk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Verify central CarPlay skill ZIP and read exact SKILL.md
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 4 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/carplay-skill.zip"
+          echo 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf  '"$RUNNER_TEMP/carplay-skill.zip" | sha256sum -c -
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -p "$RUNNER_TEMP/carplay-skill.zip" SKILL.md | head -100
+      - name: Install verified first-party Mach-O parser only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/parser"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile "$RUNNER_TEMP/parser/"*.py sideplay/audit/duonavi104-vs-duoface118-dock-20261029/scan_exact_two_signed_debs.py
+      - name: Verify current source is EXACT input to built and signed .118 DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin e9501ec1e5b441095a22b78b255c8c8b932bb383
+          for item in DFNativeHostAppDelegate.m DFTouchOwnerProbe.m DFNative12Chrome.m; do
+            git show "e9501ec1e5b441095a22b78b255c8c8b932bb383:sideplay/duoface-native-scene-host/$item" > "$RUNNER_TEMP/$item"
+            cmp "$RUNNER_TEMP/$item" "sideplay/duoface-native-scene-host/$item"
+          done
+          echo SIGNED118_GEOMETRY_SOURCES_EXACT_BLOB_MATCH
+      - name: Download exact signed current DEB and verify both DEB identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd  dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' | sha256sum -c -
+          URL='https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/c6415cdd7e4b7be1b0db18c896ce9b84c03c90ce/sideplay/jb-embedded-appbridge/evidence/runs/40901000640/com.duoface.jb.embedded_0.0.118~dock-rollback1_iphoneos-arm64.deb'
+          curl -fLsS --retry 4 "$URL" -o "$RUNNER_TEMP/current-118.deb"
+          echo '4b566ea40727df0acfd7baab8268dac2bfc8ada2779ad5ec6964b43f7b6793fb  '"$RUNNER_TEMP/current-118.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/current-118.deb" Version)" = '0.0.118~dock-rollback1'
+      - name: Scan and compare actual immutable DuoNavi and DuoFace binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/duonavi104-vs-duoface118-dock-20261029/scan_exact_two_signed_debs.py \
+            --original-deb dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb \
+            --current-deb "$RUNNER_TEMP/current-118.deb" \
+            --parser-dir "$RUNNER_TEMP/parser" \
+            --source-root "$(pwd)" \
+            --out sideplay/audit/duonavi104-vs-duoface118-dock-20261029
+          grep -Fq 'CBWindow.carPlayUsableBounds' sideplay/audit/duonavi104-vs-duoface118-dock-20261029/DUONAVI104_VS_SIGNED_DUOFACE118_DOCK_VERDICT.md
+          test -s sideplay/audit/duonavi104-vs-duoface118-dock-20261029/ORIGINAL_DUONAVI104_DOCK_IMP.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Original-DuoNavi104-Versus-Signed-DuoFace118-Dock-Geometry
+          path: |
+            sideplay/audit/duonavi104-vs-duoface118-dock-20261029/DUONAVI104_VS_SIGNED_DUOFACE118_DOCK_VERDICT.md
+            sideplay/audit/duonavi104-vs-duoface118-dock-20261029/ORIGINAL_DUONAVI104_DOCK_IMP.json
+            sideplay/audit/duonavi104-vs-duoface118-dock-20261029/CURRENT118_SIGNED_SOURCE_CONTRACT.json
+          if-no-files-found: error
+      - name: Persist only audited findings in DuoFace GitHub branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          REL=sideplay/audit/duonavi104-vs-duoface118-dock-20261029
+          SRC="$(pwd)/$REL"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            DEST="$TEMP/$REL"
+            mkdir -p "$DEST"
+            cp "$SRC/"*.md "$SRC/"*.json "$DEST/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL"
+            if git -C "$TEMP" diff --cached --quiet;then
+              git worktree remove --force "$TEMP"
+              echo EXACT_TWO_DEB_REPORT_ALREADY_SAVED
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'audit: SHA verified original DuoNavi 104 vs signed 118 Dock window geometry [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH";then
+              git worktree remove --force "$TEMP"
+              echo EXACT_TWO_DEB_DOCK_REPORT_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
