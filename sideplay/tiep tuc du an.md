@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-29 DuoFace #8/#10 integrated 0.1.105 QA build run 40808221014
+
+- Source branch feature/duoface-jb-embedded-appbridge-20261020 commit fecab6922c60c9328bfc158765f7953fbe4eb295. New feature: separate OFF-by-default user-approved disconnect auto-close option on iPhone; 10-second grace with generation cancellation; only real AVExternalDevice+CADisplay physical disconnect (never CarPlay Home), snapshots newly DuoFace-launched live scene PID BEFORE stop, verifies exact bundle/PID and phone foreground; guarded runtime RunningBoard terminate request and process-exit observation. Maps, voice and language from 105 remain unchanged. Maintains .90 YouTube, .92 3s logo, system Dock and #5-7 slot/scene policy.
+- Voice requires consent and privacy Info.plist; never auto-opens microphone or apps and only reports verified CarPlay/Dock/Maps status. Maps still needs real device proof for tiles/navigation. TRUE iOS app process termination and YouTube audio stop after CarPlay disconnect are NOT device-verified. Unknown private API/foreground availability fails closed; false positives are unacceptable. Does not kill any app process without user switch ON.
+- CI run: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40808221014; Python=success, macOS Foundation=success, iOS16 syntax=success; signed rootless package build=success; GitHub QA artifact upload=success. Package intended: com.duoface.carplay.nativescenehost version 0.1.106~duodash-disc10s1, rootless iphoneos-arm64; no unverified broad OS process kill. Metadata, SHA and artifact URL under sideplay/audit/duoface-disconnect-close-106/ci/runs/40808221014.txt.
+- New one-DEB QA staging is NOT Sileo publishing, NOT proof of installed device or real Maps navigation; do not claim complete unless the actual DEB artifact and on-device verification exist. Exact build command is bash sideplay/duoface-native-scene-host/build.sh from repo root on macOS with Xcode iOS16 SDK, ldid and dpkg-deb.
+- Next: inspect failed CI step/log if not green. If QA artifact exists, verify SHA/version/content and compare with previous .104, then test on parked CarPlay hardware (native scene map tiles, background navigation, physical pane resize, voice speech permission, language and Dock restoration) before user-approved Sileo publication.
+
+---
+
 
 ## CHECKPOINT 2026-10-29 DuoFace 097 strict iPhone allowlist and picker grid — source CI PASS
 
