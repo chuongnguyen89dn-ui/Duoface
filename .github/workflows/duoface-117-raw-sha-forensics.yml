@@ -1,0 +1,31 @@
+name: DuoFace 117 signed archive raw versus Git SHA
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-117-raw-sha-forensics.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify signed 117 from immutable Git blob and raw HTTP on macOS
+        run: |
+          set -euo pipefail
+          REF='5cd40d2840a201b6ea1d4d7e9404404e5f6c88dd'
+          REL='sideplay/jb-embedded-appbridge/evidence/runs/40895767087/com.duoface.jb.embedded_0.0.117~dock-wake1_iphoneos-arm64.deb'
+          SHA='8b3c521be791ea7b5f7f65123d6b03559f5dbf4ac3977c1403d4d5adecbb7262'
+          git fetch --no-tags origin "$REF"
+          git show "$REF:$REL" > "$RUNNER_TEMP/git-117.deb"
+          curl -fLsS --retry 4 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/$REF/$REL" -o "$RUNNER_TEMP/raw-117.deb"
+          shasum -a 256 "$RUNNER_TEMP/git-117.deb" "$RUNNER_TEMP/raw-117.deb"
+          wc -c "$RUNNER_TEMP/git-117.deb" "$RUNNER_TEMP/raw-117.deb"
+          file "$RUNNER_TEMP/git-117.deb" "$RUNNER_TEMP/raw-117.deb"
+          cmp "$RUNNER_TEMP/git-117.deb" "$RUNNER_TEMP/raw-117.deb"
+          printf '%s  %s\n' "$SHA" "$RUNNER_TEMP/raw-117.deb" | shasum -a 256 -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/raw-117.deb" Version)" = '0.0.117~dock-wake1'
+          echo DUOFACE_117_MACOS_HTTP_AND_ARCHIVED_SHA_PASS
