@@ -103,6 +103,34 @@
       }
     }
     [summary appendString:@"Native Maps pixels and actual route continuation require CarPlay on-device visual QA; never inferred from ACK.\n"];
+    // Report both independent persistence owners without exporting session IDs
+    // or PIDs. Normal app slots and the adopted native CarPlay Maps scene differ.
+    NSDictionary *workspace=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.workspace.v1.plist"];
+    NSArray *slots=workspace[@"PhysicalBundles"];
+    if([slots isKindOfClass:NSArray.class] && slots.count==4){
+      for(NSUInteger i=0;i<4;i++) {
+        NSString *selected=[slots[i] isKindOfClass:NSString.class]?slots[i]:@"";
+        [summary appendFormat:@"Remembered app slot %lu: %@\n",
+             (unsigned long)i,selected.length?selected:@"empty"];
+      }
+    }else [summary appendString:@"Remembered app slots: unavailable/invalid\n"];
+    NSDictionary *nativeChoice=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.native-map-choice.v1.plist"];
+    NSDictionary *nativeLease=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.native-map-lease.v1.plist"];
+    NSNumber *leaseTimestamp=nativeLease[@"Timestamp"];
+    NSTimeInterval leaseAge=[leaseTimestamp isKindOfClass:NSNumber.class]?
+      NSDate.date.timeIntervalSince1970-leaseTimestamp.doubleValue:INFINITY;
+    NSString *nativeBid=[nativeLease[@"BundleID"] isKindOfClass:NSString.class]?
+      nativeLease[@"BundleID"]:@"unverified";
+    [summary appendFormat:
+       @"Native map chosen physical slot: %@; last verified owner bundle: %@; lease age: %.2fs (must match current session)\n",
+       nativeChoice[@"Slot"]?:@"none",nativeBid,leaseAge];
+    NSDictionary *closeSetting=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.disconnect-close.v1.plist"];
+    [summary appendFormat:@"Physical unplug app close enabled: %@ (default OFF)\n",
+      [closeSetting[@"CloseOnPhysicalDisconnect"] boolValue]?@"YES":@"NO"];
     NSDictionary *closeState=[NSDictionary dictionaryWithContentsOfFile:
        @"/var/mobile/Library/Preferences/com.duoface.nativehost.disconnect-close.ack.v1.plist"];
     NSNumber *closeTime=closeState[@"Timestamp"];

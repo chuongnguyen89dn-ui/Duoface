@@ -25,7 +25,7 @@ class Disconnect106(unittest.TestCase):
   self.assertIn("previousSession",p)
   self.assertIn("DFEnsureDisconnectMonitor()",p)
   self.assertNotIn("DFDisconnectCloseCapture([self stored",p)
- def test_scope_newly_owned_verified_live_process_only(self):
+ def test_duodash_managed_verified_live_apps_including_existing_process(self):
   scene=f("DFSceneHost.m")
   chrome=f("DFNative12Chrome.m")
   self.assertIn("processDidNotExistBeforeHost",scene)
@@ -33,9 +33,14 @@ class Disconnect106(unittest.TestCase):
   self.assertIn("kill(before,0)",scene)
   self.assertIn("wasProcessAbsentBeforeHostedView",scene)
   self.assertIn("[host isLiveSceneForHostedView:surface]",chrome)
-  self.assertIn("[host wasProcessAbsentBeforeHostedView:surface]",chrome)
+  self.assertIn('"NewlyStarted":@([host wasProcessAbsentBeforeHostedView:surface])',chrome)
+  self.assertNotIn('! [host wasProcessAbsentBeforeHostedView:surface]',chrome)
+  self.assertNotIn('||\n      ![host wasProcessAbsentBeforeHostedView:surface]',chrome)
   self.assertIn("[host verifiedPIDForHostedView:surface]",chrome)
   self.assertIn('@"BundleID":bundle,@"PID":pid',chrome)
+  self.assertIn('DFNativeMapFreshLease(session,NSDate.date.timeIntervalSince1970)',f("DFDisconnectCloseCoordinator.m"))
+  self.assertIn('captured-verified-native-map-lease',f("DFDisconnectCloseCoordinator.m"))
+  self.assertIn('! [bundle isEqualToString:@"com.apple.Maps"]'.replace('! ','!'),f("DFDisconnectCloseCoordinator.m"))
  def test_abort_reconnect_disable_stale_pid_and_foreground(self):
   src=f("DFDisconnectCloseCoordinator.m")
   for token in ("DFDisconnectCloseGrace*NSEC_PER_SEC",

@@ -6,6 +6,8 @@ on:
       - '.github/workflows/duoface-099-physical-map-source-smoke.yml'
       - 'sideplay/native-carplay-scene-v1/DFCarPlayPhysicalPaneBinding.h'
       - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m'
+      - 'sideplay/duoface-native-scene-host/DFNativeMapLeasePolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
       - 'sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/test_physical_map_binding_099.py'
       - 'sideplay/native-carplay-scene-v1/tests/test_extended_settings_099.py'
@@ -30,6 +32,7 @@ jobs:
           set -euo pipefail
           python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_physical_map_binding_099.py' -v
           python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_extended_settings_099.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_duodash_disconnect_workspace_110.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_workspace_098.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
       - name: Compile and execute true Foundation CoreGraphics physical pane tests

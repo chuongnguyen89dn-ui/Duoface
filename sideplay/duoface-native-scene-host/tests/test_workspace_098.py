@@ -14,6 +14,8 @@ class Workspace098(unittest.TestCase):
                 "DFPhysicalForVisual","DFVisualForPhysical","RestoreOnReconnect"):
    self.assertIn(token,policy)
   self.assertIn("DFSavePhysicalBundle(i,bundle)",chrome)
+  self.assertIn("DFSavePhysicalBundle(physicalSlot,bundleID)",chrome)
+  self.assertIn("workspace-intent-saved-pending",chrome)
   self.assertIn("DFSavePhysicalBundle(physicalSlot,@\"\")",chrome)
   ready=chrome.split("- (void)sceneReady:",1)[1].split("- (void)sceneFailed:",1)[0]
   self.assertLess(ready.index("self.sceneHandleReady[(NSUInteger)i]=@YES;"),

@@ -9,6 +9,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DFDisconnectCloseCoordinator.m'
       - 'sideplay/duoface-native-scene-host/DFSlotWorkspacePolicy.h'
       - 'sideplay/duoface-native-scene-host/tests/test_disconnect_close_106.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeMapLeasePolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
       - 'sideplay/duoface-native-scene-host/tests/test_workspace_098.py'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
   workflow_dispatch:
@@ -27,7 +29,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for case in test_divider_drag.py test_logo_hold_gate.py test_disconnect_close_106.py test_workspace_098.py test_scenehost_safety.py test_iphone_only_picker_and_divider_107.py; do
+          for case in test_divider_drag.py test_logo_hold_gate.py test_disconnect_close_106.py test_duodash_disconnect_workspace_110.py test_workspace_098.py test_scenehost_safety.py test_iphone_only_picker_and_divider_107.py; do
             python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p "$case" -v
           done
       - name: Compile actual iOS16 ARM64 Objective-C sources
