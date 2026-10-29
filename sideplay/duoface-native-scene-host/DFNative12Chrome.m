@@ -1063,6 +1063,25 @@ static void DFCLog(NSString *text) {
     if(![self.appSceneWindows containsObject:surface.window])return;
     [self noteUserActivity];
 }
+- (NSArray<NSDictionary *> *)actualTwoPaneWindowReadback {
+    // The native map is a separate CarPlayApp process. Publish ONLY measured
+    // external UIWindow geometry, never pointers, scene handles or authority
+    // to reparent SpringBoard-owned apps.
+    if(self.startupActive || DFSlotCountForPreset(self.preset)!=2 ||
+       self.focus>=0 || self.appSceneWindows.count!=4)return @[];
+    NSMutableArray *result=[NSMutableArray new];
+    for(NSInteger physical=0;physical<2;physical++){
+       UIWindow *w=self.appSceneWindows[(NSUInteger)physical];
+       NSInteger visual=[self visualForPhysical:physical];
+       if(!w || visual<0 || visual>1 || !w.screen ||
+          w.screen==UIScreen.mainScreen)return @[];
+       [result addObject:@{@"PhysicalSlot":@(physical),@"VisualSlot":@(visual),
+          @"Frame":NSStringFromCGRect(w.frame),
+          @"OnExternalScreen":@(w.screen!=UIScreen.mainScreen),
+          @"WindowVisible":@(!w.hidden)}];
+    }
+    return result;
+}
 - (NSDictionary<NSString *,id> *)stateSnapshot {
     // A post-action observation of REAL owned scenes and layout; never
     // fabricated from the command being reported to the CarPlay process.
@@ -1088,6 +1107,7 @@ static void DFCLog(NSString *text) {
         @"SplitMode":@(self.preset),
         @"HostFullscreenGeometry":@(self.hostFullscreen),
         @"Owner":@"SpringBoard",
+        @"PhysicalWindowReadback":[self actualTwoPaneWindowReadback],
     };
 }
 - (void)emit:(NSString *)action ratio:(NSNumber *)ratio {
