@@ -273,6 +273,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL logoWakeOnlyTap;
 @property(nonatomic,copy) NSDictionary *workspace;
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *restoreQueue;
+@property(nonatomic,strong) NSMutableArray<NSNumber *> *restoreRetryCounts;
 @property(nonatomic,assign) NSUInteger restoreGeneration;
 @property(nonatomic,assign) BOOL restorePending;
 @property(nonatomic,assign) NSInteger restoringPhysical;
@@ -309,6 +310,7 @@ static void DFCLog(NSString *text) {
         _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO,@NO,@NO]];
         _workspace=DFCurrentWorkspace();
         _restoreQueue=[NSMutableArray new];_restoringPhysical=-1;
+        _restoreRetryCounts=[NSMutableArray arrayWithArray:@[@0,@0,@0,@0]];
     }return self;
 }
 - (NSInteger)physicalForVisual:(NSInteger)visual {
@@ -328,6 +330,7 @@ static void DFCLog(NSString *text) {
 - (void)beginSavedWorkspaceRestore {
     if(self.appSceneContainers.count!=4 || self.startupActive)return;
     ++self.restoreGeneration;
+    self.restoreRetryCounts=[NSMutableArray arrayWithArray:@[@0,@0,@0,@0]];
     [self.restoreQueue removeAllObjects];
     NSArray<NSString *> *list=DFRestorablePhysicalBundles(self.workspace,
        DFConfiguredEnabledAppIDs(),[NSSet setWithArray:[self installedBundleIDsForRestore]],
@@ -336,6 +339,31 @@ static void DFCLog(NSString *text) {
        if([list[(NSUInteger)i] length])[self.restoreQueue addObject:@(i)];
     self.restorePending=NO;
     [self restoreNextSavedWorkspaceApp];
+}
+// A fresh SBAppViewController can race the previous Home mode-0 invalidate.
+// Bounded one retry of EXACT saved/approved app avoids manual YouTube reselect.
+- (BOOL)scheduleFailedRestoreRetryForPhysical:(NSInteger)physical reason:(NSString *)reason {
+    if(physical<0 || physical>=4 || self.restoreRetryCounts.count!=4 ||
+       self.appSceneContainers.count!=4)return NO;
+    NSInteger retries=[self.restoreRetryCounts[(NSUInteger)physical] integerValue];
+    if(retries>=1)return NO;
+    self.restoreRetryCounts[(NSUInteger)physical]=@(retries+1);
+    [self.restoreQueue insertObject:@(physical) atIndex:0];
+    self.restorePending=YES;self.restoringPhysical=physical;
+    NSUInteger generation=self.restoreGeneration;
+    DFCLog([NSString stringWithFormat:
+       @"workspace-restore-requeued-after-host-failure slot=%ld reason=%@",
+       (long)physical,reason?:@"unknown"]);
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.2*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),^{
+        DFNative12Chrome *owner=weakOwner;
+        if(!owner || owner.restoreGeneration!=generation || !owner.restorePending ||
+           owner.restoringPhysical!=physical || owner.appSceneContainers.count!=4)return;
+        owner.restorePending=NO;owner.restoringPhysical=-1;
+        [owner restoreNextSavedWorkspaceApp];
+    });
+    return YES;
 }
 - (void)restoreNextSavedWorkspaceApp {
     if(self.startupActive || self.restorePending || self.appSceneContainers.count!=4)return;
@@ -347,7 +375,12 @@ static void DFCLog(NSString *text) {
        NSArray *savedBundles=self.workspace[@"PhysicalBundles"];
        NSString *bundle=savedBundles[(NSUInteger)physical];
        if(!DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs()) ||
-          ![[self installedBundleIDsForRestore] containsObject:bundle])continue;
+          ![[self installedBundleIDsForRestore] containsObject:bundle]){
+          DFCLog([NSString stringWithFormat:
+             @"workspace-restore-skipped-allowlist-or-install slot=%ld bundle=%@",
+             (long)physical,bundle?:@""]);
+          continue;
+       }
        if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
           [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class])continue;
        NSError *error=nil;
@@ -355,6 +388,8 @@ static void DFCLog(NSString *text) {
        if(!surface) {
           DFCLog([NSString stringWithFormat:@"workspace-restore-refused slot=%ld reason=%@",
                  (long)physical,error.localizedDescription?:@"unknown"]);
+          if([self scheduleFailedRestoreRetryForPhysical:physical
+                reason:error.localizedDescription?:@"host-create-refused"])return;
           continue;
        }
        UIView *container=self.appSceneContainers[(NSUInteger)physical];
@@ -379,7 +414,8 @@ static void DFCLog(NSString *text) {
              owner.pendingScenes[(NSUInteger)physical]=NSNull.null;
              owner.restorePending=NO;
              owner.restoringPhysical=-1;
-             [owner restoreNextSavedWorkspaceApp];
+             if(![owner scheduleFailedRestoreRetryForPhysical:physical reason:@"scene-not-ready-after-7s"])
+                 [owner restoreNextSavedWorkspaceApp];
              DFCLog(@"workspace-restore-timeout-skipped-no-fake-ready");
           }
        });
@@ -1855,7 +1891,9 @@ static void DFCLog(NSString *text) {
           if(self.restorePending && self.restoringPhysical==i){
              self.restorePending=NO;
              self.restoringPhysical=-1;
-             dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
+             if(![self scheduleFailedRestoreRetryForPhysical:i
+                 reason:[note.userInfo[@"error"] description]])
+                 dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
           }
           DFCLog([NSString stringWithFormat:
             @"scene-replace-rolled-back-old-app-retained slot=%ld error=%@",
