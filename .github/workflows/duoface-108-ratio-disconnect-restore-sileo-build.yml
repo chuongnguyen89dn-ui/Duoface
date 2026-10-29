@@ -1,12 +1,5 @@
-name: DuoFace 108 ratio drag, disconnect and reconnect restore signed Sileo package build
+name: DuoFace 108 old signed archive reproducibility (manual only, superseded by vertical logo fix)
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-108-ratio-disconnect-restore-sileo-build.yml'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
   workflow_dispatch:
 permissions:
   contents: write
