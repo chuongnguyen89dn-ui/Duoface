@@ -58,7 +58,10 @@ static inline NSDictionary *DFPhysicalMapVerifyPane(
     NSInteger v=[entry[@"VisualSlot"] integerValue];
     NSInteger physical=[entry[@"PhysicalSlot"] integerValue];
     if(v<0||v>1||physical<0||physical>1||[seen containsObject:@(v)] ||
+       ![entry[@"HasLiveApp"] isKindOfClass:NSNumber.class] ||
        !DFPhysicalMapValidRect(entry[@"Frame"],&rects[v]))return fail;
+    if(v==desiredSlot && [entry[@"HasLiveApp"] boolValue])
+       return @{@"Verified":@NO,@"Reason":@"target-duoface-slot-already-hosts-app"};
     [seen addObject:@(v)];
  }
  if(seen.count!=2)return fail;
