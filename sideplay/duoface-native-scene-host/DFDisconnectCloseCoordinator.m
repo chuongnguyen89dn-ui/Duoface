@@ -142,7 +142,8 @@ void DFDisconnectCloseNewActiveSession(void){
  DFDiscCancel(@"new-verified-carplay-session",YES);
 }
 void DFDisconnectCloseCapture(NSArray<NSDictionary *> *candidates,NSString *session) {
- if(gCandidates.count || ![session isKindOfClass:NSString.class] ||
+ if(!DFDisconnectCloseEnabled() || gCandidates.count ||
+    ![session isKindOfClass:NSString.class] ||
     ![[NSUUID alloc]initWithUUIDString:session])return;
  NSMutableArray *accepted=[NSMutableArray new];
  NSMutableSet *ids=[NSMutableSet new];
@@ -164,7 +165,7 @@ void DFDisconnectCloseCapture(NSArray<NSDictionary *> *candidates,NSString *sess
 }
 BOOL DFDisconnectCloseNeedsMonitoring(void) {return gCandidates.count>0;}
 void DFDisconnectClosePolicyChanged(void) {
- if(!DFDisconnectCloseEnabled() && gScheduled)
+ if(!DFDisconnectCloseEnabled() && (gScheduled || gCandidates.count))
     DFDiscCancel(@"setting-disabled-before-close",YES);
 }
 void DFDisconnectClosePhysicalObserved(BOOL connected) {
