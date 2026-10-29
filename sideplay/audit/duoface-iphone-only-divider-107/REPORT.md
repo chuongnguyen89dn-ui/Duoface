@@ -1,3 +1,12 @@
+## 2026-10-29 — .109 SIGNED BINARY VERIFIED, NEW SILEO PUBLISHER IN PROGRESS
+
+- Actual signed one-DEB .109 build SUCCESS: GitHub Actions https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469583, workflow `.github/workflows/duoface-109-logo-vertical-restore-sileo-build.yml`, source `ec1db1d24a568b49876d900fd0a4fd840330a47c` and archivist commit `20d4bc8d40b83c5e161bde78484f71253129d4b8`. Archive `sideplay/jb-embedded-appbridge/evidence/runs/40824469583/com.duoface.jb.embedded_0.0.109~logo-vertical-restore1_iphoneos-arm64.deb`; SHA256 `ede059bad08b69618b8e3c9ae1296943fbc1651e7e624aef9a11214dda9014a9`; artifact ID `12876022929`. Read back `SHA256SUMS.txt`, `BUILD_SOURCE.txt`, `CI_RESULT.txt` on GitHub. Build metadata correctly says SILEO_PUBLISHED=false at archive time.
+- Independent source tests: C two-axis immediate drags `40824251713` SUCCESS; macOS Foundation disconnect+restore and iOS16 Objective-C syntax `40824251732` SUCCESS; Native12 regression after fixture correction `40824357040` SUCCESS. Source QA on exact .109 version `40824469630` SUCCESS. No physical CarPlay touch report, so release remains beta.
+- Existing Sileo publisher `chuongnguyen89dn-ui/carplaydsp` main advanced to `9f2cc1df1d2cd19a1f1240551395d68f5a43eec8`: pins exact .109 archive and SHA, preserves .108/.106/.92/.90 archived downloads, filters APT index to exactly one latest `com.duoface.jb.embedded` entry .109. Publisher GitHub Actions https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40824822495 and actionlint https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40824822493 started; still MUST check public download/Packages and all jobs SUCCESS.
+- Note intentionally no Sileo release claim before remote verifier PASS; previously public .108 is **not** capable of vertical logo drag and must be replaced with version .109 only after all checks. Device QA remains mandatory to establish actual touch success.
+
+---
+
 ## 2026-10-29 — CRITICAL CORRECTION: .108 OMITTED VERTICAL LOGO MOVEMENT
 
 - User complaint: "Mày lại bịa? Thanh chia logo di chuyển lên xuống đâu? Mày ko đọc lịch sử?" Correct; the historical approved contract (2026-10-26) was **one-finger dragging vertically along the split moves the circular logo independently**, dragging horizontally across the split resizes the two actual panes, a quick logo tap swaps, **no three-second hold**, releasing preserves each value; 4-second auto-hide remains. Previous 2026-10-29 wording about the logo following ratio does not authorize deletion of vertical movement.
