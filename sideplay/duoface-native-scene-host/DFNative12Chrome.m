@@ -545,6 +545,26 @@ static void DFCLog(NSString *text) {
         w.windowLevel=UIWindowLevelNormal+level;
         w.rootViewController=root;
         root.view.frame=CGRectMake(0,0,frame.size.width,frame.size.height);
+        // A real UIKit pane touch can bypass the hosted child hitTest.
+        // Register on the physical root-window event owner identified in the
+        // SHA-pinned Native12 analysis; preserve the delivered event unchanged.
+        if(physicalPane && traced) {
+            __weak typeof(self) weakChrome=self;
+            DFPane117SetWake(w,^(UIWindow *touchedWindow){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    DFNative12Chrome *owner=weakChrome;
+                    if(!owner || !touchedWindow ||
+                       ![owner.appSceneWindows containsObject:touchedWindow] ||
+                       touchedWindow.hidden ||
+                       touchedWindow.screen==UIScreen.mainScreen ||
+                       owner.startupActive || owner.pickerVisible ||
+                       owner.styleVisible || owner.appPickerVisible)return;
+                    BOOL hidden=NSDate.date.timeIntervalSince1970>owner.controlsUntil;
+                    [owner noteUserActivity];
+                    if(hidden)DFCLog(@"pane117-root-window-woke-hidden-logo-and-controls");
+                });
+            });
+        }
         w.hidden=YES;
         [self.windows addObject:w];
         return w;
