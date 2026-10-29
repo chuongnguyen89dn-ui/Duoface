@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-29 DuoFace #8/#10 integrated 0.1.105 QA build run 40804143371
+
+- Source branch feature/duoface-jb-embedded-appbridge-20261020 commit 6a5dfdda28c24e1125a893655c670ae95c08f271. New feature: Maps follows actual physical window and Dock geometry with per-frame session-bound reflow and rollback; user-initiated Vietnamese/English single-command iOS Speech recognition + voice reply; UI language preferences on iPhone and CarPlay picker. Maintains .90 YouTube, .92 3s logo, system Dock and #5-7 slot/scene policy.
+- Voice requires consent and privacy Info.plist; never auto-opens microphone or apps and only reports verified CarPlay/Dock/Maps status. Maps still needs real device proof for tiles/navigation. True auto-launch of CarPlay from system Home and force-lock of iPhone screen remain UNIMPLEMENTED, not silently simulated.
+- CI run: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40804143371; Python=success, macOS Foundation=success, iOS16 syntax=success; signed rootless package build=success; GitHub QA artifact upload=success. Package intended: com.duoface.carplay.nativescenehost version 0.1.105~native-map-voice1, rootless iphoneos-arm64. Metadata, SHA and artifact URL under sideplay/audit/duoface-map-voice-105/ci/runs/40804143371.txt.
+- New one-DEB QA staging is NOT Sileo publishing, NOT proof of installed device or real Maps navigation; do not claim complete unless the actual DEB artifact and on-device verification exist. Exact build command is bash sideplay/duoface-native-scene-host/build.sh from repo root on macOS with Xcode iOS16 SDK, ldid and dpkg-deb.
+- Next: inspect failed CI step/log if not green. If QA artifact exists, verify SHA/version/content and compare with previous .104, then test on parked CarPlay hardware (native scene map tiles, background navigation, physical pane resize, voice speech permission, language and Dock restoration) before optional Sileo release.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8/#10 integrated 0.1.105 QA build run 40804057291
 
 - Source branch feature/duoface-jb-embedded-appbridge-20261020 commit ab11108316527ed896935daa9193faadea08d79d. New feature: Maps follows actual physical window and Dock geometry with per-frame session-bound reflow and rollback; user-initiated Vietnamese/English single-command iOS Speech recognition + voice reply; UI language preferences on iPhone and CarPlay picker. Maintains .90 YouTube, .92 3s logo, system Dock and #5-7 slot/scene policy.
