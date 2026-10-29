@@ -63,8 +63,13 @@ class Disconnect106(unittest.TestCase):
     self.assertIn(token,phone)
   build=f("build.sh")
   self.assertIn("DFDisconnectCloseCoordinator.m",build)
-  self.assertIn("0.1.111~home-reentry-youtube1",build)
-  self.assertIn("0.1.111~home-reentry-youtube1",f("control"))
+  # The disconnect regression is release-agnostic: check the current
+  # control metadata against the actual signed-package output path.
+  import re
+  control=f("control")
+  version=re.search(r"^Version:\s*(\S+)\s*$",control,re.MULTILINE)
+  self.assertIsNotNone(version)
+  self.assertIn("com.duoface.carplay.nativescenehost_"+version.group(1)+"_iphoneos-arm64.deb",build)
  def test_manual_diagnostics_records_disconnect_actual_pid_outcome(self):
   source=f("DFNativeDiagnostics.m")
   self.assertIn("DuoFaceDisconnectClose.log",source)
