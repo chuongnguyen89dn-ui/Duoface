@@ -106,7 +106,9 @@ class AppTileOriginalPalette(unittest.TestCase):
         self.assertAlmostEqual(floats["0xa493c"],.225)
     def test_original_localized_modes_and_inactive_palette(self):
         p=(ROOT/"DFAppPickerVC.m").read_text()
-        self.assertIn('names=@[@"Ứng dụng",@"Bố cục",@"Đang mở"]',p)
+        self.assertIn('names=@[DFLocalize(@"Ứng dụng",@"Apps")',p)
+        self.assertIn('DFLocalize(@"Bố cục",@"Layouts")',p)
+        self.assertIn('DFLocalize(@"Đang mở",@"Running")',p)
         self.assertIn("[UIColor colorWithWhite:.68 alpha:1]",p)
 
 if __name__=="__main__":unittest.main()
