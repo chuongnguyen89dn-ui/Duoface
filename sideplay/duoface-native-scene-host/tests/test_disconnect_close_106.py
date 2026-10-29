@@ -65,6 +65,15 @@ class Disconnect106(unittest.TestCase):
   self.assertIn("DuoFaceDisconnectClose.log",source)
   self.assertIn("disconnect-close.ack.v1.plist",source)
   self.assertIn('closeState[@"VerifiedExited"]',source)
+ def test_worker_revalidates_new_session_before_termination(self):
+  source=f("DFDisconnectCloseCoordinator.m")
+  for marker in ("dispatch_sync(dispatch_get_main_queue()", "stillEligible=(generation==gGeneration",
+                 "[DFDiscVerifiedCurrentPID(ownedBundle) isEqual:before]",
+                 "DFDiscPhoneForegroundIsSafeForClose(ownedBundle)",
+                 "worker-stale-reconnected-or-pid-changed",
+                 "worker-response-ignored-after-reconnect",
+                 "termination-workers-dispatched-not-yet-confirmed"):
+   self.assertIn(marker,source)
  def test_legacy_chrome_video_and_logo_unchanged(self):
   chrome=f("DFNative12Chrome.m")
   self.assertIn("- (void)logoTouchChanged:",chrome)

@@ -1546,24 +1546,17 @@ class WholeHostZoomGeometry059(unittest.TestCase):
   assert "DFZEmergencyRestore(session)" in z
 
 class ImmediateDividerDragContract(unittest.TestCase):
- def test_ratio_track_remains_immediate_but_logo_is_3_second_hold_only(self):
+ def test_grip_and_track_immediately_adjust_one_ratio_without_hold(self):
   c=file("DFNative12Chrome.m")
-  # Previous no-hold policy was intentionally superseded by the owner's
-  # explicit requirement: hold the circular grip 3 seconds before movement.
-  for old in ("logoRatioDwell", "gripHold", "logoLongPressGesture:"):
-   self.assertNotIn(old,c)
-  self.assertIn("DFDragMove(&_dividerDrag,p.x,p.y)",c)
-  self.assertIn("DFDragFinish(&_dividerDrag,p.x,p.y,cancelled)",c)
-  self.assertIn("self.touchEnded(self,NO,YES);",c)
-  self.assertIn("BOOL controlsVisible=self.panActive || self.logoTouchPending ||",c)
-  self.assertIn("blink.toValue=@1.18;",c)
-  self.assertNotIn("line.tag=718;",c)
-  self.assertIn("self->_dividerDrag.axis=DFDragLogo;",c)
-  self.assertIn("DFLogoHoldAdvance(&self->_logoHoldGate",c)
-  self.assertIn("DFLogoHoldIsQuickTap(&self->_logoHoldGate",c)
+  drag=file("DFDividerDrag.h")
+  for token in ("DFDragMove(&_dividerDrag,p.x,p.y)", "DFDragFinish(&_dividerDrag,p.x,p.y,cancelled)", "self.touchEnded(self,NO,YES);", "BOOL controlsVisible=self.panActive || self.logoTouchPending ||", "blink.toValue=@1.18;", "self.dividerWindow.frame=tr;", "self.dividerLogo.frame=self.verticalDivider?", "logo-ratio-drag-begin-no-hold"):
+   self.assertIn(token,c)
+  for obsolete in ("DFLogoHoldBegin(", "DFLogoHoldAdvance(", "DFLogoHoldIsQuickTap(", "self->_dividerDrag.axis=DFDragLogo;"):
+   self.assertNotIn(obsolete,c)
+  self.assertNotIn("d->axis=DFDragLogo",drag)
+  self.assertNotIn("d->logo=DFDragClamp",drag)
   begin=c[c.index("- (void)logoTouchDown:"):c.index("- (void)logoTouchChanged:")]
-  self.assertIn("DFLogoHoldBegin(",begin)
-  self.assertNotIn("[self beginDividerDragAt:",begin)
+  self.assertIn("[self beginDividerDragAt:point]",begin)
   track=c[c.index("- (void)dividerPan:"):c.index("- (CGPoint)secondaryTouchOnScreen:")]
   self.assertIn("[self beginDividerDragAt:screen]",track)
   finish=c[c.index("- (BOOL)finishDividerDragAt:"):c.index("- (void)logoTouchDown:")]
