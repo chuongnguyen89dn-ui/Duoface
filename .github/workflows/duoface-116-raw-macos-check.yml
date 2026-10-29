@@ -1,0 +1,40 @@
+name: DuoFace 116 raw DEB macOS bytes comparison
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-116-raw-macos-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  raw-check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare archived DEB with raw.githubusercontent.com download
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=sideplay/jb-embedded-appbridge/evidence/runs/40870166155
+          FILE=com.duoface.jb.embedded_0.0.116~pane-trace1_iphoneos-arm64.deb
+          URL="https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/eaad4d45d8b6fbb6d41b32a04c632592d6f8d3a7/$ROOT/$FILE"
+          echo EXPECTED=fc87ceb4a8492469563246c00a9a205b838498f7652f8515bb08b9ca356285a8
+          echo "OS=${{ matrix.os }}"
+          printf 'ARCHIVE_BYTES='; wc -c < "$ROOT/$FILE"
+          printf 'ARCHIVE_SHA='; shasum -a 256 "$ROOT/$FILE"
+          curl -fLsS --retry 4 -D "$RUNNER_TEMP/headers.txt" "$URL" -o "$RUNNER_TEMP/from-github.deb"
+          printf 'DOWNLOADED_BYTES='; wc -c < "$RUNNER_TEMP/from-github.deb"
+          printf 'DOWNLOADED_SHA='; shasum -a 256 "$RUNNER_TEMP/from-github.deb"
+          grep -iE '^(content-length|content-type|content-encoding|x-cache|etag|location):' "$RUNNER_TEMP/headers.txt" || true
+          if cmp -s "$ROOT/$FILE" "$RUNNER_TEMP/from-github.deb"; then
+            echo VERIFIED_BYTE_IDENTICAL
+          else
+            echo BYTES_MISMATCH
+            file "$RUNNER_TEMP/from-github.deb"
+            exit 1
+          fi
