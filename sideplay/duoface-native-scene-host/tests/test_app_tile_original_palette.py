@@ -13,14 +13,14 @@ class AppTileOriginalPalette(unittest.TestCase):
         self.assertIn("self.icon.layer.cornerRadius=self.runningControls?0:(.225*iconSide)",p)
         self.assertIn("[UIColor colorWithRed:.55 green:.80 blue:1 alpha:1]",p)
         self.assertIn("[UIColor colorWithWhite:.95 alpha:1]",p)
-        self.assertIn("card.icon.layer.borderWidth=selectedApp?2:0;",p)
+        self.assertIn("card.icon.layer.borderWidth=selectedApp?2:(pendingApp?1:0);",p)
         self.assertIn("[UIColor colorWithRed:.15 green:.62 blue:1 alpha:1]",p)
         self.assertIn("self.currentSlotBundleID isEqualToString:app.bundleID",p)
     def test_verified_scene_identity_not_inventory_guess(self):
         h=(ROOT/"DFAppPickerVC.h").read_text()
         c=(ROOT/"DFNative12Chrome.m").read_text()
         self.assertIn("currentSlotBundleID",h)
-        self.assertIn("if([self.sceneHandleReady[(NSUInteger)physical] boolValue])",c)
+        self.assertIn("[hostOwner isLiveSceneForHostedView:surface]",c)
         self.assertIn("self.appPickerController.currentSlotBundleID=current;",c)
         self.assertIn("bundleIDForHostedView:surface",c)
     def test_original_dark_material_sheet_and_shadow(self):
@@ -45,8 +45,10 @@ class AppTileOriginalPalette(unittest.TestCase):
         self.assertIn("self.view.backgroundColor=[UIColor colorWithWhite:0 alpha:.65];",p)
     def test_real_badge_states_and_geometry(self):
         p=(ROOT/"DFAppPickerVC.m").read_text()
-        self.assertIn("card.appBadgeKind=selectedApp?1:(otherSlotApp?2:0);",p)
+        self.assertIn("card.appBadgeKind=selectedApp?1:(pendingApp?3:(otherSlotApp?2:0));",p)
         self.assertIn("checkmark.circle.fill",p)
+        self.assertIn("clock.fill",p)
+        self.assertIn("pendingSlotBundleID",p)
         self.assertIn("arrow.left.arrow.right.circle.fill",p)
         self.assertIn("[UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]",p)
         self.assertIn("[UIColor colorWithRed:1 green:.62 blue:.04 alpha:1]",p)
@@ -66,7 +68,7 @@ class AppTileOriginalPalette(unittest.TestCase):
         self.assertIn("if(visual==slot)continue;",c)
         self.assertIn("NSInteger otherPhysical=[self physicalForVisual:visual];",c)
         self.assertIn("visualForPhysical:",c)
-        self.assertIn("if(![self.sceneHandleReady[(NSUInteger)otherPhysical] boolValue])continue;",c)
+        self.assertIn("[hostOwner isLiveSceneForHostedView:otherScene]",c)
         self.assertIn("bundleIDForHostedView:otherScene",c)
         self.assertIn("self.appPickerController.otherSlotBundleIDs=others.array;",c)
     def test_exact_original_arm64_badge_anchor(self):
