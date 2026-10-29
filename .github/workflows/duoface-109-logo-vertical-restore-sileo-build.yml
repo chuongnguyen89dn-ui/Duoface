@@ -1,12 +1,5 @@
-name: DuoFace 109 vertical logo + horizontal split without long press signed Sileo package build
+name: DuoFace 109 historical reproducibility (manual only, superseded by 110)
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-109-logo-vertical-restore-sileo-build.yml'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
   workflow_dispatch:
 permissions:
   contents: write
