@@ -11,6 +11,7 @@
 #import <unistd.h>
 #import "DFNativeMapPaneAdapter.h"
 #import "DFCarPlayNativeMapViewportPlan.h"
+#import "DFCarPlayPhysicalPaneBinding.h"
 
 static NSString *const DFMapCommandPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
 static NSString *const DFMapAckPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist";
@@ -195,10 +196,24 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
         [self reply:cmd ok:NO reason:plan[@"status"]?:@"dock-measure-failed"];
         return;
     }
+    // Two live independent observations must match BEFORE any UIKit native
+    // scene adoption. A geometric plan is not enough to prove which DuoFace
+    // physical window owns the target and is empty.
+    NSDictionary *physical=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
+    NSDictionary *heartbeat=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
+    NSDictionary *binding=DFPhysicalMapVerifyPane(physical,heartbeat,plan,
+                     number.integerValue,NSDate.date.timeIntervalSince1970);
+    if(![binding[@"Verified"] isEqual:@YES]) {
+        [self reply:cmd ok:NO reason:binding[@"Reason"]?:@"no-real-duoface-pane-receipt"];
+        return;
+    }
     NSString *slotKey=number.integerValue==0?@"visualSlot0":@"visualSlot1";
     NSDictionary *slot=plan[slotKey],*usable=plan[@"usableRect"];
-    CGRect target=CGRectMake([slot[@"x"] doubleValue],[slot[@"y"] doubleValue],
-                       [slot[@"width"] doubleValue],[slot[@"height"] doubleValue]);
+    CGRect target=CGRectFromString(binding[@"Target"]);
+    // Native Dock rectangle and actual SpringBoard physical UIWindow target
+    // passed a tight source-owned geometric comparison; no arbitrary zoom.
     CGRect safe=CGRectMake([usable[@"x"] doubleValue],[usable[@"y"] doubleValue],
                        [usable[@"width"] doubleValue],[usable[@"height"] doubleValue]);
     if(!root.view.window || dashboard.hidden || !CGRectContainsRect(safe,target) ||
@@ -239,7 +254,16 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
     }
     self.adapter=adapter;self.pane=pane;self.dashboard=dashboard;
     self.owner=owners.firstObject;self.request=[req copy];self.slot=number.integerValue;
-    [self reply:cmd ok:YES reason:@"native-controller-attached-visual-not-yet-device-verified"];
+    CGRect actualInDashboard=[dashboard convertRect:pane.bounds fromView:pane];
+    if(!DFPhysicalMapNearRect(actualInDashboard,target,2.0)) {
+        NSString *reason=nil;
+        BOOL restored=[self restore:&reason];
+        [self reply:cmd ok:NO reason:restored?
+           @"map-pane-actual-dash-frame-mismatch-rolled-back":
+           @"map-pane-actual-dash-frame-mismatch-restore-deferred"];
+        return;
+    }
+    [self reply:cmd ok:YES reason:@"native-owner-attached-physical-frame-observed-map-tiles-not-verified"];
 }
 - (void)tick:(NSTimer *)timer {
     (void)timer;
