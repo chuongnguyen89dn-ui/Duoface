@@ -1882,12 +1882,12 @@ static void DFCLog(NSString *text) {
         DFCLog([NSString stringWithFormat:@"replace-same-live-app-noop slot=%ld bundle=%@",
             (long)slot,bundleID]);return;
     }
+    BOOL interruptedRestore=self.restorePending &&
+                             self.restoringPhysical==physicalSlot;
     if([pending isKindOfClass:UIView.class]){
         // Manual selection supersedes the pending automatic restore in THIS
         // physical pane; otherwise its one-at-a-time gate can strand all
         // later saved slots after the replaced host is invalidated.
-        BOOL interruptedRestore=self.restorePending &&
-                                 self.restoringPhysical==physicalSlot;
         [owner releaseHostedView:pending];
         self.pendingScenes[(NSUInteger)physicalSlot]=NSNull.null;
         if(interruptedRestore){
@@ -1908,6 +1908,8 @@ static void DFCLog(NSString *text) {
         self.appPickerVisible=YES;
         self.appPickerWindow.hidden=NO;
         [self layoutControls];
+        if(interruptedRestore)
+            dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
         return;
     }
     UIView *container=self.appSceneContainers[(NSUInteger)physicalSlot];
@@ -1917,6 +1919,14 @@ static void DFCLog(NSString *text) {
     // still-running application underneath until the new scene is ready.
     host.userInteractionEnabled=NO;
     self.pendingScenes[(NSUInteger)physicalSlot]=host;
+    if(interruptedRestore){
+        // Keep the saved-slot queue serialized while this user's explicit
+        // replacement negotiates its real scene. sceneReady:/sceneFailed:
+        // will unlock the queue using the existing restore gate.
+        self.restorePending=YES;
+        self.restoringPhysical=physicalSlot;
+        DFCLog(@"workspace-restore-queue-waits-for-manual-scene-ready");
+    }
     [container addSubview:host];
     // DuoDash persists left/right/third as soon as host request is accepted.
     // Previously a pending second pane was lost if disconnected before ready.
