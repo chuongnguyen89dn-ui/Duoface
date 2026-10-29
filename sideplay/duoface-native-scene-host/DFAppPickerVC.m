@@ -7,6 +7,7 @@
 #import "DFAppLibrary.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppHabits.h"
+#import "DFAppPickerDisplayPolicy.h"
 #import <notify.h>
 #import <objc/message.h>
 #import <math.h>
@@ -20,6 +21,7 @@
 // 0: not hosted, 1: verified current slot, 2: verified other slot.
 @property(nonatomic,assign) NSInteger appBadgeKind;
 @property(nonatomic,assign) NSInteger appGridColumns;
+@property(nonatomic,assign) BOOL showsAppName;
 @property(nonatomic,strong) UIImageView *appStateBadge;
 @end
 @implementation DFNativeAppCard
@@ -71,7 +73,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat w=self.bounds.size.width,h=self.bounds.size.height;
-    CGFloat iconSide=MIN(43,MAX(24,h-(self.runningControls?68:29)));
+    CGFloat iconSide=MIN(43,MAX(16,h-(self.runningControls?68:(self.showsAppName?26:10))));
     self.icon.frame=CGRectMake((w-iconSide)/2,5,iconSide,iconSide);
     // Original Native12 App icon only: corner multiplier at 0xa493c-0xa4940.
     // Preserve running-card styling; its icon treatment is a separate surface.
@@ -85,7 +87,8 @@
                        CGRectGetMinY(self.icon.frame)-.20*badgeSide,badgeSide,badgeSide);
     self.appStateBadge.hidden=self.runningControls || self.appBadgeKind==0;
     if(!self.appStateBadge.hidden)[self.contentView bringSubviewToFront:self.appStateBadge];
-    self.title.frame=CGRectMake(3,CGRectGetMaxY(self.icon.frame)+3,w-6,17);
+    self.title.frame=CGRectMake(2,CGRectGetMaxY(self.icon.frame)+1,w-4,MIN(16,MAX(10,h- CGRectGetMaxY(self.icon.frame)-2)));
+    self.title.hidden=!self.runningControls && !self.showsAppName;
     self.closeRunning.hidden=!self.runningControls;
     self.restartRunning.hidden=!self.runningControls;
     if(self.runningControls){
@@ -110,6 +113,11 @@
 @property(nonatomic,strong) UICollectionView *cards;
 @property(nonatomic,strong) UIPageControl *pageControl;
 @property(nonatomic,assign) NSInteger cardsPerPage;
+@property(nonatomic,assign) NSInteger gridColumns;
+@property(nonatomic,assign) NSInteger gridRows;
+@property(nonatomic,assign) BOOL showAppNames;
+@property(nonatomic,assign) int displayNotifyToken;
+@property(nonatomic,assign) BOOL displayObserverActive;
 @property(nonatomic,strong) UILabel *titleLabel;
 @property(nonatomic,strong) UIButton *closeButton;
 @property(nonatomic,strong) UIButton *closeAllRunningButton;
@@ -128,6 +136,7 @@
 - (void)dealloc {
  if(self.appSettingsObserverActive)notify_cancel(self.appSettingsNotifyToken);
  if(self.habitObserverActive)notify_cancel(self.habitNotifyToken);
+ if(self.displayObserverActive)notify_cancel(self.displayNotifyToken);
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -232,7 +241,9 @@
     self.cards.showsVerticalScrollIndicator=NO;
     // Original a40c0-a40ec accepts gridCols 4/5/6 and gridRows 2/3;
     // first-party picker still defaults 4x2, custom sizing remains pending.
-    self.cardsPerPage=8;
+    self.gridColumns=4;self.gridRows=2;self.showAppNames=YES;
+    [self updatePickerDisplayConfiguration];
+    self.cardsPerPage=DFPickerCapacity(self.gridColumns,self.gridRows);
     [self.cards registerClass:DFNativeAppCard.class forCellWithReuseIdentifier:@"DFNativeCard"];
     [self.sheet addSubview:self.cards];
     self.pageControl=[UIPageControl new];
@@ -286,6 +297,26 @@
       self.habitNotifyToken=habitToken;
       self.habitObserverActive=YES;
     }
+    int displayToken=-1;
+    uint32_t displayStatus=notify_register_dispatch(DFPickerDisplayChanged,
+      &displayToken,dispatch_get_main_queue(),^(int ignored){
+        (void)ignored;
+        DFAppPickerVC *owner=weakSelf;
+        if(!owner || !owner.isViewLoaded)return;
+        [owner updatePickerDisplayConfiguration];
+        [owner reloadCards];
+        [owner.view setNeedsLayout];
+      });
+    if(displayStatus==NOTIFY_STATUS_OK){
+      self.displayNotifyToken=displayToken;
+      self.displayObserverActive=YES;
+    }
+}
+- (void)updatePickerDisplayConfiguration {
+ NSDictionary *config=DFCurrentPickerDisplay();
+ self.gridColumns=[config[@"GridColumns"] integerValue];
+ self.gridRows=[config[@"GridRows"] integerValue];
+ self.showAppNames=[config[@"ShowAppNames"] boolValue];
 }
 - (void)updateNativeModeButtons {
     for(UIButton *tab in self.modeButtons){
@@ -344,9 +375,9 @@
     CGFloat available=MAX(30,h-gridTop-34);
     self.cards.frame=CGRectMake(9,gridTop,MAX(100,w-18),available);
     self.pageControl.frame=CGRectMake(10,MAX(gridTop,h-32),w-20,26);
-    // Show actual Native12 no-app/no-running states only if the inventory
-    // is empty. The 4x2 inventory still contains ONLY installed real apps.
-    BOOL empty=self.visibleApps.count==0;
+    // The app picker includes one Add More tile; running mode has NONE.
+    // The actual App cards still represent ONLY installed, explicitly eligible IDs.
+    BOOL empty=self.runningMode && self.visibleApps.count==0;
     self.cards.hidden=empty;
     self.emptyImage.hidden=!empty;
     self.emptyTitle.hidden=!empty;
@@ -362,7 +393,7 @@
         self.emptyTitle.text=self.runningMode?
              @"Không có ứng dụng đang chạy":@"Không có ứng dụng";
     }
-    NSInteger capacity=self.runningMode?4:8;
+    NSInteger capacity=self.runningMode?4:DFPickerCapacity(self.gridColumns,self.gridRows);
     BOOL geometryChanged=self.cardsPerPage!=capacity;
     self.cardsPerPage=capacity;
     [self.cards.collectionViewLayout invalidateLayout];
@@ -386,7 +417,7 @@
     return self.apps;
 }
 - (NSInteger)pageCount {
-    NSInteger count=(NSInteger)self.visibleApps.count;
+    NSInteger count=(NSInteger)self.visibleApps.count+(self.runningMode?0:1);
     NSInteger capacity=MAX(1,self.cardsPerPage);
     return MAX(1,(count+capacity-1)/capacity);
 }
@@ -505,11 +536,12 @@
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     (void)layout;(void)indexPath;
     CGFloat width=collectionView.bounds.size.width;
-    // Native12 shows 4 columns × 2 rows; the default card grid is
-    // governed by original CBDashboardSettings.gridCols/gridRows selectors.
-    // Do not change user live-app hosting or per-pane SceneWindow ratios.
-    CGFloat w=width/4.0;
-    CGFloat h=collectionView.bounds.size.height/(self.runningMode?1.0:2.0);
+    // 4/5/6 columns x 2/3 rows, configurable only for installed App mode.
+    // Running-app actions retain 4 columns and one row.
+    NSInteger columns=self.runningMode?4:self.gridColumns;
+    NSInteger rows=self.runningMode?1:self.gridRows;
+    CGFloat w=width/(CGFloat)MAX(1,columns);
+    CGFloat h=collectionView.bounds.size.height/(CGFloat)MAX(1,rows);
     return CGSizeMake(w,h);
 }
 - (UIImage *)installedIconForBundle:(NSString *)bundleID {
@@ -530,6 +562,24 @@
                               dequeueReusableCellWithReuseIdentifier:@"DFNativeCard"
                                                       forIndexPath:indexPath];
     NSArray<DFAppInfo *> *display=[self visibleApps];
+    BOOL isAddMore=!self.runningMode && (NSUInteger)indexPath.item==display.count;
+    if(isAddMore){
+        card.hidden=NO;
+        card.runningControls=NO;
+        card.showsAppName=self.showAppNames;
+        card.title.text=@"Thêm App";
+        card.title.textColor=UIColor.whiteColor;
+        card.icon.image=[UIImage systemImageNamed:@"plus.circle.fill"];
+        card.icon.tintColor=[UIColor colorWithRed:.08 green:.52 blue:1 alpha:1];
+        card.icon.layer.borderWidth=0;
+        card.appBadgeKind=0;
+        card.appStateBadge.image=nil;
+        card.closeRunning.hidden=YES;
+        card.restartRunning.hidden=YES;
+        card.accessibilityLabel=@"Thêm ứng dụng được phép";
+        [card setNeedsLayout];
+        return card;
+    }
     if((NSUInteger)indexPath.item>=display.count){
         card.runningControls=NO;
         card.hidden=YES;
@@ -542,6 +592,7 @@
     }
     card.hidden=NO;
     card.runningControls=self.runningMode;
+    card.showsAppName=self.showAppNames;
     // APP tiles are clear; RUNNING tiles retain their distinct gray cards.
     card.contentView.backgroundColor=self.runningMode?
         [UIColor colorWithWhite:.19 alpha:.96]:UIColor.clearColor;
@@ -569,7 +620,7 @@
     BOOL otherSlotApp=!self.runningMode && !selectedApp &&
         [self.otherSlotBundleIDs containsObject:app.bundleID];
     card.appBadgeKind=selectedApp?1:(otherSlotApp?2:0);
-    card.appGridColumns=4; // Current picker remains 4 columns until proven adaptive layout.
+    card.appGridColumns=self.runningMode?4:self.gridColumns;
     NSString *badgeSymbol=selectedApp?@"checkmark.circle.fill":
                           (otherSlotApp?@"arrow.left.arrow.right.circle.fill":nil);
     UIColor *badgeAccent=selectedApp?
@@ -589,6 +640,10 @@
     (void)collectionView;
     if(self.runningMode)return; // Explicit Close/Restart, not accidental launch.
     NSArray<DFAppInfo *> *display=[self visibleApps];
+    if(!self.runningMode && (NSUInteger)indexPath.item==display.count){
+        [self presentAddMore];
+        return;
+    }
     if((NSUInteger)indexPath.item>=display.count)return;
     DFAppInfo *app=display[indexPath.item];
     if(!DFPickerAllowsApp(app.bundleID,DFConfiguredEnabledAppIDs())){
