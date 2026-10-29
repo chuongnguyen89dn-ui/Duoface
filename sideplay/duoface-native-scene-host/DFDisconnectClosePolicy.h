@@ -3,6 +3,8 @@
 #ifndef DF_DISCONNECT_CLOSE_POLICY_H
 #define DF_DISCONNECT_CLOSE_POLICY_H
 #import <Foundation/Foundation.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <math.h>
 #import <notify.h>
 static NSString *const DFDisconnectClosePrefPath=
  @"/var/mobile/Library/Preferences/com.duoface.nativehost.disconnect-close.v1.plist";
