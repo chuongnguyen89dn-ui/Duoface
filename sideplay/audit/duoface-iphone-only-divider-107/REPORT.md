@@ -1,3 +1,11 @@
+## 2026-10-29 — .110 PUBLIC SILEO VERIFIED FOR USER PARKED-CAR QA
+
+- Source `619f53fb`; build run `40830475855` SUCCESS, archive commit `acf7c5644ec70f3645f8688f8c3396361966cfca`, SHA256 `a9e74be6f7250713a66b266a3d8908acd77f763acee17c5ace6319931d23301a`, integrated one-DEB `com.duoface.jb.embedded_0.0.110~duodash-managed-map1_iphoneos-arm64.deb`.
+- Publisher `carplaydsp` commit `e8b2b08d0430ef4a6613bc3d93a1b3112ed6bf61`; run `40830957635` build/deploy/verify SUCCESS; exact remote APT latest .110, downloaded public DEB SHA confirmed job `123306021724` at 2026-10-29T06:47:29Z.
+- User permitted real Sileo QA. On-vehicle truth remains PENDING; use signed .110 only, not .109. Close-on-unplug **OFF by default**. If enabled, 10s grace and scoped RBS only; native CarPlay Maps can be skipped without verified session lease/PID. Restore toggle separate. See existing main `sideplay/tiep tuc du an.md` top checkpoint for exact file locations, expected behavior, evidence and next device test.
+
+---
+
 ## 2026-10-29 — USER ORDER: ISSUE SILEO QA BUILD TO VERIFY DISCONNECT AND SECOND PANE
 
 - Explicit instruction: `Ko đưa lên sileo thì xác minh kiểu j?` User requests actual rootless Sileo deployment to the **existing** source for live in-vehicle QA; do not withhold the DEB because hardware test is pending. They reported only one pane restored and actual native Maps still alive >60s unplug.
