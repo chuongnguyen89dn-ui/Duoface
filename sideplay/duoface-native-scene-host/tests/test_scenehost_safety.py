@@ -720,7 +720,7 @@ class NativeCarPlayHost(unittest.TestCase):
   chrome=file("DFNative12Chrome.m")
   stop=chrome.split("- (void)stop {")[-1]
   self.assertIn('home-teardown-all-external-windows-hidden-before-scene-invalidate',stop)
-  hidden=stop.index("for(UIWindow *w in self.windows)w.hidden=YES;")
+  hidden=stop.index("[self hideAllExternalWindowsImmediately];")
   scene=stop.index("[[DFSceneHost sharedHost] stopAllHosts];")
   root=stop.index("for(UIWindow *w in self.windows)w.rootViewController=nil;")
   self.assertLess(hidden,scene,"CarPlay Home must hide windows before media scene teardown")
@@ -1429,7 +1429,9 @@ class NativeCarPlayHost(unittest.TestCase):
   stopped=chrome[chrome.index("- (void)stop {"):]
   self.assertIn("self.appPickerVisible=NO;",stopped)
   self.assertIn("self.pickerVisible=NO;",stopped)
-  self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",stopped)
+  self.assertIn("[self hideAllExternalWindowsImmediately];",stopped)
+  body=chrome.split("- (void)hideAllExternalWindowsImmediately {",1)[1].split("- (BOOL)start {",1)[0]
+  self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",body)
 
 
  def test_20261023_device_photo_restores_ratio_and_hold(self):
