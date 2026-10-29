@@ -1,0 +1,61 @@
+name: DuoFace Original Native12 touch override callsites summary
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-116-original-touch-owner-callsite-summary.yml'
+      - 'sideplay/audit/duoface-116-touch-ownership-20261029/summarize_original_touch_attachment.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-116-original-touch-callsite-summary
+  cancel-in-progress: false
+jobs:
+  summarize-original-touch-owners:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read exact signed original IMP evidence, emit source-traceable callsites
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/duoface-116-touch-ownership-20261029/summarize_original_touch_attachment.py
+          test -s sideplay/audit/duoface-116-touch-ownership-20261029/ORIGINAL_TOUCH_ATTACHMENT_CALLSITES.md
+          grep -q 'CBWindow.createWindows' sideplay/audit/duoface-116-touch-ownership-20261029/ORIGINAL_TOUCH_ATTACHMENT_CALLSITES.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Original-Native12-Touch-Owner-Callsite-Summary
+          path: sideplay/audit/duoface-116-touch-ownership-20261029/ORIGINAL_TOUCH_ATTACHMENT_CALLSITES.md
+          if-no-files-found: error
+      - name: Persist verified compact read-only report in DuoFace repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          DEST=sideplay/audit/duoface-116-touch-ownership-20261029/ORIGINAL_TOUCH_ATTACHMENT_CALLSITES.md
+          SRC="$(pwd)/$DEST"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -s "$TEMP/$DEST"; then
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_TOUCH_CALLSITE_REPORT_ALREADY_SAVED
+              exit 0
+            fi
+            mkdir -p "$(dirname "$TEMP/$DEST")"
+            cp "$SRC" "$TEMP/$DEST"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            git -C "$TEMP" commit -m 'audit(native12): summarize touch pass-through class and hit-test override callsites [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_TOUCH_CALLSITE_REPORT_SAVED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
