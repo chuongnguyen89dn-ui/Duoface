@@ -11,7 +11,12 @@ class DividerGeometryHistoricalPin(unittest.TestCase):
   # window geometry reference, not its obsolete three-second touch path.
   for name in ("divider_touch_exclusion","divider_window_layout","divider_pan_machine","divider_pan_coordinates"):
    part=fixture["parts"][name]
-   self.assertEqual(src[src.index(part["start"]):src.index(part["end"],src.index(part["start"]))],part["text"],name)
+   actual=src[src.index(part["start"]):src.index(part["end"],src.index(part["start"]))]
+   original=part["text"]
+   if name=="divider_pan_machine":
+    actual=actual.split("// The user's latest contract supersedes",1)[0]
+    original=original.split("// User-approved 3s logo hold",1)[0]
+   self.assertEqual(actual,original,name)
  def test_no_three_second_logo_gate_in_active_source(self):
   src=(BASE/"DFNative12Chrome.m").read_text()
   for forbidden in ("DFLogoHoldBegin(", "DFLogoHoldAdvance(", "DFLogoHoldIsQuickTap("):

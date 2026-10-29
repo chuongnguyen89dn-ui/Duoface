@@ -214,9 +214,28 @@ void DFDisconnectClosePhysicalObserved(BOOL connected) {
     NSUInteger sent=requested;
     NSString *ownedBundle=[bundle copy];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0),^{
+       // Closing an app is destructive: the worker can start AFTER a fast
+       // CarPlay reconnect even when its original 10s timer was valid.
+       // Every worker must recheck session generation, physical connection,
+       // same verified PID and phone foreground on the SpringBoard main queue.
+       __block BOOL stillEligible=NO;
+       dispatch_sync(dispatch_get_main_queue(),^{
+          stillEligible=(generation==gGeneration && gProbe && !gProbe() &&
+              DFDisconnectCloseEnabled() &&
+              [DFDiscVerifiedCurrentPID(ownedBundle) isEqual:before] &&
+              DFDiscPhoneForegroundIsSafeForClose(ownedBundle));
+       });
+       if(!stillEligible){
+          DFDiscLog(@"worker-stale-reconnected-or-pid-changed",ownedBundle);
+          return;
+       }
        NSString *reason=nil;
        BOOL accepted=DFDiscRequestTermination(ownedBundle,&reason);
        dispatch_async(dispatch_get_main_queue(),^{
+          if(generation!=gGeneration || !gProbe || gProbe()){
+             DFDiscLog(@"worker-response-ignored-after-reconnect",ownedBundle);
+             return; // Never overwrite the new active session's ACK.
+          }
           if(!accepted){
              DFDiscLog(@"terminate-request-rejected",
                [NSString stringWithFormat:@"%@ %@",ownedBundle,reason?:@"unknown"]);
@@ -246,7 +265,7 @@ void DFDisconnectClosePhysicalObserved(BOOL connected) {
     });
   }
   (void)verified;
-  DFDiscAck(requested?@"termination-requests-sent-await-process-check":
+  DFDiscAck(requested?@"termination-workers-dispatched-not-yet-confirmed":
                      @"no-eligible-owned-process",requested,0);
  });
 }

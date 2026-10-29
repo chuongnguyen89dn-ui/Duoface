@@ -1,4 +1,4 @@
-name: DuoFace 3-second logo hold C gate deterministic smoke (NO DEB)
+name: DuoFace immediate ratio grip and divider C smoke (NO DEB)
 on:
   push:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
@@ -17,10 +17,10 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Compile and execute actual 3-second gesture policy and existing ratio drag
+      - name: Verify no legacy hold and compile immediate one-ratio drag policy
         shell: bash
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_hold_gate.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_divider_drag.py' -v
-          echo 'LOGO_GATE_C_TEST_PASS_NOT_IOS_SDK_NOT_DEVICE'
+          echo 'IMMEDIATE_RATIO_C_TEST_PASS_NOT_IOS_SDK_NOT_DEVICE'

@@ -56,7 +56,7 @@ void run(int vertical, double width, double height, double *xy, int count,
 
     def test_ambiguous_diagonal_waits_then_locks_one_axis(self):
         self.assertEqual(self.drag([(110,110),(120,120)]),[.5,.5,0,0])
-        self.assertEqual(self.drag([(110,110),(110,130),(180,140)]),[.5,.5,0,0])
+        self.assertEqual(self.drag([(110,110),(110,130),(180,140)]),[2/3,.5,1,0])
         self.assertEqual(self.drag([(120,100),(140,180)]),[.6,.5,1,0])
 
     def test_tap_jitter_and_return_after_drag(self):

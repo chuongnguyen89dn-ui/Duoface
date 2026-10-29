@@ -42,8 +42,13 @@ class PhoneOnlyPickerAndDivider107(unittest.TestCase):
             self.assertIn(start,source)
             a=source.index(start)
             z=source.index(end,a)
-            self.assertEqual(source[a:z],section["text"],
-                             f".92 original divider source changed: {name}")
+            current=source[a:z]
+            historical=section["text"]
+            if name=="divider_pan_machine":
+                current=current.split("// The user's latest contract supersedes",1)[0]
+                historical=historical.split("// User-approved 3s logo hold",1)[0]
+            self.assertEqual(current,historical,
+                             f".92 ratio geometry changed: {name}")
 
     def test_only_drop_dangling_gesture_when_ui_owner_is_hidden(self):
         chrome=load("DFNative12Chrome.m")
