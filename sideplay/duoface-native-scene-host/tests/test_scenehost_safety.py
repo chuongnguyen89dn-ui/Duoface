@@ -464,7 +464,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("return preset==0?1:(preset==1||preset==2?2:(preset==8?4:3));",layout)
   self.assertIn("for(NSInteger slot=0;slot<4;slot++)",chrome)
   self.assertIn("if(i>=activeSlots){w.hidden=YES;continue;}",chrome)
-  self.assertIn("if(visualSlot>=activeSlots){appWindow.hidden=YES;v.hidden=YES;continue;}",chrome)
+  self.assertIn("if(visualSlot<0 || visualSlot>=activeSlots){appWindow.hidden=YES;v.hidden=YES;continue;}",chrome)
   self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
   self.assertIn("v.hidden=appWindow.hidden;",chrome)
   self.assertIn("v.userInteractionEnabled=loaded;",chrome)
