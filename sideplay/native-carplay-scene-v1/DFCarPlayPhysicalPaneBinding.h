@@ -8,7 +8,7 @@
 static inline BOOL DFPhysicalMapValidRect(NSString *string,CGRect *out) {
  if(![string isKindOfClass:NSString.class] || string.length>200)return NO;
  NSScanner *scan=[NSScanner scannerWithString:string];
- scan.charactersToBeSkipped=[NSCharacterSet characterSetWithCharactersInString:@" {},\\t\\r\\n"];
+ scan.charactersToBeSkipped=[NSCharacterSet characterSetWithCharactersInString:@" {},\t\r\n"];
  double values[4]={0};
  for(NSInteger i=0;i<4;i++)
     if(![scan scanDouble:&values[i]] || !isfinite(values[i]))return NO;
