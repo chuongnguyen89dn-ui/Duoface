@@ -1,4 +1,4 @@
-name: DuoFace 107 archived QA reproducibility (manual only, new grip contract requires NEW version)
+name: DuoFace 108 ratio drag, disconnect and reconnect restore signed Sileo package build
 on:
   push:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
@@ -176,7 +176,7 @@ jobs:
           print('DUOFACE_108_INTEGRATED_HANDOFF_READBACK_PASS')
           PY
             git -C "$TEMP" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/" 'sideplay/tiep tuc du an.md'
-            git -C "$TEMP" commit -m "release: archive signed one-DEB DuoFace .107 $GITHUB_RUN_ID [skip ci]"
+            git -C "$TEMP" commit -m "release: archive signed one-DEB DuoFace .108 $GITHUB_RUN_ID [skip ci]"
             if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
               git worktree remove --force "$TEMP"
               echo "DUOFACE_108_SIGNED_ARCHIVE_GITHUB_PUSH_PASS"
