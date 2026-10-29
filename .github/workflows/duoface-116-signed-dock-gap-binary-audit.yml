@@ -1,0 +1,105 @@
+name: DuoFace signed 116 Dock margin binary vs source audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-116-signed-dock-gap-binary-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-20261029-signed-116-dock-gap-binary
+  cancel-in-progress: false
+jobs:
+  verify-signed-binary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit actual signed immutable .116 DEB and rootless payload geometry module
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT=sideplay/audit/native12-dock-gap-20261029
+          mkdir -p "$OUT"
+          REF='eaad4d45d8b6fbb6d41b32a04c632592d6f8d3a7'
+          DEB='com.duoface.jb.embedded_0.0.116~pane-trace1_iphoneos-arm64.deb'
+          SRC="https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/$REF/sideplay/jb-embedded-appbridge/evidence/runs/40870166155/$DEB"
+          curl -fLsS --retry 4 "$SRC" -o "$RUNNER_TEMP/signed-116.deb"
+          printf '%s  %s\n' 'fc87ceb4a8492469563246c00a9a205b838498f7652f8515bb08b9ca356285a8' "$RUNNER_TEMP/signed-116.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/signed-116.deb" Version)" = '0.0.116~pane-trace1'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/signed-116.deb" Architecture)" = 'iphoneos-arm64'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/signed-116.deb" Package)" = 'com.duoface.jb.embedded'
+          dpkg-deb -x "$RUNNER_TEMP/signed-116.deb" "$RUNNER_TEMP/duoface-rootless"
+          DYLIB="$RUNNER_TEMP/duoface-rootless/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+          test -s "$DYLIB"
+          file "$DYLIB" | grep -Eq 'Mach-O|data'
+          for name in 'ContentRect' 'native12-ui-owner-visible' 'content-too-small' 'external-display-or-window-ABI-missing'; do
+            grep -aq "$name" "$DYLIB"
+          done
+          python3 - <<'PY'
+          from pathlib import Path
+          root=Path('sideplay/duoface-native-scene-host')
+          probe=(root/'DFTouchOwnerProbe.m').read_text()
+          delegate=(root/'DFNativeHostAppDelegate.m').read_text()
+          chrome=(root/'DFNative12Chrome.m').read_text()
+          assert 'MAX(42,screen.size.width*.082)' in probe
+          assert 'CGFloat x=MAX(region.origin.x,safeLeft);' in probe
+          assert 'contentRect:region command:' in probe
+          assert 'safe=w.safeAreaLayoutGuide.layoutFrame' in delegate
+          assert 'CGRectGetMinX(cr)' in chrome or 'cr.origin.x' in chrome
+          print('SOURCE_NATIVE_SAFE_AREA_SECONDARY_GUARD_CONFIRMED')
+          PY
+          {
+            echo '# Signed DuoFace 116 Dock seam binary verification'
+            echo
+            echo "- Direct verified signed Debian package: com.duoface.jb.embedded 0.0.116~pane-trace1, iphoneos-arm64."
+            echo "- Original immutable source/archival ref: $REF"
+            echo "- DEB SHA256: fc87ceb4a8492469563246c00a9a205b838498f7652f8515bb08b9ca356285a8"
+            echo '- Actual rootless dynamic library present: var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib'
+            echo '- Actual binary strings confirm ContentRect / native12-ui-owner-visible / content-too-small markers.'
+            echo '- Exact signed-source contract still contains MAX(42,screen.size.width*.082) + MAX(region.origin.x,safeLeft).'
+            echo '- This audit does not assert direct machine disassembly of the numeric expression; the source hash and signed package are pinned by CI provenance.'
+            echo '- This proves an independent software origin adjustment path exists; proving it caused the photographed band needs measured CarPlay ContentRect and Dock right edge.'
+            echo
+            echo '## dpkg control'
+            echo
+            dpkg-deb -f "$RUNNER_TEMP/signed-116.deb" | sed 's/^/    /'
+          } > "$OUT/SIGNED_116_DOCK_GEOMETRY_PACKAGE_AUDIT.md"
+          test -s "$OUT/SIGNED_116_DOCK_GEOMETRY_PACKAGE_AUDIT.md"
+          echo SIGNED_DUOFACE_116_GEOMETRY_BINARY_AND_SOURCE_CONTRACT_PASS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-116-Rootless-Dock-Geometry-Package-Audit
+          path: sideplay/audit/native12-dock-gap-20261029/SIGNED_116_DOCK_GEOMETRY_PACKAGE_AUDIT.md
+          if-no-files-found: error
+      - name: Persist read-only evidence in current DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          REL=sideplay/audit/native12-dock-gap-20261029/SIGNED_116_DOCK_GEOMETRY_PACKAGE_AUDIT.md
+          SRC="$(pwd)/$REL"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -s "$TEMP/$REL"; then
+              echo DUOFACE_116_BLOB_AUDIT_ALREADY_SAVED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            mkdir -p "$(dirname "$TEMP/$REL")"
+            cp "$SRC" "$TEMP/$REL"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL"
+            git -C "$TEMP" commit -m 'audit: signed .116 binary Dock margin read-only checksum and source contract [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo SIGNED_116_BINARY_DOCK_AUDIT_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
