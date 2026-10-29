@@ -208,32 +208,42 @@ void DFDisconnectClosePhysicalObserved(BOOL connected) {
     }
     // Revalidate disconnect and policy immediately before every request.
     if(!gProbe || gProbe() || !DFDisconnectCloseEnabled())break;
-    NSString *reason=nil;
-    if(!DFDiscRequestTermination(bundle,&reason)){
-       DFDiscLog(@"terminate-request-rejected",
-          [NSString stringWithFormat:@"%@ %@",bundle,reason?:@"unknown"]);
-       continue;
-    }
+    // RunningBoard may block crossing OS processes; never block SpringBoard UI.
     requested++;
-    DFDiscLog(@"terminate-requested",bundle);
-    // Poll the ORIGINAL process PID, not the request ACK or a scene handle.
     pid_t original=before.intValue;
-    __block NSUInteger count=0;
-    __block NSTimer *timer=[NSTimer scheduledTimerWithTimeInterval:.4 repeats:YES
-        block:^(NSTimer *t){
-          count++;
-          NSNumber *current=DFDiscVerifiedCurrentPID(bundle);
-          errno=0;
-          BOOL oldExited=kill(original,0)!=0 && errno==ESRCH;
-          if(oldExited){
-              [t invalidate];DFDiscLog(@"verified-process-exited",bundle);
-              DFDiscAck(current?@"old-pid-exited-app-restarted":@"verified-process-exited",requested,1);
-          }else if(count>=10){
-              [t invalidate];DFDiscLog(@"termination-unconfirmed-pid-still-alive",bundle);
-              DFDiscAck(@"process-still-running",requested,0);
+    NSUInteger sent=requested;
+    NSString *ownedBundle=[bundle copy];
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0),^{
+       NSString *reason=nil;
+       BOOL accepted=DFDiscRequestTermination(ownedBundle,&reason);
+       dispatch_async(dispatch_get_main_queue(),^{
+          if(!accepted){
+             DFDiscLog(@"terminate-request-rejected",
+               [NSString stringWithFormat:@"%@ %@",ownedBundle,reason?:@"unknown"]);
+             DFDiscAck(@"runningboard-request-rejected",sent,0);
+             return;
           }
-        }];
-    (void)timer;
+          DFDiscLog(@"terminate-requested",ownedBundle);
+          __block NSUInteger count=0;
+          [NSTimer scheduledTimerWithTimeInterval:.4 repeats:YES
+            block:^(NSTimer *t){
+               count++;
+               NSNumber *current=DFDiscVerifiedCurrentPID(ownedBundle);
+               errno=0;
+               BOOL oldExited=(kill(original,0)!=0 && errno==ESRCH);
+               if(oldExited){
+                  [t invalidate];
+                  DFDiscLog(@"verified-process-exited",ownedBundle);
+                  DFDiscAck(current?@"old-pid-exited-app-restarted":
+                                     @"verified-process-exited",sent,1);
+               }else if(count>=10){
+                  [t invalidate];
+                  DFDiscLog(@"termination-unconfirmed-pid-still-alive",ownedBundle);
+                  DFDiscAck(@"process-still-running",sent,0);
+               }
+            }];
+       });
+    });
   }
   (void)verified;
   DFDiscAck(requested?@"termination-requests-sent-await-process-check":
