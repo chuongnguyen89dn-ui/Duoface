@@ -23,3 +23,7 @@
 - `.github/workflows/duoface-native12-source-only-validation.yml`: run above, syntax-check both UIKit owners with actual iOS16 SDK; source-only CI is not signed DEB or on-car proof.
 - **DO NOT CLAIM BUILT/PUBLISHED/INSTALLED/TESTED ON CAR** without exact successful macOS package run, immutable package SHA, publisher and physical evidence.
 - Next after green source tests: stage one NEW integrated rootless .94 candidate; publish through existing Sileo only after staging SHA verification. On parked vehicle test switches, all/none/recommended catalog, hot update, reconnect, running-scene preservation, Maps/YouTube, no crash.
+
+## Updated independent UX request 2026-10-29
+
+Supersedes the earlier proposed iPhone left/right or slot 1-4 pre-assignment. User wants favorite/default apps or habitual choices as a common CarPlay app picker source, not fixed per-position bindings. Keep nine layout presets separate and preserve the existing per-pane manual app selection. Implement preference and usage-based ordering only with real validated app IDs and no auto-launch or forced scene replacement. This is a requirement checkpoint, not a claim of code/DEB completion.
