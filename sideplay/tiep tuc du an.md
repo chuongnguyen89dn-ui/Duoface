@@ -1,3 +1,14 @@
+
+## CHECKPOINT 2026-10-29 DuoFace 097 strict iPhone allowlist and picker grid — source CI FAILED
+
+- New user requirements #3/#4: CarPlay App list must contain only iPhone-approved installed app IDs. Classify All/Favorites/User/System, then sort using user default/pins/real scene-ready usage. A previously absent enabled-app preference now means ZERO selected rather than legacy permissive all.
+- Independent picker grid options 4/5/6 columns, 2/3 rows and show/hide app titles are configured in DuoFace iPhone Apps settings, not by altering the nine CarPlay pane layouts. CarPlay App picker has Add More tile, opening a separate eligible DISABLED-app management list, and after explicit tap persists selected app to the SAME iPhone allowlist (no auto-host and no app-panes auto-assignment).
+- Main files: sideplay/duoface-native-scene-host/DFAppPickerDisplayPolicy.h, DFEnabledAppsPolicy.h, DFAppPickerVC.m, DFNativeHostRootController.m, tests/picker_display_runtime.m, tests/test_picker_display_097.py. Original DEB's addMoreAppsTapped selector proves visual action but NOT actual save semantics; implementation is independent.
+- CI run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40819584314, source=324c99d6d53184df6c34d8872288a15132c2c738, PYTHON_REGRESSIONS=success, FOUNDATION_EXECUTABLE=success, IOS16_ARM64_SYNTAX=failure, permanent result=sideplay/audit/duoface-picker-097/ci/runs/40819584314.txt.
+- IMPORTANT: Source test is NOT a new signed rootless DEB, NOT Sileo publication, NOT physical CarPlay proof. Preserve .90 YouTube, .92 3s logo, system Dock and experimental native Maps; only build new QA package and publish on explicit user instruction.
+
+---
+
 ## CHECKPOINT DuoFace .107 integrated release staged, run 40819218635
 
 - User reported live .106 UI and divider regressions. .107 is staged for verification only; no new Sileo authorization in this turn. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source 052c1968f0cc59bbde145af02ae563cbfd6fa54e. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40819218635. Exact SHA256 c9cc3b5a1f36ae80903b6dc319f95b10341fed4574aadd8c149d990c06af451b. Archive sideplay/jb-embedded-appbridge/evidence/runs/40819218635/; provenance and source SHA alongside DEB.
