@@ -24,6 +24,12 @@ class HomeReentry111(unittest.TestCase):
   self.assertLess(stop.index("[sChrome hideAllExternalWindowsImmediately];"),stop.index("[old stop];"))
   method=chrome.split("- (void)hideAllExternalWindowsImmediately {",1)[1].split("- (BOOL)start {",1)[0]
   self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",method)
+ def test_replacement_intent_saved_before_scene_ready(self):
+  chrome=source("DFNative12Chrome.m")
+  selected=chrome.split("- (void)appPicker:(DFAppPickerVC *)picker\n didSelectBundleID:",1)[1].split("- (void)sceneReady:",1)[0]
+  self.assertIn("DFSavePhysicalBundle(physicalSlot,bundleID)",selected)
+  self.assertNotIn("if(![active isKindOfClass:UIView.class]){",selected)
+  self.assertLess(selected.index("DFSavePhysicalBundle(physicalSlot,bundleID)"),selected.index("self.appPickerVisible=NO;",selected.index("UIView *container=")))
  def test_one_retry_for_real_failed_saved_app_and_no_fabricated_ready(self):
   chrome=source("DFNative12Chrome.m")
   for token in ("restoreRetryCounts","if(retries>=1)return NO;",
