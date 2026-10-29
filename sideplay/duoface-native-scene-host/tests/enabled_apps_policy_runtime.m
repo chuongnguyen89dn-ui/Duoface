@@ -9,8 +9,8 @@ int main(void) {
  @autoreleasepool {
   NSString *path=[NSTemporaryDirectory() stringByAppendingPathComponent:
     [NSString stringWithFormat:@"df-apps-%d-%@.plist",getpid(),NSUUID.UUID.UUIDString]];
-  check(DFReadEnabledAppIDsAtPath(path)==nil,@"missing config preserves legacy all");
-  check(DFPickerAllowsApp(@"com.google.ios.youtube",nil),@"legacy gallery has eligible apps");
+  check(DFReadEnabledAppIDsAtPath(path)==nil,@"missing config is unconfigured");
+  check(!DFPickerAllowsApp(@"com.google.ios.youtube",nil),@"without iPhone approval hide all apps");
   check(DFWriteEnabledAppIDsAtPath(@[],path),@"save disable all");
   NSArray<NSString *> *none=DFReadEnabledAppIDsAtPath(path);
   check(none!=nil && none.count==0,@"explicit none != absent");
