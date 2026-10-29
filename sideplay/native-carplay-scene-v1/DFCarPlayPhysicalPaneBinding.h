@@ -7,7 +7,13 @@
 #import <math.h>
 static inline BOOL DFPhysicalMapValidRect(NSString *string,CGRect *out) {
  if(![string isKindOfClass:NSString.class] || string.length>200)return NO;
- CGRect r=CGRectFromString(string);
+ NSScanner *scan=[NSScanner scannerWithString:string];
+ scan.charactersToBeSkipped=[NSCharacterSet characterSetWithCharactersInString:@" {},\\t\\r\\n"];
+ double values[4]={0};
+ for(NSInteger i=0;i<4;i++)
+    if(![scan scanDouble:&values[i]] || !isfinite(values[i]))return NO;
+ if(!scan.isAtEnd)return NO;
+ CGRect r=CGRectMake(values[0],values[1],values[2],values[3]);
  if(CGRectIsNull(r)||CGRectIsInfinite(r)|| !isfinite(r.origin.x) ||
     !isfinite(r.origin.y)||!isfinite(r.size.width)||!isfinite(r.size.height)||
     r.size.width<90||r.size.height<120)return NO;
@@ -78,7 +84,11 @@ static inline NSDictionary *DFPhysicalMapVerifyPane(
        return @{ @"Verified":@NO,@"Reason":@"native-dock-and-duoface-physical-geometry-disagree" };
  }
  return @{@"Verified":@YES,@"Reason":@"two-owners-measured-same-screen-pane",
-          @"Target":NSStringFromCGRect(rects[desiredSlot]),
+          @"Target":[NSString stringWithFormat:@"{{%g, %g}, {%g, %g}}",
+                (double)rects[desiredSlot].origin.x,
+                (double)rects[desiredSlot].origin.y,
+                (double)rects[desiredSlot].size.width,
+                (double)rects[desiredSlot].size.height],
           @"VisualSlot":@(desiredSlot),@"Session":sample[@"Session"]};
 }
 #endif
