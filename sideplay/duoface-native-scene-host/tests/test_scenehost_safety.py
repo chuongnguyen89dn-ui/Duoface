@@ -1549,11 +1549,12 @@ class ImmediateDividerDragContract(unittest.TestCase):
  def test_grip_and_track_immediately_adjust_one_ratio_without_hold(self):
   c=file("DFNative12Chrome.m")
   drag=file("DFDividerDrag.h")
-  for token in ("DFDragMove(&_dividerDrag,p.x,p.y)", "DFDragFinish(&_dividerDrag,p.x,p.y,cancelled)", "self.touchEnded(self,NO,YES);", "BOOL controlsVisible=self.panActive || self.logoTouchPending ||", "blink.toValue=@1.18;", "self.dividerWindow.frame=tr;", "self.dividerLogo.frame=self.verticalDivider?", "logo-ratio-drag-begin-no-hold"):
+  for token in ("DFDragMove(&_dividerDrag,p.x,p.y)", "DFDragFinish(&_dividerDrag,p.x,p.y,cancelled)", "self.touchEnded(self,NO,YES);", "BOOL controlsVisible=self.panActive || self.logoTouchPending ||", "blink.toValue=@1.18;", "self.dividerWindow.frame=tr;", "self.dividerLogo.frame=self.verticalDivider?", "logo-two-axis-drag-begin-no-hold"):
    self.assertIn(token,c)
   for obsolete in ("DFLogoHoldBegin(", "DFLogoHoldAdvance(", "DFLogoHoldIsQuickTap(", "self->_dividerDrag.axis=DFDragLogo;"):
    self.assertNotIn(obsolete,c)
-  self.assertNotIn("d->axis=DFDragLogo",drag)
+  self.assertIn("d->axis=DFDragLogo",drag)
+   self.assertIn("d->allowLogo &&",drag)
   self.assertNotIn("d->logo=DFDragClamp",drag)
   begin=c[c.index("- (void)logoTouchDown:"):c.index("- (void)logoTouchChanged:")]
   self.assertIn("[self beginDividerDragAt:point]",begin)

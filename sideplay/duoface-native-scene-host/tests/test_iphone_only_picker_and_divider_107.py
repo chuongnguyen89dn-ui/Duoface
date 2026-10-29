@@ -45,8 +45,10 @@ class PhoneOnlyPickerAndDivider107(unittest.TestCase):
             current=source[a:z]
             historical=section["text"]
             if name=="divider_pan_machine":
-                current=current.split("// The user's latest contract supersedes",1)[0]
-                historical=historical.split("// User-approved 3s logo hold",1)[0]
+                # Pin the .92 screen-coordinate, ratio and beginning of the
+                # gesture machine, not the intentionally corrected two-axis logic.
+                current=current.split("- (void)renderDividerDragFinal:",1)[0]
+                historical=historical.split("- (void)renderDividerDragFinal:",1)[0]
             self.assertEqual(current,historical,
                              f".92 ratio geometry changed: {name}")
 

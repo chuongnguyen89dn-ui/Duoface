@@ -32,7 +32,7 @@ class RecoveryDistribution(unittest.TestCase):
     expected=expected.split("// User-approved 3s logo hold",1)[0]
    self.assertEqual(actual,expected,name)
   self.assertIn('[self beginDividerDragAt:point]',b)
-  self.assertIn('logo-ratio-drag-begin-no-hold',b)
+  self.assertIn('logo-two-axis-drag-begin-no-hold',b)
   self.assertNotIn('DFLogoHoldAdvance(',b)
   self.assertIn('DFSlotCountForPreset(self.preset)<=1',b)
   self.assertIn('divider92-hidden-owner-contact-cancelled-for-next-reveal',b)

@@ -75,7 +75,7 @@ void run(int vertical, int grip, double width, double height, double *xy, int co
 
     def test_horizontal_divider_reverses_axes(self):
         self.assertEqual(self.drag([(100,140)],vertical=False),[.6,.5,1,0])
-        self.assertEqual(self.drag([(140,100)],vertical=False),[.5,.6,2,0])
+        self.assertEqual(self.drag([(140,100)],vertical=False),[.5,.7,2,0])
 
     def test_edge_clamps_and_invalid_geometry(self):
         self.assertEqual(self.drag([(100,1000)]),[.5,.9,2,0])

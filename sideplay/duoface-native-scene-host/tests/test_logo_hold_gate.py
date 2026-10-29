@@ -22,5 +22,5 @@ class NoHoldGate(unittest.TestCase):
         self.assertIn("self.dividerWindow.frame=tr;",chrome)
         self.assertIn("self.dividerLogo.frame=self.verticalDivider?",chrome)
         self.assertIn("_dividerDrag.allowLogo=true;",chrome)
-        self.assertIn("self.logoFraction=[saved[\\\"LogoFraction\\\"] doubleValue];".replace('\\\"','@\\"'),chrome)
+        self.assertIn('self.logoFraction=[saved[@"LogoFraction"] doubleValue];',chrome)
 if __name__=="__main__": unittest.main()
