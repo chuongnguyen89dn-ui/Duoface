@@ -1,0 +1,97 @@
+name: DuoFace Native12 delayed touch geometry original binary audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - .github/workflows/duoface-116-original-delayed-touch-geometry-audit.yml
+      - sideplay/audit/duoface-116-touch-ownership-20261029/extract_original_delayed_geometry_imp.py
+      - sideplay/audit/duoface-116-touch-ownership-20261029/summarize_original_delayed_geometry.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-116-original-delayed-geometry-audit
+  cancel-in-progress: false
+jobs:
+  disassemble-native12:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify central CarPlay ZIP and read exact skill
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/ios-skill.zip"
+          echo 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf  '"$RUNNER_TEMP/ios-skill.zip" | shasum -a 256 -c -
+          unzip -t "$RUNNER_TEMP/ios-skill.zip"
+          unzip -p "$RUNNER_TEMP/ios-skill.zip" SKILL.md
+      - name: Verify SHA pinned original Native12 payload and method index
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v llvm-objdump || brew install llvm
+          echo /opt/homebrew/opt/llvm/bin >> "$GITHUB_PATH"
+          REF="$RUNNER_TEMP/native12-delay-ref"
+          mkdir -p "$REF"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$REF/original.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$REF/original.deb" | shasum -a 256 -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$REF/index.json"
+          test "$(git hash-object "$REF/index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          dpkg-deb -x "$REF/original.deb" "$REF/payload"
+          echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  '"$REF/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" | shasum -a 256 -c -
+      - name: Extract 13 original UIKit input and delayed geometry IMPs
+        shell: bash
+        run: |
+          set -euo pipefail
+          REF="$RUNNER_TEMP/native12-delay-ref"
+          AUDIT=sideplay/audit/duoface-116-touch-ownership-20261029
+          python3 "$AUDIT/extract_original_delayed_geometry_imp.py" \
+            --binary "$REF/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --method-index "$REF/index.json" \
+            --out "$AUDIT/original-delayed-geometry-imp"
+          python3 "$AUDIT/summarize_original_delayed_geometry.py"
+          test -s "$AUDIT/ORIGINAL_DELAYED_GEOMETRY_CALLSITES.md"
+          grep -Fq 'CBBridgedUIAppView.refreshSceneLayout' "$AUDIT/ORIGINAL_DELAYED_GEOMETRY_CALLSITES.md"
+          grep -Fq 'CBWindow.resizeWindows' "$AUDIT/ORIGINAL_DELAYED_GEOMETRY_CALLSITES.md"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Original-Delayed-Touch-Geometry-Evidence
+          path: |
+            sideplay/audit/duoface-116-touch-ownership-20261029/original-delayed-geometry-imp/
+            sideplay/audit/duoface-116-touch-ownership-20261029/ORIGINAL_DELAYED_GEOMETRY_CALLSITES.md
+          if-no-files-found: error
+      - name: Archive verified original evidence in DuoFace repository only
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          AUDIT=sideplay/audit/duoface-116-touch-ownership-20261029
+          SRC="$(pwd)/$AUDIT"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -s "$TEMP/$AUDIT/ORIGINAL_DELAYED_GEOMETRY_CALLSITES.md"; then
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_DELAYED_GEOMETRY_ALREADY_SAVED
+              exit 0
+            fi
+            mkdir -p "$TEMP/$AUDIT/original-delayed-geometry-imp"
+            cp "$SRC/ORIGINAL_DELAYED_GEOMETRY_CALLSITES.md" "$TEMP/$AUDIT/"
+            cp "$SRC/original-delayed-geometry-imp/"* "$TEMP/$AUDIT/original-delayed-geometry-imp/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$AUDIT/ORIGINAL_DELAYED_GEOMETRY_CALLSITES.md" "$AUDIT/original-delayed-geometry-imp"
+            git -C "$TEMP" commit -m 'audit: archive SHA-pinned original Native12 delayed geometry instructions [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_DELAYED_GEOMETRY_SAVED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
