@@ -17,9 +17,11 @@ class HomeReentry111(unittest.TestCase):
   probe=source("DFTouchOwnerProbe.m")
   chrome=source("DFNative12Chrome.m")
   stop=probe.split("static void DFStopProbe(NSString *reason) {",1)[1].split("static BOOL DFSessionStillActive",1)[0]
-  self.assertLess(stop.index("[old hideAllExternalWindowsImmediately];"),
+  self.assertLess(stop.index("[sChrome hideAllExternalWindowsImmediately];"),
+                  stop.index("DFDockZoomDetach(sChrome,sSession);"))
+  self.assertLess(stop.index("[sChrome hideAllExternalWindowsImmediately];"),
                   stop.index("[old disconnectTerminationCandidates]"))
-  self.assertLess(stop.index("[old hideAllExternalWindowsImmediately];"),stop.index("[old stop];"))
+  self.assertLess(stop.index("[sChrome hideAllExternalWindowsImmediately];"),stop.index("[old stop];"))
   method=chrome.split("- (void)hideAllExternalWindowsImmediately {",1)[1].split("- (BOOL)start {",1)[0]
   self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",method)
  def test_one_retry_for_real_failed_saved_app_and_no_fabricated_ready(self):
