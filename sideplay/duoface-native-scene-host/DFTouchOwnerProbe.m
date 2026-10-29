@@ -248,6 +248,7 @@ static void DFStopProbe(NSString *reason) {
     // process also has an independent heartbeat watchdog restoring the Dock.
     DFDockZoomDetach(sChrome,sSession);
     sZoomReceipt=nil;sZoomFinishing=NO;
+    NSString *previousSession=[sSession copy];
     sActivated=NO;
     sSession=nil;
     sLastAckSequence=0;
@@ -255,8 +256,8 @@ static void DFStopProbe(NSString *reason) {
     DFNative12Chrome *old=sChrome;
     // Capture EXACT live, owner-verified new-process PIDs before stopAllHosts
     // invalidates the views. These are NOT the saved app favorites/workspace.
-    if(old && sSession)DFDisconnectCloseCapture(
-        [old disconnectTerminationCandidates],sSession);
+    if(old && previousSession)DFDisconnectCloseCapture(
+        [old disconnectTerminationCandidates],previousSession);
     sChrome=nil;
     if(old){
         [old stop];
