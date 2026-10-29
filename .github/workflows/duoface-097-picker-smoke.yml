@@ -10,6 +10,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
       - 'sideplay/duoface-native-scene-host/tests/picker_display_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_picker_display_097.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_app_habits_096.py'
       - 'sideplay/duoface-native-scene-host/tests/enabled_apps_policy_runtime.m'
   workflow_dispatch:
 permissions:
