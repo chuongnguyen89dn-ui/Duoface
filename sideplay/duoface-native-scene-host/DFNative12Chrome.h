@@ -13,6 +13,8 @@ typedef void (^DFNative12ChromeCommand)(NSString *action, NSNumber *ratio);
 // Immutable post-action state sampled from the actual SpringBoard UI owner.
 // This is the proof of operation relayed to CarPlay; never a second renderer.
 - (NSDictionary<NSString *, id> *)stateSnapshot;
+// Snapshot current owner verified live process IDs BEFORE host scene teardown.
+- (NSArray<NSDictionary *> *)disconnectTerminationCandidates;
 - (BOOL)applyLayoutSettingsFromDisk;
 // Two-phase Native12 fullscreen: geometry changes ONLY after an actual,
 // same-session CarPlay Dashboard owner has confirmed hiding its native Dock.
