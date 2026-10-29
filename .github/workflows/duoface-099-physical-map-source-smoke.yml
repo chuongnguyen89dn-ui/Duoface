@@ -43,7 +43,7 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/native_map_lease_runtime.m -o "$RUNNER_TEMP/native-map-lease"
           "$RUNNER_TEMP/native-map-lease"
-          cd sideplay/native-carplay-scene-v1
+          cd ../native-carplay-scene-v1
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I . tests/physical_map_binding_runtime.m -o "$RUNNER_TEMP/physical-map-ownership"
           "$RUNNER_TEMP/physical-map-ownership"
       - name: Syntax check native CarPlay + SpringBoard source with real iOS16 SDK
