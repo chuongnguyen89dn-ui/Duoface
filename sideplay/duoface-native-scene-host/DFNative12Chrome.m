@@ -104,9 +104,33 @@ static void DFCLog(NSString *text) {
 }
 // Primary divider contacts use immediate axis selection without long press.
 // Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
-@interface DFNativePanePassthroughView : UIView @end
+// A remote hosted scene may deliver its tap directly to its content without
+// invoking the DFSceneSurface hit-test callback or the UIWindow recognizer.
+// The real physical pane ROOT is always visited before its child hit-test.
+// Observe its touch-down passively, without claiming/cancelling app gestures.
+@interface DFNativePanePassthroughView : UIView
+@property(nonatomic,copy) void (^touchBeganInPane)(UIWindow *);
+@property(nonatomic,assign) NSTimeInterval lastPaneTouchAt;
+@end
 @implementation DFNativePanePassthroughView
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if(event && event.type==UIEventTypeTouches && self.window &&
+       self.touchBeganInPane) {
+        BOOL began=NO;
+        for(UITouch *touch in event.allTouches) {
+            if(touch.phase==UITouchPhaseBegan &&
+               (!touch.window || touch.window==self.window)) {
+                began=YES;break;
+            }
+        }
+        if(began) {
+            NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+            if(now-self.lastPaneTouchAt>0.12) {
+                self.lastPaneTouchAt=now;
+                self.touchBeganInPane(self.window);
+            }
+        }
+    }
     UIView *hit=[super hitTest:point withEvent:event];
     return hit==self?nil:hit;
 }
@@ -970,6 +994,25 @@ static void DFCLog(NSString *text) {
                                            slotRect.size.height)];
         slotRoot.view.backgroundColor=UIColor.clearColor;
         slotRoot.view.clipsToBounds=YES;
+        // Passive, full-pane activity wake. This is not a fullscreen touch
+        // overlay: the existing passthrough root keeps identical hit routing.
+        // Schedule UI changes after the original hit-test returns so YouTube,
+        // Maps and any hosted app keep their unmodified touch sequence.
+        __weak typeof(self) weakPaneOwner=self;
+        ((DFNativePanePassthroughView *)slotRoot.view).touchBeganInPane=^(UIWindow *touchedWindow){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                DFNative12Chrome *owner=weakPaneOwner;
+                if(!owner || !touchedWindow ||
+                   ![owner.appSceneWindows containsObject:touchedWindow] ||
+                   touchedWindow.hidden ||
+                   touchedWindow.screen==UIScreen.mainScreen ||
+                   owner.startupActive || owner.pickerVisible || owner.styleVisible ||
+                   owner.appPickerVisible)return;
+                BOOL wasHidden=NSDate.date.timeIntervalSince1970>owner.controlsUntil;
+                [owner noteUserActivity];
+                if(wasHidden)DFCLog(@"pane-anywhere-touch-woke-logo-and-controls");
+            });
+        };
         UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];
         if(!slotWindow){[self stop];return NO;}
         UIView *container=[[UIView alloc]initWithFrame:slotRoot.view.bounds];
