@@ -1,3 +1,8 @@
+## Retry .95 QA after original regression assertions updated — 2026-10-29 (NO SILEO)
+- Previous staging run 40792246134 failed at legacy three test assertions for nativehost 0.1.103, not at iOS compile or artifact build. Source regression commit c3d2db6211e41930b64718959e561643134aae88 updates expected source package version to 0.1.104~duomanager1 without changing the protected .90/.92 runtime.
+- Source tests 40792409702 PASS; original orientation gate 40792409693 PASS. Native Maps source run 40792150439 PASS and logo .92 gate 40792082860 PASS. Retry same one integrated 0.0.95~duomanager1 rootless development package and verify hash/archive.
+- NO SILEO publication, no device test claimed; source SHA of the trigger run must match package archive provenance. No changes to publisher repo.
+---
 ## .95 signed ONE-DEB development staging request — 2026-10-29 — NO SILEO
 
 - Current explicit user coding request: combine independent DuoDash/OmniCar-inspired app management in current DuoFace, preserve exact .92 3-second logo behavior and connect the existing native Maps QA action into iPhone Apps settings and CarPlay's selected-only app picker. NO vendor code, binaries or licensing.
