@@ -8,6 +8,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
       - 'sideplay/duoface-native-scene-host/tests/test_carplay_home_reentry_111.py'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+      - 'sideplay/duoface-native-scene-host/tests/test_voice_locale_105.py'
       - 'sideplay/duoface-native-scene-host/tests/test_disconnect_close_106.py'
       - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
       - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package.py'
