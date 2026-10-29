@@ -1550,12 +1550,33 @@ static void DFCLog(NSString *text) {
     }
     return -1; // hidden old preset: no speculative scene intervention
 }
+- (NSDictionary<NSString *,NSDictionary *> *)verifiedRunningDetails {
+ DFSceneHost *host=[DFSceneHost sharedHost];
+ NSMutableDictionary *result=[NSMutableDictionary new];
+ for(NSInteger physical=0;physical<4;physical++){
+   if(![self.sceneHandleReady[(NSUInteger)physical] boolValue])continue;
+   UIView *surface=self.hostedScenes[(NSUInteger)physical];
+   if(![surface isKindOfClass:UIView.class] ||
+      ![host isLiveSceneForHostedView:surface])continue;
+   NSString *bundle=[host bundleIDForHostedView:surface];
+   if(!bundle.length)continue;
+   UIWindow *window=self.appSceneWindows[(NSUInteger)physical];
+   NSMutableDictionary *detail=[@{@"State":window&&!window.hidden?@"Scene hiển thị":@"Scene tạm ẩn",
+       @"Physical":@(physical)} mutableCopy];
+   NSNumber *pid=[host verifiedPIDForHostedView:surface];
+   if(pid)detail[@"PID"]=pid;
+   result[bundle]=detail;
+ }
+ return result;
+}
 - (void)openRunningAppManager {
     // The original Close page opens RECENT/RUNNING APP cards with genuine
     // per-app Close/Restart and Close All. X always dismisses this page.
     self.appPickerVisible=YES;
     self.pickerVisible=NO;
     self.styleVisible=NO;
+    self.appPickerController.runningAppDetails=[self verifiedRunningDetails];
+    self.appPickerController.runningRotateCapacity=DFSlotCountForPreset(self.preset);
     [self.appPickerController presentRunningApps:[self ownedRunningBundleIDs]];
     self.appPickerWindow.hidden=NO;
     [self layoutControls];
@@ -1567,6 +1588,7 @@ static void DFCLog(NSString *text) {
     NSInteger slot=[self visualSlotForVerifiedRunningBundleID:bundleID];
     if(slot<0){DFCLog(@"close-refused-no-live-owned-bundle");return;}
     [self closeHostedSlot:slot];
+    picker.runningAppDetails=[self verifiedRunningDetails];
     [picker presentRunningApps:[self ownedRunningBundleIDs]];
 }
 - (void)appPicker:(DFAppPickerVC *)picker restartRunningBundleID:(NSString *)bundleID {
@@ -1580,6 +1602,15 @@ static void DFCLog(NSString *text) {
     [self appPicker:picker didSelectBundleID:bundleID displayName:bundleID];
     DFCLog([NSString stringWithFormat:@"restart-real-scene-pending bundle=%@",bundleID]);
 }
+- (void)appPicker:(DFAppPickerVC *)picker rotateRunningClockwise:(BOOL)clockwise {
+ if(picker!=self.appPickerController)return;
+ if(![self rotateHostedAppsClockwise:clockwise]){
+    DFCLog(@"workspace-rotation-rejected-missing-ready-scene-or-pending");
+    return;
+ }
+ picker.runningAppDetails=[self verifiedRunningDetails];
+ [picker presentRunningApps:[self ownedRunningBundleIDs]];
+}
 - (void)appPickerCloseAllRunning:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController)return;
     NSArray<NSString *> *snapshot=[self ownedRunningBundleIDs];
@@ -1587,6 +1618,7 @@ static void DFCLog(NSString *text) {
         NSInteger slot=[self visualSlotForVerifiedRunningBundleID:bid];
         if(slot>=0)[self closeHostedSlot:slot];
     }
+    picker.runningAppDetails=[self verifiedRunningDetails];
     [picker presentRunningApps:[self ownedRunningBundleIDs]];
     DFCLog([NSString stringWithFormat:@"close-all-owned-live-scene-count=%lu",
         (unsigned long)snapshot.count]);
