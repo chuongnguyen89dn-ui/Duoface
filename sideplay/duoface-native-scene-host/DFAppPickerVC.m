@@ -93,6 +93,7 @@
 @interface DFNativeAppCard : UICollectionViewCell
 @property(nonatomic,strong) UIImageView *icon;
 @property(nonatomic,strong) UILabel *title;
+@property(nonatomic,strong) UILabel *runningDetail;
 @property(nonatomic,strong) UIButton *closeRunning;
 @property(nonatomic,strong) UIButton *restartRunning;
 @property(nonatomic,assign) BOOL runningControls;
@@ -117,6 +118,13 @@
         self.title.textAlignment=NSTextAlignmentCenter;
         self.title.lineBreakMode=NSLineBreakByTruncatingTail;
         [self.contentView addSubview:self.title];
+        self.runningDetail=[UILabel new];
+        self.runningDetail.textColor=[UIColor colorWithWhite:.78 alpha:1];
+        self.runningDetail.font=[UIFont systemFontOfSize:8 weight:UIFontWeightRegular];
+        self.runningDetail.textAlignment=NSTextAlignmentCenter;
+        self.runningDetail.adjustsFontSizeToFitWidth=YES;
+        self.runningDetail.minimumScaleFactor=.8;
+        [self.contentView addSubview:self.runningDetail];
         // Original @a522c/@a5374 uses real badge UIImageViews, not color fills.
         self.appStateBadge=[UIImageView new];
         self.appStateBadge.contentMode=UIViewContentModeScaleAspectFit;
@@ -167,6 +175,8 @@
     if(!self.appStateBadge.hidden)[self.contentView bringSubviewToFront:self.appStateBadge];
     self.title.frame=CGRectMake(2,CGRectGetMaxY(self.icon.frame)+1,w-4,MIN(16,MAX(10,h- CGRectGetMaxY(self.icon.frame)-2)));
     self.title.hidden=!self.runningControls && !self.showsAppName;
+    self.runningDetail.hidden=!self.runningControls;
+    self.runningDetail.frame=CGRectMake(2,CGRectGetMaxY(self.title.frame)+1,w-4,14);
     self.closeRunning.hidden=!self.runningControls;
     self.restartRunning.hidden=!self.runningControls;
     if(self.runningControls){
@@ -202,6 +212,8 @@
 @property(nonatomic,strong) UIButton *closeButton;
 @property(nonatomic,strong) UIButton *closeAllRunningButton;
 @property(nonatomic,strong) UILabel *runningCountLabel;
+@property(nonatomic,strong) UIButton *rotateForwardButton;
+@property(nonatomic,strong) UIButton *rotateBackwardButton;
 @property(nonatomic,strong) NSArray<NSString *> *runningBundleIDs;
 @property(nonatomic,assign) BOOL runningMode;
 @property(nonatomic,strong) NSArray<DFAppInfo *> *apps;
@@ -305,6 +317,16 @@
     self.runningCountLabel.textColor=[UIColor colorWithWhite:.75 alpha:1];
     self.runningCountLabel.hidden=YES;
     [self.sheet addSubview:self.runningCountLabel];
+    self.rotateForwardButton=[UIButton buttonWithType:UIButtonTypeSystem];
+    [self.rotateForwardButton setTitle:@"Xoay →" forState:UIControlStateNormal];
+    [self.rotateForwardButton addTarget:self action:@selector(rotateForwardTapped)
+                         forControlEvents:UIControlEventTouchUpInside];
+    [self.sheet addSubview:self.rotateForwardButton];
+    self.rotateBackwardButton=[UIButton buttonWithType:UIButtonTypeSystem];
+    [self.rotateBackwardButton setTitle:@"← Xoay" forState:UIControlStateNormal];
+    [self.rotateBackwardButton addTarget:self action:@selector(rotateBackwardTapped)
+                          forControlEvents:UIControlEventTouchUpInside];
+    [self.sheet addSubview:self.rotateBackwardButton];
     UICollectionViewFlowLayout *layout=[UICollectionViewFlowLayout new];
     // Native12 CBMultitaskingOverlayView has distinct pageControlChanged:
     // and card-page setup methods. Use a horizontal page, not a long vertical
@@ -457,8 +479,15 @@
     self.closeAllRunningButton.frame=CGRectMake(MAX(116,w-134),top+5,
                                                   MAX(65,MIN(120,w*.28)),28);
     self.runningCountLabel.hidden=!self.runningMode;
-    self.runningCountLabel.frame=CGRectMake(10,top+5,MAX(80,w-153),28);
-    CGFloat gridTop=top+(self.runningMode?39:4);
+    BOOL canRotate=self.runningMode && self.runningRotateCapacity>=3 &&
+         self.runningRotateCapacity<=4 &&
+         (NSInteger)self.runningBundleIDs.count==self.runningRotateCapacity;
+    self.rotateForwardButton.hidden=!canRotate;
+    self.rotateBackwardButton.hidden=!canRotate;
+    self.rotateBackwardButton.frame=CGRectMake(8,top+27,65,26);
+    self.rotateForwardButton.frame=CGRectMake(76,top+27,65,26);
+    self.runningCountLabel.frame=CGRectMake(10,top+2,MAX(80,w-153),22);
+    CGFloat gridTop=top+(self.runningMode?(canRotate?58:39):4);
     CGFloat available=MAX(30,h-gridTop-34);
     self.cards.frame=CGRectMake(9,gridTop,MAX(100,w-18),available);
     self.pageControl.frame=CGRectMake(106,MAX(gridTop,h-32),MAX(60,w-116),26);
@@ -695,6 +724,7 @@
         card.runningControls=NO;
         card.showsAppName=self.showAppNames;
         card.title.text=@"Thêm App";
+        card.runningDetail.text=nil;
         card.title.textColor=UIColor.whiteColor;
         card.icon.image=[UIImage systemImageNamed:@"plus.circle.fill"];
         card.icon.tintColor=[UIColor colorWithRed:.08 green:.52 blue:1 alpha:1];
@@ -711,6 +741,7 @@
         card.runningControls=NO;
         card.hidden=YES;
         card.title.text=nil;
+        card.runningDetail.text=nil;
         card.icon.image=nil;
         card.appBadgeKind=0;
         card.appStateBadge.image=nil;
@@ -736,6 +767,13 @@
     [card setNeedsLayout];
     DFAppInfo *app=display[indexPath.item];
     card.title.text=app.displayName;
+    NSDictionary *details=self.runningAppDetails[app.bundleID];
+    NSString *status=[details[@"State"] isKindOfClass:NSString.class]?
+                         details[@"State"]:@"Scene đã xác nhận";
+    NSNumber *pid=[details[@"PID"] isKindOfClass:NSNumber.class]?details[@"PID"]:nil;
+    card.runningDetail.text=self.runningMode?
+         [NSString stringWithFormat:@"%@ · %@",status,
+                 pid? [NSString stringWithFormat:@"PID %@",pid]:@"PID chưa xác minh"] : nil;
     BOOL selectedApp=!self.runningMode && self.currentSlotBundleID.length &&
         [self.currentSlotBundleID isEqualToString:app.bundleID];
     // Original per-App border/text state, independent of the badge palette.
@@ -795,6 +833,14 @@
     NSString *bid=[self verifiedRunningIDForIndex:sender.tag];
     if(!bid)return;
     [self.delegate appPicker:self restartRunningBundleID:bid];
+}
+- (void)rotateForwardTapped {
+ if(!self.runningMode || self.runningRotateCapacity<3)return;
+ [self.delegate appPicker:self rotateRunningClockwise:YES];
+}
+- (void)rotateBackwardTapped {
+ if(!self.runningMode || self.runningRotateCapacity<3)return;
+ [self.delegate appPicker:self rotateRunningClockwise:NO];
 }
 - (void)closeAllRunningTapped:(UIButton *)sender {
     (void)sender;
