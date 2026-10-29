@@ -1063,6 +1063,26 @@ static void DFCLog(NSString *text) {
     if(![self.appSceneWindows containsObject:surface.window])return;
     [self noteUserActivity];
 }
+- (NSArray<NSDictionary *> *)disconnectTerminationCandidates {
+ if(!NSThread.isMainThread || self.hostedScenes.count!=4)return @[];
+ DFSceneHost *host=[DFSceneHost sharedHost];
+ NSMutableArray<NSDictionary *> *items=[NSMutableArray new];
+ for(NSUInteger physical=0;physical<self.hostedScenes.count;physical++){
+   id candidate=self.hostedScenes[physical];
+   if(![candidate isKindOfClass:UIView.class] ||
+      physical>=self.sceneHandleReady.count ||
+      ![self.sceneHandleReady[physical] boolValue])continue;
+   UIView *surface=(UIView *)candidate;
+   if(![host isLiveSceneForHostedView:surface] ||
+      ![host wasProcessAbsentBeforeHostedView:surface])continue;
+   NSString *bundle=[host bundleIDForHostedView:surface];
+   NSNumber *pid=[host verifiedPIDForHostedView:surface];
+   if(!bundle.length || !pid || pid.intValue<=1)continue;
+   [items addObject:@{@"BundleID":bundle,@"PID":pid,
+                      @"PhysicalSlot":@(physical)}];
+ }
+ return [items copy];
+}
 - (NSArray<NSDictionary *> *)actualTwoPaneWindowReadback {
     // The native map is a separate CarPlayApp process. Publish ONLY measured
     // external UIWindow geometry, never pointers, scene handles or authority
