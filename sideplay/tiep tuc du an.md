@@ -1,3 +1,12 @@
+## CHECKPOINT 2026-10-29 DuoFace .108 PUBLIC SILEO VERIFIED
+
+- User explicitly authorized Sileo publication. Signed one-DEB .108 archive: sideplay/jb-embedded-appbridge/evidence/runs/40822276085/, source 696f514eb25c9e9be24ff2689fe2d422b93db85a, archive commit 4272b46a48d5a616d43705a86808dd24d65e19fb, SHA256 745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201.
+- Published same existing Sileo APT package com.duoface.jb.embedded, version 0.0.108~ratio-disconnect-restore1, rootless iphoneos-arm64. Sileo source https://chuongnguyen89dn-ui.github.io/carplaydsp/. Direct public https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.108~ratio-disconnect-restore1_iphoneos-arm64.deb.
+- Publisher carplaydsp/main commit ee029484b96702f58a22bbc92425ff6c605aa723; GitHub Actions run 40822668454 build/deploy/verify-duoface-integrated-pages/verify-qa11-pages all SUCCESS, actionlint 40809650653 SUCCESS. Remote Packages single 0.0.106 APT record and public DEB SHA matched in publisher and this handoff action 40823274206. Previous .90/.92 publicly retained hash-identical.
+- Full evidence: sideplay/audit/duoface-iphone-only-divider-107/REPORT.md, and GitHub run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40823274206. No physical phone install or actual CarPlay 10s process exit/audio validation, no claim of tested Maps/Siri. Default disconnect auto-close OFF; no forced phone restart. Next user QA: refresh Sileo, install when parked, enable only if desired, unplug and test reconnect before 10s / foreground phone audio/YouTube scene, export DuoFaceDisconnectClose.log. If errors, rollback .90 or .92 from archived signed bytes; do not install via Filza.
+
+---
+
 ## CHECKPOINT DuoFace .108 integrated release staged, run 40822276085
 
 - User reported live .106 UI and divider regressions. .108 is staged and authorized for Sileo; user explicitly authorized a new Sileo release, pending hash-verified publisher deployment. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source 696f514eb25c9e9be24ff2689fe2d422b93db85a. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40822276085. Exact SHA256 745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201. Archive sideplay/jb-embedded-appbridge/evidence/runs/40822276085/; provenance and source SHA alongside DEB.
