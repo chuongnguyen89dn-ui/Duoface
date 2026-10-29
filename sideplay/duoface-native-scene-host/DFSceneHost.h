@@ -17,6 +17,7 @@ FOUNDATION_EXPORT NSString *const DFSceneHostDidObserveTouchNotification;
 - (nullable NSString *)bundleIDForHostedView:(UIView *)view;
 // Process metadata is read-only, PID returned only if validated against the live SBApplication.
 - (nullable NSNumber *)verifiedPIDForHostedView:(UIView *)view;
+- (BOOL)wasProcessAbsentBeforeHostedView:(UIView *)view;
 - (BOOL)isLiveSceneForHostedView:(UIView *)view;
 // Explicit Chrome split/focus mode; a second pane may be empty.
 - (void)setSplitMode:(BOOL)isSplit forHostedView:(UIView *)view;
