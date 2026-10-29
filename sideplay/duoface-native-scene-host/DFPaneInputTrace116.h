@@ -27,6 +27,19 @@ static void DFPane116Trace(NSString *phase,UIWindow *w,UITouch *touch,
         NSStringFromCGRect(root.bounds),fraction,NSStringFromCGPoint(pt),
         touch,status?:@""]);
 }
+// .117: associate a passive wake callback with ONLY the owned physical pane.
+// Do not install touch overlays or alter the UIKit hit target/event routing.
+// The owner schedules Chrome UI changes after UIKit completes dispatch.
+typedef void (^DFPane117WakeCallback)(UIWindow *);
+static char DFPane117WakeKey;
+static void DFPane117SetWake(UIWindow *window,DFPane117WakeCallback wake) {
+    if(!window)return;
+    objc_setAssociatedObject(window,&DFPane117WakeKey,wake,OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+static void DFPane117SignalWake(UIWindow *window) {
+    DFPane117WakeCallback callback=objc_getAssociatedObject(window,&DFPane117WakeKey);
+    if(callback)callback(window);
+}
 static void DFPane116SendEvent(id self,SEL cmd,UIEvent *event) {
     UIWindow *w=(UIWindow *)self;
     UITouch *touch=nil;
@@ -34,7 +47,10 @@ static void DFPane116SendEvent(id self,SEL cmd,UIEvent *event) {
     CGPoint point=began?[touch locationInView:w]:CGPointZero;
     struct objc_super call={self,class_getSuperclass(object_getClass(self))};
     ((void(*)(struct objc_super *,SEL,UIEvent *))objc_msgSendSuper)(&call,cmd,event);
-    if(began)DFPane116Trace(@"sendEvent",w,touch,point,@"original-event-forwarded");
+    if(began) {
+        DFPane116Trace(@"sendEvent",w,touch,point,@"original-event-forwarded");
+        DFPane117SignalWake(w);
+    }
 }
 static UIView *DFPane116HitTest(id self,SEL cmd,CGPoint pt,UIEvent *event) {
     struct objc_super call={self,class_getSuperclass(object_getClass(self))};
@@ -45,6 +61,9 @@ static UIView *DFPane116HitTest(id self,SEL cmd,CGPoint pt,UIEvent *event) {
         DFPane116Trace(@"hitTest",(UIWindow *)self,touch,pt,
             [NSString stringWithFormat:@"target=%@ targetIsWindow=%d",
              target?NSStringFromClass(target.class):@"nil",target==self]);
+    // Host-controlled windows can be hit-tested without sendEvent being
+    // dispatched locally; use only a genuine target and a Began touch.
+    if(touch && target)DFPane117SignalWake((UIWindow *)self);
     return target;
 }
 static BOOL DFPane116PointInside(id self,SEL cmd,CGPoint pt,UIEvent *event) {
