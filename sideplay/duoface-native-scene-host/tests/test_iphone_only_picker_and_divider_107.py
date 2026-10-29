@@ -61,6 +61,14 @@ class PhoneOnlyPickerAndDivider107(unittest.TestCase):
         self.assertNotIn("self.ratio=",block)
         self.assertNotIn("DFDragFinish",block)
         self.assertIn("divider92-hidden-owner-contact-cancelled-for-next-reveal",block)
+        self.assertIn("self.dividerOwnerSuspended && !unavailable",block)
+        self.assertIn("if(returningToSplit)",block)
+        self.assertIn("owner.dividerTrack.gestureRecognizers",block)
+        self.assertIn("recognizer.enabled=NO;",block)
+        self.assertIn("recognizer.enabled=YES;",block)
+        self.assertIn("!owner.dividerWindow || owner.dividerWindow.hidden",block)
+        self.assertIn("owner.panActive || owner.logoTouchPending",block)
+        self.assertIn("divider92-pan-recognizer-rearmed-after-modal",block)
 
 if __name__=="__main__":
     unittest.main(verbosity=2)
