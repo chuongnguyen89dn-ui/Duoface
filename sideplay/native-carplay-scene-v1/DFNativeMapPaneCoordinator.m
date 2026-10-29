@@ -118,6 +118,8 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
 @property(nonatomic,strong) NSString *lastRequest;
 @property(nonatomic,strong) NSTimer *poll;
 @property(nonatomic,assign) NSInteger slot;
+@property(nonatomic,assign) NSUInteger invalidFrameTicks;
+@property(nonatomic,copy) NSString *boundSession;
 @end
 @implementation DFNativeMapPaneCoordinator
 + (instancetype)shared {
@@ -143,7 +145,7 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
     if(self.adapter.isAttached)return;
     [self.pane removeFromSuperview];
     self.pane=nil;self.dashboard=nil;self.owner=nil;
-    self.request=nil;
+    self.request=nil;self.boundSession=nil;self.invalidFrameTicks=0;
 }
 - (BOOL)restore:(NSString **)outReason {
     if(!self.adapter.isAttached) {
@@ -254,6 +256,7 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
     }
     self.adapter=adapter;self.pane=pane;self.dashboard=dashboard;
     self.owner=owners.firstObject;self.request=[req copy];self.slot=number.integerValue;
+    self.boundSession=[binding[@"Session"] copy];self.invalidFrameTicks=0;
     CGRect actualInDashboard=[dashboard convertRect:pane.bounds fromView:pane];
     if(!DFPhysicalMapNearRect(actualInDashboard,target,2.0)) {
         NSString *reason=nil;
@@ -264,6 +267,56 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
         return;
     }
     [self reply:cmd ok:YES reason:@"native-owner-attached-physical-frame-observed-map-tiles-not-verified"];
+}
+- (void)refreshAdoptedNativeMapBounds {
+    if(!self.adapter.isAttached || !self.dashboard || !self.pane ||
+       !self.owner || !self.boundSession)return;
+    UIWindow *current=nil;
+    UIViewController *root=nil;
+    NSDictionary *plan=DFMapMeasureLiveDock(&current,&root);
+    NSDictionary *physical=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
+    NSDictionary *session=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
+    NSDictionary *binding=DFPhysicalMapVerifyPane(physical,session,plan,
+                           self.slot,NSDate.date.timeIntervalSince1970);
+    BOOL verified=[binding[@"Verified"] isEqual:@YES] &&
+        [binding[@"Session"] isEqualToString:self.boundSession] &&
+        current==self.dashboard && root==self.dashboard.rootViewController &&
+        self.owner.parentViewController==root &&
+        self.owner.viewIfLoaded.superview==self.pane;
+    if(!verified){
+        self.invalidFrameTicks++;
+        if(self.invalidFrameTicks>=6){
+            NSString *reason=nil;
+            BOOL recovered=[self restore:&reason];
+            DFMapLog([NSString stringWithFormat:
+              @"map-reflow-lost-owner-restored=%d reason=%@",recovered,
+              binding[@"Reason"]?:reason?:@"foreign-owner-changed"]);
+        }
+        return;
+    }
+    self.invalidFrameTicks=0;
+    CGRect target=CGRectFromString(binding[@"Target"]);
+    CGRect next=[root.view convertRect:target fromView:self.dashboard];
+    if(CGRectIsEmpty(next) || CGRectIsNull(next) || CGRectIsInfinite(next))return;
+    if(DFPhysicalMapNearRect(self.pane.frame,next,1))return;
+    // Explicit real native UIKit view bounds, never fictitious scene-size
+    // percentages. Scene settings foreground/orientation remain native-owned.
+    self.pane.frame=next;
+    self.owner.viewIfLoaded.frame=self.pane.bounds;
+    [self.owner.viewIfLoaded setNeedsLayout];
+    CGRect after=[self.dashboard convertRect:self.pane.bounds fromView:self.pane];
+    if(!DFPhysicalMapNearRect(after,target,2)){
+        NSString *reason=nil;
+        BOOL restored=[self restore:&reason];
+        DFMapLog([NSString stringWithFormat:
+           @"map-reflow-frame-rejected restored=%d reason=%@",restored,reason?:@"frame-mismatch"]);
+        return;
+    }
+    DFMapLog([NSString stringWithFormat:
+      @"map-physical-reflow-frame-observed=%@ actual-map-tiles-not-proven",
+      NSStringFromCGRect(after)]);
 }
 - (void)tick:(NSTimer *)timer {
     (void)timer;
@@ -279,6 +332,8 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
         if(!live) {
             NSString *reason=nil;
             [self restore:&reason]; // fail closed on a changed UIKit owner
+        } else {
+            [self refreshAdoptedNativeMapBounds];
         }
     }
     [self handle];
