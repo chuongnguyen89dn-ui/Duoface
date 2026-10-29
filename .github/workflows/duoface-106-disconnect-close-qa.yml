@@ -1,24 +1,7 @@
 name: DuoFace 106 DuoDash-style physical unplug auto-close integrated rootless QA DEB (not Sileo)
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-106-disconnect-close-qa.yml'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/duoface-native-scene-host/Info.plist'
-      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
-      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
-      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.h'
-      - 'sideplay/duoface-native-scene-host/DFDisconnectClose*'
-      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
-      - 'sideplay/duoface-native-scene-host/DFSceneHost.h'
-      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
-      - 'sideplay/duoface-native-scene-host/tests/test_disconnect_close_106.py'
-      - 'sideplay/duoface-native-scene-host/tests/disconnect_close_runtime.m'
-      - 'sideplay/duoface-native-scene-host/tests/test_voice_locale_105.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
   workflow_dispatch:
+
 permissions:
   contents: write
 concurrency:
