@@ -1,0 +1,116 @@
+name: DuoFace Native12 original touch-owner IMP read-only forensic
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-116-native12-original-touch-forensics.yml'
+      - 'sideplay/audit/duoface-116-touch-ownership-20261029/extract_original_touch_routing_imp.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-116-native12-touch-original-forensics
+  cancel-in-progress: false
+jobs:
+  verify-original-touch-owner:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify centralized CarPlay skill ZIP without changing work code
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/carplay-skill.zip"
+          echo 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf  '"$RUNNER_TEMP/carplay-skill.zip" | shasum -a 256 -c -
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -p "$RUNNER_TEMP/carplay-skill.zip" SKILL.md | head -100
+      - name: Verify SHA pinned original DEB and index, unpack original for read-only analysis
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v llvm-objdump || brew install llvm
+          echo "/opt/homebrew/opt/llvm/bin" >> "$GITHUB_PATH"
+          REFDIR="$RUNNER_TEMP/native12-original-touch"
+          mkdir -p "$REFDIR"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$REFDIR/original.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$REFDIR/original.deb" | shasum -a 256 -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$REFDIR/index.json"
+          test "$(git hash-object "$REFDIR/index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          dpkg-deb -x "$REFDIR/original.deb" "$REFDIR/payload"
+          test -s "$REFDIR/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      - name: Extract exact original hitTest, CloneTouch, UIWindow resize and host scaling instructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST=sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp
+          python3 sideplay/audit/duoface-116-touch-ownership-20261029/extract_original_touch_routing_imp.py \
+            --binary "$RUNNER_TEMP/native12-original-touch/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --method-index "$RUNNER_TEMP/native12-original-touch/index.json" \
+            --out "$DEST"
+          python3 - <<'PY'
+          import json, pathlib
+          dest=pathlib.Path('sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp')
+          j=json.loads((dest/'ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json').read_text())
+          expected={'CBTouchCloneView':5,'CBBridgedUIAppView':5,'CBUIAppContainerView':3,'CBWindow':1}
+          assert len(j['methods']) == sum(expected.values()) == 14
+          assert j['dashboard_macho_sha256']=='9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea'
+          for cls, count in expected.items():
+              actual=sum(1 for m in j['methods'] if m['class']==cls)
+              assert actual==count, (cls,actual)
+          assert all(m['instructions'] and m['end'] for m in j['methods'])
+          summary=[
+            '# Original Native12 touch owner and pane hitTest forensic evidence',
+            '',
+            '- Read-only original machine code extraction, not a running or tested DuoFace fix.',
+            '- Original DEB SHA256: `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`',
+            '- Dashboard Mach-O SHA256: `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`',
+            '- Original instruction ranges verified for 14 methods. The raw report is ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json.',
+            '- IMPORTANT: ObjC method presence and disassembly alone do NOT prove runtime touch forwarding.',
+            '- Next: decode hitTest/point-inside and CloneTouch caller ordering, compare independent DFSceneHost app view bounds/remote touch routing to actual car trace. No invented overlay or synthetic touch injection.',
+            '',
+          ]
+          for m in j['methods']:
+              summary.append(f"- `{m['class']}.{m['selector']}` `{m['imp']}..{m['end']}` instructions={len(m['instructions'])}")
+          (dest/'ORIGINAL_TOUCH_OWNER_SUMMARY.md').write_text('\n'.join(summary)+'\n')
+          print('NATIVE12_TOUCH_OWNERSHIP_14_METHODS_SHA_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Original-Touch-Owner-Forensics
+          path: sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp/
+          if-no-files-found: error
+      - name: Persist exact forensic evidence into DuoFace only, no Sileo or source deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$(pwd)/sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp"
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          DEST=sideplay/audit/duoface-116-touch-ownership-20261029/original-touch-imp
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -s "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json"; then
+              echo ORIGINAL_TOUCH_FORENSICS_ALREADY_PERSISTED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            mkdir -p "$TEMP/$DEST"
+            cp "$SRC"/* "$TEMP/$DEST/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            git -C "$TEMP" commit -m 'audit(native12): archive original touch/hitTest method evidence [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo ORIGINAL_TOUCH_FORENSICS_ARCHIVED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo ORIGINAL_TOUCH_FORENSICS_ARCHIVE_FAILED
+          exit 1
