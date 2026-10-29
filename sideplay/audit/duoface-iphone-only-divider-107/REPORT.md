@@ -1,3 +1,13 @@
+## 2026-10-29 — SIGNED .108 ONE-DEB BUILD VERIFIED; SILEO PUBLISHER STARTED
+
+- **User authorized Sileo publication**. New corrected integrated release: `com.duoface.jb.embedded`, version **`0.0.108~ratio-disconnect-restore1`**, rootless iOS16 `iphoneos-arm64`, no 3-second logo hold. NativeHost `0.1.108~ratio-disconnect-restore1`.
+- **Actual build SUCCESS**: DuoFace workflow [40822276085](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40822276085), source SHA `696f514eb25c9e9be24ff2689fe2d422b93db85a`; iOS16 build/ldid/first-party Theos modules and one signed merged DEB passed. Artifact ID `12875007659`. File archived inside target project repository by git push at commit `4272b46a48d5a616d43705a86808dd24d65e19fb` under `sideplay/jb-embedded-appbridge/evidence/runs/40822276085/`, with `SHA256SUMS.txt`, `BUILD_SOURCE.txt`, `CI_RESULT.txt`, `PACKAGING_PROVENANCE.json`. Exact SHA256 **`745c1db8ae5256b7d6a3703a77a7de94dfa622c4c67718f6d82f6a00fa253201`** verified from GitHub archive readback. CI_RESULT states SILEO_PUBLISHED=false as of build.
+- **Existing publisher changed and pushed** `chuongnguyen89dn-ui/carplaydsp` main at commit `ee029484b96702f58a22bbc92425ff6c605aa723`, workflow `.github/workflows/build.yml`, pins exact DuoFace archive SHA + source, app bundle 0.1.108, proper filters, one latest `.108` APT record while keeping original `.106/.92/.90` DEB bytes as rollback. Publisher [40822668454](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40822668454) STARTED; actionlint [40822668328](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40822668328) SUCCESS. **Do not call .108 publicly released until publisher build+deploy+remote verifier all PASS**.
+- Expected Sileo source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`; expected direct file `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.108~ratio-disconnect-restore1_iphoneos-arm64.deb` (NOT yet a confirmed public link).
+- Still no physical parked-car device test of immediate split ratio, 10s user-enabled app process exit, or app state/slot restore. This is public beta distribution authorization, not an on-device functional certification. Do not auto-install or respring.
+
+---
+
 ## 2026-10-29 — EXPLICIT SILEO RELEASE AUTHORIZATION, .108 BUILD STARTED
 
 - User explicitly requested **"Đóng lên sileo ngay"**. This supersedes prior instructions "no Sileo release authorized" for the **new** corrected version only.
