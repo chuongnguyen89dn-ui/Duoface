@@ -1,0 +1,30 @@
+# DuoFace #8 native OmniCar-style Maps; #10 expanded assistant/settings — checkpoint
+
+Date 2026-10-29. Repository: chuongnguyen89dn-ui/Duoface; branch: feature/duoface-jb-embedded-appbridge-20261020.
+
+## Original evidence checked
+
+- OmniCar original 1.0.3 DEB audit at chuongnguyen89dn-ui/Omnicar/audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md (read-only decompilation, original SHA256 d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd). Actual ABHost.layoutPane reads bounds, applies transform, maintains separate physical sceneBox, and calls sceneHandle -> sceneIfExists -> updateSettingsWithBlock: to setFrame:, setInterfaceOrientation:, setBackgrounded:NO, setForeground:YES. These calls prove original behavior in ARM64, not successful user runtime on DuoFace. Do not copy vendor code or license.
+- Existing DuoFace DFNativeMapPaneCoordinator.m is injected ONLY into native CarPlay/CarPlayApp, using one real DBApplicationSceneViewController, a measured native Dock window and UIKit same-window DFNativeMapPaneAdapter adoption; its old ACK was only a controller receipt, not true Maps tiles, navigation, or physical DuoFace slot ownership. Original phone menu has explicit Attach slot 0/1 and Restore only; the previous native viewport plan derives 2-slot ratios from a layout plist, not from live SpringBoard UIWindows.
+- Live DuoFace split scene host is in SpringBoard in DFNative12Chrome.m/DFTouchOwnerProbe.m, separate from native CarPlayApp Dashboard owner. Therefore a physical pane cannot be inferred solely from a native Dock rectangle; verify both owners and the same session before any native controller adoption.
+
+## Actual source edits committed
+
+- New first-party sideplay/native-carplay-scene-v1/DFCarPlayPhysicalPaneBinding.h. Requires freshly measured SpringBoard physical window positions AND native Dashboard Dock plan; same live UUID session; 2 visible external UIWindows; slot indexes 0/1 unique and valid; requested physical slot EMPTY of a hosted app; frames match to within 2 pt; no claimed map tiles or forced scene settings.
+- In DFNative12Chrome.m actualTwoPaneWindowReadback tracks physical slot, visual slot, live app occupation, real UIWindow.frame and external screen; no mutation of divider 3-second logo code.
+- In DFTouchOwnerProbe.m existing 0.5s active-session watchdog writes an atomic short-lived versioned physical-panes.v1.plist. The CarPlayApp native coordinator consumes it and rejects stale, occupied, cross-session, geometrically mismatched requests before adoption. The coordinator also reads back its own Dashboard frame after adoption and rolls back on mismatch; native user opt-in and original owner restrictions preserved.
+- New sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m and tests/test_physical_map_binding_099.py. Dedicated source-only macOS/iOS16 CI .github/workflows/duoface-099-physical-map-source-smoke.yml archives immutable run and appends existing sideplay/tiep tuc du an.md. Tests do not prove actual video/maps/navigation on an external vehicle display.
+- Relevant commits: 0c007010 (verifier), bf3471c9 (syntax fix), efc07943/378dd5d3/b9e3e444 (SpringBoard physical window observation), 904b4a6f (native owner gating), 8d06d3d9/3277646b (test), 326c1dad (CI). Confirm current branch HEAD and run results before calling any component verified.
+
+## Limitations and #10 assessment
+
+- Native map still attaches the CarPlayApp-owned DBApplicationSceneViewController into a CarPlayApp Dashboard pane, not literally reparenting into SpringBoard's physical UIWindow; they are different processes. Geometry matching is necessary but not sufficient. Whether the native Maps UI visibly occupies the intended DuoFace split pane and navigation remains active is **NOT VERIFIED**. Genuine OmniCar scene settings semantics are known, but applying speculative setForeground/setBackgrounded could crash CarPlay or disrupt navigation; do not add without device evidence.
+- #10 status: phone app already offers app-name hide/show (#4) and restore-on-reconnect (#5); native Dock observation and diagnostic logs already exist in separate processes. Full voice assistant, phone screen sleep control, locale translations, genuinely automatic launch, a user-facing Dock Monitor dashboard, and comprehensive reset workflow have **not** been implemented or tested in this checkpoint. Do not imply UI options are functional by name alone.
+- Safety/UX: never take control of microphone, mute voice navigation, turn off handset screen while navigating, or terminate SpringBoard/foreign apps without explicit settings, owner verification and parked-device tests. No Sileo publishing until user specifically requests.
+
+## Verifiable continuation
+
+1. Inspect GitHub Actions 099 run and exact macOS runtime and iOS16 syntax logs; if failing, fix source/test at exact diagnostic, rerun and archive result. The correct handoff path is sideplay/tiep tuc du an.md; no duplicate.
+2. With parked CarPlay iPhone X iOS16 rootless, gather DuoFaceNativeMapPane.log, DuoFaceTouchOwner.log, live owner snapshot and physically observed window frames; check if Maps draws tiles, responds to gestures, maintains navigation with another app and works without unchecking Maps in CarPlay iPhone settings. Never infer success solely from ACK.
+3. After verified map ownership, separately implement a read-only phone Dock Monitor and safe selective reset, then localization settings; design voice assistant to use system Siri opt-in rather than inventing a fake assistant. Phone screen-off and auto-launch require independent consent and device tests.
+4. Build a new signed rootless DEB and stage for Sileo only when user explicitly authorizes a release. Preserve .90 YouTube orientation, .92 three-second logo behavior, native system Dock and prior #5-#7 workspace.
