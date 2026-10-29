@@ -60,6 +60,11 @@ class Disconnect106(unittest.TestCase):
   self.assertIn("DFDisconnectCloseCoordinator.m",build)
   self.assertIn("0.1.106~duodash-disc10s1",build)
   self.assertIn("0.1.106~duodash-disc10s1",f("control"))
+ def test_manual_diagnostics_records_disconnect_actual_pid_outcome(self):
+  source=f("DFNativeDiagnostics.m")
+  self.assertIn("DuoFaceDisconnectClose.log",source)
+  self.assertIn("disconnect-close.ack.v1.plist",source)
+  self.assertIn('closeState[@"VerifiedExited"]',source)
  def test_legacy_chrome_video_and_logo_unchanged(self):
   chrome=f("DFNative12Chrome.m")
   self.assertIn("- (void)logoTouchChanged:",chrome)
