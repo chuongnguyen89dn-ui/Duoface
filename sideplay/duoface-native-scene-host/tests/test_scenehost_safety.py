@@ -1318,7 +1318,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('appPicker:(DFAppPickerVC *)picker closeRunningBundleID:',chrome)
   self.assertIn('appPicker:(DFAppPickerVC *)picker restartRunningBundleID:',chrome)
   self.assertIn('appPickerCloseAllRunning:(DFAppPickerVC *)picker',chrome)
-  self.assertIn('self.runningMode?4:8',picker)
+  self.assertIn('self.runningMode?4:DFPickerCapacity(self.gridColumns,self.gridRows)',picker)
   self.assertIn('verifiedRunningIDForIndex:',picker)
   self.assertIn('if(self.runningMode)return;',picker)
   self.assertIn('OVERLAY_RESTART_SINGLE',picker)
