@@ -1,0 +1,126 @@
+name: DuoFace Native12 exact Dock content and usable bounds IMP
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native12-original-dock-bounds-forensics.yml'
+      - 'sideplay/audit/native12-dock-gap-20261029/extract_original_dock_bounds_imp.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-20261029-original-dock-gap-imp
+  cancel-in-progress: false
+jobs:
+  audit-original-dock:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact global CarPlay skill
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/carplay-skill.zip"
+          echo 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf  '"$RUNNER_TEMP/carplay-skill.zip" | shasum -a 256 -c -
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -p "$RUNNER_TEMP/carplay-skill.zip" SKILL.md | head -120
+      - name: Verify frozen original Native12 DEB and method index
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v llvm-objdump || brew install llvm
+          echo '/opt/homebrew/opt/llvm/bin' >> "$GITHUB_PATH"
+          ROOT="$RUNNER_TEMP/original-dock-gap"
+          mkdir -p "$ROOT"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$ROOT/original.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$ROOT/original.deb" | shasum -a 256 -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$ROOT/index.json"
+          test "$(git hash-object "$ROOT/index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          dpkg-deb -x "$ROOT/original.deb" "$ROOT/payload"
+          echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  '"$ROOT/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" | shasum -a 256 -c -
+      - name: Disassemble all original Dock/inset/display bounds and root window layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="$RUNNER_TEMP/original-dock-gap"
+          OUT=sideplay/audit/native12-dock-gap-20261029/original-imp
+          python3 sideplay/audit/native12-dock-gap-20261029/extract_original_dock_bounds_imp.py \
+            --binary "$ROOT/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --method-index "$ROOT/index.json" \
+            --out "$OUT"
+          python3 - <<'PY'
+          import pathlib,json
+          root=pathlib.Path('sideplay/audit/native12-dock-gap-20261029')
+          d=json.loads((root/'original-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json').read_text())
+          assert d['dashboard_macho_sha256']=='9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea'
+          assert len(d['methods'])==11
+          assert all(m['instructions'] for m in d['methods'])
+          lines=[
+              '# SHA verified Native12 original Dock and usable bounds IMP evidence',
+              '',
+              '- Original read-only Mach-O; not an independent DuoFace patch.',
+              '- Original SHA256: `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`.',
+              '- Native Mach-O SHA256: `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`.',
+              '- Full ARM64 disassembly in original-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json.',
+              ''
+          ]
+          for m in d['methods']:
+              lines.append('## '+m['class']+'.'+m['selector']+' '+m['imp']+'..'+m['end'])
+              lines.append('Original instructions='+str(len(m['instructions'])))
+              if m['class']=='CBWindow' and m['selector'] in (
+                  'carPlayContentInsets','carPlayUsableBounds','carPlayScreenBounds',
+                  'carPlayUIScreen','getCarPlayDisplay','resetCachedBounds'):
+                  relevant=m['instructions']
+              else:
+                  relevant=[v for v in m['instructions'] if any(k in v for k in (
+                      'Objc selector ref:','Objc message:','dispatch_after',
+                      'setFrame:','CGRectInset','carPlayUsableBounds',
+                      'carPlayContentInsets','carPlayScreenBounds','setBounds:'))]
+              lines.extend('    '+v for v in relevant[:280])
+              if len(relevant)>280: lines.append('- Truncated; see full JSON')
+              lines.append('')
+          (root/'ORIGINAL_DOCK_CONTENT_BOUNDS_CALLSITES.md').write_text('\n'.join(lines)+'\n')
+          print('NATIVE12_ORIGINAL_DOCK_BOUNDS_11_IMP_SHA_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Exact-Original-Dock-Content-Insets
+          path: |
+            sideplay/audit/native12-dock-gap-20261029/original-imp/
+            sideplay/audit/native12-dock-gap-20261029/ORIGINAL_DOCK_CONTENT_BOUNDS_CALLSITES.md
+          if-no-files-found: error
+      - name: Save immutable original forensic evidence only to DuoFace
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          REL=sideplay/audit/native12-dock-gap-20261029
+          SRC="$(pwd)/$REL"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            if test -s "$TMP/$REL/ORIGINAL_DOCK_CONTENT_BOUNDS_CALLSITES.md"; then
+              echo ORIGINAL_DOCK_SCAN_ALREADY_SAVED
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            mkdir -p "$TMP/$REL/original-imp"
+            cp "$SRC/ORIGINAL_DOCK_CONTENT_BOUNDS_CALLSITES.md" "$TMP/$REL/"
+            cp "$SRC/original-imp/"* "$TMP/$REL/original-imp/"
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$REL"
+            git -C "$TMP" commit -m 'audit: archive SHA verified original Native12 Dock usable bounds [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH";then
+              echo ORIGINAL_DOCK_SCAN_GITHUB_PERSISTED
+              git worktree remove --force "$TMP"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
