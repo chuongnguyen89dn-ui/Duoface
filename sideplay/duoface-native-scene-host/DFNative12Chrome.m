@@ -1707,13 +1707,21 @@ static void DFCLog(NSString *text) {
     // Read the *actually scene-ready* bundle in this physical slot before
     // showing active App colors. Nothing in the installed list proves selection.
     NSInteger physical=[self physicalForVisual:slot];
+    DFSceneHost *hostOwner=[DFSceneHost sharedHost];
     NSString *current=nil;
-    if([self.sceneHandleReady[(NSUInteger)physical] boolValue]){
-        UIView *surface=self.hostedScenes[(NSUInteger)physical];
-        if([surface isKindOfClass:UIView.class])
-            current=[[DFSceneHost sharedHost] bundleIDForHostedView:surface];
-    }
+    UIView *surface=self.hostedScenes[(NSUInteger)physical];
+    if([surface isKindOfClass:UIView.class] &&
+       [hostOwner isLiveSceneForHostedView:surface])
+        current=[hostOwner bundleIDForHostedView:surface];
+    // A saved selection and a still-negotiating scene are NOT running scenes.
+    // Show a pending clock separately; the active checkmark requires a live
+    // owned SBAppViewController each time the chooser is opened.
+    NSString *pendingBundle=nil;
+    UIView *pendingSurface=self.pendingScenes[(NSUInteger)physical];
+    if([pendingSurface isKindOfClass:UIView.class])
+        pendingBundle=[hostOwner bundleIDForHostedView:pendingSurface];
     self.appPickerController.currentSlotBundleID=current;
+    self.appPickerController.pendingSlotBundleID=pendingBundle;
     self.appPickerController.runningAppDetails=@{};
     // Original two-branch App badge semantics, but identity comes ONLY from
     // our scene-ready independent host. Respect swapped logical/physical slots.
@@ -1722,13 +1730,16 @@ static void DFCLog(NSString *text) {
         if(visual==slot)continue;
         NSInteger otherPhysical=[self physicalForVisual:visual];
         if(otherPhysical<0 || (NSUInteger)otherPhysical>=self.hostedScenes.count)continue;
-        if(![self.sceneHandleReady[(NSUInteger)otherPhysical] boolValue])continue;
         UIView *otherScene=self.hostedScenes[(NSUInteger)otherPhysical];
-        if(![otherScene isKindOfClass:UIView.class])continue;
-        NSString *otherID=[[DFSceneHost sharedHost] bundleIDForHostedView:otherScene];
+        if(![otherScene isKindOfClass:UIView.class] ||
+           ![hostOwner isLiveSceneForHostedView:otherScene])continue;
+        NSString *otherID=[hostOwner bundleIDForHostedView:otherScene];
         if(otherID.length)[others addObject:otherID];
     }
     self.appPickerController.otherSlotBundleIDs=others.array;
+    DFCLog([NSString stringWithFormat:
+        @"app-picker-live-vs-pending visual=%ld physical=%ld live=%@ pending=%@ otherLive=%@",
+        (long)slot,(long)physical,current?:@"",pendingBundle?:@"",others.array]);
     [self.appPickerController presentInstalledApps];
     [self.appPickerController refreshInstalledApps];
     self.appPickerWindow.hidden=NO;
