@@ -378,7 +378,7 @@ static void DFZGeometry119(void) {
     }
     // Do not accept the historical statusbar fallback as a measured AppDock.
     NSMutableArray *activeRoots=[NSMutableArray new];
-    for(id source in @[UIApplication.sharedApplication,UIApplication.sharedApplication.delegate?:NSNull.null]){
+    for(id source in @[UIApplication.sharedApplication,(id)UIApplication.sharedApplication.delegate?:NSNull.null]){
         id active=DFGObject(source,@"activeCarPlayWindow");
         id root=DFGObject(active,@"rootWindow");
         if([root isKindOfClass:UIWindow.class])
