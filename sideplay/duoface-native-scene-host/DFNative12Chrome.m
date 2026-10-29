@@ -1288,7 +1288,7 @@ static void DFCLog(NSString *text) {
         UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
         UIView *v=self.appSceneContainers[(NSUInteger)i];
         NSInteger visualSlot=[self visualForPhysical:i];
-        if(visualSlot>=activeSlots){appWindow.hidden=YES;v.hidden=YES;continue;}
+        if(visualSlot<0 || visualSlot>=activeSlots){appWindow.hidden=YES;v.hidden=YES;continue;}
         CGRect target=pane[visualSlot];
         if(self.focus>=0 && visualSlot==self.focus)target=cr;
         if(!CGRectEqualToRect(appWindow.frame,target))appWindow.frame=target;
