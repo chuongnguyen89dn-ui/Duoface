@@ -1,14 +1,13 @@
-RUN_ID=40804377636
-SOURCE_SHA=ed5bdf037b5d94643e3f65684a10b34d617d189a
-WORKFLOW_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40804377636
+RUN_ID=40807871956
+SOURCE_SHA=cb40c563f2eb10b6f6553bf35703ccbee09f4fd5
+WORKFLOW_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40807871956
 PYTHON_SOURCE=success
 MAC_FOUNDATION_RUNTIME=success
 IOS16_ARM64_SYNTAX=success
-ONE_DEB_BUILD=success
-QA_ARTIFACT=success
-QA_ARTIFACT_ID=12867124388
-QA_ARTIFACT_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40804377636/artifacts/12867124388
+ONE_DEB_BUILD=failure
+QA_ARTIFACT=skipped
+QA_ARTIFACT_ID=
+QA_ARTIFACT_URL=
 SILEO_PUBLISHED=false
 CARPLAY_DEVICE_TESTED=false
 MAP_TILES_OR_NAVIGATION_PROVEN=false
-d0cd5060fc1a6f12a416ede93d9897d842c3b7b2547eaeb84b8124166ef954c9  sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.105~native-map-voice1_iphoneos-arm64.deb
