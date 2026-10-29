@@ -1,6 +1,7 @@
 #import "DFNativeDiagnostics.h"
 #import <UIKit/UIKit.h>
 #import <sys/utsname.h>
+#import <math.h>
 
 @implementation DFNativeDiagnostics
 + (NSString *)tailAtPath:(NSString *)path maxBytes:(NSUInteger)limit {
