@@ -37,7 +37,7 @@ class DuoDashManagedReconnect110(unittest.TestCase):
   self.assertNotIn("terminate",block)
  def test_pending_second_pane_is_remembered_without_fabricated_ready(self):
   chrome=f("DFNative12Chrome.m")
-  selected=chrome.split("- (void)appPicker:(DFAppPickerVC *)picker\n  didSelectBundleID:",1)[1].split("- (void)sceneReady:",1)[0]
+  selected=chrome.split("- (void)appPicker:(DFAppPickerVC *)picker\n didSelectBundleID:",1)[1].split("- (void)sceneReady:",1)[0]
   self.assertLess(selected.index("hostViewForBundleID:bundleID"),
     selected.index("DFSavePhysicalBundle(physicalSlot,bundleID)"))
   self.assertIn("if(![active isKindOfClass:UIView.class])",selected)
