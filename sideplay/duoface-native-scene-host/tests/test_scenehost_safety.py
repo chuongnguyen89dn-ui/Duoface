@@ -1278,15 +1278,20 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("touch.phase==UITouchPhaseBegan",host)
   self.assertIn('DFSceneLog(@"geometry-before-reference-setters"',host)
 
- def test_original_native12_app_card_pagination_four_by_two(self):
-  """Original immutable Native12 card grid uses at most four columns,
-  and a two-row default from real 0xa3e5c selector path.
+ def test_native12_app_card_pagination_keeps_four_by_two_default_and_adds_user_sizes(self):
+  """User requested 4/5/6 columns and 2/3 rows; immutable native12 logo
+  baseline remains pinned separately. Running card controls stay 4x1.
   """
   picker=file("DFAppPickerVC.m")
-  self.assertIn("self.cardsPerPage=8;",picker)
-  self.assertIn("NSInteger capacity=self.runningMode?4:8;",picker)
-  self.assertIn("CGFloat w=width/4.0;",picker)
-  self.assertIn("CGFloat h=collectionView.bounds.size.height/(self.runningMode?1.0:2.0);",picker)
+  policy=file("DFAppPickerDisplayPolicy.h")
+  self.assertIn('@"GridColumns":@4',policy)
+  self.assertIn('@"GridRows":@2',policy)
+  self.assertIn("self.cardsPerPage=DFPickerCapacity(self.gridColumns,self.gridRows);",picker)
+  self.assertIn("NSInteger capacity=self.runningMode?4:DFPickerCapacity(self.gridColumns,self.gridRows);",picker)
+  self.assertIn("NSInteger columns=self.runningMode?4:self.gridColumns;",picker)
+  self.assertIn("NSInteger rows=self.runningMode?1:self.gridRows;",picker)
+  self.assertIn("CGFloat w=width/(CGFloat)MAX(1,columns);",picker)
+  self.assertIn("CGFloat h=collectionView.bounds.size.height/(CGFloat)MAX(1,rows);",picker)
 
  def test_original_raster_preview_and_running_close_real_owners(self):
   """Source/ABI checks only; does not assert hardware visual parity."""
