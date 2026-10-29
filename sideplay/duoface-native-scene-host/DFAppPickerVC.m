@@ -6,6 +6,7 @@
 #import "DFNative12MenuHeader.h"
 #import "DFAppLibrary.h"
 #import "DFEnabledAppsPolicy.h"
+#import "DFAppHabits.h"
 #import <notify.h>
 #import <objc/message.h>
 #import <math.h>
@@ -120,10 +121,13 @@
 @property(nonatomic,assign) NSUInteger inventoryGeneration;
 @property(nonatomic,assign) int appSettingsNotifyToken;
 @property(nonatomic,assign) BOOL appSettingsObserverActive;
+@property(nonatomic,assign) int habitNotifyToken;
+@property(nonatomic,assign) BOOL habitObserverActive;
 @end
 @implementation DFAppPickerVC
 - (void)dealloc {
  if(self.appSettingsObserverActive)notify_cancel(self.appSettingsNotifyToken);
+ if(self.habitObserverActive)notify_cancel(self.habitNotifyToken);
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -270,6 +274,17 @@
     if(status==NOTIFY_STATUS_OK){
       self.appSettingsNotifyToken=token;
       self.appSettingsObserverActive=YES;
+    }
+    int habitToken=-1;
+    uint32_t habitStatus=notify_register_dispatch(DFAppChoicesChangedNotification,
+      &habitToken,dispatch_get_main_queue(),^(int ignored){
+        (void)ignored;
+        DFAppPickerVC *owner=weakSelf;
+        if(owner && owner.isViewLoaded)[owner refreshInstalledApps];
+      });
+    if(habitStatus==NOTIFY_STATUS_OK){
+      self.habitNotifyToken=habitToken;
+      self.habitObserverActive=YES;
     }
 }
 - (void)updateNativeModeButtons {
@@ -462,7 +477,18 @@
             NSMutableArray<DFAppInfo *> *visible=[NSMutableArray new];
             for(DFAppInfo *app in results)
                 if(DFPickerAllowsApp(app.bundleID,enabled))[visible addObject:app];
-            owner.apps=visible;
+            // Default, pinned and successful prior selections ONLY affect
+            // card ordering. Never assign an app to any pane or auto-start.
+            NSArray<NSString *> *orderedIDs=DFRankAppIDsByHabits(
+                [visible valueForKey:@"bundleID"],DFCurrentAppChoices(),
+                DFReadAppHabitCountsAtPath(DFAppHabitCountsPath));
+            NSMutableArray<DFAppInfo *> *ranked=[NSMutableArray new];
+            for(NSString *bid in orderedIDs)
+              for(DFAppInfo *candidate in visible)
+                if([candidate.bundleID isEqualToString:bid]){
+                  [ranked addObject:candidate];break;
+                }
+            owner.apps=ranked;
             [owner reloadCards];
             NSLog(@"[DuoFace] native-card-picker real-installed-apps=%lu",
                   (unsigned long)owner.apps.count);
