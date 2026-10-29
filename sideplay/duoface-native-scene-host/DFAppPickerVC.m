@@ -638,18 +638,24 @@
                  pid? [NSString stringWithFormat:@"PID %@",pid]:DFLocalize(@"PID chưa xác minh",@"PID unavailable")] : nil;
     BOOL selectedApp=!self.runningMode && self.currentSlotBundleID.length &&
         [self.currentSlotBundleID isEqualToString:app.bundleID];
-    // Original per-App border/text state, independent of the badge palette.
+    BOOL pendingApp=!self.runningMode && !selectedApp &&
+        self.pendingSlotBundleID.length &&
+        [self.pendingSlotBundleID isEqualToString:app.bundleID];
+    // Verified live scene: blue checkmark. Pending host: amber clock only.
     card.title.textColor=self.runningMode?UIColor.whiteColor:(selectedApp?
         [UIColor colorWithRed:.55 green:.80 blue:1 alpha:1]:
         [UIColor colorWithWhite:.95 alpha:1]);
-    card.icon.layer.borderWidth=selectedApp?2:0;
-    card.icon.layer.borderColor=[UIColor colorWithRed:.15 green:.62 blue:1 alpha:1].CGColor;
-    BOOL otherSlotApp=!self.runningMode && !selectedApp &&
+    card.icon.layer.borderWidth=selectedApp?2:(pendingApp?1:0);
+    card.icon.layer.borderColor=(pendingApp?
+        [UIColor colorWithRed:1 green:.62 blue:.04 alpha:1]:
+        [UIColor colorWithRed:.15 green:.62 blue:1 alpha:1]).CGColor;
+    BOOL otherSlotApp=!self.runningMode && !selectedApp && !pendingApp &&
         [self.otherSlotBundleIDs containsObject:app.bundleID];
-    card.appBadgeKind=selectedApp?1:(otherSlotApp?2:0);
+    card.appBadgeKind=selectedApp?1:(pendingApp?3:(otherSlotApp?2:0));
     card.appGridColumns=self.runningMode?4:self.gridColumns;
     NSString *badgeSymbol=selectedApp?@"checkmark.circle.fill":
-                          (otherSlotApp?@"arrow.left.arrow.right.circle.fill":nil);
+        (pendingApp?@"clock.fill":
+            (otherSlotApp?@"arrow.left.arrow.right.circle.fill":nil));
     UIColor *badgeAccent=selectedApp?
         [UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]:
         [UIColor colorWithRed:1 green:.62 blue:.04 alpha:1];
