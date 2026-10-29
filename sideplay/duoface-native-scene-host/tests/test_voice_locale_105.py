@@ -64,8 +64,8 @@ class VoiceAndLocale105(unittest.TestCase):
   build=read("build.sh")
   control=read("control")
   info=read("Info.plist")
-  for s in ("0.1.105~native-map-voice1","DFNativeMapPaneCoordinator.m"):
+  for s in ("0.1.106~duodash-disc10s1","DFNativeMapPaneCoordinator.m"):
    self.assertTrue(s in build or s in control)
-  self.assertIn("Version: 0.1.105~native-map-voice1",control)
-  self.assertIn("0.1.105",info)
+  self.assertIn("Version: 0.1.106~duodash-disc10s1",control)
+  self.assertIn("0.1.106",info)
 if __name__=="__main__":unittest.main(verbosity=2)
