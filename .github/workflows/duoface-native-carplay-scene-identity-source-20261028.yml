@@ -91,8 +91,12 @@ jobs:
             sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m \
             sideplay/duoface-native-scene-host/DFSceneHost.m \
             sideplay/duoface-native-scene-host/DFSceneLifecycle.m \
-            sideplay/duoface-native-scene-host/DFNative12Chrome.m \
             sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m
+          # .92 intentionally upgraded only the logo/3s touch files over .90.
+          # Verify those exact .92 bytes instead of incorrectly pinning them to .90.
+          git diff --exit-code 378ebf9a159e3add4ff22d10d69249cf9798fe22 HEAD -- \
+            sideplay/duoface-native-scene-host/DFNative12Chrome.m \
+            sideplay/duoface-native-scene-host/DFLogoHoldGate.h
           grep -Fq 'DFCarPlayNativeSceneRoute(entry)' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
           grep -Fq 'DFCarPlayNativeSceneTimelineAdvance(' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
           grep -Fq 'DFCarPlayNativeMapPaneAssessment(' sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
