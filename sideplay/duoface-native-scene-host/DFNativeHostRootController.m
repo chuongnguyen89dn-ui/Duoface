@@ -4,6 +4,7 @@
 #import "DFAppEligibility.h"
 #import "DFAppCatalogPolicy.h"
 #import "DFEnabledAppsPolicy.h"
+#import "DFAppPickerDisplayPolicy.h"
 #import "DFAppHabits.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
@@ -350,7 +351,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?3:(NSInteger)[self appsInGroup:section].count;
+ return section==0?4:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -358,10 +359,11 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng"];
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App"];
     NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
        @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
-       @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô"];
+       @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô",
+       @"Lưới 4/5/6 cột, 2/3 hàng, ẩn/hiện tên ứng dụng"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -395,6 +397,46 @@
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)showPickerDisplaySettings {
+ NSDictionary *display=DFCurrentPickerDisplay();
+ NSInteger columns=[display[@"GridColumns"] integerValue];
+ NSInteger rows=[display[@"GridRows"] integerValue];
+ BOOL names=[display[@"ShowAppNames"] boolValue];
+ UIAlertController *sheet=[UIAlertController alertControllerWithTitle:@"Giao diện chọn ứng dụng"
+   message:@"Chỉ thay đổi bảng chọn App trên CarPlay, không thay đổi bố cục màn hình hay ứng dụng đang chạy."
+   preferredStyle:UIAlertControllerStyleActionSheet];
+ __weak typeof(self) weakSelf=self;
+ for(NSInteger count=4;count<=6;count++){
+   NSInteger requested=count;
+   NSString *label=[NSString stringWithFormat:@"%@%ld cột",
+      count==columns?@"✓ ":@"",(long)count];
+   [sheet addAction:[UIAlertAction actionWithTitle:label style:UIAlertActionStyleDefault
+     handler:^(__unused UIAlertAction *action) {
+       if(!DFSavePickerDisplay(requested,rows,names))[weakSelf appSettingsSaveFailed];
+       else [weakSelf.appsTable reloadData];
+   }]];
+ }
+ for(NSInteger count=2;count<=3;count++){
+   NSInteger requested=count;
+   NSString *label=[NSString stringWithFormat:@"%@%ld hàng",
+      count==rows?@"✓ ":@"",(long)count];
+   [sheet addAction:[UIAlertAction actionWithTitle:label style:UIAlertActionStyleDefault
+      handler:^(__unused UIAlertAction *action) {
+        if(!DFSavePickerDisplay(columns,requested,names))[weakSelf appSettingsSaveFailed];
+        else [weakSelf.appsTable reloadData];
+   }]];
+ }
+ [sheet addAction:[UIAlertAction actionWithTitle:names?@"Ẩn tên App":@"Hiện tên App"
+   style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action) {
+     if(!DFSavePickerDisplay(columns,rows,!names))[weakSelf appSettingsSaveFailed];
+     else [weakSelf.appsTable reloadData];
+ }]];
+ [sheet addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+ UIPopoverPresentationController *popover=sheet.popoverPresentationController;
+ if(popover){popover.sourceView=self.appsTable;popover.sourceRect=CGRectMake(
+     self.appsTable.bounds.size.width-50,30,40,40);}
+ [self presentViewController:sheet animated:YES completion:nil];
 }
 - (void)showHabitSettings {
  NSArray *enabled=DFConfiguredEnabledAppIDs();
@@ -532,7 +574,8 @@
   if(indexPath.section==0){
     if(indexPath.row==0)[self showAppSettingsActions];
     else if(indexPath.row==1)[self showNativeMapPaneChoices];
-    else [self showHabitSettings];
+    else if(indexPath.row==2)[self showHabitSettings];
+    else [self showPickerDisplaySettings];
   } else {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
