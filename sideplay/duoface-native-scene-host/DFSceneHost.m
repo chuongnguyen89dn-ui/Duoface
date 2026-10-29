@@ -118,6 +118,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 
 @interface DFSceneSurface : UIView
 @property(nonatomic,copy) NSString *bundleID;
+@property(nonatomic,assign) BOOL processDidNotExistBeforeHost;
 @property(nonatomic,strong) UIViewController *appController;
 @property(nonatomic,strong) id entity;
 @property(nonatomic,strong) id scene;
@@ -819,7 +820,21 @@ static NSInteger DFObservedSceneForeground(id scene) {
             if(error)*error=DFSceneError(107,@"SBAppViewController không thể host ứng dụng này");
             return nil;
         }
+        // Ownership provenance: only process instances NOT already running
+        // before DuoFace requested the scene may be eligible for disconnect
+        // termination. A background phone music session must be protected.
+        BOOL preexistingProcess=NO;
+        for(NSString *pidMethod in @[@"pid",@"processIdentifier"]){
+           SEL pidSelector=NSSelectorFromString(pidMethod);
+           if(![app respondsToSelector:pidSelector])continue;
+           pid_t before=((pid_t(*)(id,SEL))objc_msgSend)(app,pidSelector);
+           if(before>1 && before!=getpid()){
+             errno=0;
+             if(kill(before,0)==0 || errno==EPERM)preexistingProcess=YES;
+           }
+        }
         DFSceneSurface *view=[DFSceneSurface new];
+        view.processDidNotExistBeforeHost=!preexistingProcess;
         view.bundleID=bundleID; view.entity=entity; view.appController=controller; view.owner=self;
         // The CarPlay renderer should never display a fake black app tile
         // while FrontBoard is still negotiating a real app scene.
@@ -840,6 +855,11 @@ static NSInteger DFObservedSceneForeground(id scene) {
     // Only return identities of actual owned surfaces; do not accept
     // arbitrary views or allow a scene from another process to be replaced.
     return self.live[surface.bundleID]==surface ? surface.bundleID : nil;
+}
+- (BOOL)wasProcessAbsentBeforeHostedView:(UIView *)view {
+ if(![view isKindOfClass:DFSceneSurface.class])return NO;
+ DFSceneSurface *surface=(DFSceneSurface *)view;
+ return self.live[surface.bundleID]==surface && surface.processDidNotExistBeforeHost;
 }
 - (BOOL)isLiveSceneForHostedView:(UIView *)view {
  if(!NSThread.isMainThread || ![view isKindOfClass:DFSceneSurface.class])return NO;
