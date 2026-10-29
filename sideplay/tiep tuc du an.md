@@ -1,3 +1,11 @@
+## CHECKPOINT DuoFace .115 integrated release staged, run 40869478233
+
+- DuoFace .115 signed, integrated rootless `com.duoface.jb.embedded` QA build from source c7aed902212c9980e5fe4cc4369177b8b130ed07. Accepted app replacement intent is persisted per physical slot; this is SOURCE behavior only, not proof that both CarPlay scenes restore on device. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40869478233. Exact SHA256 f81ee2fe9a5b81fb261abca9beccb808eb926109984ffd8f8f805b86ab51c839. Immutable package/provenance/source archive: sideplay/jb-embedded-appbridge/evidence/runs/40869478233/.
+- This checkpoint ONLY confirms signed, archived package. Sileo publication is authorized but NOT yet accomplished by this staging workflow. Publisher must verify immutable SHA, public Packages, Release and downloaded DEB. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
+- Next: publish to Sileo using existing carplaydsp/main APT publisher, pin archive SHA, verify remote Packages/Release/public bytes, preserve .90/.92 rollback, then append final public release result here. No device install claim.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #8 physical native Maps preflight, #10 settings audit: run 40869478262 PASS
 
 - Actual source repo chuongnguyen89dn-ui/Duoface, branch feature/duoface-jb-embedded-appbridge-20261020, CI source SHA c7aed902212c9980e5fe4cc4369177b8b130ed07. Read-only native map original OmniCar comparison is in audit/OmniCar_AppBridge_exact_scene_settings_and_layout_20261023.md of Omnicar repo; never embed proprietary license/code.
