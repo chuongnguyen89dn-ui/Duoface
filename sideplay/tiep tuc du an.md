@@ -1,3 +1,11 @@
+## CHECKPOINT DuoFace .111 integrated release staged, run 40832650431
+
+- User reported live .106 UI and divider regressions. .108 is staged and authorized for Sileo; user explicitly authorized a new Sileo release, pending hash-verified publisher deployment. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source b95ba2a52427cc4c20a6f409a385074c08029d54. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40832650431. Exact SHA256 05519c72474b12274e3cd54a348d54a13203999bb6b710b648b0dd7868e3124c. Archive sideplay/jb-embedded-appbridge/evidence/runs/40832650431/; provenance and source SHA alongside DEB.
+- This checkpoint ONLY confirms signed, archived package. Sileo publication is authorized but NOT yet accomplished by this staging workflow. Publisher must verify immutable SHA, public Packages, Release and downloaded DEB. Package auto-close switch defaults OFF, 10s delay; iOS16 private RunningBoard shutdown not tested on device. Keep known .90 and .92 rollback DEBs intact.
+- Next: publish to Sileo using existing carplaydsp/main APT publisher, pin archive SHA, verify remote Packages/Release/public bytes, preserve .90/.92 rollback, then append final public release result here. No device install claim.
+
+---
+
 ## CHECKPOINT 2026-10-29 DuoFace #5 #6 #7 source CI PASS run 40832650277
 
 - New user requirements: remember 1..4 physical-window app IDs only after real scene ready; reconnect sequentially restores only still-installed AND explicitly iPhone-approved bundles, after splash, with timeout/stop generation gate and explicit phone opt out/clear. This is independent of iPhone preset-based app assignment (cancelled).
