@@ -19,6 +19,7 @@ jobs:
           REF='5cd40d2840a201b6ea1d4d7e9404404e5f6c88dd'
           REL='sideplay/jb-embedded-appbridge/evidence/runs/40895767087/com.duoface.jb.embedded_0.0.117~dock-wake1_iphoneos-arm64.deb'
           SHA='8b3c521be791ea7b5f7f65123d6b03559f5dbf4ac3977c1403d4d5adecbb7262'
+          command -v dpkg-deb >/dev/null || brew install dpkg
           git fetch --no-tags origin "$REF"
           git show "$REF:$REL" > "$RUNNER_TEMP/git-117.deb"
           curl -fLsS --retry 4 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/$REF/$REL" -o "$RUNNER_TEMP/raw-117.deb"
