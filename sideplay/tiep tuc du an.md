@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-29 DuoFace .109 PUBLIC SILEO VERIFIED — vertical logo drag
+
+- User correction: .108 omitted vertical logo dragging; was incorrectly declared complete. True historical 2026-10-26 gesture: vertical logo swipe moves circular grip UP/DOWN along divider independently; horizontal swipe changes two-pane ratio, quick tap swaps, NO 3-second hold. In top/bottom layouts axes reverse. Do not remove either axis again.
+- Corrected production source ec1db1d24a568b49876d900fd0a4fd840330a47c; DFDividerDrag.h + DFNative12Chrome.m implement axis lock, logoFraction save/restore; prior .108 wrongly hardcoded 0.5. Source tests 40824251713,40824251732,40824357040,40824469630 successful; no CarPlay hardware proof.
+- Signed one-rootless-DEB .109 package build 40824469583 SUCCESS, source ec1db1d24a568b49876d900fd0a4fd840330a47c, archive commit 20d4bc8d40b83c5e161bde78484f71253129d4b8, file sideplay/jb-embedded-appbridge/evidence/runs/40824469583/com.duoface.jb.embedded_0.0.109~logo-vertical-restore1_iphoneos-arm64.deb; SHA256 ede059bad08b69618b8e3c9ae1296943fbc1651e7e624aef9a11214dda9014a9.
+- PUBLISHED existing Sileo https://chuongnguyen89dn-ui.github.io/carplaydsp/ from publisher carplaydsp/main 9f2cc1df1d2cd19a1f1240551395d68f5a43eec8. Build/deploy/verify run 40824822495 SUCCESS (jobs 123285331443/123286174950/123286250607/123286250741), actionlint 40824822493 SUCCESS. Remote Packages one latest .109 and remote DEB SHA verified in publisher and final handoff run 40825318288. Public file https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.109~logo-vertical-restore1_iphoneos-arm64.deb. Old .108/.92/.90 direct rollback bytes unchanged.
+- Device QA PENDING: test physical vertical drag, horizontal ratio, tap swap, 4s auto-hide, persisted logo after reconnect, original Dock/YouTube, optional 10s unplug close, app rehost; collect /var/mobile/Library/Logs/DuoFaceTouchOwner.log. No Filza, no auto-respring, no invented device result. Audit sideplay/audit/duoface-iphone-only-divider-107/REPORT.md.
+
+---
+
 ## CHECKPOINT DuoFace .109 integrated release staged, run 40824469583
 
 - User reported live .106 UI and divider regressions. .108 is staged and authorized for Sileo; user explicitly authorized a new Sileo release, pending hash-verified publisher deployment. Signed ONE `com.duoface.jb.embedded` rootless integrated .106 package from source ec1db1d24a568b49876d900fd0a4fd840330a47c. Build run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40824469583. Exact SHA256 ede059bad08b69618b8e3c9ae1296943fbc1651e7e624aef9a11214dda9014a9. Archive sideplay/jb-embedded-appbridge/evidence/runs/40824469583/; provenance and source SHA alongside DEB.
