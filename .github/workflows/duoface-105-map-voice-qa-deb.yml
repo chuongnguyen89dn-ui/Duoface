@@ -10,6 +10,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFVoiceAssistant.*'
       - 'sideplay/duoface-native-scene-host/DFExtendedSettingsPolicy.h'
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.m'
       - 'sideplay/duoface-native-scene-host/tests/test_voice_locale_105.py'
       - 'sideplay/duoface-native-scene-host/tests/test_picker_display_097.py'
@@ -57,7 +58,7 @@ jobs:
           set -euo pipefail
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           cd sideplay/duoface-native-scene-host
-          for SRC in DFNativeHostRootController.m DFVoiceAssistant.m DFAppPickerVC.m DFNative12Chrome.m DFSceneHost.m DFTouchOwnerProbe.m DFNativeHostAppDelegate.m; do
+          for SRC in DFNativeHostRootController.m DFNativeDiagnostics.m DFVoiceAssistant.m DFAppPickerVC.m DFNative12Chrome.m DFSceneHost.m DFTouchOwnerProbe.m DFNativeHostAppDelegate.m; do
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" -Werror=implicit-function-declaration -Werror=incompatible-pointer-types -Wno-deprecated-declarations -I . "$SRC"
           done
           cd ../native-carplay-scene-v1
