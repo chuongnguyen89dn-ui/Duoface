@@ -1078,7 +1078,8 @@ static void DFCLog(NSString *text) {
        [result addObject:@{@"PhysicalSlot":@(physical),@"VisualSlot":@(visual),
           @"Frame":NSStringFromCGRect(w.frame),
           @"OnExternalScreen":@(w.screen!=UIScreen.mainScreen),
-          @"WindowVisible":@(!w.hidden)}];
+          @"WindowVisible":@(!w.hidden),
+          @"HasLiveApp":@([self.sceneHandleReady[(NSUInteger)physical] boolValue])}];
     }
     return result;
 }
