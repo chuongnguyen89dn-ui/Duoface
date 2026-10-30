@@ -1,0 +1,57 @@
+name: DuoFace QA134 native-owner GOFA multi-scene regression gate (no package)
+on:
+  push:
+    branches: [fix/duoface-qa134-gofa-owner-candidate-20261030]
+    paths:
+      - '.github/workflows/duoface-qa134-gofa-owner-source-gate.yml'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerSelection.h'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h'
+      - 'sideplay/duoface-native-scene-host/tests/carplay_owner_selection_134.m'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Execute genuine macOS Foundation GOFA coexisting native-scene selector tests
+        run: |
+          set -euo pipefail
+          clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/carplay_owner_selection_134.m \
+            -o "$RUNNER_TEMP/owner134"
+          "$RUNNER_TEMP/owner134"
+          clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/owner_lease_records_test.m \
+            -o "$RUNNER_TEMP/owner-records"
+          "$RUNNER_TEMP/owner-records"
+          cc -std=c11 -Wall -Wextra -Werror \
+            sideplay/duoface-native-scene-host/tests/manual_observer_contract_test.c \
+            -o "$RUNNER_TEMP/manual-owner"
+          "$RUNNER_TEMP/manual-owner"
+      - name: Compile true iPhone iOS16 arm64 owner receiver and preserve source baselines
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          cd sideplay/duoface-native-scene-host
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
+             -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
+             -fsyntax-only DFCarPlayDockOwner.m
+          cd ../..
+          grep -Fq 'DFOwnerUniqueDuoFaceCandidate(found)' sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h
+          grep -Fq 'candidate!=nil' sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h
+          for p in DFHostedMapRenderSize.h DFNative12Chrome.m; do
+            rel="sideplay/duoface-native-scene-host/$p"
+            git show f84e27a9a97d58e0fb0509bdc6d3de13444c4a75:"$rel" > "$RUNNER_TEMP/gofa128"
+            cmp "$RUNNER_TEMP/gofa128" "$rel"
+          done
+          git show 5a66876d7a39c167e222ea5b02b78408a3017ef5:sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m > "$RUNNER_TEMP/bks132"
+          cmp "$RUNNER_TEMP/bks132" sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scene_background_owner_fix_130.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
+          echo QA134_SOURCE_OWNER_CANDIDATE_SAFE_WITH_NATIVE_GOFA_PASS_DEVICE_GOFA_NOT_YET_VERIFIED
