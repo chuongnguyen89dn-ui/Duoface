@@ -1,0 +1,94 @@
+name: DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-122-native12-duonavi-lock-source-fullscan.yml'
+      - 'sideplay/audit/lock-native-duonavi-fullscan-20261030/scan_native12_duonavi_lock_full.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-122-native12-duonavi-locked-original-forensics
+  cancel-in-progress: false
+jobs:
+  sha-pinned-original-binary-review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check skill ZIP and first-party original parser provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 4 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/carplay-skill.zip"
+          printf '%s  %s\n' 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' "$RUNNER_TEMP/carplay-skill.zip" | sha256sum -c -
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -p "$RUNNER_TEMP/carplay-skill.zip" SKILL.md | head -80
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/parser"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile sideplay/audit/lock-native-duonavi-fullscan-20261030/scan_native12_duonavi_lock_full.py
+      - name: Download exact immutable Native12 and verify BOTH original DEB hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd' dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb | sha256sum -c -
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' -o "$RUNNER_TEMP/native12-reference.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/native12-reference.deb" | sha256sum -c -
+          test "$(dpkg-deb -f dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb Package)" = 'com.duonavi.app'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/native12-reference.deb" Package)" = 'com.duoface.independent'
+          echo ORIGINAL_2_DEB_SHA_PINNED_PASS
+      - name: Extract all original payload Mach-O classes selectors and bounded ARM64 branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/lock-native-duonavi-fullscan-20261030/scan_native12_duonavi_lock_full.py \
+            --duonavi-deb dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb \
+            --native12-deb "$RUNNER_TEMP/native12-reference.deb" \
+            --current-source sideplay/duoface-native-scene-host \
+            --out sideplay/audit/lock-native-duonavi-fullscan-20261030
+          test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/ORIGINAL_VS_QA120_LOCK_VERDICT.md
+          test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json
+          grep -F 'DuoNavi104' sideplay/audit/lock-native-duonavi-fullscan-20261030/ORIGINAL_VS_QA120_LOCK_VERDICT.md
+          grep -F 'Native12' sideplay/audit/lock-native-duonavi-fullscan-20261030/ORIGINAL_VS_QA120_LOCK_VERDICT.md
+          sed -n '1,135p' sideplay/audit/lock-native-duonavi-fullscan-20261030/ORIGINAL_VS_QA120_LOCK_VERDICT.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-122-Original-Native12-DuoNavi-Lock-Scene-Forensics
+          path: |
+            sideplay/audit/lock-native-duonavi-fullscan-20261030/ORIGINAL_VS_QA120_LOCK_VERDICT.md
+            sideplay/audit/lock-native-duonavi-fullscan-20261030/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json
+          if-no-files-found: error
+      - name: Persist audit to existing DuoFace feature repo only
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          REL=sideplay/audit/lock-native-duonavi-fullscan-20261030
+          SRC="$(pwd)/$REL"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$REL"
+            cp "$SRC/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$SRC/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$TMP/$REL/"
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$REL/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$REL/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json"
+            if git -C "$TMP" diff --cached --quiet;then
+              git worktree remove --force "$TMP"
+              echo ORIGINAL_122_AUDIT_ALREADY_SAVED
+              exit 0
+            fi
+            git -C "$TMP" commit -m 'audit: exact-original Native12 and DuoNavi full lock scene crosswalk [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH";then
+              git worktree remove --force "$TMP"
+              echo ORIGINAL_122_AUDIT_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
