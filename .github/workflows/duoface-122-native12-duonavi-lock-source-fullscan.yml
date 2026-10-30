@@ -96,6 +96,18 @@ jobs:
           test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/EXACT_DUONAVI_REGISTERED_UNDERLOCK_HOOKS.json
           test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/EXACT_DUONAVI_UNDERLOCK_REGISTRATION_VERDICT.md
           sed -n '1,75p' sideplay/audit/lock-native-duonavi-fullscan-20261030/EXACT_DUONAVI_UNDERLOCK_REGISTRATION_VERDICT.md
+      - name: Check exact DuoNavi 13 scene-under-lock and workspace ARM64 callbacks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/lock-native-duonavi-fullscan-20261030/decode_duonavi_lock_workspace_arm64.py
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/lock-native-duonavi-fullscan-20261030/decode_duonavi_lock_workspace_arm64.py \
+            --duonavi "$RUNNER_TEMP/duonavi-hook-audit/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+            --register-json sideplay/audit/lock-native-duonavi-fullscan-20261030/EXACT_DUONAVI_REGISTERED_UNDERLOCK_HOOKS.json \
+            --out sideplay/audit/lock-native-duonavi-fullscan-20261030
+          test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64_VERDICT.md
+          test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64.json
+          grep -E '^## SBSuspendedUnderLockManager|^## SBMainWorkspace' sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64_VERDICT.md
       - uses: actions/upload-artifact@v4
         with:
           name: DuoFace-122-Original-Native12-DuoNavi-Lock-Scene-Forensics
@@ -108,6 +120,8 @@ jobs:
             sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_HOOK_IMPORT_CROSSCHECK.md
             sideplay/audit/lock-native-duonavi-fullscan-20261030/EXACT_DUONAVI_REGISTERED_UNDERLOCK_HOOKS.json
             sideplay/audit/lock-native-duonavi-fullscan-20261030/EXACT_DUONAVI_UNDERLOCK_REGISTRATION_VERDICT.md
+            sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64_VERDICT.md
+            sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64.json
           if-no-files-found: error
       - name: Persist audit to existing DuoFace feature repo only
         shell: bash
@@ -121,10 +135,10 @@ jobs:
             TMP="$(mktemp -d)"
             git worktree add --detach "$TMP" FETCH_HEAD
             mkdir -p "$TMP/$REL"
-            cp "$SRC/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$SRC/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md" "$SRC/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json" "$SRC/DUONAVI_HOOK_IMPORT_CROSSCHECK.md" "$SRC/EXACT_DUONAVI_REGISTERED_UNDERLOCK_HOOKS.json" "$SRC/EXACT_DUONAVI_UNDERLOCK_REGISTRATION_VERDICT.md" "$TMP/$REL/"
+            cp "$SRC/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$SRC/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md" "$SRC/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json" "$SRC/DUONAVI_HOOK_IMPORT_CROSSCHECK.md" "$SRC/EXACT_DUONAVI_REGISTERED_UNDERLOCK_HOOKS.json" "$SRC/EXACT_DUONAVI_UNDERLOCK_REGISTRATION_VERDICT.md" "$SRC/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64_VERDICT.md" "$SRC/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64.json" "$TMP/$REL/"
             git -C "$TMP" config user.name 'github-actions[bot]'
             git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TMP" add "$REL/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$REL/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md" "$REL/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json" "$REL/DUONAVI_HOOK_IMPORT_CROSSCHECK.md" "$REL/EXACT_DUONAVI_REGISTERED_UNDERLOCK_HOOKS.json" "$REL/EXACT_DUONAVI_UNDERLOCK_REGISTRATION_VERDICT.md"
+            git -C "$TMP" add "$REL/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$REL/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md" "$REL/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json" "$REL/DUONAVI_HOOK_IMPORT_CROSSCHECK.md" "$REL/EXACT_DUONAVI_REGISTERED_UNDERLOCK_HOOKS.json" "$REL/EXACT_DUONAVI_UNDERLOCK_REGISTRATION_VERDICT.md" "$REL/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64_VERDICT.md" "$REL/DUONAVI_13_LOCK_AND_WORKSPACE_HOOKS_ARM64.json"
             if git -C "$TMP" diff --cached --quiet;then
               git worktree remove --force "$TMP"
               echo ORIGINAL_122_AUDIT_ALREADY_SAVED
