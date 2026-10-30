@@ -5,6 +5,7 @@ on:
     paths:
       - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_omnicar_bks_hook_deep.py'
       - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/resolve_omnicar_bks_imports_and_callbacks.py'
+      - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_omnicar_abhost_method_and_unblank_owner.py'
       - '.github/workflows/duoface-omnicar-bks-original-interceptor-deep-audit.yml'
   workflow_dispatch:
 permissions:
@@ -62,6 +63,11 @@ jobs:
             --deb "$RUNNER_TEMP/debs/omnicar.deb" \
             --out "$RUNNER_TEMP/omnicar-bks/OMNICAR_IMPORT_CALLBACK_XREFS.json"
           python3 -m json.tool "$RUNNER_TEMP/omnicar-bks/OMNICAR_IMPORT_CALLBACK_XREFS.json" >/dev/null
+          python3 -m py_compile sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_omnicar_abhost_method_and_unblank_owner.py
+          PYTHONPATH="$RUNNER_TEMP/parser:sideplay/audit/qa130-six-deb-display-callgraph-20261030" python3 sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_omnicar_abhost_method_and_unblank_owner.py \
+            --deb "$RUNNER_TEMP/debs/omnicar.deb" \
+            --out "$RUNNER_TEMP/omnicar-bks/OMNICAR_ABHOST_METHOD_AND_UNBLANK_OWNER.json"
+          python3 -m json.tool "$RUNNER_TEMP/omnicar-bks/OMNICAR_ABHOST_METHOD_AND_UNBLANK_OWNER.json" >/dev/null
       - uses: actions/upload-artifact@v4
         with:
           name: exact-original-omnicar-bks-hook-callback-arm64
@@ -79,9 +85,10 @@ jobs:
             git worktree add --detach "$TEMP" FETCH_HEAD
             cp "$RUNNER_TEMP/omnicar-bks/DEEP_BKS_ARM64.json" "$TEMP/$REL/"
             cp "$RUNNER_TEMP/omnicar-bks/OMNICAR_IMPORT_CALLBACK_XREFS.json" "$TEMP/$REL/"
+            cp "$RUNNER_TEMP/omnicar-bks/OMNICAR_ABHOST_METHOD_AND_UNBLANK_OWNER.json" "$TEMP/$REL/"
             git -C "$TEMP" config user.name 'github-actions[bot]'
             git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TEMP" add "$REL/DEEP_BKS_ARM64.json" "$REL/OMNICAR_IMPORT_CALLBACK_XREFS.json"
+            git -C "$TEMP" add "$REL/DEEP_BKS_ARM64.json" "$REL/OMNICAR_IMPORT_CALLBACK_XREFS.json" "$REL/OMNICAR_ABHOST_METHOD_AND_UNBLANK_OWNER.json"
             if git -C "$TEMP" diff --cached --quiet;then
               git worktree remove --force "$TEMP"
               echo BKS_DEEP_ALREADY_SAVED
