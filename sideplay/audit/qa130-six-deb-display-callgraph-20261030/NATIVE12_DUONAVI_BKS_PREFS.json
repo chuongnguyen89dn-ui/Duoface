@@ -1,0 +1,6048 @@
+{
+  "purpose": "original Native12 vs DuoNavi BKS callsites and preference default research",
+  "device_runtime_observed": false,
+  "preferences_live_default_proven": false,
+  "vendor_code_copied_into_duoface": false,
+  "packages": {
+    "Native12Derived": {
+      "package_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+      "dylib_count": 6,
+      "plists": [],
+      "machos_with_screenblank_method": [
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "file_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+          "objc_class_count": 36,
+          "screenblank_related_methods": [
+            {
+              "class": "CBAssistantManager",
+              "kind": "instance",
+              "selector": "reloadPreferences",
+              "imp_vm": "0x2ee10",
+              "first_32_instructions": [
+                {
+                  "pc": "0x2ee10",
+                  "op": "x22, x21, [sp, #-0x30]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x2ee14",
+                  "op": "x20, x19, [sp, #0x10]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x2ee18",
+                  "op": "x29, x30, [sp, #0x20]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x2ee1c",
+                  "op": "x29, sp, #0x20",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x2ee20",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee24",
+                  "op": "x8, #0x37f000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2ee28",
+                  "op": "x20, [x8, #0x750]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2ee2c",
+                  "op": "x8, #0x381000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2ee30",
+                  "op": "x8, [x8, #0x238]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2ee34",
+                  "op": "x8, #1",
+                  "mnemonic": "cmn"
+                },
+                {
+                  "pc": "0x2ee38",
+                  "op": "#0x2ef40",
+                  "mnemonic": "b.ne"
+                },
+                {
+                  "pc": "0x2ee3c",
+                  "op": "x8, #0x381000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2ee40",
+                  "op": "x2, [x8, #0x230]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2ee44",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2ee48",
+                  "op": "x1, [x8, #0x558]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2ee4c",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee50",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x2ee54",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee58",
+                  "op": "#0x2ecd60",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x2ee5c",
+                  "op": "x20, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee60",
+                  "op": "x0, #0x2ef2c",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x2ee64",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2ee68",
+                  "op": "x21, [x8, #0x560]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2ee6c",
+                  "op": "x2, #0x36d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2ee70",
+                  "op": "x2, x2, #0x888",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x2ee74",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee78",
+                  "op": "x1, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee7c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x2ee80",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee84",
+                  "op": "#0x2ecd60",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x2ee88",
+                  "op": "x22, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2ee8c",
+                  "op": "#0x2ecd30",
+                  "mnemonic": "bl"
+                }
+              ]
+            },
+            {
+              "class": "CBDashboardSettings",
+              "kind": "instance",
+              "selector": "screenBlankEnabled",
+              "imp_vm": "0x37ec0",
+              "first_32_instructions": [
+                {
+                  "pc": "0x37ec0",
+                  "op": "w0, [x0, #9]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x37ec4",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ec8",
+                  "op": "w2, [x0, #9]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37ecc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ed0",
+                  "op": "w0, [x0, #0xa]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x37ed4",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ed8",
+                  "op": "w2, [x0, #0xa]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37edc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ee0",
+                  "op": "w0, [x0, #0xb]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x37ee4",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ee8",
+                  "op": "w2, [x0, #0xb]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37eec",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ef0",
+                  "op": "x0, [x0, #0x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x37ef4",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ef8",
+                  "op": "x2, [x0, #0x28]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x37efc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37f00",
+                  "op": "w0, [x0, #0xc]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x37f04",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37f08",
+                  "op": "w2, [x0, #0xc]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37f0c",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37f10",
+                  "op": "w2, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f14",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f18",
+                  "op": "#0x2eccdc",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f1c",
+                  "op": "w3, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f20",
+                  "op": "#0x2ecd84",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f24",
+                  "op": "w2, #0x38",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f28",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f2c",
+                  "op": "#0x2eccdc",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f30",
+                  "op": "w3, #0x38",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f34",
+                  "op": "#0x2ecd84",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f38",
+                  "op": "x0, [x0, #0x40]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x37f3c",
+                  "op": "",
+                  "mnemonic": "ret"
+                }
+              ]
+            },
+            {
+              "class": "CBDashboardSettings",
+              "kind": "instance",
+              "selector": "setScreenBlankEnabled:",
+              "imp_vm": "0x37ec8",
+              "first_32_instructions": [
+                {
+                  "pc": "0x37ec8",
+                  "op": "w2, [x0, #9]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37ecc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ed0",
+                  "op": "w0, [x0, #0xa]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x37ed4",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ed8",
+                  "op": "w2, [x0, #0xa]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37edc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ee0",
+                  "op": "w0, [x0, #0xb]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x37ee4",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ee8",
+                  "op": "w2, [x0, #0xb]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37eec",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ef0",
+                  "op": "x0, [x0, #0x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x37ef4",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37ef8",
+                  "op": "x2, [x0, #0x28]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x37efc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37f00",
+                  "op": "w0, [x0, #0xc]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x37f04",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37f08",
+                  "op": "w2, [x0, #0xc]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x37f0c",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37f10",
+                  "op": "w2, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f14",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f18",
+                  "op": "#0x2eccdc",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f1c",
+                  "op": "w3, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f20",
+                  "op": "#0x2ecd84",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f24",
+                  "op": "w2, #0x38",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f28",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f2c",
+                  "op": "#0x2eccdc",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f30",
+                  "op": "w3, #0x38",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x37f34",
+                  "op": "#0x2ecd84",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x37f38",
+                  "op": "x0, [x0, #0x40]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x37f3c",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x37f40",
+                  "op": "x2, [x0, #0x40]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x37f44",
+                  "op": "",
+                  "mnemonic": "ret"
+                }
+              ]
+            },
+            {
+              "class": "CBBridgeManager",
+              "kind": "instance",
+              "selector": "handleSettingsChanged",
+              "imp_vm": "0x267764",
+              "first_32_instructions": [
+                {
+                  "pc": "0x267764",
+                  "op": "d9, d8, [sp, #-0x70]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x267768",
+                  "op": "x28, x27, [sp, #0x10]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x26776c",
+                  "op": "x26, x25, [sp, #0x20]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x267770",
+                  "op": "x24, x23, [sp, #0x30]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x267774",
+                  "op": "x22, x21, [sp, #0x40]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x267778",
+                  "op": "x20, x19, [sp, #0x50]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x26777c",
+                  "op": "x29, x30, [sp, #0x60]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x267780",
+                  "op": "x29, sp, #0x60",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x267784",
+                  "op": "sp, sp, #1, lsl #12",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0x267788",
+                  "op": "sp, sp, #0x7f0",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0x26778c",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x267790",
+                  "op": "x8, #0x344140",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x267794",
+                  "op": "x8, [x8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x267798",
+                  "op": "x8, [x29, #-0x78]",
+                  "mnemonic": "stur"
+                },
+                {
+                  "pc": "0x26779c",
+                  "op": "x8, #0x37f000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2677a0",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x2677a4",
+                  "op": "x9, [x8, #0xe78]",
+                  "mnemonic": "ldrsw"
+                },
+                {
+                  "pc": "0x2677a8",
+                  "op": "w8, [x0, x9]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x2677ac",
+                  "op": "w8, #0x26dbc4",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0x2677b0",
+                  "op": "x28, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2677b4",
+                  "op": "x9, [sp, #0xc8]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x2677b8",
+                  "op": "x26, sp, #1, lsl #12",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x2677bc",
+                  "op": "x26, x26, #0x5d0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x2677c0",
+                  "op": "x22, sp, #0x9c0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x2677c4",
+                  "op": "x27, sp, #0x140",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x2677c8",
+                  "op": "x19, #1",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2677cc",
+                  "op": "x19, #0x15, lsl #32",
+                  "mnemonic": "movk"
+                },
+                {
+                  "pc": "0x2677d0",
+                  "op": "x8, #0x382000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x2677d4",
+                  "op": "wzr, [x8, #0x664]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x2677d8",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x2677dc",
+                  "op": "x8, x8, #0x678",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x2677e0",
+                  "op": "v0.16b, #0",
+                  "mnemonic": "movi"
+                }
+              ]
+            }
+          ],
+          "bks_literal_sites": [
+            {
+              "site": "0x31af0",
+              "bounded_instructions": [
+                {
+                  "pc": "0x31a30",
+                  "op": "x2, sp, #0x140",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31a34",
+                  "op": "x3, sp, #0x200",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31a38",
+                  "op": "x0, x24",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a3c",
+                  "op": "x1, [sp, #0x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31a40",
+                  "op": "w4, #0x10",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a44",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31a48",
+                  "op": "x0, #0x319e0",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0x31a4c",
+                  "op": "x0, x24",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a50",
+                  "op": "#0x2ecd30",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31a54",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31a58",
+                  "op": "x25, [x8, #0x430]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31a5c",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31a60",
+                  "op": "x2, x2, #0x668",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31a64",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a68",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a6c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31a70",
+                  "op": "w0, #0, #0x31aec",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31a74",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31a78",
+                  "op": "x2, x2, #0x688",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31a7c",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a80",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a84",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31a88",
+                  "op": "w0, #0, #0x31aec",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31a8c",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31a90",
+                  "op": "x2, x2, #0x6a8",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31a94",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a98",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31a9c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31aa0",
+                  "op": "w0, #0, #0x31aec",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31aa4",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31aa8",
+                  "op": "x2, x2, #0x6c8",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31aac",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31ab0",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31ab4",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31ab8",
+                  "op": "w0, #0, #0x31aec",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31abc",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31ac0",
+                  "op": "x2, x2, #0x6e8",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31ac4",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31ac8",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31acc",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31ad0",
+                  "op": "w0, #0, #0x31aec",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31ad4",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31ad8",
+                  "op": "x2, x2, #0x708",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31adc",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31ae0",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31ae4",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31ae8",
+                  "op": "w0, #0x31d14",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x31aec",
+                  "op": "x1, #0x307000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31af0",
+                  "op": "x1, x1, #0x8f5",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31af4",
+                  "op": "x0, #-2",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31af8",
+                  "op": "#0x2ecb68",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31afc",
+                  "op": "x0, #0x31b0c",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x31b00",
+                  "op": "x8, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b04",
+                  "op": "w0, #1",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b08",
+                  "op": "x8",
+                  "mnemonic": "blr"
+                },
+                {
+                  "pc": "0x31b0c",
+                  "op": "x22, #0x37f000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b10",
+                  "op": "x0, [x22, #0x740]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31b14",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b18",
+                  "op": "x19, [x8, #0x5a8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31b1c",
+                  "op": "x2, #0x347000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b20",
+                  "op": "x2, x2, #0xa88",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31b24",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b28",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31b2c",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b30",
+                  "op": "#0x2ecd60",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31b34",
+                  "op": "x21, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b38",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b3c",
+                  "op": "x1, [x8, #0x768]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31b40",
+                  "op": "x23, [sp, #0x18]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31b44",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b48",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b4c",
+                  "op": "x3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b50",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31b54",
+                  "op": "x0, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b58",
+                  "op": "#0x2ecd30",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31b5c",
+                  "op": "x0, [x22, #0x740]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31b60",
+                  "op": "x2, #0x349000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b64",
+                  "op": "x2, x2, #0x468",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31b68",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b6c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31b70",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b74",
+                  "op": "#0x2ecd60",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31b78",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31b7c",
+                  "op": "x8, #0x344000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b80",
+                  "op": "x8, [x8, #0x120]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31b84",
+                  "op": "x8, [sp, #0x118]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x31b88",
+                  "op": "x8, #0x30f000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b8c",
+                  "op": "d0, [x8, #0x968]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31b90",
+                  "op": "x8, #0x323d4",
+                  "mnemonic": "adr"
+                },
+                {
+                  "pc": "0x31b94",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x31b98",
+                  "op": "x9, #0x344000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31b9c",
+                  "op": "x9, x9, #0x658",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31ba0",
+                  "op": "d0, [sp, #0x120]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x31ba4",
+                  "op": "x8, x9, [sp, #0x128]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x31ba8",
+                  "op": "x23, [sp, #0x138]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x31bac",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31bb0",
+                  "op": "x1, [x8, #0x8f8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31bb4",
+                  "op": "x3, sp, #0x118",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31bb8",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31bbc",
+                  "op": "x2, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31bc0",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31bc4",
+                  "op": "x0, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31bc8",
+                  "op": "#0x31cac",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x31bcc",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31bd0",
+                  "op": "x1, [x8, #0x8d8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31bd4",
+                  "op": "x0, [sp, #0x18]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31bd8",
+                  "op": "x2, x24",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31bdc",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31be0",
+                  "op": "x27, [sp, #0x38]",
+                  "mnemonic": "ldr"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0x31294",
+                  "class": "CBAssistantManager",
+                  "method_kind": "instance",
+                  "selector": "processVoiceCommand:",
+                  "distance": 2140
+                },
+                "next_method_start": "0x324b8",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            },
+            {
+              "site": "0x31da8",
+              "bounded_instructions": [
+                {
+                  "pc": "0x31ce8",
+                  "op": "x9, [x9]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31cec",
+                  "op": "x9, x8",
+                  "mnemonic": "cmp"
+                },
+                {
+                  "pc": "0x31cf0",
+                  "op": "#0x32018",
+                  "mnemonic": "b.ne"
+                },
+                {
+                  "pc": "0x31cf4",
+                  "op": "sp, sp, #0x5b0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31cf8",
+                  "op": "x29, x30, [sp, #0x50]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x31cfc",
+                  "op": "x20, x19, [sp, #0x40]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x31d00",
+                  "op": "x22, x21, [sp, #0x30]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x31d04",
+                  "op": "x24, x23, [sp, #0x20]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x31d08",
+                  "op": "x26, x25, [sp, #0x10]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x31d0c",
+                  "op": "x28, x27, [sp], #0x60",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x31d10",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x31d14",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31d18",
+                  "op": "x2, x2, #0x728",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31d1c",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d20",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d24",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31d28",
+                  "op": "w0, #0, #0x31da4",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31d2c",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31d30",
+                  "op": "x2, x2, #0x748",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31d34",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d38",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d3c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31d40",
+                  "op": "w0, #0, #0x31da4",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31d44",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31d48",
+                  "op": "x2, x2, #0x768",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31d4c",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d50",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d54",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31d58",
+                  "op": "w0, #0, #0x31da4",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31d5c",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31d60",
+                  "op": "x2, x2, #0x788",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31d64",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d68",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d6c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31d70",
+                  "op": "w0, #0, #0x31da4",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31d74",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31d78",
+                  "op": "x2, x2, #0x7a8",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31d7c",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d80",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d84",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31d88",
+                  "op": "w0, #0, #0x31da4",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31d8c",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31d90",
+                  "op": "x2, x2, #0x7c8",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31d94",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d98",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31d9c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31da0",
+                  "op": "w0, #0x31e78",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x31da4",
+                  "op": "x1, #0x307000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31da8",
+                  "op": "x1, x1, #0x8f5",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31dac",
+                  "op": "x0, #-2",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31db0",
+                  "op": "#0x2ecb68",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31db4",
+                  "op": "x0, #0x31dc4",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x31db8",
+                  "op": "x8, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31dbc",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31dc0",
+                  "op": "x8",
+                  "mnemonic": "blr"
+                },
+                {
+                  "pc": "0x31dc4",
+                  "op": "x22, #0x37f000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31dc8",
+                  "op": "x0, [x22, #0x740]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31dcc",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31dd0",
+                  "op": "x19, [x8, #0x5a8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31dd4",
+                  "op": "x21, #0x349000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31dd8",
+                  "op": "x21, x21, #0x4a8",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31ddc",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31de0",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31de4",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31de8",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31dec",
+                  "op": "#0x2ecd60",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31df0",
+                  "op": "x23, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31df4",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31df8",
+                  "op": "x1, [x8, #0x768]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31dfc",
+                  "op": "x25, [sp, #0x18]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31e00",
+                  "op": "x0, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e04",
+                  "op": "x2, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e08",
+                  "op": "x3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e0c",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31e10",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e14",
+                  "op": "#0x2ecd30",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31e18",
+                  "op": "x0, [x22, #0x740]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31e1c",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e20",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e24",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31e28",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e2c",
+                  "op": "#0x2ecd60",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31e30",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e34",
+                  "op": "x8, #0x344000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31e38",
+                  "op": "x8, [x8, #0x120]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31e3c",
+                  "op": "x8, [sp, #0xf0]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x31e40",
+                  "op": "x8, #0x30f000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31e44",
+                  "op": "d0, [x8, #0x968]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31e48",
+                  "op": "x8, #0x323e4",
+                  "mnemonic": "adr"
+                },
+                {
+                  "pc": "0x31e4c",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x31e50",
+                  "op": "x9, #0x344000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31e54",
+                  "op": "x9, x9, #0x658",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31e58",
+                  "op": "d0, [sp, #0xf8]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x31e5c",
+                  "op": "x8, x9, [sp, #0x100]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x31e60",
+                  "op": "x25, [sp, #0x110]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x31e64",
+                  "op": "x8, #0x37d000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31e68",
+                  "op": "x1, [x8, #0x8f8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x31e6c",
+                  "op": "x3, sp, #0xf0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31e70",
+                  "op": "x0, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e74",
+                  "op": "#0x31bbc",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x31e78",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31e7c",
+                  "op": "x2, x2, #0x7e8",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31e80",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e84",
+                  "op": "x1, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x31e88",
+                  "op": "#0x2ecd00",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x31e8c",
+                  "op": "w0, #0, #0x31f50",
+                  "mnemonic": "tbnz"
+                },
+                {
+                  "pc": "0x31e90",
+                  "op": "x2, #0x36e000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x31e94",
+                  "op": "x2, x2, #0x808",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x31e98",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0x31294",
+                  "class": "CBAssistantManager",
+                  "method_kind": "instance",
+                  "selector": "processVoiceCommand:",
+                  "distance": 2836
+                },
+                "next_method_start": "0x324b8",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "DuoNavi104": {
+      "package_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+      "dylib_count": 2,
+      "plists": [],
+      "machos_with_screenblank_method": [
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+          "file_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+          "objc_class_count": 47,
+          "screenblank_related_methods": [
+            {
+              "class": "CBDashboardSettings",
+              "kind": "instance",
+              "selector": "screenBlankEnabled",
+              "imp_vm": "0x2f48c",
+              "first_32_instructions": [
+                {
+                  "pc": "0x2f48c",
+                  "op": "w0, [x0, #9]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x2f490",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f494",
+                  "op": "w2, [x0, #9]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x2f498",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f49c",
+                  "op": "w0, [x0, #0xa]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x2f4a0",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4a4",
+                  "op": "w2, [x0, #0xa]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x2f4a8",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4ac",
+                  "op": "w2, #0x28",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4b0",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4b4",
+                  "op": "#0x31375c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4b8",
+                  "op": "w3, #0x28",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4bc",
+                  "op": "#0x313804",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4c0",
+                  "op": "w2, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4c4",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4c8",
+                  "op": "#0x31375c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4cc",
+                  "op": "w3, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4d0",
+                  "op": "#0x313804",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4d4",
+                  "op": "x0, [x0, #0x38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2f4d8",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4dc",
+                  "op": "x2, [x0, #0x38]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x2f4e0",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4e4",
+                  "op": "x0, [x0, #0x40]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2f4e8",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4ec",
+                  "op": "x2, [x0, #0x40]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x2f4f0",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4f4",
+                  "op": "w2, #0x48",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4f8",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4fc",
+                  "op": "#0x31375c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f500",
+                  "op": "w3, #0x48",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f504",
+                  "op": "#0x313804",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f508",
+                  "op": "w2, #0x50",
+                  "mnemonic": "mov"
+                }
+              ]
+            },
+            {
+              "class": "CBDashboardSettings",
+              "kind": "instance",
+              "selector": "setScreenBlankEnabled:",
+              "imp_vm": "0x2f494",
+              "first_32_instructions": [
+                {
+                  "pc": "0x2f494",
+                  "op": "w2, [x0, #9]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x2f498",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f49c",
+                  "op": "w0, [x0, #0xa]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x2f4a0",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4a4",
+                  "op": "w2, [x0, #0xa]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x2f4a8",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4ac",
+                  "op": "w2, #0x28",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4b0",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4b4",
+                  "op": "#0x31375c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4b8",
+                  "op": "w3, #0x28",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4bc",
+                  "op": "#0x313804",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4c0",
+                  "op": "w2, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4c4",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4c8",
+                  "op": "#0x31375c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4cc",
+                  "op": "w3, #0x30",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4d0",
+                  "op": "#0x313804",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f4d4",
+                  "op": "x0, [x0, #0x38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2f4d8",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4dc",
+                  "op": "x2, [x0, #0x38]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x2f4e0",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4e4",
+                  "op": "x0, [x0, #0x40]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x2f4e8",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4ec",
+                  "op": "x2, [x0, #0x40]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x2f4f0",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x2f4f4",
+                  "op": "w2, #0x48",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4f8",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f4fc",
+                  "op": "#0x31375c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f500",
+                  "op": "w3, #0x48",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f504",
+                  "op": "#0x313804",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x2f508",
+                  "op": "w2, #0x50",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f50c",
+                  "op": "w3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x2f510",
+                  "op": "#0x31375c",
+                  "mnemonic": "b"
+                }
+              ]
+            },
+            {
+              "class": "CBAIBubbleView",
+              "kind": "instance",
+              "selector": "cancelIdleTimer",
+              "imp_vm": "0xbb738",
+              "first_32_instructions": [
+                {
+                  "pc": "0xbb738",
+                  "op": "x20, x19, [sp, #-0x20]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb73c",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb740",
+                  "op": "x29, sp, #0x10",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0xbb744",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xbb748",
+                  "op": "x8, #0x3ab000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb74c",
+                  "op": "x20, [x8, #0x9c]",
+                  "mnemonic": "ldrsw"
+                },
+                {
+                  "pc": "0xbb750",
+                  "op": "x0, [x0, x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb754",
+                  "op": "x0, #0xbb778",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0xbb758",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb75c",
+                  "op": "x1, [x8, #0x780]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb760",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xbb764",
+                  "op": "x0, [x19, x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb768",
+                  "op": "xzr, [x19, x20]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0xbb76c",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0xbb770",
+                  "op": "x20, x19, [sp], #0x20",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0xbb774",
+                  "op": "#0x3137b0",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0xbb778",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0xbb77c",
+                  "op": "x20, x19, [sp], #0x20",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0xbb780",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0xbb784",
+                  "op": "sp, sp, #0x70",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0xbb788",
+                  "op": "x22, x21, [sp, #0x40]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb78c",
+                  "op": "x20, x19, [sp, #0x50]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb790",
+                  "op": "x29, x30, [sp, #0x60]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb794",
+                  "op": "x29, sp, #0x60",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0xbb798",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xbb79c",
+                  "op": "x8, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7a0",
+                  "op": "x8, [x8, #0x160]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7a4",
+                  "op": "x8, [x8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7a8",
+                  "op": "x8, [x29, #-0x28]",
+                  "mnemonic": "stur"
+                },
+                {
+                  "pc": "0xbb7ac",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7b0",
+                  "op": "x1, [x8, #0x3c0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7b4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                }
+              ]
+            },
+            {
+              "class": "CBAIBubbleView",
+              "kind": "instance",
+              "selector": "restartIdleTimer",
+              "imp_vm": "0xbb784",
+              "first_32_instructions": [
+                {
+                  "pc": "0xbb784",
+                  "op": "sp, sp, #0x70",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0xbb788",
+                  "op": "x22, x21, [sp, #0x40]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb78c",
+                  "op": "x20, x19, [sp, #0x50]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb790",
+                  "op": "x29, x30, [sp, #0x60]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xbb794",
+                  "op": "x29, sp, #0x60",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0xbb798",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xbb79c",
+                  "op": "x8, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7a0",
+                  "op": "x8, [x8, #0x160]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7a4",
+                  "op": "x8, [x8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7a8",
+                  "op": "x8, [x29, #-0x28]",
+                  "mnemonic": "stur"
+                },
+                {
+                  "pc": "0xbb7ac",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7b0",
+                  "op": "x1, [x8, #0x3c0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7b4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xbb7b8",
+                  "op": "x8, #0x3ab000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7bc",
+                  "op": "x8, [x8, #0x70]",
+                  "mnemonic": "ldrsw"
+                },
+                {
+                  "pc": "0xbb7c0",
+                  "op": "w8, [x19, x8]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0xbb7c4",
+                  "op": "w8, #0xbb878",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0xbb7c8",
+                  "op": "x8, #0x3ab000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7cc",
+                  "op": "x8, [x8, #0xa0]",
+                  "mnemonic": "ldrsw"
+                },
+                {
+                  "pc": "0xbb7d0",
+                  "op": "w8, [x19, x8]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0xbb7d4",
+                  "op": "w8, #0xbb878",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0xbb7d8",
+                  "op": "x0, sp, #0x30",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0xbb7dc",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xbb7e0",
+                  "op": "#0x313768",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xbb7e4",
+                  "op": "x8, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7e8",
+                  "op": "x21, [x8, #0xb90]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7ec",
+                  "op": "x8, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7f0",
+                  "op": "x8, [x8, #0x140]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb7f4",
+                  "op": "x8, [sp, #8]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0xbb7f8",
+                  "op": "x8, #0x33c000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xbb7fc",
+                  "op": "d0, [x8, #0x9b0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xbb800",
+                  "op": "d0, [sp, #0x10]",
+                  "mnemonic": "str"
+                }
+              ]
+            },
+            {
+              "class": "CBBridgeManager",
+              "kind": "instance",
+              "selector": "handleSettingsChanged",
+              "imp_vm": "0x289a7c",
+              "first_32_instructions": [
+                {
+                  "pc": "0x289a7c",
+                  "op": "d9, d8, [sp, #-0x70]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x289a80",
+                  "op": "x28, x27, [sp, #0x10]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x289a84",
+                  "op": "x26, x25, [sp, #0x20]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x289a88",
+                  "op": "x24, x23, [sp, #0x30]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x289a8c",
+                  "op": "x22, x21, [sp, #0x40]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x289a90",
+                  "op": "x20, x19, [sp, #0x50]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x289a94",
+                  "op": "x29, x30, [sp, #0x60]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x289a98",
+                  "op": "x29, sp, #0x60",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x289a9c",
+                  "op": "sp, sp, #1, lsl #12",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0x289aa0",
+                  "op": "sp, sp, #0x950",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0x289aa4",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x289aa8",
+                  "op": "x8, #0x370160",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x289aac",
+                  "op": "x8, [x8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x289ab0",
+                  "op": "x8, [x29, #-0x78]",
+                  "mnemonic": "stur"
+                },
+                {
+                  "pc": "0x289ab4",
+                  "op": "x8, #0x3ab000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x289ab8",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x289abc",
+                  "op": "x9, [x8, #0x2a8]",
+                  "mnemonic": "ldrsw"
+                },
+                {
+                  "pc": "0x289ac0",
+                  "op": "w8, [x0, x9]",
+                  "mnemonic": "ldrb"
+                },
+                {
+                  "pc": "0x289ac4",
+                  "op": "w8, #0x28fe3c",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0x289ac8",
+                  "op": "x28, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x289acc",
+                  "op": "x9, [sp, #0xc8]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x289ad0",
+                  "op": "x26, sp, #1, lsl #12",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x289ad4",
+                  "op": "x26, x26, #0x730",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x289ad8",
+                  "op": "x23, sp, #0xd80",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x289adc",
+                  "op": "x27, sp, #0x140",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x289ae0",
+                  "op": "x19, #1",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x289ae4",
+                  "op": "x19, #0x15, lsl #32",
+                  "mnemonic": "movk"
+                },
+                {
+                  "pc": "0x289ae8",
+                  "op": "x8, #0x3ae000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x289aec",
+                  "op": "wzr, [x8, #0x5a4]",
+                  "mnemonic": "strb"
+                },
+                {
+                  "pc": "0x289af0",
+                  "op": "v0.16b, #0",
+                  "mnemonic": "movi"
+                },
+                {
+                  "pc": "0x289af4",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x289af8",
+                  "op": "x8, x8, #0x5b8",
+                  "mnemonic": "add"
+                }
+              ]
+            }
+          ],
+          "bks_literal_sites": [
+            {
+              "site": "0xae32c",
+              "bounded_instructions": [
+                {
+                  "pc": "0xae26c",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae270",
+                  "op": "x1, [x8, #0xdc8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae274",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae278",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae27c",
+                  "op": "d0, #0.0",
+                  "mnemonic": "fcmp"
+                },
+                {
+                  "pc": "0xae280",
+                  "op": "#0xae298",
+                  "mnemonic": "b.ls"
+                },
+                {
+                  "pc": "0xae284",
+                  "op": "v9.16b, v1.16b",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae288",
+                  "op": "d1, #0.0",
+                  "mnemonic": "fcmp"
+                },
+                {
+                  "pc": "0xae28c",
+                  "op": "#0xae298",
+                  "mnemonic": "b.ls"
+                },
+                {
+                  "pc": "0xae290",
+                  "op": "v8.16b, v0.16b",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae294",
+                  "op": "#0xae2cc",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0xae298",
+                  "op": "x8, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae29c",
+                  "op": "x0, [x8, #0xb38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae2a0",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae2a4",
+                  "op": "x1, [x8, #0xdf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae2a8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae2ac",
+                  "op": "d0, d2, d2",
+                  "mnemonic": "fadd"
+                },
+                {
+                  "pc": "0xae2b0",
+                  "op": "s0, d0",
+                  "mnemonic": "fcvt"
+                },
+                {
+                  "pc": "0xae2b4",
+                  "op": "s0, s0",
+                  "mnemonic": "frinta"
+                },
+                {
+                  "pc": "0xae2b8",
+                  "op": "d8, s0",
+                  "mnemonic": "fcvt"
+                },
+                {
+                  "pc": "0xae2bc",
+                  "op": "d0, d3, d3",
+                  "mnemonic": "fadd"
+                },
+                {
+                  "pc": "0xae2c0",
+                  "op": "s0, d0",
+                  "mnemonic": "fcvt"
+                },
+                {
+                  "pc": "0xae2c4",
+                  "op": "s0, s0",
+                  "mnemonic": "frinta"
+                },
+                {
+                  "pc": "0xae2c8",
+                  "op": "d9, s0",
+                  "mnemonic": "fcvt"
+                },
+                {
+                  "pc": "0xae2cc",
+                  "op": "x0, [x20, x22]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae2d0",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae2d4",
+                  "op": "x1, [x8, #0xdc0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae2d8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae2dc",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae2e0",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae2e4",
+                  "op": "x0, [sp, #0x38]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0xae2e8",
+                  "op": "x0, [x20, x22]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae2ec",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae2f0",
+                  "op": "x21, [x8, #0xec0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae2f4",
+                  "op": "x1, x24",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae2f8",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae2fc",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae300",
+                  "op": "w0, #0xae314",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0xae304",
+                  "op": "x0, [x20, x22]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae308",
+                  "op": "x1, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae30c",
+                  "op": "w2, #2",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae310",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae314",
+                  "op": "x26, [sp, #0x20]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0xae318",
+                  "op": "x19, [sp, #0x48]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0xae31c",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae320",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae324",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae328",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae32c",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0xae330",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae334",
+                  "op": "x0, #0xae344",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0xae338",
+                  "op": "x8, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae33c",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae340",
+                  "op": "x8",
+                  "mnemonic": "blr"
+                },
+                {
+                  "pc": "0xae344",
+                  "op": "x8, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae348",
+                  "op": "x0, [x8, #0xae0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae34c",
+                  "op": "#0x3136a8",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae350",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae354",
+                  "op": "x1, [x8, #0x728]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae358",
+                  "op": "d0, xzr",
+                  "mnemonic": "fmov"
+                },
+                {
+                  "pc": "0xae35c",
+                  "op": "d1, xzr",
+                  "mnemonic": "fmov"
+                },
+                {
+                  "pc": "0xae360",
+                  "op": "v2.16b, v8.16b",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae364",
+                  "op": "v3.16b, v9.16b",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae368",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae36c",
+                  "op": "x8, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae370",
+                  "op": "x26, [x8, #0xfcc]",
+                  "mnemonic": "ldrsw"
+                },
+                {
+                  "pc": "0xae374",
+                  "op": "x8, [x20, x26]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae378",
+                  "op": "x0, [x20, x26]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0xae37c",
+                  "op": "x0, x8",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae380",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae384",
+                  "op": "x8, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae388",
+                  "op": "x0, [x8, #0xa18]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae38c",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae390",
+                  "op": "x1, [x8, #0x730]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae394",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae398",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae39c",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae3a0",
+                  "op": "x21, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae3a4",
+                  "op": "x0, [x20, x26]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae3a8",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae3ac",
+                  "op": "x1, [x8, #0x738]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae3b0",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae3b4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae3b8",
+                  "op": "x0, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae3bc",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae3c0",
+                  "op": "x0, [x20, x26]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae3c4",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae3c8",
+                  "op": "x1, [x8, #0xec8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae3cc",
+                  "op": "w2, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae3d0",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae3d4",
+                  "op": "x19, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae3d8",
+                  "op": "x28, [sp, #0x38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae3dc",
+                  "op": "x28, #0xae454",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0xae3e0",
+                  "op": "x8, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae3e4",
+                  "op": "x8, [x8, #0x38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae3e8",
+                  "op": "q0, q1, [x8]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0xae3ec",
+                  "op": "q0, q1, [sp, #0x80]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0xae3f0",
+                  "op": "q0, [x8, #0x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae3f4",
+                  "op": "q0, [sp, #0xa0]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0xae3f8",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae3fc",
+                  "op": "x1, [x8, #0x888]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae400",
+                  "op": "x2, sp, #0x80",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0xae404",
+                  "op": "x0, x28",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae408",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae40c",
+                  "op": "x0, [x20, x26]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0xae410",
+                  "op": "x1, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0xae414",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0xae418",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0xae41c",
+                  "op": "x1, [x8, #0x7f8]",
+                  "mnemonic": "ldr"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0xadd08",
+                  "class": "CBBridgedUIAppView",
+                  "method_kind": "instance",
+                  "selector": "startInParentViewController:",
+                  "distance": 1572
+                },
+                "next_method_start": "0xaede8",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            },
+            {
+              "site": "0x16169c",
+              "bounded_instructions": [
+                {
+                  "pc": "0x1615dc",
+                  "op": "x24, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1615e0",
+                  "op": "#0x2b5e4",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1615e4",
+                  "op": "w0, #0, #0x1616b8",
+                  "mnemonic": "tbz"
+                },
+                {
+                  "pc": "0x1615e8",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1615ec",
+                  "op": "x1, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1615f0",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1615f4",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1615f8",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1615fc",
+                  "op": "x21, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161600",
+                  "op": "x8, #0x3ad000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x161604",
+                  "op": "x8, [x8, #0x548]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161608",
+                  "op": "x8, #1",
+                  "mnemonic": "cmn"
+                },
+                {
+                  "pc": "0x16160c",
+                  "op": "#0x169c1c",
+                  "mnemonic": "b.ne"
+                },
+                {
+                  "pc": "0x161610",
+                  "op": "x8, #0x3ad000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x161614",
+                  "op": "x0, [x8, #0x540]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161618",
+                  "op": "#0x3137bc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x16161c",
+                  "op": "x25, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161620",
+                  "op": "x0, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161624",
+                  "op": "x1, x27",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161628",
+                  "op": "x2, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x16162c",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x161630",
+                  "op": "x22, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161634",
+                  "op": "x0, x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161638",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x16163c",
+                  "op": "x0, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161640",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x161644",
+                  "op": "x0, x24",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161648",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x16164c",
+                  "op": "w22, #0x1616c0",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0x161650",
+                  "op": "#0x1616ec",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x161654",
+                  "op": "x23, [sp]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x161658",
+                  "op": "x0, #0x39c000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x16165c",
+                  "op": "x0, x0, #0x420",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x161660",
+                  "op": "#0x3133c0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x161664",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161668",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x16166c",
+                  "op": "x0, [x19, #0x40]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161670",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x161674",
+                  "op": "x1, [x8, #0xd78]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161678",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x16167c",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x161680",
+                  "op": "x1, [x8, #0xd80]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161684",
+                  "op": "x0, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161688",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x16168c",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161690",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161694",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x161698",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x16169c",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1616a0",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1616a4",
+                  "op": "x0, #0x15b868",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1616a8",
+                  "op": "x8, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1616ac",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1616b0",
+                  "op": "x8",
+                  "mnemonic": "blr"
+                },
+                {
+                  "pc": "0x1616b4",
+                  "op": "#0x15b868",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1616b8",
+                  "op": "x0, x24",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1616bc",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1616c0",
+                  "op": "w26, #1",
+                  "mnemonic": "cmp"
+                },
+                {
+                  "pc": "0x1616c4",
+                  "op": "w21, eq",
+                  "mnemonic": "cset"
+                },
+                {
+                  "pc": "0x1616c8",
+                  "op": "x21, [sp]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x1616cc",
+                  "op": "x0, #0x39c000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1616d0",
+                  "op": "x0, x0, #0x3e0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1616d4",
+                  "op": "#0x3133c0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1616d8",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1616dc",
+                  "op": "x1, [x8, #0xd68]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1616e0",
+                  "op": "x0, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1616e4",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1616e8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1616ec",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1616f0",
+                  "op": "x1, [x8, #0x3a0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1616f4",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1616f8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1616fc",
+                  "op": "x0, [sp]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x161700",
+                  "op": "x0, #0x39c000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x161704",
+                  "op": "x0, x0, #0x400",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x161708",
+                  "op": "#0x3133c0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x16170c",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x161710",
+                  "op": "x1, [x8, #0xd70]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161714",
+                  "op": "x0, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161718",
+                  "op": "x2, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x16171c",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x161720",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161724",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x161728",
+                  "op": "#0x15b868",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x16172c",
+                  "op": "wzr, [sp, #0x3c]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x161730",
+                  "op": "#0x1685c4",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x161734",
+                  "op": "x8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x161738",
+                  "op": "x9, sp, #0xda0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x16173c",
+                  "op": "q16, [x9, #0x470]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161740",
+                  "op": "q17, [x9, #0x480]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161744",
+                  "op": "x11, sp, #1, lsl #12",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x161748",
+                  "op": "x11, x11, #0x750",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x16174c",
+                  "op": "q16, q17, [x11, #0x140]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x161750",
+                  "op": "q16, [x9, #0x490]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161754",
+                  "op": "q17, [x9, #0x4a0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161758",
+                  "op": "q16, q17, [x11, #0x160]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x16175c",
+                  "op": "q16, [x9, #0x430]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161760",
+                  "op": "q17, [x9, #0x440]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161764",
+                  "op": "q16, q17, [x11, #0x100]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x161768",
+                  "op": "q16, [x9, #0x450]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x16176c",
+                  "op": "q17, [x9, #0x460]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161770",
+                  "op": "x9, sp, #1, lsl #12",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x161774",
+                  "op": "x9, x9, #0x850",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x161778",
+                  "op": "w10, #0x25",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x16177c",
+                  "op": "q16, q17, [x11, #0x120]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x161780",
+                  "op": "x11, [x9, x8, lsl #3]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x161784",
+                  "op": "x11, x11, #0x10, lsl #12",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x161788",
+                  "op": "x11, [x9, x8, lsl #3]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x16178c",
+                  "op": "x12, x11, #0x10",
+                  "mnemonic": "asr"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0x15b578",
+                  "class": "CBBridgeManager",
+                  "method_kind": "instance",
+                  "selector": "requestStateChange:",
+                  "distance": 24868
+                },
+                "next_method_start": "0x173e04",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            },
+            {
+              "site": "0x192e68",
+              "bounded_instructions": [
+                {
+                  "pc": "0x192da8",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192dac",
+                  "op": "x1, [x8, #0x650]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192db0",
+                  "op": "w3, #1",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192db4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192db8",
+                  "op": "x8, [x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192dbc",
+                  "op": "x0, [x8, #0x40]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192dc0",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192dc4",
+                  "op": "x1, [x8, #0xe70]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192dc8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192dcc",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192dd0",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192dd4",
+                  "op": "x21, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192dd8",
+                  "op": "x8, [x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192ddc",
+                  "op": "x0, [x8, #0x48]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192de0",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192de4",
+                  "op": "x22, [x8, #0xed8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192de8",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x192dec",
+                  "op": "x1, [x8, #0x358]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192df0",
+                  "op": "x2, x22",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192df4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192df8",
+                  "op": "x8, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192dfc",
+                  "op": "x9, [x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e00",
+                  "op": "x0, [x9, #0x48]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e04",
+                  "op": "w8, #0x192e18",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x192e08",
+                  "op": "x1, x22",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192e0c",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192e10",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e14",
+                  "op": "#0x192e24",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x192e18",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e1c",
+                  "op": "x1, [x8, #0x470]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e20",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e24",
+                  "op": "x8, [x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e28",
+                  "op": "x0, [x8, #0x40]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e2c",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e30",
+                  "op": "x1, [x8, #0xd78]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e34",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e38",
+                  "op": "x0, [x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e3c",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e40",
+                  "op": "x1, [x8, #0xd80]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e44",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e48",
+                  "op": "x0, [x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e4c",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e50",
+                  "op": "x1, [x8, #0xdb0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e54",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e58",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192e5c",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192e60",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e64",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e68",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x192e6c",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e70",
+                  "op": "x24, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e74",
+                  "op": "x24, [x24, #0x140]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e78",
+                  "op": "x19, #0x33c000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e7c",
+                  "op": "x0, #0x192f38",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x192e80",
+                  "op": "x22, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192e84",
+                  "op": "x8, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e88",
+                  "op": "x0, [x8, #0x9c8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e8c",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192e90",
+                  "op": "x1, [x8, #0x2a0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192e94",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192e98",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192e9c",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192ea0",
+                  "op": "x20, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192ea4",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192ea8",
+                  "op": "x1, [x8, #0xdb8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192eac",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192eb0",
+                  "op": "x23, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192eb4",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192eb8",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192ebc",
+                  "op": "w23, #0x192f30",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x192ec0",
+                  "op": "w0, #1",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192ec4",
+                  "op": "x22",
+                  "mnemonic": "blr"
+                },
+                {
+                  "pc": "0x192ec8",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192ecc",
+                  "op": "w1, #0x6500",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192ed0",
+                  "op": "w1, #0x1dcd, lsl #16",
+                  "mnemonic": "movk"
+                },
+                {
+                  "pc": "0x192ed4",
+                  "op": "#0x3135c4",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192ed8",
+                  "op": "x20, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192edc",
+                  "op": "x23, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192ee0",
+                  "op": "x23, [x23, #0x168]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192ee4",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192ee8",
+                  "op": "#0x3137bc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192eec",
+                  "op": "x24, [sp, #0x140]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x192ef0",
+                  "op": "d0, [x19, #0x9b0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192ef4",
+                  "op": "x8, #0x1a636c",
+                  "mnemonic": "adr"
+                },
+                {
+                  "pc": "0x192ef8",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x192efc",
+                  "op": "x9, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192f00",
+                  "op": "x9, x9, #0xdf0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x192f04",
+                  "op": "d0, [sp, #0x148]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x192f08",
+                  "op": "x8, x9, [sp, #0x150]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x192f0c",
+                  "op": "x8, [x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192f10",
+                  "op": "x8, x22, [sp, #0x160]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x192f14",
+                  "op": "x2, sp, #0x140",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x192f18",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f1c",
+                  "op": "x1, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f20",
+                  "op": "#0x31354c",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192f24",
+                  "op": "x0, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f28",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192f2c",
+                  "op": "#0x192f38",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x192f30",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f34",
+                  "op": "x22",
+                  "mnemonic": "blr"
+                },
+                {
+                  "pc": "0x192f38",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f3c",
+                  "op": "w1, #0xa300",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f40",
+                  "op": "w1, #0x11e1, lsl #16",
+                  "mnemonic": "movk"
+                },
+                {
+                  "pc": "0x192f44",
+                  "op": "#0x3135c4",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x192f48",
+                  "op": "x20, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f4c",
+                  "op": "x22, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x192f50",
+                  "op": "x22, [x22, #0x168]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x192f54",
+                  "op": "x0, x22",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x192f58",
+                  "op": "#0x3137bc",
+                  "mnemonic": "bl"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0x173e04",
+                  "class": "CBBridgeManager",
+                  "method_kind": "instance",
+                  "selector": "loadNewAppFromCurrentRequest:",
+                  "distance": 127076
+                },
+                "next_method_start": "0x1a6450",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            },
+            {
+              "site": "0x1a63dc",
+              "bounded_instructions": [
+                {
+                  "pc": "0x1a631c",
+                  "op": "w8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6320",
+                  "op": "#0x1a1ef8",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a6324",
+                  "op": "x8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6328",
+                  "op": "#0x1a2d60",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a632c",
+                  "op": "x8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6330",
+                  "op": "#0x1a2f3c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a6334",
+                  "op": "w8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6338",
+                  "op": "#0x1a30f8",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a633c",
+                  "op": "x8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6340",
+                  "op": "#0x1a3ef8",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a6344",
+                  "op": "x8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6348",
+                  "op": "#0x1a40d4",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a634c",
+                  "op": "x8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6350",
+                  "op": "#0x1a42b0",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a6354",
+                  "op": "x8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6358",
+                  "op": "#0x1a4480",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a635c",
+                  "op": "w8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6360",
+                  "op": "#0x1a4650",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a6364",
+                  "op": "w8, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6368",
+                  "op": "#0x1a54a4",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1a636c",
+                  "op": "x20, x19, [sp, #-0x20]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6370",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6374",
+                  "op": "x29, sp, #0x10",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a6378",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a637c",
+                  "op": "x0, [x0, #0x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6380",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6384",
+                  "op": "x1, [x8, #0xcf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6388",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a638c",
+                  "op": "w0, #0x1a63a4",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a6390",
+                  "op": "x1, [x19, #0x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6394",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6398",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a639c",
+                  "op": "x20, x19, [sp], #0x20",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63a0",
+                  "op": "x1",
+                  "mnemonic": "br"
+                },
+                {
+                  "pc": "0x1a63a4",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63a8",
+                  "op": "x20, x19, [sp], #0x20",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63ac",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x1a63b0",
+                  "op": "x29, x30, [sp, #-0x10]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a63b4",
+                  "op": "x29, sp",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63b8",
+                  "op": "x0, [x0, #0x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a63bc",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a63c0",
+                  "op": "x1, [x8, #0xcf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a63c4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a63c8",
+                  "op": "w0, #0x1a63f8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a63cc",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63d0",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63d4",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a63d8",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a63dc",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a63e0",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a63e4",
+                  "op": "x0, #0x1a63f8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a63e8",
+                  "op": "x1, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63ec",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63f0",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63f4",
+                  "op": "x1",
+                  "mnemonic": "br"
+                },
+                {
+                  "pc": "0x1a63f8",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63fc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x1a6400",
+                  "op": "x29, x30, [sp, #-0x10]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6404",
+                  "op": "x29, sp",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6408",
+                  "op": "x0, [x0, #0x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a640c",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6410",
+                  "op": "x1, [x8, #0xcf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6414",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6418",
+                  "op": "w0, #0x1a6448",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a641c",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6420",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6424",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6428",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a642c",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a6430",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6434",
+                  "op": "x0, #0x1a6448",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a6438",
+                  "op": "x1, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a643c",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6440",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a6444",
+                  "op": "x1",
+                  "mnemonic": "br"
+                },
+                {
+                  "pc": "0x1a6448",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a644c",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x1a6450",
+                  "op": "sp, sp, #0x90",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0x1a6454",
+                  "op": "x26, x25, [sp, #0x40]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6458",
+                  "op": "x24, x23, [sp, #0x50]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a645c",
+                  "op": "x22, x21, [sp, #0x60]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6460",
+                  "op": "x20, x19, [sp, #0x70]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6464",
+                  "op": "x29, x30, [sp, #0x80]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6468",
+                  "op": "x29, sp, #0x80",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a646c",
+                  "op": "x20, x2",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6470",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6474",
+                  "op": "x8, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6478",
+                  "op": "x8, [x8, #0x160]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a647c",
+                  "op": "x8, [x8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6480",
+                  "op": "x8, [sp, #0x38]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x1a6484",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6488",
+                  "op": "x1, [x8, #0xdc0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a648c",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6490",
+                  "op": "x25, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6494",
+                  "op": "x0, [x25, #0x40]!",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6498",
+                  "op": "x0, #0x1a64ac",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a649c",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64a0",
+                  "op": "x1, [x8, #0xd48]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64a4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64a8",
+                  "op": "w0, #0x1a64ec",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0x1a64ac",
+                  "op": "x22, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64b0",
+                  "op": "x0, [x22, #0xb38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64b4",
+                  "op": "#0x3136a8",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64b8",
+                  "op": "x21, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a64bc",
+                  "op": "x0, [x22, #0xb38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64c0",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64c4",
+                  "op": "x1, [x8, #0xdf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64c8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64cc",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0x173e04",
+                  "class": "CBBridgeManager",
+                  "method_kind": "instance",
+                  "selector": "loadNewAppFromCurrentRequest:",
+                  "distance": 206296
+                },
+                "next_method_start": "0x1a6450",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            },
+            {
+              "site": "0x1a642c",
+              "bounded_instructions": [
+                {
+                  "pc": "0x1a636c",
+                  "op": "x20, x19, [sp, #-0x20]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6370",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6374",
+                  "op": "x29, sp, #0x10",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a6378",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a637c",
+                  "op": "x0, [x0, #0x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6380",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6384",
+                  "op": "x1, [x8, #0xcf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6388",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a638c",
+                  "op": "w0, #0x1a63a4",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a6390",
+                  "op": "x1, [x19, #0x28]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6394",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6398",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a639c",
+                  "op": "x20, x19, [sp], #0x20",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63a0",
+                  "op": "x1",
+                  "mnemonic": "br"
+                },
+                {
+                  "pc": "0x1a63a4",
+                  "op": "x29, x30, [sp, #0x10]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63a8",
+                  "op": "x20, x19, [sp], #0x20",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63ac",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x1a63b0",
+                  "op": "x29, x30, [sp, #-0x10]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a63b4",
+                  "op": "x29, sp",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63b8",
+                  "op": "x0, [x0, #0x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a63bc",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a63c0",
+                  "op": "x1, [x8, #0xcf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a63c4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a63c8",
+                  "op": "w0, #0x1a63f8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a63cc",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63d0",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63d4",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a63d8",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a63dc",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a63e0",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a63e4",
+                  "op": "x0, #0x1a63f8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a63e8",
+                  "op": "x1, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63ec",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a63f0",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63f4",
+                  "op": "x1",
+                  "mnemonic": "br"
+                },
+                {
+                  "pc": "0x1a63f8",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a63fc",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x1a6400",
+                  "op": "x29, x30, [sp, #-0x10]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6404",
+                  "op": "x29, sp",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6408",
+                  "op": "x0, [x0, #0x20]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a640c",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6410",
+                  "op": "x1, [x8, #0xcf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6414",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6418",
+                  "op": "w0, #0x1a6448",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a641c",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6420",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6424",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6428",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a642c",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a6430",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6434",
+                  "op": "x0, #0x1a6448",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a6438",
+                  "op": "x1, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a643c",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6440",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a6444",
+                  "op": "x1",
+                  "mnemonic": "br"
+                },
+                {
+                  "pc": "0x1a6448",
+                  "op": "x29, x30, [sp], #0x10",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1a644c",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x1a6450",
+                  "op": "sp, sp, #0x90",
+                  "mnemonic": "sub"
+                },
+                {
+                  "pc": "0x1a6454",
+                  "op": "x26, x25, [sp, #0x40]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6458",
+                  "op": "x24, x23, [sp, #0x50]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a645c",
+                  "op": "x22, x21, [sp, #0x60]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6460",
+                  "op": "x20, x19, [sp, #0x70]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6464",
+                  "op": "x29, x30, [sp, #0x80]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1a6468",
+                  "op": "x29, sp, #0x80",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1a646c",
+                  "op": "x20, x2",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6470",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6474",
+                  "op": "x8, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6478",
+                  "op": "x8, [x8, #0x160]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a647c",
+                  "op": "x8, [x8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6480",
+                  "op": "x8, [sp, #0x38]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x1a6484",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6488",
+                  "op": "x1, [x8, #0xdc0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a648c",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6490",
+                  "op": "x25, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6494",
+                  "op": "x0, [x25, #0x40]!",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6498",
+                  "op": "x0, #0x1a64ac",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1a649c",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64a0",
+                  "op": "x1, [x8, #0xd48]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64a4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64a8",
+                  "op": "w0, #0x1a64ec",
+                  "mnemonic": "cbnz"
+                },
+                {
+                  "pc": "0x1a64ac",
+                  "op": "x22, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64b0",
+                  "op": "x0, [x22, #0xb38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64b4",
+                  "op": "#0x3136a8",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64b8",
+                  "op": "x21, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a64bc",
+                  "op": "x0, [x22, #0xb38]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64c0",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64c4",
+                  "op": "x1, [x8, #0xdf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64c8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64cc",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64d0",
+                  "op": "x1, [x8, #0xd90]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64d4",
+                  "op": "x0, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a64d8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64dc",
+                  "op": "x8, [x25]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64e0",
+                  "op": "x0, [x25]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x1a64e4",
+                  "op": "x0, x8",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a64e8",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64ec",
+                  "op": "x0, [x25]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64f0",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a64f4",
+                  "op": "x1, [x8, #0xd78]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a64f8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a64fc",
+                  "op": "x0, [x25]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6500",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1a6504",
+                  "op": "x23, [x8, #0x840]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1a6508",
+                  "op": "x1, x23",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a650c",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6510",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a6514",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1a6518",
+                  "op": "x22, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1a651c",
+                  "op": "x1, x23",
+                  "mnemonic": "mov"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0x173e04",
+                  "class": "CBBridgeManager",
+                  "method_kind": "instance",
+                  "selector": "loadNewAppFromCurrentRequest:",
+                  "distance": 206376
+                },
+                "next_method_start": "0x1a6450",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            },
+            {
+              "site": "0x1bf0d0",
+              "bounded_instructions": [
+                {
+                  "pc": "0x1bf010",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf014",
+                  "op": "x0, #0x336000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf018",
+                  "op": "x0, x0, #0x82d",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf01c",
+                  "op": "#0x313750",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf020",
+                  "op": "x0, #0x1bf0c0",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1bf024",
+                  "op": "x20, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf028",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf02c",
+                  "op": "x21, [x8, #0x2a0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf030",
+                  "op": "",
+                  "mnemonic": "nop"
+                },
+                {
+                  "pc": "0x1bf034",
+                  "op": "x19, [x8, #0x358]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf038",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf03c",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf040",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf044",
+                  "op": "w0, #0x1bf0c0",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1bf048",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf04c",
+                  "op": "x1, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf050",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf054",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf058",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf05c",
+                  "op": "x20, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf060",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf064",
+                  "op": "x21, [x8, #0xdf0]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf068",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf06c",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf070",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf074",
+                  "op": "w0, #0x1bf0b8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1bf078",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf07c",
+                  "op": "x1, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf080",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf084",
+                  "op": "w0, #0x1bf0b8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1bf088",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf08c",
+                  "op": "x21, [x8, #0xbc8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf090",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf094",
+                  "op": "x1, x19",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf098",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf09c",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf0a0",
+                  "op": "w0, #0x1bf0b8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1bf0a4",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf0a8",
+                  "op": "x1, [x8, #0xa48]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf0ac",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf0b0",
+                  "op": "x2, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf0b4",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf0b8",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf0bc",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf0c0",
+                  "op": "x0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf0c4",
+                  "op": "w1, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf0c8",
+                  "op": "#0x3135d0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf0cc",
+                  "op": "x1, #0x332000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf0d0",
+                  "op": "x1, x1, #0x835",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf0d4",
+                  "op": "#0x3135dc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf0d8",
+                  "op": "x0, #0x1bf0e8",
+                  "mnemonic": "cbz"
+                },
+                {
+                  "pc": "0x1bf0dc",
+                  "op": "x8, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf0e0",
+                  "op": "w0, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf0e4",
+                  "op": "x8",
+                  "mnemonic": "blr"
+                },
+                {
+                  "pc": "0x1bf0e8",
+                  "op": "x0, #0x39c000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf0ec",
+                  "op": "x0, x0, #0x580",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf0f0",
+                  "op": "#0x3133c0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf0f4",
+                  "op": "x8, [x29, #-0x60]",
+                  "mnemonic": "ldur"
+                },
+                {
+                  "pc": "0x1bf0f8",
+                  "op": "x9, #0x370000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf0fc",
+                  "op": "x9, [x9, #0x160]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf100",
+                  "op": "x9, [x9]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf104",
+                  "op": "x9, x8",
+                  "mnemonic": "cmp"
+                },
+                {
+                  "pc": "0x1bf108",
+                  "op": "#0x1bf144",
+                  "mnemonic": "b.ne"
+                },
+                {
+                  "pc": "0x1bf10c",
+                  "op": "x29, x30, [sp, #0x150]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1bf110",
+                  "op": "x20, x19, [sp, #0x140]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1bf114",
+                  "op": "x22, x21, [sp, #0x130]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1bf118",
+                  "op": "x24, x23, [sp, #0x120]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1bf11c",
+                  "op": "x26, x25, [sp, #0x110]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1bf120",
+                  "op": "x28, x27, [sp, #0x100]",
+                  "mnemonic": "ldp"
+                },
+                {
+                  "pc": "0x1bf124",
+                  "op": "sp, sp, #0x160",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf128",
+                  "op": "",
+                  "mnemonic": "ret"
+                },
+                {
+                  "pc": "0x1bf12c",
+                  "op": "x0, #0x3ad000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf130",
+                  "op": "x0, x0, #0x548",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf134",
+                  "op": "x1, #0x371000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf138",
+                  "op": "x1, x1, #0xae0",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf13c",
+                  "op": "#0x313570",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf140",
+                  "op": "#0x1bed1c",
+                  "mnemonic": "b"
+                },
+                {
+                  "pc": "0x1bf144",
+                  "op": "#0x3134bc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf148",
+                  "op": "x22, x21, [sp, #-0x30]!",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1bf14c",
+                  "op": "x20, x19, [sp, #0x10]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1bf150",
+                  "op": "x29, x30, [sp, #0x20]",
+                  "mnemonic": "stp"
+                },
+                {
+                  "pc": "0x1bf154",
+                  "op": "x29, sp, #0x20",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf158",
+                  "op": "x20, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf15c",
+                  "op": "x0, x2",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf160",
+                  "op": "#0x3137bc",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf164",
+                  "op": "x19, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf168",
+                  "op": "x0, [x20, #0x30]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf16c",
+                  "op": "xzr, [x20, #0x30]",
+                  "mnemonic": "str"
+                },
+                {
+                  "pc": "0x1bf170",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf174",
+                  "op": "x8, #0x3aa000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf178",
+                  "op": "x0, [x8, #0x9a8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf17c",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf180",
+                  "op": "x1, [x8, #0x218]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf184",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf188",
+                  "op": "x29, x29",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf18c",
+                  "op": "#0x3137e0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf190",
+                  "op": "x21, x0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf194",
+                  "op": "x8, #0x3a8000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf198",
+                  "op": "x1, [x8, #0x6a8]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf19c",
+                  "op": "x2, #0x39c000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf1a0",
+                  "op": "x2, x2, #0x200",
+                  "mnemonic": "add"
+                },
+                {
+                  "pc": "0x1bf1a4",
+                  "op": "x3, #0",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf1a8",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf1ac",
+                  "op": "x0, x21",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf1b0",
+                  "op": "#0x3137b0",
+                  "mnemonic": "bl"
+                },
+                {
+                  "pc": "0x1bf1b4",
+                  "op": "x8, #0x3a9000",
+                  "mnemonic": "adrp"
+                },
+                {
+                  "pc": "0x1bf1b8",
+                  "op": "x1, [x8, #0xd60]",
+                  "mnemonic": "ldr"
+                },
+                {
+                  "pc": "0x1bf1bc",
+                  "op": "x0, x20",
+                  "mnemonic": "mov"
+                },
+                {
+                  "pc": "0x1bf1c0",
+                  "op": "#0x313780",
+                  "mnemonic": "bl"
+                }
+              ],
+              "nearest_imp": {
+                "nearest_preceding_imp": {
+                  "vm": "0x1bec84",
+                  "class": "CBBridgeManager",
+                  "method_kind": "instance",
+                  "selector": "deactivateCurrentApp",
+                  "distance": 1100
+                },
+                "next_method_start": "0x1bf148",
+                "is_owner_proven": false,
+                "note": "No C function, blocks or ObjC dynamic dispatch boundary proven by nearest-IMP"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
