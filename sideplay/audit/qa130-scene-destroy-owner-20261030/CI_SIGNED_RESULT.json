@@ -44,10 +44,24 @@
   "publisher": {
     "repo": "chuongnguyen89dn-ui/carplaydsp",
     "workflow_source_commit": "992572f38b424645d1eba938bffef5dc5e77d2d7",
-    "run_id": 41053438550,
+    "workflow_run_id": 41053438550,
     "yaml_gate_run_id": 41053438409,
-    "status": "pending",
-    "conclusion": null
+    "conclusion": "success",
+    "yaml_gate_conclusion": "success",
+    "verified_jobs": [
+      "build",
+      "deploy",
+      "verify-duonavi-observer-pages",
+      "verify-duoface-integrated-pages",
+      "verify-qa11-pages"
+    ],
+    "public_site": "https://chuongnguyen89dn-ui.github.io/carplaydsp/",
+    "selected_apt_version": "0.0.130~sceneowner1",
+    "package_filename": "com.duoface.jb.embedded_0.0.130~sceneowner1_iphoneos-arm64.deb",
+    "package_sha256": "d0573ac14e402dfca450e4b01fd57f898ed03852b354361b0a8acf54a432e24b",
+    "public_verifier": "DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED; DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED",
+    "physical_device_installed": false,
+    "physical_carplay_qa": false
   },
   "no_actual_device_testing": true,
   "unaddressed": [
