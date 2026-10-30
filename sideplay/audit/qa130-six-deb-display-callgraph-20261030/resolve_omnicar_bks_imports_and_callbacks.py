@@ -97,6 +97,54 @@ def stub_import(m,table,pc):
    res.update(pointer_slot=hex(slot),pointer_binding=table.get(hex(slot)))
  return res
 
+def chained_imports(m):
+ """Inspect dyld chained import names; map no pointer unless format known."""
+ d=m.data; p=32;ncmds=struct.unpack_from("<I",d,16)[0]
+ for _ in range(ncmds):
+  cmd,size=struct.unpack_from("<II",d,p)
+  if cmd==0x80000034:
+   doff,dsize=struct.unpack_from("<II",d,p+8)
+   base=doff
+   if doff+dsize>len(d):raise ValueError("invalid chained fixups load")
+   ver,starts,imps,symbols,count,fmt,symfmt=struct.unpack_from("<7I",d,base)
+   out=[]
+   for n in range(min(count,200000)):
+    row=base+imps+n*({1:4,2:8,3:16}.get(fmt,0))
+    if fmt in (1,2):
+     word=struct.unpack_from("<I",d,row)[0]
+     nameoff=word>>9
+    elif fmt==3:
+     word=struct.unpack_from("<Q",d,row)[0]
+     nameoff=word>>32
+    else:return {"status":"unsupported_import_format","fmt":fmt,"count":count}
+    name=string_at(d,base+symbols+nameoff)
+    out.append(name)
+   return {"status":"read_only_chained_import_names","fmt":fmt,"count":count,"names":out}
+  p+=size
+ return {"status":"no_dyld_chained_fixups","names":[]}
+
+def raw_classref(m,vm,imps):
+ result={"classref_vm":hex(vm)}
+ try:
+  raw=struct.unpack_from("<Q",m.data,m.map(vm))[0]
+  result["raw_pointer_word"]=hex(raw)
+  result["auth_bit63"]=bool(raw&(1<<63))
+  result["bind_bit62"]=bool(raw&(1<<62))
+  result["bind_bit63"]=bool(raw&(1<<63))
+  # Arm64e chained pointers commonly encode import ordinals in low 16/24
+  # bits. Emit explicit candidates only, never label class without verifying
+  # the dyld pointer-format for the containing segment.
+  names=imps.get("names",[])
+  opts={}
+  for bits in (16,24):
+   idx=raw&((1<<bits)-1)
+   if idx<len(names):opts[str(bits)]={"ordinal":idx,"import":names[idx]}
+  result["ordinal_candidates_UNCONFIRMED"]=opts
+  result["class_identity_proven"]=False
+ except (ValueError,IndexError,AssertionError,KeyError,struct.error) as ex:
+  result["error"]=str(ex)[:180]
+ return result
+
 def resolve_objc_selref(m,vm):
  """Inspect original selector-reference word; do not fabricate rebasing."""
  result={"selref_vm":hex(vm)}
@@ -147,6 +195,7 @@ def main():
   full=(Path(temp)/REL).read_bytes()
   m=MachO(select_arm64(full))
   imp=imports(m.data)
+  chain=chained_imports(m)
   bindings=imp["bindings"]
   instructions=text_ins(m)
   result={
@@ -156,6 +205,8 @@ def main():
    "instrumented_on_iphone":False,
    "runtime_blank_policy_proven":False,
    "classic_import_status":imp["status"],
+   "dyld_chained_import_status":{k:v for k,v in chain.items() if k!="names"},
+   "class_reference_behind_shared_count":raw_classref(m,0x3e2e0,chain),
    "load_commands":imp["commands"],
    "stub_imports":{hex(pc):stub_import(m,bindings,pc) for pc in TARGETS},
    "direct_code_xrefs":branch_xrefs(instructions,set(OWNERS+[0x25420])),
