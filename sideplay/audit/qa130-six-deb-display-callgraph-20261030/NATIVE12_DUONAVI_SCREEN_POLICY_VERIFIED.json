@@ -1,0 +1,27 @@
+{
+  "status": "NATIVE12_DUONAVI_ORIGINAL_BKS_INITIAL_TRUE_AND_GATED_UNBLANK_TIMERS_STATIC_PASS",
+  "native12_ref_package_sha": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "duonavi_original_package_sha": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+  "initial_screenBlankEnabled": true,
+  "native12_constructor_proof": "0x360e0/0x360e8 writes 0x100 at instance+8, getter 0x37ec0 reads +9",
+  "duonavi_constructor_proof": "0x2d574/0x2d578 writes 0x100 at instance+8, getter 0x2f48c reads +9",
+  "user_persisted_preference_default_proven": false,
+  "native12_bks": [
+    "BKS(1) 0x31b08",
+    "BKS(0) 0x31dc0"
+  ],
+  "duonavi_scheduled_delay_ns": {
+    "BKS1_branch": 500000000,
+    "BKS0_or_after_branch": 300000000,
+    "additional_common": 800000000
+  },
+  "duonavi_callbacks": [
+    "0x1a636c",
+    "0x1a63b0",
+    "0x1a6400"
+  ],
+  "duonavi_conditional_selector": "isUIAppBridging",
+  "duonavi_deactivation_bks0_pc": "0x1bf0e4",
+  "no_live_carplay": true,
+  "no_sileo_build_or_deploy": true
+}
