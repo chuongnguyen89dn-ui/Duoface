@@ -34,6 +34,7 @@ def main():
     "instrumented_on_phone":False,
     "code_executed_on_device":False,
     "callback_guard_selector":{"ref_vm":"0x3a8cf0","raw_word":hex(selraw),"literal_vm_candidate":hex(selvm),"literal":callback_guard},
+    "dispatch_queue_got_0x370168":imp["bindings"].get("0x370168"),
     "import_symbols":{hex(vm):stub_import(m,imp["bindings"],vm) for vm in STUBS},
     "bks_blank1_original_conditional":{
       "source_symbol_resolver":"0x192e68..0x192e80",
