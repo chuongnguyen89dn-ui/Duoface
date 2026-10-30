@@ -231,6 +231,7 @@ def main():
    "runtime_blank_policy_proven":False,
    "classic_import_status":imp["status"],
    "dyld_chained_import_status":{k:v for k,v in chain.items() if k!="names"},
+   "dispatch_queue_ref_at_0x34290_classic_import":bindings.get("0x34290"),
    "class_reference_behind_shared_count":raw_classref(m,0x3e2e0,chain),
    "original_unblank_neighbor_class_literal":{
       "objc_getClass_cstring_0x29667":string_at(m.data,m.map(0x29667)),
