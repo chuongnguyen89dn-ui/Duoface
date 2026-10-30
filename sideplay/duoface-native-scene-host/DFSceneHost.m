@@ -588,6 +588,18 @@ static NSInteger DFObservedSceneForeground(id scene) {
     if(event.type==UIEventTypeTouches)
         for(UITouch *touch in event.allTouches)
             if(touch.phase==UITouchPhaseBegan){began=YES;break;}
+    if(self.ready && began) {
+        // QA120: do not equate a successful pane scroll with a delivered Play
+        // tap. This records a genuine UIKit hit + screen/virtual sizes only;
+        // it never mutates the hosted scene, consumes touches or replays HID.
+        CGFloat y=self.bounds.size.height>0?point.y/self.bounds.size.height:-1;
+        DFSceneLog(@"qa120-hosted-touch-hit",self.bundleID,
+            [NSString stringWithFormat:@"point=%@ fractionY=%.3f target=%@ surface=%@ window=%@",
+                NSStringFromCGPoint(point),y,
+                target?NSStringFromClass(target.class):@"nil",
+                NSStringFromCGRect(self.bounds),
+                self.window?NSStringFromCGRect(self.window.frame):@"no-window"]);
+    }
     if (self.ready && target && began) {
         NSTimeInterval now=NSDate.date.timeIntervalSince1970;
         if (now-self.lastHitLogAt>0.8) {
