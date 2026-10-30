@@ -67,6 +67,10 @@ class QA120NativeGeometry(unittest.TestCase):
         # Native app-process YouTube .90 orientation source stays untouched.
 
     def test_unique_rootless_versions(self):
+        import plistlib
+        info=plistlib.loads((HERE/'Info.plist').read_bytes())
+        self.assertEqual(info['CFBundleVersion'],'120')
+        self.assertEqual(info['CFBundleShortVersionString'],'0.1.120')
         self.assertIn('0.1.120~native-rail1',(HERE/'build.sh').read_text())
         self.assertIn('Version: 0.1.120~native-rail1',(HERE/'control').read_text())
         integration=INTEGRATED.read_text()
