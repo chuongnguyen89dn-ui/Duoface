@@ -97,6 +97,31 @@ def stub_import(m,table,pc):
    res.update(pointer_slot=hex(slot),pointer_binding=table.get(hex(slot)))
  return res
 
+def resolve_objc_selref(m,vm):
+ """Inspect original selector-reference word; do not fabricate rebasing."""
+ result={"selref_vm":hex(vm)}
+ try:
+  fileoff=m.map(vm)
+  word=struct.unpack_from("<Q",m.data,fileoff)[0]
+  result["raw_pointer_word"]=hex(word)
+  # Direct classic pointer and nonauthenticated 32-bit offset form. Do not
+  # assume that a chained/authenticated pointer has been rebased.
+  for candidate in dict.fromkeys((word,word & 0xffffffff)):
+   try:
+    pos=m.map(candidate)
+    value=string_at(m.data,pos)
+    if value and 0<len(value)<180 and all(31<ord(c)<127 for c in value):
+     result["candidate_selector_text"]=value
+     result["candidate_pointer_vm"]=hex(candidate)
+     result["confidence"]="raw VM resolves to NUL-terminated printable string; not runtime message recipient proof"
+     break
+   except (ValueError,IndexError,AssertionError,KeyError,struct.error):
+    pass
+  else:result["confidence"]="unresolved raw/chained fixup; do not name selector"
+ except (ValueError,IndexError,AssertionError,KeyError,struct.error) as ex:
+  result["error"]=str(ex)[:180]
+ return result
+
 def branch_xrefs(inst,dests):
  refs={hex(t):[] for t in dests}
  for i,z in enumerate(inst):
@@ -134,6 +159,12 @@ def main():
    "load_commands":imp["commands"],
    "stub_imports":{hex(pc):stub_import(m,bindings,pc) for pc in TARGETS},
    "direct_code_xrefs":branch_xrefs(instructions,set(OWNERS+[0x25420])),
+   "objc_dispatch_candidates":{
+      "0x25420_selector_ref":resolve_objc_selref(m,0x3d548),
+      "0x27b20_selector_ref":resolve_objc_selref(m,0x3df08),
+      "0x25100_selector_ref":resolve_objc_selref(m,0x3d480),
+      "0x25900_selector_ref":resolve_objc_selref(m,0x3d680),
+      "0x25420_full_stub":slice_at(m,0x25420,6)},
    "conditional_context":{
      "blank_one_handler_0x777c":slice_at(m,0x778c,39),
      "original_unblank_entry_0x9688":slice_at(m,0x9688,4),
