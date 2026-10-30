@@ -1,0 +1,65 @@
+name: DuoNavi Observer standalone passive rootless signed QA
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/duonavi-observer/**'
+      - '.github/workflows/duoface-duonavi-observer-standalone-signed.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duonavi-observer-signed
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify independent no-hook source contract
+        run: |
+          set -euo pipefail
+          python3 sideplay/duonavi-observer/tests/test_passive.py
+          plutil -lint sideplay/duonavi-observer/Observer.plist sideplay/duonavi-observer/Info.plist sideplay/duonavi-observer/entitlements.plist
+      - name: Install tools
+        run: |
+          brew install ldid dpkg
+          xcrun --sdk iphoneos --show-sdk-path
+      - name: Build and inspect signed rootless observer
+        run: |
+          set -euo pipefail
+          bash sideplay/duonavi-observer/build.sh
+          DEB='sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.1~passive1_iphoneos-arm64.deb'
+          test -s "$DEB"
+          test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.qa.duonaviobserver'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.1~passive1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
+          ! dpkg-deb -f "$DEB" | grep -E '^(Conflicts|Replaces|Breaks):'
+          mkdir -p "$RUNNER_TEMP/observer-unpacked"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/observer-unpacked"
+          test -s "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib"
+          test -s "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.plist"
+          test -s "$RUNNER_TEMP/observer-unpacked/var/jb/Applications/DuoNaviObserver.app/DNObserverExport"
+          ldid -e "$RUNNER_TEMP/observer-unpacked/var/jb/Applications/DuoNaviObserver.app/DNObserverExport" | grep -F 'no-container'
+          mkdir -p sideplay/duonavi-observer/evidence
+          shasum -a 256 "$DEB" > sideplay/duonavi-observer/evidence/SHA256SUMS.txt
+          dpkg-deb -c "$DEB" > sideplay/duonavi-observer/evidence/DEB_FILE_LIST.txt
+          printf 'RUN_ID=%s\nSOURCE_SHA=%s\nBUILD=success\nSIGNED=true\nSILEO_PUBLISHED=false\nDEVICE_QA=false\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > sideplay/duonavi-observer/evidence/CI_RESULT.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duonavi-observer-signed
+          path: |
+            sideplay/duonavi-observer/packages/*.deb
+            sideplay/duonavi-observer/evidence/*
+      - name: Commit exactly signed package evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f sideplay/duonavi-observer/packages/*.deb sideplay/duonavi-observer/evidence/
+          git commit -m "artifacts: signed standalone DuoNavi Observer package [skip ci]"
+          git fetch origin "refs/heads/$GITHUB_REF_NAME:refs/remotes/origin/$GITHUB_REF_NAME"
+          git rebase "origin/$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
