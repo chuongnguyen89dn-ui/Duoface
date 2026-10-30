@@ -1,0 +1,112 @@
+name: DuoFace QA127 versus actual original DuoNavi whole DEB forensic (read only)
+on:
+  push:
+    branches: [feature/duoface-original-pair-qa127-20261030]
+    paths:
+      - '.github/workflows/duoface-qa127-vs-duonavi-original-exact-pair.yml'
+      - 'sideplay/audit/qa127-vs-duonavi-original-20261030/compare_pair.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-qa127-exact-pair-forensic
+  cancel-in-progress: false
+jobs:
+  exact-pair:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read SHA-verified reusable iOS and debug skill ZIPs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for ITEM in \
+            '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' \
+            '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            set -- $ITEM
+            curl -fLsS --retry 4 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$1" -o "$RUNNER_TEMP/$1"
+            printf '%s  %s\n' "$2" "$RUNNER_TEMP/$1" | shasum -a 256 -c -
+            unzip -t "$RUNNER_TEMP/$1" >/dev/null
+            unzip -p "$RUNNER_TEMP/$1" SKILL.md > "$RUNNER_TEMP/$1.SKILL.md"
+            test -s "$RUNNER_TEMP/$1.SKILL.md"
+            sed -n '1,40p' "$RUNNER_TEMP/$1.SKILL.md"
+          done
+      - name: Verify exact original and current signed package bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          mkdir -p "$RUNNER_TEMP/duoface-pair"
+          curl -fLsS --retry 4 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/ae5d92d9f10a64260f50f58530168e0f05365bc0/dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' \
+            -o "$RUNNER_TEMP/duoface-pair/DuoNavi104.deb"
+          curl -fLsS --retry 4 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/bf25ce8d5ec682508e79451ff97a79bd0264a61e/sideplay/jb-embedded-appbridge/evidence/runs/41017733805/com.duoface.jb.embedded_0.0.127~ownerreflow1_iphoneos-arm64.deb' \
+            -o "$RUNNER_TEMP/duoface-pair/DuoFaceQA127.deb"
+          printf '%s  %s\n' \
+            'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd' "$RUNNER_TEMP/duoface-pair/DuoNavi104.deb" \
+            'ddbc2ded86b768ffd8fa720a0c883e7e6884c24ffc26a142a306431987950a61' "$RUNNER_TEMP/duoface-pair/DuoFaceQA127.deb" \
+            | shasum -a 256 -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/duoface-pair/DuoNavi104.deb" Package)" = "com.duonavi.app"
+          test "$(dpkg-deb -f "$RUNNER_TEMP/duoface-pair/DuoFaceQA127.deb" Version)" = "0.0.127~ownerreflow1"
+          python3 -m py_compile \
+            sideplay/audit/qa125-vs-four-original-real-debs-20261030/full_deb_inventory_and_callback_crosswalk.py \
+            sideplay/audit/qa127-vs-duonavi-original-20261030/compare_pair.py
+      - name: Extract both full rootless packages and compare exact real binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="sideplay/audit/qa127-vs-duonavi-original-20261030/runs/$GITHUB_RUN_ID"
+          python3 sideplay/audit/qa127-vs-duonavi-original-20261030/compare_pair.py \
+            --original "$RUNNER_TEMP/duoface-pair/DuoNavi104.deb" \
+            --current "$RUNNER_TEMP/duoface-pair/DuoFaceQA127.deb" \
+            --out "$OUT"
+          test -s "$OUT/DuoNavi104_ALL_FILES_AND_BINARIES.json"
+          test -s "$OUT/DuoFaceQA127_ALL_FILES_AND_BINARIES.json"
+          test -s "$OUT/SUMMARY.json"
+          test -s "$OUT/REPORT.md"
+          python3 - "$OUT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          s=json.loads((Path(sys.argv[1])/'SUMMARY.json').read_text())
+          assert s['original_sha']=='f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd'
+          assert s['qa127_sha']=='ddbc2ded86b768ffd8fa720a0c883e7e6884c24ffc26a142a306431987950a61'
+          assert s['original_macho_count']>0 and s['qa127_macho_count']>0
+          assert s['current_source_gates']['manual_scene_settings_observer']
+          print('ORIGINAL_DUONAVI_VS_SIGNED_QA127_REAL_BINARY_AND_SOURCE_VERIFIED')
+          PY
+          echo "AUDIT_OUT=$OUT" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-QA127-vs-Original-DuoNavi-Whole-Deb-Forensics
+          path: sideplay/audit/qa127-vs-duonavi-original-20261030/runs/
+          if-no-files-found: error
+      - name: Save immutable forensics in DuoFace GitHub and refetch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-original-pair-qa127-20261030'
+          REL="$AUDIT_OUT"
+          for try in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$REL"
+            cp "$REL"/* "$TEMP/$REL/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL/"
+            git -C "$TEMP" commit -m 'forensics: preserve original DuoNavi versus signed QA127 exact pair [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              git fetch --no-tags origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:$REL/SUMMARY.json"
+              git cat-file -e "FETCH_HEAD:$REL/REPORT.md"
+              echo EXACT_TWO_DEB_GITHUB_PERSISTED_REFETCHED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo '::error::GitHub artifact saved, but repo persistence failed' >&2
+          exit 1
