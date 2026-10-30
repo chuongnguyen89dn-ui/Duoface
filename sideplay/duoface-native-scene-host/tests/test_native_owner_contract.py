@@ -21,8 +21,12 @@ class NativeOwnerContract(unittest.TestCase):
         bind=s.split('if(!sameSession) {',1)[1].split('    BOOL active=',1)[0]
         for term in ('DFOwnerFreshTime(', '![pulse[@"HostBackground"] isEqual:@YES]', 'DFOwnerHomeHooksReady', 'DFOwnerBoundNativeScene=', 'DFOwnerBoundController='):
             self.assertIn(term,bind)
-        for term in ('found.count==1', 'candidate[@"Controller"]==DFOwnerBoundController', 'DFOwnerVisibleController(vc)', '@"isForeground"', 'native-owner-state'):
+        for term in ('DFOwnerUniqueDuoFaceCandidate(found)', 'candidate[@"Controller"]==DFOwnerBoundController', 'DFOwnerVisibleController(vc)', '@"isForeground"', 'native-owner-state'):
             self.assertIn(term,s)
+        selector=(R/'DFCarPlayOwnerSelection.h').read_text()
+        self.assertIn('entry[@"Bundle"] isEqual:@"com.duoface.native.scenehost"',selector)
+        self.assertIn('if(owner)return nil;',selector)
+        self.assertIn('if(![sceneID isKindOfClass:NSString.class]',selector)
 
     def test_background_retention_and_all_core_readers_share_validator(self):
         native=(R/'DFNativeHostAppDelegate.m').read_text()
