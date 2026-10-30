@@ -135,6 +135,27 @@ static void DFCLog(NSString *text) {
         }
     }
     UIView *hit=[super hitTest:point withEvent:event];
+    // QA120: scroll and other clicks work, but the YouTube Play target does
+    // not. Log ONLY an actual touch Began with its resolved UIKit hit owner,
+    // not a guessed blocked region. No recognizer, replay or changed hitTest.
+    if(event && event.type==UIEventTypeTouches && self.window) {
+        BOOL began=NO;
+        for(UITouch *touch in event.allTouches)
+            if(touch.phase==UITouchPhaseBegan &&
+               (!touch.window || touch.window==self.window)) {
+                began=YES;break;
+            }
+        if(began) {
+            CGFloat fraction=self.bounds.size.height>0?
+                point.y/self.bounds.size.height:-1;
+            DFCLog([NSString stringWithFormat:
+                @"qa120-pane-tap point=%@ fractionY=%.3f window=%@ root=%@ owner=%@",
+                NSStringFromCGPoint(point),fraction,
+                NSStringFromCGRect(self.window.frame),
+                NSStringFromCGRect(self.bounds),
+                hit?NSStringFromClass(hit.class):@"nil"]);
+        }
+    }
     return hit==self?nil:hit;
 }
 @end
