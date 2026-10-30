@@ -1,0 +1,1421 @@
+{
+  "purpose": "SHA-pinned original ABI named selector/CFString references, not code reuse",
+  "DuoNavi104": {
+    "SHA256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+    "methods": {
+      "home_library_register": {
+        "lo": "0x3106f4",
+        "hi": "0x310a50",
+        "instructions": 215,
+        "resolved": [
+          {
+            "pc": "0x310704",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DashBoard"
+          },
+          {
+            "pc": "0x310720",
+            "op": "ldr",
+            "type": "selector",
+            "name": "init"
+          },
+          {
+            "pc": "0x310744",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_newApplicationLibrary"
+          },
+          {
+            "pc": "0x310780",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CARApplication"
+          },
+          {
+            "pc": "0x3107ec",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_CARDashboardHomeViewController"
+          },
+          {
+            "pc": "0x310800",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_setupIconModel"
+          },
+          {
+            "pc": "0x31081c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "viewDidAppear:"
+          },
+          {
+            "pc": "0x310840",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIconForIconView:"
+          },
+          {
+            "pc": "0x310860",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIconForIconView:withActions:"
+          },
+          {
+            "pc": "0x310880",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:"
+          },
+          {
+            "pc": "0x3108a0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:location:"
+          },
+          {
+            "pc": "0x3108c0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:location:animated:"
+          },
+          {
+            "pc": "0x3108e0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:location:animated:completionHandler:"
+          },
+          {
+            "pc": "0x3108fc",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DBRootViewController"
+          },
+          {
+            "pc": "0x310920",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_CARDashboardRootViewController"
+          },
+          {
+            "pc": "0x31094c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "viewDidLayoutSubviews"
+          },
+          {
+            "pc": "0x31096c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "viewSafeAreaInsetsDidChange"
+          },
+          {
+            "pc": "0x310988",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DBFocusController"
+          },
+          {
+            "pc": "0x310998",
+            "op": "ldr",
+            "type": "selector",
+            "name": "takeWithPriority:reason:forWindow:bundleIdentifier:pid:scene:heading:focusedFrame:"
+          },
+          {
+            "pc": "0x3109b0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "UIApplication"
+          },
+          {
+            "pc": "0x3109c0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "sendEvent:"
+          }
+        ],
+        "resolvedCount": 21
+      },
+      "catalog_merge": {
+        "lo": "0x2f16bc",
+        "hi": "0x2f2130",
+        "instructions": 669,
+        "resolved": [
+          {
+            "pc": "0x2f16fc",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoNaviDB] CBUpdateApplicationLibrary executing on library: %@"
+          },
+          {
+            "pc": "0x2f1708",
+            "op": "adrp",
+            "type": "selector",
+            "name": "setIcon:"
+          },
+          {
+            "pc": "0x2f170c",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x3ab340"
+          },
+          {
+            "pc": "0x2f1714",
+            "op": "ldr",
+            "type": "selector",
+            "name": "sharedInstance"
+          },
+          {
+            "pc": "0x2f1730",
+            "op": "ldr",
+            "type": "selector",
+            "name": "bridgedApps"
+          },
+          {
+            "pc": "0x2f174c",
+            "op": "adrp",
+            "type": "selector",
+            "name": "setIcon:"
+          },
+          {
+            "pc": "0x2f1750",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x0"
+          },
+          {
+            "pc": "0x2f1758",
+            "op": "ldr",
+            "type": "selector",
+            "name": "array"
+          },
+          {
+            "pc": "0x2f1770",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x0"
+          },
+          {
+            "pc": "0x2f178c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "mutableCopy"
+          },
+          {
+            "pc": "0x2f17b0",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x0"
+          },
+          {
+            "pc": "0x2f17d0",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x3ab340"
+          },
+          {
+            "pc": "0x2f17ec",
+            "op": "ldr",
+            "type": "selector",
+            "name": "portalAppEnabled"
+          },
+          {
+            "pc": "0x2f1814",
+            "op": "ldr",
+            "type": "selector",
+            "name": "containsObject:"
+          },
+          {
+            "pc": "0x2f1848",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2f1860",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x3ab340"
+          },
+          {
+            "pc": "0x2f187c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "splitScreenEnabled"
+          },
+          {
+            "pc": "0x2f18a4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "containsObject:"
+          },
+          {
+            "pc": "0x2f18d8",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2f18f4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "allInstalledApplications"
+          },
+          {
+            "pc": "0x2f18fc",
+            "op": "ldr",
+            "type": "selector",
+            "name": "respondsToSelector:"
+          },
+          {
+            "pc": "0x2f1910",
+            "op": "adrp",
+            "type": "selector",
+            "name": "bufferedBytesCount"
+          },
+          {
+            "pc": "0x2f1940",
+            "op": "ldr",
+            "type": "selector",
+            "name": "countByEnumeratingWithState:objects:count:"
+          },
+          {
+            "pc": "0x2f1974",
+            "op": "ldr",
+            "type": "selector",
+            "name": "bundleIdentifier"
+          },
+          {
+            "pc": "0x2f197c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "containsObject:"
+          },
+          {
+            "pc": "0x2f1984",
+            "op": "ldr",
+            "type": "selector",
+            "name": "applicationProxyForIdentifier:"
+          },
+          {
+            "pc": "0x2f198c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "removeApplicationProxy:"
+          },
+          {
+            "pc": "0x2f1998",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2f1a3c",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "LSApplicationProxy"
+          },
+          {
+            "pc": "0x2f1aec",
+            "op": "ldr",
+            "type": "selector",
+            "name": "countByEnumeratingWithState:objects:count:"
+          },
+          {
+            "pc": "0x2f1b38",
+            "op": "ldr",
+            "type": "selector",
+            "name": "length"
+          },
+          {
+            "pc": "0x2f1b40",
+            "op": "ldr",
+            "type": "selector",
+            "name": "applicationInfoForBundleIdentifier:"
+          },
+          {
+            "pc": "0x2f1b48",
+            "op": "ldr",
+            "type": "selector",
+            "name": "applicationProxyForIdentifier:"
+          },
+          {
+            "pc": "0x2f1b54",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isEqualToString:"
+          },
+          {
+            "pc": "0x2f1b5c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "appState"
+          },
+          {
+            "pc": "0x2f1b68",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isValid"
+          },
+          {
+            "pc": "0x2f1b74",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addApplicationProxy:withOverrideURL:"
+          },
+          {
+            "pc": "0x2f1b7c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addApplicationProxy:"
+          },
+          {
+            "pc": "0x2f1b88",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2f1b94",
+            "op": "ldr",
+            "type": "selector",
+            "name": "carPlayDeclaration"
+          },
+          {
+            "pc": "0x2f1ba0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "class"
+          },
+          {
+            "pc": "0x2f1bac",
+            "op": "ldr",
+            "type": "selector",
+            "name": "new"
+          },
+          {
+            "pc": "0x2f1bb4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setBundleIdentifier:"
+          },
+          {
+            "pc": "0x2f1bc0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setSupportsMaps:"
+          },
+          {
+            "pc": "0x2f1c3c",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "LSApplicationProxy"
+          },
+          {
+            "pc": "0x2f1dec",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoNaviDB] CBUpdateApplicationLibrary registered info for %@"
+          },
+          {
+            "pc": "0x2f1e48",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_carPlayDeclaration"
+          },
+          {
+            "pc": "0x2f1e80",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CRCarPlayAppDeclaration"
+          },
+          {
+            "pc": "0x2f1ed0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_carPlayDeclaration"
+          },
+          {
+            "pc": "0x2f1f98",
+            "op": "ldr",
+            "type": "selector",
+            "name": "count"
+          },
+          {
+            "pc": "0x2f1fb0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_notifyDidRemoveApplications:"
+          },
+          {
+            "pc": "0x2f1fcc",
+            "op": "ldr",
+            "type": "selector",
+            "name": "copy"
+          },
+          {
+            "pc": "0x2f200c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_notifyDidAddApplications:"
+          },
+          {
+            "pc": "0x2f2034",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoNaviDB] Notifying library of %lu added applications"
+          },
+          {
+            "pc": "0x2f2044",
+            "op": "ldr",
+            "type": "selector",
+            "name": "copy"
+          }
+        ],
+        "resolvedCount": 55
+      },
+      "appinfo_register": {
+        "lo": "0x2f2130",
+        "hi": "0x2f22a0",
+        "instructions": 92,
+        "resolved": [
+          {
+            "pc": "0x2f2140",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DBApplicationInfo"
+          },
+          {
+            "pc": "0x2f2154",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_loadFromProxy:"
+          },
+          {
+            "pc": "0x2f2174",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isCarPlaySupported"
+          },
+          {
+            "pc": "0x2f2198",
+            "op": "ldr",
+            "type": "selector",
+            "name": "canDisplayOnCarScreen"
+          },
+          {
+            "pc": "0x2f21b8",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CARApplicationInfo"
+          },
+          {
+            "pc": "0x2f2218",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "FBSApplicationLibrary"
+          },
+          {
+            "pc": "0x2f2228",
+            "op": "ldr",
+            "type": "selector",
+            "name": "allInstalledApplications"
+          },
+          {
+            "pc": "0x2f2240",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CRCarPlayAppPolicyEvaluator"
+          },
+          {
+            "pc": "0x2f2250",
+            "op": "ldr",
+            "type": "selector",
+            "name": "effectivePolicyForAppDeclaration:"
+          },
+          {
+            "pc": "0x2f2268",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CRCarPlayAppDeclaration"
+          },
+          {
+            "pc": "0x2f227c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "declarationForAppProxy:"
+          }
+        ],
+        "resolvedCount": 11
+      },
+      "launch_policy": {
+        "lo": "0x2f2bdc",
+        "hi": "0x2f2ed0",
+        "instructions": 189,
+        "resolved": [
+          {
+            "pc": "0x2f2c38",
+            "op": "ldr",
+            "type": "selector",
+            "name": "bundleIdentifier"
+          },
+          {
+            "pc": "0x2f2c40",
+            "op": "ldr",
+            "type": "selector",
+            "name": "respondsToSelector:"
+          },
+          {
+            "pc": "0x2f2c74",
+            "op": "adrp",
+            "type": "selector",
+            "name": "setIcon:"
+          },
+          {
+            "pc": "0x2f2c78",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x3ac100"
+          },
+          {
+            "pc": "0x2f2c80",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isBridgedApp:"
+          },
+          {
+            "pc": "0x2f2c90",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x3ac100"
+          },
+          {
+            "pc": "0x2f2c98",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isDashboardPolicySignalActive"
+          },
+          {
+            "pc": "0x2f2ca8",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setLaunchUsingTemplateUI:"
+          },
+          {
+            "pc": "0x2f2cd4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setCarPlaySupported:"
+          },
+          {
+            "pc": "0x2f2d00",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setCanDisplayOnCarScreen:"
+          },
+          {
+            "pc": "0x2f2d28",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setBadgesAppIcon:"
+          },
+          {
+            "pc": "0x2f2d48",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setBadgesAppIcon:"
+          },
+          {
+            "pc": "0x2f2d64",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setShowsNotifications:"
+          },
+          {
+            "pc": "0x2f2d84",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setShowsNotifications:"
+          },
+          {
+            "pc": "0x2f2da0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setHandlesCarStreaming:"
+          },
+          {
+            "pc": "0x2f2dc0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setHandlesCarStreaming:"
+          },
+          {
+            "pc": "0x2f2ddc",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setCanShowWhileLocked:"
+          },
+          {
+            "pc": "0x2f2dfc",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setCanShowWhileLocked:"
+          },
+          {
+            "pc": "0x2f2e18",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setLaunchAsCarApplication:"
+          },
+          {
+            "pc": "0x2f2e38",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setLaunchAsCarApplication:"
+          },
+          {
+            "pc": "0x2f2ea4",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x3ac100"
+          },
+          {
+            "pc": "0x2f2eac",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isOfficialApp:"
+          },
+          {
+            "pc": "0x2f2ec0",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoNaviDB] effectivePolicyForAppDeclaration: policy signal inactive for native app %@ -> 100%% %%orig pass-through"
+          }
+        ],
+        "resolvedCount": 23
+      }
+    }
+  },
+  "Native12Reference": {
+    "SHA256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+    "methods": {
+      "home_library_register": {
+        "lo": "0x2e9d48",
+        "hi": "0x2ea0a4",
+        "instructions": 215,
+        "resolved": [
+          {
+            "pc": "0x2e9d58",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DashBoard"
+          },
+          {
+            "pc": "0x2e9d74",
+            "op": "ldr",
+            "type": "selector",
+            "name": "init"
+          },
+          {
+            "pc": "0x2e9d98",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_newApplicationLibrary"
+          },
+          {
+            "pc": "0x2e9dd4",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CARApplication"
+          },
+          {
+            "pc": "0x2e9e40",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_CARDashboardHomeViewController"
+          },
+          {
+            "pc": "0x2e9e54",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_setupIconModel"
+          },
+          {
+            "pc": "0x2e9e70",
+            "op": "ldr",
+            "type": "selector",
+            "name": "viewDidAppear:"
+          },
+          {
+            "pc": "0x2e9e94",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIconForIconView:"
+          },
+          {
+            "pc": "0x2e9eb4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIconForIconView:withActions:"
+          },
+          {
+            "pc": "0x2e9ed4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:"
+          },
+          {
+            "pc": "0x2e9ef4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:location:"
+          },
+          {
+            "pc": "0x2e9f14",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:location:animated:"
+          },
+          {
+            "pc": "0x2e9f34",
+            "op": "ldr",
+            "type": "selector",
+            "name": "iconManager:launchIcon:location:animated:completionHandler:"
+          },
+          {
+            "pc": "0x2e9f50",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DBRootViewController"
+          },
+          {
+            "pc": "0x2e9f74",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_CARDashboardRootViewController"
+          },
+          {
+            "pc": "0x2e9fa0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "viewDidLayoutSubviews"
+          },
+          {
+            "pc": "0x2e9fc0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "viewSafeAreaInsetsDidChange"
+          },
+          {
+            "pc": "0x2e9fdc",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DBFocusController"
+          },
+          {
+            "pc": "0x2e9fec",
+            "op": "ldr",
+            "type": "selector",
+            "name": "takeWithPriority:reason:forWindow:bundleIdentifier:pid:scene:heading:focusedFrame:"
+          },
+          {
+            "pc": "0x2ea004",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "UIApplication"
+          },
+          {
+            "pc": "0x2ea014",
+            "op": "ldr",
+            "type": "selector",
+            "name": "sendEvent:"
+          }
+        ],
+        "resolvedCount": 21
+      },
+      "catalog_merge": {
+        "lo": "0x2ca974",
+        "hi": "0x2cb5c0",
+        "instructions": 787,
+        "resolved": [
+          {
+            "pc": "0x2ca9b4",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoFaceDB] CBUpdateApplicationLibrary executing on library: %@"
+          },
+          {
+            "pc": "0x2ca9c0",
+            "op": "adrp",
+            "type": "selector",
+            "name": "activeInstance"
+          },
+          {
+            "pc": "0x2ca9c4",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x37ff60"
+          },
+          {
+            "pc": "0x2ca9cc",
+            "op": "ldr",
+            "type": "selector",
+            "name": "sharedInstance"
+          },
+          {
+            "pc": "0x2ca9e8",
+            "op": "ldr",
+            "type": "selector",
+            "name": "bridgedApps"
+          },
+          {
+            "pc": "0x2caa04",
+            "op": "adrp",
+            "type": "selector",
+            "name": "activeInstance"
+          },
+          {
+            "pc": "0x2caa08",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x0"
+          },
+          {
+            "pc": "0x2caa10",
+            "op": "ldr",
+            "type": "selector",
+            "name": "array"
+          },
+          {
+            "pc": "0x2caa28",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x0"
+          },
+          {
+            "pc": "0x2caa44",
+            "op": "ldr",
+            "type": "selector",
+            "name": "mutableCopy"
+          },
+          {
+            "pc": "0x2caa6c",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x0"
+          },
+          {
+            "pc": "0x2caa94",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x37ff60"
+          },
+          {
+            "pc": "0x2caab0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "portalAppEnabled"
+          },
+          {
+            "pc": "0x2caae0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "containsObject:"
+          },
+          {
+            "pc": "0x2cab2c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2cab44",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x37ff60"
+          },
+          {
+            "pc": "0x2cab60",
+            "op": "ldr",
+            "type": "selector",
+            "name": "splitScreenEnabled"
+          },
+          {
+            "pc": "0x2cab90",
+            "op": "ldr",
+            "type": "selector",
+            "name": "containsObject:"
+          },
+          {
+            "pc": "0x2cabd8",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2cabf0",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x37ff60"
+          },
+          {
+            "pc": "0x2cac0c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "assistantEnabled"
+          },
+          {
+            "pc": "0x2cac40",
+            "op": "ldr",
+            "type": "selector",
+            "name": "containsObject:"
+          },
+          {
+            "pc": "0x2cac8c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2caca8",
+            "op": "ldr",
+            "type": "selector",
+            "name": "allInstalledApplications"
+          },
+          {
+            "pc": "0x2cacb0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "respondsToSelector:"
+          },
+          {
+            "pc": "0x2cacc4",
+            "op": "adrp",
+            "type": "selector",
+            "name": "voiceFeedbackEnabled"
+          },
+          {
+            "pc": "0x2cacf4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "countByEnumeratingWithState:objects:count:"
+          },
+          {
+            "pc": "0x2cad28",
+            "op": "ldr",
+            "type": "selector",
+            "name": "bundleIdentifier"
+          },
+          {
+            "pc": "0x2cad30",
+            "op": "ldr",
+            "type": "selector",
+            "name": "containsObject:"
+          },
+          {
+            "pc": "0x2cad38",
+            "op": "ldr",
+            "type": "selector",
+            "name": "applicationProxyForIdentifier:"
+          },
+          {
+            "pc": "0x2cad40",
+            "op": "ldr",
+            "type": "selector",
+            "name": "removeApplicationProxy:"
+          },
+          {
+            "pc": "0x2cad4c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2cadf0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "LSApplicationProxy"
+          },
+          {
+            "pc": "0x2caeac",
+            "op": "ldr",
+            "type": "selector",
+            "name": "countByEnumeratingWithState:objects:count:"
+          },
+          {
+            "pc": "0x2caefc",
+            "op": "ldr",
+            "type": "selector",
+            "name": "length"
+          },
+          {
+            "pc": "0x2caf04",
+            "op": "ldr",
+            "type": "selector",
+            "name": "applicationInfoForBundleIdentifier:"
+          },
+          {
+            "pc": "0x2caf10",
+            "op": "ldr",
+            "type": "selector",
+            "name": "applicationProxyForIdentifier:"
+          },
+          {
+            "pc": "0x2caf18",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isEqualToString:"
+          },
+          {
+            "pc": "0x2caf24",
+            "op": "ldr",
+            "type": "selector",
+            "name": "appState"
+          },
+          {
+            "pc": "0x2caf2c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isValid"
+          },
+          {
+            "pc": "0x2caf38",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addApplicationProxy:withOverrideURL:"
+          },
+          {
+            "pc": "0x2caf40",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addApplicationProxy:"
+          },
+          {
+            "pc": "0x2caf48",
+            "op": "ldr",
+            "type": "selector",
+            "name": "addObject:"
+          },
+          {
+            "pc": "0x2caf54",
+            "op": "ldr",
+            "type": "selector",
+            "name": "carPlayDeclaration"
+          },
+          {
+            "pc": "0x2caf60",
+            "op": "ldr",
+            "type": "selector",
+            "name": "class"
+          },
+          {
+            "pc": "0x2caf6c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "new"
+          },
+          {
+            "pc": "0x2caf78",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setBundleIdentifier:"
+          },
+          {
+            "pc": "0x2caf84",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setSupportsMaps:"
+          },
+          {
+            "pc": "0x2cb000",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "LSApplicationProxy"
+          },
+          {
+            "pc": "0x2cb21c",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoFaceDB] CBUpdateApplicationLibrary registered info for %@"
+          },
+          {
+            "pc": "0x2cb278",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_carPlayDeclaration"
+          },
+          {
+            "pc": "0x2cb2b0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CRCarPlayAppDeclaration"
+          },
+          {
+            "pc": "0x2cb300",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "_carPlayDeclaration"
+          },
+          {
+            "pc": "0x2cb3f0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "count"
+          },
+          {
+            "pc": "0x2cb408",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_notifyDidRemoveApplications:"
+          },
+          {
+            "pc": "0x2cb424",
+            "op": "ldr",
+            "type": "selector",
+            "name": "copy"
+          },
+          {
+            "pc": "0x2cb468",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_notifyDidAddApplications:"
+          },
+          {
+            "pc": "0x2cb490",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoFaceDB] Notifying library of %lu added applications"
+          },
+          {
+            "pc": "0x2cb4a0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "copy"
+          }
+        ],
+        "resolvedCount": 59
+      },
+      "appinfo_register": {
+        "lo": "0x2cb5c0",
+        "hi": "0x2cb730",
+        "instructions": 92,
+        "resolved": [
+          {
+            "pc": "0x2cb5d0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "DBApplicationInfo"
+          },
+          {
+            "pc": "0x2cb5e4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "_loadFromProxy:"
+          },
+          {
+            "pc": "0x2cb604",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isCarPlaySupported"
+          },
+          {
+            "pc": "0x2cb628",
+            "op": "ldr",
+            "type": "selector",
+            "name": "canDisplayOnCarScreen"
+          },
+          {
+            "pc": "0x2cb648",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CARApplicationInfo"
+          },
+          {
+            "pc": "0x2cb6a8",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "FBSApplicationLibrary"
+          },
+          {
+            "pc": "0x2cb6b8",
+            "op": "ldr",
+            "type": "selector",
+            "name": "allInstalledApplications"
+          },
+          {
+            "pc": "0x2cb6d0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CRCarPlayAppPolicyEvaluator"
+          },
+          {
+            "pc": "0x2cb6e0",
+            "op": "ldr",
+            "type": "selector",
+            "name": "effectivePolicyForAppDeclaration:"
+          },
+          {
+            "pc": "0x2cb6f8",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "CRCarPlayAppDeclaration"
+          },
+          {
+            "pc": "0x2cb70c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "declarationForAppProxy:"
+          }
+        ],
+        "resolvedCount": 11
+      },
+      "launch_policy": {
+        "lo": "0x2cc0b0",
+        "hi": "0x2cc3a4",
+        "instructions": 189,
+        "resolved": [
+          {
+            "pc": "0x2cc10c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "bundleIdentifier"
+          },
+          {
+            "pc": "0x2cc114",
+            "op": "ldr",
+            "type": "selector",
+            "name": "respondsToSelector:"
+          },
+          {
+            "pc": "0x2cc148",
+            "op": "adrp",
+            "type": "selector",
+            "name": "activeInstance"
+          },
+          {
+            "pc": "0x2cc14c",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x380960"
+          },
+          {
+            "pc": "0x2cc154",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isBridgedApp:"
+          },
+          {
+            "pc": "0x2cc164",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x380960"
+          },
+          {
+            "pc": "0x2cc16c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isDashboardPolicySignalActive"
+          },
+          {
+            "pc": "0x2cc17c",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setLaunchUsingTemplateUI:"
+          },
+          {
+            "pc": "0x2cc1a8",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setCarPlaySupported:"
+          },
+          {
+            "pc": "0x2cc1d4",
+            "op": "ldr",
+            "type": "selector",
+            "name": "setCanDisplayOnCarScreen:"
+          },
+          {
+            "pc": "0x2cc1fc",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setBadgesAppIcon:"
+          },
+          {
+            "pc": "0x2cc21c",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setBadgesAppIcon:"
+          },
+          {
+            "pc": "0x2cc238",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setShowsNotifications:"
+          },
+          {
+            "pc": "0x2cc258",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setShowsNotifications:"
+          },
+          {
+            "pc": "0x2cc274",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setHandlesCarStreaming:"
+          },
+          {
+            "pc": "0x2cc294",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setHandlesCarStreaming:"
+          },
+          {
+            "pc": "0x2cc2b0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setCanShowWhileLocked:"
+          },
+          {
+            "pc": "0x2cc2d0",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setCanShowWhileLocked:"
+          },
+          {
+            "pc": "0x2cc2ec",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setLaunchAsCarApplication:"
+          },
+          {
+            "pc": "0x2cc30c",
+            "op": "adr",
+            "type": "__cstring",
+            "name": "setLaunchAsCarApplication:"
+          },
+          {
+            "pc": "0x2cc378",
+            "op": "ldr",
+            "type": "classref",
+            "name": "0x380960"
+          },
+          {
+            "pc": "0x2cc380",
+            "op": "ldr",
+            "type": "selector",
+            "name": "isOfficialApp:"
+          },
+          {
+            "pc": "0x2cc394",
+            "op": "adr",
+            "type": "cfstring",
+            "name": "[DuoFaceDB] effectivePolicyForAppDeclaration: policy signal inactive for native app %@ -> 100%% %%orig pass-through"
+          }
+        ],
+        "resolvedCount": 23
+      }
+    }
+  }
+}
