@@ -57,18 +57,18 @@ class EmbeddedPackagePolicy(unittest.TestCase):
 
  def test_final_one_deb_does_not_archive_stale_native_host_47(self):
   src=SRC.read_text()
-  # Test the actively built package against the QA132 workflow; the archived
+  # Test the actively built package against the QA133 workflow; the archived
   # .113 workflow remains immutable rollback evidence, not the current pin.
-  workflow=(ROOT/".github/workflows/duoface-132-scoped-bks-signed-staging.yml").read_text()
+  workflow=(ROOT/".github/workflows/duoface-133-native12-catalog-signed-staging.yml").read_text()
   old_workflow=(ROOT/".github/workflows/duoface-113-reentry-queue-sileo-build.yml").read_text()
   self.assertNotIn("0.1.47~realdock1",src+workflow)
   self.assertNotIn("82b296d4076458ce7259c5987450a48d2ab2b37cf4857fdac8c0eb9d0d989941",src+workflow)
-  self.assertIn("0.1.132~ownedbks1",src)
+  self.assertIn("0.1.133~native12catalog1",src)
   self.assertIn('bash sideplay/duoface-native-scene-host/build.sh',workflow)
   self.assertIn('--expected-nativehost-sha256 "$NATIVEHOST_SHA"',workflow)
   self.assertIn('--expected-source-sha "$GITHUB_SHA"',workflow)
-  self.assertIn('VERSION="0.0.132~ownedbks1"',src)
-  self.assertIn('0.0.132~ownedbks1',workflow)
+  self.assertIn('VERSION="0.0.133~native12catalog1"',src)
+  self.assertIn('0.0.133~native12catalog1',workflow)
   self.assertIn('0.0.113~reentry-queue1',old_workflow)
   self.assertIn('SILEO_PUBLISHED=false',workflow)
  def test_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass(self):
