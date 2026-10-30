@@ -1,5 +1,5 @@
-# QA120 compile retry after explicit id cast for optional UIApplication delegate.
-# QA120 diagnostic build; retain .118 frame policy pending physical measurements.
+# QA120 retry after CI 40984744800 found test typo DFGFresh versus DFZFresh.
+# Read original CarPlay AppDock/button hierarchy; retain .118 fallback if native ownership unresolved.
 name: DuoFace 120 measured native CarPlay rail and Play-tap signed QA
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
-      - name: Validate .119 source, previous controls and packaging
+      - name: Validate .120 source, previous controls and packaging
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_geometry_119.py' -v
@@ -47,7 +47,7 @@ jobs:
           test -s sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb
           test -s sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb
           test -s sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb
-      - name: Compile sign and hash .119 native host + four receiver dylibs
+      - name: Compile sign and hash .120 native host + four receiver dylibs
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
@@ -62,7 +62,7 @@ jobs:
           done
           SHA="$(shasum -a 256 "$HOST" | awk '{print $1}')"
           echo "NATIVEHOST_SHA=$SHA" >> "$GITHUB_ENV"
-      - name: Produce one immutable independent signed rootless .119 QA package
+      - name: Produce one immutable independent signed rootless .120 QA package
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build \
