@@ -2,6 +2,7 @@
 // 0x2c7c88 -> 0x2c7e08, audited in native12-foreground-hooks-20261027.
 // No vendor markers, ivar writes, lock policy, or assertion suppression.
 #import "DFSceneLifecycle.h"
+#import "DFManualObserverContract.h"
 #import "DFDeepTrace.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -87,15 +88,15 @@ static void DFUpdateScene(id scene, SEL selector, id settings, id context, id co
 // Native12 original 0x2c8ca8 demonstrates a distinct policy at this exact
 // SBAppViewController observer: its manual-lifecycle hosted controller does not
 // forward the observer into Apple's automatic lifecycle handling. Keep the
-// independent DuoFace contract STRICTER: only current registered controller,
-// matching live sceneHandle/FBScene and explicit automatesLifecycle == NO.
-// A foreign, stale, closing, unregistered or automatic controller is untouched.
+// Independent scope: only our registered controller, its current sceneHandle
+// with a real FBScene and ABI-checked automatesLifecycle == NO. Presentation
+// visibility is deliberately NOT a callback ownership condition: a temporary
+// detach must not route our still-manual controller into automatic handling.
+// Foreign/stale handles and unregistered/automatic controllers pass through.
 static BOOL DFIsOwnedManualSceneObserver(id controller, id handle) {
     if(!NSThread.isMainThread || !sOwners || !controller || !handle)return NO;
-    id (^ownedScene)(void)=[sOwners objectForKey:controller];
-    if(!ownedScene)return NO;
-    id scene=ownedScene();
-    if(!scene)return NO;
+    BOOL registered=[sOwners objectForKey:controller]!=nil;
+    if(!registered)return NO;
     SEL getHandle=NSSelectorFromString(@"sceneHandle");
     SEL getScene=NSSelectorFromString(@"sceneIfExists");
     if(![controller respondsToSelector:getHandle] ||
@@ -103,14 +104,17 @@ static BOOL DFIsOwnedManualSceneObserver(id controller, id handle) {
     id currentHandle=((id(*)(id,SEL))objc_msgSend)(controller,getHandle);
     if(currentHandle!=handle)return NO;
     id currentScene=((id(*)(id,SEL))objc_msgSend)(handle,getScene);
-    if(currentScene!=scene)return NO;
+    if(!currentScene)return NO;
     SEL autoSel=NSSelectorFromString(@"automatesLifecycle");
     Method autoMethod=class_getInstanceMethod(object_getClass(controller),autoSel);
-    if(!autoMethod)return NO;
+    if(!autoMethod || method_getNumberOfArguments(autoMethod)!=2)return NO;
     char resultType[8]={0};
     method_getReturnType(autoMethod,resultType,sizeof(resultType));
-    if(resultType[0]!='B' && resultType[0]!='c')return NO;
-    return !((BOOL(*)(id,SEL))objc_msgSend)(controller,autoSel);
+    BOOL valid=!strcmp(resultType,"B") || !strcmp(resultType,"c");
+    if(!valid)return NO;
+    BOOL automatic=((BOOL(*)(id,SEL))objc_msgSend)(controller,autoSel);
+    return DFManualObserverOwnsCallback(NSThread.isMainThread,registered,
+        currentHandle==handle,currentScene!=nil,valid,automatic);
 }
 static void DFManagedSceneObserver(id controller, SEL selector, id handle,
                                    id diff, id previousSettings) {

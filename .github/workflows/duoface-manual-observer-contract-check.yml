@@ -1,0 +1,34 @@
+name: DuoFace manual observer contract checks (no package or publish)
+on:
+  push:
+    branches: [fix/duoface-manual-observer-contract-20261030]
+    paths:
+      - 'sideplay/duoface-native-scene-host/**'
+      - '.github/workflows/duoface-manual-observer-contract-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute exhaustive callback ownership contract
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          cc -std=c11 -Wall -Wextra -Werror tests/manual_observer_contract_test.c -o "$RUNNER_TEMP/observer-contract"
+          "$RUNNER_TEMP/observer-contract"
+      - name: Compile modified Objective-C with real iPhone SDK (syntax only)
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations DFSceneLifecycle.m
+      - name: Run existing policy and UI regression checks
+        run: |
+          set -euo pipefail
+          for test in test_evidence_owner_reflow_127.py test_underlock_owner_123.py test_lock_runtime_125.py test_inactive_lifecycle_124.py test_geometry_119.py test_native_rail_120.py test_logo_092_exact_regression.py; do
+            python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p "$test" -v
+          done
