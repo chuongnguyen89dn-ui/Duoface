@@ -112,6 +112,58 @@ static BOOL DFIsOwnedManualSceneObserver(id controller, id handle) {
     if(resultType[0]!='B' && resultType[0]!='c')return NO;
     return !((BOOL(*)(id,SEL))objc_msgSend)(controller,autoSel);
 }
+// QA126 diagnostic-only breadcrumb at the EXACT real-device SpringBoard
+// assertion boundary. Emits a bounded, synchronous one-line record before
+// delegating to Apple's original observer. It NEVER changes scene settings,
+// ownership, callback dispatch, exception handling, or device lock policy.
+// Existing DuoFaceAudit exports DuoFaceDeepTrace.log, so no new tester needed.
+static void DFObserverForwardBreadcrumb126(id controller, id callbackHandle) {
+    if(!NSThread.isMainThread || !sOwners || sOwners.count==0)return;
+    static unsigned int records;
+    if(records>=96)return;
+    ++records;
+    @try {
+        id (^owned)(void)=[sOwners objectForKey:controller];
+        id registered=owned?owned():nil;
+        SEL getHandle=NSSelectorFromString(@"sceneHandle");
+        SEL getScene=NSSelectorFromString(@"sceneIfExists");
+        id current=(controller && [controller respondsToSelector:getHandle])?
+           ((id(*)(id,SEL))objc_msgSend)(controller,getHandle):nil;
+        id observed=(callbackHandle && [callbackHandle respondsToSelector:getScene])?
+           ((id(*)(id,SEL))objc_msgSend)(callbackHandle,getScene):nil;
+        SEL automates=NSSelectorFromString(@"automatesLifecycle");
+        Method m=controller?class_getInstanceMethod(object_getClass(controller),automates):NULL;
+        char ret[8]={0};
+        if(m)method_getReturnType(m,ret,sizeof(ret));
+        int manual=-1;
+        if(m && (ret[0]=='B'||ret[0]=='c'))
+            manual=!((BOOL(*)(id,SEL))objc_msgSend)(controller,automates);
+        SEL hosted=NSSelectorFromString(@"isHostingAnApp");
+        Method hm=controller?class_getInstanceMethod(object_getClass(controller),hosted):NULL;
+        char ht[8]={0};
+        if(hm)method_getReturnType(hm,ht,sizeof(ht));
+        int hosting=-1;
+        if(hm && (ht[0]=='B'||ht[0]=='c'))
+            hosting=((BOOL(*)(id,SEL))objc_msgSend)(controller,hosted);
+        char line[560]={0};
+        int n=snprintf(line,sizeof(line),
+          "utc=%.6f pid=%d area=qa126-observer event=before-apple-forward count=%u owners=%lu controller=%p registered=%p currentHandle=%p callbackHandle=%p observed=%p ownerKnown=%d handleMatch=%d sceneMatch=%d manual=%d hosting=%d\\n",
+          NSDate.date.timeIntervalSince1970,getpid(),records,
+          (unsigned long)sOwners.count,(void *)controller,(void *)registered,
+          (void *)current,(void *)callbackHandle,(void *)observed,
+          owned!=nil,current==callbackHandle,registered!=nil && registered==observed,
+          manual,hosting);
+        if(n<=0)return;
+        size_t size=(size_t)n<sizeof(line)?(size_t)n:sizeof(line)-1;
+        int fd=open("/var/mobile/Library/Logs/DuoFaceDeepTrace.log",
+                    O_WRONLY|O_CREAT|O_APPEND,0644);
+        if(fd>=0){
+            (void)write(fd,line,size);
+            (void)fsync(fd); // preserve evidence if the next Apple call aborts
+            (void)close(fd);
+        }
+    } @catch(NSException *ignored) { (void)ignored; }
+}
 static void DFManagedSceneObserver(id controller, SEL selector, id handle,
                                    id diff, id previousSettings) {
     if(DFIsOwnedManualSceneObserver(controller,handle)) {
@@ -125,6 +177,7 @@ static void DFManagedSceneObserver(id controller, SEL selector, id handle,
             ((id(*)(id,SEL))objc_msgSend)(handle,NSSelectorFromString(@"sceneIfExists"))]);
         return;
     }
+    DFObserverForwardBreadcrumb126(controller,handle);
     sPreviousSceneObserver(controller,selector,handle,diff,previousSettings);
 }
 // UIKit/FrontBoard object provenance must match the *current* live scene,
