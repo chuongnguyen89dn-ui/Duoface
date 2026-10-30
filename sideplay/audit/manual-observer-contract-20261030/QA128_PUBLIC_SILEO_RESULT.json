@@ -1,0 +1,53 @@
+{
+  "version": "0.0.128~manualowner1",
+  "package": "com.duoface.jb.embedded",
+  "source_commit": "2aed6d232cce7d991bcbb83d7a144da6dba212cb",
+  "signed_archive_commit": "6f8d859a4bcde70c5c1efd56efdc99176499f197",
+  "sha256": "a19b59bd8f7a52af0659336575e8889aaa483d42e3dde503c11bfa885aa3b5e8",
+  "build_run": 41025632714,
+  "artifact_id": 12963522465,
+  "publisher_commit": "74ed764b90db39e44e3776320129ab09bf670a47",
+  "publisher_run": 41026177229,
+  "publisher_conclusion": "success",
+  "public_verifier_job": 123966156118,
+  "jobs": [
+    {
+      "id": 123964712830,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123966051834,
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123966156060,
+      "name": "verify-qa11-pages",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123966156118,
+      "name": "verify-duoface-integrated-pages",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123966156123,
+      "name": "verify-duonavi-observer-pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "physical_tested": false,
+  "loaded_uuid_expected": "367FB46D-9CA6-3372-915E-0D083F1BD261",
+  "uuid_evidence": "UUID: 367FB46D-9CA6-3372-915E-0D083F1BD261 (arm64) /Users/runner/work/_temp/qa-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib\nUUID: 817488A9-D794-3BFA-A335-C7F25CB52126 (arm64) /Users/runner/work/_temp/qa-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib\nUUID: 10BF5963-1557-3184-BCEC-2A8952B7D4C2 (arm64) /Users/runner/work/_temp/qa-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib\nUUID: 710B34DD-251F-3786-9860-D624F0120970 (arm64) /Users/runner/work/_temp/qa-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib\n",
+  "selected_actual_public_verifier_log": [
+    "2026-10-30T08:28:09.2230850Z DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED",
+    "2026-10-30T08:28:09.5141240Z /home/runner/work/_temp/duoface-public.deb: OK",
+    "2026-10-30T08:28:09.5142837Z DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED"
+  ]
+}
