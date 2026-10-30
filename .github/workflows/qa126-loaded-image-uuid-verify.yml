@@ -1,0 +1,60 @@
+name: DuoFace 125 versus 126 loaded SpringBoard dylib UUID forensic verification
+on:
+  push:
+    branches: [feature/duoface-qa126-observer-forensics-20261030]
+    paths: ['.github/workflows/qa126-loaded-image-uuid-verify.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - name: Download SHA-pinned signed QA125 and QA126 DEBs
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew list dpkg >/dev/null 2>&1 || brew install dpkg
+          ROOT="$RUNNER_TEMP/duoface-uuid"
+          mkdir -p "$ROOT/qa125" "$ROOT/qa126"
+          BASE='https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface'
+          curl -fL --retry 3 "$BASE/272f229a61ebc126ef8aeb92e3a05bd63ae440be/sideplay/jb-embedded-appbridge/evidence/runs/41005523412/com.duoface.jb.embedded_0.0.125~lockabi1_iphoneos-arm64.deb" -o "$ROOT/qa125.deb"
+          curl -fL --retry 3 "$BASE/556685e8f4fde3182d76853242eb1f9e3379802b/sideplay/jb-embedded-appbridge/evidence/runs/41010106140/com.duoface.jb.embedded_0.0.126~observertrace1_iphoneos-arm64.deb" -o "$ROOT/qa126.deb"
+          printf '1914f4e2c6e8dce0fadb5035166c0869966759fb74eb1c89424712dcf71cbe93  %s\n' "$ROOT/qa125.deb" | shasum -a 256 -c -
+          printf 'ed3bfaa92eaa15db1530189c5524b5304cacae3995a732c8fea2b972bd824102  %s\n' "$ROOT/qa126.deb" | shasum -a 256 -c -
+          dpkg-deb -x "$ROOT/qa125.deb" "$ROOT/qa125"
+          dpkg-deb -x "$ROOT/qa126.deb" "$ROOT/qa126"
+          echo "ROOT=$ROOT" >> "$GITHUB_ENV"
+      - name: Read actual embedded Mach-O UUID without inference from source
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="$ROOT"
+          ONE="$ROOT/qa125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+          TWO="$ROOT/qa126/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+          test -s "$ONE"
+          test -s "$TWO"
+          xcrun dwarfdump --uuid "$ONE" | tee "$ROOT/qa125-uuid.txt"
+          xcrun dwarfdump --uuid "$TWO" | tee "$ROOT/qa126-uuid.txt"
+          FIRST="$(awk '/UUID:/ {print tolower($2); exit}' "$ROOT/qa125-uuid.txt")"
+          SECOND="$(awk '/UUID:/ {print tolower($2); exit}' "$ROOT/qa126-uuid.txt")"
+          test -n "$FIRST"
+          test -n "$SECOND"
+          printf 'IPS_2026_10_30_12_14_UUID=1ddb778d-cf90-3f80-82cc-4dbcb6dd30a5\nIPS_2026_10_30_13_16_UUID=1ddb778d-cf90-3f80-82cc-4dbcb6dd30a5\nQA125_SIGNED_UUID=%s\nQA126_SIGNED_UUID=%s\n' "$FIRST" "$SECOND" | tee "$ROOT/UUID_VERDICT.txt"
+          if [ "$FIRST" = "$SECOND" ]; then echo "::error::Signed 125 and 126 Mach-O UUIDs identical; investigate package build contents"; exit 1; fi
+          echo "QA125_AND_QA126_SIGNED_DYLIB_UUID_DISTINCT"
+          if [ "$FIRST" = '1ddb778d-cf90-3f80-82cc-4dbcb6dd30a5' ]; then
+            echo "IPS_BOTH_LOADED_QA125_IMAGE_UUID_CONFIRMED"
+          else
+            echo "IPS_IMAGE_MATCHES_NEITHER_KNOWN_QA125_BINARY_CHECK_INSTALLED_DLL"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DuoFace-126-Physical-IPS-vs-Signed-MachO-UUID
+          path: |
+            ${{ env.ROOT }}/qa125-uuid.txt
+            ${{ env.ROOT }}/qa126-uuid.txt
+            ${{ env.ROOT }}/UUID_VERDICT.txt
+          if-no-files-found: warn
