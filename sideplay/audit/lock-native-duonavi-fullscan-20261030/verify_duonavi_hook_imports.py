@@ -2,7 +2,6 @@
 """Read-only exact imported MSHookMessageEx registration proof for two SHA-pinned original dashboards."""
 import argparse,collections,hashlib,json,pathlib,struct
 from capstone import Cs,CS_ARCH_ARM64,CS_MODE_ARM
-from native12_objc_stub_decoder import sections_for_binary
 from audit_native12_license_class_xrefs import MachO,select_arm64
 PINS={"Native12":"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
       "DuoNavi":"44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15"}
