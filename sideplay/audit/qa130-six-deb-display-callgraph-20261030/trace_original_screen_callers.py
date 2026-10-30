@@ -186,6 +186,7 @@ def main():
     for name in ("Native12Derived","DuoNavi104","OmniCar103"):
         assert any(f.get("marker_locations") for f in out["scans"][name]["macho"]),name
     a.out.parent.mkdir(parents=True,exist_ok=True)
+    a.out.mkdir(parents=True,exist_ok=True)
     (a.out/"MACHO_REFERENCES.json").write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n")
     digest={name:{"sha256":row["package_sha256"],"macho_count":row["macho_count"],
                    "candidates":[{"file":f["relative_path"],
