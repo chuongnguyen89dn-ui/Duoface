@@ -1,0 +1,91 @@
+name: DuoFace QA131 passive iPhone frame clock diagnostic gate (iOS16)
+on:
+  push:
+    branches: [fix/duoface-qa130-verified-scene-owner-20261030]
+    paths:
+      - 'sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/audit/qa131-iphone-clock-20261030/**'
+      - '.github/workflows/duoface-qa131-app-clock-diagnostic.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  real-sdk-original-log-gate:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify central CarPlay and debug ZIP skills from GitHub
+        shell: bash
+        run: |
+          set -euo pipefail
+          for record in \
+            '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' \
+            '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            read -r zip sha <<< "$record"
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$zip" -o "$RUNNER_TEMP/$zip"
+            printf '%s  %s\n' "$sha" "$RUNNER_TEMP/$zip" | shasum -a 256 -c -
+            unzip -t "$RUNNER_TEMP/$zip" >/dev/null
+            unzip -p "$RUNNER_TEMP/$zip" SKILL.md | sed -n '1,90p'
+          done
+      - name: Verify real iPhoneOS SDK arm64 API and no iOS27 scene-only symbol
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m
+          echo QA131_YOUTUBE_RELAY_IOS16_ARM64_SDK_SYNTAX_PASS
+          python3 -m unittest discover -s sideplay/audit/qa131-iphone-clock-20261030 -p 'test_*.py' -v
+      - name: Establish actual user-uploaded logs predate public QA130
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          git show 'FETCH_HEAD:sideplay/log/DuoFaceAudit 12.txt' > "$RUNNER_TEMP/qa12.txt"
+          git show 'FETCH_HEAD:sideplay/log/DuoFaceAudit 13.txt' > "$RUNNER_TEMP/qa13.txt"
+          test "$(git hash-object "$RUNNER_TEMP/qa12.txt")" = 35f2b4c990ef1a573ab234a1071e3a12565f0898
+          test "$(git hash-object "$RUNNER_TEMP/qa13.txt")" = e8c3a579a27c61209e0de556f166e57fa5fa2c06
+          python3 sideplay/audit/qa131-iphone-clock-20261030/check_qa130_log_freshness.py \
+             --audit12 "$RUNNER_TEMP/qa12.txt" \
+             --audit13 "$RUNNER_TEMP/qa13.txt" \
+             --out "$RUNNER_TEMP/QA130_PRE_RELEASE_LOG_COVERAGE.json"
+          python3 -m json.tool "$RUNNER_TEMP/QA130_PRE_RELEASE_LOG_COVERAGE.json" >/dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa131-ios16-youtube-frame-clock-source-and-original-log-gate
+          path: ${{ runner.temp }}/QA130_PRE_RELEASE_LOG_COVERAGE.json
+          retention-days: 30
+      - name: Persist pinned, bounded log provenance in project branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=fix/duoface-qa130-verified-scene-owner-20261030
+          REL=sideplay/audit/qa131-iphone-clock-20261030
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            cp "$RUNNER_TEMP/QA130_PRE_RELEASE_LOG_COVERAGE.json" "$TEMP/$REL/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL/QA130_PRE_RELEASE_LOG_COVERAGE.json"
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              echo QA131_EVIDENCE_ALREADY_PERSISTED
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'audit: QA130 physical log freshness before public release [skip ci]'
+            if git -C "$TEMP" push origin HEAD:refs/heads/"$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo QA131_EVIDENCE_PERSISTED_IN_DUOFACE
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
