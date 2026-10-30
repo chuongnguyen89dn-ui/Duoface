@@ -1,0 +1,25 @@
+{
+  "site": "https://chuongnguyen89dn-ui.github.io/carplaydsp/",
+  "entry": {
+    "Package": "com.duoface.jb.embedded",
+    "Version": "0.0.129~nativeowner1",
+    "Architecture": "iphoneos-arm64",
+    "Maintainer": "DuoFace Independent",
+    "Depends": "firmware (>= 16.0), mobilesubstrate",
+    "Conflicts": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp, com.duoface.independent, com.duoface.sideplaydisplay, com.duonavi.app, com.duoface.app",
+    "Replaces": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp",
+    "Filename": "debs/com.duoface.jb.embedded_0.0.129~nativeowner1_iphoneos-arm64.deb",
+    "Size": "1125260",
+    "MD5sum": "074ba77853e89f594cb7c8a9340f9ca3",
+    "SHA1": "9fe316830cf9c39b256c51095b90c0a99a8c21cd",
+    "SHA256": "8e9ede14c56dbf408654cd9002818a94a21272c881a73ee739012b654013017f",
+    "Section": "Applications",
+    "Priority": "optional",
+    "Name": "DuoFace Independent (Integrated CarPlay Beta)",
+    "Description": "QA129 EXPERIMENTAL native CarPlay owner retention and explicit Home cleanup; locked Play needs device validation. Same integrated package; signed QA128 remains downloadable."
+  },
+  "download_bytes": 1125260,
+  "download_sha256": "8e9ede14c56dbf408654cd9002818a94a21272c881a73ee739012b654013017f",
+  "result": "PASS",
+  "device_tested": false
+}

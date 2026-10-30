@@ -1,0 +1,35 @@
+{
+  "publisher_source": "4a5d92c4159f09a35d99928ed9eb9a7ed807f686",
+  "run": 41034103822,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 123990595796,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 123992018325,
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "id": 123992136363,
+      "name": "verify-duonavi-observer-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 123992136597,
+      "name": "verify-duoface-integrated-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 123992136696,
+      "name": "verify-qa11-pages",
+      "conclusion": "success"
+    }
+  ],
+  "direct_download_verified": true,
+  "version": "0.0.129~nativeowner1",
+  "device_tested": false
+}

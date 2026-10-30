@@ -1,6 +1,6 @@
 # Independent native-owner candidate — 2026-10-30
 
-Implemented on fix/duoface-postlock-settings-20261030, atop exact original Home trace 7c528a19 and previously SDK-checked postlock source acfe2c68. This is source work, not a signed release or device PASS. Public QA128 remains unchanged.
+Implemented on fix/duoface-postlock-settings-20261030, atop exact original Home trace 7c528a19 and previously SDK-checked postlock source acfe2c68. Source, real SDK checks, a uniquely versioned signed QA129 package and public Sileo publication are now verified. Device Play/touch outcome remains pending; QA128 download is retained.
 
 ## Changes and purpose
 
@@ -17,10 +17,14 @@ Local: 128 compiled manual-observer cases; 64 compiled owner-state combinations 
 
 Runtime presence of the named Home selector and a matching DuoFace DBApplicationSceneViewController has NOT been verified on the user's current session. The candidate logs native-home-hook-abi, native-owner-state (active/candidate count), native-home-revoke and native-owner-background-retention-requested through the existing exported logs. An absent native witness yields no retention/improvement; do not loosen that predicate blindly or claim this fixes YouTube Play. Native owner geometry is observational; no system frame edits, passcode/phone lock changes, fabricated touch/Play commands, or deactivation-bit clearing were introduced.
 
-Release gate: obtain actual SDK result, resolve compile/test failures, inspect diff, then use a distinct version for any signed package. Never package modified candidate as QA128. Physical parked test must independently confirm locked Play, real Home prompt cleanup, foreign-app switch and disconnect, plus crash/GOFA baseline. Sileo public release is unchanged in this implementation checkpoint.
+Build/release gates have now passed for unique QA129; physical parked acceptance remains pending. Check locked Play, prompt Home cleanup, foreign-app switch, disconnect and the crash/GOFA baseline. Do not package these changes as QA128.
 
 ## Signed staging
 
-QA129 version0.0.129~nativeowner1 (native0.1.129~nativeowner1) is uniquely staged, with unchanged integrated identity. Initial run41033481560 stopped at source validation because test_native_rail_120 still pinned128; no signed artifact. Corrected assertions in39270d65, then retry41033637570 uses the existing full build/sign/archive pipeline. Record final outcome before delivery.
+QA129 version0.0.129~nativeowner1 (native0.1.129~nativeowner1) is uniquely staged, with unchanged integrated identity. Initial run41033481560 stopped at source validation because test_native_rail_120 still pinned128; no signed artifact. Corrected assertions in39270d65, retry41033637570 then passed the existing full build/sign/archive pipeline.
 
 Signed retry41033637570/job123989067242 SUCCESS, source39270d65182ef61d06393d6a8904d8b8b095bdc3. Immutable archive dd9e209b23e0bd1815aa73f7a1c242086ccd5a8d; DEB SHA2568e9ede14c56dbf408654cd9002818a94a21272c881a73ee739012b654013017f. DFTouchOwnerProbe UUID94908239-ADB0-331C-8182-5A01F2FEBAFE; DFCarPlayDockOwner UUID4BDFD10F-D309-34B3-98F7-5704B1502176. Artifact12966763474. Source tests, full compile/link, signing, package identity/architecture, SHA and repository archive PASS. Publication initiated in carplaydsp/main4a5d92c4159f09a35d99928ed9eb9a7ed807f686, run41034103822; YAML41034103885 PASS. Public download/device result must be recorded separately.
+
+## Final public release verification
+
+Publisher41034103822 COMPLETED SUCCESS: build123990595796, deploy123992018325, integrated public verifier123992136597 and other verifiers PASS. At09:35:47Z the independent public verifier printed DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED, duoface-public.deb: OK and DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED. Separate direct HTTPS download also verified exactly one129 APT record and1,125,260 signed DEB bytes against SHA2568e9ede14c56dbf408654cd9002818a94a21272c881a73ee739012b654013017f. Public source https://chuongnguyen89dn-ui.github.io/carplaydsp/ . No installed/physical PASS is claimed. Existing app/tweak identity; install through Sileo refresh/upgrade129 and normal respring, then check locked Play and explicit Home cleanup.
