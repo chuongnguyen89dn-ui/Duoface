@@ -1,0 +1,41 @@
+{
+  "package": "com.duoface.jb.embedded",
+  "version": "0.0.37~native12dockzoom1",
+  "sha256": "2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb",
+  "size": 953968,
+  "publisher_source": "2ffa858aabe14c89975f3276593a0715c010a69a",
+  "run": 41040418180,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 124011547279,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 124012986965,
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "id": 124013064857,
+      "name": "verify-duoface-integrated-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 124013064925,
+      "name": "verify-qa11-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 124013065200,
+      "name": "verify-duonavi-observer-pages",
+      "conclusion": "success"
+    }
+  ],
+  "original_deb_direct_download_verified": true,
+  "live_apt_verified": true,
+  "rebuilt": false,
+  "qa90_user_result": "persistent input/tap symptom",
+  "qa37_device_result": "pending"
+}

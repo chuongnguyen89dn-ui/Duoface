@@ -1,0 +1,25 @@
+{
+  "Package": "com.duoface.jb.embedded",
+  "Version": "0.0.37~native12dockzoom1",
+  "Architecture": "iphoneos-arm64",
+  "Maintainer": "DuoFace Independent",
+  "Depends": "firmware (>= 16.0), mobilesubstrate",
+  "Conflicts": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp",
+  "Replaces": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp",
+  "Filename": "debs/com.duoface.jb.embedded_0.0.37~native12dockzoom1_iphoneos-arm64.deb",
+  "Size": "953968",
+  "MD5sum": "aae336dbd5c0fb1acf0cc1161c7e4287",
+  "SHA1": "cc8690a117c95ab77a19f79273de11de90fa764e",
+  "SHA256": "2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb",
+  "Section": "Applications",
+  "Priority": "optional",
+  "Name": "DuoFace Independent (Integrated CarPlay Beta)",
+  "Description": "QA37 ORIGINAL SIGNED ROLLBACK requested after QA90 touch failure; historical playback baseline, later rotation and crash fixes not included. QA90, QA128 and QA129 downloads retained."
+}
+{
+  "size": 953968,
+  "sha256": "2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb",
+  "Package": "com.duoface.jb.embedded",
+  "Version": "0.0.37~native12dockzoom1",
+  "Architecture": "iphoneos-arm64"
+}
