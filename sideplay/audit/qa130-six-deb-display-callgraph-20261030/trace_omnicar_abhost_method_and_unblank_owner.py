@@ -160,6 +160,77 @@ def backlinks(m,target):
                              "confidence":"candidate; entry must be confirmed as objc metadata"})
     return refs[:70]
 
+
+def selector_and_stub(m,pc):
+    """Indirect ObjC message selector; no receiver attribution from stub alone."""
+    result={"stub":hex(pc),"instructions":slice_at(m,pc,6)}
+    instr=result["instructions"]
+    if len(instr)>=2:
+        a=re.search(r"adrp x1, #(0x[0-9a-f]+)",instr[0])
+        b=re.search(r"ldr x1, \[x1, #(0x[0-9a-f]+)\]",instr[1])
+        if a and b:
+            selref=int(a.group(1),16)+int(b.group(1),16)
+            result["selector_reference"]=hex(selref)
+            try:
+                word=pointer(m,selref)
+                namevm=valid_vm(m,word)
+                result["selector"]=safe_cstr(m,namevm) if namevm is not None else None
+                result["raw_word"]=hex(word)
+            except (ValueError,IndexError,KeyError,AssertionError,struct.error):pass
+    return result
+
+def instructions_xref_for_data(m,targets):
+    """Data VM producers in actual ARM64 text; don't count arithmetic as calls."""
+    refs={hex(k):[] for k in targets}
+    for sec in m.sections:
+        if sec["name"]!="__text":continue
+        ins=list(CS.disasm(m.data[sec["fileoff"]:sec["fileoff"]+sec["size"]],sec["vm"]))
+        active={}
+        for i,x in enumerate(ins):
+            if x.mnemonic=="adrp":
+                match=re.fullmatch(r"(x\d+), #(0x[0-9a-f]+)",x.op_str)
+                if match: active[match.group(1)]=int(match.group(2),16)
+            elif x.mnemonic=="add":
+                match=re.fullmatch(r"(x\d+), (x\d+), #(0x[0-9a-f]+)",x.op_str)
+                if match and match.group(2) in active:
+                    target=active[match.group(2)]+int(match.group(3),16)
+                    if target in targets:
+                        refs[hex(target)].append({"producer_pc":hex(x.address),
+                         "before":[f"{z.address:#x} {z.mnemonic} {z.op_str}" for z in ins[max(0,i-12):i+2]]})
+    return {k:v[:24] for k,v in refs.items()}
+
+def identify_block_candidate(m,pc):
+    """Test whether raw function-pointer address is offset 16 of a block literal."""
+    res={"invoke_vm":hex(pc),"possible_blocks":[]}
+    for r in backlinks(m,pc):
+        if r["kind"]!="raw_64_or_low32_target":continue
+        invoke_field=int(r["pc"],16)
+        base=invoke_field-16
+        item={"invoke_pointer_field_vm":hex(invoke_field),"candidate_literal_base":hex(base),
+              "source_section":r["section"],
+              "pointer_raw":r["raw"],"proven_objc_block":False}
+        try:
+            words=[pointer(m,base+i*8) for i in range(5)]
+            item["qword0_isa"]=hex(words[0])
+            item["qword1_flags_reserved"]=hex(words[1])
+            item["qword2_invoke"]=hex(words[2])
+            item["qword3_descriptor"]=hex(words[3])
+            item["qword4_next"]=hex(words[4])
+            flag=words[1]&0xffffffff
+            item["objc_block_flags_candidate"]=hex(flag)
+            item["isa_import_identity_unresolved"]=True
+            item["matches_block_invoke_offset16"]=((words[2]&0xffffffff)==pc)
+            descriptor=valid_vm(m,words[3])
+            if descriptor is not None:
+                item["descriptor_vm_candidate"]=hex(descriptor)
+                try:
+                    item["descriptor_reserved_size_qwords"]=[hex(pointer(m,descriptor+k*8)) for k in (0,1)]
+                except (ValueError,IndexError,AssertionError,KeyError,struct.error):pass
+        except (ValueError,IndexError,AssertionError,KeyError,struct.error) as ex:
+            item["error"]=str(ex)[:180]
+        res["possible_blocks"].append(item)
+    return res
+
 def focus_methods(m,classes):
     methods=[]
     for c in classes:
@@ -214,6 +285,10 @@ def main():
                 "class_count":len(cs),
                 "ABHost":[c for c in cs if c["class"]=="ABHost"],
                 "focused_methods":methods,
+                "ABHost_count_accessor":selector_and_stub(m,0x26580),
+                "function_pointer_0x9688_block_candidate":identify_block_candidate(m,0x9688),
+                "function_pointer_0x958c_block_candidate":identify_block_candidate(m,0x958c),
+                "block_literal_address_code_producers":instructions_xref_for_data(m,{0x347b0,0x347d0,0x347c0,0x347e0}),
                 "target_reference_candidates":{hex(vm):backlinks(m,vm) for vm in TRACED},
                 "target_nearest_prior_method_NOT_proven_owner":target_proximity(methods),
                 "cautions":[
