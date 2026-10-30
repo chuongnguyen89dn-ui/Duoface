@@ -16,14 +16,16 @@ class UnderLockOwner123(unittest.TestCase):
         s=self.code
         self.assertIn('SBSuspendedUnderLockManager',s)
         self.assertIn('_shouldBeBackgroundUnderLockForScene:withSettings:',s)
-        self.assertIn('shouldBeUnderLockForScene:',s)
+        self.assertIn('shouldBeUnderLockForScene:',s) # diagnostic-only missing selector
         self.assertIn('DFLockABI(bg,4)',s)
-        self.assertIn('DFLockABI(ul,3)',s)
+        self.assertNotIn('DFLockABI(ul,3)',s)
+        self.assertNotIn('hook(cls,underlock,',s)
         self.assertNotIn('interceptUpdateForScene:withNewSettings:',s)
     def test_foreign_scene_uses_original_system_method(self):
         s=self.code
         self.assertIn('return sOriginalBackgroundUnderLock(manager,cmd,scene,settings);',s)
-        self.assertIn('return sOriginalShouldUnderLock(manager,cmd,scene);',s)
+        self.assertIn('scoped-existing-background-hook-installed',s)
+        self.assertIn('background-original-imp-unavailable',s)
         self.assertIn('if(DFIsOwnedHostedLockScene123(scene))',s)
         self.assertIn('DFIsOwnedManualSceneObserver(controller,handle)',s)
         self.assertIn('sOwners.keyEnumerator.allObjects',s)

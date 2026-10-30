@@ -1,0 +1,125 @@
+# QA125: retain external CarPlay foreground-inactive lease without interpreting resign as Home.
+# Preserve on-device verified QA120 native geometry and .90/.92 regressions. Retry: remove test false-positive on comment.
+name: DuoFace 124 inactive-CarPlay lifecycle and scoped underlock signed QA
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-125-os-abi-signed-qa.yml'
+      - 'sideplay/duoface-native-scene-host/DFSceneLifecycle.m'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_lock_runtime_125.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-125-os-abi-signed-qa
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate QA125 source and updated integrated package policy
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_geometry_119.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_rail_120.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_underlock_owner_123.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_lock_runtime_125.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_inactive_lifecycle_124.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_carplay_sleep_121.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_emergency_no_wake_dock_118.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
+          grep -Fq 'VERSION="0.0.125~lockabi1"' sideplay/jb-embedded-appbridge/package_integrated.py
+          grep -Fq '0.1.125~lockabi1' sideplay/duoface-native-scene-host/control
+      - name: Install existing rootless toolchain and sign utilities
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          test -d "$(xcrun --sdk iphoneos --show-sdk-path)"
+      - name: Build three original first-party rootless dependency modules
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+          test -s sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb
+          test -s sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb
+          test -s sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb
+      - name: Compile sign and hash .124 native host + four receiver dylibs
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.125~lockabi1_iphoneos-arm64.deb'
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.125~lockabi1'
+          mkdir -p "$RUNNER_TEMP/qa-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa-host"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay; do
+            D="$RUNNER_TEMP/qa-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib"
+            test -s "$D"
+            ldid -e "$D" >/dev/null
+          done
+          SHA="$(shasum -a 256 "$HOST" | awk '{print $1}')"
+          echo "NATIVEHOST_SHA=$SHA" >> "$GITHUB_ENV"
+      - name: Produce one immutable independent signed rootless .124 QA package
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build \
+             --expected-nativehost-sha256 "$NATIVEHOST_SHA" \
+             --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.125~lockabi1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.125~lockabi1'
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Architecture)" = iphoneos-arm64
+          mkdir -p "$RUNNER_TEMP/qa-integrated"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa-integrated"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay; do
+            ldid -e "$RUNNER_TEMP/qa-integrated/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib" >/dev/null
+          done
+          shasum -a 256 "$OUT"
+          echo "QA_OUTPUT=$OUT" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        id: qa
+        with:
+          name: DuoFace-125-OS-ABI-Signed-QA
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.125~lockabi1_iphoneos-arm64.deb
+          if-no-files-found: error
+      - name: Archive signed QA bytes and provenance in DuoFace repo (not Sileo)
+        env:
+          QA_ARTIFACT: ${{ steps.qa.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          SRC="$QA_OUTPUT"
+          NAME='com.duoface.jb.embedded_0.0.125~lockabi1_iphoneos-arm64.deb'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            DEST="$TEMP/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$DEST"
+            cp "$SRC" "$DEST/$NAME"
+            ( cd "$DEST" && shasum -a 256 "$NAME" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$DEST/"
+            printf 'BUILD=success\nSIGNED=true\nDEVICE_QA=false\nSILEO_PUBLISHED=false\nSOURCE_SHA=%s\nRUN_ID=%s\nARTIFACT_ID=%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" "$QA_ARTIFACT" > "$DEST/CI_RESULT.txt"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$TEMP" commit -m 'qa: preserve signed .124 measured native rail and Play-tap trace build [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo SIGNED_PANE_TRACE_QA_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1

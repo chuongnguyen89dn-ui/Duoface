@@ -62,7 +62,7 @@ class InactiveCarPlayLifecycle124(unittest.TestCase):
         self.assertIn('DFIsOwnedManualSceneObserver(controller,handle)',self.lock)
         self.assertIn('window.screen==UIScreen.mainScreen',self.lock)
         self.assertIn('return sOriginalBackgroundUnderLock(manager,cmd,scene,settings);',self.lock)
-        self.assertIn('return sOriginalShouldUnderLock(manager,cmd,scene);',self.lock)
+        self.assertIn('scoped-existing-background-hook-installed',self.lock)
         for dangerous in ('isPasscodeLockedOrBlockedWithResult:',
                           'BKSDisplayServicesSetScreenBlanked',
                           'setUILocked:'):

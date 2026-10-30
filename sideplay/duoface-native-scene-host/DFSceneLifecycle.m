@@ -18,7 +18,6 @@ static BOOL sInstalled;
 // phone scene only. Original signed DuoNavi/Native12 confirms the *behavior*,
 // not code copied here. No passcode/activation hooks and no lock bypass.
 static BOOL (*sOriginalBackgroundUnderLock)(id,SEL,id,id);
-static BOOL (*sOriginalShouldUnderLock)(id,SEL,id);
 static BOOL sUnderLockInstalled;
 static NSString *const DFCarPlayPulsePath123=
  @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
@@ -188,40 +187,45 @@ static BOOL DFUnderLockBackground123(id manager,SEL cmd,id scene,id settings) {
         DFDeepTrace(@"qa123-underlock",@"owned-live-underlock-background-rejected");
         return NO;
     }
-    return sOriginalBackgroundUnderLock(manager,cmd,scene,settings);
-}
-static BOOL DFUnderLockScene123(id manager,SEL cmd,id scene) {
-    if(DFIsOwnedHostedLockScene123(scene)) {
-        DFDeepTrace(@"qa123-underlock",@"owned-live-underlock-scene-kept");
-        return NO;
+    if(!sOriginalBackgroundUnderLock) {
+        DFDeepTrace(@"qa125-underlock",@"missing-original-imp-fail-closed");
+        return YES; // Conservative: never exempt unrelated scenes if hook chaining fails.
     }
-    return sOriginalShouldUnderLock(manager,cmd,scene);
+    return sOriginalBackgroundUnderLock(manager,cmd,scene,settings);
 }
 static void DFInstallOwnedUnderLock123(void) {
     if(sUnderLockInstalled)return;
     Class cls=NSClassFromString(@"SBSuspendedUnderLockManager");
     SEL background=NSSelectorFromString(
           @"_shouldBeBackgroundUnderLockForScene:withSettings:");
-    SEL underlock=NSSelectorFromString(@"shouldBeUnderLockForScene:");
-    Method bg=class_getInstanceMethod(cls,background);
-    Method ul=class_getInstanceMethod(cls,underlock);
-    if(!DFLockABI(bg,4) || !DFLockABI(ul,3)) {
-        DFDeepTrace(@"qa123-underlock",@"os-underlock-methods-abi-incompatible");
+    // QA125 physical iOS16.7.16 ABI measured from real SpringBoard PID 4989:
+    // background B32@0:8@16@24 exists, but shouldBeUnderLockForScene:
+    // DOES NOT EXIST. Never require or create the missing selector.
+    Method bg=cls?class_getInstanceMethod(cls,background):NULL;
+    Method obsolete=cls?class_getInstanceMethod(
+        cls,NSSelectorFromString(@"shouldBeUnderLockForScene:")):NULL;
+    DFDeepTrace(@"qa125-underlock",[NSString stringWithFormat:
+        @"runtime-presence background=%d obsolete=%d bg-argc=%u",
+        bg!=NULL,obsolete!=NULL,bg?method_getNumberOfArguments(bg):0]);
+    if(!DFLockABI(bg,4) || method_getImplementation(bg)==NULL) {
+        DFDeepTrace(@"qa125-underlock",@"background-abi-rejected-no-hook");
         return;
     }
     typedef void (*Hook)(Class,SEL,IMP,IMP *);
     Hook hook=(Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
-    if(!hook)return;
-    // Both ABIs validated before either hook is added. No interceptions of
-    // SBMainWorkspace passcode checks or screen-blanking API.
+    if(!hook) {
+        DFDeepTrace(@"qa125-underlock",@"hook-provider-unavailable");
+        return;
+    }
+    // Exactly one ABI-confirmed existing selector. Only live registered
+    // exterior hosted scenes may return NO; foreign scenes call Apple's IMP.
+    // No passcode, activation, device display or missing-method hooks.
     hook(cls,background,(IMP)DFUnderLockBackground123,
          (IMP *)&sOriginalBackgroundUnderLock);
-    hook(cls,underlock,(IMP)DFUnderLockScene123,
-         (IMP *)&sOriginalShouldUnderLock);
-    sUnderLockInstalled=(sOriginalBackgroundUnderLock!=NULL &&
-                         sOriginalShouldUnderLock!=NULL);
-    DFDeepTrace(@"qa123-underlock",sUnderLockInstalled?
-      @"owned-underlock-decisions-installed":@"underlock-original-imp-unavailable");
+    sUnderLockInstalled=sOriginalBackgroundUnderLock!=NULL;
+    DFDeepTrace(@"qa125-underlock",sUnderLockInstalled?
+      @"scoped-existing-background-hook-installed":
+      @"background-original-imp-unavailable");
 }
 BOOL DFSceneLifecycleInstall(void) {
     if(!NSThread.isMainThread)return NO;

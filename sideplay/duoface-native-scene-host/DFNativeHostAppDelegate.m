@@ -263,8 +263,20 @@ void DFNativeHostLog(NSString *message) {
     }
 }
 - (void)sceneDidEnterBackground:(UIScene *)scene {
-    if(scene==self.touchOwnerScene)
-        [self stopTouchOwnerWithReason:@"scene-background"];
+    if(scene!=self.touchOwnerScene)return;
+    // QA125 read-only evidence before normal teardown. The system CarPlay
+    // process retaining its scenes does NOT prove this CPTemplate scene
+    // remains foreground or that Home was not pressed. Never hold the overlay
+    // across an unverified Home transition.
+    BOOL exterior=self.carWindow && self.carWindow.screen &&
+                  self.carWindow.screen!=UIScreen.mainScreen;
+    DFNativeHostLog([NSString stringWithFormat:
+        @"qa125-background-boundary own-state=%ld app-state=%ld protected-data=%d external-window=%d connected-scenes=%lu teardown=1",
+        (long)scene.activationState,
+        (long)UIApplication.sharedApplication.applicationState,
+        UIApplication.sharedApplication.protectedDataAvailable,
+        exterior,(unsigned long)UIApplication.sharedApplication.connectedScenes.count]);
+    [self stopTouchOwnerWithReason:@"scene-background"];
 }
 - (void)sceneDidDisconnect:(UIScene *)scene {
     if(scene==self.touchOwnerScene)
