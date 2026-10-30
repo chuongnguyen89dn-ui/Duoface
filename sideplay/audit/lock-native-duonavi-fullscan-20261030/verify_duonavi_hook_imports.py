@@ -46,7 +46,10 @@ def imported_stubs(m):
 def scan(path,name):
     b=pathlib.Path(path).read_bytes()
     m=MachO(select_arm64(b))
-    h=hashlib.sha256(m.data).hexdigest()
+    # DuoNavi ships a FAT main dylib: pin the *original file* SHA256,
+    # then separately record the selected arm64 slice SHA for provenance.
+    h=hashlib.sha256(b).hexdigest()
+    slice_sha=hashlib.sha256(m.data).hexdigest()
     if h!=PINS[name]:raise RuntimeError("wrong original dylib SHA "+name+" "+h)
     imported=imported_stubs(m)
     names={k:v for k,v in imported.items() if any(x in k.lower() for x in ("mshook","objc_getclass","objc_msgsend","objc_getmetaclass","class_getinstancemethod"))}
@@ -67,7 +70,7 @@ def scan(path,name):
                         "previous_arm64":[f"{y.address:#x}: {y.mnemonic} {y.op_str}" for y in queue]})
             queue.append(x)
     if not allhits:raise RuntimeError(name+" imported MSHookMessageEx proven but no direct call found")
-    return {"sha256":h,"imports":names,"callCount":len(allhits),"calls":allhits}
+    return {"sha256":h,"arm64SliceSHA256":slice_sha,"imports":names,"callCount":len(allhits),"calls":allhits}
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--native12-dashboard",required=True)
