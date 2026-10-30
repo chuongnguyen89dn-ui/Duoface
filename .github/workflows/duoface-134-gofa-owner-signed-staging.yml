@@ -5,7 +5,7 @@ on:
   push:
     branches: [fix/duoface-qa134-gofa-owner-candidate-20261030]
     paths:
-      - '.github/workflows/duoface-134-native12-catalog-signed-staging.yml'
+      - '.github/workflows/duoface-134-gofa-owner-signed-staging.yml'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
       - 'sideplay/audit/qa131-iphone-clock-20261030/test_frame_clock_probe.py'
       - 'sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m'
