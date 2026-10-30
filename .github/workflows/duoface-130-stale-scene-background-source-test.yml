@@ -1,0 +1,26 @@
+name: DuoFace 130 scoped current scene background only contract
+on:
+  push:
+    branches: [fix/duoface-postlock-settings-20261030]
+    paths:
+      - 'sideplay/duoface-native-scene-host/tests/test_scene_background_owner_fix_130.py'
+      - '.github/workflows/duoface-130-stale-scene-background-source-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-owner-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact owner / Home / Apple original callback regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/duoface-native-scene-host/tests/test_scene_background_owner_fix_130.py
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_scene_background_owner_fix_130.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_postlock_contract.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_lock_runtime_125.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_native_owner_contract.py -v
+          echo 'QA130_SCOPED_OWNER_BACKGROUND_SOURCE_CONTRACT_PASS__NO_HARDWARE_QA'
