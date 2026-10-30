@@ -1,0 +1,110 @@
+{
+  "exporter_header": "Audit schema: 3; exporter build 0.0.90~nativegetters1; runtime process build is in timestamped traces.",
+  "line_count": 18506,
+  "timestamped_builds": {
+    "0.0.90~nativegetters1": 5538
+  },
+  "scene_readback": {
+    "count": 130,
+    "same_0": 130,
+    "same_1": 0,
+    "apps": {
+      "com.lumi.GOFA": 54,
+      "com.google.ios.youtube": 67,
+      "com.facebook.Facebook": 9
+    },
+    "note": "Before geometry transaction only; not post-commit geometry proof."
+  },
+  "timestamped_pane_tap": 0,
+  "timestamped_pane116": 0,
+  "timestamped_logo_began": 53,
+  "crashes": [
+    {
+      "file": "Crash-1-SpringBoard-2026-10-30-131318.ips",
+      "capture_time": "2026-10-30 13:13:03.1658 +0700",
+      "pid": 83738,
+      "exception": {
+        "codes": "0x0000000000000000, 0x0000000000000000",
+        "rawCodes": [
+          0,
+          0
+        ],
+        "type": "EXC_CRASH",
+        "signal": "SIGABRT"
+      },
+      "duoface_images": {
+        "DFCarPlayDockOwner.dylib": "5914ddb4-8601-34ff-ab0c-d94835d6c8eb",
+        "DFFirstPartyAdmission.dylib": "2cdf2772-86f9-326b-bbf9-58f758ce0a9a",
+        "DFNativeDashboardBridgeQA.dylib": "c99f8870-07fe-33af-80ca-0b7443ede723",
+        "DFTouchOwnerProbe.dylib": "1ddb778d-cf90-3f80-82cc-4dbcb6dd30a5",
+        "DFV1APreflight.dylib": "c479db64-51d0-3af2-a39c-eb009f9f52f0"
+      },
+      "scene_observer_in_stack": true,
+      "duoface_observer_in_stack": true,
+      "duoface_update_in_stack": true,
+      "keyboard_focus_in_stack": false
+    },
+    {
+      "file": "Crash-0-SpringBoard-2026-10-30-131627.ips",
+      "capture_time": "2026-10-30 13:16:09.7143 +0700",
+      "pid": 83821,
+      "exception": {
+        "codes": "0x0000000000000000, 0x0000000000000000",
+        "rawCodes": [
+          0,
+          0
+        ],
+        "type": "EXC_CRASH",
+        "signal": "SIGABRT"
+      },
+      "duoface_images": {
+        "DFCarPlayDockOwner.dylib": "5914ddb4-8601-34ff-ab0c-d94835d6c8eb",
+        "DFFirstPartyAdmission.dylib": "2cdf2772-86f9-326b-bbf9-58f758ce0a9a",
+        "DFNativeDashboardBridgeQA.dylib": "c99f8870-07fe-33af-80ca-0b7443ede723",
+        "DFTouchOwnerProbe.dylib": "1ddb778d-cf90-3f80-82cc-4dbcb6dd30a5",
+        "DFV1APreflight.dylib": "c479db64-51d0-3af2-a39c-eb009f9f52f0"
+      },
+      "scene_observer_in_stack": true,
+      "duoface_observer_in_stack": true,
+      "duoface_update_in_stack": true,
+      "keyboard_focus_in_stack": false
+    },
+    {
+      "file": "Crash-0-SpringBoard-2026-10-30-142555.ips",
+      "capture_time": "2026-10-30 14:25:51.0434 +0700",
+      "pid": 84349,
+      "exception": {
+        "codes": "0x0000000000000001, 0x00000001d5b22a80",
+        "rawCodes": [
+          1,
+          7880190592
+        ],
+        "type": "EXC_BREAKPOINT",
+        "signal": "SIGTRAP"
+      },
+      "duoface_images": {
+        "DFCarPlayDockOwner.dylib": "70c94bdc-adde-3e02-8fbe-45bee2350960",
+        "DFFirstPartyAdmission.dylib": "4edebce6-fbb4-31a4-a0da-f83a66c67761",
+        "DFNativeDashboardBridgeQA.dylib": "71eaf8d5-4959-392d-a42b-115b0ec852a9",
+        "DFTouchOwnerProbe.dylib": "692f1e47-45c1-3672-bf34-0ae53f96abb8",
+        "DFV1APreflight.dylib": "75cb7bf2-9d94-30cc-a5cd-0092ee472e9a"
+      },
+      "scene_observer_in_stack": true,
+      "duoface_observer_in_stack": true,
+      "duoface_update_in_stack": true,
+      "keyboard_focus_in_stack": true
+    }
+  ],
+  "ci_verified": {
+    "run_id": 41044474879,
+    "job_id": 124025065940,
+    "status": "success",
+    "skill_zip_verified": [
+      "01-github-continuity.zip",
+      "02-ios-deb-ipa-carplay.zip",
+      "05-research-debug-testing.zip"
+    ],
+    "source_sha": "a7ee94e29cb1b05d1d7de02b2711d8721e16da31",
+    "no_device_qa": true
+  }
+}
