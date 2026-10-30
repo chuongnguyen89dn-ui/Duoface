@@ -36,7 +36,7 @@ def main():
   for i in range(maxlen):
    v=read(vm+i,1)
    if not v:return None
-   if v==b"\\0":break
+   if v==bytes((0,)):break
    data+=v
   if data and all(32<=x<=126 for x in data):
    return data.decode("ascii")
@@ -54,7 +54,7 @@ def main():
   lines=[]; strings=[];branches=[];calls=[]
   for inst in arr:
    line=f"{inst.address:#x}: {inst.mnemonic} {inst.op_str}"
-   match=re.fullmatch(r"x\\d+, #(0x[0-9a-f]+)",inst.op_str)
+   match=re.fullmatch(r"x[0-9]+, #(0x[0-9a-f]+)",inst.op_str)
    if match and inst.mnemonic in ("adr","ldr"):
     addr=int(match.group(1),16)
     try:
