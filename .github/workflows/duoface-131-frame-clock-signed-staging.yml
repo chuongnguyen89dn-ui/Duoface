@@ -7,7 +7,7 @@ on:
     paths:
       - '.github/workflows/duoface-131-frame-clock-signed-staging.yml'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
-      - 'sideplay/audit/qa131-iphone-clock-20261030/**'
+      - 'sideplay/audit/qa131-iphone-clock-20261030/test_frame_clock_probe.py'
       - 'sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m'
       - 'sideplay/duoface-native-scene-host/tests/test_evidence_owner_reflow_127.py'
       - 'sideplay/duoface-native-scene-host/DFSceneLifecycle.m'
