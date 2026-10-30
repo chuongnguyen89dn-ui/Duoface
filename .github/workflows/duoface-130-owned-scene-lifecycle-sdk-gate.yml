@@ -1,0 +1,37 @@
+name: DuoFace QA130 owned scene destroy + background policy SDK gate
+on:
+  push:
+    branches: [fix/duoface-qa130-verified-scene-owner-20261030]
+    paths:
+      - 'sideplay/duoface-native-scene-host/DFSceneLifecycle.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_scene_destroy_owner_130.py'
+      - '.github/workflows/duoface-130-owned-scene-lifecycle-sdk-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  arm64-sdk-and-own-lifecycle:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile actual first-party SpringBoard lifecycle with iPhoneOS arm64 SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            sideplay/duoface-native-scene-host/DFSceneLifecycle.m
+          echo 'QA130_LIFECYCLE_IOS16_ARM64_SDK_SYNTAX_PASS'
+      - name: Run original verified ARM64 and first-party regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_scene_destroy_owner_130.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_scene_background_owner_fix_130.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_postlock_contract.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_lock_runtime_125.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_native_owner_contract.py -v
+          echo 'QA130_SCENE_DESTROY_NATIVE_OWNER_SDK_SOURCE_GATE_PASS__DEVICE_NOT_TESTED'
