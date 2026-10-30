@@ -71,11 +71,11 @@ class QA120NativeGeometry(unittest.TestCase):
         info=plistlib.loads((HERE/'Info.plist').read_bytes())
         self.assertEqual(info['CFBundleVersion'],'125')
         self.assertEqual(info['CFBundleShortVersionString'],'0.1.125')
-        self.assertIn('0.1.125~lockabi1',(HERE/'build.sh').read_text())
-        self.assertIn('Version: 0.1.125~lockabi1',(HERE/'control').read_text())
+        self.assertIn('0.1.126~observertrace1',(HERE/'build.sh').read_text())
+        self.assertIn('Version: 0.1.126~observertrace1',(HERE/'control').read_text())
         integration=INTEGRATED.read_text()
-        self.assertIn('VERSION="0.0.125~lockabi1"',integration)
-        self.assertIn('com.duoface.carplay.nativescenehost_0.1.125~lockabi1',integration)
+        self.assertIn('VERSION="0.0.126~observertrace1"',integration)
+        self.assertIn('com.duoface.carplay.nativescenehost_0.1.126~observertrace1',integration)
 
 
 if __name__=='__main__':
