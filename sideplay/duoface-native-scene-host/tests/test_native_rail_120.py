@@ -33,7 +33,7 @@ class QA120NativeGeometry(unittest.TestCase):
             '// Diagnostics only;',1)[0]
         self.assertNotIn('r.size.height>=height*.48',resolver)
         self.assertIn('isDescendantOfView:railWindow',resolver)
-        self.assertIn('DFZFresh',resolver)  # stale session not admitted
+        self.assertIn('DFGFresh',resolver)  # stale session not admitted
 
     def test_one_measured_native_edge_or_emergency_fallback(self):
         self.assertIn('verified-native-rail',self.owner)
