@@ -69,7 +69,8 @@ def pointers_to(m,vm):
             i+=8
     return answer
 
-def refscan(m,marker_vms):
+def refscan(m,vmtomarker):
+    marker_vms=set(vmtomarker)
     # Only text sections: never disassemble .rodata or a vendor license.
     matched=[]
     cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
@@ -138,7 +139,7 @@ def scan_binary(path):
                 for alias in pointers_to(m,vm):
                     vmtomarker[alias]=k
                     signs[k]["ref_vm"].append(hex(alias))
-    refs=refscan(m,set(vmtomarker))
+    refs=refscan(m,vmtomarker)
     for x in refs:x["marker"]=vmtomarker[int(x["target_vm"],16)]
     related=methods_related(m)
     return {"sha256":hashlib.sha256(raw).hexdigest(),"bytes":len(raw),
