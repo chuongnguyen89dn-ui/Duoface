@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-29T23:21:57.982029+00:00",
+  "checked_at_utc": "2026-10-30T05:58:33.873491+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3705,
+  "total_actions_runs": 3747,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -9,6 +9,102 @@
       "success": 2,
       "failure": 0,
       "other": 1
+    },
+    "DuoFace 126 bounded observer forensic signed staging QA": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 3,
+      "other": 1
+    },
+    "DuoFace 125 verified iOS16 single selector underlock ABI signed QA": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA": {
+      "recent_runs": 12,
+      "success": 0,
+      "failure": 4,
+      "other": 8
+    },
+    "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA": {
+      "recent_runs": 13,
+      "success": 0,
+      "failure": 4,
+      "other": 9
+    },
+    "DuoFace original-verified native CarPlay Maps scene identity only": {
+      "recent_runs": 2,
+      "success": 0,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace 118 emergency Dock-visible no-global-wake signed QA": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace 124 inactive-CarPlay lifecycle and scoped underlock signed QA": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace 116 pane-input diagnostic signed QA": {
+      "recent_runs": 7,
+      "success": 0,
+      "failure": 5,
+      "other": 2
+    },
+    "DuoFace Native12 source-only UIKit and original behavior regression": {
+      "recent_runs": 7,
+      "success": 0,
+      "failure": 3,
+      "other": 4
+    },
+    "DuoFace 117 native Dock and hidden-logo wake signed QA": {
+      "recent_runs": 6,
+      "success": 1,
+      "failure": 5,
+      "other": 0
+    },
+    "DuoFace 111 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA": {
+      "recent_runs": 6,
+      "success": 0,
+      "failure": 3,
+      "other": 3
+    },
+    "DuoNavi Observer standalone passive rootless signed QA": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace 123 verified CarPlay-under-lock owner policy and native rail signed QA": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan": {
+      "recent_runs": 9,
+      "success": 6,
+      "failure": 3,
+      "other": 0
+    },
+    "DuoFace 121 read-only original backlight and locked-YouTube policy audit": {
+      "recent_runs": 5,
+      "success": 4,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace 120 measured native CarPlay rail and Play-tap signed QA": {
+      "recent_runs": 4,
+      "success": 1,
+      "failure": 3,
+      "other": 0
     },
     "DuoFace 119 read-only same-session Dock geometry signed QA": {
       "recent_runs": 2,
@@ -22,81 +118,33 @@
       "failure": 0,
       "other": 0
     },
-    "DuoFace 118 emergency Dock-visible no-global-wake signed QA": {
+    "DuoFace 116 input window validation": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace immediate ratio grip and divider C smoke (NO DEB)": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
     },
-    "DuoFace 116 pane-input diagnostic signed QA": {
-      "recent_runs": 9,
-      "success": 1,
-      "failure": 6,
-      "other": 2
-    },
-    "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA": {
-      "recent_runs": 17,
-      "success": 0,
-      "failure": 5,
-      "other": 12
-    },
-    "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 11,
-      "success": 3,
-      "failure": 3,
-      "other": 5
-    },
-    "DuoFace 117 native Dock and hidden-logo wake signed QA": {
-      "recent_runs": 5,
-      "success": 1,
-      "failure": 4,
-      "other": 0
-    },
-    "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA": {
-      "recent_runs": 17,
-      "success": 0,
-      "failure": 5,
-      "other": 12
-    },
-    "DuoFace 111 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA": {
-      "recent_runs": 9,
-      "success": 0,
-      "failure": 3,
-      "other": 6
-    },
-    "DuoFace original-verified native CarPlay Maps scene identity only": {
-      "recent_runs": 3,
-      "success": 0,
-      "failure": 3,
-      "other": 0
-    },
-    "DuoFace 116 input window validation": {
-      "recent_runs": 4,
-      "success": 2,
-      "failure": 2,
-      "other": 0
-    },
-    "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace immediate ratio grip and divider C smoke (NO DEB)": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
     "DuoFace 098 four-app memory rotation running state source QA": {
-      "recent_runs": 3,
-      "success": 2,
+      "recent_runs": 1,
+      "success": 0,
       "failure": 1,
       "other": 0
     },
     "DuoFace 099 physical native Maps pane ownership smoke (no DEB)": {
-      "recent_runs": 4,
-      "success": 4,
+      "recent_runs": 2,
+      "success": 2,
       "failure": 0,
       "other": 0
     },
@@ -105,338 +153,308 @@
       "success": 1,
       "failure": 1,
       "other": 0
-    },
-    "DuoFace signed 116 Dock margin binary vs source audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace Native12 exact Dock content and usable bounds IMP": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 116 raw DEB macOS bytes comparison": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 116 immutable signed archive download SHA audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 116 archived signed bytes SHA diagnostic": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 40972620316,
+      "id": 41011374156,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 90,
+      "run_number": 91,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40972620316",
-      "created_at": "2026-10-29T23:21:48Z",
-      "head_sha": "1f05846423336b585bc815345b7b51a4ab9129db"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41011374156",
+      "created_at": "2026-10-30T05:58:25Z",
+      "head_sha": "cd1ffa236b2cde35d41463230260f9881a350928"
     },
     {
-      "id": 40936238919,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 89,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40936238919",
-      "created_at": "2026-10-29T19:01:20Z",
-      "head_sha": "0d70474a973d7aa560d7416f96d753211b1906c9"
-    },
-    {
-      "id": 40908408658,
-      "name": "DuoFace 119 read-only same-session Dock geometry signed QA",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40908408658",
-      "created_at": "2026-10-29T16:07:16Z",
-      "head_sha": "94d354941a3dace804ee9b754610e1038bf1103d"
-    },
-    {
-      "id": 40907878712,
-      "name": "DuoFace 119 read-only same-session Dock geometry signed QA",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40907878712",
-      "created_at": "2026-10-29T16:04:09Z",
-      "head_sha": "3337d5621081825ce67234674f4d031eb3d7697f"
-    },
-    {
-      "id": 40904918475,
-      "name": "DuoFace exact original DuoNavi 1.0.4 vs signed 118 Dock-geometry DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40904918475",
-      "created_at": "2026-10-29T15:46:18Z",
-      "head_sha": "aa4faab68ff6043b2a932ccfb63ec66a143d6fe9"
-    },
-    {
-      "id": 40901000640,
-      "name": "DuoFace 118 emergency Dock-visible no-global-wake signed QA",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40901000640",
-      "created_at": "2026-10-29T15:23:07Z",
-      "head_sha": "e9501ec1e5b441095a22b78b255c8c8b932bb383"
-    },
-    {
-      "id": 40900934592,
-      "name": "DuoFace 116 pane-input diagnostic signed QA",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900934592",
-      "created_at": "2026-10-29T15:22:43Z",
-      "head_sha": "1ebe168b235196cc3d9cfb2be93b9aeb5c9b04c1"
-    },
-    {
-      "id": 40900934512,
-      "name": "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900934512",
-      "created_at": "2026-10-29T15:22:43Z",
-      "head_sha": "1ebe168b235196cc3d9cfb2be93b9aeb5c9b04c1"
-    },
-    {
-      "id": 40900934493,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 554,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900934493",
-      "created_at": "2026-10-29T15:22:43Z",
-      "head_sha": "1ebe168b235196cc3d9cfb2be93b9aeb5c9b04c1"
-    },
-    {
-      "id": 40900934474,
-      "name": "DuoFace 117 native Dock and hidden-logo wake signed QA",
+      "id": 41010106140,
+      "name": "DuoFace 126 bounded observer forensic signed staging QA",
       "run_number": 5,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900934474",
-      "created_at": "2026-10-29T15:22:43Z",
-      "head_sha": "1ebe168b235196cc3d9cfb2be93b9aeb5c9b04c1"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41010106140",
+      "created_at": "2026-10-30T05:44:35Z",
+      "head_sha": "25ac07ea37e4a82cbe409490b35b01e92a669ade"
     },
     {
-      "id": 40900934424,
-      "name": "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 34,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900934424",
-      "created_at": "2026-10-29T15:22:43Z",
-      "head_sha": "1ebe168b235196cc3d9cfb2be93b9aeb5c9b04c1"
-    },
-    {
-      "id": 40900822270,
-      "name": "DuoFace 116 pane-input diagnostic signed QA",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900822270",
-      "created_at": "2026-10-29T15:22:04Z",
-      "head_sha": "eadf8386ad1e6f1319c791a100dc9a477324e9bf"
-    },
-    {
-      "id": 40900822237,
-      "name": "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 33,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900822237",
-      "created_at": "2026-10-29T15:22:04Z",
-      "head_sha": "eadf8386ad1e6f1319c791a100dc9a477324e9bf"
-    },
-    {
-      "id": 40900822231,
-      "name": "DuoFace 111 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900822231",
-      "created_at": "2026-10-29T15:22:04Z",
-      "head_sha": "eadf8386ad1e6f1319c791a100dc9a477324e9bf"
-    },
-    {
-      "id": 40900822225,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 553,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900822225",
-      "created_at": "2026-10-29T15:22:04Z",
-      "head_sha": "eadf8386ad1e6f1319c791a100dc9a477324e9bf"
-    },
-    {
-      "id": 40900822198,
-      "name": "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900822198",
-      "created_at": "2026-10-29T15:22:04Z",
-      "head_sha": "eadf8386ad1e6f1319c791a100dc9a477324e9bf"
-    },
-    {
-      "id": 40900822131,
-      "name": "DuoFace 117 native Dock and hidden-logo wake signed QA",
+      "id": 41009897111,
+      "name": "DuoFace 126 bounded observer forensic signed staging QA",
       "run_number": 4,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900822131",
-      "created_at": "2026-10-29T15:22:04Z",
-      "head_sha": "eadf8386ad1e6f1319c791a100dc9a477324e9bf"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41009897111",
+      "created_at": "2026-10-30T05:42:15Z",
+      "head_sha": "b0deb3002cf2eda0499dc9624715fb86ea648d4f"
     },
     {
-      "id": 40900799675,
-      "name": "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 32,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900799675",
-      "created_at": "2026-10-29T15:21:56Z",
-      "head_sha": "427645ac0ea1b73266e7807a101f2577fe0df8af"
-    },
-    {
-      "id": 40900799531,
-      "name": "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900799531",
-      "created_at": "2026-10-29T15:21:56Z",
-      "head_sha": "427645ac0ea1b73266e7807a101f2577fe0df8af"
-    },
-    {
-      "id": 40900773902,
-      "name": "DuoFace 111 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900773902",
-      "created_at": "2026-10-29T15:21:47Z",
-      "head_sha": "6dbd453be5086421cf8a9e71c232f197d7f305f4"
-    },
-    {
-      "id": 40900773591,
-      "name": "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900773591",
-      "created_at": "2026-10-29T15:21:47Z",
-      "head_sha": "6dbd453be5086421cf8a9e71c232f197d7f305f4"
-    },
-    {
-      "id": 40900773550,
-      "name": "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 31,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900773550",
-      "created_at": "2026-10-29T15:21:47Z",
-      "head_sha": "6dbd453be5086421cf8a9e71c232f197d7f305f4"
-    },
-    {
-      "id": 40900764894,
-      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
-      "run_number": 48,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900764894",
-      "created_at": "2026-10-29T15:21:43Z",
-      "head_sha": "dcbc3b3a60f280438c264e081d71d6efc639c30e"
-    },
-    {
-      "id": 40900756806,
-      "name": "DuoFace 116 pane-input diagnostic signed QA",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900756806",
-      "created_at": "2026-10-29T15:21:40Z",
-      "head_sha": "dcbc3b3a60f280438c264e081d71d6efc639c30e"
-    },
-    {
-      "id": 40900756755,
-      "name": "DuoFace 117 native Dock and hidden-logo wake signed QA",
+      "id": 41009884017,
+      "name": "DuoFace 126 bounded observer forensic signed staging QA",
       "run_number": 3,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900756755",
-      "created_at": "2026-10-29T15:21:40Z",
-      "head_sha": "dcbc3b3a60f280438c264e081d71d6efc639c30e"
-    },
-    {
-      "id": 40900756663,
-      "name": "DuoFace 111 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 20,
-      "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900756663",
-      "created_at": "2026-10-29T15:21:40Z",
-      "head_sha": "dcbc3b3a60f280438c264e081d71d6efc639c30e"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41009884017",
+      "created_at": "2026-10-30T05:42:06Z",
+      "head_sha": "ab65ec541ea633d7143f24d1ce5d41839666be9e"
     },
     {
-      "id": 40900756653,
+      "id": 41009849494,
+      "name": "DuoFace 126 bounded observer forensic signed staging QA",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41009849494",
+      "created_at": "2026-10-30T05:41:44Z",
+      "head_sha": "a093510e6502d232e4578592700bd39d6f090ba8"
+    },
+    {
+      "id": 41009745680,
+      "name": "DuoFace 126 bounded observer forensic signed staging QA",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41009745680",
+      "created_at": "2026-10-30T05:40:35Z",
+      "head_sha": "7173555ab9d9bca6c84c9b1e8dfb74c6235c7836"
+    },
+    {
+      "id": 41005523412,
+      "name": "DuoFace 125 verified iOS16 single selector underlock ABI signed QA",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005523412",
+      "created_at": "2026-10-30T04:55:08Z",
+      "head_sha": "7bde7aab4521341321c0ad4ce99bc3c189ab7deb"
+    },
+    {
+      "id": 41005507013,
       "name": "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
-      "run_number": 30,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900756653",
-      "created_at": "2026-10-29T15:21:40Z",
-      "head_sha": "dcbc3b3a60f280438c264e081d71d6efc639c30e"
-    },
-    {
-      "id": 40900756651,
-      "name": "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900756651",
-      "created_at": "2026-10-29T15:21:40Z",
-      "head_sha": "dcbc3b3a60f280438c264e081d71d6efc639c30e"
-    },
-    {
-      "id": 40900679867,
-      "name": "DuoFace 116 input window validation",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900679867",
-      "created_at": "2026-10-29T15:21:13Z",
-      "head_sha": "018c7b37b77e2d145aca2866a196ceb5d2d288ed"
-    },
-    {
-      "id": 40900679301,
-      "name": "DuoFace ratio drag, disconnect and reconnect restore source QA (NO DEB)",
       "run_number": 36,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40900679301",
-      "created_at": "2026-10-29T15:21:12Z",
-      "head_sha": "018c7b37b77e2d145aca2866a196ceb5d2d288ed"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005507013",
+      "created_at": "2026-10-30T04:54:57Z",
+      "head_sha": "aca3508cda8b680f40d03dad307b2235fb7d798a"
+    },
+    {
+      "id": 41005506993,
+      "name": "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005506993",
+      "created_at": "2026-10-30T04:54:57Z",
+      "head_sha": "aca3508cda8b680f40d03dad307b2235fb7d798a"
+    },
+    {
+      "id": 41005389876,
+      "name": "DuoFace 125 verified iOS16 single selector underlock ABI signed QA",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005389876",
+      "created_at": "2026-10-30T04:53:38Z",
+      "head_sha": "b26ae231b78ac14bee5ecd528617d79ad9f88bda"
+    },
+    {
+      "id": 41005335283,
+      "name": "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335283",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335259,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 49,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335259",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335168,
+      "name": "DuoFace 118 emergency Dock-visible no-global-wake signed QA",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335168",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335132,
+      "name": "DuoFace 124 inactive-CarPlay lifecycle and scoped underlock signed QA",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335132",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335128,
+      "name": "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
+      "run_number": 35,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335128",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335114,
+      "name": "DuoFace 116 pane-input diagnostic signed QA",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335114",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335107,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 555,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335107",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335106,
+      "name": "DuoFace 117 native Dock and hidden-logo wake signed QA",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335106",
+      "created_at": "2026-10-30T04:53:03Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41005335048,
+      "name": "DuoFace 111 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41005335048",
+      "created_at": "2026-10-30T04:53:02Z",
+      "head_sha": "8663aac9363b31f451c2213b81b9197dbc6f899b"
+    },
+    {
+      "id": 41003541817,
+      "name": "DuoNavi Observer standalone passive rootless signed QA",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41003541817",
+      "created_at": "2026-10-30T04:33:18Z",
+      "head_sha": "122eda6fe1ce5f6cd133c48cd970c7940e524a3e"
+    },
+    {
+      "id": 41003441131,
+      "name": "DuoNavi Observer standalone passive rootless signed QA",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41003441131",
+      "created_at": "2026-10-30T04:32:12Z",
+      "head_sha": "c70c40fc5060c6738c797b85a7feb44446260101"
+    },
+    {
+      "id": 40997535790,
+      "name": "DuoFace 124 inactive-CarPlay lifecycle and scoped underlock signed QA",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40997535790",
+      "created_at": "2026-10-30T03:28:03Z",
+      "head_sha": "a02069ba665112642344b588fcaa8d56490db3c3"
+    },
+    {
+      "id": 40993070731,
+      "name": "DuoFace 123 verified CarPlay-under-lock owner policy and native rail signed QA",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40993070731",
+      "created_at": "2026-10-30T02:40:39Z",
+      "head_sha": "f304a5d3ed7405146180a22d3123099546379f15"
+    },
+    {
+      "id": 40992993224,
+      "name": "DuoFace 123 verified CarPlay-under-lock owner policy and native rail signed QA",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40992993224",
+      "created_at": "2026-10-30T02:39:51Z",
+      "head_sha": "7bddeb93fd32afeefb5696eeb14574a8790d09f3"
+    },
+    {
+      "id": 40991974285,
+      "name": "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40991974285",
+      "created_at": "2026-10-30T02:29:21Z",
+      "head_sha": "6b1877fa436547807b572d2f072e014f9b5ee191"
+    },
+    {
+      "id": 40991737734,
+      "name": "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40991737734",
+      "created_at": "2026-10-30T02:26:54Z",
+      "head_sha": "73a5273a3c59a590becd38292e80b3ba0a9a2089"
+    },
+    {
+      "id": 40991513805,
+      "name": "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40991513805",
+      "created_at": "2026-10-30T02:24:36Z",
+      "head_sha": "ac793b72579c6bf9cae692ca54a90db34257365f"
+    },
+    {
+      "id": 40991250160,
+      "name": "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40991250160",
+      "created_at": "2026-10-30T02:21:55Z",
+      "head_sha": "5360d521e750fcc56478d3ca76ee85da82ce1a36"
+    },
+    {
+      "id": 40991024172,
+      "name": "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40991024172",
+      "created_at": "2026-10-30T02:19:38Z",
+      "head_sha": "3e0093c1f1bcdd45d0d81ff1f2a76477b2a79a30"
+    },
+    {
+      "id": 40990900793,
+      "name": "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40990900793",
+      "created_at": "2026-10-30T02:18:21Z",
+      "head_sha": "c94b75d877d29b0bd23fa4ffefe3ea0a2dfb4a7d"
     }
   ]
 }
