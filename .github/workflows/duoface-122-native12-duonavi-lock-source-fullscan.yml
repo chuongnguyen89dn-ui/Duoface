@@ -1,4 +1,4 @@
-# QA122 import scan: original DuoNavi FAT whole-file SHA differs from selected arm64 slice, both independently recorded.
+# QA122 v4: use full FAT original SHA to authenticate DuoNavi, record separately extracted arm64 SHA.
 name: DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan
 on:
   push:
