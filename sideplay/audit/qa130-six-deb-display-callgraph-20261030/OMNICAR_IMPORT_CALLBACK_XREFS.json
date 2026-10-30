@@ -1,0 +1,922 @@
+{
+  "evidence": "Original 1.0.3 ARM64 Mach-O classic indirect symtab and static branches",
+  "original_deb_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "original_dylib_sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+  "instrumented_on_iphone": false,
+  "runtime_blank_policy_proven": false,
+  "classic_import_status": "classic_indirect_symbols_parsed",
+  "load_commands": [
+    "0x19",
+    "0x19",
+    "0x19",
+    "0x19",
+    "0xd",
+    "0x80000034",
+    "0x80000033",
+    "0x2",
+    "0xb",
+    "0x1b",
+    "0x32",
+    "0x2a",
+    "0x2c",
+    "0xc",
+    "0xc",
+    "0xc",
+    "0xc",
+    "0xc",
+    "0xc",
+    "0xc",
+    "0xc",
+    "0xc",
+    "0x8000001c",
+    "0x8000001c",
+    "0x8000001c",
+    "0x8000001c",
+    "0x26",
+    "0x29",
+    "0x1d"
+  ],
+  "stub_imports": {
+    "0x243e0": {
+      "pc": "0x243e0",
+      "instructions": [
+        "0x243e0 adrp x16, #0x34000",
+        "0x243e4 ldr x16, [x16, #0x590]",
+        "0x243e8 br x16"
+      ],
+      "binding": {
+        "name": "_MSHookFunction",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 70
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x34590",
+      "pointer_binding": {
+        "name": "_MSHookFunction",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 70
+      }
+    },
+    "0x245f0": {
+      "pc": "0x245f0",
+      "instructions": [
+        "0x245f0 adrp x16, #0x34000",
+        "0x245f4 ldr x16, [x16, #0x348]",
+        "0x245f8 br x16"
+      ],
+      "binding": {
+        "name": "_dlsym",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 194
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x34348",
+      "pointer_binding": {
+        "name": "_dlsym",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 194
+      }
+    },
+    "0x25420": {
+      "pc": "0x25420",
+      "instructions": [
+        "0x25420 adrp x1, #0x3d000",
+        "0x25424 ldr x1, [x1, #0x548]",
+        "0x25428 adrp x16, #0x34000"
+      ],
+      "binding": null,
+      "resolved_via": "classic indirect Mach-O symbol table"
+    },
+    "0x2480c": {
+      "pc": "0x2480c",
+      "instructions": [
+        "0x2480c adrp x16, #0x34000",
+        "0x24810 ldr x16, [x16, #0xf8]",
+        "0x24814 br x16"
+      ],
+      "binding": {
+        "name": "_objc_release",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 242
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x340f8",
+      "pointer_binding": {
+        "name": "_objc_release",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 242
+      }
+    },
+    "0x24830": {
+      "pc": "0x24830",
+      "instructions": [
+        "0x24830 adrp x16, #0x34000",
+        "0x24834 ldr x16, [x16, #0x110]",
+        "0x24838 br x16"
+      ],
+      "binding": {
+        "name": "_objc_retainAutoreleasedReturnValue",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 245
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x34110",
+      "pointer_binding": {
+        "name": "_objc_retainAutoreleasedReturnValue",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 245
+      }
+    },
+    "0x27b20": {
+      "pc": "0x27b20",
+      "instructions": [
+        "0x27b20 adrp x1, #0x3d000",
+        "0x27b24 ldr x1, [x1, #0xf08]",
+        "0x27b28 adrp x16, #0x34000"
+      ],
+      "binding": null,
+      "resolved_via": "classic indirect Mach-O symbol table"
+    },
+    "0x24788": {
+      "pc": "0x24788",
+      "instructions": [
+        "0x24788 adrp x16, #0x34000",
+        "0x2478c ldr x16, [x16, #0x98]",
+        "0x24790 br x16"
+      ],
+      "binding": {
+        "name": "_objc_getClass",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 231
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x34098",
+      "pointer_binding": {
+        "name": "_objc_getClass",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 231
+      }
+    },
+    "0x2441c": {
+      "pc": "0x2441c",
+      "instructions": [
+        "0x2441c adrp x16, #0x34000",
+        "0x24420 ldr x16, [x16, #0x198]",
+        "0x24424 br x16"
+      ],
+      "binding": {
+        "name": "_NSSelectorFromString",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 76
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x34198",
+      "pointer_binding": {
+        "name": "_NSSelectorFromString",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 76
+      }
+    },
+    "0x247f4": {
+      "pc": "0x247f4",
+      "instructions": [
+        "0x247f4 adrp x16, #0x34000",
+        "0x247f8 ldr x16, [x16, #0xe8]",
+        "0x247fc br x16"
+      ],
+      "binding": {
+        "name": "_objc_opt_respondsToSelector",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 240
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x340e8",
+      "pointer_binding": {
+        "name": "_objc_opt_respondsToSelector",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 240
+      }
+    },
+    "0x247ac": {
+      "pc": "0x247ac",
+      "instructions": [
+        "0x247ac adrp x16, #0x34000",
+        "0x247b0 ldr x16, [x16, #0xb8]",
+        "0x247b4 br x16"
+      ],
+      "binding": {
+        "name": "_objc_msgSend",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 234
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x340b8",
+      "pointer_binding": {
+        "name": "_objc_msgSend",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 234
+      }
+    },
+    "0x25100": {
+      "pc": "0x25100",
+      "instructions": [
+        "0x25100 adrp x1, #0x3d000",
+        "0x25104 ldr x1, [x1, #0x480]",
+        "0x25108 adrp x16, #0x34000"
+      ],
+      "binding": null,
+      "resolved_via": "classic indirect Mach-O symbol table"
+    },
+    "0x25900": {
+      "pc": "0x25900",
+      "instructions": [
+        "0x25900 adrp x1, #0x3d000",
+        "0x25904 ldr x1, [x1, #0x680]",
+        "0x25908 adrp x16, #0x34000"
+      ],
+      "binding": null,
+      "resolved_via": "classic indirect Mach-O symbol table"
+    }
+  },
+  "direct_code_xrefs": {
+    "0x9520": [],
+    "0x25420": [
+      {
+        "pc": "0x5d08",
+        "mnemonic": "bl",
+        "near": [
+          "0x5cf4 mov x0, x19",
+          "0x5cf8 bl #0x2477c",
+          "0x5cfc mov x29, x29",
+          "0x5d00 bl #0x24830",
+          "0x5d04 mov x20, x0",
+          "0x5d08 bl #0x25420",
+          "0x5d0c cmp x0, #3"
+        ]
+      },
+      {
+        "pc": "0x7508",
+        "mnemonic": "bl",
+        "near": [
+          "0x74f4 ldr x0, [x26, #0x2e0]",
+          "0x74f8 bl #0x27b20",
+          "0x74fc mov x29, x29",
+          "0x7500 bl #0x24830",
+          "0x7504 mov x24, x0",
+          "0x7508 bl #0x25420",
+          "0x750c mov x25, x0"
+        ]
+      },
+      {
+        "pc": "0x77b0",
+        "mnemonic": "bl",
+        "near": [
+          "0x779c ldr x0, [x8, #0x2e0]",
+          "0x77a0 bl #0x27b20",
+          "0x77a4 mov x29, x29",
+          "0x77a8 bl #0x24830",
+          "0x77ac mov x20, x0",
+          "0x77b0 bl #0x25420",
+          "0x77b4 mov x21, x0"
+        ]
+      },
+      {
+        "pc": "0xaabc",
+        "mnemonic": "bl",
+        "near": [
+          "0xaaa8 add x29, sp, #0x10",
+          "0xaaac bl #0x26580",
+          "0xaab0 mov x29, x29",
+          "0xaab4 bl #0x24830",
+          "0xaab8 mov x19, x0",
+          "0xaabc bl #0x25420",
+          "0xaac0 mov x20, x0"
+        ]
+      },
+      {
+        "pc": "0xb5f8",
+        "mnemonic": "bl",
+        "near": [
+          "0xb5e4 bl #0x9698",
+          "0xb5e8 mov x20, #0",
+          "0xb5ec mov x0, x19",
+          "0xb5f0 bl #0x2480c",
+          "0xb5f4 mov x0, x20",
+          "0xb5f8 bl #0x25420",
+          "0xb5fc cbz x0, #0xb660"
+        ]
+      },
+      {
+        "pc": "0xdcb8",
+        "mnemonic": "bl",
+        "near": [
+          "0xdca4 adrp x8, #0x36000",
+          "0xdca8 add x8, x8, #0x910",
+          "0xdcac cmp x23, #0",
+          "0xdcb0 csel x20, x8, x23, eq",
+          "0xdcb4 mov x0, x22",
+          "0xdcb8 bl #0x25420",
+          "0xdcbc mov x28, x0"
+        ]
+      },
+      {
+        "pc": "0xdfec",
+        "mnemonic": "bl",
+        "near": [
+          "0xdfd8 ldr x0, [x8]",
+          "0xdfdc str x0, [sp, #8]",
+          "0xdfe0 bl #0x24818",
+          "0xdfe4 mov x28, #0",
+          "0xdfe8 mov x0, x26",
+          "0xdfec bl #0x25420",
+          "0xdff0 add x8, x28, #1"
+        ]
+      },
+      {
+        "pc": "0x13b84",
+        "mnemonic": "bl",
+        "near": [
+          "0x13b70 mov x0, x22",
+          "0x13b74 bl #0x2480c",
+          "0x13b78 adrp x22, #0x34000",
+          "0x13b7c ldr x22, [x22, #0x1f0]",
+          "0x13b80 mov x0, x22",
+          "0x13b84 bl #0x25420",
+          "0x13b88 cbz x0, #0x13b98"
+        ]
+      },
+      {
+        "pc": "0x13bb0",
+        "mnemonic": "bl",
+        "near": [
+          "0x13b9c mov x0, x23",
+          "0x13ba0 bl #0x25e60",
+          "0x13ba4 mov x29, x29",
+          "0x13ba8 bl #0x24830",
+          "0x13bac mov x20, x0",
+          "0x13bb0 bl #0x25420",
+          "0x13bb4 mov x19, x0"
+        ]
+      },
+      {
+        "pc": "0x13bbc",
+        "mnemonic": "bl",
+        "near": [
+          "0x13ba8 bl #0x24830",
+          "0x13bac mov x20, x0",
+          "0x13bb0 bl #0x25420",
+          "0x13bb4 mov x19, x0",
+          "0x13bb8 mov x0, x22",
+          "0x13bbc bl #0x25420",
+          "0x13bc0 mov x21, x0"
+        ]
+      },
+      {
+        "pc": "0x13cfc",
+        "mnemonic": "bl",
+        "near": [
+          "0x13ce8 str d0, [sp, #8]",
+          "0x13cec ldr d0, [x10, #0x2b0]",
+          "0x13cf0 str d0, [sp]",
+          "0x13cf4 str x23, [sp, #0x88]",
+          "0x13cf8 mov x0, x22",
+          "0x13cfc bl #0x25420",
+          "0x13d00 cmp x24, x0"
+        ]
+      },
+      {
+        "pc": "0x13d48",
+        "mnemonic": "bl",
+        "near": [
+          "0x13d34 mov x0, x19",
+          "0x13d38 bl #0x247dc",
+          "0x13d3c str x24, [sp, #0x98]",
+          "0x13d40 tbz w0, #0, #0x147f0",
+          "0x13d44 mov x0, x19",
+          "0x13d48 bl #0x25420",
+          "0x13d4c cmp x0, #3"
+        ]
+      },
+      {
+        "pc": "0x13d68",
+        "mnemonic": "bl",
+        "near": [
+          "0x13d54 mov x0, x23",
+          "0x13d58 bl #0x25e60",
+          "0x13d5c mov x29, x29",
+          "0x13d60 bl #0x24830",
+          "0x13d64 mov x20, x0",
+          "0x13d68 bl #0x25420",
+          "0x13d6c cmp x24, x0"
+        ]
+      },
+      {
+        "pc": "0x142ac",
+        "mnemonic": "bl",
+        "near": [
+          "0x14298 mov x0, x19",
+          "0x1429c bl #0x2480c",
+          "0x142a0 ldr x19, [sp, #0x90]",
+          "0x142a4 mov x0, x19",
+          "0x142a8 ldr x22, [sp, #0x80]",
+          "0x142ac bl #0x25420",
+          "0x142b0 mov x20, x0"
+        ]
+      },
+      {
+        "pc": "0x16148",
+        "mnemonic": "bl",
+        "near": [
+          "0x16134 mov x0, x20",
+          "0x16138 bl #0x26580",
+          "0x1613c mov x29, x29",
+          "0x16140 bl #0x24830",
+          "0x16144 mov x21, x0",
+          "0x16148 bl #0x25420",
+          "0x1614c mov x22, x0"
+        ]
+      },
+      {
+        "pc": "0x16178",
+        "mnemonic": "bl",
+        "near": [
+          "0x16164 mov x0, x20",
+          "0x16168 bl #0x26580",
+          "0x1616c mov x29, x29",
+          "0x16170 bl #0x24830",
+          "0x16174 mov x21, x0",
+          "0x16178 bl #0x25420",
+          "0x1617c mov x24, x0"
+        ]
+      },
+      {
+        "pc": "0x1646c",
+        "mnemonic": "bl",
+        "near": [
+          "0x16458 mov x0, x19",
+          "0x1645c bl #0x26580",
+          "0x16460 mov x29, x29",
+          "0x16464 bl #0x24830",
+          "0x16468 mov x20, x0",
+          "0x1646c bl #0x25420",
+          "0x16470 cbz x0, #0x16480"
+        ]
+      },
+      {
+        "pc": "0x164c0",
+        "mnemonic": "bl",
+        "near": [
+          "0x164ac mov x0, x19",
+          "0x164b0 bl #0x26580",
+          "0x164b4 mov x29, x29",
+          "0x164b8 bl #0x24830",
+          "0x164bc mov x20, x0",
+          "0x164c0 bl #0x25420",
+          "0x164c4 str x0, [sp]"
+        ]
+      },
+      {
+        "pc": "0x17f78",
+        "mnemonic": "bl",
+        "near": [
+          "0x17f64 bl #0x24830",
+          "0x17f68 mov x24, x0",
+          "0x17f6c mov x25, #0",
+          "0x17f70 mov x23, #0x7fffffffffffffff",
+          "0x17f74 mov x0, x24",
+          "0x17f78 bl #0x25420",
+          "0x17f7c mov x26, x0"
+        ]
+      },
+      {
+        "pc": "0x1b5f0",
+        "mnemonic": "bl",
+        "near": [
+          "0x1b5dc adrp x8, #0x2b000",
+          "0x1b5e0 ldr d10, [x8, #0x228]",
+          "0x1b5e4 adrp x8, #0x2b000",
+          "0x1b5e8 ldr d11, [x8, #0x2d0]",
+          "0x1b5ec ldr x0, [sp, #0x10]",
+          "0x1b5f0 bl #0x25420",
+          "0x1b5f4 ldr x8, [sp, #0x18]"
+        ]
+      },
+      {
+        "pc": "0x1b850",
+        "mnemonic": "bl",
+        "near": [
+          "0x1b83c add x28, x28, #1",
+          "0x1b840 b #0x1b648",
+          "0x1b844 bl #0x241e0",
+          "0x1b848 b #0x1b6fc",
+          "0x1b84c ldr x0, [sp, #0x10]",
+          "0x1b850 bl #0x25420",
+          "0x1b854 sub x8, x0, #1"
+        ]
+      },
+      {
+        "pc": "0x1c1d0",
+        "mnemonic": "bl",
+        "near": [
+          "0x1c1bc mov x0, x19",
+          "0x1c1c0 bl #0x269e0",
+          "0x1c1c4 mov x29, x29",
+          "0x1c1c8 bl #0x24830",
+          "0x1c1cc mov x20, x0",
+          "0x1c1d0 bl #0x25420",
+          "0x1c1d4 mov x22, x0"
+        ]
+      },
+      {
+        "pc": "0x1c328",
+        "mnemonic": "bl",
+        "near": [
+          "0x1c314 b #0x1c31c",
+          "0x1c318 fmov d10, xzr",
+          "0x1c31c mov x0, x21",
+          "0x1c320 bl #0x2480c",
+          "0x1c324 mov x0, x21",
+          "0x1c328 bl #0x25420",
+          "0x1c32c sub x8, x0, #1"
+        ]
+      },
+      {
+        "pc": "0x1c348",
+        "mnemonic": "bl",
+        "near": [
+          "0x1c334 fmov d1, #-5.00000000",
+          "0x1c338 fmadd d11, d0, d1, d8",
+          "0x1c33c cmp x23, x27",
+          "0x1c340 b.hs #0x1c354",
+          "0x1c344 mov x0, x21",
+          "0x1c348 bl #0x25420",
+          "0x1c34c cmp x0, #0xa"
+        ]
+      },
+      {
+        "pc": "0x1c36c",
+        "mnemonic": "bl",
+        "near": [
+          "0x1c358 b #0x1c368",
+          "0x1c35c fdiv d0, d11, d10",
+          "0x1c360 fcmp d13, d0",
+          "0x1c364 fcsel d12, d13, d0, mi",
+          "0x1c368 mov x0, x21",
+          "0x1c36c bl #0x25420",
+          "0x1c370 mov x25, x0"
+        ]
+      },
+      {
+        "pc": "0x1e674",
+        "mnemonic": "bl",
+        "near": [
+          "0x1e660 mov x2, x23",
+          "0x1e664 bl #0x252e0",
+          "0x1e668 mov x29, x29",
+          "0x1e66c bl #0x24830",
+          "0x1e670 mov x27, x0",
+          "0x1e674 bl #0x25420",
+          "0x1e678 cmp x0, #2"
+        ]
+      },
+      {
+        "pc": "0x1ea28",
+        "mnemonic": "bl",
+        "near": [
+          "0x1ea14 bl #0x24830",
+          "0x1ea18 mov x22, x0",
+          "0x1ea1c bl #0x28040",
+          "0x1ea20 mov x26, x0",
+          "0x1ea24 ldr x0, [sp, #0x38]",
+          "0x1ea28 bl #0x25420",
+          "0x1ea2c add x2, x0, x26"
+        ]
+      },
+      {
+        "pc": "0x1eab8",
+        "mnemonic": "bl",
+        "near": [
+          "0x1eaa4 bl #0x242cc",
+          "0x1eaa8 mov x0, x19",
+          "0x1eaac bl #0x242b4",
+          "0x1eab0 ldr x20, [sp, #0x28]",
+          "0x1eab4 mov x0, x20",
+          "0x1eab8 bl #0x25420",
+          "0x1eabc adrp x26, #0x3e000"
+        ]
+      },
+      {
+        "pc": "0x1eb3c",
+        "mnemonic": "bl",
+        "near": [
+          "0x1eb28 mov x0, x22",
+          "0x1eb2c bl #0x2480c",
+          "0x1eb30 mov x0, x21",
+          "0x1eb34 bl #0x2480c",
+          "0x1eb38 mov x0, x28",
+          "0x1eb3c bl #0x25420",
+          "0x1eb40 ldr x19, [x26, #0x290]"
+        ]
+      },
+      {
+        "pc": "0x1eb4c",
+        "mnemonic": "bl",
+        "near": [
+          "0x1eb38 mov x0, x28",
+          "0x1eb3c bl #0x25420",
+          "0x1eb40 ldr x19, [x26, #0x290]",
+          "0x1eb44 cbz x0, #0x1ebbc",
+          "0x1eb48 mov x0, x28",
+          "0x1eb4c bl #0x25420",
+          "0x1eb50 mov x21, x0"
+        ]
+      },
+      {
+        "pc": "0x1eb5c",
+        "mnemonic": "bl",
+        "near": [
+          "0x1eb48 mov x0, x28",
+          "0x1eb4c bl #0x25420",
+          "0x1eb50 mov x21, x0",
+          "0x1eb54 ldr x20, [sp, #0x38]",
+          "0x1eb58 mov x0, x20",
+          "0x1eb5c bl #0x25420",
+          "0x1eb60 mov x22, x0"
+        ]
+      },
+      {
+        "pc": "0x1ebc4",
+        "mnemonic": "bl",
+        "near": [
+          "0x1ebb0 mov x0, x19",
+          "0x1ebb4 bl #0x2480c",
+          "0x1ebb8 b #0x1ebf4",
+          "0x1ebbc ldr x20, [sp, #0x38]",
+          "0x1ebc0 mov x0, x20",
+          "0x1ebc4 bl #0x25420",
+          "0x1ebc8 stp x23, x0, [sp]"
+        ]
+      },
+      {
+        "pc": "0x1f7c0",
+        "mnemonic": "bl",
+        "near": [
+          "0x1f7ac mov x19, x0",
+          "0x1f7b0 cbnz x0, #0x1f74c",
+          "0x1f7b4 mov x0, x27",
+          "0x1f7b8 bl #0x2480c",
+          "0x1f7bc mov x0, x23",
+          "0x1f7c0 bl #0x25420",
+          "0x1f7c4 mov x25, x23"
+        ]
+      },
+      {
+        "pc": "0x1f8d4",
+        "mnemonic": "bl",
+        "near": [
+          "0x1f8c0 mov x0, x26",
+          "0x1f8c4 bl #0x2480c",
+          "0x1f8c8 ldr x26, [sp, #0x30]",
+          "0x1f8cc adrp x28, #0x3e000",
+          "0x1f8d0 mov x0, x23",
+          "0x1f8d4 bl #0x25420",
+          "0x1f8d8 cbz x0, #0x1fb50"
+        ]
+      },
+      {
+        "pc": "0x1ff5c",
+        "mnemonic": "bl",
+        "near": [
+          "0x1ff48 bl #0x261e0",
+          "0x1ff4c mov x23, x0",
+          "0x1ff50 mov x2, x26",
+          "0x1ff54 bl #0x268a0",
+          "0x1ff58 mov x0, x23",
+          "0x1ff5c bl #0x25420",
+          "0x1ff60 cmp x0, #0"
+        ]
+      },
+      {
+        "pc": "0x2116c",
+        "mnemonic": "bl",
+        "near": [
+          "0x21158 bl #0x246ec",
+          "0x2115c adrp x8, #0x3e000",
+          "0x21160 ldr x22, [x8, #0x290]",
+          "0x21164 adrp x8, #0x3e000",
+          "0x21168 ldr x0, [x8, #0xae8]",
+          "0x2116c bl #0x25420",
+          "0x21170 mov x23, x0"
+        ]
+      },
+      {
+        "pc": "0x21ddc",
+        "mnemonic": "bl",
+        "near": [
+          "0x21dc8 ldr x0, [x23, #0x440]",
+          "0x21dcc bl #0x247d0",
+          "0x21dd0 cmp x21, x0",
+          "0x21dd4 b.eq #0x2202c",
+          "0x21dd8 mov x0, x20",
+          "0x21ddc bl #0x25420",
+          "0x21de0 cmp x0, #0x50"
+        ]
+      },
+      {
+        "pc": "0x22c6c",
+        "mnemonic": "bl",
+        "near": [
+          "0x22c58 bl #0x27400",
+          "0x22c5c mov x0, x20",
+          "0x22c60 bl #0x2480c",
+          "0x22c64 adrp x20, #0x3e000",
+          "0x22c68 ldr x0, [x20, #0xaf0]",
+          "0x22c6c bl #0x25420",
+          "0x22c70 cbz x0, #0x22c9c"
+        ]
+      }
+    ],
+    "0x9688": [],
+    "0x958c": [],
+    "0x9674": [
+      {
+        "pc": "0x9668",
+        "mnemonic": "b",
+        "near": [
+          "0x9654 bl #0x2480c",
+          "0x9658 mov x0, x20",
+          "0x965c ldp x29, x30, [sp, #0x10]",
+          "0x9660 ldp x20, x19, [sp], #0x20",
+          "0x9664 b #0x2480c",
+          "0x9668 b #0x9674",
+          "0x966c b #0x9674"
+        ]
+      },
+      {
+        "pc": "0x966c",
+        "mnemonic": "b",
+        "near": [
+          "0x9658 mov x0, x20",
+          "0x965c ldp x29, x30, [sp, #0x10]",
+          "0x9660 ldp x20, x19, [sp], #0x20",
+          "0x9664 b #0x2480c",
+          "0x9668 b #0x9674",
+          "0x966c b #0x9674",
+          "0x9670 b #0x9674"
+        ]
+      },
+      {
+        "pc": "0x9670",
+        "mnemonic": "b",
+        "near": [
+          "0x965c ldp x29, x30, [sp, #0x10]",
+          "0x9660 ldp x20, x19, [sp], #0x20",
+          "0x9664 b #0x2480c",
+          "0x9668 b #0x9674",
+          "0x966c b #0x9674",
+          "0x9670 b #0x9674",
+          "0x9674 mov x20, x0"
+        ]
+      }
+    ],
+    "0x777c": []
+  },
+  "conditional_context": {
+    "blank_one_handler_0x777c": [
+      "0x778c mov x19, x0",
+      "0x7790 cmp w0, #1",
+      "0x7794 b.ne #0x780c",
+      "0x7798 adrp x8, #0x3e000",
+      "0x779c ldr x0, [x8, #0x2e0]",
+      "0x77a0 bl #0x27b20",
+      "0x77a4 mov x29, x29",
+      "0x77a8 bl #0x24830",
+      "0x77ac mov x20, x0",
+      "0x77b0 bl #0x25420",
+      "0x77b4 mov x21, x0",
+      "0x77b8 mov x0, x20",
+      "0x77bc bl #0x2480c",
+      "0x77c0 cbz x21, #0x780c",
+      "0x77c4 adrp x8, #0x3e000",
+      "0x77c8 ldr x8, [x8, #0xa10]",
+      "0x77cc mov w0, #1",
+      "0x77d0 blr x8",
+      "0x77d4 mov x0, #0",
+      "0x77d8 mov w1, #0xca00",
+      "0x77dc movk w1, #0x3b9a, lsl #16",
+      "0x77e0 bl #0x245cc",
+      "0x77e4 adrp x1, #0x34000",
+      "0x77e8 ldr x1, [x1, #0x290]",
+      "0x77ec adrp x2, #0x34000",
+      "0x77f0 add x2, x2, #0x7d0",
+      "0x77f4 bl #0x24548",
+      "0x77f8 mov w0, #0",
+      "0x77fc ldp x29, x30, [sp, #0x20]",
+      "0x7800 ldp x20, x19, [sp, #0x10]",
+      "0x7804 ldp x22, x21, [sp], #0x30",
+      "0x7808 ret ",
+      "0x780c adrp x8, #0x3e000",
+      "0x7810 ldr x1, [x8, #0xa10]",
+      "0x7814 mov x0, x19",
+      "0x7818 ldp x29, x30, [sp, #0x20]",
+      "0x781c ldp x20, x19, [sp, #0x10]",
+      "0x7820 ldp x22, x21, [sp], #0x30",
+      "0x7824 br x1"
+    ],
+    "original_unblank_entry_0x9688": [
+      "0x9688 adrp x8, #0x3e000",
+      "0x968c ldr x1, [x8, #0xa10]",
+      "0x9690 mov w0, #0",
+      "0x9694 br x1"
+    ],
+    "preceding_candidate_function_0x958c": [
+      "0x958c stp x20, x19, [sp, #-0x20]!",
+      "0x9590 stp x29, x30, [sp, #0x10]",
+      "0x9594 add x29, sp, #0x10",
+      "0x9598 adrp x0, #0x29000",
+      "0x959c add x0, x0, #0x667",
+      "0x95a0 bl #0x24788",
+      "0x95a4 mov x29, x29",
+      "0x95a8 bl #0x24830",
+      "0x95ac mov x19, x0",
+      "0x95b0 adrp x0, #0x35000",
+      "0x95b4 add x0, x0, #0x8f0",
+      "0x95b8 bl #0x2441c",
+      "0x95bc mov x20, x0",
+      "0x95c0 mov x0, x19",
+      "0x95c4 mov x1, x20",
+      "0x95c8 bl #0x247f4",
+      "0x95cc tbz w0, #0, #0x95ec",
+      "0x95d0 mov x0, x19",
+      "0x95d4 mov x1, x20",
+      "0x95d8 bl #0x247ac",
+      "0x95dc mov x29, x29",
+      "0x95e0 bl #0x24830",
+      "0x95e4 mov x20, x0",
+      "0x95e8 b #0x9600",
+      "0x95ec adrp x1, #0x35000",
+      "0x95f0 add x1, x1, #0x8f0",
+      "0x95f4 mov x0, x19",
+      "0x95f8 bl #0x9698",
+      "0x95fc mov x20, #0",
+      "0x9600 mov x0, x19",
+      "0x9604 bl #0x2480c",
+      "0x9608 cbnz x20, #0x9658",
+      "0x960c adrp x8, #0x3e000",
+      "0x9610 ldr x0, [x8, #0x2e8]",
+      "0x9614 bl #0x27b20",
+      "0x9618 mov x29, x29"
+    ],
+    "before_0x9520": [
+      "0x9500 mov x0, x1",
+      "0x9504 bl #0x2480c",
+      "0x9508 b #0x9514",
+      "0x950c mov x21, x1",
+      "0x9510 mov x20, x0",
+      "0x9514 cmp w21, #1",
+      "0x9518 b.ne #0x9584",
+      "0x951c mov x0, x20",
+      "0x9520 bl #0x24740",
+      "0x9524 adrp x8, #0x3e000",
+      "0x9528 ldr x8, [x8, #0x290]",
+      "0x952c str x0, [sp]",
+      "0x9530 adrp x2, #0x35000",
+      "0x9534 add x2, x2, #0x8b0",
+      "0x9538 mov x0, x8",
+      "0x953c bl #0x27d20",
+      "0x9540 mov x29, x29",
+      "0x9544 bl #0x24830",
+      "0x9548 mov x19, x0",
+      "0x954c adrp x0, #0x34000",
+      "0x9550 add x0, x0, #0xef0",
+      "0x9554 mov x1, x19",
+      "0x9558 bl #0x1dd30",
+      "0x955c mov x0, x19",
+      "0x9560 bl #0x2480c",
+      "0x9564 bl #0x24764",
+      "0x9568 b #0x94b0",
+      "0x956c mov x20, x0",
+      "0x9570 mov x0, x19",
+      "0x9574 bl #0x2480c",
+      "0x9578 b #0x9580",
+      "0x957c mov x20, x0"
+    ]
+  },
+  "limits": "Indirect symbol names are static imports, not executed calls. LC_DYLD_CHAINED_FIXUPS or GOT without classic indirect indices may leave names unknown. Direct branch xrefs omit objc_msgSend/blocks/indirect callbacks. Function ownership, timing, UI display luminosity, and user Play remain unproven."
+}
