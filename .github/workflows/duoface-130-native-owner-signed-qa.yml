@@ -5,7 +5,7 @@ on:
   push:
     branches: [fix/duoface-qa130-verified-scene-owner-20261030]
     paths:
-      - '.github/workflows/duoface-129-native-owner-signed-qa.yml'
+      - '.github/workflows/duoface-130-native-owner-signed-qa.yml'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
       - 'sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m'
       - 'sideplay/duoface-native-scene-host/tests/test_evidence_owner_reflow_127.py'
