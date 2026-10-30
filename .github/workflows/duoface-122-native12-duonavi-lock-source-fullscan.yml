@@ -70,6 +70,20 @@ jobs:
           test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md
           grep -F 'underlock_should_background' sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md
           grep -E '^## (underlock_|scene_reference_size)' sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md
+      - name: Independently prove original DuoNavi real MSHookMessageEx registration callsites
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duonavi-hook-audit"
+          dpkg-deb -x dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/duonavi-hook-audit"
+          python3 -m py_compile sideplay/audit/lock-native-duonavi-fullscan-20261030/verify_duonavi_hook_imports.py
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/lock-native-duonavi-fullscan-20261030/verify_duonavi_hook_imports.py \
+            --native12-dashboard "$RUNNER_TEMP/native12-hook-audit/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --duonavi-dashboard "$RUNNER_TEMP/duonavi-hook-audit/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+            --out sideplay/audit/lock-native-duonavi-fullscan-20261030
+          test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json
+          test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_HOOK_IMPORT_CROSSCHECK.md
+          grep -E '^## |^-[[:space:]]*Machine-code' sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_HOOK_IMPORT_CROSSCHECK.md
       - uses: actions/upload-artifact@v4
         with:
           name: DuoFace-122-Original-Native12-DuoNavi-Lock-Scene-Forensics
@@ -78,6 +92,8 @@ jobs:
             sideplay/audit/lock-native-duonavi-fullscan-20261030/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json
             sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64.json
             sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md
+            sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json
+            sideplay/audit/lock-native-duonavi-fullscan-20261030/DUONAVI_HOOK_IMPORT_CROSSCHECK.md
           if-no-files-found: error
       - name: Persist audit to existing DuoFace feature repo only
         shell: bash
@@ -91,10 +107,10 @@ jobs:
             TMP="$(mktemp -d)"
             git worktree add --detach "$TMP" FETCH_HEAD
             mkdir -p "$TMP/$REL"
-            cp "$SRC/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$SRC/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md" "$TMP/$REL/"
+            cp "$SRC/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$SRC/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$SRC/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md" "$SRC/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json" "$SRC/DUONAVI_HOOK_IMPORT_CROSSCHECK.md" "$TMP/$REL/"
             git -C "$TMP" config user.name 'github-actions[bot]'
             git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TMP" add "$REL/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$REL/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md"
+            git -C "$TMP" add "$REL/ORIGINAL_VS_QA120_LOCK_VERDICT.md" "$REL/SHA_PINNED_FULL_ORIGINAL_VS_CURRENT.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64.json" "$REL/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md" "$REL/DUONAVI_AND_NATIVE12_EXACT_MSHOOK_IMPORT_CALLS.json" "$REL/DUONAVI_HOOK_IMPORT_CROSSCHECK.md"
             if git -C "$TMP" diff --cached --quiet;then
               git worktree remove --force "$TMP"
               echo ORIGINAL_122_AUDIT_ALREADY_SAVED
