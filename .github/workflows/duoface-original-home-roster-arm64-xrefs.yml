@@ -1,0 +1,86 @@
+name: Original DuoNavi Native12 actual CarPlay Home roster ARM64 xrefs
+on:
+  push:
+    branches: [audit/duonavi-native12-home-roster-20261030]
+    paths:
+      - '.github/workflows/duoface-original-home-roster-arm64-xrefs.yml'
+      - 'sideplay/audit/carplay-home-icons-20261030/decode_original_home_roster_callsites.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-home-roster-arm64-audit
+  cancel-in-progress: false
+jobs:
+  trace:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Retrieve and SHA-check original DuoNavi and Native12 reference DEBs
+        run: |
+          set -euo pipefail
+          echo 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd  dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' | sha256sum -c -
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' -o "$RUNNER_TEMP/native12.deb"
+          echo "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  $RUNNER_TEMP/native12.deb" | sha256sum -c -
+          dpkg-deb -x dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/duonavi"
+          dpkg-deb -x "$RUNNER_TEMP/native12.deb" "$RUNNER_TEMP/native12"
+          echo '44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15' "$RUNNER_TEMP/duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" | sha256sum -c -
+          echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea' "$RUNNER_TEMP/native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" | sha256sum -c -
+      - name: Scan native original ARM64 relative selector and literal references
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/parser"
+          git fetch origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile sideplay/audit/carplay-home-icons-20261030/decode_original_home_roster_callsites.py
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/carplay-home-icons-20261030/decode_original_home_roster_callsites.py \
+              --duonavi "$RUNNER_TEMP/duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+              --native12 "$RUNNER_TEMP/native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+              --out "$RUNNER_TEMP/HOME_ROSTER_XREF.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          j=json.loads((Path(os.environ['RUNNER_TEMP'])/'HOME_ROSTER_XREF.json').read_text())
+          for name in ('DuoNavi104','Native12Reference'):
+              assert j[name]['matchedFunctions']>0,(name,'no xrefs decoded')
+              x=j[name]['function_refs']
+              assert any('CARApplication' in k['marker'] or '_newApplicationLibrary' in k['marker']
+                         for f in x for k in f['refs']),(name,'Home roster selector xref missing')
+              print(name,'HOME_ROSTER_FUNCTION_XREF_VERIFIED_STATIC_ONLY',j[name]['matchedFunctions'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ORIGINAL_HOME_ROSTER_ARM64_XREF
+          path: ${{ runner.temp }}/HOME_ROSTER_XREF.json
+          if-no-files-found: error
+      - name: Preserve nonbinary evidence in project
+        run: |
+          set -euo pipefail
+          REL=sideplay/audit/carplay-home-icons-20261030/original-deb-evidence
+          BRANCH=audit/duonavi-native12-home-roster-20261030
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$REL"
+            cp "$RUNNER_TEMP/HOME_ROSTER_XREF.json" "$TEMP/$REL/HOME_ROSTER_XREF.json"
+            echo "RUN_ID=$GITHUB_RUN_ID" > "$TEMP/$REL/XREF_CI_RESULT.txt"
+            echo "ORIGINAL_IMAGE_SHA_PINNED=true" >> "$TEMP/$REL/XREF_CI_RESULT.txt"
+            echo "CARPLAY_DEVICE_QA=false" >> "$TEMP/$REL/XREF_CI_RESULT.txt"
+            git -C "$TEMP" config user.name github-actions
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL"
+            if git -C "$TEMP" diff --cached --quiet; then git worktree remove --force "$TEMP"; exit 0; fi
+            git -C "$TEMP" commit -m 'audit: persist original DuoNavi Native12 ARM64 CARApplication roster function xrefs [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_HOME_ROSTER_ARM64_XREF_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
