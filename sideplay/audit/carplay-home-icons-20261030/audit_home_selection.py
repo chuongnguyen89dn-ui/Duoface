@@ -26,7 +26,8 @@ original_load = original_strings("OMCAppBridgeAppsController.loadState")
 original_save = original_strings("OMCAppBridgeAppsController.storeChoices")
 original_publisher = original_strings("SCPCarSplit.publishCarPlayApps")
 assert 'DFWriteEnabledAppIDs(updated.array)' in phone, "Missing iPhone enable action"
-assert 'DFPickerAllowsApp(app.bundleID,enabled)' in picker, "Missing in-app catalog filter"
+assert 'DFCarPlaySelectedInstalledBundleIDs(' in picker, "Missing shared installed-approved in-app catalog filter"
+assert 'DFPickerAllowsApp(app,enabled)' in source('DFCarPlaySelectedAppCatalog.h'), "Canonical catalog bypasses phone whitelist"
 assert 'EnabledBundleIDs' in policy and 'DFEnabledAppsChangedNotification' in policy
 assert 'com.duoface.native.scenehost' in info and 'CPTemplateApplicationScene' in info
 assert 'DFTouchOwnerProbe.m' in build and 'DFAppPickerVC.m' in build
@@ -41,8 +42,9 @@ foreign_home_publisher = any(x in build for x in (
     'DFHomeScreenBridge.m', 'DFCarPlayHomeCatalog.m', 'DFHomeIconPublisher.m'))
 result = {
     "kind": "read-only-home-icon-architecture-gap",
-    "source": "fix/duoface-postlock-settings-20261030",
+    "source": "feature/duoface-qa133-native12-gofa-home-roster-20261030",
     "iphone_enabled_bundle_ids_are_used_by_in_car_picker": True,
+    "canonical_selected_installed_catalog_shared": True,
     "external_carplay_home_icon_publication_in_signed_build": foreign_home_publisher,
     "original_omnicar_prefs": {
         "bridge_key": "appBridgeApps",
