@@ -1,0 +1,27 @@
+name: DuoFace CarPlay Home selection read-only architecture audit
+on:
+  push:
+    branches: [fix/duoface-postlock-settings-20261030]
+    paths:
+      - sideplay/audit/carplay-home-icons-20261030/audit_home_selection.py
+      - .github/workflows/duoface-carplay-home-gap-audit.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-home-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check immutable source and original evidence; no build or deployment
+        run: |
+          python3 -m py_compile sideplay/audit/carplay-home-icons-20261030/audit_home_selection.py
+          python3 sideplay/audit/carplay-home-icons-20261030/audit_home_selection.py --out /tmp/home-gap/RESULT.json
+          python3 -m json.tool /tmp/home-gap/RESULT.json > /dev/null
+          grep -q '"external_carplay_home_icon_publication_in_signed_build": false' /tmp/home-gap/RESULT.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-carplay-home-gap-readonly
+          path: /tmp/home-gap/RESULT.json
+          retention-days: 14
