@@ -1,0 +1,159 @@
+{
+  "evidence": "SHA-pinned original DEB byte scan; strings alone do not prove execution",
+  "native12_note": "derived reference; NOT untouched stock original",
+  "DuoNavi104": {
+    "DEB_SHA256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+    "primary_image": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+    "primary_SHA256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+    "MachO_count": 4,
+    "binaries": [
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
+        "sha256": "98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c",
+        "markers": [
+          "bridgedApps",
+          "setApp:enabled:"
+        ],
+        "total_matches": 2
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+        "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+        "markers": [
+          "@_MSHookMessageEx",
+          "CARApplication",
+          "CARApplicationInfo",
+          "DBApplicationInfo",
+          "T@\"NSArray\",&,N,V_bridgedApps",
+          "[DuoNaviDB] CARApplication +_newApplicationLibrary: %@",
+          "[DuoNaviDB] CARApplication -_newApplicationLibrary: %@",
+          "[DuoNaviDB] CARApplication init called",
+          "[DuoNaviDB] CARApplication received settings updated notification",
+          "[DuoNaviDB] CARRootStatusBarViewController homeButtonUp: activated=%d",
+          "[DuoNaviDB] DBRootStatusBarViewController homeButtonUp: activated=%d",
+          "[DuoNaviSB] UI closeAllBridgedAppsTapped: Killing background apps & restarting active on-screen apps",
+          "_MSHookMessageEx",
+          "_bridgedApps",
+          "_newApplicationLibrary",
+          "addMoreAppsTapped:",
+          "appSelected:",
+          "bridgedApps",
+          "carApplication",
+          "closeAllBridgedAppsTapped:",
+          "homeButtonUp:",
+          "prepareHomeScreenForBridge:",
+          "setBridgedApps:",
+          "setLaunchAsCarApplication:",
+          "showAppPickerForSlot:",
+          "showAppPickerForSlot:parentView:"
+        ],
+        "total_matches": 26
+      },
+      {
+        "path": "var/jb/usr/lib/ellekit/OldABI.dylib",
+        "sha256": "9f801b4b03265f5eb5425ac8ee9d05aeeba34544601a74415da80fb948476979",
+        "markers": [],
+        "total_matches": 0
+      },
+      {
+        "path": "var/jb/usr/libexec/cboptimize_helper",
+        "sha256": "421656d74a08174c3c37c734669bef0eda218fa2089ab3cda227ab3f63b1b33e",
+        "markers": [],
+        "total_matches": 0
+      }
+    ]
+  },
+  "Native12Reference": {
+    "DEB_SHA256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+    "primary_image": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+    "primary_SHA256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+    "MachO_count": 8,
+    "binaries": [
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+        "markers": [
+          "bridgedApps",
+          "setApp:enabled:"
+        ],
+        "total_matches": 2
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+        "markers": [
+          "@_MSHookMessageEx",
+          "CARApplication",
+          "CARApplicationInfo",
+          "DBApplicationInfo",
+          "T@\"NSArray\",&,N,V_bridgedApps",
+          "[DuoFaceDB] CARApplication +_newApplicationLibrary: %@",
+          "[DuoFaceDB] CARApplication -_newApplicationLibrary: %@",
+          "[DuoFaceDB] CARApplication init called",
+          "[DuoFaceDB] CARApplication received settings updated notification",
+          "[DuoFaceDB] CARRootStatusBarViewController homeButtonUp: activated=%d",
+          "[DuoFaceDB] DBRootStatusBarViewController homeButtonUp: activated=%d",
+          "[DuoFaceSB] UI closeAllBridgedAppsTapped: Killing background apps & restarting active on-screen apps",
+          "_MSHookMessageEx",
+          "_bridgedApps",
+          "_newApplicationLibrary",
+          "addMoreAppsTapped:",
+          "appSelected:",
+          "bridgedApps",
+          "carApplication",
+          "closeAllBridgedAppsTapped:",
+          "homeButtonUp:",
+          "prepareHomeScreenForBridge:",
+          "setBridgedApps:",
+          "setLaunchAsCarApplication:",
+          "showAppPickerForSlot:",
+          "showAppPickerForSlot:parentView:"
+        ],
+        "total_matches": 26
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+        "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+        "markers": [
+          "_MSHookMessageEx",
+          "closeAllBridgedAppsTapped:"
+        ],
+        "total_matches": 2
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+        "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1",
+        "markers": [
+          "MSHookMessageEx"
+        ],
+        "total_matches": 1
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+        "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364",
+        "markers": [],
+        "total_matches": 0
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib",
+        "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3",
+        "markers": [],
+        "total_matches": 0
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+        "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+        "markers": [
+          "MSHookMessageEx"
+        ],
+        "total_matches": 1
+      },
+      {
+        "path": "var/jb/usr/libexec/duoface_cboptimize_helper",
+        "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906",
+        "markers": [],
+        "total_matches": 0
+      }
+    ]
+  }
+}
