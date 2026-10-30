@@ -15,6 +15,8 @@
 #import <float.h>
 #import <fcntl.h>
 #import <unistd.h>
+#import <dlfcn.h>
+#import <CoreFoundation/CoreFoundation.h>
 
 static const char *const kStart = "com.duoface.nativehost.touchowner.start.v1";
 static const char *const kStop  = "com.duoface.nativehost.touchowner.stop.v1";
@@ -296,10 +298,74 @@ static void DFReceiveAck(void) {
          @"session=%@ seq=%lu action=%@ owner=%@",
          session,(unsigned long)sequence,ack[@"Action"],ack[@"Owner"]]);
 }
+// QA121 independent iOS16 system-idle assertion, scoped to the REAL active
+// CarPlay foreground session. Original DuoNavi 1.0.4 signed ARM64 separately
+// proves CBBridgeManager has a real acquire/release IOPMAssertion pair
+// (0x1c05b8/0x1c0650) of type PreventUserIdleSystemSleep. We use the public
+// IOKit C ABI with our OWN session state, not original binary or license.
+// This does NOT force the iPhone display bright/on, spoof lock state, unlock,
+// change video scene geometry, or override SpringBoard background transitions.
+// A hardware power button may still lock. Always release on Home/disconnect,
+// even if the CarPlay host crashes and only the 2.5s watchdog detects it.
+static uint32_t sDFCarPlaySystemSleepID121;
+static NSString *sDFCarPlaySystemSleepSession121;
+static void *sDFCarPlayIOKit121;
+typedef int32_t (*DFIOPMCreate121)(CFStringRef,uint32_t,CFStringRef,uint32_t *);
+typedef int32_t (*DFIOPMRelease121)(uint32_t);
+static DFIOPMRelease121 sDFIOPMRelease121;
+static void DFCarPlayReleaseIdleSystem121(void) {
+    if(sDFCarPlaySystemSleepID121 && sDFIOPMRelease121) {
+        uint32_t oldID=sDFCarPlaySystemSleepID121;
+        sDFCarPlaySystemSleepID121=0;
+        int32_t result=sDFIOPMRelease121(oldID);
+        DFTOLog(@"qa121-system-idle-assertion-released",
+              [NSString stringWithFormat:@"status=%d",result]);
+    }
+    sDFCarPlaySystemSleepID121=0;
+    sDFCarPlaySystemSleepSession121=nil;
+}
+static void DFCarPlayPreventIdleSystemSleep121(void) {
+    if(!sChrome || !sActivated || !sSession || !DFSessionStillActive() ||
+       !DFConnectedCarDisplay())return;
+    if(sDFCarPlaySystemSleepID121) {
+        if([sSession isEqualToString:sDFCarPlaySystemSleepSession121])return;
+        DFCarPlayReleaseIdleSystem121();
+    }
+    if(!sDFCarPlayIOKit121)
+        sDFCarPlayIOKit121=dlopen("/System/Library/Frameworks/IOKit.framework/IOKit",
+                                  RTLD_LAZY|RTLD_LOCAL);
+    if(!sDFCarPlayIOKit121) {
+        DFTOLog(@"qa121-system-idle-assertion-unavailable",@"IOKit not loaded");
+        return;
+    }
+    DFIOPMCreate121 acquire=(DFIOPMCreate121)dlsym(sDFCarPlayIOKit121,
+                                                     "IOPMAssertionCreateWithName");
+    sDFIOPMRelease121=(DFIOPMRelease121)dlsym(sDFCarPlayIOKit121,
+                                                "IOPMAssertionRelease");
+    if(!acquire || !sDFIOPMRelease121) {
+        DFTOLog(@"qa121-system-idle-assertion-unavailable",
+              @"IOPM create/release symbol missing");
+        return;
+    }
+    uint32_t acquired=0;
+    // PreventUserIdleSystemSleep retains system activity; unlike a display
+    // sleep assertion it does NOT request screen brightness or disable lock.
+    int32_t result=acquire(CFSTR("PreventUserIdleSystemSleep"),255,
+                            CFSTR("DuoFace active CarPlay session"),&acquired);
+    if(result==0 && acquired!=0) {
+        sDFCarPlaySystemSleepID121=acquired;
+        sDFCarPlaySystemSleepSession121=[sSession copy];
+    }
+    DFTOLog(result==0 && acquired?@"qa121-system-idle-assertion-acquired":
+                                  @"qa121-system-idle-assertion-rejected",
+           [NSString stringWithFormat:@"status=%d active=%d",result,
+                                         result==0 && acquired!=0]);
+}
 static void DFStopProbe(NSString *reason) {
     // Revoke the current generation BEFORE any potentially slow media-scene
     // teardown. Queued start/ACK commands can never revive a closed session.
     sGeneration++;
+    DFCarPlayReleaseIdleSystem121();
     sNativeRail120WaitCount=0;
     // Exact old-session cleanup while its ID still exists. The CarPlay
     // process also has an independent heartbeat watchdog restoring the Dock.
@@ -526,6 +592,9 @@ static void DFStartProbe(void) {
         DFTOLog(@"native12-ui-owner-visible",
           [NSString stringWithFormat:@"windowCount=4 content=%@",
            NSStringFromCGRect(region)]);
+        // Preserve system awake state ONLY for a verified active CarPlay
+        // host; release immediately on Home/disconnect or watchdog teardown.
+        DFCarPlayPreventIdleSystemSleep121();
         // Arm only after the real external CarPlay scene + chrome exist.
         // No system-method swizzles; leave app/video geometry unchanged.
         DFArmFatalReasonRecorder();
