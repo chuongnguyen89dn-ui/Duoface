@@ -38,12 +38,14 @@ def examine(root, label):
         if not f.is_file() or f.stat().st_size<64 or f.stat().st_size>100*1024*1024:continue
         if not is_macho(f):continue
         strings=subprocess.run(["strings","-a","-n","5",str(f)],capture_output=True,text=True,errors="replace",check=True).stdout
+        sleep_hints=sorted(set(x.strip()[:160] for x in strings.splitlines()
+                               if re.search(r"(?i)(?:IOPM|assertion|preventuser|idle.?sleep|sleep.?assertion|backlight|screen.?blank|underlock)",x) and len(x)<260))
         hits=sorted(set(x.strip()[:180] for x in strings.splitlines()
                         if PATTERN.search(x) and len(x)<300))
         sensitive=lambda v:any(k.lower() in v.lower() for k in INTERESTED)
         relevant=[h for h in hits if sensitive(h)]
         found.append({"binary":str(f.relative_to(root)),"sha256":sha(f),
-                      "candidateCount":len(hits),"selected":relevant[:125],
+                      "candidateCount":len(hits),"sleepPolicyCandidates":sleep_hints[:130],"selected":relevant[:125],
                       "other": [x for x in hits if not sensitive(x)][:55]})
     return found
 
@@ -83,6 +85,11 @@ def main():
                   f"- Original exact SHA256: `{row['DEB_sha256']}`",
                   f"- Mach-O files scanned: {len(row['MachOBinaries'])}",""]
         for b in row["MachOBinaries"]:
+            hints=b["sleepPolicyCandidates"]
+            if hints:
+                lines += [f"#### Original power/sleep candidate metadata from {b['binary']}"]
+                lines += [f"- {x[:150]}" for x in hints[:120]]
+                lines += [""]
             hits=b["selected"]
             if not hits:continue
             lines += [f"#### `{b['binary']}`",f"- SHA256: `{b['sha256']}`",
