@@ -9,6 +9,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DFSceneLifecycle.m'
       - 'sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m'
       - 'sideplay/duoface-native-scene-host/tests/test_lock_runtime_125.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_native_rail_120.py'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
   workflow_dispatch:
 permissions:
   contents: write
@@ -54,7 +56,7 @@ jobs:
           test -s sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb
           test -s sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb
           test -s sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb
-      - name: Compile sign and hash .124 native host + four receiver dylibs
+      - name: Compile sign and hash .125 native host + four receiver dylibs
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
@@ -69,7 +71,7 @@ jobs:
           done
           SHA="$(shasum -a 256 "$HOST" | awk '{print $1}')"
           echo "NATIVEHOST_SHA=$SHA" >> "$GITHUB_ENV"
-      - name: Produce one immutable independent signed rootless .124 QA package
+      - name: Produce one immutable independent signed rootless .125 QA package
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build \
@@ -93,7 +95,7 @@ jobs:
           name: DuoFace-125-OS-ABI-Signed-QA
           path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.125~lockabi1_iphoneos-arm64.deb
           if-no-files-found: error
-      - name: Archive signed QA bytes and provenance in DuoFace repo (not Sileo)
+      - name: Archive signed QA125 bytes and provenance in DuoFace repo (not Sileo)
         env:
           QA_ARTIFACT: ${{ steps.qa.outputs.artifact-id }}
         run: |
