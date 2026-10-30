@@ -1,4 +1,4 @@
-# QA120 retry: CI 40984892651 caught the integrated package policy still pinned to immutable .119.
+# QA120 retry: CI 40984999645 found undeclared UIKit private CarPlay role symbol; source now uses observed role string and tests Info.plist 120.
 # Read original CarPlay AppDock/button hierarchy; retain .118 fallback if native ownership unresolved.
 name: DuoFace 120 measured native CarPlay rail and Play-tap signed QA
 on:
