@@ -90,7 +90,7 @@ def refscan(m,marker_vms):
                     if m0 and m0.group(2) in pages:
                         addr=pages[m0.group(2)]+int(m0.group(3),16)
                         if addr in marker_vms:
-                            context=ins[max(0,i-5):min(len(ins),i+9)]
+                            context=ins[max(0,i-(14 if vmtomarker[addr]=="BKSDisplayServicesSetScreenBlanked" else 5)):min(len(ins),i+(42 if vmtomarker[addr]=="BKSDisplayServicesSetScreenBlanked" else 9))]
                             matched.append({"pc":hex(z.address),"target_vm":hex(addr),
                                             "kind":"direct_literal_pointer",
                                             "near":[f"{t.address:#x} {t.mnemonic} {t.op_str}" for t in context]})
@@ -102,7 +102,7 @@ def refscan(m,marker_vms):
                             matched.append({"pc":hex(z.address),"target_vm":hex(addr),
                                             "kind":"loaded_cf_or_sel_ref",
                                             "near":[f"{t.address:#x} {t.mnemonic} {t.op_str}"
-                                                    for t in ins[max(0,i-5):min(len(ins),i+9)]]})
+                                                    for t in ins[max(0,i-(14 if vmtomarker[addr]=="BKSDisplayServicesSetScreenBlanked" else 5)):min(len(ins),i+(42 if vmtomarker[addr]=="BKSDisplayServicesSetScreenBlanked" else 9))]]})
             if len(matched)>=85:break
     return matched[:85]
 
