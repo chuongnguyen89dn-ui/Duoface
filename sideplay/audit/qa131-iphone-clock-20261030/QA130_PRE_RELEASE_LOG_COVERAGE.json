@@ -1,0 +1,24 @@
+{
+  "source": "GitHub main sideplay/log, two latest user uploads (not from current handset)",
+  "QA130_public_Sileo_verified_utc": "2026-10-30T12:14:16+00:00",
+  "inputs": {
+    "DuoFaceAudit 12.txt": {
+      "capture_utc": "2026-10-30T06:17:28+00:00",
+      "precedes_public_QA130": true,
+      "bytes": 5633673,
+      "sha256": "c20bdcde9f1232f0673686bfb3dec3d66f502b1f315b453db2da9869977e2383",
+      "has_QA131_frame_probe": false
+    },
+    "DuoFaceAudit 13.txt": {
+      "capture_utc": "2026-10-30T08:43:52+00:00",
+      "precedes_public_QA130": true,
+      "bytes": 4272929,
+      "sha256": "88e24d88aeb8fde7eb661673c8c73d9cfceb9e5cbff15f129c9a435409e4b1d1",
+      "has_QA131_frame_probe": false
+    }
+  },
+  "proves_QA130_lock_touch_cause": false,
+  "does_not_contain_same_session_QA130_onscreen_offscreen_touch_or_play_ack": true,
+  "QA131_diagnostic_needed_before_causal_claim": true,
+  "permitted_inference": "Only latest available uploaded audits predate public QA130, not that a specific device BKS pathway fixes touch"
+}
