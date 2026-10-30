@@ -16,7 +16,7 @@ from pathlib import Path
 from capstone import Cs, CS_ARCH_ARM64, CS_MODE_ARM
 from audit_native12_license_class_xrefs import MachO, select_arm64
 from resolve_omnicar_bks_imports_and_callbacks import (
-    PIN, REL, string_at, slice_at, imports
+    PIN, REL, string_at, slice_at, imports, chained_imports
 )
 
 CS = Cs(CS_ARCH_ARM64, CS_MODE_ARM)
@@ -199,7 +199,7 @@ def instructions_xref_for_data(m,targets):
                          "before":[f"{z.address:#x} {z.mnemonic} {z.op_str}" for z in ins[max(0,i-12):i+2]]})
     return {k:v[:24] for k,v in refs.items()}
 
-def identify_block_candidate(m,pc):
+def identify_block_candidate(m,pc,chain):
     """Test whether raw function-pointer address is offset 16 of a block literal."""
     res={"invoke_vm":hex(pc),"possible_blocks":[]}
     for r in backlinks(m,pc):
@@ -212,6 +212,12 @@ def identify_block_candidate(m,pc):
         try:
             words=[pointer(m,base+i*8) for i in range(5)]
             item["qword0_isa"]=hex(words[0])
+            ordidx=words[0]&0xffffff
+            names=chain.get("names",[])
+            item["isa_ordinal_candidate"]=ordidx
+            if 0<=ordidx<len(names):
+                item["isa_chained_import_candidate"]=names[ordidx]
+                item["isa_import_from_dyld_chained_import_table"]=True
             item["qword1_flags_reserved"]=hex(words[1])
             item["qword2_invoke"]=hex(words[2])
             item["qword3_descriptor"]=hex(words[3])
@@ -277,6 +283,7 @@ def main():
         raw=(Path(t)/REL).read_bytes()
         m=MachO(select_arm64(raw))
         cs=all_classes(m)
+        chain=chained_imports(m)
         methods=focus_methods(m,cs)
         result={"kind":"original OmniCar 1.0.3 class IMP / callback data-reference audit",
                 "source_deb_sha256":pin,
@@ -286,8 +293,8 @@ def main():
                 "ABHost":[c for c in cs if c["class"]=="ABHost"],
                 "focused_methods":methods,
                 "ABHost_count_accessor":selector_and_stub(m,0x26580),
-                "function_pointer_0x9688_block_candidate":identify_block_candidate(m,0x9688),
-                "function_pointer_0x958c_block_candidate":identify_block_candidate(m,0x958c),
+                "function_pointer_0x9688_block_candidate":identify_block_candidate(m,0x9688,chain),
+                "function_pointer_0x958c_block_candidate":identify_block_candidate(m,0x958c,chain),
                 "block_literal_address_code_producers":instructions_xref_for_data(m,{0x347b0,0x347d0,0x347c0,0x347e0}),
                 "target_reference_candidates":{hex(vm):backlinks(m,vm) for vm in TRACED},
                 "target_nearest_prior_method_NOT_proven_owner":target_proximity(methods),
