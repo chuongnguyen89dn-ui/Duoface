@@ -1,0 +1,104 @@
+name: DuoFace six real DEBs original display idle and lock ARM64 callsite forensic
+on:
+  push:
+    branches: [fix/duoface-qa130-verified-scene-owner-20261030]
+    paths:
+      - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_original_screen_callers.py'
+      - '.github/workflows/duoface-qa130-six-original-display-callgraph.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  six-immutable-deb-arm64-readonly:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify central skills and actually read ZIP SKILL.md
+        shell: bash
+        run: |
+          set -euo pipefail
+          for skill in \
+              '01-github-continuity.zip 80efec9a6cbbb49135eabeafb339bf13f74ff6ddef9706659871b30a2c020d7e' \
+              '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' \
+              '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            read -r filename hash <<< "$skill"
+            curl -fLsS --retry 4 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$filename" -o "$RUNNER_TEMP/$filename"
+            printf '%s  %s\n' "$hash" "$RUNNER_TEMP/$filename" | sha256sum -c -
+            unzip -t "$RUNNER_TEMP/$filename"
+            unzip -p "$RUNNER_TEMP/$filename" SKILL.md | sed -n '1,80p'
+          done
+      - name: Fetch exact preserved original and QA130 binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/debs" "$RUNNER_TEMP/original-parser"
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/debs/native12.deb"
+          cp 'dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' "$RUNNER_TEMP/debs/duonavi.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/bafc2441d280707ac1fbfd210780a51bdf69da95/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/debs/omnicar.deb"
+          cp 'com.sideplay_1.0.4-1_iphoneos-arm64.deb' "$RUNNER_TEMP/debs/sideplay.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb' -o "$RUNNER_TEMP/debs/duodash.deb"
+          cp 'sideplay/jb-embedded-appbridge/evidence/runs/41052662293/com.duoface.jb.embedded_0.0.130~sceneowner1_iphoneos-arm64.deb' "$RUNNER_TEMP/debs/qa130.deb"
+          printf '%s  %s\n' \
+           2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad "$RUNNER_TEMP/debs/native12.deb" \
+           f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd "$RUNNER_TEMP/debs/duonavi.deb" \
+           d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd "$RUNNER_TEMP/debs/omnicar.deb" \
+           7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c "$RUNNER_TEMP/debs/sideplay.deb" \
+           ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465 "$RUNNER_TEMP/debs/duodash.deb" \
+           d0573ac14e402dfca450e4b01fd57f898ed03852b354361b0a8acf54a432e24b "$RUNNER_TEMP/debs/qa130.deb" | sha256sum -c -
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          git show 'feature/visual12-duodash-recovery:migration/full_payload/native_test/audit_native12_license_class_xrefs.py' > "$RUNNER_TEMP/original-parser/audit_native12_license_class_xrefs.py"
+          git show 'feature/visual12-duodash-recovery:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py' > "$RUNNER_TEMP/original-parser/audit_native12_carplay_add_app_chain.py"
+          python3 -m py_compile sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_original_screen_callers.py
+      - name: Extract actual six DEBs and trace exact ARM64 adrp/add/ldr to screen APIs
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$RUNNER_TEMP/original-parser" python3 sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_original_screen_callers.py \
+            --Native12Derived "$RUNNER_TEMP/debs/native12.deb" \
+            --DuoNavi104 "$RUNNER_TEMP/debs/duonavi.deb" \
+            --OmniCar103 "$RUNNER_TEMP/debs/omnicar.deb" \
+            --SidePlay104 "$RUNNER_TEMP/debs/sideplay.deb" \
+            --DuoDash113Repack "$RUNNER_TEMP/debs/duodash.deb" \
+            --DuoFaceQA130 "$RUNNER_TEMP/debs/qa130.deb" \
+            --out "$RUNNER_TEMP/display-six-deb"
+          python3 -m json.tool "$RUNNER_TEMP/display-six-deb/SUMMARY.json" > /dev/null
+          grep -F 'DuoFaceQA130' "$RUNNER_TEMP/display-six-deb/SUMMARY.json"
+          echo SIX_DEB_ORIGINAL_ARM64_DISPLAY_IDLE_REFERENCE_AUDIT_COMPLETE_NO_DEVICE_CLAIM
+      - uses: actions/upload-artifact@v4
+        with:
+          name: six-deb-original-display-scene-reference-audit
+          path: ${{ runner.temp }}/display-six-deb/
+          retention-days: 30
+      - name: Commit only compact non-proprietary forensic evidence into DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=fix/duoface-qa130-verified-scene-owner-20261030
+          REL=sideplay/audit/qa130-six-deb-display-callgraph-20261030
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$REL"
+            cp "$RUNNER_TEMP/display-six-deb/SUMMARY.json" "$RUNNER_TEMP/display-six-deb/MACHO_REFERENCES.json" "$TEMP/$REL/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL/SUMMARY.json" "$REL/MACHO_REFERENCES.json"
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              echo SIX_DEB_RESULTS_ALREADY_SAVED
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'forensics: pinned six actual DEBs xrefs original API and lock/scene markers [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo SIX_DEB_RESULTS_COMMITTED_TO_PROJECT
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo '::error::Unable to persist actual forensic outputs into project branch'
+          exit 1
