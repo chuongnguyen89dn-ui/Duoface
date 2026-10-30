@@ -522,18 +522,15 @@ static NSInteger DFObservedSceneForeground(id scene) {
                         ((void (*)(id,SEL,CGRect))objc_msgSend)(
                             settings,frameSelector,nativeFrame);
                     }
-                    // Original independent DuoNavi/OmniCar ARM64 sources guard
-                    // foreground/background setters in a Live scene transaction.
-                    // Dispatch only for our CURRENT owned scene and only if
-                    // the runtime settings type exposes each selector.
-                    SEL fgSelector=NSSelectorFromString(@"setForeground:");
-                    if (!unchanged && settings && [settings respondsToSelector:fgSelector]) {
-                        ((void (*)(id,SEL,BOOL))objc_msgSend)(settings,fgSelector,YES);
-                    }
-                    SEL bgSelector=NSSelectorFromString(@"setBackgrounded:");
-                    if (!unchanged && settings && [settings respondsToSelector:bgSelector]) {
-                        ((void (*)(id,SEL,BOOL))objc_msgSend)(settings,bgSelector,NO);
-                    }
+                    // QA127 real-device root-cause audit: do NOT make a scene
+                    // foreground/Background decision from a FRAME transaction.
+                    // Audit12 proved another global FBScene policy already
+                    // rewrites explicit foreground=NO. Two writers can race
+                    // system Lock/Home deactivation in a Live GOFA/YouTube host.
+                    // Leave this callback frame-only (plus the pre-existing
+                    // strictly owned YouTube portrait orientation correction).
+                    // This does NOT claim the global lifecycle assertion is
+                    // fixed; that requires a matched owner/observer callback.
                     // Never force external CarPlay landscape. Correct only
                     // a measured non-portrait YouTube MAIN scene; preserve
                     // Native12 portrait content-reference arguments unchanged.
