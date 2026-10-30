@@ -7,11 +7,21 @@
 #import <objc/message.h>
 #import <dlfcn.h>
 #import <string.h>
+#import <math.h>
+#import <UIKit/UIKit.h>
 
 static NSMapTable *sOwners;
 static void (*sUpdate)(id, SEL, id, id, id);
 static void (*sPreviousSceneObserver)(id, SEL, id, id, id);
 static BOOL sInstalled;
+// QA123: independently scoped under-lock policy for a live CarPlay-hosted
+// phone scene only. Original signed DuoNavi/Native12 confirms the *behavior*,
+// not code copied here. No passcode/activation hooks and no lock bypass.
+static BOOL (*sOriginalBackgroundUnderLock)(id,SEL,id,id);
+static BOOL (*sOriginalShouldUnderLock)(id,SEL,id);
+static BOOL sUnderLockInstalled;
+static NSString *const DFCarPlayPulsePath123=
+ @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
 
 static BOOL DFObjectUpdateABI(Method method) {
     if (!method || method_getNumberOfArguments(method)!=5) return NO;
@@ -118,6 +128,98 @@ static void DFManagedSceneObserver(id controller, SEL selector, id handle,
     }
     sPreviousSceneObserver(controller,selector,handle,diff,previousSettings);
 }
+// UIKit/FrontBoard object provenance must match the *current* live scene,
+// not merely an allowed bundle string. SpringBoard may ask about other apps'
+// scenes during a phone lock; those ALWAYS retain Apple's original policy.
+// Fail closed on unknown ABI, off-main thread, a stale heartbeat or missing
+// external display; never reinterpret iPhone passcode/lock authorization.
+static BOOL DFLockABI(Method method, unsigned int count) {
+    if(!method || method_getNumberOfArguments(method)!=count)return NO;
+    char type[16]={0};
+    method_getReturnType(method,type,sizeof(type));
+    if(type[0]!='B' && type[0]!='c')return NO;
+    for(unsigned int i=2;i<count;i++) {
+        method_getArgumentType(method,i,type,sizeof(type));
+        if(type[0]!='@')return NO;
+    }
+    return YES;
+}
+static BOOL DFSessionOwnsLiveCarPlay123(void) {
+    if(!NSThread.isMainThread)return NO;
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFCarPlayPulsePath123];
+    if(![pulse[@"Active"] respondsToSelector:@selector(boolValue)] ||
+       ![pulse[@"Active"] boolValue] ||
+       ![pulse[@"Session"] isKindOfClass:NSString.class] ||
+       [pulse[@"Session"] length]<10 ||
+       ![pulse[@"Timestamp"] respondsToSelector:@selector(doubleValue)])return NO;
+    NSTimeInterval age=NSDate.date.timeIntervalSince1970-
+                       [pulse[@"Timestamp"] doubleValue];
+    if(!isfinite(age) || age<0 || age>1.65)return NO;
+    // An actual separate car display, not an iPhone lock-screen window.
+    for(UIScreen *screen in UIScreen.screens)
+        if(screen!=UIScreen.mainScreen)return YES;
+    return NO;
+}
+static BOOL DFIsOwnedHostedLockScene123(id scene) {
+    if(!sOwners || !scene || !DFSessionOwnsLiveCarPlay123())return NO;
+    for(id controller in sOwners.keyEnumerator.allObjects) {
+        id (^current)(void)=[sOwners objectForKey:controller];
+        if(!current || current()!=scene)continue;
+        id handle=((id(*)(id,SEL))objc_msgSend)(controller,
+                                                NSSelectorFromString(@"sceneHandle"));
+        if(!DFIsOwnedManualSceneObserver(controller,handle))continue;
+        SEL hosted=NSSelectorFromString(@"isHostingAnApp");
+        Method hm=class_getInstanceMethod(object_getClass(controller),hosted);
+        if(!DFLockABI(hm,2))continue;
+        if(!((BOOL(*)(id,SEL))objc_msgSend)(controller,hosted))continue;
+        UIView *view=[controller viewIfLoaded];
+        UIWindow *window=view.window;
+        if(!window || window.hidden || window.screen==UIScreen.mainScreen ||
+           view.hidden || view.alpha<=0.0)return NO;
+        return YES;
+    }
+    return NO;
+}
+static BOOL DFUnderLockBackground123(id manager,SEL cmd,id scene,id settings) {
+    if(DFIsOwnedHostedLockScene123(scene)) {
+        DFDeepTrace(@"qa123-underlock",@"owned-live-underlock-background-rejected");
+        return NO;
+    }
+    return sOriginalBackgroundUnderLock(manager,cmd,scene,settings);
+}
+static BOOL DFUnderLockScene123(id manager,SEL cmd,id scene) {
+    if(DFIsOwnedHostedLockScene123(scene)) {
+        DFDeepTrace(@"qa123-underlock",@"owned-live-underlock-scene-kept");
+        return NO;
+    }
+    return sOriginalShouldUnderLock(manager,cmd,scene);
+}
+static void DFInstallOwnedUnderLock123(void) {
+    if(sUnderLockInstalled)return;
+    Class cls=NSClassFromString(@"SBSuspendedUnderLockManager");
+    SEL background=NSSelectorFromString(
+          @"_shouldBeBackgroundUnderLockForScene:withSettings:");
+    SEL underlock=NSSelectorFromString(@"shouldBeUnderLockForScene:");
+    Method bg=class_getInstanceMethod(cls,background);
+    Method ul=class_getInstanceMethod(cls,underlock);
+    if(!DFLockABI(bg,4) || !DFLockABI(ul,3)) {
+        DFDeepTrace(@"qa123-underlock",@"os-underlock-methods-abi-incompatible");
+        return;
+    }
+    typedef void (*Hook)(Class,SEL,IMP,IMP *);
+    Hook hook=(Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
+    if(!hook)return;
+    // Both ABIs validated before either hook is added. No interceptions of
+    // SBMainWorkspace passcode checks or screen-blanking API.
+    hook(cls,background,(IMP)DFUnderLockBackground123,
+         (IMP *)&sOriginalBackgroundUnderLock);
+    hook(cls,underlock,(IMP)DFUnderLockScene123,
+         (IMP *)&sOriginalShouldUnderLock);
+    sUnderLockInstalled=(sOriginalBackgroundUnderLock!=NULL &&
+                         sOriginalShouldUnderLock!=NULL);
+    DFDeepTrace(@"qa123-underlock",sUnderLockInstalled?
+      @"owned-underlock-decisions-installed":@"underlock-original-imp-unavailable");
+}
 BOOL DFSceneLifecycleInstall(void) {
     if(!NSThread.isMainThread)return NO;
     if(sInstalled)return YES;
@@ -141,6 +243,7 @@ BOOL DFSceneLifecycleInstall(void) {
     }
     hook(cls,selector,(IMP)DFUpdateScene,(IMP *)&sUpdate);
     sInstalled=sUpdate!=NULL;
+    if(sInstalled)DFInstallOwnedUnderLock123();
     DFDeepTrace(@"scene-lifecycle",sInstalled?@"manual-owner-observer-and-foreground-boundary-installed":@"boundary-unavailable");
     return sInstalled;
 }
