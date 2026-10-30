@@ -37,7 +37,7 @@ class RuntimeABI125(unittest.TestCase):
   self.assertNotIn('retain-even-when-scene-background',s)
  def test_version_wiring(self):
   root=R.parents[0]
-  self.assertIn('0.1.128~manualowner1',(R/'build.sh').read_text())
-  self.assertIn('0.1.128~manualowner1',(R/'control').read_text())
-  self.assertIn('VERSION="0.0.128~manualowner1"',(root/'jb-embedded-appbridge/package_integrated.py').read_text())
+  self.assertIn('0.1.129~nativeowner1',(R/'build.sh').read_text())
+  self.assertIn('0.1.129~nativeowner1',(R/'control').read_text())
+  self.assertIn('VERSION="0.0.129~nativeowner1"',(root/'jb-embedded-appbridge/package_integrated.py').read_text())
 if __name__=="__main__":unittest.main()
