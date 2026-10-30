@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-qa135-original-home-hook-abi.yml'
       - 'sideplay/audit/carplay-home-icons-20261030/trace_original_home_hook_abi.py'
+      - 'sideplay/audit/carplay-home-icons-20261030/trace_original_home_semantic_selectors.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -39,6 +40,10 @@ jobs:
              --duonavi "$RUNNER_TEMP/duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
              --native12 "$RUNNER_TEMP/native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
              --out "$RUNNER_TEMP/ORIGINAL_HOME_HOOK_ABI.json"
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/carplay-home-icons-20261030/trace_original_home_semantic_selectors.py \
+             --duonavi "$RUNNER_TEMP/duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+             --native12 "$RUNNER_TEMP/native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+             --out "$RUNNER_TEMP/ORIGINAL_HOME_SEMANTIC_SELECTORS.json"
           python3 - <<'PY'
           import json,os
           from pathlib import Path
@@ -52,7 +57,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: Original-Home-8Function-ABI-Research
-          path: ${{ runner.temp }}/ORIGINAL_HOME_HOOK_ABI.json
+          path: |
+            ${{ runner.temp }}/ORIGINAL_HOME_HOOK_ABI.json
+            ${{ runner.temp }}/ORIGINAL_HOME_SEMANTIC_SELECTORS.json
           if-no-files-found: error
       - name: Persist exact audit result in DuoFace branch only
         run: |
@@ -65,6 +72,7 @@ jobs:
             git worktree add --detach "$TMP" FETCH_HEAD
             mkdir -p "$TMP/$REL"
             cp "$RUNNER_TEMP/ORIGINAL_HOME_HOOK_ABI.json" "$TMP/$REL/ORIGINAL_HOME_HOOK_ABI.json"
+            cp "$RUNNER_TEMP/ORIGINAL_HOME_SEMANTIC_SELECTORS.json" "$TMP/$REL/ORIGINAL_HOME_SEMANTIC_SELECTORS.json"
             echo "RUN_ID=$GITHUB_RUN_ID" > "$TMP/$REL/ABI_CI_RESULT.txt"
             echo 'SIGNED_PACKAGE_BUILT=false' >> "$TMP/$REL/ABI_CI_RESULT.txt"
             echo 'DEVICE_PASS=false' >> "$TMP/$REL/ABI_CI_RESULT.txt"
