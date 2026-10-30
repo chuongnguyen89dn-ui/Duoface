@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-original-native12-duonavi-home-roster-audit.yml'
       - 'sideplay/audit/carplay-home-icons-20261030/scan_verified_original_home_markers.py'
+      - 'sideplay/audit/carplay-home-icons-20261030/trace_original_home_catalog_arm64.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -53,10 +54,35 @@ jobs:
               print(name,'HOME_SCENE_EXISTENCE_NOT_A_HOME_ROSTER_PUBLISHER_PROOF',
                     'MachO',d[name]['MachO_count'])
           PY
+      - name: Cross-check original CARApplication _newApplicationLibrary ARM64 function-site references
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/verified-parser" "$RUNNER_TEMP/unpack-duonavi" "$RUNNER_TEMP/unpack-native12"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/verified-parser/audit_native12_license_class_xrefs.py"
+          dpkg-deb -x dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/unpack-duonavi"
+          dpkg-deb -x "$RUNNER_TEMP/native12-derived.deb" "$RUNNER_TEMP/unpack-native12"
+          PYTHONPATH="$RUNNER_TEMP/verified-parser" python3 sideplay/audit/carplay-home-icons-20261030/trace_original_home_catalog_arm64.py \
+            --duonavi-image "$RUNNER_TEMP/unpack-duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+            --native12-image "$RUNNER_TEMP/unpack-native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --out "$RUNNER_TEMP/ORIGINAL_HOME_ARM64_XREFS.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['RUNNER_TEMP'])/'ORIGINAL_HOME_ARM64_XREFS.json').read_text())
+          for name in ('DuoNavi104','Native12Reference'):
+              assert d[name]['function_count']>100,name
+              assert d[name]['ref_count']>0,name
+              print('ORIGINAL_HOME_FUNCTION_STARTS_VERIFIED',name,
+                  'xrefs',d[name]['xref_count'])
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: Original-DuoNavi-Native12-CarPlay-Home-Markers
-          path: ${{ runner.temp }}/ORIGINAL_HOME_MARKERS.json
+          path: |
+            ${{ runner.temp }}/ORIGINAL_HOME_MARKERS.json
+            ${{ runner.temp }}/ORIGINAL_HOME_ARM64_XREFS.json
           if-no-files-found: error
       - name: Archive verified original marker evidence into DuoFace project (not original binaries)
         run: |
@@ -69,6 +95,7 @@ jobs:
             git worktree add --detach "$TEMP" FETCH_HEAD
             mkdir -p "$TEMP/$REL"
             cp "$RUNNER_TEMP/ORIGINAL_HOME_MARKERS.json" "$TEMP/$REL/ORIGINAL_HOME_MARKERS.json"
+            cp "$RUNNER_TEMP/ORIGINAL_HOME_ARM64_XREFS.json" "$TEMP/$REL/ORIGINAL_HOME_ARM64_XREFS.json"
             printf 'RUN_ID=%s\nINPUT=real_sha_pinned_debs\nDEVICE_QA=false\nHOME_ICON_PUBLISHER_VERIFIED=false\n' "$GITHUB_RUN_ID" > "$TEMP/$REL/CI_RESULT.txt"
             git -C "$TEMP" config user.name 'github-actions[bot]'
             git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
