@@ -1,0 +1,122 @@
+name: DuoFace QA125 versus 4 ORIGINAL DEBs full package and scene binary forensic - no release
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-127-five-real-deb-full-package-forensics.yml'
+      - 'sideplay/audit/qa125-vs-four-original-real-debs-20261030/full_deb_inventory_and_callback_crosswalk.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-qa125-fullscan-20261030
+  cancel-in-progress: false
+jobs:
+  evidence:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Read exact iOS CarPlay skill ZIP, verify original hashes and macOS forensic dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' -o "$RUNNER_TEMP/carplay-skill.zip"
+          printf '%s  %s\n' 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' "$RUNNER_TEMP/carplay-skill.zip" | shasum -a 256 -c -
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -p "$RUNNER_TEMP/carplay-skill.zip" SKILL.md > "$RUNNER_TEMP/CARPLAY_SKILL_READ.md"
+          sed -n '1,80p' "$RUNNER_TEMP/CARPLAY_SKILL_READ.md"
+          python3 -m py_compile sideplay/audit/qa125-vs-four-original-real-debs-20261030/full_deb_inventory_and_callback_crosswalk.py
+      - name: Fetch the exact signed production QA125 and all FOUR distinct original artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/five-debs"
+          BASE="$RUNNER_TEMP/five-debs"
+          cp dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$BASE/DuoNavi104.deb"
+          cp com.sideplay_1.0.4-1_iphoneos-arm64.deb "$BASE/SidePlay104.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' -o "$BASE/Native12.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/bafc2441d280707ac1fbfd210780a51bdf69da95/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$BASE/OmniCar103.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/272f229a61ebc126ef8aeb92e3a05bd63ae440be/sideplay/jb-embedded-appbridge/evidence/runs/41005523412/com.duoface.jb.embedded_0.0.125~lockabi1_iphoneos-arm64.deb' -o "$BASE/DuoFaceQA125.deb"
+          cat > "$BASE/sha256known.txt" <<EOF
+          2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  $BASE/Native12.deb
+          f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd  $BASE/DuoNavi104.deb
+          d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd  $BASE/OmniCar103.deb
+          1914f4e2c6e8dce0fadb5035166c0869966759fb74eb1c89424712dcf71cbe93  $BASE/DuoFaceQA125.deb
+          EOF
+          shasum -a 256 -c "$BASE/sha256known.txt"
+          shasum -a 256 "$BASE/SidePlay104.deb" | tee "$BASE/sideplay-source-sha256.txt"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/a57815b2430092a9c27811a88b53f9bbbb70312d/sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' -o "$BASE/native12-index.json"
+          test "$(git hash-object "$BASE/native12-index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
+          echo FIVE_EXACT_SIGNED_AND_ORIGINAL_ARTIFACTS_SHA_VERIFIED
+      - name: FULL read-only all package files, control scripts, Mach-O, all 1385 Native12 methods, and current owner source
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="$RUNNER_TEMP/five-debs"
+          DEST="sideplay/audit/qa125-vs-four-original-real-debs-20261030/runs/$GITHUB_RUN_ID"
+          mkdir -p "$DEST"
+          python3 sideplay/audit/qa125-vs-four-original-real-debs-20261030/full_deb_inventory_and_callback_crosswalk.py \
+            --native12 "$BASE/Native12.deb" \
+            --duonavi "$BASE/DuoNavi104.deb" \
+            --omnicar "$BASE/OmniCar103.deb" \
+            --sideplay "$BASE/SidePlay104.deb" \
+            --qa125 "$BASE/DuoFaceQA125.deb" \
+            --native12-index "$BASE/native12-index.json" \
+            --out "$DEST"
+          cp "$BASE/sideplay-source-sha256.txt" "$DEST/"
+          test -s "$DEST/Native12_ALL_FILES_AND_BINARIES.json"
+          test -s "$DEST/DuoNavi104_ALL_FILES_AND_BINARIES.json"
+          test -s "$DEST/OmniCar103_ALL_FILES_AND_BINARIES.json"
+          test -s "$DEST/SidePlay104_ALL_FILES_AND_BINARIES.json"
+          test -s "$DEST/DuoFaceQA125_ALL_FILES_AND_BINARIES.json"
+          test -s "$DEST/NATIVE12_ALL_1385_METHODS_VS_QA125.json"
+          python3 - "$DEST" <<'PY'
+          import json,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          m=json.loads((root/'NATIVE12_ALL_1385_METHODS_VS_QA125.json').read_text())['methods']
+          s=json.loads((root/'SUMMARY.json').read_text())
+          assert len(m)==1385
+          assert len(s['all_package_summary'])==5
+          assert all(v['binary_count']>0 for v in s['all_package_summary'].values())
+          assert s['all_package_summary']['DuoFaceQA125']['sha256']=='1914f4e2c6e8dce0fadb5035166c0869966759fb74eb1c89424712dcf71cbe93'
+          print('FIVE_DEB_INVENTORY_AND_1385_ORIGINAL_METHODS_VERIFIED')
+          PY
+          echo "AUDIT_OUT=$DEST" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-125-vs-Four-Original-Whole-DEB-ReadOnly-Inventory
+          path: sideplay/audit/qa125-vs-four-original-real-debs-20261030/runs/
+          if-no-files-found: error
+      - name: Persist complete forensic scan in the SAME project repo and reread commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          REL="$AUDIT_OUT"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TARGET="$(mktemp -d)"
+            git worktree add --detach "$TARGET" FETCH_HEAD
+            mkdir -p "$TARGET/$REL"
+            cp "$REL"/* "$TARGET/$REL/"
+            git -C "$TARGET" config user.name 'github-actions[bot]'
+            git -C "$TARGET" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TARGET" add "$REL/"
+            git -C "$TARGET" commit -m "forensics: retain 4 original DEBs versus SHA-pinned QA125 all-files all-MachO inventory [skip ci]"
+            if git -C "$TARGET" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TARGET"
+              git fetch --no-tags origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:$REL/SUMMARY.json"
+              git cat-file -e "FETCH_HEAD:$REL/NATIVE12_ALL_1385_METHODS_VS_QA125.json"
+              echo "ALL_FIVE_DEB_AUDIT_REPO_PERSIST_AND_REFETCH_VERIFIED"
+              exit 0
+            fi
+            git worktree remove --force "$TARGET"
+          done
+          echo '::error::Audit built but GitHub push failed. Artifact still available.' >&2
+          exit 1
