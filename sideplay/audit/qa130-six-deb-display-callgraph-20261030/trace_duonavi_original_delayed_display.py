@@ -4,14 +4,14 @@
 Real signed SHA-pinned original DEB; read-only. This is *not* a live device
 trace and contains no vendor implementation copied to independent runtime.
 """
-import argparse,hashlib,json,subprocess,tempfile
+import argparse,hashlib,json,subprocess,tempfile,struct
 from pathlib import Path
 from audit_native12_license_class_xrefs import MachO,select_arm64
-from resolve_omnicar_bks_imports_and_callbacks import imports,stub_import
+from resolve_omnicar_bks_imports_and_callbacks import imports,stub_import,string_at
 from audit_native12_duonavi_screenblank_preferences import block
 PIN="f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd"
 REL="var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
-STUBS=(0x3135c4,0x3135d0,0x3135dc,0x313780,0x3137b0,0x3137e0,0x3137bc,0x313798)
+STUBS=(0x31354c,0x3135c4,0x3135d0,0x3135dc,0x313780,0x3137b0,0x3137e0,0x3137bc,0x313798)
 def main():
  p=argparse.ArgumentParser()
  p.add_argument("--deb",required=True,type=Path)
@@ -25,11 +25,15 @@ def main():
   raw=(Path(tmp)/REL).read_bytes()
   m=MachO(select_arm64(raw))
   imp=imports(m.data)
+  selraw=struct.unpack_from("<Q",m.data,m.map(0x3a8cf0))[0]
+  selvm=selraw&0xffffffff
+  callback_guard=string_at(m.data,m.map(selvm))
   results={
     "original_deb_sha256":digest,
     "original_dylib_sha256":hashlib.sha256(raw).hexdigest(),
     "instrumented_on_phone":False,
     "code_executed_on_device":False,
+    "callback_guard_selector":{"ref_vm":"0x3a8cf0","raw_word":hex(selraw),"literal_vm_candidate":hex(selvm),"literal":callback_guard},
     "import_symbols":{hex(vm):stub_import(m,imp["bindings"],vm) for vm in STUBS},
     "bks_blank1_original_conditional":{
       "source_symbol_resolver":"0x192e68..0x192e80",
@@ -39,7 +43,8 @@ def main():
       "context":block(m,0x192ef4,0x2c,0x7c),
       "callback_candidate":"0x1a636c",
       "callback_instructions":block(m,0x1a636c,0,0x110),
-      "original_unblank_neighbor_0x1a63b0":block(m,0x1a63b0,0,0x54)
+      "original_unblank_neighbor_0x1a63b0":block(m,0x1a63b0,0,0x54),
+      "conditional_other_branch_0x192f30":block(m,0x192f30,0,0xb4)
     },
     "known_other_unblank_sites":{
       hex(vm):block(m,vm,0x1c,0x30)
