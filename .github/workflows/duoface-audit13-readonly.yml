@@ -1,0 +1,82 @@
+name: DuoFace Audit13 read-only tap and crash evidence
+
+on:
+  push:
+    branches:
+      - fix/duoface-postlock-settings-20261030
+    paths:
+      - .github/workflows/duoface-audit13-readonly.yml
+      - sideplay/audit/qa129-audit13-input-crash-20261030/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  correlate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and read central GitHub, CarPlay and debugging ZIP skills
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/duoface-central-skills
+          while read -r archive sha; do
+            curl -fsSL --retry 3 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$archive" -o "/tmp/duoface-central-skills/$archive"
+            echo "$sha  /tmp/duoface-central-skills/$archive" | sha256sum -c -
+            test -n "$(unzip -p "/tmp/duoface-central-skills/$archive" SKILL.md)"
+            echo "Central skill verified and read: $archive"
+            unzip -p "/tmp/duoface-central-skills/$archive" SKILL.md | head -60
+          done <<'SKILLS'
+          01-github-continuity.zip 80efec9a6cbbb49135eabeafb339bf13f74ff6ddef9706659871b30a2c020d7e
+          02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf
+          05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98
+          SKILLS
+      - name: Fetch immutable main-branch uploaded evidence without merging source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin main
+          mkdir -p /tmp/duoface-audit13/evidence
+          git show "FETCH_HEAD:sideplay/log/DuoFaceAudit 13.txt" > "/tmp/duoface-audit13/evidence/DuoFaceAudit 13.txt"
+          for f in Crash-0-SpringBoard-2026-10-30-142555.ips Crash-0-SpringBoard-2026-10-30-131627.ips Crash-1-SpringBoard-2026-10-30-131318.ips; do
+            git show "FETCH_HEAD:sideplay/log/$f" > "/tmp/duoface-audit13/evidence/$f"
+          done
+          test "$(git hash-object '/tmp/duoface-audit13/evidence/DuoFaceAudit 13.txt')" = e8c3a579a27c61209e0de556f166e57fa5fa2c06
+          test "$(git hash-object '/tmp/duoface-audit13/evidence/Crash-0-SpringBoard-2026-10-30-142555.ips')" = 4063ac939394f6e3f7039b2f4072a407f028629a
+          test "$(git hash-object '/tmp/duoface-audit13/evidence/Crash-0-SpringBoard-2026-10-30-131627.ips')" = a2defd4766c4c54b2f27b079bc1b4b8d63c71643
+          test "$(git hash-object '/tmp/duoface-audit13/evidence/Crash-1-SpringBoard-2026-10-30-131318.ips')" = 394c568d6e5e4877d6ef9e2d2a54f709f4940aaf
+      - name: Parse and test version provenance, event counts, crash types and loaded UUID
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa129-audit13-input-crash-20261030/audit_audit13.py
+          python3 sideplay/audit/qa129-audit13-input-crash-20261030/audit_audit13.py \
+            --audit "/tmp/duoface-audit13/evidence/DuoFaceAudit 13.txt" \
+            --ips /tmp/duoface-audit13/evidence/Crash-*.ips \
+            --out /tmp/duoface-audit13/result
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path("/tmp/duoface-audit13/result/RESULT.json").read_text())
+          assert "exporter build 0.0.90~nativegetters1" in r["exporter_header"], r["exporter_header"]
+          assert list(r["timestamped_builds"]) == ["0.0.90~nativegetters1"], r["timestamped_builds"]
+          assert r["scene_readback"]["count"] == 130, r["scene_readback"]
+          assert r["scene_readback"]["same_0"] == 130 and r["scene_readback"]["same_1"] == 0
+          assert r["scene_readback"]["apps"] == {"com.lumi.GOFA": 54, "com.google.ios.youtube": 67, "com.facebook.Facebook": 9}
+          assert r["timestamped_pane_tap"] == 0 and r["timestamped_pane116"] == 0
+          assert len(r["crashes"]) == 3
+          assert [c["exception"]["signal"] for c in r["crashes"]] == ["SIGABRT","SIGABRT","SIGTRAP"]
+          assert all(c["scene_observer_in_stack"] and c["duoface_observer_in_stack"] for c in r["crashes"])
+          assert r["crashes"][-1]["duoface_update_in_stack"]
+          assert r["crashes"][-1]["duoface_images"]["DFTouchOwnerProbe.dylib"].lower() == "692f1e47-45c1-3672-bf34-0ae53f96abb8"
+          print("AUDIT13_QA90_ONLY_CRASH_AND_INPUT_EVIDENCE_VERIFIED_NO_QA129_DEVICE_CLAIM")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-audit13-readonly-result
+          path: /tmp/duoface-audit13/result/RESULT.json
+          if-no-files-found: warn
