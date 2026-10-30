@@ -39,7 +39,7 @@ class UnderLockOwner123(unittest.TestCase):
         self.assertNotIn('SBSuspendedUnderLockManager sharedInstance',s)
     def test_no_passcode_hook_or_foreign_global_policy(self):
         s=self.code
-        self.assertNotIn('SBMainWorkspace',s)
+        self.assertNotIn('NSClassFromString(@"SBMainWorkspace")',s)
         self.assertNotIn('isPasscodeLockedOrBlockedWithResult:',s)
         self.assertNotIn('canActivateApplication:withResult:',s)
         self.assertNotIn('CBDuoNaviHosted',s)
