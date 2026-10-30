@@ -1,4 +1,4 @@
-# QA122 import scan retry after removing unused unavailable module on real runner; original signatures unmodified.
+# QA122 import scan: original DuoNavi FAT whole-file SHA differs from selected arm64 slice, both independently recorded.
 name: DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan
 on:
   push:
