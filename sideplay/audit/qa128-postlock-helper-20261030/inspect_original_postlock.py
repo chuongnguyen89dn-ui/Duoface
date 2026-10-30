@@ -22,7 +22,7 @@ for _ in range(m.ncmds):
  pos+=size
 assert starts==sorted(set(starts))
 chosen={'postlock_settings_helper':0x2eca50,'intercept_original_first':0x2ed954}
-for cl,sels in {'CBWindow':['-show','-hide:','-dismiss','+activeCarPlayWindow'],'CBBridgeManager':['-dismiss:','-handleCarPlayConnectionChanged:','-handleScreenDidDisconnect:','-handleScreenDidConnect:']}.items():
+for cl,sels in {'CBWindow':['-show','-hide:','-dismiss','+activeCarPlayWindow'],'CBBridgeManager':['-dismiss:','-handleCarPlayConnectionChanged:','-handleScreenDidDisconnect:','-handleScreenDidConnect:','-isUIAppBridging','-shouldBridge:','-deactivateCurrentApp']}.items():
  mm=methods(m,cl)
  for sel in sels:chosen[cl+sel]=mm[sel]['vm']
 results={}

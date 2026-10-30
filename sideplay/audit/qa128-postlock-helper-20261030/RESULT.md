@@ -1,3 +1,9 @@
+# Verified SDK result and additional owner findings
+
+Source candidate acfe2c68e19dcb8f48c10d0f6c46cf055a2edc49, branch fix/duoface-postlock-settings-20261030. GitHub Actions https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41030282881 completed SUCCESS, job 123978130191. Real iPhone SDK arm64 iOS16 syntax-only compilation PASS; 128 compiled callback contract cases and 37 Python static/source/geometry regression checks PASS. This is not a linked/signed DEB or a physical Play test. See SDK_RESULT.json.
+
+Extended exact decode includes isUIAppBridging 0x26c04c..0x26c0a8: 23 instructions, returns false if activated is false, otherwise tests currentApp nonnil. shouldBridge: 0x26c0a8..0x26c504 (279 instructions) checks current/split app membership. deactivateCurrentApp 0x1bec84..0x1bf148 (305 instructions) stops/removes owned app views and destroys windows. These confirm separate application-level bridge ownership; they do NOT establish which current iOS16 system event should clear activated on CarPlay Home. Exact setter/caller transition still needs tracing. Source candidate deliberately leaves CPTemplate stop path unchanged and cannot guarantee locked input.
+
 # Original post-lock helper decoded; independent candidate staged
 
 Baseline f84e27a9; public QA128 untouched. This turn read actual original DEB from dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb, checked DEB SHA f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd, extracted with dpkg-deb, checked Dashboard SHA 44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15. No original binary executed or modified.
@@ -13,7 +19,7 @@ DFSceneLifecycle.m adds independently implemented interceptUpdateForScene:withNe
 Not full vendor equivalence: deactivationReasons is NOT zeroed because reason-bit semantics and current blockers are unproven; original raw-ivar fallback deliberately omitted. The CPTemplate background stop/recreate path found in Audit13 is NOT altered. Therefore this candidate cannot be called a complete locked Play/input fix. Public QA128 crash and GOFA user PASS remain the accepted baseline.
 
 ## Verification
-Local: decoder exact-SHA PASS, all 10 chosen functions fully decoded by LC_FUNCTION_STARTS, wrong-input SHA rejection PASS (ValueError: wrong original binary SHA256), py_compile PASS; 3 new static integration gates and 5 underlock source gates PASS; diff whitespace PASS. Initial scanner attempt included a very large sendStateToApp method and stopped with 'incomplete function' due prior parser instruction cap; that unrelated target was removed, not falsely reported as full decode.
+Local: decoder exact-SHA PASS, all 13 chosen functions fully decoded by LC_FUNCTION_STARTS, wrong-input SHA rejection PASS (ValueError: wrong original binary SHA256), py_compile PASS; 3 new static integration gates and 5 underlock source gates PASS; diff whitespace PASS. Initial scanner attempt included a very large sendStateToApp method and stopped with 'incomplete function' due prior parser instruction cap; that unrelated target was removed, not falsely reported as full decode.
 
 Parser provenance: existing first-party tooling from Duoface feature/visual12-duodash-recovery migration/full_payload/native_test; Git blobs audit_native12_license_class_xrefs.py=71f1816984439363f2b93de0c2aec7ac22c867ae; audit_native12_carplay_add_app_chain.py=745bcc34fdada0361c83d6d7aa14dca12520b7be. Capstone 5.0.7 installed in /tmp/duoface-capstone. Parser files in /tmp/duoface-parser, extract in /tmp/duonavi-current-ref; reproducible command from repo root:
 
