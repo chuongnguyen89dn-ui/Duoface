@@ -5,6 +5,20 @@
   "instrumented_on_iphone": false,
   "runtime_blank_policy_proven": false,
   "classic_import_status": "classic_indirect_symbols_parsed",
+  "dyld_chained_import_status": {
+    "status": "read_only_chained_import_names",
+    "fmt": 1,
+    "count": 241
+  },
+  "class_reference_behind_shared_count": {
+    "classref_vm": "0x3e2e0",
+    "raw_pointer_word": "0x1000000003e640",
+    "auth_bit63": false,
+    "bind_bit62": false,
+    "bind_bit63": false,
+    "ordinal_candidates_UNCONFIRMED": {},
+    "class_identity_proven": false
+  },
   "load_commands": [
     "0x19",
     "0x19",
