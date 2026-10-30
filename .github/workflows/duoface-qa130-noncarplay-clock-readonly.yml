@@ -1,0 +1,29 @@
+name: DuoFace QA130 non-CarPlay app display clock source gap audit
+on:
+  push:
+    branches: [fix/duoface-qa130-verified-scene-owner-20261030]
+    paths:
+      - 'sideplay/audit/qa130-noncarplay-display-clock-20261030/check_hosted_app_clock_contract.py'
+      - '.github/workflows/duoface-qa130-noncarplay-clock-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-contract-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read-only QA130 host, app receiver and main-vs-CarPlay clock contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa130-noncarplay-display-clock-20261030/check_hosted_app_clock_contract.py
+          python3 sideplay/audit/qa130-noncarplay-display-clock-20261030/check_hosted_app_clock_contract.py --out "$RUNNER_TEMP/qa130-clock/RESULT.json"
+          python3 -m json.tool "$RUNNER_TEMP/qa130-clock/RESULT.json" >/dev/null
+          grep -Fq '"has_app_process_car_display_CADisplayLink_bridge_in_signed_runtime": false' "$RUNNER_TEMP/qa130-clock/RESULT.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa130-noncarplay-clock-source-audit-only
+          path: ${{ runner.temp }}/qa130-clock/RESULT.json
+          retention-days: 30
