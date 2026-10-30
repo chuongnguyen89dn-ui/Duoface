@@ -185,9 +185,18 @@ void DFNativeHostLog(NSString *message) {
 }
 - (void)renewTouchOwnerHeartbeat:(NSTimer *)timer {
     if(timer!=self.touchHeartbeat || !self.touchSession)return;
+    // QA124: resign is a transition, not proof of CarPlay Home/disconnect.
+    // Only BACKGROUND/disconnect terminates this owner. The system can put a
+    // still-connected external CarPlay scene into ForegroundInactive briefly
+    // while the iPhone display changes lock state. Do not revoke the very
+    // heartbeat the under-lock host policy needs to authenticate its scene.
+    UISceneActivationState state=self.touchOwnerScene.activationState;
+    BOOL mayRenew=state==UISceneActivationStateForegroundActive ||
+                  state==UISceneActivationStateForegroundInactive;
     if(!self.carWindow || !self.basicController || !self.touchOwnerScene ||
-       self.touchOwnerScene.activationState!=UISceneActivationStateForegroundActive){
-        [self stopTouchOwnerWithReason:@"not-active-or-home"];
+       !mayRenew || self.carWindow.hidden ||
+       !self.carWindow.screen || self.carWindow.screen==UIScreen.mainScreen){
+        [self stopTouchOwnerWithReason:@"scene-background-or-external-window-lost"];
         return;
     }
     CPWindow *w=self.carWindow;
@@ -246,8 +255,12 @@ void DFNativeHostLog(NSString *message) {
          @"touchowner-start session=%@ notify=%d",self.touchSession,rc]);
 }
 - (void)sceneWillResignActive:(UIScene *)scene {
-    if(scene==self.touchOwnerScene)
-        [self stopTouchOwnerWithReason:@"scene-resigned-carplay-home"];
+    if(scene==self.touchOwnerScene) {
+        // QA124: UIKit's willResignActive is not a Home/disconnect event.
+        // Home is explicitly handled by sceneDidEnterBackground: below;
+        // disconnect has its own callback. No duplicate teardown here.
+        DFNativeHostLog(@"qa124-scene-resign-retained-await-background");
+    }
 }
 - (void)sceneDidEnterBackground:(UIScene *)scene {
     if(scene==self.touchOwnerScene)
