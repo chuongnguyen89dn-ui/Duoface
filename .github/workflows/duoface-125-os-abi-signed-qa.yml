@@ -1,6 +1,6 @@
 # QA125: retain external CarPlay foreground-inactive lease without interpreting resign as Home.
 # Preserve on-device verified QA120 native geometry and .90/.92 regressions. Retry: remove test false-positive on comment.
-name: DuoFace 124 inactive-CarPlay lifecycle and scoped underlock signed QA
+name: DuoFace 125 verified iOS16 single selector underlock ABI signed QA
 on:
   push:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
