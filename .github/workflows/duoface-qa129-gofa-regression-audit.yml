@@ -1,0 +1,29 @@
+name: DuoFace QA128 -> QA129 GOFA scene regressions read-only
+on:
+  push:
+    branches: [fix/duoface-postlock-settings-20261030]
+    paths:
+      - 'sideplay/audit/qa129-gofa-and-carplay-home-20261030/compare_baseline.py'
+      - '.github/workflows/duoface-qa129-gofa-regression-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compare exact signed baseline source without editing runtime
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa129-gofa-and-carplay-home-20261030/compare_baseline.py
+          python3 sideplay/audit/qa129-gofa-and-carplay-home-20261030/compare_baseline.py --out /tmp/qa129-gofa/RESULT.json
+          python3 -m json.tool /tmp/qa129-gofa/RESULT.json > /dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa129-gofa-regression-readonly
+          path: /tmp/qa129-gofa/RESULT.json
+          retention-days: 14
