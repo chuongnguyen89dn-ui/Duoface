@@ -1,5 +1,5 @@
 # QA123: owner-only under-lock policy, original fallthrough, no passcode bypass.
-# Preserve on-device verified QA123 native geometry and .90/.92 regressions.
+# Preserve on-device verified QA120 native geometry and .90/.92 regressions. Retry: remove test false-positive on comment.
 name: DuoFace 123 verified CarPlay-under-lock owner policy and native rail signed QA
 on:
   push:
