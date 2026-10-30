@@ -1,20 +1,104 @@
 {
-  "checked_at_utc": "2026-10-30T13:08:00.840594+00:00",
+  "checked_at_utc": "2026-10-30T18:40:15.110323+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3788,
+  "total_actions_runs": 3833,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
-    "DuoFace original OmniCar BKS replacement and pointer consumers verified": {
-      "recent_runs": 4,
-      "success": 3,
+    "DuoFace Actions status snapshot": {
+      "recent_runs": 3,
+      "success": 2,
       "failure": 0,
       "other": 1
     },
-    "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
+    "DuoFace QA135 native CarPlay Home ABI probe signed diagnostic candidate": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA135 original DuoNavi Native12 Home hook ABI forensic": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA135 genuine Home app catalog permission safety compile and tests": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Original DuoNavi Native12 actual CarPlay Home roster ARM64 xrefs": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Original DuoNavi Native12 SHA verified CarPlay Home vs picker read-only audit": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace QA134 native-owner GOFA multi-scene regression gate (no package)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA133 iPhone selected apps catalog native CarPlay picker signed": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA133 Native12 GOFA baseline and selected app catalog (source-only)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA132 verified-session BKS original-first signed physical QA": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA131 append verified checkpoint to existing long project handoff": {
+      "recent_runs": 3,
       "success": 3,
       "failure": 0,
-      "other": 1
+      "other": 0
+    },
+    "DuoFace QA131 clock-probe diagnostics unique signed staging": {
+      "recent_runs": 5,
+      "success": 2,
+      "failure": 3,
+      "other": 0
+    },
+    "DuoFace QA131 passive iPhone frame clock diagnostic gate (iOS16)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace 130 scene destroy + current owner signed staging QA": {
+      "recent_runs": 5,
+      "success": 3,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace original OmniCar BKS replacement and pointer consumers verified": {
+      "recent_runs": 19,
+      "success": 19,
+      "failure": 0,
+      "other": 0
     },
     "DuoFace original OmniCar BKS hook logic machine-verified evidence gate": {
       "recent_runs": 1,
@@ -38,12 +122,6 @@
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
-      "other": 0
-    },
-    "DuoFace 130 scene destroy + current owner signed staging QA": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
       "other": 0
     },
     "DuoFace QA130 owned scene destroy + background policy SDK gate": {
@@ -143,16 +221,16 @@
       "other": 0
     },
     "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA": {
-      "recent_runs": 4,
+      "recent_runs": 1,
       "success": 0,
-      "failure": 3,
-      "other": 1
+      "failure": 1,
+      "other": 0
     },
     "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA": {
-      "recent_runs": 4,
+      "recent_runs": 2,
       "success": 0,
-      "failure": 3,
-      "other": 1
+      "failure": 2,
+      "other": 0
     },
     "DuoFace original-verified native CarPlay Maps scene identity only": {
       "recent_runs": 1,
@@ -161,384 +239,318 @@
       "other": 0
     },
     "DuoFace 118 emergency Dock-visible no-global-wake signed QA": {
-      "recent_runs": 2,
-      "success": 1,
+      "recent_runs": 1,
+      "success": 0,
       "failure": 1,
       "other": 0
     },
     "DuoFace 124 inactive-CarPlay lifecycle and scoped underlock signed QA": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 116 pane-input diagnostic signed QA": {
-      "recent_runs": 3,
-      "success": 0,
-      "failure": 2,
-      "other": 1
-    },
-    "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 3,
-      "success": 0,
-      "failure": 2,
-      "other": 1
-    },
-    "DuoFace 117 native Dock and hidden-logo wake signed QA": {
-      "recent_runs": 3,
-      "success": 0,
-      "failure": 3,
-      "other": 0
-    },
-    "DuoFace 111 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA": {
-      "recent_runs": 2,
-      "success": 0,
-      "failure": 2,
-      "other": 0
-    },
-    "DuoNavi Observer standalone passive rootless signed QA": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 123 verified CarPlay-under-lock owner policy and native rail signed QA": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan": {
-      "recent_runs": 9,
-      "success": 6,
-      "failure": 3,
-      "other": 0
-    },
-    "DuoFace 121 read-only original backlight and locked-YouTube policy audit": {
-      "recent_runs": 5,
-      "success": 4,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 120 measured native CarPlay rail and Play-tap signed QA": {
-      "recent_runs": 4,
-      "success": 1,
-      "failure": 3,
-      "other": 0
-    },
-    "DuoFace 119 read-only same-session Dock geometry signed QA": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace exact original DuoNavi 1.0.4 vs signed 118 Dock-geometry DEB": {
       "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
+      "success": 0,
+      "failure": 1,
       "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 41060681931,
-      "name": "DuoFace original OmniCar BKS replacement and pointer consumers verified",
-      "run_number": 4,
-      "status": "in_progress",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41060681931",
-      "created_at": "2026-10-30T13:07:52Z",
-      "head_sha": "fd0bd3c85676e88cc37b14c8222d360a83ae29b0"
-    },
-    {
-      "id": 41060680513,
+      "id": 41108851145,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 92,
-      "status": "in_progress",
+      "run_number": 93,
+      "status": "queued",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41060680513",
-      "created_at": "2026-10-30T13:07:51Z",
-      "head_sha": "75e2203e8161c57c33f8d5bb24235197284b0623"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41108851145",
+      "created_at": "2026-10-30T18:40:02Z",
+      "head_sha": "e78b082ff3a2ef53c8b02a28c5feab97381fd9f3"
     },
     {
-      "id": 41060491545,
-      "name": "DuoFace original OmniCar BKS replacement and pointer consumers verified",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41060491545",
-      "created_at": "2026-10-30T13:06:28Z",
-      "head_sha": "82726a1f39b9ae85f7a86ffa1b8da33acf49bbc7"
-    },
-    {
-      "id": 41059485677,
-      "name": "DuoFace original OmniCar BKS hook logic machine-verified evidence gate",
+      "id": 41089867414,
+      "name": "DuoFace QA135 native CarPlay Home ABI probe signed diagnostic candidate",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41059485677",
-      "created_at": "2026-10-30T12:58:59Z",
-      "head_sha": "d4e2f6046e638fb145729782c0febe729be6d82e"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41089867414",
+      "created_at": "2026-10-30T16:26:13Z",
+      "head_sha": "2882e5b5139305af4fc003ece5a8576c980156fb"
     },
     {
-      "id": 41059287176,
-      "name": "DuoFace original OmniCar BKS replacement and pointer consumers verified",
+      "id": 41088923434,
+      "name": "DuoFace QA135 original DuoNavi Native12 Home hook ABI forensic",
       "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41059287176",
-      "created_at": "2026-10-30T12:57:24Z",
-      "head_sha": "31c0b5b392aa616d2e60cc49558ce9abe8c11877"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41088923434",
+      "created_at": "2026-10-30T16:20:05Z",
+      "head_sha": "651c0a86c9cf40366c6779e3d699550c75f3dacc"
     },
     {
-      "id": 41059116740,
-      "name": "DuoFace original OmniCar BKS replacement and pointer consumers verified",
+      "id": 41088642869,
+      "name": "DuoFace QA135 genuine Home app catalog permission safety compile and tests",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41059116740",
-      "created_at": "2026-10-30T12:56:02Z",
-      "head_sha": "0a4a374cf9a773b704b4d82759ec35ac5093b12e"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41088642869",
+      "created_at": "2026-10-30T16:18:13Z",
+      "head_sha": "e02ecc694fb0e778076814c55c569871390a7622"
     },
     {
-      "id": 41058160513,
-      "name": "DuoFace original six DEBs screen blank v blanked ARM64 proof regression",
+      "id": 41088406250,
+      "name": "DuoFace QA135 original DuoNavi Native12 Home hook ABI forensic",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41058160513",
-      "created_at": "2026-10-30T12:48:37Z",
-      "head_sha": "5d222d671aa4ab48a054887e139ab190457d8375"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41088406250",
+      "created_at": "2026-10-30T16:16:42Z",
+      "head_sha": "d5addda2e7f019cce59bf44a1245e026b2d4a30f"
     },
     {
-      "id": 41057818631,
-      "name": "DuoFace six real DEBs original display idle and lock ARM64 callsite forensic",
+      "id": 41087301322,
+      "name": "Original DuoNavi Native12 actual CarPlay Home roster ARM64 xrefs",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41087301322",
+      "created_at": "2026-10-30T16:09:29Z",
+      "head_sha": "7bcba2c809b3f3fc92f7a4ee781d59b84379c015"
+    },
+    {
+      "id": 41086550926,
+      "name": "Original DuoNavi Native12 SHA verified CarPlay Home vs picker read-only audit",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41086550926",
+      "created_at": "2026-10-30T16:04:34Z",
+      "head_sha": "db428ebab98aac4654731f9bce93134987c2a17d"
+    },
+    {
+      "id": 41086108428,
+      "name": "Original DuoNavi Native12 SHA verified CarPlay Home vs picker read-only audit",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41086108428",
+      "created_at": "2026-10-30T16:01:41Z",
+      "head_sha": "88f2e27aa705009c98e2b7438e12596bd41bb64e"
+    },
+    {
+      "id": 41083203912,
+      "name": "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41083203912",
+      "created_at": "2026-10-30T15:42:39Z",
+      "head_sha": "84952b35605f05b540b0ef0167a63c0eec73a711"
+    },
+    {
+      "id": 41082963959,
+      "name": "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082963959",
+      "created_at": "2026-10-30T15:41:04Z",
+      "head_sha": "f96c296706264259028b44df3ccbf55f3a03bb3b"
+    },
+    {
+      "id": 41082747114,
+      "name": "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082747114",
+      "created_at": "2026-10-30T15:39:38Z",
+      "head_sha": "3582fb00fc241ef422e218470ffc6ed112282997"
+    },
+    {
+      "id": 41082528060,
+      "name": "DuoFace QA134 native-owner GOFA multi-scene regression gate (no package)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082528060",
+      "created_at": "2026-10-30T15:38:10Z",
+      "head_sha": "e9bc8e72b8ebb9eb990c1f15b359874f8072b4af"
+    },
+    {
+      "id": 41082216040,
+      "name": "DuoFace QA134 native-owner GOFA multi-scene regression gate (no package)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082216040",
+      "created_at": "2026-10-30T15:36:08Z",
+      "head_sha": "c06d03ad26353417b023151049d735c4268b8a3a"
+    },
+    {
+      "id": 41076350338,
+      "name": "DuoFace QA133 iPhone selected apps catalog native CarPlay picker signed",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41076350338",
+      "created_at": "2026-10-30T14:58:10Z",
+      "head_sha": "c12c97966e0ed149edf1aee3cbae1fe6f6c0ce37"
+    },
+    {
+      "id": 41076084637,
+      "name": "DuoFace QA133 iPhone selected apps catalog native CarPlay picker signed",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41076084637",
+      "created_at": "2026-10-30T14:56:20Z",
+      "head_sha": "01fa5e5a1d2655a49f4adff31255fcf8ebf73c3f"
+    },
+    {
+      "id": 41075488359,
+      "name": "DuoFace QA133 Native12 GOFA baseline and selected app catalog (source-only)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41075488359",
+      "created_at": "2026-10-30T14:52:20Z",
+      "head_sha": "76007e0f8b239089891b520e0207e95d33318f88"
+    },
+    {
+      "id": 41075341884,
+      "name": "DuoFace QA133 Native12 GOFA baseline and selected app catalog (source-only)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41075341884",
+      "created_at": "2026-10-30T14:51:21Z",
+      "head_sha": "cf1ad48dc40e9824f8ac43c70c2a2ea953e3e938"
+    },
+    {
+      "id": 41071107493,
+      "name": "DuoFace QA132 verified-session BKS original-first signed physical QA",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41071107493",
+      "created_at": "2026-10-30T14:21:25Z",
+      "head_sha": "5a66876d7a39c167e222ea5b02b78408a3017ef5"
+    },
+    {
+      "id": 41070941224,
+      "name": "DuoFace QA132 verified-session BKS original-first signed physical QA",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41070941224",
+      "created_at": "2026-10-30T14:20:00Z",
+      "head_sha": "66ac7a019fcd533242abd461847364e55a39f046"
+    },
+    {
+      "id": 41069171003,
+      "name": "DuoFace QA131 append verified checkpoint to existing long project handoff",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41069171003",
+      "created_at": "2026-10-30T14:08:09Z",
+      "head_sha": "b3b06452afca8efa7d8653b7cbd675e09f50f956"
+    },
+    {
+      "id": 41068783427,
+      "name": "DuoFace QA131 append verified checkpoint to existing long project handoff",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41068783427",
+      "created_at": "2026-10-30T14:05:32Z",
+      "head_sha": "4e8bc617226f50fa44c3ade602695d4304f7a3cf"
+    },
+    {
+      "id": 41068344322,
+      "name": "DuoFace QA131 append verified checkpoint to existing long project handoff",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41068344322",
+      "created_at": "2026-10-30T14:02:36Z",
+      "head_sha": "beca859a473ba520251eedac44215961c2f53174"
+    },
+    {
+      "id": 41068297392,
+      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
       "run_number": 5,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41057818631",
-      "created_at": "2026-10-30T12:45:55Z",
-      "head_sha": "2826a5c4147a8167f310d1ed4508fbae24fc7496"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41068297392",
+      "created_at": "2026-10-30T14:02:16Z",
+      "head_sha": "b5ba74a5bb4c3a40f84b3e641ab0559b4f86dbc6"
     },
     {
-      "id": 41057706313,
-      "name": "DuoFace six real DEBs original display idle and lock ARM64 callsite forensic",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41057706313",
-      "created_at": "2026-10-30T12:45:06Z",
-      "head_sha": "64730b494cd3226be82a542f71d3bbccc660bec0"
-    },
-    {
-      "id": 41057468855,
-      "name": "DuoFace six real DEBs original display idle and lock ARM64 callsite forensic",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41057468855",
-      "created_at": "2026-10-30T12:43:16Z",
-      "head_sha": "cb042b1e6df4e0179f1218b885a4dcbd93b76db2"
-    },
-    {
-      "id": 41057356851,
-      "name": "DuoFace six real DEBs original display idle and lock ARM64 callsite forensic",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41057356851",
-      "created_at": "2026-10-30T12:42:23Z",
-      "head_sha": "5c781bb1cec6dba5e4bef883345401a0c2bfaaed"
-    },
-    {
-      "id": 41057221776,
-      "name": "DuoFace six real DEBs original display idle and lock ARM64 callsite forensic",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41057221776",
-      "created_at": "2026-10-30T12:41:19Z",
-      "head_sha": "cf37643584f56598b5eedf188d0556354b08568c"
-    },
-    {
-      "id": 41056002286,
-      "name": "DuoFace QA130 non-CarPlay app display clock source gap audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41056002286",
-      "created_at": "2026-10-30T12:31:36Z",
-      "head_sha": "47347c4674af4267ec69eb2a4005d64addc99d89"
-    },
-    {
-      "id": 41052662293,
-      "name": "DuoFace 130 scene destroy + current owner signed staging QA",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41052662293",
-      "created_at": "2026-10-30T12:04:45Z",
-      "head_sha": "0ba4f0c01ff7db7dfc20b55df059348b5cd85ca9"
-    },
-    {
-      "id": 41052509208,
-      "name": "DuoFace 130 scene destroy + current owner signed staging QA",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41052509208",
-      "created_at": "2026-10-30T12:03:28Z",
-      "head_sha": "a73a1e335af004e4b5307d4c4dd07f64796fbec9"
-    },
-    {
-      "id": 41052386698,
-      "name": "DuoFace 130 scene destroy + current owner signed staging QA",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41052386698",
-      "created_at": "2026-10-30T12:02:28Z",
-      "head_sha": "5a1e37379d28efa0ce71944581c28d81ee380b31"
-    },
-    {
-      "id": 41052059462,
-      "name": "DuoFace QA130 owned scene destroy + background policy SDK gate",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41052059462",
-      "created_at": "2026-10-30T11:59:53Z",
-      "head_sha": "6482467bda7bc215e53968883af933c5a55773b4"
-    },
-    {
-      "id": 41051757408,
-      "name": "DuoFace 130 scoped current scene background only contract",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41051757408",
-      "created_at": "2026-10-30T11:57:14Z",
-      "head_sha": "a83ed61740410bdfb9dcba01b2e78d5fe9fb6af9"
-    },
-    {
-      "id": 41051727138,
-      "name": "DuoFace scene and native owner contract checks (no package or publish)",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41051727138",
-      "created_at": "2026-10-30T11:56:58Z",
-      "head_sha": "275e6ccd4518c159abfa38641107a6bfbf27f782"
-    },
-    {
-      "id": 41051554228,
-      "name": "DuoFace 129 native owner + explicit Home signed staging QA",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41051554228",
-      "created_at": "2026-10-30T11:55:28Z",
-      "head_sha": "fa67e37ca81e85fdf6ca78bf0fad4e31bd10a360"
-    },
-    {
-      "id": 41051554222,
-      "name": "DuoFace scene and native owner contract checks (no package or publish)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41051554222",
-      "created_at": "2026-10-30T11:55:28Z",
-      "head_sha": "fa67e37ca81e85fdf6ca78bf0fad4e31bd10a360"
-    },
-    {
-      "id": 41048093767,
-      "name": "DuoFace QA129 signed vs Native12 and OmniCar phone dim read-only",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41048093767",
-      "created_at": "2026-10-30T11:26:25Z",
-      "head_sha": "7e74eb6aa172c0ef9fbd62f42f48e5dfd1bdc848"
-    },
-    {
-      "id": 41046654781,
-      "name": "DuoFace QA128 -> QA129 GOFA scene regressions read-only",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41046654781",
-      "created_at": "2026-10-30T11:14:30Z",
-      "head_sha": "5d95f55a777a49a6dbb1aa6bb05f762126df70c9"
-    },
-    {
-      "id": 41045640969,
-      "name": "DuoFace CarPlay Home selection read-only architecture audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41045640969",
-      "created_at": "2026-10-30T11:06:21Z",
-      "head_sha": "71e00bc7d03015671a95a880380d20611dc8a03a"
-    },
-    {
-      "id": 41044732525,
-      "name": "DuoFace Audit13 read-only tap and crash evidence",
+      "id": 41067157830,
+      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
       "run_number": 4,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41044732525",
-      "created_at": "2026-10-30T10:59:12Z",
-      "head_sha": "52921cd45ebedd48f790de63b9b3296b5c6d46ef"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41067157830",
+      "created_at": "2026-10-30T13:54:28Z",
+      "head_sha": "6f3e68ea572fef50d366b533c6e35e0ecda1c8ce"
     },
     {
-      "id": 41044706866,
-      "name": "DuoFace Audit13 read-only tap and crash evidence",
+      "id": 41067125621,
+      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
       "run_number": 3,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41044706866",
-      "created_at": "2026-10-30T10:58:58Z",
-      "head_sha": "51c26a3fe7c478460c89f51a3d52d79c02aa5427"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41067125621",
+      "created_at": "2026-10-30T13:54:15Z",
+      "head_sha": "e645136747bca3ba020a9878bf524ddaa79ab283"
     },
     {
-      "id": 41044601531,
-      "name": "DuoFace Audit13 read-only tap and crash evidence",
+      "id": 41066969453,
+      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
       "run_number": 2,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41044601531",
-      "created_at": "2026-10-30T10:58:05Z",
-      "head_sha": "79f211e76d609e263eccbf4ae56b28e388b617c7"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066969453",
+      "created_at": "2026-10-30T13:53:11Z",
+      "head_sha": "a374cd646fa02f9c993c9d13dadcad7127e11125"
     },
     {
-      "id": 41044474879,
-      "name": "DuoFace Audit13 read-only tap and crash evidence",
+      "id": 41066938896,
+      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066938896",
+      "created_at": "2026-10-30T13:52:58Z",
+      "head_sha": "f899e6f3ff60c35725ac90f86ec94228343c51e2"
+    },
+    {
+      "id": 41066343467,
+      "name": "DuoFace QA131 passive iPhone frame clock diagnostic gate (iOS16)",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41044474879",
-      "created_at": "2026-10-30T10:57:00Z",
-      "head_sha": "a7ee94e29cb1b05d1d7de02b2711d8721e16da31"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066343467",
+      "created_at": "2026-10-30T13:48:42Z",
+      "head_sha": "0a058bf6032fb30ae53785d363b0a331de5d855a"
     },
     {
-      "id": 41033637570,
-      "name": "DuoFace 129 native owner + explicit Home signed staging QA",
-      "run_number": 2,
+      "id": 41066118431,
+      "name": "DuoFace 130 scene destroy + current owner signed staging QA",
+      "run_number": 5,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41033637570",
-      "created_at": "2026-10-30T09:28:04Z",
-      "head_sha": "39270d65182ef61d06393d6a8904d8b8b095bdc3"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066118431",
+      "created_at": "2026-10-30T13:47:07Z",
+      "head_sha": "13faa5963444defeb456238510d612a14a7cdf0d"
     },
     {
-      "id": 41033637557,
-      "name": "DuoFace scene and native owner contract checks (no package or publish)",
-      "run_number": 6,
+      "id": 41066080354,
+      "name": "DuoFace 130 scene destroy + current owner signed staging QA",
+      "run_number": 4,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41033637557",
-      "created_at": "2026-10-30T09:28:04Z",
-      "head_sha": "39270d65182ef61d06393d6a8904d8b8b095bdc3"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066080354",
+      "created_at": "2026-10-30T13:46:51Z",
+      "head_sha": "afdafdc6db35c1e1b0aed9564796b0ffbb00ae48"
     }
   ]
 }
