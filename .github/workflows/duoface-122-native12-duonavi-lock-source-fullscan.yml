@@ -1,3 +1,4 @@
+# QA122 CI retry after read-only output step failed on sed SIGPIPE / pipefail; no runtime changes.
 name: DuoFace 122 original Native12 DuoNavi under-lock/scene source fullscan
 on:
   push:
