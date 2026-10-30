@@ -68,7 +68,7 @@ jobs:
           test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64.json
           test -s sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md
           grep -F 'underlock_should_background' sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md
-          sed -n '/## underlock_intercept_update/,/## scene_reference_size/p' sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md | head -110
+          grep -E '^## (underlock_|scene_reference_size)' sideplay/audit/lock-native-duonavi-fullscan-20261030/NATIVE12_11_HOOKS_LOCK_ARM64_VERDICT.md
       - uses: actions/upload-artifact@v4
         with:
           name: DuoFace-122-Original-Native12-DuoNavi-Lock-Scene-Forensics
