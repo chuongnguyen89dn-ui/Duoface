@@ -1,0 +1,27 @@
+{
+  "result": "ORIGINAL_OMNICAR_BKS_BLANK1_DISPATCH_AFTER_1S_UNBLANK0_ARM64_STATIC_PROVEN",
+  "source_deb_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "source_dylib_sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+  "hook": "dlsym BKS then MSHookFunction; replacement PC 0x777c",
+  "branch": "BKS blank==1 and ABHost.shared.count!=0 only",
+  "count_owner": "ABHost -count at 0xaaa0 -> -panes then -count, and class +shared at 0xa9e8",
+  "original_blank_call_pc": "0x77d0",
+  "dispatch_time_pc": "0x77e0",
+  "dispatch_after_pc": "0x77f4",
+  "dispatch_delay_nanoseconds": 1000000000,
+  "queue": "__dispatch_main_q",
+  "global_dispatch_block_vm": "0x347d0",
+  "global_block_invoke_vm": "0x9688",
+  "global_block_import": "__NSConcreteGlobalBlock",
+  "original_unblank0_tailcall_pc": "0x9694",
+  "what_this_proves": "In original code, when screen blank=1 and bridged panes exist, original BKS(1) is called, then dispatch_after schedules a global block for +1s that tailcalls saved original BKS(0).",
+  "what_it_does_not_prove": [
+    "Main iPhone display brightness/glow or lock-state observed on user's device",
+    "Whether this code causes or fixes YouTube/Gofa remote Play/touch",
+    "Whether callbacks fire without a bridge pane or when CarPlay is disconnected",
+    "Safe behavior if vendor runtime implementation were copied (do not copy)"
+  ],
+  "phone_test": false,
+  "new_duoface_deb": false,
+  "sileo_publish": false
+}
