@@ -6,7 +6,7 @@ on:
       - fix/duoface-postlock-settings-20261030
     paths:
       - .github/workflows/duoface-audit13-readonly.yml
-      - sideplay/audit/qa129-audit13-input-crash-20261030/**
+      - sideplay/audit/qa129-audit13-input-crash-20261030/audit_audit13.py
   workflow_dispatch:
 
 permissions:
