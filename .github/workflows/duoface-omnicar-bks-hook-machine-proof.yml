@@ -1,0 +1,30 @@
+name: DuoFace original OmniCar BKS hook logic machine-verified evidence gate
+on:
+  push:
+    branches: [fix/duoface-qa130-verified-scene-owner-20261030]
+    paths:
+      - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/validate_omnicar_bks_intercept.py'
+      - '.github/workflows/duoface-omnicar-bks-hook-machine-proof.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-bounded-original-call-flow:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate exact machine instruction provenance and branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa130-six-deb-display-callgraph-20261030/validate_omnicar_bks_intercept.py
+          python3 sideplay/audit/qa130-six-deb-display-callgraph-20261030/validate_omnicar_bks_intercept.py \
+            --input sideplay/audit/qa130-six-deb-display-callgraph-20261030/DEEP_BKS_ARM64.json \
+            --out "$RUNNER_TEMP/original-bks/RESULT.json"
+          python3 -m json.tool "$RUNNER_TEMP/original-bks/RESULT.json" >/dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-omnicar-branch-argument-proof
+          path: ${{ runner.temp }}/original-bks/RESULT.json
+          retention-days: 30
