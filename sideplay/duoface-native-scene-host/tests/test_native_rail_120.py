@@ -69,8 +69,8 @@ class QA120NativeGeometry(unittest.TestCase):
     def test_unique_rootless_versions(self):
         import plistlib
         info=plistlib.loads((HERE/'Info.plist').read_bytes())
-        self.assertEqual(info['CFBundleVersion'],'125')
-        self.assertEqual(info['CFBundleShortVersionString'],'0.1.125')
+        self.assertEqual(info['CFBundleVersion'],'126')
+        self.assertEqual(info['CFBundleShortVersionString'],'0.1.126')
         self.assertIn('0.1.126~observertrace1',(HERE/'build.sh').read_text())
         self.assertIn('Version: 0.1.126~observertrace1',(HERE/'control').read_text())
         integration=INTEGRATED.read_text()
