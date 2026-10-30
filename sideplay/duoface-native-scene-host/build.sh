@@ -17,7 +17,7 @@ DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dy
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
-  -o "$DYLIB" DFTouchOwnerProbe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m
+  -o "$DYLIB" DFTouchOwnerProbe.m DFCarPlayHomeABIProbe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
 # The native Apple AppDock owner lives inside the actual CarPlay UI process.
@@ -27,7 +27,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreGraphics \
   -DDFCarPlayCaptureLiveOwnerSnapshot=DFIntegratedCarPlayCaptureLiveOwnerSnapshot \
-  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFCarPlayHomeABIProbe.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
 # User-opted-in in-process native Maps scene UIKit container. Default idle;
@@ -80,6 +80,6 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.134~gofaowner1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.135~homeabi1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
