@@ -1,0 +1,83 @@
+name: DuoFace QA135 original DuoNavi Native12 Home hook ABI forensic
+on:
+  push:
+    branches: [feature/duoface-qa135-home-library-20261030]
+    paths:
+      - '.github/workflows/duoface-qa135-original-home-hook-abi.yml'
+      - 'sideplay/audit/carplay-home-icons-20261030/trace_original_home_hook_abi.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa135-original-home-forensic
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Authenticate original DEBs and extract only to runner temp
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd' dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb | sha256sum -c -
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' -o "$RUNNER_TEMP/native12.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/native12.deb" | sha256sum -c -
+          dpkg-deb -x dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/duonavi"
+          dpkg-deb -x "$RUNNER_TEMP/native12.deb" "$RUNNER_TEMP/native12"
+      - name: Decode 4 exact original function bodies per image (read only)
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/parser"
+          git fetch origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile sideplay/audit/carplay-home-icons-20261030/trace_original_home_hook_abi.py
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/carplay-home-icons-20261030/trace_original_home_hook_abi.py \
+             --duonavi "$RUNNER_TEMP/duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+             --native12 "$RUNNER_TEMP/native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+             --out "$RUNNER_TEMP/ORIGINAL_HOME_HOOK_ABI.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          x=json.loads((Path(os.environ['RUNNER_TEMP'])/'ORIGINAL_HOME_HOOK_ABI.json').read_text())
+          for name in ('DuoNavi104','Native12Reference'):
+            assert len(x[name]['functions'])==4
+            for f in x[name]['functions'].values():
+              assert f['instructions']>=20 and len(f['calls'])>=1
+          print('ORIGINAL_HOME_HOOK_EIGHT_SHA_BOUND_FUNCTIONS_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Original-Home-8Function-ABI-Research
+          path: ${{ runner.temp }}/ORIGINAL_HOME_HOOK_ABI.json
+          if-no-files-found: error
+      - name: Persist exact audit result in DuoFace branch only
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa135-home-library-20261030
+          REL=sideplay/audit/carplay-home-icons-20261030/original-deb-evidence
+          for n in 1 2 3; do
+            git fetch origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$REL"
+            cp "$RUNNER_TEMP/ORIGINAL_HOME_HOOK_ABI.json" "$TMP/$REL/ORIGINAL_HOME_HOOK_ABI.json"
+            echo "RUN_ID=$GITHUB_RUN_ID" > "$TMP/$REL/ABI_CI_RESULT.txt"
+            echo 'SIGNED_PACKAGE_BUILT=false' >> "$TMP/$REL/ABI_CI_RESULT.txt"
+            echo 'DEVICE_PASS=false' >> "$TMP/$REL/ABI_CI_RESULT.txt"
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$REL"
+            if git -C "$TMP" diff --cached --quiet; then git worktree remove --force "$TMP"; exit 0; fi
+            git -C "$TMP" commit -m 'audit(qa135): archive original CarPlay Home four-function ABI research [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              echo HOME_ABI_RESEARCH_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
