@@ -154,7 +154,10 @@ static BOOL DFSessionOwnsLiveCarPlay123(void) {
        ![pulse[@"Timestamp"] respondsToSelector:@selector(doubleValue)])return NO;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-
                        [pulse[@"Timestamp"] doubleValue];
-    if(!isfinite(age) || age<0 || age>1.65)return NO;
+    // QA124: same validity window as SpringBoard owner watchdog; 0.75s
+    // CarPlay pulse renewal tolerates ForegroundInactive while the external
+    // template remains connected. A revoked pulse still fails closed.
+    if(!isfinite(age) || age<0 || age>2.5)return NO;
     // An actual separate car display, not an iPhone lock-screen window.
     for(UIScreen *screen in UIScreen.screens)
         if(screen!=UIScreen.mainScreen)return YES;
