@@ -8,11 +8,11 @@ APP="$STAGE/var/jb/Applications/DuoNaviObserver.app"
 DYLIBS="$STAGE/var/jb/Library/MobileSubstrate/DynamicLibraries"
 mkdir -p "$APP" "$DYLIBS" "$STAGE/DEBIAN" "$ROOT/packages"
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
-  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror \
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -dynamiclib -framework Foundation -framework UIKit \
   -o "$DYLIBS/DuoNaviObserver.dylib" "$ROOT/Observer.m"
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
-  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror \
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework Foundation -framework UIKit \
   -o "$APP/DNObserverExport" "$ROOT/ExportApp.m"
 cp "$ROOT/Observer.plist" "$DYLIBS/DuoNaviObserver.plist"
