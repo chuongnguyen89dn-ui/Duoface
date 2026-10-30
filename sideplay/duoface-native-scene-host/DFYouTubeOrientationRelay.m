@@ -63,8 +63,27 @@
     });
 }
 - (void)windowVisible:(NSNotification *)notification {
-    (void)notification;
-    dispatch_async(dispatch_get_main_queue(),^{[self apply];});
+    // QA127: UIKit posts UIWindowDidBecomeVisible for ALL process windows,
+    // including unrelated splash, controls and overlays. QA125 responded
+    // to every such event by reflowing ALL hosted YouTube windows; repeated
+    // visibility notifications can become a layout-feedback loop.
+    // Reconcile only when the event belongs to the exact leased scene.
+    // Preserve genuine owned-window/scene activation needed after Control
+    // Center (QA90 portrait rotation must remain unchanged).
+    id subject=notification.object;
+    if(![subject isKindOfClass:UIWindow.class] &&
+       ![subject isKindOfClass:UIWindowScene.class])return;
+    dispatch_async(dispatch_get_main_queue(),^{
+        UIWindowScene *owned=self.scene;
+        if(!owned || !DFYTValidState(self.state,NSDate.date.timeIntervalSince1970))return;
+        if([subject isKindOfClass:UIWindow.class]) {
+            UIWindow *window=(UIWindow *)subject;
+            if(window.windowScene!=owned || window.hidden ||
+               window.windowLevel!=UIWindowLevelNormal ||
+               !window.rootViewController)return;
+        } else if(subject!=owned)return;
+        [self apply];
+    });
 }
 - (void)apply {
     if(self.applying || !DFYTValidState(self.state,NSDate.date.timeIntervalSince1970))return;
