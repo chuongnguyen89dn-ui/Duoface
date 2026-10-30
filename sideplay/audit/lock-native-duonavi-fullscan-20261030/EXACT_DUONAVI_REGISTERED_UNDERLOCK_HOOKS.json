@@ -1,0 +1,2472 @@
+{
+  "Native12_Fixture": [
+    {
+      "pc": "0x2c7c88",
+      "class": "FBScene",
+      "selector": "updateSettings:withTransitionContext:completion:",
+      "replacement": "0x2c7e08",
+      "originalStorage": "0x382108",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7ca8",
+      "class": "FBScene",
+      "selector": "_applyUpdateWithContext:completion:",
+      "replacement": "0x2c8410",
+      "originalStorage": "0x382110",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7cd0",
+      "class": "_UIScenePresentationView",
+      "selector": "scene:didPrepareUpdateWithContext:",
+      "replacement": "0x2c85d0",
+      "originalStorage": "0x382118",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7cfc",
+      "class": "SBSuspendedUnderLockManager",
+      "selector": "interceptUpdateForScene:withNewSettings:",
+      "replacement": "0x2c8668",
+      "originalStorage": "0x382120",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7d1c",
+      "class": "SBSuspendedUnderLockManager",
+      "selector": "_shouldBeBackgroundUnderLockForScene:withSettings:",
+      "replacement": "0x2c8768",
+      "originalStorage": "0x382128",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7d3c",
+      "class": "SBSuspendedUnderLockManager",
+      "selector": "shouldBeUnderLockForScene:",
+      "replacement": "0x2c8870",
+      "originalStorage": "0x382130",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7d68",
+      "class": "SBDeviceApplicationSceneViewController",
+      "selector": "setContentReferenceSize:withInterfaceOrientation:",
+      "replacement": "0x2c895c",
+      "originalStorage": "0x382138",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7d88",
+      "class": "SBDeviceApplicationSceneViewController",
+      "selector": "setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+      "replacement": "0x2c8a50",
+      "originalStorage": "0x382140",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7db0",
+      "class": "SBDeviceApplicationSceneHandle",
+      "selector": "_mainSceneSupportsInterfaceOrientation:",
+      "replacement": "0x2c8b4c",
+      "originalStorage": "0x382148",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7ddc",
+      "class": "SBAppViewController",
+      "selector": "sceneHandle:didUpdateSettingsWithDiff:previousSettings:",
+      "replacement": "0x2c8ca8",
+      "originalStorage": "0x382150",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2c7e04",
+      "class": "SBAppViewController",
+      "selector": "sceneHandle:didDestroyScene:",
+      "replacement": "0x2c8ef8",
+      "originalStorage": "0x382158",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    }
+  ],
+  "Native12_All": 240,
+  "DuoNavi": {
+    "originalSHA256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+    "sliceSHA256": "012c3fa0c0b4c32363d09af24bbc890d9baf61e51788d8f086836f6829a5922d",
+    "registeredHookCalls": 259,
+    "resolved": 169,
+    "hooks": [
+      {
+        "pc": "0x2d0a6c",
+        "class": "UIViewController",
+        "selector": "supportedInterfaceOrientations",
+        "replacement": "0x2d0fb4",
+        "originalStorage": "0x3adb38",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0a8c",
+        "class": "UIViewController",
+        "selector": "__supportedInterfaceOrientations",
+        "replacement": "0x2d1010",
+        "originalStorage": "0x3adb40",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ab8",
+        "class": "UIWindow",
+        "selector": "setFrame:",
+        "replacement": "0x2d106c",
+        "originalStorage": "0x3adb48",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ad8",
+        "class": "UIWindow",
+        "selector": "setBounds:",
+        "replacement": "0x2d1188",
+        "originalStorage": "0x3adb50",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0af8",
+        "class": "UIWindow",
+        "selector": "_setRotatableViewOrientation:duration:force:",
+        "replacement": "0x2d12a4",
+        "originalStorage": "0x3adb58",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0b18",
+        "class": "UIWindow",
+        "selector": "sendEvent:",
+        "replacement": "0x2d1314",
+        "originalStorage": "0x3adb60",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0b38",
+        "class": "UIWindow",
+        "selector": "_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:",
+        "replacement": "0x2d1388",
+        "originalStorage": "0x3adb68",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0b64",
+        "class": "UIApplication",
+        "selector": "applicationState",
+        "replacement": "0x2d1404",
+        "originalStorage": "0x3adb70",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0b84",
+        "class": "UIApplication",
+        "selector": "statusBarOrientation",
+        "replacement": "0x2d144c",
+        "originalStorage": "0x3adb78",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ba4",
+        "class": "UIApplication",
+        "selector": "isIdleTimerDisabled",
+        "replacement": "0x2d149c",
+        "originalStorage": "0x3adb80",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0bc4",
+        "class": "UIApplication",
+        "selector": "setIdleTimerDisabled:",
+        "replacement": "0x2d14e4",
+        "originalStorage": "0x3adb88",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0bec",
+        "class": "UIScene",
+        "selector": "activationState",
+        "replacement": "0x2d1528",
+        "originalStorage": "0x3adb90",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0c18",
+        "class": "CADisplayLink",
+        "selector": "setPaused:",
+        "replacement": "0x2d1570",
+        "originalStorage": "0x3adb98",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0c38",
+        "class": "CADisplayLink",
+        "selector": "isPaused",
+        "replacement": "0x2d15b4",
+        "originalStorage": "0x3adba0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0c5c",
+        "class": "CADisplayLink",
+        "selector": "isPaused",
+        "replacement": "0x2d15fc",
+        "originalStorage": "0x3adba8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0c7c",
+        "class": "CADisplayLink",
+        "selector": "setPreferredFrameRateRange:",
+        "replacement": "0x2d1690",
+        "originalStorage": "0x3adbb0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ca0",
+        "class": "MTKView",
+        "selector": "setPreferredFrameRateRange:",
+        "replacement": "0x2d175c",
+        "originalStorage": "0x3adbb8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ccc",
+        "class": "NSNotificationCenter",
+        "selector": "postNotificationName:object:userInfo:",
+        "replacement": "0x2d17f0",
+        "originalStorage": "0x3adbc0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0cec",
+        "class": "NSNotificationCenter",
+        "selector": "postNotification:",
+        "replacement": "0x2d1944",
+        "originalStorage": "0x3adbc8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0d18",
+        "class": "FBSSceneSettings",
+        "selector": "isOccluded",
+        "replacement": "0x2d1a80",
+        "originalStorage": "0x3adbd0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0d38",
+        "class": "FBSSceneSettings",
+        "selector": "deactivationReasons",
+        "replacement": "0x2d1ac8",
+        "originalStorage": "0x3adbd8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0d64",
+        "class": "UIApplicationSceneSettings",
+        "selector": "isUnderLock",
+        "replacement": "0x2d1b10",
+        "originalStorage": "0x3adbe0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0d84",
+        "class": "UIApplicationSceneSettings",
+        "selector": "canShowWhileLocked",
+        "replacement": "0x2d1b58",
+        "originalStorage": "0x3adbe8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0db0",
+        "class": "UIWindowScene",
+        "selector": "interfaceOrientation",
+        "replacement": "0x2d1ba0",
+        "originalStorage": "0x3adbf0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0dd0",
+        "class": "UIWindowScene",
+        "selector": "_isSuspended",
+        "replacement": "0x2d1bf0",
+        "originalStorage": "0x3adbf8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0df0",
+        "class": "UIWindowScene",
+        "selector": "_isDeactivated",
+        "replacement": "0x2d1c38",
+        "originalStorage": "0x3adc00",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0e1c",
+        "class": "UIDevice",
+        "selector": "orientation",
+        "replacement": "0x2d1c80",
+        "originalStorage": "0x3adc08",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0e3c",
+        "class": "UIDevice",
+        "selector": "setOrientation:animated:",
+        "replacement": "0x2d1cd0",
+        "originalStorage": "0x3adc10",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0e5c",
+        "class": "UIDevice",
+        "selector": "setOrientation:",
+        "replacement": "0x2d1d30",
+        "originalStorage": "0x3adc18",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0e88",
+        "class": "UIScreen",
+        "selector": "_userInterfaceIdiom",
+        "replacement": "0x2d1d88",
+        "originalStorage": "0x3adc20",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ea8",
+        "class": "UIScreen",
+        "selector": "bounds",
+        "replacement": "0x2d1dd0",
+        "originalStorage": "0x3adc28",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ec8",
+        "class": "UIScreen",
+        "selector": "nativeBounds",
+        "replacement": "0x2d1e9c",
+        "originalStorage": "0x3adc30",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0ee8",
+        "class": "UIScreen",
+        "selector": "_referenceBounds",
+        "replacement": "0x2d1fac",
+        "originalStorage": "0x3adc38",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0f10",
+        "class": "UIScreenMode",
+        "selector": "size",
+        "replacement": "0x2d2078",
+        "originalStorage": "0x3adc40",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d0f4c",
+        "class": "UIWindowSceneGeometry",
+        "selector": null,
+        "replacement": "0x2d20c8",
+        "originalStorage": "0x3adc48",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d0fa4",
+        "class": "UIWindowScene",
+        "selector": null,
+        "replacement": "0x2d2134",
+        "originalStorage": "0x3adc50",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2200",
+        "class": "UIInputSetContainerView",
+        "selector": null,
+        "replacement": "0x2d2aa8",
+        "originalStorage": "0x3adc68",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2224",
+        "class": "UIInputSetHostView",
+        "selector": null,
+        "replacement": "0x2d2ca0",
+        "originalStorage": "0x3adc70",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2260",
+        "class": "UIKeyboard",
+        "selector": null,
+        "replacement": "0x2d2d60",
+        "originalStorage": "0x3adc78",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2284",
+        "class": "UIKeyboard",
+        "selector": null,
+        "replacement": "0x2d2ddc",
+        "originalStorage": "0x3adc80",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d22a0",
+        "class": "UIKeyboard",
+        "selector": null,
+        "replacement": "0x2d2e58",
+        "originalStorage": "0x3adc88",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d22c4",
+        "class": "UIKeyboard",
+        "selector": null,
+        "replacement": "0x2d2fa8",
+        "originalStorage": "0x3adc90",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d22e0",
+        "class": "UIKeyboard",
+        "selector": null,
+        "replacement": "0x2d3058",
+        "originalStorage": "0x3adc98",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2308",
+        "class": "UIKeyboardInputMode",
+        "selector": "isEqualToString:",
+        "replacement": "0x2d3108",
+        "originalStorage": "0x3adca0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2340",
+        "class": "UIKeyboardImpl",
+        "selector": "inputMode",
+        "replacement": "0x2d3228",
+        "originalStorage": "0x3adca8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2360",
+        "class": "UIKeyboardImpl",
+        "selector": "inputModePreference",
+        "replacement": "0x2d327c",
+        "originalStorage": "0x3adcb0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2380",
+        "class": "UIKeyboardImpl",
+        "selector": "inputModeIdentifier",
+        "replacement": "0x2d32d0",
+        "originalStorage": "0x3adcb8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d23a4",
+        "class": "UIKeyboardImpl",
+        "selector": "inputModeIdentifier",
+        "replacement": "0x2d336c",
+        "originalStorage": "0x3adcc0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d23c8",
+        "class": "UIKeyboardImpl",
+        "selector": null,
+        "replacement": "0x2d3514",
+        "originalStorage": "0x3adcc8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d23e8",
+        "class": "UIKeyboardImpl",
+        "selector": "setDelegate:force:",
+        "replacement": "0x2d35bc",
+        "originalStorage": "0x3adcd0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d240c",
+        "class": "UIKeyboardImpl",
+        "selector": "setDelegate:force:",
+        "replacement": "0x2d3754",
+        "originalStorage": "0x3adcd8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2428",
+        "class": "UIKeyboardImpl",
+        "selector": null,
+        "replacement": "0x2d379c",
+        "originalStorage": "0x3adce0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d244c",
+        "class": "UIKeyboardImpl",
+        "selector": null,
+        "replacement": "0x2d37e4",
+        "originalStorage": "0x3adce8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2468",
+        "class": "UIKeyboardImpl",
+        "selector": null,
+        "replacement": "0x2d382c",
+        "originalStorage": "0x3adcf0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2488",
+        "class": "UIKeyboardImpl",
+        "selector": "automaticMinimizationEnabled",
+        "replacement": "0x2d3874",
+        "originalStorage": "0x3adcf8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d24a8",
+        "class": "UIKeyboardImpl",
+        "selector": "showsSoftwareKeyboard",
+        "replacement": "0x2d38bc",
+        "originalStorage": "0x3add00",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d24c8",
+        "class": "UIKeyboardImpl",
+        "selector": "softwareKeyboardAllowedForFirstResponder:",
+        "replacement": "0x2d3904",
+        "originalStorage": "0x3add08",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d24e8",
+        "class": "UIKeyboardImpl",
+        "selector": "showKeyboard",
+        "replacement": "0x2d3970",
+        "originalStorage": "0x3add10",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2504",
+        "class": "UIKeyboardImpl",
+        "selector": "showKeyboard",
+        "replacement": "0x2d39ec",
+        "originalStorage": "0x3add18",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2524",
+        "class": "UIKeyboardImpl",
+        "selector": "_defaultSizeForInterfaceOrientation:",
+        "replacement": "0x2d3a9c",
+        "originalStorage": "0x3add20",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2544",
+        "class": "UIKeyboardImpl",
+        "selector": "keyboardSizeForInterfaceOrientation:",
+        "replacement": "0x2d3b4c",
+        "originalStorage": "0x3add28",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2564",
+        "class": "UIKeyboardImpl",
+        "selector": "sizeForInterfaceOrientation:",
+        "replacement": "0x2d3bfc",
+        "originalStorage": "0x3add30",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2584",
+        "class": "UIKeyboardImpl",
+        "selector": "keyboardWidthForScreen:withOrientation:",
+        "replacement": "0x2d3cac",
+        "originalStorage": "0x3add38",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d25a0",
+        "class": null,
+        "selector": "keyboardWidthForScreen:withOrientation:",
+        "replacement": "0x2d3d30",
+        "originalStorage": "0x3add40",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d25c8",
+        "class": "UIPeripheralHost",
+        "selector": "getWidthForOrientation:",
+        "replacement": "0x2d3de0",
+        "originalStorage": "0x3add48",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2600",
+        "class": "UIKBScreenTraits",
+        "selector": "keyboardWidth",
+        "replacement": "0x2d3e44",
+        "originalStorage": "0x3add50",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2620",
+        "class": "UIKBScreenTraits",
+        "selector": "setKeyboardWidth:",
+        "replacement": "0x2d3e94",
+        "originalStorage": "0x3add58",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2640",
+        "class": "UIKBScreenTraits",
+        "selector": "bounds",
+        "replacement": "0x2d3efc",
+        "originalStorage": "0x3add60",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d265c",
+        "class": "UIKBScreenTraits",
+        "selector": "bounds",
+        "replacement": "0x2d3f5c",
+        "originalStorage": "0x3add68",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d267c",
+        "class": "UIKBScreenTraits",
+        "selector": "keyboardScreenReferenceSize",
+        "replacement": "0x2d3fec",
+        "originalStorage": "0x3add70",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d269c",
+        "class": "UIKBScreenTraits",
+        "selector": "screenSize",
+        "replacement": "0x2d404c",
+        "originalStorage": "0x3add78",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d26bc",
+        "class": "UIKBScreenTraits",
+        "selector": "isFloating",
+        "replacement": "0x2d40ac",
+        "originalStorage": "0x3add80",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d26dc",
+        "class": "UIKBScreenTraits",
+        "selector": "supportsSplit",
+        "replacement": "0x2d40f4",
+        "originalStorage": "0x3add88",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d26fc",
+        "class": "UIKBScreenTraits",
+        "selector": "isKeyboardSplit",
+        "replacement": "0x2d413c",
+        "originalStorage": "0x3add90",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d271c",
+        "class": "UIKBScreenTraits",
+        "selector": "orientation",
+        "replacement": "0x2d4184",
+        "originalStorage": "0x3add98",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d273c",
+        "class": "UIKBScreenTraits",
+        "selector": "traitsWithScreen:orientation:",
+        "replacement": "0x2d41cc",
+        "originalStorage": "0x3adda0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2764",
+        "class": "UIKeyboardLayoutStar",
+        "selector": null,
+        "replacement": "0x2d43a0",
+        "originalStorage": "0x3adda8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d2780",
+        "class": "UIKeyboardLayoutStar",
+        "selector": null,
+        "replacement": "0x2d441c",
+        "originalStorage": "0x3addb0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d279c",
+        "class": "UIKeyboardLayoutStar",
+        "selector": null,
+        "replacement": "0x2d4498",
+        "originalStorage": "0x3addb8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d27b8",
+        "class": "UIKeyboardLayoutStar",
+        "selector": null,
+        "replacement": "0x2d4548",
+        "originalStorage": "0x3addc0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d27d8",
+        "class": "UIKeyboardLayoutStar",
+        "selector": "setKeyboardName:",
+        "replacement": "0x2d46f0",
+        "originalStorage": "0x3addc8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d27f8",
+        "class": "UIKeyboardLayoutStar",
+        "selector": "setKeyboardName:appearance:",
+        "replacement": "0x2d48ec",
+        "originalStorage": "0x3addd0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2818",
+        "class": "UIKeyboardLayoutStar",
+        "selector": "showKeyboardWithInputTraits:screenTraits:splitTraits:",
+        "replacement": "0x2d4b00",
+        "originalStorage": "0x3addd8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2834",
+        "class": "UIKeyboardLayoutStar",
+        "selector": "showKeyboardWithInputTraits:screenTraits:splitTraits:",
+        "replacement": "0x2d50b8",
+        "originalStorage": "0x3adde0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2854",
+        "class": "UIKeyboardLayoutStar",
+        "selector": "setKeyplaneName:",
+        "replacement": "0x2d5160",
+        "originalStorage": "0x3adde8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2880",
+        "class": "UIKeyboardInputModeController",
+        "selector": "currentInputMode",
+        "replacement": "0x2d5238",
+        "originalStorage": "0x3addf0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d28a0",
+        "class": "UIKeyboardInputModeController",
+        "selector": "activeInputModes",
+        "replacement": "0x2d52a0",
+        "originalStorage": "0x3addf8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d28cc",
+        "class": "UIResponder",
+        "selector": "textInputMode",
+        "replacement": "0x2d5390",
+        "originalStorage": "0x3ade00",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d28ec",
+        "class": "UIResponder",
+        "selector": "becomeFirstResponder",
+        "replacement": "0x2d542c",
+        "originalStorage": "0x3ade08",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d290c",
+        "class": "UIResponder",
+        "selector": "resignFirstResponder",
+        "replacement": "0x2d54a4",
+        "originalStorage": "0x3ade10",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2938",
+        "class": "UIInputWindowController",
+        "selector": "viewWillAppear:",
+        "replacement": "0x2d551c",
+        "originalStorage": "0x3ade18",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2958",
+        "class": "UIInputWindowController",
+        "selector": "viewDidAppear:",
+        "replacement": "0x2d5598",
+        "originalStorage": "0x3ade20",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d2988",
+        "class": "UIRemoteKeyboardWindow",
+        "selector": null,
+        "replacement": "0x2d5d18",
+        "originalStorage": "0x3ade28",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d29ac",
+        "class": "UIRemoteKeyboardWindow",
+        "selector": null,
+        "replacement": "0x2d5da0",
+        "originalStorage": "0x3ade30",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d29d4",
+        "class": "UITextEffectsWindow",
+        "selector": null,
+        "replacement": "0x2d5e00",
+        "originalStorage": "0x3ade38",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d29f0",
+        "class": "UITextEffectsWindow",
+        "selector": null,
+        "replacement": "0x2d5e88",
+        "originalStorage": "0x3ade40",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d6fa4",
+        "class": "AVExternalDevice",
+        "selector": "currentCarPlayExternalDevice",
+        "replacement": "0x2d7374",
+        "originalStorage": "0x3ade78",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d6fc4",
+        "class": "AVExternalDevice",
+        "selector": "currentExternalDevice",
+        "replacement": "0x2d73cc",
+        "originalStorage": "0x3ade80",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d6fe4",
+        "class": "AVExternalDevice",
+        "selector": "externalDevices",
+        "replacement": "0x2d7424",
+        "originalStorage": "0x3ade88",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7014",
+        "class": "AVPlayer",
+        "selector": null,
+        "replacement": "0x2d7488",
+        "originalStorage": "0x3ade90",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7038",
+        "class": "AVPlayer",
+        "selector": null,
+        "replacement": "0x2d74cc",
+        "originalStorage": "0x3ade98",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7058",
+        "class": "AVPlayer",
+        "selector": "setUsesExternalPlaybackWhileExternalScreenIsActive:",
+        "replacement": "0x2d7514",
+        "originalStorage": "0x3adea0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7078",
+        "class": "AVPlayer",
+        "selector": "usesExternalPlaybackWhileExternalScreenIsActive",
+        "replacement": "0x2d7558",
+        "originalStorage": "0x3adea8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7098",
+        "class": "AVPlayer",
+        "selector": "play",
+        "replacement": "0x2d75a0",
+        "originalStorage": "0x3adeb0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d70b8",
+        "class": "AVPlayer",
+        "selector": "pause",
+        "replacement": "0x2d75f4",
+        "originalStorage": "0x3adeb8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d70dc",
+        "class": "AVPlayer",
+        "selector": "pause",
+        "replacement": "0x2d7638",
+        "originalStorage": "0x3adec0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d70fc",
+        "class": "AVPlayer",
+        "selector": "playImmediatelyAtRate:",
+        "replacement": "0x2d76ac",
+        "originalStorage": "0x3adec8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7128",
+        "class": "AVPlayer",
+        "selector": null,
+        "replacement": "0x2d7720",
+        "originalStorage": "0x3aded0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7150",
+        "class": "AVSampleBufferRenderSynchronizer",
+        "selector": null,
+        "replacement": "0x2d7764",
+        "originalStorage": "0x3aded8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7170",
+        "class": "AVSampleBufferRenderSynchronizer",
+        "selector": "setRate:time:",
+        "replacement": "0x2d77d8",
+        "originalStorage": "0x3adee0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7190",
+        "class": "AVSampleBufferRenderSynchronizer",
+        "selector": "setRate:time:atHostTime:",
+        "replacement": "0x2d78a4",
+        "originalStorage": "0x3adee8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d71b4",
+        "class": "AVSampleBufferRenderSynchronizer",
+        "selector": "setRate:time:atHostTime:",
+        "replacement": "0x2d7988",
+        "originalStorage": "0x3adef0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d71dc",
+        "class": "AVPlayerItem",
+        "selector": null,
+        "replacement": "0x2d79cc",
+        "originalStorage": "0x3adef8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d71f8",
+        "class": "AVPlayerItem",
+        "selector": null,
+        "replacement": "0x2d7a10",
+        "originalStorage": "0x3adf00",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7224",
+        "class": "AVRouteDetector",
+        "selector": "isRouteDetectionEnabled",
+        "replacement": "0x2d7a58",
+        "originalStorage": "0x3adf08",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7244",
+        "class": "AVRouteDetector",
+        "selector": "setRouteDetectionEnabled:",
+        "replacement": "0x2d7aa0",
+        "originalStorage": "0x3adf10",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7274",
+        "class": "AVPictureInPictureController",
+        "selector": "isPictureInPictureSupported",
+        "replacement": "0x2d7ae4",
+        "originalStorage": "0x3adf18",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7294",
+        "class": "AVPictureInPictureController",
+        "selector": "isPictureInPicturePossible",
+        "replacement": "0x2d7b2c",
+        "originalStorage": "0x3adf20",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d72b4",
+        "class": "AVPictureInPictureController",
+        "selector": "isPictureInPictureActive",
+        "replacement": "0x2d7b74",
+        "originalStorage": "0x3adf28",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d72d4",
+        "class": "AVPictureInPictureController",
+        "selector": "startPictureInPicture",
+        "replacement": "0x2d7bbc",
+        "originalStorage": "0x3adf30",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d72f4",
+        "class": "AVPictureInPictureController",
+        "selector": "setCanStartPictureInPictureAutomaticallyFromInline:",
+        "replacement": "0x2d7c00",
+        "originalStorage": "0x3adf38",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7314",
+        "class": "AVPictureInPictureController",
+        "selector": "canStartPictureInPictureAutomaticallyFromInline",
+        "replacement": "0x2d7c44",
+        "originalStorage": "0x3adf40",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7340",
+        "class": "MPVolumeView",
+        "selector": "isWirelessRouteActive",
+        "replacement": "0x2d7c8c",
+        "originalStorage": "0x3adf48",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7370",
+        "class": "MPVolumeView",
+        "selector": "areWirelessRoutesAvailable",
+        "replacement": "0x2d7cd4",
+        "originalStorage": "0x3adf50",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2d7d78",
+        "class": "MLHAMPlayer",
+        "selector": null,
+        "replacement": "0x2d7e00",
+        "originalStorage": "0x3adf58",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7d9c",
+        "class": "MLHAMPlayer",
+        "selector": null,
+        "replacement": "0x2d7e48",
+        "originalStorage": "0x3adf60",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7dc4",
+        "class": "MLHAMQueuePlayer",
+        "selector": null,
+        "replacement": "0x2d7ea8",
+        "originalStorage": "0x3adf68",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2d7dec",
+        "class": "MLHAMQueuePlayer",
+        "selector": null,
+        "replacement": "0x2d7ef0",
+        "originalStorage": "0x3adf70",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2ecf0c",
+        "class": "FBScene",
+        "selector": "updateSettings:withTransitionContext:completion:",
+        "replacement": "0x2ed0d8",
+        "originalStorage": "0x3adfb8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ecf2c",
+        "class": "FBScene",
+        "selector": "_applyUpdateWithContext:completion:",
+        "replacement": "0x2ed6ec",
+        "originalStorage": "0x3adfc0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ecf54",
+        "class": "_UIScenePresentationView",
+        "selector": "scene:didPrepareUpdateWithContext:",
+        "replacement": "0x2ed8bc",
+        "originalStorage": "0x3adfc8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ecf80",
+        "class": "SBSuspendedUnderLockManager",
+        "selector": "interceptUpdateForScene:withNewSettings:",
+        "replacement": "0x2ed954",
+        "originalStorage": "0x3adfd0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ecfa0",
+        "class": "SBSuspendedUnderLockManager",
+        "selector": "_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "replacement": "0x2eda64",
+        "originalStorage": "0x3adfd8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ecfc0",
+        "class": "SBSuspendedUnderLockManager",
+        "selector": "shouldBeUnderLockForScene:",
+        "replacement": "0x2edb7c",
+        "originalStorage": "0x3adfe0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ecfec",
+        "class": "SBDeviceApplicationSceneViewController",
+        "selector": "setContentReferenceSize:withInterfaceOrientation:",
+        "replacement": "0x2edc78",
+        "originalStorage": "0x3adfe8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ed00c",
+        "class": "SBDeviceApplicationSceneViewController",
+        "selector": "setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+        "replacement": "0x2edd78",
+        "originalStorage": "0x3adff0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ed034",
+        "class": "SBDeviceApplicationSceneHandle",
+        "selector": "_mainSceneSupportsInterfaceOrientation:",
+        "replacement": "0x2ede80",
+        "originalStorage": "0x3adff8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ed060",
+        "class": "SBAppViewController",
+        "selector": "sceneHandle:didUpdateSettingsWithDiff:previousSettings:",
+        "replacement": "0x2edfdc",
+        "originalStorage": "0x3ae000",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ed080",
+        "class": "SBAppViewController",
+        "selector": "sceneHandle:didDestroyScene:",
+        "replacement": "0x2ee22c",
+        "originalStorage": "0x3ae008",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ed0ac",
+        "class": "SBMainWorkspace",
+        "selector": "systemService:isPasscodeLockedOrBlockedWithResult:",
+        "replacement": "0x2ee400",
+        "originalStorage": "0x3ae010",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ed0d4",
+        "class": "SBMainWorkspace",
+        "selector": "systemService:canActivateApplication:withResult:",
+        "replacement": "0x2ee4ec",
+        "originalStorage": "0x3ae018",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ef714",
+        "class": "FBApplicationProcess",
+        "selector": "_processDidExitWithContext:",
+        "replacement": "0x2ef82c",
+        "originalStorage": "0x3ae050",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ef740",
+        "class": "SpringBoard",
+        "selector": "applicationDidFinishLaunching:",
+        "replacement": "0x2ef954",
+        "originalStorage": "0x3ae058",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ef760",
+        "class": "SpringBoard",
+        "selector": "sendEvent:",
+        "replacement": "0x2ef980",
+        "originalStorage": "0x3ae060",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ef78c",
+        "class": "NSBundle",
+        "selector": "objectForInfoDictionaryKey:",
+        "replacement": "0x2efbac",
+        "originalStorage": "0x3ae068",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ef7ac",
+        "class": "NSBundle",
+        "selector": "infoDictionary",
+        "replacement": "0x2efd30",
+        "originalStorage": "0x3ae070",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ef7dc",
+        "class": "SFSpeechRecognizer",
+        "selector": "authorizationStatus",
+        "replacement": "0x2eff74",
+        "originalStorage": "0x3ae078",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2ef7fc",
+        "class": "SFSpeechRecognizer",
+        "selector": "requestAuthorization:",
+        "replacement": "0x2eff7c",
+        "originalStorage": "0x3ae080",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f0ef4",
+        "class": "_UIStaticScrollBar",
+        "selector": null,
+        "replacement": "0x2f0f44",
+        "originalStorage": "0x3ae0e8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f0f14",
+        "class": "_UIStaticScrollBar",
+        "selector": "willMoveToSuperview:",
+        "replacement": "0x2f10b8",
+        "originalStorage": "0x3ae0f0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f0f40",
+        "class": "_UIScrollViewScrollIndicator",
+        "selector": null,
+        "replacement": "0x2f121c",
+        "originalStorage": "0x3ae0f8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f216c",
+        "class": "DBApplicationInfo",
+        "selector": null,
+        "replacement": "0x2f22a0",
+        "originalStorage": "0x3ae100",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f2190",
+        "class": "DBApplicationInfo",
+        "selector": null,
+        "replacement": "0x2f2348",
+        "originalStorage": "0x3ae108",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f21b4",
+        "class": "DBApplicationInfo",
+        "selector": null,
+        "replacement": "0x2f2408",
+        "originalStorage": "0x3ae110",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f21dc",
+        "class": "CARApplicationInfo",
+        "selector": null,
+        "replacement": "0x2f24c8",
+        "originalStorage": "0x3ae118",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f21f8",
+        "class": "CARApplicationInfo",
+        "selector": null,
+        "replacement": "0x2f2570",
+        "originalStorage": "0x3ae120",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f2214",
+        "class": "CARApplicationInfo",
+        "selector": null,
+        "replacement": "0x2f2630",
+        "originalStorage": "0x3ae128",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f223c",
+        "class": "FBSApplicationLibrary",
+        "selector": "allInstalledApplications",
+        "replacement": "0x2f26f0",
+        "originalStorage": "0x3ae130",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f2264",
+        "class": "CRCarPlayAppPolicyEvaluator",
+        "selector": "effectivePolicyForAppDeclaration:",
+        "replacement": "0x2f2bdc",
+        "originalStorage": "0x3ae138",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f229c",
+        "class": "CRCarPlayAppDeclaration",
+        "selector": "declarationForAppProxy:",
+        "replacement": "0x2f2ed0",
+        "originalStorage": "0x3ae140",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3810",
+        "class": "SBIconListView",
+        "selector": "iconColumnsForCurrentOrientation",
+        "replacement": "0x2f3adc",
+        "originalStorage": "0x3ae178",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3830",
+        "class": "SBIconListView",
+        "selector": "iconRowsForCurrentOrientation",
+        "replacement": "0x2f3b6c",
+        "originalStorage": "0x3ae180",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3850",
+        "class": "SBIconListView",
+        "selector": "maximumIconCount",
+        "replacement": "0x2f3bfc",
+        "originalStorage": "0x3ae188",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3870",
+        "class": "SBIconListView",
+        "selector": "maxIconCount",
+        "replacement": "0x2f3ccc",
+        "originalStorage": "0x3ae190",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3894",
+        "class": "SBIconListView",
+        "selector": "maxIconCount",
+        "replacement": "0x2f3d9c",
+        "originalStorage": "0x3ae198",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f38b4",
+        "class": "SBIconListView",
+        "selector": "originForIconIndex:",
+        "replacement": "0x2f3db8",
+        "originalStorage": "0x3ae1a0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f38d4",
+        "class": "SBIconListView",
+        "selector": "centerForIconAtIndex:",
+        "replacement": "0x2f3f5c",
+        "originalStorage": "0x3ae1a8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f38f4",
+        "class": "SBIconListView",
+        "selector": "frameForIconAtIndex:",
+        "replacement": "0x2f4114",
+        "originalStorage": "0x3ae1b0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3918",
+        "class": "SBIconListView",
+        "selector": "frameForIconAtIndex:",
+        "replacement": "0x2f42d0",
+        "originalStorage": "0x3ae1b8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3944",
+        "class": "SBIconListGridLayout",
+        "selector": "numberOfColumnsForOrientation:",
+        "replacement": "0x2f4370",
+        "originalStorage": "0x3ae1c0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3964",
+        "class": "SBIconListGridLayout",
+        "selector": "numberOfRowsForOrientation:",
+        "replacement": "0x2f4414",
+        "originalStorage": "0x3ae1c8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3980",
+        "class": "SBIconListGridLayout",
+        "selector": "numberOfRowsForOrientation:",
+        "replacement": "0x2f44b8",
+        "originalStorage": "0x3ae1d0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f399c",
+        "class": "SBIconListGridLayout",
+        "selector": null,
+        "replacement": "0x2f44c4",
+        "originalStorage": "0x3ae1d8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f39c8",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "numberOfPortraitColumns",
+        "replacement": "0x2f4564",
+        "originalStorage": "0x3ae1e0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f39e8",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "numberOfPortraitRows",
+        "replacement": "0x2f45f4",
+        "originalStorage": "0x3ae1e8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3a08",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "numberOfLandscapeColumns",
+        "replacement": "0x2f4684",
+        "originalStorage": "0x3ae1f0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3a28",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "numberOfLandscapeRows",
+        "replacement": "0x2f4714",
+        "originalStorage": "0x3ae1f8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3a44",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "numberOfLandscapeRows",
+        "replacement": "0x2f47a4",
+        "originalStorage": "0x3ae200",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3a64",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "iconImageInfoForGridSizeClass:",
+        "replacement": "0x2f47b0",
+        "originalStorage": "0x3ae208",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3a84",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "landscapeLayoutInsets",
+        "replacement": "0x2f47bc",
+        "originalStorage": "0x3ae210",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3aa4",
+        "class": "SBIconListGridLayoutConfiguration",
+        "selector": "portraitLayoutInsets",
+        "replacement": "0x2f484c",
+        "originalStorage": "0x3ae218",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f3ad8",
+        "class": "SBIconListModel",
+        "selector": "maxNumberOfIcons",
+        "replacement": "0x2f48dc",
+        "originalStorage": "0x3ae220",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f57b8",
+        "class": "CARIconModel",
+        "selector": "_showInternalApps",
+        "replacement": "0x2f5d30",
+        "originalStorage": "0x3ae228",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f57d8",
+        "class": "CARIconModel",
+        "selector": "_showPrototypeApps",
+        "replacement": "0x2f5d38",
+        "originalStorage": "0x3ae230",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f57f8",
+        "class": "CARIconModel",
+        "selector": "hiddenBundleIdentifiers",
+        "replacement": "0x2f5d40",
+        "originalStorage": "0x3ae238",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5818",
+        "class": "CARIconModel",
+        "selector": "loadAllIcons",
+        "replacement": "0x2f5e48",
+        "originalStorage": "0x3ae240",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5848",
+        "class": "SBHIconManager",
+        "selector": null,
+        "replacement": "0x2f6410",
+        "originalStorage": "0x3ae248",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f586c",
+        "class": "SBHIconManager",
+        "selector": null,
+        "replacement": "0x2f6514",
+        "originalStorage": "0x3ae250",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5890",
+        "class": "SBHIconManager",
+        "selector": null,
+        "replacement": "0x2f6640",
+        "originalStorage": "0x3ae258",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f58b4",
+        "class": "SBHIconManager",
+        "selector": null,
+        "replacement": "0x2f6744",
+        "originalStorage": "0x3ae260",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f58dc",
+        "class": "CARIconManager",
+        "selector": null,
+        "replacement": "0x2f6858",
+        "originalStorage": "0x3ae268",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f58f8",
+        "class": "CARIconManager",
+        "selector": null,
+        "replacement": "0x2f695c",
+        "originalStorage": "0x3ae270",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5918",
+        "class": "CARIconManager",
+        "selector": "launchIcon:",
+        "replacement": "0x2f6a88",
+        "originalStorage": "0x3ae278",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5938",
+        "class": "CARIconManager",
+        "selector": "launchIcon:location:animated:completionHandler:",
+        "replacement": "0x2f6b90",
+        "originalStorage": "0x3ae280",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5954",
+        "class": "CARIconManager",
+        "selector": "launchIcon:location:animated:completionHandler:",
+        "replacement": "0x2f6cfc",
+        "originalStorage": "0x3ae288",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5970",
+        "class": "CARIconManager",
+        "selector": null,
+        "replacement": "0x2f6e00",
+        "originalStorage": "0x3ae290",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f59a0",
+        "class": "DBIconView",
+        "selector": null,
+        "replacement": "0x2f6f14",
+        "originalStorage": "0x3ae298",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f59c4",
+        "class": "DBIconView",
+        "selector": null,
+        "replacement": "0x2f7244",
+        "originalStorage": "0x3ae2a0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f59e8",
+        "class": "DBIconView",
+        "selector": null,
+        "replacement": "0x2f7470",
+        "originalStorage": "0x3ae2a8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5a10",
+        "class": "CARIconView",
+        "selector": null,
+        "replacement": "0x2f749c",
+        "originalStorage": "0x3ae2b0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5a30",
+        "class": "CARIconView",
+        "selector": "_configureIconImageView:",
+        "replacement": "0x2f77cc",
+        "originalStorage": "0x3ae2b8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5a4c",
+        "class": "CARIconView",
+        "selector": "_configureIconImageView:",
+        "replacement": "0x2f7940",
+        "originalStorage": "0x3ae2c0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5a68",
+        "class": "CARIconView",
+        "selector": null,
+        "replacement": "0x2f7b28",
+        "originalStorage": "0x3ae2c8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5a98",
+        "class": "DBLeafIconDataSource",
+        "selector": null,
+        "replacement": "0x2f7b54",
+        "originalStorage": "0x3ae2d0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5abc",
+        "class": "DBLeafIconDataSource",
+        "selector": null,
+        "replacement": "0x2f7cb0",
+        "originalStorage": "0x3ae2d8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5ae0",
+        "class": "DBLeafIconDataSource",
+        "selector": null,
+        "replacement": "0x2f7e0c",
+        "originalStorage": "0x3ae2e0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5b08",
+        "class": "CARLeafIconDataSource",
+        "selector": null,
+        "replacement": "0x2f7fa4",
+        "originalStorage": "0x3ae2e8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5b24",
+        "class": "CARLeafIconDataSource",
+        "selector": null,
+        "replacement": "0x2f8100",
+        "originalStorage": "0x3ae2f0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5b40",
+        "class": "CARLeafIconDataSource",
+        "selector": null,
+        "replacement": "0x2f825c",
+        "originalStorage": "0x3ae2f8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5b70",
+        "class": "CARLeafIcon",
+        "selector": null,
+        "replacement": "0x2f83f4",
+        "originalStorage": "0x3ae300",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5b94",
+        "class": "CARLeafIcon",
+        "selector": null,
+        "replacement": "0x2f8530",
+        "originalStorage": "0x3ae308",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5bb8",
+        "class": "CARLeafIcon",
+        "selector": null,
+        "replacement": "0x2f8648",
+        "originalStorage": "0x3ae310",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5bd8",
+        "class": "CARLeafIcon",
+        "selector": "generateIconImageWithInfo:",
+        "replacement": "0x2f87c4",
+        "originalStorage": "0x3ae318",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5c00",
+        "class": "DBLeafIcon",
+        "selector": null,
+        "replacement": "0x2f8940",
+        "originalStorage": "0x3ae320",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5c1c",
+        "class": "DBLeafIcon",
+        "selector": null,
+        "replacement": "0x2f8a7c",
+        "originalStorage": "0x3ae328",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5c38",
+        "class": "DBLeafIcon",
+        "selector": null,
+        "replacement": "0x2f8b94",
+        "originalStorage": "0x3ae330",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5c60",
+        "class": "SBIconView",
+        "selector": null,
+        "replacement": "0x2f8d10",
+        "originalStorage": "0x3ae338",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x2f5c80",
+        "class": "SBIconView",
+        "selector": "iconImageInfo",
+        "replacement": "0x2f9040",
+        "originalStorage": "0x3ae340",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5ca0",
+        "class": "SBIconView",
+        "selector": "iconImageFrame",
+        "replacement": "0x2f905c",
+        "originalStorage": "0x3ae348",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5cc0",
+        "class": "SBIconView",
+        "selector": "iconImageSize",
+        "replacement": "0x2f91e0",
+        "originalStorage": "0x3ae350",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5cdc",
+        "class": "SBIconView",
+        "selector": "iconImageSize",
+        "replacement": "0x2f92e0",
+        "originalStorage": "0x3ae358",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5cfc",
+        "class": "SBIconView",
+        "selector": "touchesEnded:withEvent:",
+        "replacement": "0x2f9490",
+        "originalStorage": "0x3ae360",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x2f5d2c",
+        "class": "SBIconView",
+        "selector": null,
+        "replacement": "0x2f95c0",
+        "originalStorage": "0x3ae368",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f1ec",
+        "class": "DBRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f3f0",
+        "originalStorage": "0x3ae3b0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f210",
+        "class": "DBRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f434",
+        "originalStorage": "0x3ae3b8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f234",
+        "class": "DBRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f478",
+        "originalStorage": "0x3ae3c0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f258",
+        "class": "DBRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f4d4",
+        "originalStorage": "0x3ae3c8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f280",
+        "class": "CARRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f5e4",
+        "originalStorage": "0x3ae3d0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f29c",
+        "class": "CARRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f628",
+        "originalStorage": "0x3ae3d8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f2b8",
+        "class": "CARRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f66c",
+        "originalStorage": "0x3ae3e0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f2d4",
+        "class": "CARRootStatusBarViewController",
+        "selector": null,
+        "replacement": "0x30f6c8",
+        "originalStorage": "0x3ae3e8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f2fc",
+        "class": "DBAppDockViewController",
+        "selector": null,
+        "replacement": "0x30f7d8",
+        "originalStorage": "0x3ae3f0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f318",
+        "class": "DBAppDockViewController",
+        "selector": null,
+        "replacement": "0x30f850",
+        "originalStorage": "0x3ae3f8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f33c",
+        "class": "DBAppDockViewController",
+        "selector": null,
+        "replacement": "0x30f8c8",
+        "originalStorage": "0x3ae400",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f360",
+        "class": "DBAppDockViewController",
+        "selector": null,
+        "replacement": "0x30f8f4",
+        "originalStorage": "0x3ae408",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f388",
+        "class": "CARAppDockViewController",
+        "selector": null,
+        "replacement": "0x30fa24",
+        "originalStorage": "0x3ae410",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f3a4",
+        "class": "CARAppDockViewController",
+        "selector": null,
+        "replacement": "0x30fa9c",
+        "originalStorage": "0x3ae418",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f3c0",
+        "class": "CARAppDockViewController",
+        "selector": null,
+        "replacement": "0x30fb14",
+        "originalStorage": "0x3ae420",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x30f3ec",
+        "class": "CARAppDockViewController",
+        "selector": null,
+        "replacement": "0x30fb40",
+        "originalStorage": "0x3ae428",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x31073c",
+        "class": "DashBoard",
+        "selector": null,
+        "replacement": "0x310a50",
+        "originalStorage": "0x3ae488",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x310760",
+        "class": "DashBoard",
+        "selector": null,
+        "replacement": "0x310b54",
+        "originalStorage": "0x3ae490",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x31077c",
+        "class": "DashBoard",
+        "selector": null,
+        "replacement": "0x310b8c",
+        "originalStorage": "0x3ae498",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x3107b0",
+        "class": "CARApplication",
+        "selector": null,
+        "replacement": "0x310bc4",
+        "originalStorage": "0x3ae4a0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x3107cc",
+        "class": "CARApplication",
+        "selector": null,
+        "replacement": "0x310d94",
+        "originalStorage": "0x3ae4a8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x3107e8",
+        "class": "CARApplication",
+        "selector": null,
+        "replacement": "0x310de8",
+        "originalStorage": "0x3ae4b0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x310814",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "_setupIconModel",
+        "replacement": "0x310e3c",
+        "originalStorage": "0x3ae4b8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x310838",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "_setupIconModel",
+        "replacement": "0x310f78",
+        "originalStorage": "0x3ae4c0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x310858",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "iconManager:launchIconForIconView:",
+        "replacement": "0x311094",
+        "originalStorage": "0x3ae4c8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x310878",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "iconManager:launchIconForIconView:withActions:",
+        "replacement": "0x311238",
+        "originalStorage": "0x3ae4d0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x310898",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "iconManager:launchIcon:",
+        "replacement": "0x311400",
+        "originalStorage": "0x3ae4d8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x3108b8",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "iconManager:launchIcon:location:",
+        "replacement": "0x3115a4",
+        "originalStorage": "0x3ae4e0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x3108d8",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "iconManager:launchIcon:location:animated:",
+        "replacement": "0x31176c",
+        "originalStorage": "0x3ae4e8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x3108f8",
+        "class": "_CARDashboardHomeViewController",
+        "selector": "iconManager:launchIcon:location:animated:completionHandler:",
+        "replacement": "0x311938",
+        "originalStorage": "0x3ae4f0",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x31091c",
+        "class": "DBRootViewController",
+        "selector": "iconManager:launchIcon:location:animated:completionHandler:",
+        "replacement": "0x311b30",
+        "originalStorage": "0x3ae4f8",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x310944",
+        "class": "_CARDashboardRootViewController",
+        "selector": null,
+        "replacement": "0x311ccc",
+        "originalStorage": "0x3ae500",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "unresolved"
+      },
+      {
+        "pc": "0x310964",
+        "class": "_CARDashboardRootViewController",
+        "selector": "viewDidLayoutSubviews",
+        "replacement": "0x311f28",
+        "originalStorage": "0x3ae508",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x310984",
+        "class": "_CARDashboardRootViewController",
+        "selector": "viewSafeAreaInsetsDidChange",
+        "replacement": "0x311ff8",
+        "originalStorage": "0x3ae510",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x3109ac",
+        "class": "DBFocusController",
+        "selector": "takeWithPriority:reason:forWindow:bundleIdentifier:pid:scene:heading:focusedFrame:",
+        "replacement": "0x3120b0",
+        "originalStorage": "0x3ae518",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      },
+      {
+        "pc": "0x3109d4",
+        "class": "UIApplication",
+        "selector": "sendEvent:",
+        "replacement": "0x312364",
+        "originalStorage": "0x3ae520",
+        "classEvidence": "nearest objc_getClass + explicit ADR literal",
+        "selectorEvidence": "nearest before-hook X1 SEL ref"
+      }
+    ]
+  },
+  "DuoNavi_UnderLock_Registered": [
+    {
+      "pc": "0x2ecf80",
+      "class": "SBSuspendedUnderLockManager",
+      "selector": "interceptUpdateForScene:withNewSettings:",
+      "replacement": "0x2ed954",
+      "originalStorage": "0x3adfd0",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2ecfa0",
+      "class": "SBSuspendedUnderLockManager",
+      "selector": "_shouldBeBackgroundUnderLockForScene:withSettings:",
+      "replacement": "0x2eda64",
+      "originalStorage": "0x3adfd8",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    },
+    {
+      "pc": "0x2ecfc0",
+      "class": "SBSuspendedUnderLockManager",
+      "selector": "shouldBeUnderLockForScene:",
+      "replacement": "0x2edb7c",
+      "originalStorage": "0x3adfe0",
+      "classEvidence": "nearest objc_getClass + explicit ADR literal",
+      "selectorEvidence": "nearest before-hook X1 SEL ref"
+    }
+  ]
+}
