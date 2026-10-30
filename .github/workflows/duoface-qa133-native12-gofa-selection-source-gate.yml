@@ -1,0 +1,68 @@
+name: DuoFace QA133 Native12 GOFA baseline and selected app catalog (source-only)
+on:
+  push:
+    branches: [feature/duoface-qa133-native12-gofa-home-roster-20261030]
+    paths:
+      - '.github/workflows/duoface-qa133-native12-gofa-selection-source-gate.yml'
+      - 'sideplay/duoface-native-scene-host/DFCarPlaySelectedAppCatalog.h'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.m'
+      - 'sideplay/duoface-native-scene-host/tests/carplay_selected_catalog_runtime_133.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_native12_phone_apps_manager_094.py'
+      - 'sideplay/audit/carplay-home-icons-20261030/audit_home_selection.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Executable Foundation whitelist agreement and Native12 app manager tests
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation \
+            -I. tests/carplay_selected_catalog_runtime_133.m \
+            -o "$RUNNER_TEMP/qa133-catalog"
+          "$RUNNER_TEMP/qa133-catalog"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation \
+            -I. tests/enabled_apps_policy_runtime.m \
+            -o "$RUNNER_TEMP/qa133-enabled"
+          "$RUNNER_TEMP/qa133-enabled"
+          cd ../..
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests \
+            -p 'test_native12_phone_apps_manager_094.py' -v
+          python3 sideplay/audit/carplay-home-icons-20261030/audit_home_selection.py \
+            --out "$RUNNER_TEMP/qa133-home-gap.json"
+      - name: iOS16 arm64 source SDK compile and frozen QA128 GOFA geometry regression
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          cd sideplay/duoface-native-scene-host
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -framework UIKit -framework Foundation -framework QuartzCore \
+            -fsyntax-only DFAppPickerVC.m
+          cd ../..
+          # User already verified GOFA was correctly sized in QA128;
+          # the two actual rendering files MUST match that exact source.
+          REF=f84e27a9a97d58e0fb0509bdc6d3de13444c4a75
+          for path in sideplay/duoface-native-scene-host/DFHostedMapRenderSize.h \
+                      sideplay/duoface-native-scene-host/DFNative12Chrome.m; do
+            git show "$REF:$path" > "$RUNNER_TEMP/qa128-reference"
+            cmp "$RUNNER_TEMP/qa128-reference" "$path"
+          done
+          # BKS must remain byte-identical to user-confirmed QA132 source.
+          git show 5a66876d7a39c167e222ea5b02b78408a3017ef5:sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m \
+            > "$RUNNER_TEMP/qa132-physical-bks"
+          cmp "$RUNNER_TEMP/qa132-physical-bks" \
+              sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m
+          echo 'QA133_SOURCE_ONLY_NATIVE12_GOFA_BKS_AND_SELECTED_CATALOG_PASS_NOT_CARPLAY_HOME_ICON'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-QA133-Catalog-And-Historical-Home-Gap
+          path: ${{ runner.temp }}/qa133-home-gap.json
+          if-no-files-found: error
