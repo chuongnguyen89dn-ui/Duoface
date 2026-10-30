@@ -17,7 +17,7 @@ class HomeABIPolicy(unittest.TestCase):
  def test_never_mutate_os_critical_home_catalog_or_event(self):
   s=(ROOT/"DFCarPlayHomeABIProbe.m").read_text()
   for dangerous in ('method_setImplementation(','MSHookMessageEx(',
-        'class_replaceMethod(','addApplicationProxy:withOverrideURL:",',
+        'class_replaceMethod(','[library addApplicationProxy:',
         'setIconState:forVehicleID:', 'killall','respring','SBSuspendedUnderLockManager'):
    self.assertNotIn(dangerous,s,dangerous)
   self.assertIn('DFConfiguredEnabledAppIDs()',s)
