@@ -1,0 +1,32 @@
+name: DuoFace original six DEBs screen blank v blanked ARM64 proof regression
+on:
+  push:
+    branches: [fix/duoface-qa130-verified-scene-owner-20261030]
+    paths:
+      - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/MACHO_REFERENCES.json'
+      - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_screen_blank_transition.py'
+      - '.github/workflows/duoface-six-deb-display-transition-evidence-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-actual-pinned-deb-outputs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check actual SHA-pinned source outputs and ARM64 resolved callsites
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_screen_blank_transition.py
+          python3 sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_screen_blank_transition.py \
+            --evidence sideplay/audit/qa130-six-deb-display-callgraph-20261030/MACHO_REFERENCES.json \
+            --output "$RUNNER_TEMP/duoface-screen/VERDICT.json"
+          python3 -m json.tool "$RUNNER_TEMP/duoface-screen/VERDICT.json" >/dev/null
+          grep -Fq 'SIX' sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_screen_blank_transition.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: six-real-deb-bks-original-callsite-verdict
+          path: ${{ runner.temp }}/duoface-screen/VERDICT.json
+          retention-days: 30
