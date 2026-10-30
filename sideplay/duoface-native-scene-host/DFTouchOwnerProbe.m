@@ -358,10 +358,120 @@ static void DFCarPlayPreventIdleSystemSleep121(void) {
            [NSString stringWithFormat:@"status=%d active=%d",result,
                                          result==0 && acquired!=0]);
 }
+// QA132: independent owner-scoped blank -> deferred unblank implementation.
+// Proof inputs: exact original OmniCar ARM64 BKS(1), 1s guarded BKS(0);
+// original DuoNavi and Native12 use conditional delayed restoration too.
+// Apple's original blank request ALWAYS runs first. No touch replay, passcode
+// bypass, brightness write or unconditional phone wake when CarPlay is absent.
+typedef void (*DFScreenBlankFn132)(int);
+typedef void (*DFHookFn132)(void *,void *,void **);
+static DFScreenBlankFn132 sDFBKSOriginal132;
+static BOOL sDFBKSInstalled132, sDFBKSUnblanked132, sDFBKSPending132;
+static NSString *sDFBKSSession132;
+static NSUInteger sDFBKSSerial132;
+static void *sDFBKSFramework132;
+
+static BOOL DFActiveHostedLockedPane132(void) {
+    if(!NSThread.isMainThread || !sChrome || !sActivated || !sSession ||
+       !DFSessionStillActive() || !DFConnectedCarDisplay())return NO;
+    // A layout with 2 empty panes MUST NOT hold the iPhone display unblanked.
+    NSDictionary *snapshot=[sChrome stateSnapshot];
+    if(![snapshot[@"RunningScenes"] respondsToSelector:@selector(integerValue)] ||
+       [snapshot[@"RunningScenes"] integerValue]<1 ||
+       [snapshot[@"StartupActive"] boolValue])return NO;
+    // Protected data is a read-only lock-phase observation, not an unlock.
+    // If this signal is unavailable/false-positive on this iOS16 phone, this
+    // experimental branch fails closed and QA132 can be rolled back.
+    if(UIApplication.sharedApplication.protectedDataAvailable)return NO;
+    return YES;
+}
+static void DFMaybeRestoreDisplay132(NSString *cause) {
+    if(!sDFBKSInstalled132 || !sDFBKSOriginal132 ||
+       sDFBKSUnblanked132 || sDFBKSPending132 ||
+       !DFActiveHostedLockedPane132())return;
+    const NSUInteger serial=sDFBKSSerial132;
+    const NSUInteger generation=sGeneration;
+    NSString *session=[sSession copy];
+    sDFBKSPending132=YES;
+    // Follow the original BKS(1) first. Recheck all owner evidence after delay.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.8*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),^{
+        if(serial!=sDFBKSSerial132 || generation!=sGeneration ||
+           ![session isEqualToString:sSession] ||
+           !DFActiveHostedLockedPane132()) {
+            if(serial==sDFBKSSerial132)sDFBKSPending132=NO;
+            return;
+        }
+        sDFBKSPending132=NO;
+        sDFBKSOriginal132(0);
+        sDFBKSUnblanked132=YES;
+        sDFBKSSession132=[session copy];
+        DFTOLog(@"qa132-bks-owned-unblank",
+            [NSString stringWithFormat:@"cause=%@ running=%@ locked-data=1",
+              cause,[sChrome stateSnapshot][@"RunningScenes"]]);
+    });
+}
+static void DFOriginalScreenBlank132(int blanked) {
+    DFScreenBlankFn132 original=sDFBKSOriginal132;
+    if(!original)return;
+    // All non-1 requests and all unrelated sessions get the original call.
+    original(blanked);
+    if(blanked!=1)return;
+    // BKS runs on arbitrary queues. UIKit/pane/session checks are main-only.
+    dispatch_async(dispatch_get_main_queue(),^{
+        sDFBKSUnblanked132=NO;
+        sDFBKSSession132=nil;
+        DFMaybeRestoreDisplay132(@"system-blank");
+    });
+}
+static void DFInstallScopedBlankPolicy132(void) {
+    if(sDFBKSInstalled132)return;
+    void *original=dlsym(RTLD_DEFAULT,"BKSDisplayServicesSetScreenBlanked");
+    if(!original) {
+        sDFBKSFramework132=dlopen(
+            "/System/Library/PrivateFrameworks/BackBoardServices.framework/BackBoardServices",
+            RTLD_NOW|RTLD_LOCAL);
+        if(sDFBKSFramework132)
+            original=dlsym(sDFBKSFramework132,"BKSDisplayServicesSetScreenBlanked");
+    }
+    DFHookFn132 hook=(DFHookFn132)dlsym(RTLD_DEFAULT,"MSHookFunction");
+    if(!original || !hook) {
+        DFTOLog(@"qa132-bks-install-skipped",
+                original?@"runtime-hook-provider-unavailable":
+                         @"bks-export-unavailable");
+        return;
+    }
+    void *trampoline=NULL;
+    hook(original,(void *)DFOriginalScreenBlank132,&trampoline);
+    if(!trampoline) {
+        DFTOLog(@"qa132-bks-install-skipped",@"original-trampoline-null");
+        return;
+    }
+    sDFBKSOriginal132=(DFScreenBlankFn132)trampoline;
+    sDFBKSInstalled132=YES;
+    DFTOLog(@"qa132-bks-interceptor-installed",
+            @"original-first owned-pane protected-data-locked 0.8s unblank");
+}
+static void DFReleaseScopedBlankPolicy132(void) {
+    // Cancel callbacks immediately before Home, reconnect or disconnect.
+    ++sDFBKSSerial132;
+    sDFBKSPending132=NO;
+    if(sDFBKSUnblanked132 && sDFBKSOriginal132 &&
+       sDFBKSSession132 && [sDFBKSSession132 isEqualToString:sSession] &&
+       !UIApplication.sharedApplication.protectedDataAvailable) {
+        // The old car-only restoration is no longer owned. Do not leave an
+        // indefinite unblanked phone on true CarPlay Home/disconnect.
+        sDFBKSOriginal132(1);
+        DFTOLog(@"qa132-bks-restore-system-blank",@"locked-old-owner-revoked");
+    }
+    sDFBKSUnblanked132=NO;
+    sDFBKSSession132=nil;
+}
 static void DFStopProbe(NSString *reason) {
     // Revoke the current generation BEFORE any potentially slow media-scene
     // teardown. Queued start/ACK commands can never revive a closed session.
     sGeneration++;
+    DFReleaseScopedBlankPolicy132();
     DFCarPlayReleaseIdleSystem121();
     sNativeRail120WaitCount=0;
     // Exact old-session cleanup while its ID still exists. The CarPlay
@@ -419,6 +529,12 @@ static void DFWatchdog(NSUInteger generation) {
             @"CurrentPulseContentRect":pulse[@"ContentRect"]?:@"unavailable",
             @"PhysicalGeometry":[sChrome geometryReadback119]});
     }
+    // Lock episode may start before the selected hosted scene exists. Retry
+    // only after it actually exists; never touch an empty split layout.
+    if(UIApplication.sharedApplication.protectedDataAvailable) {
+        sDFBKSUnblanked132=NO;
+        sDFBKSSession132=nil;
+    } else DFMaybeRestoreDisplay132(@"locked-hosted-pane-watchdog");
     // Independent live SpringBoard geometry snapshot for *read-only*
     // cross-process native map pane alignment. A stale/revoked session fails closed.
     NSDictionary *physical=[sChrome stateSnapshot];
@@ -587,6 +703,7 @@ static void DFStartProbe(void) {
         // Preserve system awake state ONLY for a verified active CarPlay
         // host; release immediately on Home/disconnect or watchdog teardown.
         DFCarPlayPreventIdleSystemSleep121();
+        DFInstallScopedBlankPolicy132();
         // Arm only after the real external CarPlay scene + chrome exist.
         // No system-method swizzles; leave app/video geometry unchanged.
         DFArmFatalReasonRecorder();
