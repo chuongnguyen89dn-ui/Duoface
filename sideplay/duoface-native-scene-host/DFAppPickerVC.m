@@ -6,6 +6,7 @@
 #import "DFNative12MenuHeader.h"
 #import "DFAppLibrary.h"
 #import "DFEnabledAppsPolicy.h"
+#import "DFCarPlaySelectedAppCatalog.h"
 #import "DFAppHabits.h"
 #import "DFAppPickerDisplayPolicy.h"
 #import "DFExtendedSettingsPolicy.h"
@@ -542,9 +543,15 @@
             // Re-read config only when an actual user opens/refreshed picker.
             // No background process restarts, no scene unload on toggles.
             NSArray<NSString *> *enabled=DFConfiguredEnabledAppIDs();
+            // One canonical iPhone choice -> installed-app roster, shared
+            // with the future genuine CarPlay Home catalog publisher. Never
+            // synthesize a CarPlay icon for an uninstalled/disabled app.
+            NSArray<NSString *> *selectedIDs=DFCarPlaySelectedInstalledBundleIDs(
+                [results valueForKey:@"bundleID"],enabled);
+            NSSet<NSString *> *selectedSet=[NSSet setWithArray:selectedIDs];
             NSMutableArray<DFAppInfo *> *visible=[NSMutableArray new];
             for(DFAppInfo *app in results)
-                if(DFPickerAllowsApp(app.bundleID,enabled))[visible addObject:app];
+                if([selectedSet containsObject:app.bundleID])[visible addObject:app];
             // Default, pinned and successful prior selections ONLY affect
             // card ordering. Never assign an app to any pane or auto-start.
             NSArray<NSString *> *orderedIDs=DFRankAppIDsByHabits(
