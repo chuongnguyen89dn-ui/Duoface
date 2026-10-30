@@ -1,0 +1,62 @@
+name: DuoFace QA131 append verified checkpoint to existing long project handoff
+on:
+  push:
+    branches: [fix/duoface-qa131-iphone-frame-clock-diagnostics-20261030]
+    paths:
+      - 'sideplay/audit/qa131-iphone-clock-20261030/APPEND_TO_EXISTING_HANDOFF_20261030.txt'
+      - '.github/workflows/duoface-qa131-save-project-handoff.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  append-only-existing-handoff:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Preserve existing handoff, prepend unique QA131 and re-read
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='fix/duoface-qa131-iphone-frame-clock-diagnostics-20261030'
+          HANDOFF='sideplay/tiep tuc du an.md'
+          NEW='sideplay/audit/qa131-iphone-clock-20261030/APPEND_TO_EXISTING_HANDOFF_20261030.txt'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            python3 - "$TMP/$NEW" "$TMP/$HANDOFF" <<'PY'
+          import pathlib,sys
+          new=pathlib.Path(sys.argv[1]).read_bytes()
+          target=pathlib.Path(sys.argv[2])
+          old=target.read_bytes()
+          if not new.startswith(b'## 2026-10-30 21:02 ICT'):
+              raise SystemExit('Unknown or stale checkpoint payload')
+          if new in old or old.startswith(new.split(b'\n',1)[0]):
+              print('QA131_CHECKPOINT_ALREADY_IN_ORIGINAL_HANDOFF')
+          else:
+              target.write_bytes(new+old)
+              assert target.read_bytes().startswith(new)
+              assert target.read_bytes().endswith(old)
+              print('QA131_OLD_HANDOFF_HISTORY_PRESERVED')
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$HANDOFF"
+            if git -C "$TMP" diff --cached --quiet; then
+              git worktree remove --force "$TMP"
+              echo QA131_EXISTING_HANDOFF_ALREADY_VERIFIED
+              exit 0
+            fi
+            git -C "$TMP" commit -m 'handoff: QA131 signed unique diagnostic and pre-release log proof [skip ci]'
+            if git -C "$TMP" push "origin" "HEAD:refs/heads/$BRANCH"; then
+              git -C "$TMP" show HEAD:"$HANDOFF" | head -c 300 || true
+              git worktree remove --force "$TMP"
+              echo QA131_EXISTING_HANDOFF_PERSISTED_AND_READ_BACK
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
