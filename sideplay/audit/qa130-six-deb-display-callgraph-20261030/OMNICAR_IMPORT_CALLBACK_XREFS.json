@@ -275,6 +275,60 @@
       ],
       "binding": null,
       "resolved_via": "classic indirect Mach-O symbol table"
+    },
+    "0x24548": {
+      "pc": "0x24548",
+      "instructions": [
+        "0x24548 adrp x16, #0x34000",
+        "0x2454c ldr x16, [x16, #0x2d8]",
+        "0x24550 br x16"
+      ],
+      "binding": {
+        "name": "_dispatch_after",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 180
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x342d8",
+      "pointer_binding": {
+        "name": "_dispatch_after",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 180
+      }
+    },
+    "0x245cc": {
+      "pc": "0x245cc",
+      "instructions": [
+        "0x245cc adrp x16, #0x34000",
+        "0x245d0 ldr x16, [x16, #0x330]",
+        "0x245d4 br x16"
+      ],
+      "binding": {
+        "name": "_dispatch_time",
+        "section": "__stubs",
+        "kind": "stub",
+        "index": 191
+      },
+      "resolved_via": "classic indirect Mach-O symbol table",
+      "pointer_slot": "0x34330",
+      "pointer_binding": {
+        "name": "_dispatch_time",
+        "section": "__got",
+        "kind": "pointer",
+        "index": 191
+      }
+    },
+    "0x254c0": {
+      "pc": "0x254c0",
+      "instructions": [
+        "0x254c0 adrp x1, #0x3d000",
+        "0x254c4 ldr x1, [x1, #0x570]",
+        "0x254c8 adrp x16, #0x34000"
+      ],
+      "binding": null,
+      "resolved_via": "classic indirect Mach-O symbol table"
     }
   },
   "direct_code_xrefs": {
