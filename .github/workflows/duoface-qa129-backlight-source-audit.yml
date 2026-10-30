@@ -1,0 +1,57 @@
+name: DuoFace QA129 signed vs Native12 and OmniCar phone dim read-only
+on:
+  push:
+    branches: [fix/duoface-postlock-settings-20261030]
+    paths:
+      - 'sideplay/audit/iphone-screen-dim-qa129-20261030/audit_signed_backlight.py'
+      - '.github/workflows/duoface-qa129-backlight-source-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  read-only-signed-binary-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: SHA verify central CarPlay, continuity and debugging ZIP and read SKILL.md
+        shell: bash
+        run: |
+          set -euo pipefail
+          for entry in '01-github-continuity.zip 80efec9a6cbbb49135eabeafb339bf13f74ff6ddef9706659871b30a2c020d7e' '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            set -- $entry
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$1" -o "$RUNNER_TEMP/$1"
+            printf '%s  %s\n' "$2" "$RUNNER_TEMP/$1" | sha256sum -c -
+            unzip -t "$RUNNER_TEMP/$1"
+            unzip -p "$RUNNER_TEMP/$1" SKILL.md | head -80
+          done
+      - name: Extract real signed QA129 and SHA-pinned Native12 and OmniCar originals
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/originals"
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/originals/native12.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/bafc2441d280707ac1fbfd210780a51bdf69da95/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/originals/omnicar.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/originals/native12.deb" | sha256sum -c -
+          printf '%s  %s\n' 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' "$RUNNER_TEMP/originals/omnicar.deb" | sha256sum -c -
+          printf '%s  %s\n' '8e9ede14c56dbf408654cd9002818a94a21272c881a73ee739012b654013017f' 'sideplay/jb-embedded-appbridge/evidence/runs/41033637570/com.duoface.jb.embedded_0.0.129~nativeowner1_iphoneos-arm64.deb' | sha256sum -c -
+      - name: Execute real signed DEB and independent first-party source scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/iphone-screen-dim-qa129-20261030/audit_signed_backlight.py
+          python3 sideplay/audit/iphone-screen-dim-qa129-20261030/audit_signed_backlight.py \
+            --qa129 'sideplay/jb-embedded-appbridge/evidence/runs/41033637570/com.duoface.jb.embedded_0.0.129~nativeowner1_iphoneos-arm64.deb' \
+            --native12 "$RUNNER_TEMP/originals/native12.deb" \
+            --omnicar "$RUNNER_TEMP/originals/omnicar.deb" \
+            --source 'sideplay/duoface-native-scene-host' \
+            --out "$RUNNER_TEMP/backlight-report"
+          python3 -m json.tool "$RUNNER_TEMP/backlight-report/RESULT.json" >/dev/null
+          grep -q '"qa129_has_native12_screen_blank_toggle_or_blank_api": false' "$RUNNER_TEMP/backlight-report/RESULT.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa129-iphone-screen-dim-sha-pinned-readonly
+          path: ${{ runner.temp }}/backlight-report/RESULT.json
+          retention-days: 14
