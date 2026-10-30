@@ -1,0 +1,9 @@
+{
+  "run": 41033481560,
+  "job": 123988548305,
+  "source": "af7fd235cdb35113c3aa1d52122d1b862318a18d",
+  "stage": "source validation",
+  "error": "test_native_rail_120.py still expected CFBundleVersion128 after release wiring changed to129",
+  "signed_artifact": false,
+  "correction": "Update remaining test version pins to129/nativeowner1; local native rail,sleep,no-wake,divider tests PASS"
+}
