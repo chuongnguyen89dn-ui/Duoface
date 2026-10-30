@@ -232,6 +232,9 @@ def main():
    "classic_import_status":imp["status"],
    "dyld_chained_import_status":{k:v for k,v in chain.items() if k!="names"},
    "class_reference_behind_shared_count":raw_classref(m,0x3e2e0,chain),
+   "original_unblank_neighbor_class_literal":{
+      "objc_getClass_cstring_0x29667":string_at(m.data,m.map(0x29667)),
+      "bks_dlsym_cstring_0x293ee":string_at(m.data,m.map(0x293ee))},
    "load_commands":imp["commands"],
    "stub_imports":{hex(pc):stub_import(m,bindings,pc) for pc in TARGETS},
    "direct_code_xrefs":branch_xrefs(instructions,set(OWNERS+[0x25420])),
