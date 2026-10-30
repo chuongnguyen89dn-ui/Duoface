@@ -1,0 +1,396 @@
+{
+  "scope": "SHA-verified exact original ARM64 adrp/adr selector/literal xrefs; not live execution",
+  "DuoNavi104": {
+    "name": "DuoNavi104",
+    "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+    "tracked_literals": 11,
+    "tracked_adr_targets": 18,
+    "function_refs": [
+      {
+        "vm": "0x2dea0",
+        "refs": [
+          {
+            "pc": "0x2e48c",
+            "marker": "indirect:isBridgedApp:",
+            "op": "add"
+          }
+        ]
+      },
+      {
+        "vm": "0xa03f0",
+        "refs": [
+          {
+            "pc": "0xa0478",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0xa35cc",
+        "refs": [
+          {
+            "pc": "0xa42a4",
+            "marker": "indirect:appSelected:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0xb2064",
+        "refs": [
+          {
+            "pc": "0xb20d4",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb20e4",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb2178",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb21a8",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb21c0",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0xb24ac",
+        "refs": [
+          {
+            "pc": "0xb2710",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb2774",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0xb2814",
+        "refs": [
+          {
+            "pc": "0xb28bc",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb2908",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb2920",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0xb2d14",
+        "refs": [
+          {
+            "pc": "0xb2d88",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xb2d98",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x113c98",
+        "refs": [
+          {
+            "pc": "0x12322c",
+            "marker": "indirect:_newApplicationLibrary",
+            "op": "add"
+          }
+        ]
+      },
+      {
+        "vm": "0x12a158",
+        "refs": [
+          {
+            "pc": "0x12a310",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x13a0f8",
+        "refs": [
+          {
+            "pc": "0x13a3b4",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0x13a9cc",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x141464",
+        "refs": [
+          {
+            "pc": "0x141488",
+            "marker": "CARApplication",
+            "op": "add"
+          }
+        ]
+      },
+      {
+        "vm": "0x1f0738",
+        "refs": [
+          {
+            "pc": "0x1f0ca4",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x289a7c",
+        "refs": [
+          {
+            "pc": "0x28f868",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x2a32b4",
+        "refs": [
+          {
+            "pc": "0x2a3348",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x2a62c8",
+        "refs": [
+          {
+            "pc": "0x2a6304",
+            "marker": "indirect:isBridgedApp:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x2a64cc",
+        "refs": [
+          {
+            "pc": "0x2a65b0",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x2f2130",
+        "refs": [
+          {
+            "pc": "0x2f2140",
+            "marker": "DBApplicationInfo",
+            "op": "adr"
+          },
+          {
+            "pc": "0x2f21b8",
+            "marker": "CARApplicationInfo",
+            "op": "adr"
+          }
+        ]
+      },
+      {
+        "vm": "0x2f2bdc",
+        "refs": [
+          {
+            "pc": "0x2f2e18",
+            "marker": "setLaunchAsCarApplication:",
+            "op": "adr"
+          },
+          {
+            "pc": "0x2f2e38",
+            "marker": "setLaunchAsCarApplication:",
+            "op": "adr"
+          }
+        ]
+      },
+      {
+        "vm": "0x3106f4",
+        "refs": [
+          {
+            "pc": "0x310780",
+            "marker": "CARApplication",
+            "op": "adr"
+          }
+        ]
+      }
+    ],
+    "matchedFunctions": 19
+  },
+  "Native12Reference": {
+    "name": "Native12Reference",
+    "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+    "tracked_literals": 11,
+    "tracked_adr_targets": 18,
+    "function_refs": [
+      {
+        "vm": "0xa0c48",
+        "refs": [
+          {
+            "pc": "0xa0cd0",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0xa3e5c",
+        "refs": [
+          {
+            "pc": "0xa4b34",
+            "marker": "indirect:appSelected:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0xb9db0",
+        "refs": [
+          {
+            "pc": "0xc350c",
+            "marker": "indirect:homeButtonUp:",
+            "op": "add"
+          }
+        ]
+      },
+      {
+        "vm": "0xe6664",
+        "refs": [
+          {
+            "pc": "0xf0104",
+            "marker": "indirect:shouldInterceptLaunchForApp:",
+            "op": "ldr"
+          },
+          {
+            "pc": "0xf0160",
+            "marker": "indirect:shouldInterceptLaunchForApp:",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x1214e4",
+        "refs": [
+          {
+            "pc": "0x121508",
+            "marker": "CARApplication",
+            "op": "add"
+          }
+        ]
+      },
+      {
+        "vm": "0x1ce480",
+        "refs": [
+          {
+            "pc": "0x1cea4c",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          }
+        ]
+      },
+      {
+        "vm": "0x267764",
+        "refs": [
+          {
+            "pc": "0x26d610",
+            "marker": "indirect:bridgedApps",
+            "op": "ldr"
+          },
+          {
+            "pc": "0x270d0c",
+            "marker": "indirect:shouldInterceptLaunchForApp:",
+            "op": "add"
+          }
+        ]
+      },
+      {
+        "vm": "0x2cb5c0",
+        "refs": [
+          {
+            "pc": "0x2cb5d0",
+            "marker": "DBApplicationInfo",
+            "op": "adr"
+          },
+          {
+            "pc": "0x2cb648",
+            "marker": "CARApplicationInfo",
+            "op": "adr"
+          }
+        ]
+      },
+      {
+        "vm": "0x2cc0b0",
+        "refs": [
+          {
+            "pc": "0x2cc2ec",
+            "marker": "setLaunchAsCarApplication:",
+            "op": "adr"
+          },
+          {
+            "pc": "0x2cc30c",
+            "marker": "setLaunchAsCarApplication:",
+            "op": "adr"
+          }
+        ]
+      },
+      {
+        "vm": "0x2d3df4",
+        "refs": [
+          {
+            "pc": "0x2de888",
+            "marker": "indirect:homeButtonUp:",
+            "op": "add"
+          }
+        ]
+      },
+      {
+        "vm": "0x2e9d48",
+        "refs": [
+          {
+            "pc": "0x2e9dd4",
+            "marker": "CARApplication",
+            "op": "adr"
+          }
+        ]
+      }
+    ],
+    "matchedFunctions": 11
+  }
+}
