@@ -69,13 +69,13 @@ class QA120NativeGeometry(unittest.TestCase):
     def test_unique_rootless_versions(self):
         import plistlib
         info=plistlib.loads((HERE/'Info.plist').read_bytes())
-        self.assertEqual(info['CFBundleVersion'],'130')
-        self.assertEqual(info['CFBundleShortVersionString'],'0.1.130')
-        self.assertIn('0.1.130~sceneowner1',(HERE/'build.sh').read_text())
-        self.assertIn('Version: 0.1.130~sceneowner1',(HERE/'control').read_text())
+        self.assertEqual(info['CFBundleVersion'],'131')
+        self.assertEqual(info['CFBundleShortVersionString'],'0.1.131')
+        self.assertIn('0.1.131~clockprobe1',(HERE/'build.sh').read_text())
+        self.assertIn('Version: 0.1.131~clockprobe1',(HERE/'control').read_text())
         integration=INTEGRATED.read_text()
-        self.assertIn('VERSION="0.0.130~sceneowner1"',integration)
-        self.assertIn('com.duoface.carplay.nativescenehost_0.1.130~sceneowner1',integration)
+        self.assertIn('VERSION="0.0.131~clockprobe1"',integration)
+        self.assertIn('com.duoface.carplay.nativescenehost_0.1.131~clockprobe1',integration)
 
 
 if __name__=='__main__':
