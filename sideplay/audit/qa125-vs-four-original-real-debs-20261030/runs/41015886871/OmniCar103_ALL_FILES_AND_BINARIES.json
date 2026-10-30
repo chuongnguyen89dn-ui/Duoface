@@ -1,0 +1,1730 @@
+{
+  "binary_count": 8,
+  "control": {
+    "control": {
+      "sha256": "296ceaf49faaea1723f5d994f6cf670f2bcf05671bd4c06bc9035af50e8b8f5f",
+      "text": "Package: com.anlai.omnicar\nName: OmniCar\nDescription: The power of CarPlay.\n OmniCar takes CarPlay beyond what Apple allows: more freedom, more features and everything you need on the road, in one package.\n .\n APP BRIDGE\n  - iPhone apps without CarPlay, such as YouTube or TikTok, on the car screen\n  - In a Split Screen pane or full screen, resized live\n  - Built in: no CarBridge needed\n .\n SPEED BUBBLE\n  - Current speed and the posted limit from Vietmap Live, GOFA, Waze or Wyn\n  - On the CarPlay screen, or on the iPhone when no car is connected\n  - 9 styles; drag, pinch to resize, tap to reopen the app\n  - Over-speed warning with light effects and sound\n .\n STARTUP SCREEN\n  - Your own video every time CarPlay connects\n  - Clips from Photos or Files, duration, Fill or Fit\n  - Sound through the car speakers, tap to skip\n .\n SPLIT SCREEN\n  - Two or three CarPlay apps side by side, each with its real interface\n  - Layouts: 2 panes, 3 panes or 1 large + 2\n  - Drag the divider to resize, swap panes, floating window\n  - Three favorite layouts; the last split reopens on connect\n  - Siri and Shortcuts through the omnicar:// URL scheme\n .\n SETTINGS\n  - Every feature has its own switch and page under Settings > OmniCar\n  - Changes apply the next time CarPlay connects\n  - Respring once after installing\n .\n COMPATIBILITY\n  - iOS 15 and 16\n  - Rootless jailbreaks: Dopamine, palera1n\nIcon: file:///var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/PackageIcon.png\nMaintainer: OmniCar <omnicartweak@gmail.com>\nAuthor: OmniCar <omnicartweak@gmail.com>\nSection: Tweaks\nDepends: mobilesubstrate (>= 0.9.5000), preferenceloader, firmware (>= 15.0)\nConflicts: carsplash-rootless, carspeed, com.anlai97.speedpop, com.anlai97.carduo, com.anpham.splitcarplay\nReplaces: carsplash-rootless, carspeed, com.anlai97.speedpop, com.anlai97.carduo, com.anpham.splitcarplay\nArchitecture: iphoneos-arm64\nVersion: 1.0.3\nInstalled-Size: 6160\n"
+    }
+  },
+  "feature_indicators": {
+    "app-scene-foreground": [
+      "setBackgrounded:",
+      "setForeground:"
+    ],
+    "carplay": [
+      "CarPlay"
+    ],
+    "dock": [
+      "dock"
+    ],
+    "license-proprietary": [],
+    "lock": [
+      "SBSuspendedUnderLockManager"
+    ],
+    "map": [],
+    "picker": [
+      "appBridgeApps"
+    ],
+    "reconnect": [],
+    "scene-host": [
+      "FBScene",
+      "SBAppViewController",
+      "sceneHandle"
+    ],
+    "touch": [
+      "touchesBegan:withEvent:",
+      "touchesEnded:withEvent:"
+    ],
+    "youtube": [],
+    "zoom": [
+      "fullscreen",
+      "zoom"
+    ]
+  },
+  "file_count": 176,
+  "files": [
+    {
+      "bytes": 24659,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/OmniCar.app/AppIcon60x60@2x.png",
+      "sha256": "b304145f7002c44d0e33b43c30886510ce6c97c6e215cad36f938f63827fb164"
+    },
+    {
+      "bytes": 44470,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/OmniCar.app/AppIcon60x60@3x.png",
+      "sha256": "bab820c8bd04975393d268ac3ea9e1dd8665a317a0eab4dbe9a6d1f62381da00"
+    },
+    {
+      "bytes": 897,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/OmniCar.app/Info.plist",
+      "sha256": "058136b8e31515de8b7368e80af989c67cea64d80fb99a122e6851c83ca6b541"
+    },
+    {
+      "bytes": 168880,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Applications/OmniCar.app/OmniCar",
+      "sha256": "8e7dc4ddaf98a73b80910c0d5d00e38a084bfef2e9f97084f8bbdf76313807c8"
+    },
+    {
+      "bytes": 613376,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+      "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79"
+    },
+    {
+      "bytes": 87,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.plist",
+      "sha256": "023eb9e22181a840bc7ead9806b70b33e6ebb5822adb1ffe5afda3873459c35b"
+    },
+    {
+      "bytes": 242784,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib",
+      "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f"
+    },
+    {
+      "bytes": 92,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.plist",
+      "sha256": "9fbf4a476ff57470977adc2b30c7c7052d0434d1b713895b82fe44e71a8d58b0"
+    },
+    {
+      "bytes": 276832,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib",
+      "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5"
+    },
+    {
+      "bytes": 93,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.plist",
+      "sha256": "86345479d62d39c2b9fc6f879bbed191913b153deefa1aa486ca1e19c8664304"
+    },
+    {
+      "bytes": 649808,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
+      "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836"
+    },
+    {
+      "bytes": 194,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.plist",
+      "sha256": "f31137da54adf6860904581cd1db44a8addda023b857550d9ef21361217788fe"
+    },
+    {
+      "bytes": 1229920,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
+      "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754"
+    },
+    {
+      "bytes": 118,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.plist",
+      "sha256": "9503d73445cec4a57d8210637028a5730d587551d457e70e448b9f974fc04e14"
+    },
+    {
+      "bytes": 567792,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
+      "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037"
+    },
+    {
+      "bytes": 118,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.plist",
+      "sha256": "9503d73445cec4a57d8210637028a5730d587551d457e70e448b9f974fc04e14"
+    },
+    {
+      "bytes": 438,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSpeedBubble.plist",
+      "sha256": "6d34c6447f0dde63b0589a50cacbdb01c6237a5dd4222b4b8533276975210a13"
+    },
+    {
+      "bytes": 453,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSplitScreen.plist",
+      "sha256": "26e7f57d6953f48ec008157eb0b0acb5d7e6d52caf51b163311680ba8c4f15e1"
+    },
+    {
+      "bytes": 4055,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureStartupScreen.plist",
+      "sha256": "368e27c2309d2f793a47e45b9ae194b9b3c903950b995f8df222602ff71fbb9c"
+    },
+    {
+      "bytes": 402,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Info.plist",
+      "sha256": "96f58b1cb9f43708a487bad46ab9382b7b55b854f529c01435df18960492f2e2"
+    },
+    {
+      "bytes": 1303344,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs",
+      "sha256": "15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76"
+    },
+    {
+      "bytes": 74767,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/PackageIcon.png",
+      "sha256": "e8663a8b360c85c9b151e354d7bc62262e5b18edada7bc80c52cb32095ee972c"
+    },
+    {
+      "bytes": 1033,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Root.plist",
+      "sha256": "9b44aadf58c92e1aae94567c5b49545865ce958255dc3c24276c8a797e56df24"
+    },
+    {
+      "bytes": 2092,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon.png",
+      "sha256": "3b63f8510689c9393936b96eb85f67dd9a36591af6a5000958d67b80a9b33156"
+    },
+    {
+      "bytes": 4963,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon@2x.png",
+      "sha256": "615f6f8beea12ddb419ba850e31696fc8d9d8cf023fc9e1d77d489e80c7dfc18"
+    },
+    {
+      "bytes": 7688,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon@3x.png",
+      "sha256": "ecc7e132e77729c009c11153afa2fad2bd7832e44f9271c80f98076b35b0c43b"
+    },
+    {
+      "bytes": 1567,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon.png",
+      "sha256": "8912542026dd6b1d8af665721cb71550a225d0c9a3e3f6096878ca91811ffe90"
+    },
+    {
+      "bytes": 3150,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon@2x.png",
+      "sha256": "02068cf8c3a7cae437f16cb40eeba7e284f276dd8b2a98382e4a3982da43fda8"
+    },
+    {
+      "bytes": 4912,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon@3x.png",
+      "sha256": "1bfc0b7305f3ec4c1e12252329ed0da12d6c956d0fce76eae41381639d3c86cf"
+    },
+    {
+      "bytes": 334,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/WhatsNew.plist",
+      "sha256": "6f787826422ae62820f1329008bf9f5b3bea1567e20d6d0a21e07bc2ede02160"
+    },
+    {
+      "bytes": 663,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/AppBridge.strings",
+      "sha256": "a8ad9b1624e730d073659c2ddc8367d965e1e30ba33279fa06ad2833b2224b27"
+    },
+    {
+      "bytes": 5582,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Car.strings",
+      "sha256": "ac89ccda57c694534af23d5d397d4d9af6b67cccd0b7b0c7817aac757cc4e8b8"
+    },
+    {
+      "bytes": 3835,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/HomeScreen.strings",
+      "sha256": "acc1a301de2e1dbdc269744f1504690dd8dc7d88cb42ae2e797263b8d3f37bf5"
+    },
+    {
+      "bytes": 15237,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Localizable.strings",
+      "sha256": "21d5d285959a5c9650af40704b5d83fa3b2091394561acd17d4f5c3b45fb3497"
+    },
+    {
+      "bytes": 2515,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Onboarding.strings",
+      "sha256": "ffc0f6b30ad53003e63929862fca18964dd2ac6630343b632688bcc79561d10f"
+    },
+    {
+      "bytes": 893,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Profiles.strings",
+      "sha256": "907f12fc267f1d0de2700edd029ac95fafc829e219129e5a8c4a6d3bbfbda5a0"
+    },
+    {
+      "bytes": 5182,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/SpeedBubble.strings",
+      "sha256": "283332c39a210c56eb543c4ea3a98e511a027ccf67ad943d296819a089e50647"
+    },
+    {
+      "bytes": 4587,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/SplitScreen.strings",
+      "sha256": "468c1e102283a463f9f91f5c00226306463b3e0d0c3f44f100ec1dd3d4e74172"
+    },
+    {
+      "bytes": 4995,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/StartupScreen.strings",
+      "sha256": "7b34faaae2f2373d545f9727a47dbe5e648b3ba6fd659c0d804383e42056fef7"
+    },
+    {
+      "bytes": 1120,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/WhatsNew.strings",
+      "sha256": "a52973587c7075916123873fc28175358e0fc7d4a8524c7fb8044612d41b92c3"
+    },
+    {
+      "bytes": 553,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/AppBridge.strings",
+      "sha256": "fbaa5e74d2ed0c19c3808a48261987c6168382d77ecbf8069c16187f61f20be8"
+    },
+    {
+      "bytes": 5723,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Car.strings",
+      "sha256": "19e634ab081e55557f8c27b791ab0eab00839d3b60cb345388e6017280a6b7e7"
+    },
+    {
+      "bytes": 3970,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/HomeScreen.strings",
+      "sha256": "bb4ff9eeb9a876a0179128ea4c88e1db71c3e4751efe4d38c71e27d835fd7404"
+    },
+    {
+      "bytes": 15344,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Localizable.strings",
+      "sha256": "82c93e18c1e9573b90668a0327a8b7396b3904556b299b14c3e0fafdb7a1397a"
+    },
+    {
+      "bytes": 2799,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Onboarding.strings",
+      "sha256": "70065b75d7a34acea5296421fa3024c06db2ba28f342508506f00ef2731a9aec"
+    },
+    {
+      "bytes": 920,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Profiles.strings",
+      "sha256": "4a8f1fb995fc4ae2d07f2904949cf419dcfd8bbaf913bff025eae558ea4d4167"
+    },
+    {
+      "bytes": 5070,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/SpeedBubble.strings",
+      "sha256": "d4a5a0fdb7267d0a762cddedc4bcab46ca275ec26629a5514279a3fa0ea0a112"
+    },
+    {
+      "bytes": 4509,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/SplitScreen.strings",
+      "sha256": "bbec305189bf3286c1053ccb346a321bcc22684bfd39ce3a2bd11661351981c9"
+    },
+    {
+      "bytes": 4975,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/StartupScreen.strings",
+      "sha256": "f8bf9782c59afc94fd5ca4bd0c6e342b37ec75755f2bd055d43b695a9fc67c26"
+    },
+    {
+      "bytes": 1156,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/WhatsNew.strings",
+      "sha256": "6ab861e93354be16e1f08ebb577d9290e2a35988f2b076d3ebb2ba9e03826a1d"
+    },
+    {
+      "bytes": 462,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/AppBridge.strings",
+      "sha256": "cb4f92cfde6ce4cb70770d80ea3ba165700affda4e4aae1417ff49c3eea944f2"
+    },
+    {
+      "bytes": 3245,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Car.strings",
+      "sha256": "abc121162e1e0e68ff2c1145f75550d38a2ed5cbb7f132f119d25b9a4280295e"
+    },
+    {
+      "bytes": 2609,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/HomeScreen.strings",
+      "sha256": "0d81a36b27bbd5ac64f67051f54f254ee3390265664cbc340ffd3b5ce712261c"
+    },
+    {
+      "bytes": 10556,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Localizable.strings",
+      "sha256": "4e98adc62dd47a0c9c163cbb224ad0e38470ce9a65e9f8981b043478f30a4289"
+    },
+    {
+      "bytes": 2063,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Onboarding.strings",
+      "sha256": "aa42901451df45a5a0794e6da6710181c01c1ed7b30e64ad58f06c0c61ef6c5c"
+    },
+    {
+      "bytes": 594,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Profiles.strings",
+      "sha256": "23ed744cad8f4a53f282978f38ed1a99fab1ccd4ab3068337718d924ae62c388"
+    },
+    {
+      "bytes": 4134,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/SpeedBubble.strings",
+      "sha256": "8a6b8fe60831247a8770feb343e4c1736b3454288f61475faebe1692375d4f23"
+    },
+    {
+      "bytes": 3741,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/SplitScreen.strings",
+      "sha256": "09ebad422b7a35053e14b704c1c0ae88330bd61cd3f6d1ee999b48481efd22f0"
+    },
+    {
+      "bytes": 5452,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/StartupScreen.strings",
+      "sha256": "1327a9d41b9b5965ac2360383cf41556819e1f7a16cc80567969aeb6d43a3e56"
+    },
+    {
+      "bytes": 834,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/WhatsNew.strings",
+      "sha256": "7acab7025e860564e4a52e9112aa97311e2f884c0d59b1f659048679b2cd4861"
+    },
+    {
+      "bytes": 503,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/AppBridge.strings",
+      "sha256": "18c0dd41655d4f35bd4e5576af145aa397c436fb25aa168f2454e0922683c7d0"
+    },
+    {
+      "bytes": 5259,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Car.strings",
+      "sha256": "d90796edbe26af4475370f90d7c71039041dec71945becabd67e9f1e2bad641b"
+    },
+    {
+      "bytes": 3885,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/HomeScreen.strings",
+      "sha256": "39e07a462619a250b76d59c1bb4cea710230802ef2ba5810bb8ef85c752e199d"
+    },
+    {
+      "bytes": 15568,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Localizable.strings",
+      "sha256": "cfc2fe0f326b7d2d9f59ad2730c910118d4ccc63022b59247278b9b18321cfb6"
+    },
+    {
+      "bytes": 2903,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Onboarding.strings",
+      "sha256": "2d1ca70650fc80ff787615985a8389e963fa7bea2378e313ad4ec2431be76fa3"
+    },
+    {
+      "bytes": 959,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Profiles.strings",
+      "sha256": "3b32914a863734e3b32bc01f7f4d1ee11dc8d8319ffbbd8a22a7e0e43460b090"
+    },
+    {
+      "bytes": 5369,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/SpeedBubble.strings",
+      "sha256": "9f93b12aaad3d1c340f1b0be3c0b0cb04cd83ddc42b60ba0dfd2b7a5dd860ce5"
+    },
+    {
+      "bytes": 4465,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/SplitScreen.strings",
+      "sha256": "0f652f3f6ba191fd68877d21f855089712ed8116f86c806c66c8588bbe770fbd"
+    },
+    {
+      "bytes": 5225,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/StartupScreen.strings",
+      "sha256": "2777d22136dcaca6474e9e519cf8ec8f4b8c34101b8094dfac22cd0f6496c180"
+    },
+    {
+      "bytes": 1150,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/WhatsNew.strings",
+      "sha256": "b381dd87da9cd33a2159827639a9c3df9e929535c8c62c8df842fc380815d0dc"
+    },
+    {
+      "bytes": 691,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/AppBridge.strings",
+      "sha256": "5b8949c66efb54efef77a14a0886c786d4f32808b92090ac9f3efc3812811315"
+    },
+    {
+      "bytes": 6013,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Car.strings",
+      "sha256": "dbb504a22f2ceb7717b0e4a51c0920fddbd910ea89c43e3c452b51060892797e"
+    },
+    {
+      "bytes": 4434,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/HomeScreen.strings",
+      "sha256": "d5fe308f7ccbf9b083d4865b02770c1750cfd4cbc56313f7b4668e1baf85e1f1"
+    },
+    {
+      "bytes": 16972,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Localizable.strings",
+      "sha256": "58fbb0e2bebef69d7e78b79b428c9b366b8320bb80b49998593bdfd19197639c"
+    },
+    {
+      "bytes": 3076,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Onboarding.strings",
+      "sha256": "2d6355cb7c1c9e834b8a9c34fef68dcb1e6f4764d5b5c1800e68605846ed5aa7"
+    },
+    {
+      "bytes": 1046,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Profiles.strings",
+      "sha256": "b689058594ddc8167182f5baa95659739ac5fc48f673108e4b8758d34da13c85"
+    },
+    {
+      "bytes": 5494,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/SpeedBubble.strings",
+      "sha256": "7e0ee6c83d73fb8d7bd0316c582719ec2ae6c0fab358a149a20e68785909e5f5"
+    },
+    {
+      "bytes": 4797,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/SplitScreen.strings",
+      "sha256": "f8670b7249bd5fad6ed4359c1a6f2b5de5d1b19efe597a3cd5122611998e32aa"
+    },
+    {
+      "bytes": 5611,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/StartupScreen.strings",
+      "sha256": "be216d9dc47880b253e281e211f83cba475c6714f2836980c8488dd78a5ebc6d"
+    },
+    {
+      "bytes": 1408,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/WhatsNew.strings",
+      "sha256": "262782b33f073fcd14be796459bd4da3a4bbcfdc70ad4e8cc36cb703fbde884f"
+    },
+    {
+      "bytes": 2481,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon.png",
+      "sha256": "db186260d10b29bcfcf48d8fb2e1ecd346fd60c13eb31c7a4130b29ee58450bd"
+    },
+    {
+      "bytes": 7968,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon@2x.png",
+      "sha256": "473c7dc85b502977bd4d5b19b672ed30ad76e6d2a219a66abf416b66804dc073"
+    },
+    {
+      "bytes": 14988,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon@3x.png",
+      "sha256": "0d4e4682b382861ef68b2cf48cc33ee12b8b9fad1357d6299aef6bd7227d6360"
+    },
+    {
+      "bytes": 478,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/AppBridge.strings",
+      "sha256": "780e53099897332de1458497a940c8d54e8c8772d0246fb5dd588457e4c96593"
+    },
+    {
+      "bytes": 4438,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Car.strings",
+      "sha256": "99068a638ecf876d99f12472442152211fb2b27dc81b147190abc0fc46674ddb"
+    },
+    {
+      "bytes": 2826,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/HomeScreen.strings",
+      "sha256": "ca6814192d39bd6e6756ad6b926db19df4a292024b2370fd0de33ee1591b5f6e"
+    },
+    {
+      "bytes": 11228,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Localizable.strings",
+      "sha256": "d196207c4af7b5decbf6cebed227ea8dce428be6ea4ad2f348f2cd9616b50d6f"
+    },
+    {
+      "bytes": 2213,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Onboarding.strings",
+      "sha256": "e833c8a30564c4cacd6a9049f353e947cb9c45f64d1127267e880f3777ba56b8"
+    },
+    {
+      "bytes": 697,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Profiles.strings",
+      "sha256": "c8988f956bf8f4b686b752790d7b4b8405d1bc2477cf561980248975cfc9d386"
+    },
+    {
+      "bytes": 4273,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/SpeedBubble.strings",
+      "sha256": "fa6105e34a829de316e99b977509695e026c4bd0e8c7c5ab2bbeaea79b3560d0"
+    },
+    {
+      "bytes": 3929,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/SplitScreen.strings",
+      "sha256": "8bc4d97c2d405bd62cfdaabdffc41e2665d8a477535bf76f1c3eeefa1b864337"
+    },
+    {
+      "bytes": 3885,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/StartupScreen.strings",
+      "sha256": "5634449cb23ad3a476b4e9ac6d6b01dc203f0a19702ecc438de0313dc9bc0a84"
+    },
+    {
+      "bytes": 846,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/WhatsNew.strings",
+      "sha256": "bf976dc5521f6760752f680345a477c47d2de043ee7576a6b2131b606393dfd6"
+    },
+    {
+      "bytes": 500,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/AppBridge.strings",
+      "sha256": "8bb54fe193c970d1fa77d5c8d426a6ef1dd95179267d8eddb89926e50e0b6409"
+    },
+    {
+      "bytes": 5370,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Car.strings",
+      "sha256": "d2c6928f0038768e3b4c4fceba657627d7cf35e6a1b5d44bd904cefb05f37d1b"
+    },
+    {
+      "bytes": 3588,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/HomeScreen.strings",
+      "sha256": "db4531b794ca17eebf70d627671c361919f7ba9cec0ce3e08f8d8f457ace6a73"
+    },
+    {
+      "bytes": 13854,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Localizable.strings",
+      "sha256": "045572ef73469b8b30f18a23dc61dd2bc3721294cc7bf9f1d783cee459eaaa41"
+    },
+    {
+      "bytes": 2726,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Onboarding.strings",
+      "sha256": "4a81affb80fabe6a13d5662cea03d2873fc9ab0f9b1ea01a34583ab6d9910785"
+    },
+    {
+      "bytes": 881,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Profiles.strings",
+      "sha256": "6bb37712721d6acfbd243f356077bd1aadd921944e123b2ce60796121cf50e5d"
+    },
+    {
+      "bytes": 4910,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/SpeedBubble.strings",
+      "sha256": "4de2471b9538ab1b56a31405f25e1ed0f92a915169666c21c673ec8b0ff05444"
+    },
+    {
+      "bytes": 4115,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/SplitScreen.strings",
+      "sha256": "52796f49d72a7c9171d4ab4529d263aea7500e490ad05ea9f73041550f236389"
+    },
+    {
+      "bytes": 4206,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/StartupScreen.strings",
+      "sha256": "2986f13641f5a19db5faac8f938f1a7013220f60a37c1c3b8df879b2948b570a"
+    },
+    {
+      "bytes": 990,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/WhatsNew.strings",
+      "sha256": "2a792f27f50fa9843f3deb5ba80d73f669057763375ca3a13f978939465ba0f4"
+    },
+    {
+      "bytes": 495,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/AppBridge.strings",
+      "sha256": "98e3dd2b53b319a9b2217bfe81ad0ad732fec7594df8bea7993254c8dd7136b2"
+    },
+    {
+      "bytes": 4431,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Car.strings",
+      "sha256": "9300848252e85bbd6dedd0312978c97fd02ce791537e3eef8343f917fa27d83a"
+    },
+    {
+      "bytes": 2662,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/HomeScreen.strings",
+      "sha256": "c29f3471a33c2fb8a7fc4e840383b96b13e1184689a1a1b5145ceca4d04a8a08"
+    },
+    {
+      "bytes": 11304,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Localizable.strings",
+      "sha256": "0b04b48ff71890ce05cd6d1ce524087945f81927d340ca41ec396b8d245d0f41"
+    },
+    {
+      "bytes": 1712,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Onboarding.strings",
+      "sha256": "dde0139df218bf7dbfd5cdef96aa870b4883bdf5eb77164e9e6b576ae561c3de"
+    },
+    {
+      "bytes": 569,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Profiles.strings",
+      "sha256": "e29e87436759dfa83bde364262f4c4b2fe5d62513c6da730e4d7f015c536f487"
+    },
+    {
+      "bytes": 3989,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/SpeedBubble.strings",
+      "sha256": "f8756c87c2ccb7b80c726b13ecc0cbca8721b0a59061342b716ed5a6f57e4a16"
+    },
+    {
+      "bytes": 3564,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/SplitScreen.strings",
+      "sha256": "2818da9d20571eaba40faaf67fb27852715b66327635c5d60121751eb867b071"
+    },
+    {
+      "bytes": 3932,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/StartupScreen.strings",
+      "sha256": "2da5dfb079a489e09305d09b278a212a251e9ac8eadd69150e399c3711162e36"
+    },
+    {
+      "bytes": 724,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/WhatsNew.strings",
+      "sha256": "290f3cded8e18dc4cee35d9ec4bea5adf30b9fbd19b1bb706525fad38155cd48"
+    },
+    {
+      "bytes": 489,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/AppBridge.strings",
+      "sha256": "2dfdfa91c520b31e0e77e550a2fed41e133b02d5c8581bb383f49cba9a2e8b76"
+    },
+    {
+      "bytes": 4433,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Car.strings",
+      "sha256": "6028599aa58f1c511c577cd051cfd55deedd181dff39be37bf362a97edcb8c0f"
+    },
+    {
+      "bytes": 2697,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/HomeScreen.strings",
+      "sha256": "f2e5349fc15a347ba4af43550e54d3a856a2d13c39b4748d7dfdc247cb429e31"
+    },
+    {
+      "bytes": 11245,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Localizable.strings",
+      "sha256": "6562ea038926c004a7b11e38ee7930d8a6fd7c9afce705309554a89e730fb555"
+    },
+    {
+      "bytes": 1818,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Onboarding.strings",
+      "sha256": "9109dcc057292b6beb7ab37b194cbad8a4e74843bd11782b12d404f56a591895"
+    },
+    {
+      "bytes": 613,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Profiles.strings",
+      "sha256": "58735a80021841503938b429c9ac489d044038d76a401d62f0e6d8d62575e0e3"
+    },
+    {
+      "bytes": 4059,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/SpeedBubble.strings",
+      "sha256": "9f9f2a970a4ec80288493c1136998e35bc4afceaadb481b834274d001bab7d57"
+    },
+    {
+      "bytes": 3552,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/SplitScreen.strings",
+      "sha256": "b1b5ec04213c88f924e4cc0827ef6da4f498b9f1d54b0cc662d50a19c8274aa4"
+    },
+    {
+      "bytes": 4048,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/StartupScreen.strings",
+      "sha256": "9a674fdaaeb01855f197470cb7002c08fa815e271752c477296ebfd49e561f6f"
+    },
+    {
+      "bytes": 812,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/WhatsNew.strings",
+      "sha256": "5d7373c07f86dca2cfe9fbd7ec4562f2abcce30e36b510c0be633e8f5855aec2"
+    },
+    {
+      "bytes": 9406,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo.png",
+      "sha256": "7077849cb7ce87b43a56bf52cceacf6ebd28f79837d12c16beaae3838a92b27a"
+    },
+    {
+      "bytes": 27891,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@2x.png",
+      "sha256": "9e234f6a399cd603e34050d5b623ae68c31e352b63dbaeb57aaa5a82ece1c232"
+    },
+    {
+      "bytes": 48665,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@3x.png",
+      "sha256": "d6407325dca6ec9f864dfc7b0906930015a702318f851a9d7c30782fdfd4ba08"
+    },
+    {
+      "bytes": 612,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/AppBridge.strings",
+      "sha256": "94cc9e39fe9665d8826a33a6a6d7e078c4c37345ade41a36e98215e68b6d31b0"
+    },
+    {
+      "bytes": 5629,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Car.strings",
+      "sha256": "83479ec69145f64595a6ed70ca843e154d0fdb4a7536ea1a7f255c450cd909e6"
+    },
+    {
+      "bytes": 3943,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/HomeScreen.strings",
+      "sha256": "d32b4232ede988a3058b3f016c4cfddaba7321c7ed5e7fef570c52ece3aa2444"
+    },
+    {
+      "bytes": 15011,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Localizable.strings",
+      "sha256": "2a07506a72b8d842be2e7736478809d4f68785c9952077ae9df68254192b9a17"
+    },
+    {
+      "bytes": 2747,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Onboarding.strings",
+      "sha256": "6cbd4f394d6052915b168a3d9ec6a988a4a2f08f713682150fbd53a88e72a7c2"
+    },
+    {
+      "bytes": 925,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Profiles.strings",
+      "sha256": "d4defcf200894b651359f9415904c925a083d73634d3d54ebeec30363293cdce"
+    },
+    {
+      "bytes": 4819,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/SpeedBubble.strings",
+      "sha256": "724e19328bf393389aaf30eb83322eb717081c70b700de864c04bb36867fc147"
+    },
+    {
+      "bytes": 4323,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/SplitScreen.strings",
+      "sha256": "c46e6006836968a1e667f542ad52177328ed9d1f2d51d4de00faacf5a0452ea0"
+    },
+    {
+      "bytes": 5383,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/StartupScreen.strings",
+      "sha256": "7b357d5a017311fc3417f65b0ba229922f7aa58a1e26778298bcc134dcee9608"
+    },
+    {
+      "bytes": 1054,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/WhatsNew.strings",
+      "sha256": "f0d2dc3f3fc49d8a269ae483840f42abccea004267781d5da79b42c47b9d6811"
+    },
+    {
+      "bytes": 715,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/AppBridge.strings",
+      "sha256": "5188257a24afe6d8c26c1fca280716fad8195915151382fa11e9ee2df7558602"
+    },
+    {
+      "bytes": 6315,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Car.strings",
+      "sha256": "1f24197c5695f14524f138060bc8c7535f96d4e26ae59352d9c79ecc70546f10"
+    },
+    {
+      "bytes": 4264,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/HomeScreen.strings",
+      "sha256": "e90f0a5e698da145cf2dfa9fc933b46df2ae8415e8298fb113e0194701e4f7c2"
+    },
+    {
+      "bytes": 17450,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Localizable.strings",
+      "sha256": "cb6915a824562a4a7028a224339b96692e247a44f53714b5d08365f033157e8a"
+    },
+    {
+      "bytes": 3107,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Onboarding.strings",
+      "sha256": "660f436235deb82b3c8dbff46a3e18ec0bee05fde743aaa8131dc6a80b1ffa14"
+    },
+    {
+      "bytes": 1093,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Profiles.strings",
+      "sha256": "4bb1e97ca1880f1f258310335b4b10871721b6559035afe8e095719f64e3dfb7"
+    },
+    {
+      "bytes": 5960,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/SpeedBubble.strings",
+      "sha256": "2fd29db769fa496cdf7335b966b5c66bab982b16d89354fec48c76f284ad8ac1"
+    },
+    {
+      "bytes": 5157,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/SplitScreen.strings",
+      "sha256": "b40a7b357df7ae64d6f637d0418250803ea9d5599f400d3f7f4a787741367b04"
+    },
+    {
+      "bytes": 5617,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/StartupScreen.strings",
+      "sha256": "49f8d3f132ef8c620c54072510736091ec13b2baccc7b1f254697a3210b17169"
+    },
+    {
+      "bytes": 1338,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/WhatsNew.strings",
+      "sha256": "5389679d6c71a4b467d678ac0b82595db2decda59286b2cfe26265fe1196e4ac"
+    },
+    {
+      "bytes": 577,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/AppBridge.strings",
+      "sha256": "48f10d3f7f10c9ad363e398de8caa05c9c2b73cc6efa8e6cc46a0cf83595c186"
+    },
+    {
+      "bytes": 5477,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Car.strings",
+      "sha256": "9f9814681f2471cf4653cbc21f1b2c43cb127fc6f87beb6dd5c4569fdeffc566"
+    },
+    {
+      "bytes": 3475,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/HomeScreen.strings",
+      "sha256": "176c36c34341751f794b7ab413432d224b8f8e2dc84b2a79b339d0276e0e8be9"
+    },
+    {
+      "bytes": 14455,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Localizable.strings",
+      "sha256": "661f7db0b7cad9d5d7e153202689f968ed1269776cdf956915af478647d8517c"
+    },
+    {
+      "bytes": 2375,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Onboarding.strings",
+      "sha256": "41d392644fc1838b461881332f0b6c67d336370db63e82b4355e167d19dce14e"
+    },
+    {
+      "bytes": 849,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Profiles.strings",
+      "sha256": "084ebc341c1e57608fa592dfcabe394e0a9f04ac34bf3eea03c85f83bcfcb923"
+    },
+    {
+      "bytes": 5179,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/SpeedBubble.strings",
+      "sha256": "0717604c99a423035a8cea74f1584374445ec7810fb40286c729db7658687774"
+    },
+    {
+      "bytes": 4283,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/SplitScreen.strings",
+      "sha256": "2f0541901b3b472e388ac19941e93117f4c4e56628e6f75317ef8729f6834e93"
+    },
+    {
+      "bytes": 5029,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/StartupScreen.strings",
+      "sha256": "ab43c82328b1073d6bf909dc349e1fbe00d5ed1cdaced2dd619f4686b1c116d7"
+    },
+    {
+      "bytes": 1102,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/WhatsNew.strings",
+      "sha256": "880c0f2d1f6bea0c2ada5ccdd46a93c18eb50a266ccea884641a93030ae6a2e5"
+    },
+    {
+      "bytes": 572,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/AppBridge.strings",
+      "sha256": "73cd243b98aa14d3c8248e616e5aa33ba9360ef9eb40b07ed78a9ab0ef976d23"
+    },
+    {
+      "bytes": 3588,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/HomeScreen.strings",
+      "sha256": "32f4da7542f158fd0b5680df7154ef1c3428d407d7aed5a1bf74bd4e447fb223"
+    },
+    {
+      "bytes": 14526,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Localizable.strings",
+      "sha256": "0ac8f2c805ec20c88caf7cdf90989206f5b5ea7738c8aa519b12d727921d2814"
+    },
+    {
+      "bytes": 2479,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Onboarding.strings",
+      "sha256": "fef6a75b605ac251162f25c7bc27cf3d1612bc739c3e555c0a1e0b8be2036e81"
+    },
+    {
+      "bytes": 853,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Profiles.strings",
+      "sha256": "e2459569d52d3bfaf52397714622761d0de0dfeff57b806e524fb733227178d7"
+    },
+    {
+      "bytes": 5233,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/SpeedBubble.strings",
+      "sha256": "455b1f62e4bc0fa5d38a4829d822dcac17beebf4c81a0362f9d287383a8798fb"
+    },
+    {
+      "bytes": 4302,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/SplitScreen.strings",
+      "sha256": "9baa87703adb19354f5fe7b5f41f6cc56e8869e500c7f8e6174a208b343b1767"
+    },
+    {
+      "bytes": 7408,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/StartupScreen.strings",
+      "sha256": "9cd4f4164859244008a6c5d37f74339a8095b00576bbd7b8ef3cc84de1f3d50e"
+    },
+    {
+      "bytes": 1212,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/WhatsNew.strings",
+      "sha256": "c563e97234502d0d3c49840f331f374b12fcf4ca26e503d761ed3b561ebe9c46"
+    },
+    {
+      "bytes": 469,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/AppBridge.strings",
+      "sha256": "e20270fe2c5780c8ec6c7d3a19f08f1e0daf4cb263488f35e1be91866e161474"
+    },
+    {
+      "bytes": 3778,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Car.strings",
+      "sha256": "548bdc77c20192586a89a9a809aa4f4ecffdbd684963f26f3da0d71c2c15f806"
+    },
+    {
+      "bytes": 2398,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/HomeScreen.strings",
+      "sha256": "965b64d7e0be54583cf69a0393eee2b215029bd9fed09fbc6aa62273e112697c"
+    },
+    {
+      "bytes": 9498,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Localizable.strings",
+      "sha256": "6fdce63afbdb981a39b7b565f8e5d2de5ebb70c673e65ba3774fed6824fcfa7c"
+    },
+    {
+      "bytes": 1410,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Onboarding.strings",
+      "sha256": "92a2e5421cdf9508986f9d697d4cb759c1405390eb87e48311e523f9ae9695cb"
+    },
+    {
+      "bytes": 477,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Profiles.strings",
+      "sha256": "1cf22acb55ef08600be61e59c2398b95e525d5cd407c127783bb7b3c24d63f6f"
+    },
+    {
+      "bytes": 3634,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/SpeedBubble.strings",
+      "sha256": "cd2686ce09ba95bd4f53e442d06d86a4e0d69a9e4318064bcb2cbf2e50be10fa"
+    },
+    {
+      "bytes": 3243,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/SplitScreen.strings",
+      "sha256": "ee43d699f9bca7aad40cfd8efc24777602a9e3831d0b1986ddc186e55d328800"
+    },
+    {
+      "bytes": 3354,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/StartupScreen.strings",
+      "sha256": "ff81e90c0086ffe4073f88b47f8b07b435198369b8ac12e946d412e5e391aabe"
+    },
+    {
+      "bytes": 620,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/WhatsNew.strings",
+      "sha256": "b432a03f4ec2985ce1babc5685e47a4a9efb0cef5e23eabbd9d13b6cbc7a6d99"
+    },
+    {
+      "bytes": 186,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/PreferenceLoader/Preferences/OmniCarPrefs.plist",
+      "sha256": "577dc46878a58aa6cd1f068f84a73f86e31dcd6313ec4eaf0b5960b25ea91f8e"
+    }
+  ],
+  "macho": {
+    "var/jb/Applications/OmniCar.app/OmniCar": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: DAF904BE-27FB-3A55-B76A-5DAE329F6A3A (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Applications/OmniCar.app/OmniCar\nUUID: DAFE2BC8-3E59-3424-AED0-0C2AAECF907B (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Applications/OmniCar.app/OmniCar"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [
+          "setForeground:",
+          "setBackgrounded:"
+        ],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [
+          "dock"
+        ],
+        "license-proprietary": [],
+        "lock": [
+          "SBSuspendedUnderLockManager"
+        ],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "FBScene",
+          "SBAppViewController"
+        ],
+        "touch": [
+          "touchesBegan:withEvent:",
+          "touchesEnded:withEvent:"
+        ],
+        "youtube": [],
+        "zoom": [
+          "zoom",
+          "fullscreen"
+        ]
+      },
+      "imports": [
+        "@rpath/OmniCarAppBridge.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1500.65.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "updateSettingsWithBlock:",
+        "updateSettings:withTransitionContext:completion:",
+        "setForeground:",
+        "setBackgrounded:",
+        "setIgnoresOcclusions:",
+        "setFrame:",
+        "sceneIfExists",
+        "_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "setInterfaceOrientation:",
+        "touchesBegan:withEvent:",
+        "touchesEnded:withEvent:"
+      ],
+      "uuid": "UUID: 81EF5920-BB7A-37E8-B953-D88453F2EA89 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib\nUUID: 3DB82CC6-F966-3256-AA0B-A390C1F13F8E (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/OmniCarCarProbe.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 60EABE81-28C1-328C-8B03-53AAC26BC7E0 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib\nUUID: E869FC2E-FED4-317E-A9D0-9D6B015F9436 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [
+          "appBridgeApps"
+        ],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/OmniCarCore.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: F4217823-CC6D-336B-BCEB-972852A3C095 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib\nUUID: 4A33CA9C-62CB-3106-A711-B916B57566EC (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/OmniCarSpeedBubble.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation (compatibility version 1.0.0, current version 2785.1.32)",
+        "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox (compatibility version 1.0.0, current version 1000.0.0)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1500.65.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 75F5A408-8444-300B-B96E-68DA8AF9BFA5 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib\nUUID: D13410EC-7083-320D-8649-7D16EB0E44C2 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [
+          "dock"
+        ],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [
+          "appBridgeApps"
+        ],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle"
+        ],
+        "touch": [
+          "touchesBegan:withEvent:",
+          "touchesEnded:withEvent:"
+        ],
+        "youtube": [],
+        "zoom": [
+          "zoom",
+          "fullscreen"
+        ]
+      },
+      "imports": [
+        "@rpath/OmniCarSplitScreen.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/CoreImage.framework/CoreImage (compatibility version 1.0.0, current version 5.0.0)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1500.65.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:",
+        "touchesBegan:withEvent:",
+        "touchesEnded:withEvent:"
+      ],
+      "uuid": "UUID: 751B5625-5F29-3D7A-BD16-71EB08F1D521 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib\nUUID: 7A49C926-F19C-3382-9BEE-763571FA3EFA (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/OmniCarStartupScreen.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/System/Library/Frameworks/ImageIO.framework/ImageIO (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation (compatibility version 1.0.0, current version 2785.1.32)",
+        "/System/Library/Frameworks/CallKit.framework/CallKit (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/EventKit.framework/EventKit (compatibility version 1.0.0, current version 1833.4.5)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 3C073435-22DF-3EE2-ACFA-D109A37EF1B7 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib\nUUID: 96533A0C-E0E2-3882-89BA-410DF8F36A80 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib"
+    },
+    "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [
+          "appBridgeApps"
+        ],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/System/Library/Frameworks/AVKit.framework/AVKit (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/UniformTypeIdentifiers.framework/UniformTypeIdentifiers (compatibility version 1.0.0, current version 709.0.0)",
+        "/System/Library/Frameworks/CoreImage.framework/CoreImage (compatibility version 1.0.0, current version 5.0.0)",
+        "/System/Library/Frameworks/CoreMedia.framework/CoreMedia (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/CoreVideo.framework/CoreVideo (compatibility version 1.2.0, current version 1.5.0)",
+        "/System/Library/Frameworks/ImageIO.framework/ImageIO (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/PrivateFrameworks/Preferences.framework/Preferences (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox (compatibility version 1.0.0, current version 1000.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 27A4D561-54A7-31EB-8B0C-C287A366F51C (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs\nUUID: B88B8C6C-ECDB-3E69-8F7B-1769521FEA44 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/OmniCar103/var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs"
+    }
+  },
+  "package": "OmniCar103",
+  "plists": {
+    "var/jb/Applications/OmniCar.app/Info.plist": {
+      "CFBundleExecutable": "OmniCar",
+      "CFBundleIdentifier": "com.anlai.omnicar.app",
+      "CFBundleShortVersionString": "1.0.3",
+      "CFBundleVersion": "1"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.UIKit"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.springboard",
+          "com.apple.CarPlayApp",
+          "vn.vietmap.live",
+          "com.lumi.GOFA",
+          "com.waze.iphone",
+          "com.wynauto.wyn"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSpeedBubble.plist": {},
+    "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSplitScreen.plist": {},
+    "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureStartupScreen.plist": {},
+    "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Info.plist": {
+      "CFBundleExecutable": "OmniCarPrefs",
+      "CFBundleIdentifier": "com.anlai.omnicar.prefs",
+      "CFBundleShortVersionString": "1.0.3",
+      "CFBundleVersion": "1.0",
+      "NSPrincipalClass": "OMCRootListController"
+    },
+    "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Root.plist": {},
+    "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/WhatsNew.plist": {},
+    "var/jb/Library/PreferenceLoader/Preferences/OmniCarPrefs.plist": {}
+  },
+  "risk_selectors_any_binary": {
+    "_shouldBeBackgroundUnderLockForScene:withSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ],
+    "automatesLifecycle": [],
+    "interceptUpdateForScene:withNewSettings:": [],
+    "isHostingAnApp": [],
+    "refreshSceneLayout": [],
+    "sceneDidEnterBackground:": [],
+    "sceneHandle:didUpdateSettingsWithDiff:previousSettings:": [],
+    "sceneIfExists": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ],
+    "sceneWillResignActive:": [],
+    "sendEvent:": [],
+    "setAudioOnlyBackgroundMode:": [],
+    "setAutomatesLifecycle:": [],
+    "setBackgrounded:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ],
+    "setForeground:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ],
+    "setFrame:": [
+      "var/jb/Applications/OmniCar.app/OmniCar",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
+      "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs"
+    ],
+    "setIgnoresOcclusions:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ],
+    "setInterfaceOrientation:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ],
+    "setRequestedMode:": [],
+    "shouldBeUnderLockForScene:": [],
+    "touchesBegan:withEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib"
+    ],
+    "touchesEnded:withEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib"
+    ],
+    "updateLayout": [],
+    "updateSceneSettingsFrame": [],
+    "updateSettings:withTransitionContext:completion:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ],
+    "updateSettingsWithBlock:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+    ]
+  },
+  "sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "unique_binary_strings": 5974
+}

@@ -1,0 +1,833 @@
+{
+  "binary_count": 8,
+  "control": {
+    "control": {
+      "sha256": "b3ef47ef2d8fabec04f57b52be8990504006b48e7ba2d6b2f732c4ff35935dc4",
+      "text": "Package: com.duoface.jb.embedded\nName: DuoFace Independent (Integrated CarPlay Beta)\nVersion: 0.0.125~lockabi1\nArchitecture: iphoneos-arm64\nSection: Applications\nPriority: optional\nMaintainer: DuoFace Independent\nDepends: firmware (>= 16.0), mobilesubstrate\nConflicts: com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp, com.duoface.independent, com.duoface.sideplaydisplay, com.duonavi.app, com.duoface.app\nReplaces: com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp\nDescription: Independent rootless iOS16 CarPlay DuoFace beta in one DEB with integrated app bridge, scene host and DuoFace UI; no separate CarBridge required. Native12-inspired controls include app picker, split, logo move, swap and zoom. CarPlay hardware behavior and media playback are not yet verified. Replaces conflicting older first-party DuoFace QA modules; review changes before installation.\n"
+    },
+    "postinst": {
+      "sha256": "6d2ff6887cad7125c977d899bda63383d03a21c3059e80306051b0535a9af7c1",
+      "text": "#!/bin/sh\nset -eu\ncase \"${1:-}\" in configure) ;; *) exit 0 ;; esac\n# Only register the single independent DuoFace UI bundle. No process restart, no\n# preference changes, no CarPlay allowance, no vendor library registration.\nfor APP in /var/jb/Applications/DuoFaceNativeHost.app; do\n  [ -d \"$APP\" ] || { echo \"DuoFace integrated: app missing $APP\" >&2; exit 1; }\n  FOUND=0\n  for CACHE in /var/jb/usr/bin/uicache /usr/bin/uicache; do\n    if [ -x \"$CACHE\" ]; then\n      FOUND=1\n      \"$CACHE\" -p \"$APP\" || echo \"DuoFace integrated: uicache failed for $APP\" >&2\n      break\n    fi\n  done\n  [ \"$FOUND\" = 1 ] || echo \"DuoFace integrated: uicache absent, icon unconfirmed $APP\" >&2\ndone\nexit 0\n"
+    },
+    "postrm": {
+      "sha256": "b3e2e6d2ec27254316a0840ba509bcaf6df1c7a2583b15c948745b3b656d1c04",
+      "text": "#!/bin/sh\nset -eu\ncase \"${1:-}\" in remove) ;; *) exit 0 ;; esac\nfor APP in /var/jb/Applications/DuoFaceNativeHost.app; do\n  for CACHE in /var/jb/usr/bin/uicache /usr/bin/uicache; do\n    if [ -x \"$CACHE\" ]; then \"$CACHE\" -u \"$APP\" || true; break; fi\n  done\ndone\nexit 0\n"
+    }
+  },
+  "feature_indicators": {
+    "app-scene-foreground": [
+      "automatesLifecycle",
+      "setBackgrounded:",
+      "setForeground:",
+      "setRequestedMode:"
+    ],
+    "carplay": [
+      "CPWindow",
+      "CarPlay"
+    ],
+    "dock": [
+      "Dashboard",
+      "dock"
+    ],
+    "license-proprietary": [],
+    "lock": [
+      "SBSuspendedUnderLockManager",
+      "shouldBeUnderLockForScene:"
+    ],
+    "map": [],
+    "picker": [],
+    "reconnect": [
+      "disconnect",
+      "sceneDidDisconnect:"
+    ],
+    "scene-host": [
+      "FBScene",
+      "SBAppViewController",
+      "sceneHandle"
+    ],
+    "touch": [
+      "touchesBegan:withEvent:",
+      "touchesEnded:withEvent:"
+    ],
+    "youtube": [
+      "com.google.ios.youtube"
+    ],
+    "zoom": [
+      "Fullscreen",
+      "Zoom",
+      "fullscreen",
+      "zoom"
+    ]
+  },
+  "file_count": 34,
+  "files": [
+    {
+      "bytes": 17879,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceIcon60@2x.png",
+      "sha256": "539dadf34e8468945f0260e6ec84c132c77d055f817e0f0e64a93a7d8aa0a6a7"
+    },
+    {
+      "bytes": 38461,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceIcon60@3x.png",
+      "sha256": "e5a08229e29d74a6c8bb1d1f16a0db0e564f6d5df320dbb40da2b7f349c002a0"
+    },
+    {
+      "bytes": 2583,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceLaunchScreen.storyboardc/DF-Launch-view-DF-Root.nib",
+      "sha256": "44fbab6d0d234aa8b8ddf5ba6d5f2c73f1d1edcb4784d118b615b59b8f01b643"
+    },
+    {
+      "bytes": 255,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceLaunchScreen.storyboardc/Info.plist",
+      "sha256": "51e65cb5736f697cd92abfa40936ffce5fd9dcc2de2462e1af5c7bfd5d4daf40"
+    },
+    {
+      "bytes": 920,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceLaunchScreen.storyboardc/UIViewController-DF-Launch.nib",
+      "sha256": "d14b80aed90c2366b8e6326f827a78e788753caf13783ab1b4a7af49ae709dcb"
+    },
+    {
+      "bytes": 312736,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "sha256": "1744bec88b0d8ec40b77b5d155ed4df8b5f001f396e1ba2419d74ce1b6edbc38"
+    },
+    {
+      "bytes": 2749,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/Info.plist",
+      "sha256": "1f88a0a85baade8fcd4449878f7eae0bc792c3d5fcf60c5427b2240be11f04e4"
+    },
+    {
+      "bytes": 6400,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-fullscreen.png",
+      "sha256": "10e52f01a16cb7d34a81330373a290bcac1bdb0ba9c91119527ef3dcb13cdb36"
+    },
+    {
+      "bytes": 143191,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-logo-picker-alpha-v2.png",
+      "sha256": "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7"
+    },
+    {
+      "bytes": 378795,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-logo-vert.png",
+      "sha256": "7fa216e2fa89e4fc32e49045ab29d72f6bee3fef4f974444c98fb5bd631e25d2"
+    },
+    {
+      "bytes": 147482,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-logo.png",
+      "sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
+    },
+    {
+      "bytes": 15225,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-picker.png",
+      "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+    },
+    {
+      "bytes": 22085,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-swap.png",
+      "sha256": "d3ec77c783a186896d63bb08732ee78e427f16e1c127c0785b36bf5eaa037275"
+    },
+    {
+      "bytes": 147482,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/duoface-logo.png",
+      "sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
+    },
+    {
+      "bytes": 6400,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-fullscreen.png",
+      "sha256": "10e52f01a16cb7d34a81330373a290bcac1bdb0ba9c91119527ef3dcb13cdb36"
+    },
+    {
+      "bytes": 143191,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-logo-picker-alpha-v2.png",
+      "sha256": "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7"
+    },
+    {
+      "bytes": 378795,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-logo-vert.png",
+      "sha256": "7fa216e2fa89e4fc32e49045ab29d72f6bee3fef4f974444c98fb5bd631e25d2"
+    },
+    {
+      "bytes": 147482,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-logo.png",
+      "sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
+    },
+    {
+      "bytes": 15225,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-picker.png",
+      "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+    },
+    {
+      "bytes": 22085,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-swap.png",
+      "sha256": "d3ec77c783a186896d63bb08732ee78e427f16e1c127c0785b36bf5eaa037275"
+    },
+    {
+      "bytes": 131328,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+      "sha256": "a10923940642bd13751cca5b01ab820327d3d9499ab12a0fd52fcd468dac7a13"
+    },
+    {
+      "bytes": 498,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist",
+      "sha256": "b1ad67151651c43461b4ba5fdf20bdfd60c22a904118420bd619d43908d4a417"
+    },
+    {
+      "bytes": 187024,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+      "sha256": "bf81e4f7d1234c84909cf973f91d98667a38aa7fa88304737edc9e4da0588be4"
+    },
+    {
+      "bytes": 95,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.plist",
+      "sha256": "60e03cef5a71ae6efde83ce885636f8cbb93452f2d51be54d3848bbd2e543998"
+    },
+    {
+      "bytes": 275520,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+      "sha256": "bcd5cfdc5e9b5b83639f1793fc48a97e331a854cb7eeb8a211a5b6fb1e019747"
+    },
+    {
+      "bytes": 108,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.plist",
+      "sha256": "4416d5cc0cc333c48e9ca9cec0c889fff27d4cd0f0cfb6662b446f41b9ea758f"
+    },
+    {
+      "bytes": 122912,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib",
+      "sha256": "664274f9ca6993071b3c16bd3da84bafe97e6548280e03d8227def0f29d21149"
+    },
+    {
+      "bytes": 305,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.plist",
+      "sha256": "8a1cca5d407a4fea06188b56462ef037db3885d501fc2024cb6b2f6f157adc79"
+    },
+    {
+      "bytes": 521920,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "sha256": "4e2fe1fcc05526f75620525a8bd248c4c1c0457b9f6e903d833fac4e364082c6"
+    },
+    {
+      "bytes": 354,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist",
+      "sha256": "3ccc57534759e34c81d34676f3ef5bc7847125ecf34220cb9b0c8b8a668ffa7c"
+    },
+    {
+      "bytes": 292160,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+      "sha256": "9f2260cf276576b0facb108463f61373edd6843aaf76887f62c2fc3c6423ad42"
+    },
+    {
+      "bytes": 93,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.plist",
+      "sha256": "86345479d62d39c2b9fc6f879bbed191913b153deefa1aa486ca1e19c8664304"
+    },
+    {
+      "bytes": 100464,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib",
+      "sha256": "806a5b067acd0c9a87e81d2506685b13e2c54ea71055df4b6d3d6aaabfa106e5"
+    },
+    {
+      "bytes": 287,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist",
+      "sha256": "6c9827b5e10906266bcec7dc9fbd6fc9be41efbcefe09857b3bec54314aaa628"
+    }
+  ],
+  "macho": {
+    "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CPWindow",
+          "CarPlay"
+        ],
+        "dock": [
+          "dock",
+          "Dashboard"
+        ],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [
+          "sceneDidDisconnect:"
+        ],
+        "scene-host": [],
+        "touch": [
+          "touchesBegan:withEvent:",
+          "touchesEnded:withEvent:"
+        ],
+        "youtube": [],
+        "zoom": [
+          "Zoom",
+          "zoom",
+          "Fullscreen"
+        ]
+      },
+      "imports": [
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/CarPlay.framework/CarPlay (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/System/Library/Frameworks/Speech.framework/Speech (compatibility version 1.0.0, current version 1.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:",
+        "sceneDidEnterBackground:",
+        "sceneWillResignActive:",
+        "touchesBegan:withEvent:",
+        "touchesEnded:withEvent:"
+      ],
+      "uuid": "UUID: 9DC889C0-9C7E-381A-9595-857F53F60344 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [
+          "dock",
+          "Dashboard"
+        ],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "FBScene"
+        ],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp.TskjpneFJb/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)"
+      ],
+      "matched_probes": [
+        "sceneIfExists"
+      ],
+      "uuid": "UUID: 5914DDB4-8601-34FF-AB0C-D94835D6C8EB (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/DFFirstPartyAdmission.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 2CDF2772-86F9-326B-BBF9-58F758CE0A9A (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib\nUUID: F56F956F-6AF2-3FA7-A7C3-E02F290C8B7C (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [
+          "disconnect"
+        ],
+        "scene-host": [],
+        "touch": [
+          "touchesBegan:withEvent:",
+          "touchesEnded:withEvent:"
+        ],
+        "youtube": [],
+        "zoom": [
+          "Zoom",
+          "zoom",
+          "Fullscreen"
+        ]
+      },
+      "imports": [
+        "@rpath/DFNativeDashboardBridgeQA.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)"
+      ],
+      "matched_probes": [
+        "setFrame:",
+        "touchesBegan:withEvent:",
+        "touchesEnded:withEvent:"
+      ],
+      "uuid": "UUID: C99F8870-07FE-33AF-80CA-0B7443EDE723 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib\nUUID: C5EED922-7892-31FE-AF2A-BA13BB331E48 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "FBScene"
+        ],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp.TskjpneFJb/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:",
+        "sceneIfExists"
+      ],
+      "uuid": "UUID: 1123F883-5C46-3A42-89CD-B4CC0CDD2A33 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [
+          "setForeground:",
+          "setBackgrounded:",
+          "automatesLifecycle",
+          "setRequestedMode:"
+        ],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [
+          "Dashboard"
+        ],
+        "license-proprietary": [],
+        "lock": [
+          "SBSuspendedUnderLockManager",
+          "shouldBeUnderLockForScene:"
+        ],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "FBScene",
+          "SBAppViewController"
+        ],
+        "touch": [
+          "touchesBegan:withEvent:",
+          "touchesEnded:withEvent:"
+        ],
+        "youtube": [
+          "com.google.ios.youtube"
+        ],
+        "zoom": [
+          "Zoom",
+          "Fullscreen"
+        ]
+      },
+      "imports": [
+        "/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp.TskjpneFJb/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)"
+      ],
+      "matched_probes": [
+        "updateSettingsWithBlock:",
+        "updateSettings:withTransitionContext:completion:",
+        "sceneHandle:didUpdateSettingsWithDiff:previousSettings:",
+        "setForeground:",
+        "setBackgrounded:",
+        "automatesLifecycle",
+        "setAutomatesLifecycle:",
+        "setIgnoresOcclusions:",
+        "setRequestedMode:",
+        "setFrame:",
+        "sceneIfExists",
+        "_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "shouldBeUnderLockForScene:",
+        "setInterfaceOrientation:",
+        "touchesBegan:withEvent:",
+        "touchesEnded:withEvent:",
+        "isHostingAnApp"
+      ],
+      "uuid": "UUID: 1DDB778D-CF90-3F80-82CC-4DBCB6DD30A5 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [
+          "setForeground:",
+          "setBackgrounded:",
+          "setRequestedMode:"
+        ],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "SBAppViewController"
+        ],
+        "touch": [],
+        "youtube": [],
+        "zoom": [
+          "Zoom",
+          "zoom",
+          "fullscreen"
+        ]
+      },
+      "imports": [
+        "@rpath/DFV1APreflight.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "updateSettings:withTransitionContext:completion:",
+        "setForeground:",
+        "setBackgrounded:",
+        "setAutomatesLifecycle:",
+        "setIgnoresOcclusions:",
+        "setRequestedMode:",
+        "setFrame:",
+        "sceneIfExists"
+      ],
+      "uuid": "UUID: C479DB64-51D0-3AF2-A39C-EB009F9F52F0 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib\nUUID: 48E40D66-53CE-3647-A266-A7645151AD3E (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [
+          "com.google.ios.youtube"
+        ],
+        "zoom": []
+      },
+      "imports": [
+        "/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp.TskjpneFJb/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 3B088DEC-ECBE-3D20-8EB3-0A8433EF9C95 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoFaceQA125/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
+    }
+  },
+  "package": "DuoFaceQA125",
+  "plists": {
+    "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceLaunchScreen.storyboardc/Info.plist": {},
+    "var/jb/Applications/DuoFaceNativeHost.app/Info.plist": {
+      "CFBundleExecutable": "DuoFaceNativeHost",
+      "CFBundleIdentifier": "com.duoface.native.scenehost",
+      "CFBundleShortVersionString": "0.1.125",
+      "CFBundleVersion": "125",
+      "UIApplicationSceneManifest": {
+        "UIApplicationSupportsMultipleScenes": true,
+        "UISceneConfigurations": {
+          "CPTemplateApplicationSceneSessionRoleApplication": [
+            {
+              "UISceneClassName": "CPTemplateApplicationScene",
+              "UISceneConfigurationName": "DuoFace Template CarPlay Scene",
+              "UISceneDelegateClassName": "DFNativeHostTemplateSceneDelegate"
+            }
+          ],
+          "UIWindowSceneSessionRoleApplication": [
+            {
+              "UISceneClassName": "UIWindowScene",
+              "UISceneConfigurationName": "DuoFace iPhone Status",
+              "UISceneDelegateClassName": "DFNativeHostPhoneSceneDelegate"
+            }
+          ],
+          "UIWindowSceneSessionRoleCarPlay": [
+            {
+              "UISceneClassName": "UIWindowScene",
+              "UISceneConfigurationName": "DuoFace Native CarPlay Scene",
+              "UISceneDelegateClassName": "DFNativeHostCarSceneDelegate"
+            }
+          ]
+        }
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlay",
+          "com.apple.CarPlayApp",
+          "com.apple.dashboard"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp",
+          "dashboard",
+          "Dashboard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.plist": {
+      "Filter": {
+        "Executables": [
+          "CarPlay",
+          "SpringBoard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.plist": {
+      "Filter": {
+        "Executables": [
+          "SpringBoard",
+          "CarPlay",
+          "CarPlayApp"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.plist": {
+      "Filter": {
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ],
+        "Executables": [
+          "SpringBoard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.google.ios.youtube"
+        ]
+      }
+    }
+  },
+  "risk_selectors_any_binary": {
+    "_shouldBeBackgroundUnderLockForScene:withSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "automatesLifecycle": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "interceptUpdateForScene:withNewSettings:": [],
+    "isHostingAnApp": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "refreshSceneLayout": [],
+    "sceneDidEnterBackground:": [
+      "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+    ],
+    "sceneHandle:didUpdateSettingsWithDiff:previousSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "sceneIfExists": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    ],
+    "sceneWillResignActive:": [
+      "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+    ],
+    "sendEvent:": [],
+    "setAudioOnlyBackgroundMode:": [],
+    "setAutomatesLifecycle:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    ],
+    "setBackgrounded:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    ],
+    "setForeground:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    ],
+    "setFrame:": [
+      "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
+    ],
+    "setIgnoresOcclusions:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    ],
+    "setInterfaceOrientation:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "setRequestedMode:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    ],
+    "shouldBeUnderLockForScene:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "touchesBegan:withEvent:": [
+      "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "touchesEnded:withEvent:": [
+      "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "updateLayout": [],
+    "updateSceneSettingsFrame": [],
+    "updateSettings:withTransitionContext:completion:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+    ],
+    "updateSettingsWithBlock:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ]
+  },
+  "sha256": "1914f4e2c6e8dce0fadb5035166c0869966759fb74eb1c89424712dcf71cbe93",
+  "unique_binary_strings": 4010
+}

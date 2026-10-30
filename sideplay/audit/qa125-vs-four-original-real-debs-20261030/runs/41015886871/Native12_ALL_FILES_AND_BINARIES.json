@@ -1,0 +1,808 @@
+{
+  "binary_count": 8,
+  "control": {
+    "control": {
+      "sha256": "326bd6044245ace8cb247615774ad705fe3e6fc5333618a4e33a8b285a63b726",
+      "text": "Package: com.duoface.independent\nName: DuoFace Mới (Native thử nghiệm)\nDescription: DuoFace UI va loi goc, thuc nghiem khong dong bo cap phep. Can thiet bi test va khong cai dong thoi goi cu.\nMaintainer: DuoFace Independent\nAuthor: DuoFace Team\nSection: Tweaks\nDepends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)\nArchitecture: iphoneos-arm64\nVersion: 0.1.0~native12+speed8compact\nInstalled-Size: 10253\n"
+    },
+    "md5sums": {
+      "sha256": "c7aff61272a7f169dccc1345c6a42d17e68d1751b18df55abc0c9eec840fad78",
+      "text": "55863bc22b2df21e737e79f801773a83  var/jb/Applications/DuoFaceUI.app/AppIcon29x29.png\ndaa955687fc9891581872403fffc2dcd  var/jb/Applications/DuoFaceUI.app/AppIcon29x29@2x.png\n3af311d18c953a5a59fd0f3a364a84d6  var/jb/Applications/DuoFaceUI.app/AppIcon29x29@3x.png\nefcb02a7f1ece72561475f172f050e3a  var/jb/Applications/DuoFaceUI.app/AppIcon40x40.png\n579a496d14e5fdb228e06aa36be93aee  var/jb/Applications/DuoFaceUI.app/AppIcon40x40@2x.png\nd12854eddb5880432781da97b574c922  var/jb/Applications/DuoFaceUI.app/AppIcon40x40@3x.png\nf034659c1c9d48da0dfce3f0b6f8e207  var/jb/Applications/DuoFaceUI.app/AppIcon50x50.png\neadd70cbc3beb2e4d94bae89967f77a2  var/jb/Applications/DuoFaceUI.app/AppIcon50x50@2x.png\nea2c7c817f62f4ae3180b063a2e4a761  var/jb/Applications/DuoFaceUI.app/AppIcon57x57.png\n1061d19d291ea4fd4783698ed91c60b2  var/jb/Applications/DuoFaceUI.app/AppIcon57x57@2x.png\n32bfbfc1fc4839a48a0ad83d963ddbfc  var/jb/Applications/DuoFaceUI.app/AppIcon57x57@3x.png\ndbe136e55567ca9e00bf1cfeb01f850c  var/jb/Applications/DuoFaceUI.app/AppIcon60x60.png\nd12854eddb5880432781da97b574c922  var/jb/Applications/DuoFaceUI.app/AppIcon60x60@2x.png\n7f30f8782ba5ae34fe8b620ecba4fdae  var/jb/Applications/DuoFaceUI.app/AppIcon60x60@3x.png\n3dbcc664440d65a1cf95f59997cc6588  var/jb/Applications/DuoFaceUI.app/AppIcon72x72.png\n1ef7fe7cc50b19f521258e4c9b3cb378  var/jb/Applications/DuoFaceUI.app/AppIcon72x72@2x.png\n4027e61432c27d3dd5c40fe4ba4517cb  var/jb/Applications/DuoFaceUI.app/AppIcon76x76.png\nc68670cc26aeb7e1c8bcdb2e2281848b  var/jb/Applications/DuoFaceUI.app/AppIcon76x76@2x.png\na420bd3b9a8ea1b1cda441f10c48abed  var/jb/Applications/DuoFaceUI.app/DuoFaceUI\n0891ed5ddb6bc616bfe496ad893ab229  var/jb/Applications/DuoFaceUI.app/Info.plist\n3ea1674baf4b32da76701cc32e003e1a  var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-fullscreen.png\n12c110ec9d9b2dc208b07b2997ba4721  var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-picker.png\n387d4c05bcd3cb4906c9f91f3be0c410  var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-swap.png\nd3ea74fed50efbf0d9e4bab94cd272b3  var/jb/Library/Application Support/DuoFace/asset-manifest.json\n70351e766747724f2065b3e75a44fd5a  var/jb/Library/Application Support/DuoFace/duoface-icon.png\n39ea8a82456e7e3846733520222c1812  var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png\n1ba4f080d56951d50501a75593ebf565  var/jb/Library/Application Support/DuoFace/duoface-logo-vert.png\n22dc3df8427f1f04a2505bc9951b3188  var/jb/Library/Application Support/DuoFace/duoface-logo.png\nb16bbf2d8294a72f12e7ac9787d76a85  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib\nc7ecd3549ea12ed1a1d5f50fe0aa3348  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist\nb76cc998b7931e8b9b0666284986b764  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib\ndd8ad2a92e5be9179a804af243c1de6c  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist\ncad81693c67152257e770d1f1ee6f104  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib\ne07d47c94a26e7e3d071565d78e48250  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist\nf66b0a21f1c643efeb9a5766316f84fa  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib\nd80911556660cdc6540c03866a3cb877  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist\n298bc2b1c458f0e3ba37ea408a0b30a2  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib\nd80911556660cdc6540c03866a3cb877  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.plist\nf89faa05b6fc1af81ad804207ad25c2c  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib\ne07d47c94a26e7e3d071565d78e48250  var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist\n00bd371ccfc89b452054b38b6a23295b  var/jb/etc/sudoers.d/duoface\nd88af028f5d44d5b3c7a4d3711e4605c  var/jb/usr/bin/duoface-cboptimize\n82e66c3b288098bd852f982d3d3ecb03  var/jb/usr/libexec/duoface_cboptimize_helper\n"
+    },
+    "postinst": {
+      "sha256": "76f77789739b1bb9f2a00f8b3b5a45e946ebf0b34b090de49bf7b84daef4452a",
+      "text": "#!/bin/sh\nset -eu\nif command -v uicache >/dev/null 2>&1; then uicache -a || true; fi\necho \"DuoFace Native TEST installed. Restart SpringBoard/CarPlay before device testing.\"\nexit 0\n"
+    },
+    "preinst": {
+      "sha256": "c04ed0e312987fe7b250647014d5b59bad413d0b24a20537dba87a6fb709b45c",
+      "text": "#!/bin/sh\nset -eu\nfor protected in     /var/jb/Applications/DuoFaceUI.app/DuoFaceUI     /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib     /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib     /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib\ndo\n    owner=\"$(dpkg-query -S \"$protected\" 2>/dev/null || true)\"\n    if [ -n \"$owner\" ]; then\n        case \"$owner\" in\n            \"com.duoface.independent\":* ) ;;\n            *)\n                echo \"DuoFace native3: another installed package owns $protected; refusing overwrite\" >&2\n                exit 1\n                ;;\n        esac\n    fi\ndone\nexit 0\n"
+    },
+    "prerm": {
+      "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+      "text": "#!/bin/sh\nexit 0\n"
+    }
+  },
+  "feature_indicators": {
+    "app-scene-foreground": [
+      "automatesLifecycle",
+      "setForeground:",
+      "setRequestedMode:"
+    ],
+    "carplay": [
+      "CarPlay"
+    ],
+    "dock": [],
+    "license-proprietary": [],
+    "lock": [
+      "SBSuspendedUnderLockManager",
+      "shouldBeUnderLockForScene:"
+    ],
+    "map": [],
+    "picker": [],
+    "reconnect": [],
+    "scene-host": [
+      "FBScene",
+      "SBAppViewController",
+      "sceneHandle"
+    ],
+    "touch": [
+      "sendEvent:",
+      "touchesBegan:withEvent:",
+      "touchesEnded:withEvent:"
+    ],
+    "youtube": [
+      "com.google.ios.youtube",
+      "youtube"
+    ],
+    "zoom": [
+      "Zoom"
+    ]
+  },
+  "file_count": 43,
+  "files": [
+    {
+      "bytes": 1625,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29.png",
+      "sha256": "71debbd1ec86ddc0f81ec912b81270cd015e0cbc72b21ba4657d7a89a65c9b66"
+    },
+    {
+      "bytes": 4927,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@2x.png",
+      "sha256": "7cd2974d10f2ec892957a0e5995f43e81ba0d73efe701d45719765cc57de77cf"
+    },
+    {
+      "bytes": 9504,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@3x.png",
+      "sha256": "444a05ca1cf748cfd7440fa390e758d3a2e9e365701d3c9787374ae055171295"
+    },
+    {
+      "bytes": 2650,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40.png",
+      "sha256": "9934e080e8d4fe2c7c1ee5feda7f3d1b0ceeabf8dd65834d03fa0baadd49d1ed"
+    },
+    {
+      "bytes": 8309,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@2x.png",
+      "sha256": "9ab7dc6d37efbed691648cf545ffd490125e24d1a78a3f11043b167c780f5ff6"
+    },
+    {
+      "bytes": 16021,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@3x.png",
+      "sha256": "ca2e7402c268eb08ecb031b24bce4fd8c9bfde7c169431f7aa860070e6964e7d"
+    },
+    {
+      "bytes": 3845,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon50x50.png",
+      "sha256": "a3d6c1fb86f75aab76dda4dd51368ab903f23cd98be1522edab6a684d23ff420"
+    },
+    {
+      "bytes": 11898,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon50x50@2x.png",
+      "sha256": "a0b2483b684eec28c813a0ba13bf25700c240681905cfd26e86320c96f7a063c"
+    },
+    {
+      "bytes": 4818,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57.png",
+      "sha256": "02954587d7cff643f4805a79df90da4c5d5a4eb7ab5026eb71698b42af85ee52"
+    },
+    {
+      "bytes": 14778,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@2x.png",
+      "sha256": "a6ef5deaa71c36aaea9e2646f1b9759f62b792a6a0ff3b9720bda88258aecacd"
+    },
+    {
+      "bytes": 28859,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@3x.png",
+      "sha256": "5d796161858e6dc07bf90283f1528149a5be01437ed242095cb3af3ebc2425bf"
+    },
+    {
+      "bytes": 5185,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60.png",
+      "sha256": "e0cd867606e62b90c9dc9962520ca1d760b47ba7dd9593505f826e757625cb11"
+    },
+    {
+      "bytes": 16021,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@2x.png",
+      "sha256": "ca2e7402c268eb08ecb031b24bce4fd8c9bfde7c169431f7aa860070e6964e7d"
+    },
+    {
+      "bytes": 31467,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@3x.png",
+      "sha256": "6cf13a7c3e5aac30d0232a53b8388ae6623b43259afd125ef88e2ff509604d12"
+    },
+    {
+      "bytes": 7026,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon72x72.png",
+      "sha256": "0480a1a0adbc74d7e3272c82e7b0f8fe86352b44c99e7c151aea76eaa085f3ac"
+    },
+    {
+      "bytes": 21616,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon72x72@2x.png",
+      "sha256": "ca01ebbfc396c8f6e1ebffa03c80df4714fc099c6decce0e49ab58eafe3a79a5"
+    },
+    {
+      "bytes": 7628,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon76x76.png",
+      "sha256": "df2a07dc88e81ed07a33fc51161510d1404fc59df0e5231cc7c7e94ac261371c"
+    },
+    {
+      "bytes": 23597,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/AppIcon76x76@2x.png",
+      "sha256": "3e875d60e256732dbbc2774ed88cbce098fdf81d684e9724d7bbe7c6b17dc3a8"
+    },
+    {
+      "bytes": 1220256,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9"
+    },
+    {
+      "bytes": 2303,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Applications/DuoFaceUI.app/Info.plist",
+      "sha256": "d34a7d08c593dd2ee29b0fbe79d51b369253a8728282b1fff2b757302b7a5e67"
+    },
+    {
+      "bytes": 6400,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-fullscreen.png",
+      "sha256": "10e52f01a16cb7d34a81330373a290bcac1bdb0ba9c91119527ef3dcb13cdb36"
+    },
+    {
+      "bytes": 15225,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-picker.png",
+      "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+    },
+    {
+      "bytes": 22085,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-swap.png",
+      "sha256": "d3ec77c783a186896d63bb08732ee78e427f16e1c127c0785b36bf5eaa037275"
+    },
+    {
+      "bytes": 1998,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/asset-manifest.json",
+      "sha256": "5b5eaf4958ae7e2898c69f2b2dc95672aecb08d6ca5952d13df513c56d7ede29"
+    },
+    {
+      "bytes": 64297,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/duoface-icon.png",
+      "sha256": "03f0a9e31bffced19419f06193d866bb2d66d824c5ba10c5c24eee8718217def"
+    },
+    {
+      "bytes": 143191,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png",
+      "sha256": "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7"
+    },
+    {
+      "bytes": 378795,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/duoface-logo-vert.png",
+      "sha256": "7fa216e2fa89e4fc32e49045ab29d72f6bee3fef4f974444c98fb5bd631e25d2"
+    },
+    {
+      "bytes": 147482,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/Application Support/DuoFace/duoface-logo.png",
+      "sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
+    },
+    {
+      "bytes": 3760032,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+    },
+    {
+      "bytes": 1446,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist",
+      "sha256": "584038db14fd6d61b7e56e096b6ca2f020dd8b4f97fb5485ee72763d817fcd10"
+    },
+    {
+      "bytes": 124976,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+      "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe"
+    },
+    {
+      "bytes": 594,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist",
+      "sha256": "d0d7082b78fb83dc15d0a02cb6e247486d982d9870871e698c2a64b70c1bf2af"
+    },
+    {
+      "bytes": 72320,
+      "mach_o": true,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+      "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1"
+    },
+    {
+      "bytes": 511,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist",
+      "sha256": "9b3e9dc8b5e1d195b5b0fe0a6c6f12104a17683273582408c8a398f1a8529966"
+    },
+    {
+      "bytes": 106928,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+      "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364"
+    },
+    {
+      "bytes": 49,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist",
+      "sha256": "62ee8d853176f7a2ab39a9b343be76d9f38ce8113c3c868a93f3b4ec50dbcdab"
+    },
+    {
+      "bytes": 70736,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib",
+      "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3"
+    },
+    {
+      "bytes": 49,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.plist",
+      "sha256": "62ee8d853176f7a2ab39a9b343be76d9f38ce8113c3c868a93f3b4ec50dbcdab"
+    },
+    {
+      "bytes": 75536,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+      "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d"
+    },
+    {
+      "bytes": 511,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist",
+      "sha256": "9b3e9dc8b5e1d195b5b0fe0a6c6f12104a17683273582408c8a398f1a8529966"
+    },
+    {
+      "bytes": 28,
+      "mach_o": false,
+      "mode": "0o644",
+      "path": "var/jb/etc/sudoers.d/duoface",
+      "sha256": "72fd64f87a8564969df22bedc7c2e36e46776b3ad6bc4d2014f4b8029599ac5a"
+    },
+    {
+      "bytes": 3364,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/bin/duoface-cboptimize",
+      "sha256": "73b19cdafe1624f089d54ae06aa0f00b1545ca5f11fd62fc6e69dcf44417eb46"
+    },
+    {
+      "bytes": 150528,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/usr/libexec/duoface_cboptimize_helper",
+      "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906"
+    }
+  ],
+  "macho": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [
+          "com.google.ios.youtube",
+          "youtube"
+        ],
+        "zoom": []
+      },
+      "imports": [
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/SafariServices.framework/SafariServices (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices (compatibility version 1.0.0, current version 1228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreServices.framework/CoreServices (compatibility version 1.0.0, current version 1228.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 9D789C67-BF82-3C8F-8127-17D1AE50E08E (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [
+          "setForeground:",
+          "automatesLifecycle",
+          "setRequestedMode:"
+        ],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [
+          "SBSuspendedUnderLockManager",
+          "shouldBeUnderLockForScene:"
+        ],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "FBScene",
+          "SBAppViewController"
+        ],
+        "touch": [
+          "sendEvent:",
+          "touchesBegan:withEvent:",
+          "touchesEnded:withEvent:"
+        ],
+        "youtube": [
+          "com.google.ios.youtube",
+          "youtube"
+        ],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/DuoFaceDashboard.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/usr/lib/libsqlite3.dylib (compatibility version 9.0.0, current version 346.0.0)",
+        "/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport (compatibility version 1.0.0, current version 29.0.0)",
+        "/System/Library/PrivateFrameworks/BackBoardServices.framework/BackBoardServices (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/Speech.framework/Speech (compatibility version 1.0.0, current version 1.0.0, weak)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio (compatibility version 1.0.0, current version 1.0.0)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "updateSettingsWithBlock:",
+        "updateSettings:withTransitionContext:completion:",
+        "sceneHandle:didUpdateSettingsWithDiff:previousSettings:",
+        "setForeground:",
+        "automatesLifecycle",
+        "setAutomatesLifecycle:",
+        "setIgnoresOcclusions:",
+        "setRequestedMode:",
+        "setFrame:",
+        "sceneIfExists",
+        "_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "interceptUpdateForScene:withNewSettings:",
+        "shouldBeUnderLockForScene:",
+        "setAudioOnlyBackgroundMode:",
+        "refreshSceneLayout",
+        "sendEvent:",
+        "touchesBegan:withEvent:",
+        "touchesEnded:withEvent:",
+        "updateLayout",
+        "updateSceneSettingsFrame"
+      ],
+      "uuid": "UUID: E585CE1C-ACC6-3E74-B017-D760FFC77C02 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": [
+          "Zoom"
+        ]
+      },
+      "imports": [
+        "@rpath/DuoFaceFullscreenBridge.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1900.180.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 1407C486-0285-39B3-A4E6-B58B4D3576EE (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/DuoFaceLogoGripOnly.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: EC385F22-C5C1-31FF-91FF-34CE3A8E87FB (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/DuoFaceSpeedHUD.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1900.180.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: E370AF0A-AE7F-31ED-967A-FCC6CEEB1D50 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/DuoFaceSpeedOwner.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1900.180.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: F6676D15-EDEE-3EE3-8D44-5290960A04FF (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/DuoFaceVisualHook.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 3732552B-441E-34F4-AB72-C70568CE673C (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+    },
+    "var/jb/usr/libexec/duoface_cboptimize_helper": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 08150583-FE7A-38D8-B7D6-BEA87ECF801F (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/usr/libexec/duoface_cboptimize_helper\nUUID: 5BA5E15B-FDA8-34AB-A9E8-B1234DDD689A (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/Native12/var/jb/usr/libexec/duoface_cboptimize_helper"
+    }
+  },
+  "package": "Native12",
+  "plists": {
+    "var/jb/Applications/DuoFaceUI.app/Info.plist": {
+      "CFBundleExecutable": "DuoFaceUI",
+      "CFBundleIdentifier": "com.duoface.duofaceui",
+      "CFBundleShortVersionString": "1.0.0",
+      "CFBundleVersion": "1.0.0",
+      "UIRequiredDeviceCapabilities": [
+        "arm64"
+      ]
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.google.ios.youtube",
+          "com.google.ios.youtubemusic",
+          "com.netflix.Netflix",
+          "org.videolan.vlc-ios",
+          "com.apple.mobilesafari",
+          "tv.twitch",
+          "com.zhiliaoapp.musically",
+          "com.google.Maps",
+          "com.waze.iphone",
+          "com.spotify.client",
+          "com.apple.Preferences",
+          "com.apple.mobilenotes",
+          "com.apple.mobilephone",
+          "com.apple.Music",
+          "com.google.chrome.ios",
+          "com.apple.BarcodeScanner",
+          "com.apple.PrintKit.Print-Center",
+          "com.duoface.duofaceui"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp",
+          "Dashboard",
+          "SpringBoard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.duoface.duofaceui"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.duoface.duofaceui"
+        ]
+      }
+    }
+  },
+  "risk_selectors_any_binary": {
+    "_shouldBeBackgroundUnderLockForScene:withSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "automatesLifecycle": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "interceptUpdateForScene:withNewSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "isHostingAnApp": [],
+    "refreshSceneLayout": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "sceneDidEnterBackground:": [],
+    "sceneHandle:didUpdateSettingsWithDiff:previousSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "sceneIfExists": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "sceneWillResignActive:": [],
+    "sendEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "setAudioOnlyBackgroundMode:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "setAutomatesLifecycle:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "setBackgrounded:": [],
+    "setForeground:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "setFrame:": [
+      "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+    ],
+    "setIgnoresOcclusions:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "setInterfaceOrientation:": [],
+    "setRequestedMode:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "shouldBeUnderLockForScene:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "touchesBegan:withEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "touchesEnded:withEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "updateLayout": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "updateSceneSettingsFrame": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "updateSettings:withTransitionContext:completion:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ],
+    "updateSettingsWithBlock:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+    ]
+  },
+  "sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "unique_binary_strings": 8734
+}

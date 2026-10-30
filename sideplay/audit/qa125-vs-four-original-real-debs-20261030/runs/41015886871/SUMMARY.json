@@ -1,0 +1,131 @@
+{
+  "all_package_summary": {
+    "DuoFaceQA125": {
+      "binary_count": 8,
+      "control_version": [
+        "Package: com.duoface.jb.embedded",
+        "Name: DuoFace Independent (Integrated CarPlay Beta)",
+        "Version: 0.0.125~lockabi1",
+        "Architecture: iphoneos-arm64",
+        "Section: Applications",
+        "Priority: optional",
+        "Maintainer: DuoFace Independent",
+        "Depends: firmware (>= 16.0), mobilesubstrate",
+        "Conflicts: com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp, com.duoface.independent, com.duoface.sideplaydisplay, com.duonavi.app, com.duoface.app",
+        "Replaces: com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp",
+        "Description: Independent rootless iOS16 CarPlay DuoFace beta in one DEB with integrated app bridge, scene host and DuoFace UI; no separate CarBridge required. Native12-inspired controls include app picker, split, logo move, swap and zoom. CarPlay hardware behavior and media playback are not yet verified. Replaces conflicting older first-party DuoFace QA modules; review changes before installation."
+      ],
+      "file_count": 34,
+      "objc_probe_count": 19,
+      "sha256": "1914f4e2c6e8dce0fadb5035166c0869966759fb74eb1c89424712dcf71cbe93",
+      "total_binary_string_tokens": 4010
+    },
+    "DuoNavi104": {
+      "binary_count": 4,
+      "control_version": [
+        "Package: com.duonavi.app",
+        "Name: DuoNavi",
+        "Description: Split your screen and run apps side-by-side on Apple CarPlay.",
+        "Maintainer: DuoNavi Team <support@duonavi.com>",
+        "Author: DuoNavi Team",
+        "Section: Tweaks",
+        "Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)",
+        "Conflicts: oldabi, com.yourcompany.carbridgedashboard, com.bvn.carbridge13, com.leftyfl1p.carbridge13",
+        "Replaces: oldabi, com.yourcompany.carbridgedashboard, com.bvn.carbridge13, com.leftyfl1p.carbridge13",
+        "Provides: oldabi, com.yourcompany.carbridgedashboard, com.leftyfl1p.carbridge13",
+        "SileoDepiction: https://repo.duonavi.com/com.duonavi.app.json",
+        "Icon: https://duonavi.com/apple-touch-icon.png"
+      ],
+      "file_count": 50,
+      "objc_probe_count": 20,
+      "sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+      "total_binary_string_tokens": 9233
+    },
+    "Native12": {
+      "binary_count": 8,
+      "control_version": [
+        "Package: com.duoface.independent",
+        "Name: DuoFace Mới (Native thử nghiệm)",
+        "Description: DuoFace UI va loi goc, thuc nghiem khong dong bo cap phep. Can thiet bi test va khong cai dong thoi goi cu.",
+        "Maintainer: DuoFace Independent",
+        "Author: DuoFace Team",
+        "Section: Tweaks",
+        "Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)",
+        "Architecture: iphoneos-arm64",
+        "Version: 0.1.0~native12+speed8compact",
+        "Installed-Size: 10253"
+      ],
+      "file_count": 43,
+      "objc_probe_count": 20,
+      "sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+      "total_binary_string_tokens": 8734
+    },
+    "OmniCar103": {
+      "binary_count": 8,
+      "control_version": [
+        "Package: com.anlai.omnicar",
+        "Name: OmniCar",
+        "Description: The power of CarPlay.",
+        " OmniCar takes CarPlay beyond what Apple allows: more freedom, more features and everything you need on the road, in one package.",
+        " .",
+        " APP BRIDGE",
+        "  - iPhone apps without CarPlay, such as YouTube or TikTok, on the car screen",
+        "  - In a Split Screen pane or full screen, resized live",
+        "  - Built in: no CarBridge needed",
+        " .",
+        " SPEED BUBBLE",
+        "  - Current speed and the posted limit from Vietmap Live, GOFA, Waze or Wyn"
+      ],
+      "file_count": 176,
+      "objc_probe_count": 11,
+      "sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+      "total_binary_string_tokens": 5974
+    },
+    "SidePlay104": {
+      "binary_count": 7,
+      "control_version": [
+        "Package: com.sideplay",
+        "Name: SidePlay",
+        "Description: Split screen for CarPlay. Run any app on the car screen, one or two side by side.",
+        "Depends: firmware (>= 15.0), mobilesubstrate, preferenceloader",
+        "Conflicts: com.cortex.carplayenable, com.pavunato.carsurf, com.bmt.dash, com.chou.googlemaps.vietmap",
+        "Maintainer: SidePlay",
+        "Author: SidePlay",
+        "Section: Tweaks",
+        "SileoDepiction: https://sideplay.pages.dev/depictions/com.sideplay.json",
+        "Icon: https://sideplay.pages.dev/CydiaIcon.png",
+        "Architecture: iphoneos-arm64",
+        "Version: 1.0.4-1"
+      ],
+      "file_count": 136,
+      "objc_probe_count": 12,
+      "sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+      "total_binary_string_tokens": 4032
+    }
+  },
+  "candidate": "DuoFaceQA125",
+  "duodash_stock": "NOT_PROVEN: stock binary not provided, earlier repack excluded from immutable originals",
+  "license_rule": "Never reproduce vendor license, activation or proprietary code",
+  "non_equivalence_rule": "String, selector/import and bundle/class overlap are clues only. Never assert callback ABI or runtime equivalence.",
+  "original_native12_method_rows": 1385,
+  "original_native12_method_selector_string_present_in_qa125": 317,
+  "originals": [
+    "Native12",
+    "DuoNavi104",
+    "OmniCar103",
+    "SidePlay104"
+  ],
+  "reality": "No device QA, no fixes made, and a system scene's effective owner cannot be verified by offline scan.",
+  "scope": "exact 5 SHA-locked/captured DEB artifacts (4 original reference + QA125 signed; SidePlay SHA recorded)",
+  "source_hotspots": [
+    "sideplay/duoface-native-scene-host/DFSceneLifecycle.m",
+    "sideplay/duoface-native-scene-host/DFSceneHost.m",
+    "sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m",
+    "sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m",
+    "sideplay/duoface-native-scene-host/DFNative12Chrome.m",
+    "sideplay/duoface-native-scene-host/DFNativeMapPaneCoordinator.m",
+    "sideplay/duoface-native-scene-host/DFDockZoomCoordinator.m",
+    "sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m"
+  ],
+  "timestamp_utc": "2026-10-30T06:45:24.851614+00:00"
+}

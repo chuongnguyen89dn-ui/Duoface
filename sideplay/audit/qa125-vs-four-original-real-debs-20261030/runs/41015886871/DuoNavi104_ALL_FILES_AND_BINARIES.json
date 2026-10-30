@@ -1,0 +1,682 @@
+{
+  "binary_count": 4,
+  "control": {
+    "control": {
+      "sha256": "ad4faf742acd21c74240c1640f9b3b9f2d8c70b9e9b187501e74c80aef7e688c",
+      "text": "Package: com.duonavi.app\nName: DuoNavi\nDescription: Split your screen and run apps side-by-side on Apple CarPlay.\nMaintainer: DuoNavi Team <support@duonavi.com>\nAuthor: DuoNavi Team\nSection: Tweaks\nDepends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)\nConflicts: oldabi, com.yourcompany.carbridgedashboard, com.bvn.carbridge13, com.leftyfl1p.carbridge13\nReplaces: oldabi, com.yourcompany.carbridgedashboard, com.bvn.carbridge13, com.leftyfl1p.carbridge13\nProvides: oldabi, com.yourcompany.carbridgedashboard, com.leftyfl1p.carbridge13\nSileoDepiction: https://repo.duonavi.com/com.duonavi.app.json\nIcon: https://duonavi.com/apple-touch-icon.png\nArchitecture: iphoneos-arm64\nVersion: 1.0.4\nInstalled-Size: 11060\n"
+    },
+    "postinst": {
+      "sha256": "7505329517954b67180ae205eb3c39192f6b9f888183645f6f42d77b6832823e",
+      "text": "#!/bin/sh\nset -e\n\n# Fix tweak preference and state permissions\nchmod 0666 /var/jb/Library/MobileSubstrate/DynamicLibraries/CarBridgeDashboard.plist 2>/dev/null || true\nchmod 0666 /Library/MobileSubstrate/DynamicLibraries/CarBridgeDashboard.plist 2>/dev/null || true\nchmod 0666 /var/tmp/com.duonavi.bridgestate.plist 2>/dev/null || true\nchmod 0666 /var/tmp/com.tiz.carbridge.bridgestate.plist 2>/dev/null || true\n\n# Auto-configure OldABI permissions on A12+ PAC devices\nif [ -f /var/jb/usr/lib/ellekit/OldABI.dylib ]; then\n    chmod 0755 /var/jb/usr/lib/ellekit/OldABI.dylib 2>/dev/null || true\n    chown 0:0 /var/jb/usr/lib/ellekit/OldABI.dylib 2>/dev/null || true\nfi\n\n# Set setuid root permissions for root helper tool\nchown 0:0 /var/jb/usr/libexec/cboptimize_helper 2>/dev/null || true\nchmod 4755 /var/jb/usr/libexec/cboptimize_helper 2>/dev/null || true\nchown 0:0 /usr/libexec/cboptimize_helper 2>/dev/null || true\nchmod 4755 /usr/libexec/cboptimize_helper 2>/dev/null || true\n\n# Pre-grant Speech Recognition and Microphone permissions in TCC.db for SpringBoard\n/var/jb/usr/libexec/cboptimize_helper --grant-tcc 2>/dev/null || /usr/libexec/cboptimize_helper --grant-tcc 2>/dev/null || true\n\n# Set sudoers drop-in permissions if present\nchown 0:0 /var/jb/etc/sudoers.d/duonavi /var/jb/etc/sudoers.d/carbridge 2>/dev/null || true\nchmod 0440 /var/jb/etc/sudoers.d/duonavi /var/jb/etc/sudoers.d/carbridge 2>/dev/null || true\n\n# Auto-initialize initial settings for fresh jailbroken devices\nPREF_FILE=\"/var/mobile/Library/Preferences/com.duonavi.plist\"\nLEGACY_PREF_FILE=\"/var/mobile/Library/Preferences/com.tiz.carbridge.plist\"\nif [ ! -f \"$PREF_FILE\" ] && [ -f \"$LEGACY_PREF_FILE\" ]; then\n    cp \"$LEGACY_PREF_FILE\" \"$PREF_FILE\" 2>/dev/null || true\nfi\nif [ ! -f \"$PREF_FILE\" ]; then\n    cat << 'EOF' > \"$PREF_FILE\"\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n\t<key>bridgedApps</key>\n\t<array>\n\t\t<string>com.google.Maps</string>\n\t\t<string>com.apple.Maps</string>\n\t\t<string>com.google.ios.youtube</string>\n\t\t<string>com.apple.Music</string>\n\t\t<string>com.apple.podcasts</string>\n\t\t<string>com.apple.tv</string>\n\t\t<string>com.ss.iphone.ugc.Ame</string>\n\t\t<string>com.ss.iphone.ugc.tiktok.lite</string>\n\t\t<string>vn.com.vng.zingalo</string>\n\t</array>\n\t<key>userAppsDefaultInitialized</key>\n\t<true/>\n\t<key>splitScreenEnabled</key>\n\t<true/>\n\t<key>autoLaunchOnConnect</key>\n\t<true/>\n\t<key>autoLaunchBundleID</key>\n\t<string>com.apple.BarcodeScanner</string>\n\t<key>systemOptimizerEnabled</key>\n\t<true/>\n</dict>\n</plist>\nEOF\n    chown 501:501 \"$PREF_FILE\" 2>/dev/null || true\n    chmod 0644 \"$PREF_FILE\" 2>/dev/null || true\nfi\n\n# System Optimization for CarPlay (Rootless & Rootful compatible)\nLAUNCHCTL_BIN=\"/var/jb/usr/bin/launchctl\"\n[ -x \"$LAUNCHCTL_BIN\" ] || LAUNCHCTL_BIN=\"/usr/bin/launchctl\"\n\n# Check if user explicitly disabled system optimizer in preferences (e.g. iPhone 15 Pro Max)\nPREF_FILE=\"/var/mobile/Library/Preferences/com.duonavi.plist\"\n[ -f \"$PREF_FILE\" ] || PREF_FILE=\"/var/mobile/Library/Preferences/com.tiz.carbridge.plist\"\nOPT_ENABLED=1\nif [ -f \"$PREF_FILE\" ]; then\n    if grep -A 1 \"<key>systemOptimizerEnabled</key>\" \"$PREF_FILE\" 2>/dev/null | grep -q \"<false/>\"; then\n        OPT_ENABLED=0\n    fi\nfi\n\nSERVICES=\"com.apple.ReportCrash com.apple.ReportCrash.SimulateCrash com.apple.AggregateDictionary.addaily com.apple.symptomsd-diag com.apple.healthd com.apple.healthrecordsd com.apple.OTATaskingAgent com.apple.softwareupdated com.apple.triald com.apple.biomesyncd com.apple.routined com.apple.duetexpertd\"\n\nif [ \"$OPT_ENABLED\" -eq 1 ]; then\n    if [ -x \"$LAUNCHCTL_BIN\" ]; then\n        for svc in $SERVICES; do\n            \"$LAUNCHCTL_BIN\" disable \"system/$svc\" 2>/dev/null || true\n            \"$LAUNCHCTL_BIN\" kill SIGKILL \"system/$svc\" 2>/dev/null || true\n        done\n    fi\n\n    # Clean stale crash logs and huge debug logs\n    rm -rf /var/mobile/Library/Logs/CrashReporter/* 2>/dev/null || true\n    rm -rf /Library/Logs/CrashReporter/* 2>/dev/null || true\n    for logfile in /var/mobile/duonavi.log /var/mobile/duonavi_live.log /var/mobile/carbridge.log /var/mobile/carbridge_live.log; do\n        if [ -f \"$logfile\" ]; then\n            > \"$logfile\" || true\n        fi\n    done\nelse\n    # User chose to keep/restore stock daemons\n    if [ -x \"$LAUNCHCTL_BIN\" ]; then\n        for svc in $SERVICES; do\n            \"$LAUNCHCTL_BIN\" enable \"system/$svc\" 2>/dev"
+    },
+    "prerm": {
+      "sha256": "b7eb8fd723adf348ebc1712ae203d199a0f76a13c52888e2e16f06b5792252f3",
+      "text": "#!/bin/sh\n# Re-enable system daemons when CarBridge package is removed\nLAUNCHCTL_BIN=\"/var/jb/usr/bin/launchctl\"\n[ -x \"$LAUNCHCTL_BIN\" ] || LAUNCHCTL_BIN=\"/usr/bin/launchctl\"\n\nif [ -x \"$LAUNCHCTL_BIN\" ]; then\n    SERVICES=\"com.apple.ReportCrash com.apple.ReportCrash.SimulateCrash com.apple.AggregateDictionary.addaily com.apple.symptomsd-diag com.apple.healthd com.apple.healthrecordsd com.apple.OTATaskingAgent com.apple.softwareupdated com.apple.triald com.apple.biomesyncd com.apple.routined com.apple.duetexpertd\"\n    for svc in $SERVICES; do\n        \"$LAUNCHCTL_BIN\" enable \"system/$svc\" 2>/dev/null || true\n    done\nfi\n\nexit 0\n"
+    }
+  },
+  "feature_indicators": {
+    "app-scene-foreground": [
+      "automatesLifecycle",
+      "setForeground:",
+      "setRequestedMode:"
+    ],
+    "carplay": [
+      "CarPlay"
+    ],
+    "dock": [],
+    "license-proprietary": [],
+    "lock": [
+      "SBSuspendedUnderLockManager",
+      "shouldBeUnderLockForScene:"
+    ],
+    "map": [],
+    "picker": [],
+    "reconnect": [],
+    "scene-host": [
+      "FBScene",
+      "SBAppViewController",
+      "sceneHandle"
+    ],
+    "touch": [
+      "sendEvent:",
+      "touchesBegan:withEvent:",
+      "touchesEnded:withEvent:"
+    ],
+    "youtube": [
+      "com.google.ios.youtube",
+      "youtube"
+    ],
+    "zoom": []
+  },
+  "file_count": 50,
+  "files": [
+    {
+      "bytes": 1683,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29.png",
+      "sha256": "ee80e6fa985c810594e9a9d71a9345754a258e1fd003e09e1928f0a1ccbe27ac"
+    },
+    {
+      "bytes": 4418,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29@2x.png",
+      "sha256": "57b53e56337554990e8fb5a942408c9ad639bc4c922e9fc516a0937e9ff8dc5c"
+    },
+    {
+      "bytes": 6962,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29@3x.png",
+      "sha256": "6ed032ef6def302b730c1a3b0d7f2780608e774e0699c045d57db8ca18bd099e"
+    },
+    {
+      "bytes": 2558,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40.png",
+      "sha256": "bf8f1a8ecd6aacfa4629c9270931810813a1c4988761a7f9719125c0d99cc680"
+    },
+    {
+      "bytes": 6442,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40@2x.png",
+      "sha256": "21a34128183099a44a7c6e704132082c58c1c40b60c8f84d35eabf339acb83f1"
+    },
+    {
+      "bytes": 11080,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40@3x.png",
+      "sha256": "d74c578b1052c39c611c16c1f5422cc0722124f7a20fc58734cb03ba19f3f805"
+    },
+    {
+      "bytes": 3512,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon50x50.png",
+      "sha256": "c9b0bee8fc96ee428b1b01a5dcc1e91d2519c507b54352948ea8c97e44c4b0fe"
+    },
+    {
+      "bytes": 8772,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon50x50@2x.png",
+      "sha256": "2c5eb7cd7305f16e2f897d1ecdcb217aa40389cdc44307e2506cb21098c9e26e"
+    },
+    {
+      "bytes": 4310,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57.png",
+      "sha256": "eedd555f14f961e136dbbe82538490d43dcb44005a0533f7e2bc23b00faf1cbd"
+    },
+    {
+      "bytes": 10259,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57@2x.png",
+      "sha256": "6775b1cdd74e7e7ece5ff59f1ef0b6a4dfa2d8d02cd344494a4dd154d34ae688"
+    },
+    {
+      "bytes": 16921,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57@3x.png",
+      "sha256": "2dc50b732978993fa86c73363ef34032911fe58b95231d63e78f984c529a8927"
+    },
+    {
+      "bytes": 4569,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60.png",
+      "sha256": "4db4e1af06c3a1da875b999a3c4cacee6860145f22f30058b8275f3ce5687c0e"
+    },
+    {
+      "bytes": 11080,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60@2x.png",
+      "sha256": "d74c578b1052c39c611c16c1f5422cc0722124f7a20fc58734cb03ba19f3f805"
+    },
+    {
+      "bytes": 19030,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60@3x.png",
+      "sha256": "84a8b781eb530fc1d7b151c808b7b74180821521f0ae210024d5016dee10b187"
+    },
+    {
+      "bytes": 5677,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon72x72.png",
+      "sha256": "5ac4c55f52533820d590636d24169514c9f41b8219633970e091f955c14951a1"
+    },
+    {
+      "bytes": 14138,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon72x72@2x.png",
+      "sha256": "25ca49474d902148a8162992ce00d69f19b70127a1d451baee4463ca22975051"
+    },
+    {
+      "bytes": 6072,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon76x76.png",
+      "sha256": "9ebf4e4d31b21ff82d73deef8d6d4625482fac27ee7a0684a8fba9a7c256fd1a"
+    },
+    {
+      "bytes": 14885,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/AppIcon76x76@2x.png",
+      "sha256": "2038ffa9fed00b065491d4f6b3771ff648ce3f44ccce7c50383d3596e83a322e"
+    },
+    {
+      "bytes": 2435008,
+      "mach_o": true,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
+      "sha256": "98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c"
+    },
+    {
+      "bytes": 2303,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Applications/DuoNaviUI.app/Info.plist",
+      "sha256": "091a21ef2bda97f72e8bd948f290785102160a238abed9a6185a21a3aad3970b"
+    },
+    {
+      "bytes": 15129,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/ar/error.mp3",
+      "sha256": "3de250a66ad95ed650965b1dd392df8339d92fdf5f83610da44d304277061ae0"
+    },
+    {
+      "bytes": 12861,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/de/error.mp3",
+      "sha256": "14a49955036fb520aacf15a28c48257a8e723c0043f9767aa9ccf024bbb1f62c"
+    },
+    {
+      "bytes": 9945,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/en/error.mp3",
+      "sha256": "93ff8cd65f77304eb870e2d2a6f261b9eff8a1064aa923855701d044d21a1237"
+    },
+    {
+      "bytes": 11241,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/es/error.mp3",
+      "sha256": "cdfbc1c47f1c26401d80fe9d9c3d3cf171bf21bb3e3531aa7992e6790daaca4d"
+    },
+    {
+      "bytes": 11889,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/fr/error.mp3",
+      "sha256": "a9c3ecda497a74e2ffe403e4a92f7729bf291f038d5e95b816840895433269e1"
+    },
+    {
+      "bytes": 12753,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/hi/error.mp3",
+      "sha256": "dea8626ed9eafbe4c597687af55e3bfb69add3d380401b788dc81d97fc0a0107"
+    },
+    {
+      "bytes": 12753,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/id/error.mp3",
+      "sha256": "ba7cbee28c23173fd12ce945446a4391ca1e3d283a629251e02661f91fb2c260"
+    },
+    {
+      "bytes": 10161,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/it/error.mp3",
+      "sha256": "9a7fc830fdd731d008c719b10cbc42d64137d1d13bf8ee97f769c5ee279f329c"
+    },
+    {
+      "bytes": 17073,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/ja/error.mp3",
+      "sha256": "85be85a060191b70873b7f0b2ff85ce78ee4ee1310a07b0ea1e56e58cc155b03"
+    },
+    {
+      "bytes": 14157,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/ko/error.mp3",
+      "sha256": "212df33d52eb17e48414f26b8571ad9e1b4342482bf71ef69990315f85df3efc"
+    },
+    {
+      "bytes": 11565,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/ms/error.mp3",
+      "sha256": "da40108929a741b855ab25e8ea1807d8690ffd92b7a6da03b61f002c302b52d8"
+    },
+    {
+      "bytes": 10593,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/nl/error.mp3",
+      "sha256": "f9c51a4dbef69188dd2af5a711b1f6e430bcdfe44175b31d931baf12f99b9e71"
+    },
+    {
+      "bytes": 11673,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/pl/error.mp3",
+      "sha256": "2ee119491ce004ca30942bf45ad3f00ed424e708b89dc60d92f366e9c6b0f1a2"
+    },
+    {
+      "bytes": 15777,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/pt/error.mp3",
+      "sha256": "f3e0844952cacd948662662c2bf067ae1378b0148c801db0882571cb36148597"
+    },
+    {
+      "bytes": 12969,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/ru/error.mp3",
+      "sha256": "6793c31d689b0ae2753e1e2bc9e9f81f641634c2526973f7abb6da86f920f1fb"
+    },
+    {
+      "bytes": 14049,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/th/error.mp3",
+      "sha256": "df232a4e7e1e42c9c4c50191d927cb447df61e6abeabd42951da7228125e97c6"
+    },
+    {
+      "bytes": 25090,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/ting.caf",
+      "sha256": "1710d2d049c587b446920db21e12e38fa45784e3d752cca1cba432026aef5723"
+    },
+    {
+      "bytes": 14913,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/tr/error.mp3",
+      "sha256": "cb8da1ef7b951245fd7b7ff4496fee4f1dcc81de8180c44b00dc25f301f7ead8"
+    },
+    {
+      "bytes": 10161,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/vi/error.mp3",
+      "sha256": "4455e6754ae7c868d9fde5b672f8feea9afd99b8e6e7bf428048f0cfaee00b6f"
+    },
+    {
+      "bytes": 11781,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/zh/error.mp3",
+      "sha256": "34be3fff861becca7623c0d07578068f56211cd02c0a34f4b79e4e7698d8f856"
+    },
+    {
+      "bytes": 11997,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/Audio/zh-Hant/error.mp3",
+      "sha256": "79ca60ed1de00099c2b74095658a7e97e88107155d5322f9786bdffcc5c988a9"
+    },
+    {
+      "bytes": 19601,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/duonavi-icon.png",
+      "sha256": "8f5ea15b4cd6a14ef23c50d9f794f327b0a16dac8765c386279cafbb99fecd14"
+    },
+    {
+      "bytes": 22348,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/duonavi-logo-vert.png",
+      "sha256": "9e098245d3147a0e6bb834af71f6ae4462d60a4c058399dfd97fffa57221924d"
+    },
+    {
+      "bytes": 22203,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/Library/Application Support/DuoNavi/duonavi-logo.png",
+      "sha256": "c177d9534f5d044ff7367da5c1a1dcd846bd008ddc19a0a99a8f856dc9781b14"
+    },
+    {
+      "bytes": 7921472,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+      "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15"
+    },
+    {
+      "bytes": 1446,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist",
+      "sha256": "1e1ac54b30b58ba7d3cfd4d243f7c8fcb0b2ca3bd4774134c013478079cb8cfe"
+    },
+    {
+      "bytes": 28,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/etc/sudoers.d/duonavi",
+      "sha256": "72fd64f87a8564969df22bedc7c2e36e46776b3ad6bc4d2014f4b8029599ac5a"
+    },
+    {
+      "bytes": 3364,
+      "mach_o": false,
+      "mode": "0o777",
+      "path": "var/jb/usr/bin/cboptimize",
+      "sha256": "dc51c0de747e0c1f6e0307c9da286ac731ca1c1b9c859804f8408c34a437b80d"
+    },
+    {
+      "bytes": 67552,
+      "mach_o": true,
+      "mode": "0o777",
+      "path": "var/jb/usr/lib/ellekit/OldABI.dylib",
+      "sha256": "9f801b4b03265f5eb5425ac8ee9d05aeeba34544601a74415da80fb948476979"
+    },
+    {
+      "bytes": 150720,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/usr/libexec/cboptimize_helper",
+      "sha256": "421656d74a08174c3c37c734669bef0eda218fa2089ab3cda227ab3f63b1b33e"
+    }
+  ],
+  "macho": {
+    "var/jb/Applications/DuoNaviUI.app/DuoNaviUI": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [
+          "com.google.ios.youtube",
+          "youtube"
+        ],
+        "zoom": []
+      },
+      "imports": [
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/SafariServices.framework/SafariServices (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices (compatibility version 1.0.0, current version 1228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreServices.framework/CoreServices (compatibility version 1.0.0, current version 1228.0.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: CBCCA51E-C793-35A8-AD61-2643E2E90A26 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoNavi104/var/jb/Applications/DuoNaviUI.app/DuoNaviUI\nUUID: BFE99745-D4AE-3886-AFFB-FFFE81D84AC7 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoNavi104/var/jb/Applications/DuoNaviUI.app/DuoNaviUI"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [
+          "setForeground:",
+          "automatesLifecycle",
+          "setRequestedMode:"
+        ],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [
+          "SBSuspendedUnderLockManager",
+          "shouldBeUnderLockForScene:"
+        ],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "FBScene",
+          "SBAppViewController"
+        ],
+        "touch": [
+          "sendEvent:",
+          "touchesBegan:withEvent:",
+          "touchesEnded:withEvent:"
+        ],
+        "youtube": [
+          "com.google.ios.youtube",
+          "youtube"
+        ],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/DuoNaviDashboard.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox (compatibility version 1.0.0, current version 1000.0.0)",
+        "/System/Library/Frameworks/Speech.framework/Speech (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/CoreMedia.framework/CoreMedia (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport (compatibility version 1.0.0, current version 29.0.0)",
+        "/System/Library/PrivateFrameworks/BackBoardServices.framework/BackBoardServices (compatibility version 1.0.0, current version 1.0.0)",
+        "/usr/lib/libsqlite3.dylib (compatibility version 9.0.0, current version 346.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio (compatibility version 1.0.0, current version 1.0.0)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "updateSettingsWithBlock:",
+        "updateSettings:withTransitionContext:completion:",
+        "sceneHandle:didUpdateSettingsWithDiff:previousSettings:",
+        "setForeground:",
+        "automatesLifecycle",
+        "setAutomatesLifecycle:",
+        "setIgnoresOcclusions:",
+        "setRequestedMode:",
+        "setFrame:",
+        "sceneIfExists",
+        "_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "interceptUpdateForScene:withNewSettings:",
+        "shouldBeUnderLockForScene:",
+        "setAudioOnlyBackgroundMode:",
+        "refreshSceneLayout",
+        "sendEvent:",
+        "touchesBegan:withEvent:",
+        "touchesEnded:withEvent:",
+        "updateLayout",
+        "updateSceneSettingsFrame"
+      ],
+      "uuid": "UUID: 12616BB9-1D3E-314E-90D5-E231EE45C0E0 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoNavi104/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib\nUUID: 66809FC5-0371-3F0D-A048-76B2244BE0A2 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoNavi104/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    },
+    "var/jb/usr/lib/ellekit/OldABI.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/oldabi-c.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 024F95E2-0807-31AE-B8AD-B668726E3F46 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoNavi104/var/jb/usr/lib/ellekit/OldABI.dylib"
+    },
+    "var/jb/usr/libexec/cboptimize_helper": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/usr/lib/libsqlite3.dylib (compatibility version 9.0.0, current version 346.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 01DE2242-DA13-3FC1-A856-FA7B808FADEE (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoNavi104/var/jb/usr/libexec/cboptimize_helper\nUUID: 94FDB58F-5F30-3B27-81C6-1968B92D447F (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/DuoNavi104/var/jb/usr/libexec/cboptimize_helper"
+    }
+  },
+  "package": "DuoNavi104",
+  "plists": {
+    "var/jb/Applications/DuoNaviUI.app/Info.plist": {
+      "CFBundleExecutable": "DuoNaviUI",
+      "CFBundleIdentifier": "com.duonavi.duonaviui",
+      "CFBundleShortVersionString": "1.0.0",
+      "CFBundleVersion": "1.0.0",
+      "UIRequiredDeviceCapabilities": [
+        "arm64"
+      ]
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.google.ios.youtube",
+          "com.google.ios.youtubemusic",
+          "com.netflix.Netflix",
+          "org.videolan.vlc-ios",
+          "com.apple.mobilesafari",
+          "tv.twitch",
+          "com.zhiliaoapp.musically",
+          "com.google.Maps",
+          "com.waze.iphone",
+          "com.spotify.client",
+          "com.apple.Preferences",
+          "com.apple.mobilenotes",
+          "com.apple.mobilephone",
+          "com.apple.Music",
+          "com.google.chrome.ios",
+          "com.apple.BarcodeScanner",
+          "com.apple.PrintKit.Print-Center",
+          "com.duonavi.duonaviui"
+        ]
+      }
+    }
+  },
+  "risk_selectors_any_binary": {
+    "_shouldBeBackgroundUnderLockForScene:withSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "automatesLifecycle": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "interceptUpdateForScene:withNewSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "isHostingAnApp": [],
+    "refreshSceneLayout": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "sceneDidEnterBackground:": [],
+    "sceneHandle:didUpdateSettingsWithDiff:previousSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "sceneIfExists": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "sceneWillResignActive:": [],
+    "sendEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "setAudioOnlyBackgroundMode:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "setAutomatesLifecycle:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "setBackgrounded:": [],
+    "setForeground:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "setFrame:": [
+      "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "setIgnoresOcclusions:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "setInterfaceOrientation:": [],
+    "setRequestedMode:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "shouldBeUnderLockForScene:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "touchesBegan:withEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "touchesEnded:withEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "updateLayout": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "updateSceneSettingsFrame": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "updateSettings:withTransitionContext:completion:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ],
+    "updateSettingsWithBlock:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+    ]
+  },
+  "sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+  "unique_binary_strings": 9233
+}

@@ -1,0 +1,147 @@
+{
+  "sideplay/duoface-native-scene-host/DFDockZoomCoordinator.m": {
+    "lines": 208,
+    "sha256": "fcbec00bbd0ec544649740dc8956ae568473bfc24b82f3eb19c1cccbd769e8bb",
+    "state_write_sites": []
+  },
+  "sideplay/duoface-native-scene-host/DFNative12Chrome.m": {
+    "lines": 2346,
+    "sha256": "aa651d13b08e2de2ddfbc67454fcc1f8bd7660196b4a4909f98c8b97a471f3e6",
+    "state_write_sites": []
+  },
+  "sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m": {
+    "lines": 441,
+    "sha256": "b9a54ec9524cb8b81faba25cc90c1c1126ea54fe9b7a3042358c19eba070dc02",
+    "state_write_sites": [
+      {
+        "line": 52,
+        "text": "- (void)stopTouchOwnerWithReason:(NSString *)reason;"
+      },
+      {
+        "line": 142,
+        "text": "- (void)sceneWillResignActive:(UIScene *)scene {"
+      },
+      {
+        "line": 159,
+        "text": "- (void)stopTouchOwnerWithReason:(NSString *)reason {"
+      },
+      {
+        "line": 199,
+        "text": "[self stopTouchOwnerWithReason:@\"scene-background-or-external-window-lost\"];"
+      },
+      {
+        "line": 219,
+        "text": "[self stopTouchOwnerWithReason:@\"heartbeat-write-failed\"];"
+      },
+      {
+        "line": 257,
+        "text": "- (void)sceneWillResignActive:(UIScene *)scene {"
+      },
+      {
+        "line": 260,
+        "text": "// Home is explicitly handled by sceneDidEnterBackground: below;"
+      },
+      {
+        "line": 265,
+        "text": "- (void)sceneDidEnterBackground:(UIScene *)scene {"
+      },
+      {
+        "line": 279,
+        "text": "[self stopTouchOwnerWithReason:@\"scene-background\"];"
+      },
+      {
+        "line": 283,
+        "text": "[self stopTouchOwnerWithReason:@\"scene-disconnected\"];"
+      },
+      {
+        "line": 432,
+        "text": "[self stopTouchOwnerWithReason:@\"template-disconnected\"];"
+      }
+    ]
+  },
+  "sideplay/duoface-native-scene-host/DFNativeMapPaneCoordinator.m": {
+    "available": false
+  },
+  "sideplay/duoface-native-scene-host/DFSceneHost.m": {
+    "lines": 934,
+    "sha256": "19a88ae81f97edcae031d308cd4e0d09317ad4bf3a5e7cbf4b1d91ba4e3adffa",
+    "state_write_sites": [
+      {
+        "line": 226,
+        "text": "DFSceneLog(@\"youtube-app-handshake-ack\",self.bundleID,"
+      },
+      {
+        "line": 341,
+        "text": "DFHostInt(self.appController, @\"setRequestedMode:\", 2);"
+      },
+      {
+        "line": 399,
+        "text": "// the old FBScene must never receive an updateSettingsWithBlock: request."
+      },
+      {
+        "line": 472,
+        "text": "// scene's updateSettingsWithBlock: at adacc. The invoke uses x1 as"
+      },
+      {
+        "line": 480,
+        "text": "SEL update=NSSelectorFromString(@\"updateSettingsWithBlock:\");"
+      },
+      {
+        "line": 529,
+        "text": "SEL fgSelector=NSSelectorFromString(@\"setForeground:\");"
+      },
+      {
+        "line": 533,
+        "text": "SEL bgSelector=NSSelectorFromString(@\"setBackgrounded:\");"
+      },
+      {
+        "line": 563,
+        "text": "self.bundleID,@\"updateSettingsWithBlock: unavailable\");"
+      },
+      {
+        "line": 742,
+        "text": "DFHostInt(self.appController,@\"setRequestedMode:\",0);"
+      },
+      {
+        "line": 808,
+        "text": "![controllerClass instancesRespondToSelector:NSSelectorFromString(@\"setRequestedMode:\")] ||"
+      }
+    ]
+  },
+  "sideplay/duoface-native-scene-host/DFSceneLifecycle.m": {
+    "lines": 265,
+    "sha256": "90a075f0d4672e98dcee39d4c7690b29c6f40bb80848f2a989f38c38a7f4b221",
+    "state_write_sites": [
+      {
+        "line": 55,
+        "text": "static void DFUpdateScene(id scene, SEL selector, id settings, id context, id completion) {"
+      },
+      {
+        "line": 62,
+        "text": "SEL fg=NSSelectorFromString(@\"setForeground:\");"
+      },
+      {
+        "line": 115,
+        "text": "static void DFManagedSceneObserver(id controller, SEL selector, id handle,"
+      },
+      {
+        "line": 246,
+        "text": "hook(host,observer,(IMP)DFManagedSceneObserver,(IMP *)&sPreviousSceneObserver);"
+      },
+      {
+        "line": 251,
+        "text": "hook(cls,selector,(IMP)DFUpdateScene,(IMP *)&sUpdate);"
+      }
+    ]
+  },
+  "sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m": {
+    "lines": 662,
+    "sha256": "3b00cb5b0b649e52b6806ba66df5ee6d612c67bd10a8881698f08f5ebea07076",
+    "state_write_sites": []
+  },
+  "sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m": {
+    "lines": 264,
+    "sha256": "a1cc54b5499db7f6d8abba4c18da5841e7f4662e83c67edf487af32df196aab8",
+    "state_write_sites": []
+  }
+}

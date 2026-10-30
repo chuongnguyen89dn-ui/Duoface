@@ -1,0 +1,1335 @@
+{
+  "binary_count": 7,
+  "control": {
+    "control": {
+      "sha256": "d4637200ddcd2f0cb3d5e4f2ebf329faccd52bd5554902bd3fa9e8517f272a55",
+      "text": "Package: com.sideplay\nName: SidePlay\nDescription: Split screen for CarPlay. Run any app on the car screen, one or two side by side.\nDepends: firmware (>= 15.0), mobilesubstrate, preferenceloader\nConflicts: com.cortex.carplayenable, com.pavunato.carsurf, com.bmt.dash, com.chou.googlemaps.vietmap\nMaintainer: SidePlay\nAuthor: SidePlay\nSection: Tweaks\nSileoDepiction: https://sideplay.pages.dev/depictions/com.sideplay.json\nIcon: https://sideplay.pages.dev/CydiaIcon.png\nArchitecture: iphoneos-arm64\nVersion: 1.0.4-1\nInstalled-Size: 7196\n"
+    },
+    "postinst": {
+      "sha256": "393fd66cbf2f04158269e878b59997941f603bd92d4dfd0f7243dc3c606f9943",
+      "text": "#!/bin/sh\n# Register the SidePlay app with the home screen and CarPlay\nfor u in /var/jb/usr/bin/uicache /usr/bin/uicache; do\n    if [ -x \"$u\" ]; then\n        \"$u\" -p /var/jb/Applications/SidePlay.app || true\n        break\n    fi\ndone\nexit 0\n"
+    },
+    "prerm": {
+      "sha256": "3909708eabc0451b115469417bd7b2f1657e091ae6e32047558d5e2a71afde0e",
+      "text": "#!/bin/sh\nif [ \"$1\" = \"remove\" ] || [ \"$1\" = \"purge\" ]; then\n    # Tell the SidePlay server this iPhone removed it (anonymous install list, app/main.m); in the background\n    if [ -x /var/jb/Applications/SidePlay.app/SidePlay ]; then\n        (/var/jb/Applications/SidePlay.app/SidePlay --sp-goodbye >/dev/null 2>&1 &) || true\n    fi\n    for u in /var/jb/usr/bin/uicache /usr/bin/uicache; do\n        if [ -x \"$u\" ]; then\n            \"$u\" -u /var/jb/Applications/SidePlay.app || true\n            break\n        fi\n    done\nfi\nexit 0\n"
+    }
+  },
+  "feature_indicators": {
+    "app-scene-foreground": [
+      "setBackgrounded:",
+      "setForeground:"
+    ],
+    "carplay": [
+      "CarPlay"
+    ],
+    "dock": [],
+    "license-proprietary": [],
+    "lock": [
+      "SBSuspendedUnderLockManager"
+    ],
+    "map": [],
+    "picker": [],
+    "reconnect": [
+      "sceneDidDisconnect:"
+    ],
+    "scene-host": [
+      "FBScene",
+      "SBAppViewController",
+      "sceneHandle"
+    ],
+    "touch": [
+      "sendEvent:"
+    ],
+    "youtube": [],
+    "zoom": []
+  },
+  "file_count": 136,
+  "files": [
+    {
+      "bytes": 3392,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Applications/SidePlay.app/AppIcon40x40@2x.png",
+      "sha256": "30142d1bb7e82cc28afdd5014d27455d35bf210a4a9b5774645cd68d2a9a6ace"
+    },
+    {
+      "bytes": 5746,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Applications/SidePlay.app/AppIcon40x40@3x.png",
+      "sha256": "d530846e27571484aff70b78c37c2f854d9a88004891ce6a8257a261383fa505"
+    },
+    {
+      "bytes": 5746,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Applications/SidePlay.app/AppIcon60x60@2x.png",
+      "sha256": "d530846e27571484aff70b78c37c2f854d9a88004891ce6a8257a261383fa505"
+    },
+    {
+      "bytes": 9274,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Applications/SidePlay.app/AppIcon60x60@3x.png",
+      "sha256": "e9beb330d441bcd62301138a6cb8cf54a2bf013b0c8e039ed0e01866dac9d676"
+    },
+    {
+      "bytes": 2688,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Applications/SidePlay.app/Info.plist",
+      "sha256": "bf7ecdd8ced37c1a0b30042900cadb179c4146f1fc4e737b6d7762c008cb1829"
+    },
+    {
+      "bytes": 178672,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Applications/SidePlay.app/SidePlay",
+      "sha256": "338173777cc588c7dadb46ad2a01f25e74f7231e7ffca325cd3bfdca189d9ba2"
+    },
+    {
+      "bytes": 899088,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib",
+      "sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971"
+    },
+    {
+      "bytes": 76,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.plist",
+      "sha256": "eb676c62f14fe14f088c91104a5908fb0ad1f3d4ca59f3c7c7ccc95333e6db28"
+    },
+    {
+      "bytes": 129936,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib",
+      "sha256": "ab655d41a8abee367a654c151e26261ee2e5b08d73e8e06a08dea058e1bb473e"
+    },
+    {
+      "bytes": 49,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.plist",
+      "sha256": "e5a0dfc5ec82c94ab61b952d50fdeb860ec33de27e0d712c36eb1930479dd6cc"
+    },
+    {
+      "bytes": 240128,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib",
+      "sha256": "513142a87eb45a9279850bc6a7a1420ebf7e7766b7f5a78b2525f1a6e9606736"
+    },
+    {
+      "bytes": 57,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.plist",
+      "sha256": "4f6dc3dfce77d213ff2a80a92a6918cb0a9ecd358e80579ce2a64daffd928d17"
+    },
+    {
+      "bytes": 162752,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib",
+      "sha256": "b79905049c97f496733c6614b0f1f18b9b7b888766a867f0b3c2ef7024a159ec"
+    },
+    {
+      "bytes": 51,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.plist",
+      "sha256": "f43c74117c060fb8f44faef51a00d11a86c56ebc5ed730c7a884133ac65cc3dd"
+    },
+    {
+      "bytes": 145328,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib",
+      "sha256": "b6f2e0896d401202e1847ba07e2094d37ca94e245451ba388cd9b35fb9e92057"
+    },
+    {
+      "bytes": 51,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.plist",
+      "sha256": "c37253666617dee469c1b918808bc14d48bd34d2c8c44aa2ed56c042af946e84"
+    },
+    {
+      "bytes": 676,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Info.plist",
+      "sha256": "dd45e9389938c50d0ed68b2d4165cfda137d106163fd600ada8b673c50f030e6"
+    },
+    {
+      "bytes": 5762,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Root.plist",
+      "sha256": "15b6447af5dab4f10ea3c177323aea46a216fe96b7d460179cee38e1d484c03b"
+    },
+    {
+      "bytes": 613648,
+      "mach_o": true,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs",
+      "sha256": "3b68dd567ffdc9ec11672ed2aee9391d50f84c2f019f7709458d5c720f874636"
+    },
+    {
+      "bytes": 1121,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon.png",
+      "sha256": "48254c8159d796cebb1752b0f5f30f7bfe26054c25a36fd4c5e214747cb39c84"
+    },
+    {
+      "bytes": 2798,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon@2x.png",
+      "sha256": "648e0c2464f63272ae7bbb7e4a086aa54d2f194cb94b91bfca1ff2e6945d6fc3"
+    },
+    {
+      "bytes": 4602,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon@3x.png",
+      "sha256": "38a6e2c089f5d6acf0e37008a125fe7bff743b703d9ac2cfc6158290fc7f99eb"
+    },
+    {
+      "bytes": 513,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/Library/PreferenceLoader/Preferences/SidePlay.plist",
+      "sha256": "bad37eef94d0fbbd0bc280e365fad64aef520618614948d200d3f3a337763283"
+    },
+    {
+      "bytes": 1077,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/LICENSE-GMapHUD",
+      "sha256": "6f19116a8dc1bba52db7f8a23ab88b54490b63f0ad2c10ddbbc10390f650e50e"
+    },
+    {
+      "bytes": 57015,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/accident-minor.png",
+      "sha256": "68914af2b9f3e36ec50c0f4540852c3292f0c89c30f0db94122a97c0a52a1af6"
+    },
+    {
+      "bytes": 64727,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/accident.png",
+      "sha256": "64a0e0908ed77b567e5e6c5b869bf69522953e37ea80fc7b7fb0fe32db9941a0"
+    },
+    {
+      "bytes": 58217,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/animal.png",
+      "sha256": "0bf37acf91f170b024c10aeaeb92c5d96657eb54b5943b7168daef6eff6353b2"
+    },
+    {
+      "bytes": 64442,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/assistance.png",
+      "sha256": "024a306ae0374419b3e57b0b7c7abad10646f761db5de0b0cd95441357dba0c2"
+    },
+    {
+      "bytes": 86541,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/average-speed-enforcement.png",
+      "sha256": "2fd2d877bbc0a3cb6e2addf7c502d9ad837ab3f55290e8b8b51d106223dd0fbc"
+    },
+    {
+      "bytes": 56487,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/bad-weather.png",
+      "sha256": "1df681c179515bbed76dea5ba8294bdbf194645fab5a3f4477393dc5afae11a9"
+    },
+    {
+      "bytes": 41269,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/blocked-lane.png",
+      "sha256": "4118ef5ccc933897dd6833600c1fc699b9823c11ebe049d414aab0da403c6619"
+    },
+    {
+      "bytes": 44793,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/both-shoulders-ending.png",
+      "sha256": "eee47304f9e06c073d33f562a76bad4985d167528854e3a1595a490c8215f86e"
+    },
+    {
+      "bytes": 82292,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/bus-lane-cam.png",
+      "sha256": "3b4fab769fa9000f162b38da6aa19af993312386aa36f95b306951ca350d54c8"
+    },
+    {
+      "bytes": 20949,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/camera_ai.png",
+      "sha256": "3c65d4205d6bd39552e5d3177ea3e7745ec3094ae359c7d97279b6cfed5c78c9"
+    },
+    {
+      "bytes": 55349,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/closed-lane-construction.png",
+      "sha256": "6871a7ebf4fcdbd5f75e78e85f12c920224939ce58e3ec123cba00591c8f64e1"
+    },
+    {
+      "bytes": 60765,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/closed-lane-crash.png",
+      "sha256": "85b64283212a337e3988e335cf6aae55bf78375964f1e8da6ce7ecf0d02e7515"
+    },
+    {
+      "bytes": 45463,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/closure.png",
+      "sha256": "7208c59686a01b851ca94ff18eec163e3dcfd73052ea7cfdca1a83a97b1c4398"
+    },
+    {
+      "bytes": 79644,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/cyclist.png",
+      "sha256": "fe4b854f290ceb8a01c86c589af08f645349c6c6364e746ebc4c3f30ac17e118"
+    },
+    {
+      "bytes": 46880,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/dangerous-curves.png",
+      "sha256": "8f4af1ae885da1724b6d81b5e015276b5d50c36b9b51dcd84ae9cc8b3f0734a5"
+    },
+    {
+      "bytes": 36709,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/dangerous-intersection.png",
+      "sha256": "ae0c86cdb8e184f0dbd414a1b1366a4673e3e23fed2eaf1ba246a0ec9c9e9726"
+    },
+    {
+      "bytes": 61222,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/dangerous-zone.png",
+      "sha256": "d5d4fd05a0dbac43d5a44624c16c9fd5cff16052c500a4b0efbe75534fdf3486"
+    },
+    {
+      "bytes": 89957,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/distance-between-vehicles-camera.png",
+      "sha256": "4468fadfc4db8ee8ea80df823c8282e555b23d04c654ef8f3fda370184e3487b"
+    },
+    {
+      "bytes": 84532,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/dummy-camera.png",
+      "sha256": "3a4b8a23df2ded34f27cebeb6808d6c8a43e46cbdf65952dea9389ce0c98b030"
+    },
+    {
+      "bytes": 52284,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/emergency-vehicle.png",
+      "sha256": "18b04e37eff7323dc4683c85da2d64a491dd798ce3ddb4804d8aa8de7e763b43"
+    },
+    {
+      "bytes": 49748,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/fork.png",
+      "sha256": "294b25cd05d9ce2b2884d5c052214092af77bc430e0992c33230749fd9c2f518"
+    },
+    {
+      "bytes": 56332,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-animals.png",
+      "sha256": "495fe74f2298460d15cd6a3e3ca94eb5b16d53e6131536287f34e955aa3eb1bd"
+    },
+    {
+      "bytes": 56583,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-broken-light.png",
+      "sha256": "319f4f1bcd8631ee2c550d6cc0714d26e9204c26df5f921e1040c5fd31fbf4ff"
+    },
+    {
+      "bytes": 52101,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-construction.png",
+      "sha256": "a3e049c732fbe41e8454c80171379353b202713e905efde2de60291bb6f5232e"
+    },
+    {
+      "bytes": 47802,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-object-on-road.png",
+      "sha256": "0be8170374a4d489cef6c42a8c4cdd0eb2c937375f6c1ed2c531465a27e65adb"
+    },
+    {
+      "bytes": 49116,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-on-shoulder.png",
+      "sha256": "b2ac9c9a3aa8a293a4f8139b49d644bec665dcae716ea7ca1b84c22ee5291a98"
+    },
+    {
+      "bytes": 53713,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-pothole.png",
+      "sha256": "f8a660bce2d44651e9cf93d3006dc55ced0576e85e21f9cb44b35b1434b743b3"
+    },
+    {
+      "bytes": 76723,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-roadkill.png",
+      "sha256": "f82ced49814416f65f94b7aa286406ac9d67765e5c7580e5d6ea77d55206959d"
+    },
+    {
+      "bytes": 48005,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-stopped.png",
+      "sha256": "1f0b9de745af07d3706eb05d2f0928b147ff120e8221b875dbc7aef5b79b9d7a"
+    },
+    {
+      "bytes": 57704,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-weather-flood.png",
+      "sha256": "2c547b887a51636caaf37960e4c8a6b6cabc85f219a1bd483eec68fe1b8cae1f"
+    },
+    {
+      "bytes": 48630,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-weather-fog.png",
+      "sha256": "d9303119ac1ca2618d30e9a439844e12ea56338ff896bc74c7af71873795e219"
+    },
+    {
+      "bytes": 59158,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-weather-hail.png",
+      "sha256": "a6afb03a4e857a280bfa92ce4babe0be00fd93b05c3d816a4e11369ffa2cbae3"
+    },
+    {
+      "bytes": 53307,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-weather-ice.png",
+      "sha256": "95832b3fe229551e86ddae199e79ef1f07699442b08ccd8a78cad818db3c18fb"
+    },
+    {
+      "bytes": 61552,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard-weather-snow.png",
+      "sha256": "890f86c02b964c47d9e3cdceeeb3a505463929db6f7792ae69d5de24e05b5680"
+    },
+    {
+      "bytes": 63954,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazard.png",
+      "sha256": "290b52355dc161c0852f546d80b76f56f9d93331e064aaaeb0ebcd67402f18cc"
+    },
+    {
+      "bytes": 52021,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hazardonroad.png",
+      "sha256": "a5c10b72112cb16389685f9b5765c6cd6dbed9f8a917607acf5768a6e463f571"
+    },
+    {
+      "bytes": 53665,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/highway-crosswalk.png",
+      "sha256": "59110e0f7ebdd13e8d48bea05cf19ee3055a9dcb06845a59e8da1cc9354c4207"
+    },
+    {
+      "bytes": 17538,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/highway_rest_area.png",
+      "sha256": "2217b50fbb513ba3694072e086646bd73f312f5e4ba69fbfbc189903a6065002"
+    },
+    {
+      "bytes": 82860,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/hov-camera.png",
+      "sha256": "38809575328d537311703cc7d94db6224d49d9f5c6e0e0b6c040642dbad9812d"
+    },
+    {
+      "bytes": 36709,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/intersection.png",
+      "sha256": "0f1aaa082e56875269933323c3b064f705584a05f8a0cc19b6f922085aa30b94"
+    },
+    {
+      "bytes": 6294,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/khu_dan_cu.png",
+      "sha256": "5114504ed17c9c93d339c8e45720f6c0988b5f4acacf44a7421a7c7081d3c00d"
+    },
+    {
+      "bytes": 44093,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/lanes-merging.png",
+      "sha256": "0c6b3b159ee49773088dc37ed02317b33e4dfca99af94f5b8b66d027bd19d159"
+    },
+    {
+      "bytes": 43185,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/left-lane-ending.png",
+      "sha256": "b281ec357b626961318a181d4a66009c41b20867632820afd78ddc2ad8a8b1d3"
+    },
+    {
+      "bytes": 39018,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/left-shoulder-ending.png",
+      "sha256": "e45efb20c17a53880811088f2ff9ab2ca17574074816364edf6bbc9455664399"
+    },
+    {
+      "bytes": 9036,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/leftAndRightTurnOnly.png",
+      "sha256": "583b90892f4bc66f6007d6a71021f624e099f84f87300bbbc720941b9ee9c71b"
+    },
+    {
+      "bytes": 7766,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/leftTurnOnly.png",
+      "sha256": "bdcc4b97a0a87549aafc797b17609284fd4630ff890ee19f0f519c11b42ddb88"
+    },
+    {
+      "bytes": 19310,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/limit_80.png",
+      "sha256": "9b112159b67267bc9a048512271fd1d886e6760fd2e1f54de71f58b907774db7"
+    },
+    {
+      "bytes": 44093,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/merge.png",
+      "sha256": "788d86d3d801f435f88e56be1310b8e0d7b991212ddbf86257d4043021b509d9"
+    },
+    {
+      "bytes": 43818,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/missing-sign.png",
+      "sha256": "81b9e3b6aa893ae93e0910938e39fd0ffa19a494bf3c5eea7db5bf164fa2fea8"
+    },
+    {
+      "bytes": 50467,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/narrow-bridge.png",
+      "sha256": "b782e6a5bdc709348d3d77cd3627fd71de45acd4009704eca9b961811408cf78"
+    },
+    {
+      "bytes": 13539,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noEntry.png",
+      "sha256": "83d92fe8dbf785e840c6827c7f4e76b5c7a5a24c5e8dfff66398458cc1c94a73"
+    },
+    {
+      "bytes": 14997,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noEntryNoLeftTurn.png",
+      "sha256": "dddf20d2d6583dfb7f88708e97739b877a633b778e94d0ff76781eb4458a50a2"
+    },
+    {
+      "bytes": 14912,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noEntryNoRightTurn.png",
+      "sha256": "84a40a24a31c83c6635681a567c9e61a48c3fa88f7d353188fb99504386ebb10"
+    },
+    {
+      "bytes": 13613,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noLeftTurn.png",
+      "sha256": "2e30a48a77bd7e7f13502f30ab3bb513facf513d266a9311cdb87afec53d07f7"
+    },
+    {
+      "bytes": 15166,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noLeftTurnNoRightTurn.png",
+      "sha256": "524fbe488fd36f95732f6f5c6ea57e1e3ce13dc689cdafbaa08299cc83a64f2c"
+    },
+    {
+      "bytes": 14774,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noLeftTurnUTurn.png",
+      "sha256": "ca4ff8fd837393e6ebe31565f03b1aa233e0b273f499be233678c0133ad922db"
+    },
+    {
+      "bytes": 13953,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noRightTurn.png",
+      "sha256": "0c4ea2cf3689073c3f78b27b86aeed1cae7efcfd8027a76621bf8ae0b42e40c7"
+    },
+    {
+      "bytes": 14986,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noRightTurnUTurn.png",
+      "sha256": "ddf7352f5016eb1f1760a898a0e56dfbbf3688dad615df74e88de4e26072f957"
+    },
+    {
+      "bytes": 13885,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noUTurnLeft.png",
+      "sha256": "34f5ea14809dc3ecc49717faee1c8b555e8a35d82b2b1c8004df3f497d7524b2"
+    },
+    {
+      "bytes": 13544,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noUTurnRight.png",
+      "sha256": "b0d8fe617b24fafc8544e6ec8aeb05c2d03c1eb04654bdcd76e5a2af5e7f57e7"
+    },
+    {
+      "bytes": 16505,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/no_passing_in.png",
+      "sha256": "26b6788feda47a4450721fbc2bc3b90d2615416c3b5487355b1ffd570b5a9e67"
+    },
+    {
+      "bytes": 30608,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/no_passing_out.png",
+      "sha256": "5471f3ea27746bea1dce3486aaff6aa89075076cf48f21b93833a1083f684b1a"
+    },
+    {
+      "bytes": 83204,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/noise-camera.png",
+      "sha256": "d0d99ec51477c5d823f1f20813ed50b0d6324fb94a9887acf46e64c03f1cd8ae"
+    },
+    {
+      "bytes": 50831,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/oil-spill.png",
+      "sha256": "7ec6a62bf5d75e0f9a497a9915cf971327183a5d9b0e734c4c8b395303b10901"
+    },
+    {
+      "bytes": 17248,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/penalty_camera.png",
+      "sha256": "d70fe5ec3002d3a4c755ce57a548838676b1b4f44eb1536b14bb7bc208a24dd3"
+    },
+    {
+      "bytes": 80136,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/phone-camera.png",
+      "sha256": "2041d17b1a17469e015e6aba106b2bd82b32fbfd6d57dea27b89cc9f4e010043"
+    },
+    {
+      "bytes": 58254,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/police-mobile-camera.png",
+      "sha256": "e17055c51842fef9269d17348c514c06abd2c01e31aef92da1f7d51ae515c75c"
+    },
+    {
+      "bytes": 60031,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/police.png",
+      "sha256": "7349984c91f39649380b2e41f5a1f95cf892945bc89522e0aab933ea0de404b1"
+    },
+    {
+      "bytes": 12929,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/railway.png",
+      "sha256": "b90add05cb04099c036754a8775f7e31b9a261d8c9cdb414605dfae14bc6cb13"
+    },
+    {
+      "bytes": 51796,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/rain.png",
+      "sha256": "6d6a8d2c47504d03258ccd4e73506c401d6d684cc9611fa957fddccacebd89ac"
+    },
+    {
+      "bytes": 54170,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/raised-crosswalk.png",
+      "sha256": "e0c2c23c0ad7bacda9c80d27e85e7cbe2aba0235ff7ea62cb7f10db9ad9c7e19"
+    },
+    {
+      "bytes": 85834,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/red-light-and-speed-camera.png",
+      "sha256": "a769cd87b5fea3ff812469c3881b0f5f7a2667d1892cc0a99afaf6e10fd400e1"
+    },
+    {
+      "bytes": 6294,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/residential_area_in.png",
+      "sha256": "5114504ed17c9c93d339c8e45720f6c0988b5f4acacf44a7421a7c7081d3c00d"
+    },
+    {
+      "bytes": 7247,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/residential_area_out.png",
+      "sha256": "24421c982d62ee902cba958ac67e1c45f1f34c73072ed7c51f1d29965a9c1d5c"
+    },
+    {
+      "bytes": 14122,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/retrict_unknown.png",
+      "sha256": "95ee901bdec5ad0b2d266c73342e6a61e19e9c378330ad4249cc4bd7ad521a45"
+    },
+    {
+      "bytes": 43456,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/right-lane-ending.png",
+      "sha256": "a1f12ae9cd0bb2f6100657d9eb44a67d6314bfd51bd796ddfb2842fa09ea9992"
+    },
+    {
+      "bytes": 39255,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/right-shoulder-ending.png",
+      "sha256": "139d59b329c9b478f3499778626b75748fc93f07b8660d9e5305050f4434cda6"
+    },
+    {
+      "bytes": 7665,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/rightTurnOnly.png",
+      "sha256": "997336cd9a3da6be2e669896281034f9862630d03e1c6686d72a15a7c603c45d"
+    },
+    {
+      "bytes": 65548,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/school-zone.png",
+      "sha256": "d981f57e89914983df00b421027a716c052986a25b5ac4bc0a68d45e06a1869b"
+    },
+    {
+      "bytes": 87592,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/seatbelt-camera.png",
+      "sha256": "fa78288be2c0e77488b98e7c151f47194143fd730ec63ca61019c45df78ae0e6"
+    },
+    {
+      "bytes": 54907,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/slippery-road.png",
+      "sha256": "36837223f2c130cc14222f18fb3b01f310eac940a59e9b23069cbfec9978b3ac"
+    },
+    {
+      "bytes": 12575,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/slow_down.png",
+      "sha256": "46550d59f9613f904ba66d0cc39dad310fc9543fc4c6610f3b0574325944fbbc"
+    },
+    {
+      "bytes": 37479,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed-bumps.png",
+      "sha256": "6ca5f548ae7a7bcab4242bc4bba95097c5e8c80b70a5501f5e8bc8dcd8e11bf3"
+    },
+    {
+      "bytes": 15811,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_10.png",
+      "sha256": "3687f42b1cdf067aa6ecef4ead344303206289f6bb579947513efc65291b5b6e"
+    },
+    {
+      "bytes": 19023,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_100.png",
+      "sha256": "41033152c6f8c2a4f2dddb6d8a2777f44114009d335cbe690d5bd868cb5d3ea8"
+    },
+    {
+      "bytes": 16335,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_110.png",
+      "sha256": "03a6d420ac898ae89ec844e4c14ef9616ab10f4dde26ab2d139f0502d6110cc3"
+    },
+    {
+      "bytes": 18291,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_120.png",
+      "sha256": "5a65ebd0f37a5b108de08c4208e359013bc11b04152aa2e99248577189c0cc29"
+    },
+    {
+      "bytes": 73861,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_15.png",
+      "sha256": "2aed952170543cab916d2fa6e32b9fb67f713430e32c79ce8c34a8ff06a5ef63"
+    },
+    {
+      "bytes": 17707,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_20.png",
+      "sha256": "5c82d05e019859ae1a24f2b325a9f14e3b5728dc20a2fae627209819f1059e29"
+    },
+    {
+      "bytes": 82584,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_25.png",
+      "sha256": "9e8cd2b7d0100a1877bf7be290bc8167684c4174cca09c777858735ada494a6c"
+    },
+    {
+      "bytes": 18659,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_30.png",
+      "sha256": "0335c4676879866654d0e430e5d98d2905e65bd270d8f3bba535e060ba1484e3"
+    },
+    {
+      "bytes": 86294,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_35.png",
+      "sha256": "2ae27bc8e5eb4c56e9d1475ee36ddab2ca8848a9a4003d6ec503815b7366bdcd"
+    },
+    {
+      "bytes": 16785,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_40.png",
+      "sha256": "ac00f518b954e11f7e191a936e8da5d8b8877ea2db589bd659ed468863dfcd77"
+    },
+    {
+      "bytes": 77455,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_45.png",
+      "sha256": "f542296a273675d7cb98ba6638b88d8a8f0a6089b84812a9113450d7250e43d4"
+    },
+    {
+      "bytes": 72022,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_5.png",
+      "sha256": "802fde61941a58f3aa9ecc61961c1c3cc19adc0aea525fbfff508f73890c7e14"
+    },
+    {
+      "bytes": 18036,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_50.png",
+      "sha256": "7329f86430d001f752dc514422e9882f568df355be5f19f46393d2ad689199f2"
+    },
+    {
+      "bytes": 18950,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_60.png",
+      "sha256": "02faa113394f591bebd624424c1bc128ebe20a03ae9e899b05d09aa12b69b9ba"
+    },
+    {
+      "bytes": 16706,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_70.png",
+      "sha256": "c3515d123e6522da2f671f20a99df90a5cfd4b688884aa5e7c86e32f03d37107"
+    },
+    {
+      "bytes": 19310,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_80.png",
+      "sha256": "9b112159b67267bc9a048512271fd1d886e6760fd2e1f54de71f58b907774db7"
+    },
+    {
+      "bytes": 19010,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_90.png",
+      "sha256": "a8444c45355ff0da6b9926ce8e8a7b2684d0da7afdf8b45e3a7601502e6db542"
+    },
+    {
+      "bytes": 19742,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/speed_limit_camera.png",
+      "sha256": "7484b1d5a5e1d7bd43ef1fb15479e6ac71c32eb81893f87b8fc702ded4e44d01"
+    },
+    {
+      "bytes": 84703,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/stop-sign-camera.png",
+      "sha256": "f36bbc319a181c04d628ee1487cbf02e390ccb843ef954692e41f23441062c52"
+    },
+    {
+      "bytes": 33121,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/stop_lane.png",
+      "sha256": "1ed52c58ae57fb24726d76537fff35aaf64c9fb393c22e5d07666691f38a141f"
+    },
+    {
+      "bytes": 7500,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/straightAheadOnly.png",
+      "sha256": "1faa9eeff6977b44df5b68f91747ff33c446d49a8b981b0af7afe6dbe4080275"
+    },
+    {
+      "bytes": 8917,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/straightAndLeftTurnOnly.png",
+      "sha256": "1038e494d9858eea80d92a1b53c490bd817309f98da2244c15377d3f6b3d0743"
+    },
+    {
+      "bytes": 8878,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/straightAndRightTurnOnly.png",
+      "sha256": "b3ec40722d4e19d32b4ca5acdf93b907ec7f78f6bf8b932c560fbf61c847663c"
+    },
+    {
+      "bytes": 9803,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/toll.png",
+      "sha256": "d94e92d75b4770403ed4c834108142ce636ed747c5f6a5bd07a4b000242698cb"
+    },
+    {
+      "bytes": 12245,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/toll_etc.png",
+      "sha256": "9edd761fb07da838d6ab502d5e0f922df3fc6dcbc93e9325d89d71c41b326300"
+    },
+    {
+      "bytes": 37645,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/topes.png",
+      "sha256": "546f6663f5a9ea87039d364530c70872f15015cedfdc01550b5238c38e5fd433"
+    },
+    {
+      "bytes": 18633,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/traffic_camera.png",
+      "sha256": "98d245aeb4c7350ec73b9204ce41daf56c60d97e1faa41887fd03b634c126aab"
+    },
+    {
+      "bytes": 10761,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/tunnel.png",
+      "sha256": "6b524b5802780e0772d7b361c7fed1f4524f4a1d3dd064e93d43ad234c20ac06"
+    },
+    {
+      "bytes": 58229,
+      "mach_o": false,
+      "mode": "0o755",
+      "path": "var/jb/usr/share/sideplay-hud/unplowed-road.png",
+      "sha256": "24dc77309e70da6eb222547bba1f54959b884cd7dd9bbced2c0d39f75d315993"
+    }
+  ],
+  "macho": {
+    "var/jb/Applications/SidePlay.app/SidePlay": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [
+          "sceneDidDisconnect:"
+        ],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CarPlay.framework/CarPlay (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation (compatibility version 1.0.0, current version 2785.1.32)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)"
+      ],
+      "matched_probes": [
+        "setFrame:",
+        "sceneDidEnterBackground:",
+        "sceneWillResignActive:"
+      ],
+      "uuid": "UUID: 1EDD76B6-1808-3D6B-95BE-8D339AE77165 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Applications/SidePlay.app/SidePlay"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [
+          "setForeground:",
+          "setBackgrounded:"
+        ],
+        "carplay": [
+          "CarPlay"
+        ],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [
+          "SBSuspendedUnderLockManager"
+        ],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [
+          "sceneHandle",
+          "FBScene",
+          "SBAppViewController"
+        ],
+        "touch": [
+          "sendEvent:"
+        ],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/SidePlay.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1500.65.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [
+        "updateSettingsWithBlock:",
+        "updateSettings:withTransitionContext:completion:",
+        "setForeground:",
+        "setBackgrounded:",
+        "setIgnoresOcclusions:",
+        "setFrame:",
+        "sceneIfExists",
+        "_shouldBeBackgroundUnderLockForScene:withSettings:",
+        "setInterfaceOrientation:",
+        "sendEvent:"
+      ],
+      "uuid": "UUID: C3F0A5CB-C045-3381-91A2-B8B737A76800 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib\nUUID: 3849A6E2-1053-3AB0-A100-2FC905AC4B3B (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/SidePlayHUDGofa.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation (compatibility version 1.0.0, current version 2785.1.32)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/usr/lib/swift/libswiftCore.dylib (compatibility version 1.0.0, current version 5.8.0)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 16B1D4C7-C4F4-3982-85AF-7D605A9ED432 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/SidePlayHUDRelay.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation (compatibility version 1.0.0, current version 2785.1.32)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 30B2A713-9C86-384F-9EED-391B125BFF43 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib\nUUID: 8CA5D572-1CEB-3864-A4A5-15ED1F347E6F (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/SidePlayHUDVietMap.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation (compatibility version 1.0.0, current version 2785.1.32)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 05FC51EF-523C-34B7-8796-1A75C427C241 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "@rpath/SidePlayHUDWaze.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreLocation.framework/CoreLocation (compatibility version 1.0.0, current version 2785.1.32)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)"
+      ],
+      "matched_probes": [],
+      "uuid": "UUID: 60073DEC-CBC7-364A-9243-6B05B0BB6A86 (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib"
+    },
+    "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs": {
+      "feature_terms": {
+        "app-scene-foreground": [],
+        "carplay": [],
+        "dock": [],
+        "license-proprietary": [],
+        "lock": [],
+        "map": [],
+        "picker": [],
+        "reconnect": [],
+        "scene-host": [],
+        "touch": [],
+        "youtube": [],
+        "zoom": []
+      },
+      "imports": [
+        "/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/PhotosUI.framework/PhotosUI (compatibility version 1.0.0, current version 542.0.130)",
+        "/System/Library/PrivateFrameworks/Preferences.framework/Preferences (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)"
+      ],
+      "matched_probes": [
+        "setFrame:"
+      ],
+      "uuid": "UUID: 0507E0E3-D91F-37F0-9F24-4F4F3470E51C (arm64) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs\nUUID: 3A9AC51F-6C84-3045-A962-FD7B95636842 (arm64e) /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp0iwhu9np/SidePlay104/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs"
+    }
+  },
+  "package": "SidePlay104",
+  "plists": {
+    "var/jb/Applications/SidePlay.app/Info.plist": {
+      "CFBundleExecutable": "SidePlay",
+      "CFBundleIdentifier": "com.sideplay.app",
+      "CFBundleShortVersionString": "1.0.4",
+      "CFBundleVersion": "5",
+      "UIApplicationSceneManifest": {
+        "UIApplicationSupportsMultipleScenes": true,
+        "UISceneConfigurations": {
+          "CPTemplateApplicationSceneSessionRoleApplication": [
+            {
+              "UISceneClassName": "CPTemplateApplicationScene",
+              "UISceneConfigurationName": "CarPlay",
+              "UISceneDelegateClassName": "SPCarSceneDelegate"
+            }
+          ],
+          "UIWindowSceneSessionRoleApplication": [
+            {
+              "UISceneClassName": "UIWindowScene",
+              "UISceneConfigurationName": "Phone",
+              "UISceneDelegateClassName": "SPPhoneSceneDelegate"
+            }
+          ]
+        }
+      },
+      "UIBackgroundModes": [
+        "audio"
+      ],
+      "UIRequiredDeviceCapabilities": [
+        "arm64"
+      ]
+    },
+    "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Info.plist": {
+      "CFBundleExecutable": "SidePlayPrefs",
+      "CFBundleIdentifier": "com.sideplay.prefs",
+      "CFBundleShortVersionString": "1.0.4",
+      "CFBundleVersion": "5",
+      "NSPrincipalClass": "SPRootListController"
+    },
+    "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Root.plist": {},
+    "var/jb/Library/PreferenceLoader/Preferences/SidePlay.plist": {}
+  },
+  "risk_selectors_any_binary": {
+    "_shouldBeBackgroundUnderLockForScene:withSettings:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "automatesLifecycle": [],
+    "interceptUpdateForScene:withNewSettings:": [],
+    "isHostingAnApp": [],
+    "refreshSceneLayout": [],
+    "sceneDidEnterBackground:": [
+      "var/jb/Applications/SidePlay.app/SidePlay"
+    ],
+    "sceneHandle:didUpdateSettingsWithDiff:previousSettings:": [],
+    "sceneIfExists": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "sceneWillResignActive:": [
+      "var/jb/Applications/SidePlay.app/SidePlay"
+    ],
+    "sendEvent:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "setAudioOnlyBackgroundMode:": [],
+    "setAutomatesLifecycle:": [],
+    "setBackgrounded:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "setForeground:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "setFrame:": [
+      "var/jb/Applications/SidePlay.app/SidePlay",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib",
+      "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs"
+    ],
+    "setIgnoresOcclusions:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "setInterfaceOrientation:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "setRequestedMode:": [],
+    "shouldBeUnderLockForScene:": [],
+    "touchesBegan:withEvent:": [],
+    "touchesEnded:withEvent:": [],
+    "updateLayout": [],
+    "updateSceneSettingsFrame": [],
+    "updateSettings:withTransitionContext:completion:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ],
+    "updateSettingsWithBlock:": [
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+    ]
+  },
+  "sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+  "unique_binary_strings": 4032
+}
