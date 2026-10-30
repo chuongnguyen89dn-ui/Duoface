@@ -23,7 +23,12 @@ class CarPlaySleepAssertion121(unittest.TestCase):
         self.assertIn('CFSTR("PreventUserIdleSystemSleep"),255',src)
         self.assertIn('CFSTR("DuoFace active CarPlay session")',src)
         self.assertNotIn('DuoNaviDashboard.dylib',src)
-        self.assertNotIn('BKSDisplayServicesSetScreenBlanked',src)
+        # QA132 adds independent BKS handling: unlike the older QA121
+        # assertion it is scoped to a live app scene, locked protected data
+        # and an exact current CarPlay session; never blindly wake.
+        self.assertIn('BKSDisplayServicesSetScreenBlanked',src)
+        self.assertIn('DFActiveHostedLockedPane132()',src)
+        self.assertIn('DFReleaseScopedBlankPolicy132();',src)
         self.assertNotIn('setIdleTimerDisabled:',src)
     def test_release_before_scene_detach_and_watchdog(self):
         src=self.src
