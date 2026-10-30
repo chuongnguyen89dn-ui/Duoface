@@ -1,6 +1,7 @@
 // Included only by DFCarPlayDockOwner.m, inside the existing CarPlay receiver.
 // Independent implementation from the original's verified Home event semantics.
 #import "DFCarPlayOwnerLease.h"
+#import "DFCarPlayOwnerSelection.h"
 #import <dlfcn.h>
 #import <string.h>
 static void (*DFOwnerDBHomeOriginal)(id,SEL,id);
@@ -84,7 +85,10 @@ static void DFOwnerObserveNative(void) {
         if([scene isKindOfClass:UIWindowScene.class])
             [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
     for(UIWindow *window in windows)DFOwnerCollect(window.rootViewController,0,found,seen);
-    NSDictionary *candidate=found.count==1?found.firstObject:nil;
+    // Apple can show additional genuine CarPlay app scenes while DuoFace hosts
+    // an iPhone scene. Their presence does not revoke DuoFace ownership.
+    // More than one visible DuoFace controller still fails closed.
+    NSDictionary *candidate=DFOwnerUniqueDuoFaceCandidate(found);
     BOOL sameSession=[session isEqual:DFOwnerBoundSession];
     if(!sameSession) {
         DFOwnerBoundSession=nil;DFOwnerBoundHostScene=nil;
@@ -113,11 +117,11 @@ static void DFOwnerObserveNative(void) {
     if(![record writeToFile:DFOwnerEvidencePath atomically:YES])
         DFZLog(@"native-owner-evidence-write-failed");
     static NSString *lastState;
-    NSString *state=[NSString stringWithFormat:@"%@:%d:%lu",session,active,(unsigned long)found.count];
+    NSString *state=[NSString stringWithFormat:@"%@:%d:%lu:%d",session,active,(unsigned long)found.count,candidate!=nil];
     if(![state isEqual:lastState]) {
         lastState=state;
-        DFZLog([NSString stringWithFormat:@"native-owner-state session=%@ active=%d candidates=%lu hooks=%d",
-              session,active,(unsigned long)found.count,DFOwnerHomeHooksReady]);
+        DFZLog([NSString stringWithFormat:@"native-owner-state session=%@ active=%d visible-candidates=%lu unique-duoface=%d hooks=%d",
+              session,active,(unsigned long)found.count,candidate!=nil,DFOwnerHomeHooksReady]);
     }
 }
 static void DFOwnerHomeReceived(id receiver) {
