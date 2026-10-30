@@ -7,6 +7,15 @@
         "binary": "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
         "sha256": "98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c",
         "candidateCount": 28,
+        "sleepPolicyCandidates": [
+          "ROW_SCREEN_BLANK",
+          "ROW_SCREEN_BLANK_SUB",
+          "TB,N,V_screenBlankEnabled",
+          "_screenBlankEnabled",
+          "screenBlankEnabled",
+          "screenBlankToggleChanged:",
+          "setScreenBlankEnabled:"
+        ],
         "selected": [
           "@_NSForegroundColorAttributeName",
           "@_OBJC_CLASS_$_UIScreen",
@@ -44,6 +53,28 @@
         "binary": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
         "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
         "candidateCount": 115,
+        "sleepPolicyCandidates": [
+          "BKSDisplayServicesSetScreenBlanked",
+          "IOPMAssertionCreateWithName",
+          "IOPMAssertionRelease",
+          "PreventUserIdleSystemSleep",
+          "ROW_SCREEN_BLANK",
+          "ROW_SCREEN_BLANK_SUB",
+          "SBSuspendedUnderLockManager",
+          "TB,N,V_screenBlankEnabled",
+          "[DuoNavi] Acquired PreventUserIdleSystemSleep assertion result: %d, id: %u",
+          "[DuoNavi] Released PreventUserIdleSystemSleep assertion id: %u",
+          "_screenBlankEnabled",
+          "_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "_underLock",
+          "acquireCarPlaySleepAssertion",
+          "isUnderLock",
+          "releaseCarPlaySleepAssertion",
+          "screenBlankEnabled",
+          "setScreenBlankEnabled:",
+          "setUnderLock:",
+          "shouldBeUnderLockForScene:"
+        ],
         "selected": [
           "@\"CADisplay\"",
           "@\"CADisplayLink\"",
@@ -168,6 +199,7 @@
         "binary": "var/jb/usr/lib/ellekit/OldABI.dylib",
         "sha256": "9f801b4b03265f5eb5425ac8ee9d05aeeba34544601a74415da80fb948476979",
         "candidateCount": 0,
+        "sleepPolicyCandidates": [],
         "selected": [],
         "other": []
       },
@@ -175,6 +207,7 @@
         "binary": "var/jb/usr/libexec/cboptimize_helper",
         "sha256": "421656d74a08174c3c37c734669bef0eda218fa2089ab3cda227ab3f63b1b33e",
         "candidateCount": 0,
+        "sleepPolicyCandidates": [],
         "selected": [],
         "other": []
       }
@@ -188,6 +221,7 @@
         "binary": "var/jb/Applications/OmniCar.app/OmniCar",
         "sha256": "8e7dc4ddaf98a73b80910c0d5d00e38a084bfef2e9f97084f8bbdf76313807c8",
         "candidateCount": 5,
+        "sleepPolicyCandidates": [],
         "selected": [
           "_OBJC_CLASS_$_UIScreen",
           "application:handleEventsForBackgroundURLSession:completionHandler:",
@@ -201,6 +235,13 @@
         "binary": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
         "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
         "candidateCount": 18,
+        "sleepPolicyCandidates": [
+          "BKSDisplayServicesSetScreenBlanked",
+          "SBSuspendedUnderLockManager",
+          "SBSuspendedUnderLockManager -_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "khong tim thay BKSDisplayServicesSetScreenBlanked"
+        ],
         "selected": [
           "BKSDisplayServicesSetScreenBlanked",
           "Background",
@@ -228,6 +269,7 @@
         "binary": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib",
         "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f",
         "candidateCount": 3,
+        "sleepPolicyCandidates": [],
         "selected": [
           "_OBJC_CLASS_$_UIScreen",
           "_UIScreenDidConnectNotification",
@@ -239,6 +281,7 @@
         "binary": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib",
         "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5",
         "candidateCount": 3,
+        "sleepPolicyCandidates": [],
         "selected": [
           "_OBJC_CLASS_$_UIScreen",
           "_UIScreenDidConnectNotification",
@@ -250,6 +293,7 @@
         "binary": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
         "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836",
         "candidateCount": 19,
+        "sleepPolicyCandidates": [],
         "selected": [
           "CADisplay",
           "GetCarPlayCADisplay",
@@ -278,6 +322,12 @@
         "binary": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
         "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754",
         "candidateCount": 35,
+        "sleepPolicyCandidates": [
+          "NoopLayoutAssertion",
+          "SCPNoopLayoutAssertion",
+          "_OBJC_CLASS_$_SCPNoopLayoutAssertion",
+          "_OBJC_METACLASS_$_SCPNoopLayoutAssertion"
+        ],
         "selected": [
           "%@ is running in the background",
           "%@ moved to the background",
@@ -322,6 +372,7 @@
         "binary": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
         "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037",
         "candidateCount": 14,
+        "sleepPolicyCandidates": [],
         "selected": [
           "@\"CADisplayLink\"",
           "@\"UIScreen\"",
@@ -345,6 +396,7 @@
         "binary": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs",
         "sha256": "15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76",
         "candidateCount": 19,
+        "sleepPolicyCandidates": [],
         "selected": [
           "@\"CADisplayLink\"",
           "BackgroundColor",

@@ -15,6 +15,15 @@ from touch target, app suspension, screen power and audio-session state.
 - Original exact SHA256: `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd`
 - Mach-O files scanned: 4
 
+#### Original power/sleep candidate metadata from var/jb/Applications/DuoNaviUI.app/DuoNaviUI
+- ROW_SCREEN_BLANK
+- ROW_SCREEN_BLANK_SUB
+- TB,N,V_screenBlankEnabled
+- _screenBlankEnabled
+- screenBlankEnabled
+- screenBlankToggleChanged:
+- setScreenBlankEnabled:
+
 #### `var/jb/Applications/DuoNaviUI.app/DuoNaviUI`
 - SHA256: `98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c`
 - Backlight/idle/screen/foreground-related string candidates (25 shown):
@@ -43,6 +52,28 @@ from touch target, app suspension, screen power and audio-session state.
   - `setObscuresBackgroundDuringPresentation:`
   - `setScreenBlankEnabled:`
   - `systemGroupedBackgroundColor`
+
+#### Original power/sleep candidate metadata from var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib
+- BKSDisplayServicesSetScreenBlanked
+- IOPMAssertionCreateWithName
+- IOPMAssertionRelease
+- PreventUserIdleSystemSleep
+- ROW_SCREEN_BLANK
+- ROW_SCREEN_BLANK_SUB
+- SBSuspendedUnderLockManager
+- TB,N,V_screenBlankEnabled
+- [DuoNavi] Acquired PreventUserIdleSystemSleep assertion result: %d, id: %u
+- [DuoNavi] Released PreventUserIdleSystemSleep assertion id: %u
+- _screenBlankEnabled
+- _shouldBeBackgroundUnderLockForScene:withSettings:
+- _underLock
+- acquireCarPlaySleepAssertion
+- isUnderLock
+- releaseCarPlaySleepAssertion
+- screenBlankEnabled
+- setScreenBlankEnabled:
+- setUnderLock:
+- shouldBeUnderLockForScene:
 
 #### `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib`
 - SHA256: `44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15`
@@ -151,6 +182,13 @@ from touch target, app suspension, screen power and audio-session state.
   - `applicationWillEnterForeground:`
   - `setBackgroundColor:`
 
+#### Original power/sleep candidate metadata from var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib
+- BKSDisplayServicesSetScreenBlanked
+- SBSuspendedUnderLockManager
+- SBSuspendedUnderLockManager -_shouldBeBackgroundUnderLockForScene:withSettings:
+- _shouldBeBackgroundUnderLockForScene:withSettings:
+- khong tim thay BKSDisplayServicesSetScreenBlanked
+
 #### `var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib`
 - SHA256: `d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79`
 - Backlight/idle/screen/foreground-related string candidates (17 shown):
@@ -205,6 +243,12 @@ from touch target, app suspension, screen power and audio-session state.
   - `setBackgroundColor:`
   - `updateSpeed:limit:appForeground:`
   - `updateSpeed:limit:appForeground:app:`
+
+#### Original power/sleep candidate metadata from var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib
+- NoopLayoutAssertion
+- SCPNoopLayoutAssertion
+- _OBJC_CLASS_$_SCPNoopLayoutAssertion
+- _OBJC_METACLASS_$_SCPNoopLayoutAssertion
 
 #### `var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib`
 - SHA256: `f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754`
