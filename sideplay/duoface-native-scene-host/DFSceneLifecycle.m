@@ -20,6 +20,8 @@ static BOOL sInstalled;
 // not code copied here. No passcode/activation hooks and no lock bypass.
 static BOOL (*sOriginalBackgroundUnderLock)(id,SEL,id,id);
 static BOOL sUnderLockInstalled;
+static void (*sOriginalPostLockIntercept)(id,SEL,id,id);
+static BOOL sPostLockInterceptInstalled;
 static NSString *const DFCarPlayPulsePath123=
  @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
 
@@ -197,6 +199,64 @@ static BOOL DFUnderLockBackground123(id manager,SEL cmd,id scene,id settings) {
     }
     return sOriginalBackgroundUnderLock(manager,cmd,scene,settings);
 }
+// Original DuoNavi post-lock callback at 0x2ed954 forwards Apple FIRST and
+// then normalizes settings for its selected hosted scene (helper 0x2eca50).
+// Independent implementation: only ABI-checked BOOL accessors; no ivar writes,
+// frame changes, deactivation-reason clearing or phone security policy hooks.
+static BOOL DFPostLockBoolABI(NSMethodSignature *sig, BOOL setter) {
+    if(!sig || sig.numberOfArguments!=(setter?3u:2u))return NO;
+    const char *type=setter?[sig getArgumentTypeAtIndex:2]:sig.methodReturnType;
+    return (!strcmp(type,"B") || !strcmp(type,"c")) &&
+           (!setter || !strcmp(sig.methodReturnType,"v"));
+}
+static BOOL DFPostLockSetBool(id settings, NSString *readName,
+                             NSString *writeName, BOOL value) {
+    SEL read=NSSelectorFromString(readName),write=NSSelectorFromString(writeName);
+    if(!DFPostLockBoolABI([settings methodSignatureForSelector:read],NO) ||
+       !DFPostLockBoolABI([settings methodSignatureForSelector:write],YES))return NO;
+    BOOL before=((BOOL(*)(id,SEL))objc_msgSend)(settings,read);
+    if(before!=value)((void(*)(id,SEL,BOOL))objc_msgSend)(settings,write,value);
+    return ((BOOL(*)(id,SEL))objc_msgSend)(settings,read)==value;
+}
+static void DFPostLockIntercept(id manager,SEL cmd,id scene,id settings) {
+    // Exactly once and outside any catch. This is a void callback, never a
+    // predicate. A foreign/stale/inactive scene receives only Apple's behavior.
+    sOriginalPostLockIntercept(manager,cmd,scene,settings);
+    if(!settings || !DFIsOwnedHostedLockScene123(scene))return;
+    @try {
+        BOOL fg=DFPostLockSetBool(settings,@"isForeground",@"setForeground:",YES);
+        BOOL occluded=DFPostLockSetBool(settings,@"isOccluded",@"setOccluded:",NO);
+        BOOL locked=DFPostLockSetBool(settings,@"isUnderLock",@"setUnderLock:",NO);
+        BOOL show=DFPostLockSetBool(settings,@"canShowWhileLocked",@"setCanShowWhileLocked:",YES);
+        BOOL idle=DFPostLockSetBool(settings,@"idleModeEnabled",@"setIdleModeEnabled:",NO);
+        DFDeepTrace(@"postlock-settings",[NSString stringWithFormat:
+          @"owned-original-first scene=%p fg-ack=%d occlusion-ack=%d scene-lock-ack=%d show-ack=%d idle-ack=%d input-ack=unverified",
+          scene,fg,occluded,locked,show,idle]);
+    } @catch(NSException *error) {
+        DFDeepTrace(@"postlock-settings",[NSString stringWithFormat:
+          @"normalization-unavailable exception=%@",error.name]);
+    }
+}
+static void DFInstallPostLockIntercept(void) {
+    if(sPostLockInterceptInstalled)return;
+    Class cls=NSClassFromString(@"SBSuspendedUnderLockManager");
+    SEL sel=NSSelectorFromString(@"interceptUpdateForScene:withNewSettings:");
+    Method method=cls?class_getInstanceMethod(cls,sel):NULL;
+    if(!method || method_getNumberOfArguments(method)!=4)return;
+    char type[32]={0};method_getReturnType(method,type,sizeof(type));
+    if(strcmp(type,"v"))return;
+    for(unsigned int i=2;i<4;i++) {
+        method_getArgumentType(method,i,type,sizeof(type));
+        if(type[0]!='@')return;
+    }
+    typedef void (*Hook)(Class,SEL,IMP,IMP *);
+    Hook hook=(Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
+    if(!hook || !method_getImplementation(method))return;
+    hook(cls,sel,(IMP)DFPostLockIntercept,(IMP *)&sOriginalPostLockIntercept);
+    sPostLockInterceptInstalled=sOriginalPostLockIntercept!=NULL;
+    DFDeepTrace(@"postlock-settings",sPostLockInterceptInstalled?
+        @"original-first-intercept-installed":@"original-imp-unavailable");
+}
 static void DFInstallOwnedUnderLock123(void) {
     if(sUnderLockInstalled)return;
     Class cls=NSClassFromString(@"SBSuspendedUnderLockManager");
@@ -254,7 +314,10 @@ BOOL DFSceneLifecycleInstall(void) {
     }
     hook(cls,selector,(IMP)DFUpdateScene,(IMP *)&sUpdate);
     sInstalled=sUpdate!=NULL;
-    if(sInstalled)DFInstallOwnedUnderLock123();
+    if(sInstalled) {
+        DFInstallOwnedUnderLock123();
+        DFInstallPostLockIntercept();
+    }
     DFDeepTrace(@"scene-lifecycle",sInstalled?@"manual-owner-observer-and-foreground-boundary-installed":@"boundary-unavailable");
     return sInstalled;
 }

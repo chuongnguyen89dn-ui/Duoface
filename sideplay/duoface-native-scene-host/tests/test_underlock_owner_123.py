@@ -20,7 +20,7 @@ class UnderLockOwner123(unittest.TestCase):
         self.assertIn('DFLockABI(bg,4)',s)
         self.assertNotIn('DFLockABI(ul,3)',s)
         self.assertNotIn('hook(cls,underlock,',s)
-        self.assertNotIn('interceptUpdateForScene:withNewSettings:',s)
+        self.assertIn('DFInstallPostLockIntercept();',s) # separate void ABI preflight
     def test_foreign_scene_uses_original_system_method(self):
         s=self.code
         self.assertIn('return sOriginalBackgroundUnderLock(manager,cmd,scene,settings);',s)

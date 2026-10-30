@@ -1,7 +1,7 @@
 name: DuoFace manual observer contract checks (no package or publish)
 on:
   push:
-    branches: [fix/duoface-manual-observer-contract-20261030]
+    branches: [fix/duoface-postlock-settings-20261030]
     paths:
       - 'sideplay/duoface-native-scene-host/**'
       - '.github/workflows/duoface-manual-observer-contract-check.yml'
@@ -26,6 +26,8 @@ jobs:
           cd sideplay/duoface-native-scene-host
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           xcrun --sdk iphoneos clang -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations DFSceneLifecycle.m
+      - name: Check first-party post-lock forwarding and ABI gates
+        run: python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_postlock_contract.py -v
       - name: Run existing policy and UI regression checks
         run: |
           set -euo pipefail
