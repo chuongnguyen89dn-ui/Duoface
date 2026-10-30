@@ -49,8 +49,9 @@ jobs:
            ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465 "$RUNNER_TEMP/debs/duodash.deb" \
            d0573ac14e402dfca450e4b01fd57f898ed03852b354361b0a8acf54a432e24b "$RUNNER_TEMP/debs/qa130.deb" | sha256sum -c -
           python3 -m pip install --quiet --break-system-packages capstone==5.0.7
-          git show 'feature/visual12-duodash-recovery:migration/full_payload/native_test/audit_native12_license_class_xrefs.py' > "$RUNNER_TEMP/original-parser/audit_native12_license_class_xrefs.py"
-          git show 'feature/visual12-duodash-recovery:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py' > "$RUNNER_TEMP/original-parser/audit_native12_carplay_add_app_chain.py"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show 'FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py' > "$RUNNER_TEMP/original-parser/audit_native12_license_class_xrefs.py"
+          git show 'FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py' > "$RUNNER_TEMP/original-parser/audit_native12_carplay_add_app_chain.py"
           python3 -m py_compile sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_original_screen_callers.py
       - name: Extract actual six DEBs and trace exact ARM64 adrp/add/ldr to screen APIs
         shell: bash
