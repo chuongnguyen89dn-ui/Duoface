@@ -1,3 +1,7 @@
+# Verified follow-up: remote saved and SDK check passed
+
+Source commit 4d770510ab137a403dacaddf39f445074625dee8 on fix/duoface-manual-observer-contract-20261030. Explicit user approval resolved earlier blocker. GitHub Actions 41024752371 / job 123960096125 completed SUCCESS: iPhone SDK Objective-C syntax check, 128 C cases and 34 Python checks. See CI_RESULT.txt for exact steps and selected actual job logs. No link/sign/package, Sileo update, installation or hardware validation. Earlier local-only statements below describe the preceding stage and are superseded by this paragraph.
+
 # Manual callback ownership correction — 2026-10-30
 
 Status: local source candidate, not an established device fix. Remote push blocked by automatic approval review. No SDK compile, package, installation or Sileo publish.

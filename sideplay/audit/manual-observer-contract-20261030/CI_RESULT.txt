@@ -1,0 +1,95 @@
+{
+  "source_sha": "4d770510ab137a403dacaddf39f445074625dee8",
+  "run_id": 41024752371,
+  "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41024752371",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 123960096125,
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-30T08:11:12Z",
+          "completed_at": "2026-10-30T08:11:13Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-30T08:11:13Z",
+          "completed_at": "2026-10-30T08:11:29Z"
+        },
+        {
+          "name": "Execute exhaustive callback ownership contract",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-30T08:11:29Z",
+          "completed_at": "2026-10-30T08:11:32Z"
+        },
+        {
+          "name": "Compile modified Objective-C with real iPhone SDK (syntax only)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-30T08:11:32Z",
+          "completed_at": "2026-10-30T08:11:35Z"
+        },
+        {
+          "name": "Run existing policy and UI regression checks",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-30T08:11:35Z",
+          "completed_at": "2026-10-30T08:11:36Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-30T08:11:36Z",
+          "completed_at": "2026-10-30T08:11:37Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-30T08:11:37Z",
+          "completed_at": "2026-10-30T08:11:37Z"
+        }
+      ]
+    }
+  ],
+  "verification_scope": "128 portable contract cases + 34 Python checks + DFSceneLifecycle.m iPhone SDK syntax-only; no link/sign/package/physical test",
+  "package_built": false,
+  "sileo_published": false,
+  "device_pass": false
+}
+
+SELECTED REAL JOB LOG:
+2026-10-30T08:11:32.1662440Z PASS 128 callback/visibility cases; detached-manual counterexample reproduced
+2026-10-30T08:11:32.1790880Z SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+2026-10-30T08:11:32.1791710Z xcrun --sdk iphoneos clang -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations DFSceneLifecycle.m
+2026-10-30T08:11:36.1027210Z Ran 4 tests in 0.002s
+2026-10-30T08:11:36.1027770Z OK
+2026-10-30T08:11:36.2016010Z Ran 5 tests in 0.001s
+2026-10-30T08:11:36.2016260Z OK
+2026-10-30T08:11:36.2774780Z Ran 4 tests in 0.002s
+2026-10-30T08:11:36.2774990Z OK
+2026-10-30T08:11:36.3546180Z Ran 6 tests in 0.001s
+2026-10-30T08:11:36.3546440Z OK
+2026-10-30T08:11:36.4446290Z Ran 8 tests in 0.002s
+2026-10-30T08:11:36.4446760Z OK
+2026-10-30T08:11:36.5301520Z Ran 5 tests in 0.018s
+2026-10-30T08:11:36.5302010Z OK
+2026-10-30T08:11:36.6145330Z Ran 2 tests in 0.002s
+2026-10-30T08:11:36.6145820Z OK
