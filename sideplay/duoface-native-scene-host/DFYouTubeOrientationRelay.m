@@ -19,14 +19,70 @@
 @property(nonatomic,strong) NSTimer *expiryTimer;
 @property(nonatomic) NSTimeInterval newestStamp;
 @property(nonatomic) BOOL applying;
+// iOS 16: UIScreen has the display-link API; UIWindowScene's equivalent
+// was introduced much later. This is only a passive tick measurement.
+@property(nonatomic,strong) CADisplayLink *frameClock;
+@property(nonatomic,weak) UIWindowScene *frameClockScene;
+@property(nonatomic) NSUInteger frameClockTicks;
+@property(nonatomic) NSTimeInterval lastFrameClockReportAt;
 @property(nonatomic,copy) NSString *lastGeometryCheckKey;
 - (void)receive:(NSNotification *)notification;
 - (void)request:(NSNotification *)notification;
 - (void)windowVisible:(NSNotification *)notification;
 - (void)reset;
 - (void)apply;
+- (void)frameClockTick:(CADisplayLink *)link;
+- (void)startFrameClockObservation:(UIWindowScene *)scene;
+- (void)reportFrameClockIfDue;
 @end
 @implementation DFYouTubeOrientationRelay
+// No sendEvent hook, gesture replay, window mutation or screen-power write.
+- (void)frameClockTick:(CADisplayLink *)link {
+    (void)link;
+    ++self.frameClockTicks;
+}
+- (void)startFrameClockObservation:(UIWindowScene *)scene {
+    if(self.frameClock && self.frameClockScene==scene)return;
+    [self.frameClock invalidate];
+    self.frameClock=nil;
+    self.frameClockScene=nil;
+    self.frameClockTicks=0;
+    self.lastFrameClockReportAt=0;
+    if(!scene || ![UIApplication.sharedApplication.connectedScenes containsObject:scene] ||
+       !DFYTValidState(self.state,NSDate.date.timeIntervalSince1970))return;
+    UIScreen *actual=scene.screen;
+    if(!actual)return;
+    CADisplayLink *link=[actual displayLinkWithTarget:self selector:@selector(frameClockTick:)];
+    if(!link)return;
+    link.preferredFramesPerSecond=5;
+    self.frameClockScene=scene;
+    self.frameClock=link;
+    self.lastFrameClockReportAt=NSDate.date.timeIntervalSince1970;
+    [link addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];
+}
+- (void)reportFrameClockIfDue {
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(!self.frameClock || !self.frameClockScene ||
+       now-self.lastFrameClockReportAt<5 ||
+       !DFYTValidState(self.state,now))return;
+    UIWindowScene *scene=self.frameClockScene;
+    if(scene!=self.scene || ![UIApplication.sharedApplication.connectedScenes containsObject:scene])
+        return;
+    NSTimeInterval elapsed=MAX(0,now-self.lastFrameClockReportAt);
+    NSUInteger ticks=self.frameClockTicks;
+    self.frameClockTicks=0;
+    self.lastFrameClockReportAt=now;
+    // Not a Play ACK. Zero ticks only matter with matching CarPlay owner state.
+    DFYTPost(DFYTAckName,@{
+        @"bundleIdentifier":DFYTBundle,
+        @"owner":self.state[@"owner"],@"sceneIdentifier":self.state[@"sceneIdentifier"],
+        @"phase":@"qa131-iphone-display-clock-observed",
+        @"ticks":@(ticks),@"elapsedSeconds":@(elapsed),
+        @"onMainScreen":@(scene.screen==UIScreen.mainScreen),
+        @"sceneActivation":@(scene.activationState),
+        @"appActivation":@(UIApplication.sharedApplication.applicationState),
+        @"protectedData":@(UIApplication.sharedApplication.protectedDataAvailable)});
+}
 - (void)request:(NSNotification *)notification {
     (void)notification;
     DFYTPost(DFYTRequestName,@{@"bundleIdentifier":DFYTBundle});
@@ -53,7 +109,10 @@
             self.expiryTimer=[NSTimer scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(NSTimer *timer){
                 (void)timer;
                 DFYouTubeOrientationRelay *owner=weakSelf;
-                if(owner && !DFYTValidState(owner.state,NSDate.date.timeIntervalSince1970))[owner reset];
+                if(owner) {
+                    [owner reportFrameClockIfDue];
+                    if(!DFYTValidState(owner.state,NSDate.date.timeIntervalSince1970))[owner reset];
+                }
             }];
             [NSRunLoop.mainRunLoop addTimer:self.expiryTimer forMode:NSRunLoopCommonModes];
         }
@@ -105,6 +164,7 @@
     if(!self.state)return;
     self.scene=owned;
     DFYTVirtualUpdateLease(self.state,owned);
+    [self startFrameClockObservation:owned];
     if(!self.snapshots)self.snapshots=[NSMapTable weakToStrongObjectsMapTable];
     self.applying=YES;
     CGSize size=CGSizeMake([self.state[@"width"] doubleValue],[self.state[@"height"] doubleValue]);
@@ -243,6 +303,8 @@
     } @finally {self.applying=NO;}
 }
 - (void)reset {
+    [self.frameClock invalidate]; self.frameClock=nil;
+    self.frameClockScene=nil;self.frameClockTicks=0;self.lastFrameClockReportAt=0;
     [self.expiryTimer invalidate]; self.expiryTimer=nil;
     UIWindowScene *scene=self.scene;
     DFYTVirtualClearLease();
