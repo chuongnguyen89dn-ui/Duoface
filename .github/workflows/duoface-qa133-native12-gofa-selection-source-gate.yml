@@ -44,7 +44,6 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
             -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
-            -framework UIKit -framework Foundation -framework QuartzCore \
             -fsyntax-only DFAppPickerVC.m
           cd ../..
           # User already verified GOFA was correctly sized in QA128;
