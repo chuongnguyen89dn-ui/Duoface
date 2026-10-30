@@ -140,7 +140,32 @@ def raw_classref(m,vm,imps):
    idx=raw&((1<<bits)-1)
    if idx<len(names):opts[str(bits)]={"ordinal":idx,"import":names[idx]}
   result["ordinal_candidates_UNCONFIRMED"]=opts
-  result["class_identity_proven"]=False
+  # Locally defined class: ref may be image-relative rebased pointer.
+  # Walk only validated Mach-O file offsets, class->dataBits->class_ro_t->name.
+  for vmclass in dict.fromkeys((raw,raw&0xffffffff)):
+   try:
+    coff=m.map(vmclass)
+    dataword=struct.unpack_from("<Q",m.data,coff+32)[0]
+    for ro in dict.fromkeys((dataword&~7,(dataword&0xffffffff)&~7)):
+     try:
+      roff=m.map(ro)
+      nameword=struct.unpack_from("<Q",m.data,roff+24)[0]
+      for namevm in dict.fromkeys((nameword,nameword&0xffffffff)):
+       try:
+        name=string_at(m.data,m.map(namevm))
+        if name and 1<len(name)<130 and re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_.$-]*",name):
+         result["local_class_name_candidate"]=name
+         result["local_class_vm_candidate"]=hex(vmclass)
+         result["class_ro_vm_candidate"]=hex(ro)
+         result["name_vm_candidate"]=hex(namevm)
+         result["identity_basis"]="validated local class64 dataBits/class_ro_t/name pointers, static only"
+         break
+       except (ValueError,IndexError,AssertionError,KeyError,struct.error):pass
+      if result.get("local_class_name_candidate"):break
+     except (ValueError,IndexError,AssertionError,KeyError,struct.error):pass
+    if result.get("local_class_name_candidate"):break
+   except (ValueError,IndexError,AssertionError,KeyError,struct.error):pass
+  result["class_identity_proven"]=bool(result.get("local_class_name_candidate"))
  except (ValueError,IndexError,AssertionError,KeyError,struct.error) as ex:
   result["error"]=str(ex)[:180]
  return result
