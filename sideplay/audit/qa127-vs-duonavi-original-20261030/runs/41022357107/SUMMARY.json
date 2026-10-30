@@ -1,0 +1,46 @@
+{
+  "current_source_gates": {
+    "generic_2x_logical_viewport": true,
+    "global_owned_foreground_force": true,
+    "manual_scene_settings_observer": true,
+    "qa127_frame_write_no_foreground_writer": true,
+    "scene_destroy_observer": false,
+    "scene_owner_probe_requires_attached_window": true,
+    "scene_update_hook": true,
+    "template_background_stops_touch_owner": true,
+    "underlock_background_hook": true,
+    "underlock_intercept_hook": false,
+    "underlock_second_hook": false,
+    "weak_owner_registry": true
+  },
+  "limitations": "String/selector presence is not functional parity. iOS16.7.16 does not expose all original selectors. No proof of physical app touch ACK, scene owner or fixed crash.",
+  "original_file_count": 50,
+  "original_macho_count": 4,
+  "original_only_risk_tokens": [
+    "interceptUpdateForScene:withNewSettings:",
+    "refreshSceneLayout",
+    "sendEvent:",
+    "setAudioOnlyBackgroundMode:",
+    "updateLayout",
+    "updateSceneSettingsFrame"
+  ],
+  "original_sha": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+  "original_underlock_registered_from_verified_arm64": {
+    "_shouldBeBackgroundUnderLockForScene:withSettings:": "0x2ecfa0",
+    "interceptUpdateForScene:withNewSettings:": "0x2ecf80",
+    "shouldBeUnderLockForScene:": "0x2ecfc0"
+  },
+  "qa127_file_count": 34,
+  "qa127_macho_count": 8,
+  "qa127_only_risk_tokens": [
+    "isHostingAnApp",
+    "sceneDidEnterBackground:",
+    "sceneWillResignActive:",
+    "setBackgrounded:",
+    "setInterfaceOrientation:"
+  ],
+  "qa127_sha": "ddbc2ded86b768ffd8fa720a0c883e7e6884c24ffc26a142a306431987950a61",
+  "release_status": "NO SOURCE RUNTIME PATCH. NO BUILD. NO SILEO PUBLICATION. NO DEVICE TEST.",
+  "scope": "exact signed QA127 package vs authentic stock DuoNavi104: entire package manifest + all Mach-O + source contract",
+  "timestamp_utc": "2026-10-30T07:48:57.367649+00:00"
+}
