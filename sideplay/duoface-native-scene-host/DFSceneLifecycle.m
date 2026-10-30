@@ -56,11 +56,25 @@ static BOOL DFOwnsScene(id scene) {
     }
     return NO;
 }
+// The exact owner test is defined below with the iOS16 ABI/identity checks.
+static BOOL DFIsOwnedHostedLockScene123(id scene);
 static void DFUpdateScene(id scene, SEL selector, id settings, id context, id completion) {
     id forwarded=settings;
-    // Only repair an explicit background request while the pane still owns a
-    // Live host. Unknown ABI/foreground, nonowned scenes and teardown pass through.
+    // A stale registration/presentation is NOT enough to veto Apple's
+    // background transition. QA129 previously rewrote foreground=NO whenever
+    // the pane's scene pointer was still attached, even after CarPlay Home had
+    // revoked that session. Require the SAME exact live host, current manual
+    // scene handle, native CarPlay pulse, nonrevoked session and external window
+    // already checked by our first-party under-lock owner predicate.
+    // This is deliberately fail-closed and never changes unrelated scenes.
     if(DFOwnsScene(scene) && DFForeground(settings)==0) {
+        if(!DFIsOwnedHostedLockScene123(scene)) {
+            DFDeepTrace(@"scene-lifecycle",[NSString stringWithFormat:
+              @"incoming-background-passthrough no-current-carplay-host scene=%p",
+              scene]);
+            sUpdate(scene,selector,settings,context,completion);
+            return;
+        }
         @try {
             id candidate=[settings mutableCopy];
             SEL fg=NSSelectorFromString(@"setForeground:");
