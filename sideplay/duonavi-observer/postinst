@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+case "$1" in configure) ;; *) exit 0 ;; esac
+APP=/var/jb/Applications/DuoNaviObserver.app
+for CACHE in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+ if [ -x "$CACHE" ]; then "$CACHE" -p "$APP" || true; break; fi
+done
+# No silent respring or vendor package changes.
+exit 0

@@ -1,0 +1,9 @@
+Package: com.duoface.qa.duonaviobserver
+Name: DuoNavi Observer (Read Only)
+Version: 0.0.1~passive1
+Architecture: iphoneos-arm64
+Section: Utilities
+Priority: optional
+Maintainer: DuoFace Independent
+Depends: firmware (>= 16.0), ellekit | mobilesubstrate
+Description: Independent passive SpringBoard and CarPlay timeline and under-lock ABI observer with manual iPhone log export. Does not hook or modify original DuoNavi or phone passcode. Test original and DuoFace in separate sessions.
