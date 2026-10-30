@@ -9,6 +9,7 @@ on:
       - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_omnicar_delayed_unblank_path.py'
       - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/audit_native12_duonavi_screenblank_preferences.py'
       - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_duonavi_original_delayed_display.py'
+      - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_native12_duonavi_screen_policy.py'
       - '.github/workflows/duoface-omnicar-bks-original-interceptor-deep-audit.yml'
   workflow_dispatch:
 permissions:
@@ -89,6 +90,12 @@ jobs:
             --deb "$RUNNER_TEMP/debs/duonavi.deb" \
             --out "$RUNNER_TEMP/omnicar-bks/DUONAVI_ORIGINAL_DISPLAY_TIMER.json"
           python3 -m json.tool "$RUNNER_TEMP/omnicar-bks/DUONAVI_ORIGINAL_DISPLAY_TIMER.json" >/dev/null
+          python3 -m py_compile sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_native12_duonavi_screen_policy.py
+          python3 sideplay/audit/qa130-six-deb-display-callgraph-20261030/verify_native12_duonavi_screen_policy.py \
+            --prefs "$RUNNER_TEMP/omnicar-bks/NATIVE12_DUONAVI_BKS_PREFS.json" \
+            --duonavi "$RUNNER_TEMP/omnicar-bks/DUONAVI_ORIGINAL_DISPLAY_TIMER.json" \
+            --out "$RUNNER_TEMP/omnicar-bks/NATIVE12_DUONAVI_SCREEN_POLICY_VERIFIED.json"
+          python3 -m json.tool "$RUNNER_TEMP/omnicar-bks/NATIVE12_DUONAVI_SCREEN_POLICY_VERIFIED.json" >/dev/null
       - uses: actions/upload-artifact@v4
         with:
           name: exact-original-omnicar-bks-hook-callback-arm64
@@ -110,9 +117,10 @@ jobs:
             cp "$RUNNER_TEMP/omnicar-bks/OMNICAR_DELAYED_UNBLANK_VALIDATED.json" "$TEMP/$REL/"
             cp "$RUNNER_TEMP/omnicar-bks/NATIVE12_DUONAVI_BKS_PREFS.json" "$TEMP/$REL/"
             cp "$RUNNER_TEMP/omnicar-bks/DUONAVI_ORIGINAL_DISPLAY_TIMER.json" "$TEMP/$REL/"
+            cp "$RUNNER_TEMP/omnicar-bks/NATIVE12_DUONAVI_SCREEN_POLICY_VERIFIED.json" "$TEMP/$REL/"
             git -C "$TEMP" config user.name 'github-actions[bot]'
             git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TEMP" add "$REL/DEEP_BKS_ARM64.json" "$REL/OMNICAR_IMPORT_CALLBACK_XREFS.json" "$REL/OMNICAR_ABHOST_METHOD_AND_UNBLANK_OWNER.json" "$REL/OMNICAR_DELAYED_UNBLANK_VALIDATED.json" "$REL/NATIVE12_DUONAVI_BKS_PREFS.json" "$REL/DUONAVI_ORIGINAL_DISPLAY_TIMER.json"
+            git -C "$TEMP" add "$REL/DEEP_BKS_ARM64.json" "$REL/OMNICAR_IMPORT_CALLBACK_XREFS.json" "$REL/OMNICAR_ABHOST_METHOD_AND_UNBLANK_OWNER.json" "$REL/OMNICAR_DELAYED_UNBLANK_VALIDATED.json" "$REL/NATIVE12_DUONAVI_BKS_PREFS.json" "$REL/DUONAVI_ORIGINAL_DISPLAY_TIMER.json" "$REL/NATIVE12_DUONAVI_SCREEN_POLICY_VERIFIED.json"
             if git -C "$TEMP" diff --cached --quiet;then
               git worktree remove --force "$TEMP"
               echo BKS_DEEP_ALREADY_SAVED
