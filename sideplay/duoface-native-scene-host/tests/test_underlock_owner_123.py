@@ -30,7 +30,7 @@ class UnderLockOwner123(unittest.TestCase):
     def test_true_physical_carplay_and_fresh_session(self):
         s=self.code
         self.assertIn('com.duoface.nativehost.touchowner.session.plist',s)
-        self.assertIn('age>1.65',s)
+        self.assertIn('age>2.5',s)
         self.assertIn('pulse[@"Active"]',s)
         self.assertIn('UIScreen.mainScreen',s)
         self.assertIn('window.hidden',s)
@@ -46,7 +46,7 @@ class UnderLockOwner123(unittest.TestCase):
         self.assertNotIn('CBCarBridgeHosted',s)
         self.assertNotIn('BKSDisplayServicesSetScreenBlanked',s)
     def test_preserve_old_host_home_teardown_and_geometry(self):
-        self.assertIn('scene-resigned-carplay-home',self.host)
+        self.assertIn('qa124-scene-resign-retained-await-background',self.host)
         self.assertIn('scene-background',self.host)
         self.assertIn('DFVerifiedNativeContent120',self.touch)
         self.assertIn('hideAllExternalWindowsImmediately',self.touch)
