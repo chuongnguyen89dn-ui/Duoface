@@ -1,0 +1,85 @@
+name: Original DuoNavi Native12 SHA verified CarPlay Home vs picker read-only audit
+on:
+  push:
+    branches: [audit/duonavi-native12-home-roster-20261030]
+    paths:
+      - '.github/workflows/duoface-original-native12-duonavi-home-roster-audit.yml'
+      - 'sideplay/audit/carplay-home-icons-20261030/scan_verified_original_home_markers.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  original-home-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify relevant central skill ZIPs
+        run: |
+          set -euo pipefail
+          for tuple in '01-github-continuity.zip 80efec9a6cbbb49135eabeafb339bf13f74ff6ddef9706659871b30a2c020d7e' '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            read -r name sha <<< "$tuple"
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$name" -o "$RUNNER_TEMP/$name"
+            echo "$sha  $RUNNER_TEMP/$name" | sha256sum -c -
+            unzip -t "$RUNNER_TEMP/$name" >/dev/null
+            unzip -p "$RUNNER_TEMP/$name" SKILL.md | head -30
+          done
+      - name: Authenticate original DuoNavi 1.0.4 and derived Native12 reference
+        run: |
+          set -euo pipefail
+          echo 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd  dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' | sha256sum -c -
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' -o "$RUNNER_TEMP/native12-derived.deb"
+          echo "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  $RUNNER_TEMP/native12-derived.deb" | sha256sum -c -
+      - name: Inspect every actual original Mach-O only; distinguish picker and real Home
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/carplay-home-icons-20261030/scan_verified_original_home_markers.py
+          python3 sideplay/audit/carplay-home-icons-20261030/scan_verified_original_home_markers.py \
+            --duonavi dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb \
+            --native12 "$RUNNER_TEMP/native12-derived.deb" \
+            --out "$RUNNER_TEMP/ORIGINAL_HOME_MARKERS.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['RUNNER_TEMP'])/'ORIGINAL_HOME_MARKERS.json').read_text())
+          assert d['DuoNavi104']['MachO_count']==4
+          assert d['Native12Reference']['MachO_count']==8
+          for name in ('DuoNavi104','Native12Reference'):
+              allmark='\n'.join(' '.join(f['markers']) for f in d[name]['binaries'])
+              for s in ('bridgedApps','appSelected:','homeButtonUp:','MSHookMessageEx'):
+                  assert s in allmark,(name,s)
+              print(name,'HOME_SCENE_EXISTENCE_NOT_A_HOME_ROSTER_PUBLISHER_PROOF',
+                    'MachO',d[name]['MachO_count'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Original-DuoNavi-Native12-CarPlay-Home-Markers
+          path: ${{ runner.temp }}/ORIGINAL_HOME_MARKERS.json
+          if-no-files-found: error
+      - name: Archive verified original marker evidence into DuoFace project (not original binaries)
+        run: |
+          set -euo pipefail
+          BRANCH='audit/duonavi-native12-home-roster-20261030'
+          REL='sideplay/audit/carplay-home-icons-20261030/original-deb-evidence'
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$REL"
+            cp "$RUNNER_TEMP/ORIGINAL_HOME_MARKERS.json" "$TEMP/$REL/ORIGINAL_HOME_MARKERS.json"
+            printf 'RUN_ID=%s\nINPUT=real_sha_pinned_debs\nDEVICE_QA=false\nHOME_ICON_PUBLISHER_VERIFIED=false\n' "$GITHUB_RUN_ID" > "$TEMP/$REL/CI_RESULT.txt"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL"
+            if git -C "$TEMP" diff --cached --quiet; then git worktree remove --force "$TEMP"; exit 0; fi
+            git -C "$TEMP" commit -m 'audit: persist SHA-pinned original DuoNavi Native12 Home marker inventory [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_HOME_DEB_EVIDENCE_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
