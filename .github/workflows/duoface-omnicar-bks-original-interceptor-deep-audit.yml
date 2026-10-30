@@ -4,6 +4,7 @@ on:
     branches: [fix/duoface-qa130-verified-scene-owner-20261030]
     paths:
       - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/trace_omnicar_bks_hook_deep.py'
+      - 'sideplay/audit/qa130-six-deb-display-callgraph-20261030/resolve_omnicar_bks_imports_and_callbacks.py'
       - '.github/workflows/duoface-omnicar-bks-original-interceptor-deep-audit.yml'
   workflow_dispatch:
 permissions:
@@ -56,10 +57,15 @@ jobs:
             --DuoNavi104 "$RUNNER_TEMP/debs/duonavi.deb" \
             --out "$RUNNER_TEMP/omnicar-bks"
           python3 -m json.tool "$RUNNER_TEMP/omnicar-bks/DEEP_BKS_ARM64.json" >/dev/null
+          python3 -m py_compile sideplay/audit/qa130-six-deb-display-callgraph-20261030/resolve_omnicar_bks_imports_and_callbacks.py
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/qa130-six-deb-display-callgraph-20261030/resolve_omnicar_bks_imports_and_callbacks.py \
+            --deb "$RUNNER_TEMP/debs/omnicar.deb" \
+            --out "$RUNNER_TEMP/omnicar-bks/OMNICAR_IMPORT_CALLBACK_XREFS.json"
+          python3 -m json.tool "$RUNNER_TEMP/omnicar-bks/OMNICAR_IMPORT_CALLBACK_XREFS.json" >/dev/null
       - uses: actions/upload-artifact@v4
         with:
           name: exact-original-omnicar-bks-hook-callback-arm64
-          path: ${{ runner.temp }}/omnicar-bks/DEEP_BKS_ARM64.json
+          path: ${{ runner.temp }}/omnicar-bks/*.json
           retention-days: 30
       - name: Persist only bounded original disassembly evidence in correct project
         shell: bash
@@ -72,9 +78,10 @@ jobs:
             TEMP="$(mktemp -d)"
             git worktree add --detach "$TEMP" FETCH_HEAD
             cp "$RUNNER_TEMP/omnicar-bks/DEEP_BKS_ARM64.json" "$TEMP/$REL/"
+            cp "$RUNNER_TEMP/omnicar-bks/OMNICAR_IMPORT_CALLBACK_XREFS.json" "$TEMP/$REL/"
             git -C "$TEMP" config user.name 'github-actions[bot]'
             git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TEMP" add "$REL/DEEP_BKS_ARM64.json"
+            git -C "$TEMP" add "$REL/DEEP_BKS_ARM64.json" "$REL/OMNICAR_IMPORT_CALLBACK_XREFS.json"
             if git -C "$TEMP" diff --cached --quiet;then
               git worktree remove --force "$TEMP"
               echo BKS_DEEP_ALREADY_SAVED
