@@ -7,6 +7,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerSelection.h'
       - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h'
       - 'sideplay/duoface-native-scene-host/tests/carplay_owner_selection_134.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_native_owner_contract.py'
   workflow_dispatch:
 permissions:
   contents: read
