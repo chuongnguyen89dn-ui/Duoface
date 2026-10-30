@@ -60,6 +60,7 @@ checkimp("0x3135c4","_dispatch_time")
 checkimp("0x3135d0","_dlopen")
 checkimp("0x3135dc","_dlsym")
 assert duo["callback_guard_selector"]["literal"]=="isUIAppBridging"
+assert duo["dispatch_queue_got_0x370168"]["name"]=="__dispatch_main_q"
 # Use actual native code fields, not inferred screen glow.
 code={z["pc"]:(z["mnemonic"],z["op"]) for z in duo["bks_blank1_original_conditional"]["context"]}
 allafter=duo["possible_delayed_block"]["conditional_other_branch_0x192f30"]
