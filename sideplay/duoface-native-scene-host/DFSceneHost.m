@@ -224,12 +224,14 @@ static NSInteger DFObservedSceneForeground(id scene) {
         NSInteger clientOrientation=DFObservedRemoteInterfaceOrientation(client);
         NSInteger serverOrientation=DFObservedRemoteInterfaceOrientation(server);
         DFSceneLog(@"youtube-app-handshake-ack",self.bundleID,
-            [NSString stringWithFormat:@"phase=%@ windows=%@ normalSeen=%@ internalSeen=%@ layoutRefreshed=%@ sceneOrientation=%@ clientOrientation=%ld serverOrientation=%ld split=%@ mismatch=%@ geometry=%@ virtualization=%@ size=%@x%@ generation=%lu windows=%@",
+            [NSString stringWithFormat:@"phase=%@ windows=%@ normalSeen=%@ internalSeen=%@ layoutRefreshed=%@ sceneOrientation=%@ clientOrientation=%ld serverOrientation=%ld split=%@ mismatch=%@ geometry=%@ virtualization=%@ size=%@x%@ generation=%lu windows=%@ frameTicks=%@ elapsed=%@ onMainScreen=%@ sceneActivation=%@ appActivation=%@ protectedData=%@",
                 ack[@"phase"],ack[@"windowsApplied"],ack[@"sceneWindowCount"],
                 ack[@"internalWindowCount"],ack[@"layoutRefreshes"],ack[@"sceneOrientation"],
                 (long)clientOrientation,(long)serverOrientation,self.youtubeState[@"isSplit"],
                 ack[@"controllerMismatch"],ack[@"geometryRequest"],ack[@"virtualization"],
-                ack[@"sceneWidth"],ack[@"sceneHeight"],(unsigned long)self.sceneGeneration,ack[@"windows"]]);
+                ack[@"sceneWidth"],ack[@"sceneHeight"],(unsigned long)self.sceneGeneration,ack[@"windows"],
+                 ack[@"ticks"],ack[@"elapsedSeconds"],ack[@"onMainScreen"],
+                 ack[@"sceneActivation"],ack[@"appActivation"],ack[@"protectedData"]]);
     });
 }
 - (void)revokeOrientationPolicy {
