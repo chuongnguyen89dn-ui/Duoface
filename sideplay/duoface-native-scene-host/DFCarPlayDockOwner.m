@@ -345,6 +345,100 @@ static void DFZHandleCommand(void) {
                  klass,bounds);
     }
 }
+// QA120: derive an independently measured usable rect from the ACTUAL native
+// CarPlay status-rail UIWindow plus its attached AppDock controller, corroborated
+// by the native notification/content window. The AppDock's buttons occupy only
+// ~111pt of a 360pt screen, so the old >=48%-height AppDock filter wrongly
+// rejected the real 45pt native rail in QA119. This resolver is READ-ONLY to
+// system windows and fails closed unless the three original owners agree.
+// It never treats an arbitrary status bar or a 45pt constant as the Dock.
+static NSString *const DFZNativeRailFile=
+    @"/var/mobile/Library/Preferences/com.duoface.nativehost.native-rail.v1.plist";
+static UIViewController *DFZFindNativeRailDockController(UIViewController *root,
+                                                        NSUInteger depth) {
+    if(!root || depth>9)return nil;
+    NSString *name=NSStringFromClass(root.class);
+    if([name isEqualToString:@"DBAppDockViewController"] ||
+       [name isEqualToString:@"CARAppDockViewController"])return root;
+    for(UIViewController *child in root.childViewControllers) {
+        UIViewController *found=DFZFindNativeRailDockController(child,depth+1);
+        if(found)return found;
+    }
+    return nil;
+}
+static NSDictionary *DFZVerifiedRailForPulse(NSDictionary *pulse,
+                                            NSArray<UIWindow *> *windows) {
+    if(!DFGFresh(pulse,NSDate.date.timeIntervalSince1970))return nil;
+    if(![NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"])return nil;
+    NSMutableArray<NSDictionary *> *accepted=[NSMutableArray new];
+    for(UIWindow *railWindow in windows) {
+        if(![NSStringFromClass(railWindow.class) isEqualToString:@"DBStatusBarWindow"] &&
+           ![NSStringFromClass(railWindow.class) isEqualToString:@"CARStatusBarWindow"])continue;
+        if(railWindow.hidden || railWindow.alpha<.95 || !railWindow.screen ||
+           railWindow.screen==UIScreen.mainScreen)continue;
+        UIWindowScene *ownerScene=railWindow.windowScene;
+        if(![ownerScene.session.role isEqualToString:UIWindowSceneSessionRoleCarPlay] ||
+           ownerScene.activationState==UISceneActivationStateBackground)continue;
+        UIViewController *root=railWindow.rootViewController;
+        if(!root || ![NSStringFromClass(root.class)
+                       isEqualToString:@"DBRootStatusBarViewController"])continue;
+        UIViewController *appDock=DFZFindNativeRailDockController(root,0);
+        UIView *dock=appDock.viewIfLoaded;
+        if(!dock || dock.hidden || dock.alpha<.9 || !dock.userInteractionEnabled ||
+           ![dock isDescendantOfView:railWindow])continue;
+        CGRect full=railWindow.screen.bounds;
+        CGRect rail=[railWindow convertRect:railWindow.bounds
+                         toCoordinateSpace:railWindow.screen.coordinateSpace];
+        CGRect dockRect=[dock convertRect:dock.bounds
+                         toCoordinateSpace:railWindow.screen.coordinateSpace];
+        if(!isfinite(rail.origin.x)||!isfinite(rail.size.width)||
+           !isfinite(rail.size.height)||!isfinite(dockRect.size.height)||
+           full.size.width<300 || full.size.height<145 || rail.size.width<20 ||
+           rail.size.width>=full.size.width*.3 ||
+           fabs(CGRectGetMinX(rail)-CGRectGetMinX(full))>1.5 ||
+           fabs(CGRectGetMinY(rail)-CGRectGetMinY(full))>1.5 ||
+           fabs(rail.size.height-full.size.height)>1.5 ||
+           CGRectIsEmpty(dockRect) ||
+           CGRectGetMinX(dockRect)<CGRectGetMinX(rail)-1.5 ||
+           CGRectGetMaxX(dockRect)>CGRectGetMaxX(rail)+1.5 ||
+           CGRectGetMinY(dockRect)<CGRectGetMinY(rail)-1.5 ||
+           CGRectGetMaxY(dockRect)>CGRectGetMaxY(rail)+1.5)continue;
+        // Require the independently owned native content boundary to agree
+        // with the measured rail edge. No guessed pixel/percentage offsets.
+        NSUInteger matchingContent=0;
+        UIWindow *contentWindow=nil;
+        CGRect content=CGRectZero;
+        for(UIWindow *candidate in windows) {
+            if(![NSStringFromClass(candidate.class) isEqualToString:@"DBNotificationWindow"] ||
+               candidate.hidden || candidate.alpha<.9 ||
+               candidate.screen!=railWindow.screen || !candidate.windowScene ||
+               ![candidate.windowScene.session.role
+                    isEqualToString:UIWindowSceneSessionRoleCarPlay])continue;
+            CGRect frame=[candidate convertRect:candidate.bounds
+                             toCoordinateSpace:candidate.screen.coordinateSpace];
+            if(fabs(CGRectGetMinX(frame)-CGRectGetMaxX(rail))<=1.5 &&
+               fabs(CGRectGetMaxX(frame)-CGRectGetMaxX(full))<=1.5 &&
+               fabs(frame.origin.y-full.origin.y)<=1.5 &&
+               fabs(frame.size.height-full.size.height)<=1.5) {
+                matchingContent++;contentWindow=candidate;content=frame;
+            }
+        }
+        if(matchingContent!=1 || !contentWindow)continue;
+        [accepted addObject:@{@"Version":@1,@"Session":pulse[@"Session"],
+           @"Sample":pulse[@"GeometrySample"],@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+           @"OwnerProcess":@"CarPlay",@"Status":@"verified-native-rail",
+           @"ScreenBounds":NSStringFromCGRect(full),
+           @"ScreenScale":@(railWindow.screen.scale),
+           @"RailFrameInScreen":NSStringFromCGRect(rail),
+           @"ContentFrameInScreen":NSStringFromCGRect(content),
+           @"DockViewFrameInScreen":NSStringFromCGRect(dockRect),
+           @"RailOwnerClass":NSStringFromClass(railWindow.class),
+           @"RootControllerClass":NSStringFromClass(root.class),
+           @"DockControllerClass":NSStringFromClass(appDock.class),
+           @"ContentWindowClass":NSStringFromClass(contentWindow.class)}];
+    }
+    return accepted.count==1?accepted.firstObject:nil;
+}
 // Diagnostics only; the measured rectangles are NEVER passed to layout/Zoom.
 static void DFZGeometry119(void) {
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
@@ -388,6 +482,20 @@ static void DFZGeometry119(void) {
         @"ActiveCarPlayRootCandidates":activeRoots,
         @"OriginalRootOwnerStatus":activeRoots.count==1?@"getter-observed-not-yet-crosschecked":@"unresolved",
         @"InventoryTruncated":@(all.count>48),@"LayoutChanged":@NO});
+    // A verified native rail belongs to exactly this fresh CarPlay session.
+    // Publishing is atomic; a missing/unverified source leaves the .118 Dock
+    // fallback unchanged. This probe never changes native UIWindow geometry.
+    NSDictionary *nativeRail=DFZVerifiedRailForPulse(pulse,all.array);
+    if(nativeRail) {
+        BOOL saved=[nativeRail writeToFile:DFZNativeRailFile atomically:YES];
+        DFZLog([NSString stringWithFormat:
+           @"qa120-native-rail-owner %@ rail=%@ content=%@ appDock=%@",
+           saved?@"published":@"write-failed",
+           nativeRail[@"RailFrameInScreen"],nativeRail[@"ContentFrameInScreen"],
+           nativeRail[@"DockViewFrameInScreen"]]);
+    } else if([NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"]) {
+        DFZLog(@"qa120-native-rail-owner-unresolved-no-geometry-change");
+    }
 }
 static void DFZWatch(NSUInteger generation) {
     if(generation!=DFZGeneration || !DFZCarPlayProcess())return;
