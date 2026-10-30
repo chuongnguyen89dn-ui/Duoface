@@ -797,6 +797,44 @@
     ],
     "0x777c": []
   },
+  "objc_dispatch_candidates": {
+    "0x25420_selector_ref": {
+      "selref_vm": "0x3d548",
+      "raw_pointer_word": "0x100000000306e1",
+      "candidate_selector_text": "count",
+      "candidate_pointer_vm": "0x306e1",
+      "confidence": "raw VM resolves to NUL-terminated printable string; not runtime message recipient proof"
+    },
+    "0x27b20_selector_ref": {
+      "selref_vm": "0x3df08",
+      "raw_pointer_word": "0x10000000031ae8",
+      "candidate_selector_text": "shared",
+      "candidate_pointer_vm": "0x31ae8",
+      "confidence": "raw VM resolves to NUL-terminated printable string; not runtime message recipient proof"
+    },
+    "0x25100_selector_ref": {
+      "selref_vm": "0x3d480",
+      "raw_pointer_word": "0x1000000002face",
+      "candidate_selector_text": "carDisconnected",
+      "candidate_pointer_vm": "0x2face",
+      "confidence": "raw VM resolves to NUL-terminated printable string; not runtime message recipient proof"
+    },
+    "0x25900_selector_ref": {
+      "selref_vm": "0x3d680",
+      "raw_pointer_word": "0x10000000030936",
+      "candidate_selector_text": "hideForApp:",
+      "candidate_pointer_vm": "0x30936",
+      "confidence": "raw VM resolves to NUL-terminated printable string; not runtime message recipient proof"
+    },
+    "0x25420_full_stub": [
+      "0x25420 adrp x1, #0x3d000",
+      "0x25424 ldr x1, [x1, #0x548]",
+      "0x25428 adrp x16, #0x34000",
+      "0x2542c ldr x16, [x16, #0xb0]",
+      "0x25430 br x16",
+      "0x25434 brk #1"
+    ]
+  },
   "conditional_context": {
     "blank_one_handler_0x777c": [
       "0x778c mov x19, x0",
