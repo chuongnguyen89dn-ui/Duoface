@@ -32,7 +32,7 @@ jobs:
           new=pathlib.Path(sys.argv[1]).read_bytes()
           target=pathlib.Path(sys.argv[2])
           old=target.read_bytes()
-          if not (new.startswith(b'## 2026-10-30 21:02 ICT') or new.startswith(b'## 2026-10-30 21:12 ICT')):
+          if not (new.startswith(b'## 2026-10-30 21:02 ICT') or new.startswith(b'## 2026-10-30 21:12 ICT') or new.startswith(b'## 2026-10-30 21:15 ICT')):
               raise SystemExit('Unknown or stale checkpoint payload')
           if new in old or old.startswith(new.split(b'\n',1)[0]):
               print('QA131_CHECKPOINT_ALREADY_IN_ORIGINAL_HANDOFF')
