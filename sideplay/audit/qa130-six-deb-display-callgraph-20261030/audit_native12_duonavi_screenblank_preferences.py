@@ -109,6 +109,21 @@ def main():
     try:
      m=MachO(select_arm64(data))
      count,methods,all_imp=sel_methods(m)
+     tracked={}
+     if path.name==DASH[name]:
+      classes=all_classes(m)
+      for cls in classes:
+       if cls["class"] not in ("CBDashboardSettings","CBBridgeManager","CBBridgedUIAppView"):continue
+       selected=[]
+       for kind in ("instance","class_methods"):
+        for method in cls[kind]["methods"]:
+         sel=method.get("selector")
+         if sel in ("init","reload","reloadPreferences","reloadAppPrefs","loadPreferences","handleSettingsChanged","screenBlankEnabled","setScreenBlankEnabled:","deactivateCurrentApp","startInParentViewController:"):
+          imp=method.get("imp_vm")
+          if not imp:continue
+          selected.append({"method_kind":kind,"selector":sel,"imp_vm":imp,
+             "first_100_instructions":block(m,int(imp,16),0,400)})
+       if selected:tracked[cls["class"]]=selected
     except (ValueError,IndexError,AssertionError,KeyError) as ex:
      rec.setdefault("unparsed",[]).append({"path":path.name,"error":str(ex)[:200]})
      continue
@@ -118,12 +133,15 @@ def main():
       "screenblank_related_methods":methods[:90]}
     if path.name==DASH[name]:
      found_dashboard=True
+     entry["dashboard_settings_init_and_reload"]=tracked
      entry["bks_literal_sites"]=[]
      for pc in SITES[name]:
       # larger 192B before and 244B after for guards, call 0/1 and symbol lookup
       entry["bks_literal_sites"].append({"site":hex(pc),
           "bounded_instructions":block(m,pc,192,244),
           "nearest_imp":owners(all_imp,pc)})
+     if name=="DuoNavi104":
+      entry["bks_possible_blank1_192ec0"]=block(m,0x192ec0,110,80)
     if methods or path.name==DASH[name]:
      rec["machos_with_screenblank_method"].append(entry)
    if not found_dashboard:raise RuntimeError("Missing required Dashboard dylib "+name)
