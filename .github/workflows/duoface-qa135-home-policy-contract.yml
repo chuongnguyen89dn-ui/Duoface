@@ -1,0 +1,48 @@
+name: DuoFace QA135 genuine Home app catalog permission safety compile and tests
+on:
+  push:
+    branches: [feature/duoface-qa135-home-library-20261030]
+    paths:
+      - '.github/workflows/duoface-qa135-home-policy-contract.yml'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayHomeCatalogPolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/carplay_home_catalog_policy_135.m'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  policy:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Real macOS Foundation runtime tests, native system apps preserved
+        run: |
+          set -euo pipefail
+          clang -fobjc-arc -Wall -Wextra -Werror \
+            -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/carplay_home_catalog_policy_135.m \
+            -o "$RUNNER_TEMP/qa135-home-catalog-test"
+          "$RUNNER_TEMP/qa135-home-catalog-test"
+      - name: Real iOS16 SDK arm64 compile of same first-party policy
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -fobjc-arc -fblocks -Wall -Wextra -Werror \
+            -fsyntax-only \
+            sideplay/duoface-native-scene-host/tests/carplay_home_catalog_policy_135.m
+          echo QA135_REAL_IOS16_ARM64_HOME_POLICY_SYNTAX_PASS
+      - name: Confirm native roster vs bridge state are separate and no unsafe Home mutation
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('sideplay/duoface-native-scene-host/DFCarPlayHomeCatalogPolicy.h').read_text()
+          for token in ('DFHomeBridgeBundleIDs','DFHomeExpectedBundleIDs','DFPickerAllowsApp',
+                        '[native containsObject:entry]','[installedIDs containsObject:entry]'):
+            assert token in s,token
+          for banned in ('setIconState:forVehicleID:', 'setEntitlements:', 'setApplicationInfo:', 'killall','respring'):
+            assert banned not in s,banned
+          print('QA135_NO_HOME_ICON_SPOOF_OR_NATIVE_ICON_LAYOUT_REWRITE')
+          PY
