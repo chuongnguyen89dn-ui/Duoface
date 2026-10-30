@@ -22,7 +22,7 @@ class PhoneAppManager094(unittest.TestCase):
   picker=read("DFAppPickerVC.m")
   policy=read("DFEnabledAppsPolicy.h")
   chrome=read("DFNative12Chrome.m")
-  for text in ("DFConfiguredEnabledAppIDs()", "DFPickerAllowsApp(app.bundleID,enabled)",
+  for text in ("DFConfiguredEnabledAppIDs()", "DFCarPlaySelectedInstalledBundleIDs(",
                "notify_register_dispatch", "notify_cancel",
                "appPicker:self didSelectBundleID:app.bundleID"):
    self.assertIn(text,picker)
