@@ -76,20 +76,20 @@ def inspect(name,file):
   for ins in cs.disasm(body,sec["vm"]):
    op=ins.op_str
    if ins.mnemonic=="adrp":
-    a=re.fullmatch(r"(x\\d+), #0x([0-9a-f]+)",op)
+    a=re.fullmatch(r"(x\d+), #0x([0-9a-f]+)",op)
     if a:recent[a[1]]=(int(a[2],16),ins.address)
     continue
    addr=None
    if ins.mnemonic in ("ldr","add"):
-    b=re.fullmatch(r"(x\\d+), (x\\d+), #0x([0-9a-f]+)",op)
+    b=re.fullmatch(r"(x\d+), (x\d+), #0x([0-9a-f]+)",op)
     if b and b[2] in recent and ins.address-recent[b[2]][1]<96:
      addr=recent[b[2]][0]+int(b[3],16)
     else:
-     b=re.fullmatch(r"(x\\d+), \\[(x\\d+), #0x([0-9a-f]+)\\]",op)
+     b=re.fullmatch(r"(x\d+), \[(x\d+), #0x([0-9a-f]+)\]",op)
      if b and b[2] in recent and ins.address-recent[b[2]][1]<96:
       addr=recent[b[2]][0]+int(b[3],16)
    if ins.mnemonic in ("adr","ldr") and addr is None:
-    a=re.fullmatch(r"x\\d+, #0x([0-9a-f]+)",op)
+    a=re.fullmatch(r"x\d+, #0x([0-9a-f]+)",op)
     if a:addr=int(a[1],16)
    if addr is None or addr not in refs:continue
    index=bisect.bisect_right(starts,ins.address)-1
