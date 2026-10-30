@@ -15,6 +15,13 @@
 static NSMapTable *sOwners;
 static void (*sUpdate)(id, SEL, id, id, id);
 static void (*sPreviousSceneObserver)(id, SEL, id, id, id);
+// Native12 has a distinct sceneHandle:didDestroyScene: boundary. Keep a
+// weak, identity-only tombstone so an already destroyed FBScene can NEVER
+// be revived by a delayed foreground/under-lock settings write. Unlike the
+// vendor implementation this never kills an app or swallows Apple's callback.
+static void (*sPreviousSceneDestroy)(id, SEL, id, id);
+static NSHashTable *sDestroyedOwnedScenes;
+static BOOL sSceneDestroyInstalled;
 static BOOL sInstalled;
 // QA123: independently scoped under-lock policy for a live CarPlay-hosted
 // phone scene only. Original signed DuoNavi/Native12 confirms the *behavior*,
@@ -49,7 +56,8 @@ static NSInteger DFForeground(id settings) {
 }
 static BOOL DFOwnsScene(id scene) {
     // No cross-thread UIKit access, and no identity-by-bundle shortcuts.
-    if(!NSThread.isMainThread || !scene)return NO;
+    if(!NSThread.isMainThread || !scene ||
+       [sDestroyedOwnedScenes containsObject:scene])return NO;
     for(id key in sOwners.keyEnumerator.allObjects) {
         id (^probe)(void)=[sOwners objectForKey:key];
         if(probe && probe()==scene)return YES;
@@ -148,6 +156,56 @@ static void DFManagedSceneObserver(id controller, SEL selector, id handle,
     }
     sPreviousSceneObserver(controller,selector,handle,diff,previousSettings);
 }
+// Never interpret a destroyed manual scene as a valid owner. This callback
+// comes from the real iOS16 SBAppViewController boundary seen in Native12's
+// SHA-pinned 11-hook ARM64 inventory. This independent implementation is
+// deliberately not a vendor-style 'terminate' hook. It only withdraws the
+// stale scene identity, then forwards Apple's original exactly once.
+static void DFManagedSceneDestroy(id controller, SEL selector, id handle, id scene) {
+    if(NSThread.isMainThread && controller && handle && scene && sOwners &&
+       [sOwners objectForKey:controller]) {
+        SEL getHandle=NSSelectorFromString(@"sceneHandle");
+        if([controller respondsToSelector:getHandle]) {
+            id current=((id(*)(id,SEL))objc_msgSend)(controller,getHandle);
+            id (^owned)(void)=[sOwners objectForKey:controller];
+            if(current==handle && owned && owned()==scene) {
+                [sDestroyedOwnedScenes addObject:scene];
+                DFDeepTrace(@"scene-lifecycle",[NSString stringWithFormat:
+                    @"owned-manual-scene-destroy-tombstone scene=%p controller=%p handle=%p",
+                    scene,controller,handle]);
+            }
+        }
+    }
+    // Foreign, unmatched and genuine owned scenes all continue into Apple.
+    // Never dismiss an app or synthesize a destroy event from this observer.
+    sPreviousSceneDestroy(controller,selector,handle,scene);
+}
+static void DFInstallSceneDestroyObserver(Class host,
+                                         void (*hook)(Class,SEL,IMP,IMP *)) {
+    if(sSceneDestroyInstalled || !host || !hook)return;
+    SEL sel=NSSelectorFromString(@"sceneHandle:didDestroyScene:");
+    Method m=class_getInstanceMethod(host,sel);
+    if(!m || method_getNumberOfArguments(m)!=4) {
+        DFDeepTrace(@"scene-lifecycle",@"scene-destroy-abi-missing-original-only");
+        return;
+    }
+    char type[32]={0};method_getReturnType(m,type,sizeof(type));
+    if(strcmp(type,"v"))return;
+    for(unsigned int i=2;i<4;i++) {
+        method_getArgumentType(m,i,type,sizeof(type));
+        if(type[0]!='@')return;
+    }
+    IMP existing=method_getImplementation(m);
+    if(!existing || existing==(IMP)DFManagedSceneDestroy)return;
+    hook(host,sel,(IMP)DFManagedSceneDestroy,(IMP *)&sPreviousSceneDestroy);
+    // Preserve a safe pre-hook IMP if the substrate provider does not return
+    // its trampoline. Do not silently consume Apple destroy on an ABI failure.
+    if(!sPreviousSceneDestroy)sPreviousSceneDestroy=(void(*)(id,SEL,id,id))existing;
+    sSceneDestroyInstalled=sPreviousSceneDestroy!=NULL;
+    DFDeepTrace(@"scene-lifecycle",sSceneDestroyInstalled?
+       @"owned-scene-destroy-tombstone-and-original-forward-installed":
+       @"scene-destroy-no-original-not-installed");
+}
 // UIKit/FrontBoard object provenance must match the *current* live scene,
 // not merely an allowed bundle string. SpringBoard may ask about other apps'
 // scenes during a phone lock; those ALWAYS retain Apple's original policy.
@@ -180,7 +238,8 @@ static BOOL DFSessionOwnsLiveCarPlay123(void) {
     return NO;
 }
 static BOOL DFIsOwnedHostedLockScene123(id scene) {
-    if(!sOwners || !scene || !DFSessionOwnsLiveCarPlay123())return NO;
+    if(!sOwners || !scene || [sDestroyedOwnedScenes containsObject:scene] ||
+       !DFSessionOwnsLiveCarPlay123())return NO;
     for(id controller in sOwners.keyEnumerator.allObjects) {
         id (^current)(void)=[sOwners objectForKey:controller];
         if(!current || current()!=scene)continue;
@@ -318,6 +377,7 @@ BOOL DFSceneLifecycleInstall(void) {
     Hook hook=(Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
     if(!hook)return NO;
     sOwners=[NSMapTable weakToStrongObjectsMapTable];
+    sDestroyedOwnedScenes=[NSHashTable weakObjectsHashTable];
     hook(host,observer,(IMP)DFManagedSceneObserver,(IMP *)&sPreviousSceneObserver);
     if(!sPreviousSceneObserver){
         DFDeepTrace(@"scene-lifecycle",@"manual-observer-original-unavailable");
@@ -326,6 +386,7 @@ BOOL DFSceneLifecycleInstall(void) {
     hook(cls,selector,(IMP)DFUpdateScene,(IMP *)&sUpdate);
     sInstalled=sUpdate!=NULL;
     if(sInstalled) {
+        DFInstallSceneDestroyObserver(host,hook);
         DFInstallOwnedUnderLock123();
         DFInstallPostLockIntercept();
     }
