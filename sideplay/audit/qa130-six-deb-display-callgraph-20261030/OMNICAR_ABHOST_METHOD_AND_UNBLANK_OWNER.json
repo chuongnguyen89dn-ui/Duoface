@@ -3486,6 +3486,116 @@
       ]
     }
   ],
+  "ABHost_count_accessor": {
+    "stub": "0x26580",
+    "instructions": [
+      "0x26580 adrp x1, #0x3d000",
+      "0x26584 ldr x1, [x1, #0x9a0]",
+      "0x26588 adrp x16, #0x34000",
+      "0x2658c ldr x16, [x16, #0xb0]",
+      "0x26590 br x16",
+      "0x26594 brk #1"
+    ],
+    "selector_reference": "0x3d9a0",
+    "selector": "panes",
+    "raw_word": "0x10000000030f68"
+  },
+  "function_pointer_0x9688_block_candidate": {
+    "invoke_vm": "0x9688",
+    "possible_blocks": [
+      {
+        "invoke_pointer_field_vm": "0x347e0",
+        "candidate_literal_base": "0x347d0",
+        "source_section": "__const",
+        "pointer_raw": "0x10000000009688",
+        "proven_objc_block": false,
+        "qword0_isa": "0x80200000000000b3",
+        "qword1_flags_reserved": "0x50000000",
+        "qword2_invoke": "0x10000000009688",
+        "qword3_descriptor": "0x10000000034610",
+        "qword4_next": "0x80200000000000b3",
+        "objc_block_flags_candidate": "0x50000000",
+        "isa_import_identity_unresolved": true,
+        "matches_block_invoke_offset16": true,
+        "descriptor_vm_candidate": "0x34610",
+        "descriptor_reserved_size_qwords": [
+          "0x0",
+          "0x20"
+        ]
+      }
+    ]
+  },
+  "function_pointer_0x958c_block_candidate": {
+    "invoke_vm": "0x958c",
+    "possible_blocks": [
+      {
+        "invoke_pointer_field_vm": "0x347c0",
+        "candidate_literal_base": "0x347b0",
+        "source_section": "__const",
+        "pointer_raw": "0x1000000000958c",
+        "proven_objc_block": false,
+        "qword0_isa": "0x80200000000000b3",
+        "qword1_flags_reserved": "0x50000000",
+        "qword2_invoke": "0x1000000000958c",
+        "qword3_descriptor": "0x10000000034670",
+        "qword4_next": "0x80200000000000b3",
+        "objc_block_flags_candidate": "0x50000000",
+        "isa_import_identity_unresolved": true,
+        "matches_block_invoke_offset16": true,
+        "descriptor_vm_candidate": "0x34670",
+        "descriptor_reserved_size_qwords": [
+          "0x0",
+          "0x20"
+        ]
+      }
+    ]
+  },
+  "block_literal_address_code_producers": {
+    "0x347b0": [
+      {
+        "producer_pc": "0x7214",
+        "before": [
+          "0x71e4 adrp x0, #0x34000",
+          "0x71e8 ldr x0, [x0, #0x290]",
+          "0x71ec bl #0x2480c",
+          "0x71f0 adrp x8, #0x3e000",
+          "0x71f4 ldr x0, [x8, #0x2b0]",
+          "0x71f8 bl #0x254c0",
+          "0x71fc mov x29, x29",
+          "0x7200 bl #0x24830",
+          "0x7204 mov x22, x0",
+          "0x7208 adrp x2, #0x35000",
+          "0x720c add x2, x2, #0x8d0",
+          "0x7210 adrp x5, #0x34000",
+          "0x7214 add x5, x5, #0x7b0",
+          "0x7218 mov x3, #0"
+        ]
+      }
+    ],
+    "0x347e0": [],
+    "0x347d0": [
+      {
+        "producer_pc": "0x77f0",
+        "before": [
+          "0x77c0 cbz x21, #0x780c",
+          "0x77c4 adrp x8, #0x3e000",
+          "0x77c8 ldr x8, [x8, #0xa10]",
+          "0x77cc mov w0, #1",
+          "0x77d0 blr x8",
+          "0x77d4 mov x0, #0",
+          "0x77d8 mov w1, #0xca00",
+          "0x77dc movk w1, #0x3b9a, lsl #16",
+          "0x77e0 bl #0x245cc",
+          "0x77e4 adrp x1, #0x34000",
+          "0x77e8 ldr x1, [x1, #0x290]",
+          "0x77ec adrp x2, #0x34000",
+          "0x77f0 add x2, x2, #0x7d0",
+          "0x77f4 bl #0x24548"
+        ]
+      }
+    ],
+    "0x347c0": []
+  },
   "target_reference_candidates": {
     "0x9688": [
       {
