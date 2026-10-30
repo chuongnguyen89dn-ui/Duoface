@@ -1,6 +1,10 @@
 {
   "DuoNavi": {
     "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+    "carPlaySleepAssertionCFStrings": {
+      "assertionType": "unresolved:ValueError",
+      "assertionName": "unresolved:ValueError"
+    },
     "classCount": 47,
     "metadataError": null,
     "methods": [
@@ -94,12 +98,14 @@
   },
   "OmniBridge": {
     "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+    "carPlaySleepAssertionCFStrings": {},
     "classCount": 0,
     "metadataError": "ValueError: cannot map Mach-O address 0x1000000003e570",
     "methods": []
   },
   "OmniSplit": {
     "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754",
+    "carPlaySleepAssertionCFStrings": {},
     "classCount": 0,
     "metadataError": "ValueError: cannot map Mach-O address 0x10000000087ad0",
     "methods": []

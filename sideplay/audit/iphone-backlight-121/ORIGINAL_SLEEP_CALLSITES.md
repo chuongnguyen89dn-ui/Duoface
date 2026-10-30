@@ -4,6 +4,7 @@ SHA verified original binaries, bounded ARM64 method inspection. Selector presen
 
 ## DuoNavi
 - SHA256: 44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15
+- Verified IOPM CFString x0/x2: {'assertionType': 'unresolved:ValueError', 'assertionName': 'unresolved:ValueError'}
 - Matches: 2
 - Class metadata: decoded
 
@@ -85,11 +86,13 @@ ARM64 instructions: 32
 
 ## OmniBridge
 - SHA256: d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79
+- Verified IOPM CFString x0/x2: {}
 - Matches: 0
 - Class metadata: ValueError: cannot map Mach-O address 0x1000000003e570
 
 ## OmniSplit
 - SHA256: f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754
+- Verified IOPM CFString x0/x2: {}
 - Matches: 0
 - Class metadata: ValueError: cannot map Mach-O address 0x10000000087ad0
 
