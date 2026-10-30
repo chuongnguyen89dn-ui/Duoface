@@ -32,7 +32,7 @@ class UnderLockOwner123(unittest.TestCase):
     def test_true_physical_carplay_and_fresh_session(self):
         s=self.code
         self.assertIn('com.duoface.nativehost.touchowner.session.plist',s)
-        self.assertIn('age>2.5',s)
+        self.assertIn('DFOwnerAcceptPulse(pulse)',s)
         self.assertIn('pulse[@"Active"]',s)
         self.assertIn('UIScreen.mainScreen',s)
         self.assertIn('window.hidden',s)

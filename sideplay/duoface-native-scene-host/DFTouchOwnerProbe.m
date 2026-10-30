@@ -4,6 +4,7 @@
 #import <UIKit/UIKit.h>
 #import "DFDeepTrace.h"
 #import "DFGeometrySnapshot119.h"
+#import "DFCarPlayOwnerLease.h"
 #import "DFNative12Chrome.h"
 #import "DFDockZoomCoordinator.h"
 #import "DFDisconnectCloseCoordinator.h"
@@ -202,7 +203,7 @@ static void DFEnsureDisconnectMonitor(void) {
 static BOOL DFReadFreshSession(void) {
     NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
     id value=record[@"Session"], stamp=record[@"Timestamp"];
-    if(![record[@"Active"] isEqual:@YES] ||
+    if(!DFOwnerAcceptPulse(record) || ![record[@"Active"] isEqual:@YES] ||
        ![record[@"Version"] isEqual:@1] ||
        ![value isKindOfClass:NSString.class] ||
        ![[NSUUID alloc] initWithUUIDString:value] ||
@@ -215,12 +216,8 @@ static BOOL DFReadFreshSession(void) {
 }
 static void DFSendCommand(NSString *action,NSNumber *ratio) {
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
-    id stamp=pulse[@"Timestamp"];
-    NSTimeInterval age=[stamp isKindOfClass:NSNumber.class]?
-         NSDate.date.timeIntervalSince1970-[stamp doubleValue]:DBL_MAX;
-    if(![pulse[@"Active"] isEqual:@YES] ||
-       ![pulse[@"Session"] isEqualToString:sSession] ||
-       !isfinite(age) || age<0 || age>2.5)return;
+    if(!DFOwnerAcceptPulse(pulse) ||
+       ![pulse[@"Session"] isEqualToString:sSession])return;
     if(!sChrome || !sSession || ![NSProcessInfo.processInfo.processName
                               isEqualToString:@"SpringBoard"])return;
     if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio",
@@ -396,12 +393,8 @@ static void DFStopProbe(NSString *reason) {
 }
 static BOOL DFSessionStillActive(void) {
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
-    id timestamp=pulse[@"Timestamp"];
-    if(!sSession || ![pulse[@"Session"] isEqualToString:sSession] ||
-       ![pulse[@"Active"] isEqual:@YES] ||
-       ![timestamp isKindOfClass:NSNumber.class])return NO;
-    NSTimeInterval age=NSDate.date.timeIntervalSince1970-[timestamp doubleValue];
-    return isfinite(age) && age>=0 && age<=2.5;
+    return sSession && [pulse[@"Session"] isEqualToString:sSession] &&
+           DFOwnerAcceptPulse(pulse);
 }
 // Independent SpringBoard watchdog: works even if CarPlay app crashes,
 // is suspended on Home, or fails to deliver a scene disconnect callback.
@@ -411,9 +404,8 @@ static void DFWatchdog(NSUInteger generation) {
     id stamp=pulse[@"Timestamp"];
     NSTimeInterval age=[stamp isKindOfClass:NSNumber.class]?
         NSDate.date.timeIntervalSince1970-[stamp doubleValue]:DBL_MAX;
-    if(![pulse[@"Active"] isEqual:@YES] ||
-       ![pulse[@"Session"] isEqualToString:sSession] ||
-       !isfinite(age) || age<0 || age>2.5){
+    if(!DFOwnerAcceptPulse(pulse) ||
+       ![pulse[@"Session"] isEqualToString:sSession]){
         DFTOLog(@"watchdog-detach",
            [NSString stringWithFormat:@"age=%.2f active=%@ session-match=%d",
             age,pulse[@"Active"],[pulse[@"Session"] isEqualToString:sSession]]);
@@ -620,8 +612,17 @@ static void DFInstallTouchOwnerProbe(void) {
             });
             int b=notify_register_dispatch(kStop,&sStopToken,
                       dispatch_get_main_queue(),^(int t) {
-                (void)t;DFStopProbe(@"nativehost-disconnected");
+                (void)t;
+                // A delayed old stop edge must not tear down a fresh new UUID.
+                if(!DFSessionStillActive())DFStopProbe(@"nativehost-disconnected");
             });
+            static int nativeRevokeToken=-1;
+            notify_register_dispatch(DFOwnerRevokeNotify,&nativeRevokeToken,
+                dispatch_get_main_queue(),^(int t) {
+                    (void)t;
+                    if(sSession && DFOwnerSessionRevoked(sSession))
+                        DFStopProbe(@"native-home-button");
+                });
             int ack=notify_register_dispatch(kAckNotify,&sAckToken,
                        dispatch_get_main_queue(),^(int t) {
                 (void)t;DFReceiveAck();

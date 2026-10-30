@@ -57,7 +57,7 @@ class InactiveCarPlayLifecycle124(unittest.TestCase):
         self.assertIn('DFVerifiedNativeContent120',self.owner)
 
     def test_underlock_only_current_owned_external_scene(self):
-        self.assertIn('if(!isfinite(age) || age<0 || age>2.5)return NO;',self.lock)
+        self.assertIn('if(!DFOwnerAcceptPulse(pulse))return NO;',self.lock)
         self.assertIn('pulse[@"Active"] boolValue',self.lock)
         self.assertIn('DFIsOwnedManualSceneObserver(controller,handle)',self.lock)
         self.assertIn('window.screen==UIScreen.mainScreen',self.lock)

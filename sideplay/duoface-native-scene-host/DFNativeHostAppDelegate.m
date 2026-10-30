@@ -2,6 +2,7 @@
 #import <UIKit/UIKit.h>
 #import "DFDeepTrace.h"
 #import "DFGeometrySnapshot119.h"
+#import "DFCarPlayOwnerLease.h"
 #import <CarPlay/CarPlay.h>
 #import "DFNative12BasicController.h"
 #import <Foundation/Foundation.h>
@@ -42,6 +43,8 @@ void DFNativeHostLog(NSString *message) {
 @property(nonatomic,assign) NSUInteger touchCount;
 @property(nonatomic,copy) NSString *touchSession;
 @property(nonatomic,assign) int touchRelayToken;
+@property(nonatomic,assign) int nativeOwnerRevokeToken;
+@property(nonatomic,assign) BOOL nativeOwnerRevokeRegistered;
 @property(nonatomic,assign) NSUInteger lastTouchSequence;
 @property(nonatomic,strong) NSTimer *touchHeartbeat;
 @property(nonatomic,weak) CPTemplateApplicationScene *touchOwnerScene;
@@ -178,6 +181,10 @@ void DFNativeHostLog(NSString *message) {
              @"touchowner-stop reason=%@ revoked=%d notify=%d",
              reason?:@"unknown",revoked,rc]);
     }
+    if(self.nativeOwnerRevokeRegistered){
+        notify_cancel(self.nativeOwnerRevokeToken);
+        self.nativeOwnerRevokeRegistered=NO;
+    }
     self.touchSession=nil;
     self.geometrySample=nil;self.geometrySampleTime=0;
     self.lastTouchSequence=0;
@@ -185,14 +192,19 @@ void DFNativeHostLog(NSString *message) {
 }
 - (void)renewTouchOwnerHeartbeat:(NSTimer *)timer {
     if(timer!=self.touchHeartbeat || !self.touchSession)return;
-    // QA124: resign is a transition, not proof of CarPlay Home/disconnect.
-    // Only BACKGROUND/disconnect terminates this owner. The system can put a
-    // still-connected external CarPlay scene into ForegroundInactive briefly
-    // while the iPhone display changes lock state. Do not revoke the very
-    // heartbeat the under-lock host policy needs to authenticate its scene.
+    // Renew Background only for the same independently attested native owner.
     UISceneActivationState state=self.touchOwnerScene.activationState;
-    BOOL mayRenew=state==UISceneActivationStateForegroundActive ||
-                  state==UISceneActivationStateForegroundInactive;
+    BOOL foreground=state==UISceneActivationStateForegroundActive ||
+                    state==UISceneActivationStateForegroundInactive;
+    BOOL background=state==UISceneActivationStateBackground;
+    NSString *hostID=self.touchOwnerScene.session.persistentIdentifier;
+    BOOL externalVisible=self.carWindow && self.basicController && self.touchOwnerScene &&
+        !self.carWindow.hidden && self.carWindow.alpha>=.95 && self.carWindow.screen &&
+        self.carWindow.screen!=UIScreen.mainScreen;
+    BOOL revoked=DFOwnerSessionRevoked(self.touchSession);
+    BOOL nativeOwner=background && DFOwnerNativeEvidence(self.touchSession,hostID);
+    BOOL mayRenew=DFOwnerMayRenew(foreground,background,self.touchSession!=nil,
+                                 externalVisible,revoked,nativeOwner);
     if(!self.carWindow || !self.basicController || !self.touchOwnerScene ||
        !mayRenew || self.carWindow.hidden ||
        !self.carWindow.screen || self.carWindow.screen==UIScreen.mainScreen){
@@ -209,6 +221,7 @@ void DFNativeHostLog(NSString *message) {
     if(newSample){self.geometrySample=NSUUID.UUID.UUIDString;self.geometrySampleTime=now;}
     NSDictionary *pulse=@{@"Version":@1,@"Session":self.touchSession,
             @"Active":@YES,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+            @"HostBackground":@(background),@"HostSceneID":hostID?:@"",
             @"ContentRect":NSStringFromCGRect(content),
             @"GeometrySample":self.geometrySample,@"GeometrySampleTime":@(self.geometrySampleTime)};
     if(newSample)DFGWrite(pulse,@{@"CPWindow":DFGWindow(w),
@@ -243,6 +256,15 @@ void DFNativeHostLog(NSString *message) {
         self.touchSession=nil;return;
     }
     self.touchRelayToken=token;
+    int revokeToken=-1;
+    int revokeResult=notify_register_dispatch(DFOwnerRevokeNotify,&revokeToken,
+        dispatch_get_main_queue(),^(int received) {
+            (void)received;
+            if(weakOwner.touchSession && DFOwnerSessionRevoked(weakOwner.touchSession))
+                [weakOwner stopTouchOwnerWithReason:@"native-home-button"];
+        });
+    if(revokeResult!=0){[self stopTouchOwnerWithReason:@"native-revoke-listener-failed"];return;}
+    self.nativeOwnerRevokeToken=revokeToken;self.nativeOwnerRevokeRegistered=YES;
     NSTimer *timer=[NSTimer timerWithTimeInterval:0.75 target:self
           selector:@selector(renewTouchOwnerHeartbeat:) userInfo:nil repeats:YES];
     self.touchHeartbeat=timer;
@@ -257,26 +279,28 @@ void DFNativeHostLog(NSString *message) {
 - (void)sceneWillResignActive:(UIScene *)scene {
     if(scene==self.touchOwnerScene) {
         // QA124: UIKit's willResignActive is not a Home/disconnect event.
-        // Home is explicitly handled by sceneDidEnterBackground: below;
+        // Explicit native Home revokes its UUID; Background needs native evidence.
         // disconnect has its own callback. No duplicate teardown here.
         DFNativeHostLog(@"qa124-scene-resign-retained-await-background");
     }
 }
 - (void)sceneDidEnterBackground:(UIScene *)scene {
     if(scene!=self.touchOwnerScene)return;
-    // QA125 read-only evidence before normal teardown. The system CarPlay
-    // process retaining its scenes does NOT prove this CPTemplate scene
-    // remains foreground or that Home was not pressed. Never hold the overlay
-    // across an unverified Home transition.
+    // Background is a lifecycle observation. It cannot grant ownership.
+    // Without an independently observed current native owner, retain old cleanup.
+    BOOL retain=DFOwnerNativeEvidence(self.touchSession,scene.session.persistentIdentifier);
     BOOL exterior=self.carWindow && self.carWindow.screen &&
                   self.carWindow.screen!=UIScreen.mainScreen;
     DFNativeHostLog([NSString stringWithFormat:
-        @"qa125-background-boundary own-state=%ld app-state=%ld protected-data=%d external-window=%d connected-scenes=%lu teardown=1",
+        @"qa125-background-boundary own-state=%ld app-state=%ld protected-data=%d external-window=%d connected-scenes=%lu native-owner=%d",
         (long)scene.activationState,
         (long)UIApplication.sharedApplication.applicationState,
         UIApplication.sharedApplication.protectedDataAvailable,
-        exterior,(unsigned long)UIApplication.sharedApplication.connectedScenes.count]);
-    [self stopTouchOwnerWithReason:@"scene-background"];
+        exterior,(unsigned long)UIApplication.sharedApplication.connectedScenes.count,retain]);
+    if(retain) {
+        [self renewTouchOwnerHeartbeat:self.touchHeartbeat];
+        DFNativeHostLog(@"native-owner-background-retention-requested");
+    } else [self stopTouchOwnerWithReason:@"scene-background"];
 }
 - (void)sceneDidDisconnect:(UIScene *)scene {
     if(scene==self.touchOwnerScene)

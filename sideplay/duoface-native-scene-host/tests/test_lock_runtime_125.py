@@ -23,7 +23,7 @@ class RuntimeABI125(unittest.TestCase):
   self.assertIn('DFIsOwnedManualSceneObserver(controller,handle)',s)
   self.assertIn('sOriginalBackgroundUnderLock(manager,cmd,scene,settings)',s)
   self.assertIn('window.screen==UIScreen.mainScreen',s)
-  self.assertIn('age>2.5',s)
+  self.assertIn('DFOwnerAcceptPulse(pulse)',s)
   for term in ('SBMainWorkspace','setUILocked:', 'isPasscodeLockedOrBlockedWithResult:',
                'canActivateApplication:withResult:', 'BKSDisplayServicesSetScreenBlanked'):
    self.assertNotIn(term,s)

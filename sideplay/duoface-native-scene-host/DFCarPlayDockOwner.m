@@ -1,5 +1,6 @@
 #import "DFDeepTrace.h"
 #import "DFGeometrySnapshot119.h"
+#import "DFCarPlayOwnerLease.h"
 // DuoFace independent native CarPlay UI Dock owner (iOS16, rootless).
 // Separate CarPlay/CarPlayApp process. No Native12 vendor class, binary or license.
 // Only acts upon a fresh, foreground DuoFace session + exact request ID.
@@ -56,12 +57,11 @@ static BOOL DFZCarPlayProcess(void) {
 static BOOL DFZFreshSession(NSString *session) {
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
     id stamp=pulse[@"Timestamp"];
-    if(![pulse[@"Active"] isEqual:@YES] ||
+    if(!DFOwnerAcceptPulse(pulse) || ![pulse[@"Active"] isEqual:@YES] ||
        ![pulse[@"Session"] isKindOfClass:NSString.class] ||
        ![pulse[@"Session"] isEqualToString:session] ||
        ![stamp isKindOfClass:NSNumber.class])return NO;
-    NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
-    return isfinite(age) && age>=0 && age<=2.5;
+    return YES; // DFOwnerAcceptPulse already validates the current writer's lease.
 }
 static BOOL DFZVisibleDockGeometry(UIView *view, UIWindow *window) {
     if(!view || !window || window.hidden || !window.screen ||
@@ -497,10 +497,12 @@ static void DFZGeometry119(void) {
         DFZLog(@"qa120-native-rail-owner-unresolved-no-geometry-change");
     }
 }
+#import "DFCarPlayOwnerObserver.h"
 static void DFZWatch(NSUInteger generation) {
     if(generation!=DFZGeneration || !DFZCarPlayProcess())return;
     // Unlike before, recover a missed Darwin command edge by re-reading only
     // the validated, fresh Session/RequestID/Sequence request record.
+    DFOwnerObserveNative();
     DFZHandleCommand();
     DFZGeometry119();
     if(DFZDockView) {
@@ -528,6 +530,7 @@ static void DFZInstallDockReceiver(void) {
     @autoreleasepool {
         if(!DFZCarPlayProcess())return;
         dispatch_async(dispatch_get_main_queue(), ^{
+            DFOwnerInstallHomeHooks();
             int result=notify_register_dispatch(DFZNotify,&DFZToken,
                    dispatch_get_main_queue(),^(int token){
                        (void)token;DFZHandleCommand();
