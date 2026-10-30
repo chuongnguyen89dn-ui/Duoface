@@ -1,0 +1,83 @@
+name: DuoFace 121 read-only original backlight and locked-YouTube policy audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-121-original-backlight-audit.yml'
+      - 'sideplay/audit/iphone-backlight-121/compare_original_backlight.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-121-native-backlight-compare
+  cancel-in-progress: false
+jobs:
+  sha-verified-originals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify central CarPlay skill ZIP and read instructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/carplay-skill.zip"
+          printf '%s  %s\n' 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' "$RUNNER_TEMP/carplay-skill.zip" | sha256sum -c -
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -p "$RUNNER_TEMP/carplay-skill.zip" SKILL.md | head -100
+      - name: SHA-pin exact original DuoNavi and OmniCar DEBs
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd' dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb | sha256sum -c -
+          curl -fLsS --retry 4 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/bafc2441d280707ac1fbfd210780a51bdf69da95/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb -o "$RUNNER_TEMP/omnicar-original.deb"
+          printf '%s  %s\n' 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' "$RUNNER_TEMP/omnicar-original.deb" | sha256sum -c -
+          python3 -m py_compile sideplay/audit/iphone-backlight-121/compare_original_backlight.py
+      - name: Audit original binary strings without importing vendor code
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/iphone-backlight-121/compare_original_backlight.py \
+            --duonavi dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb \
+            --omnicar "$RUNNER_TEMP/omnicar-original.deb" \
+            --out sideplay/audit/iphone-backlight-121
+          test -s sideplay/audit/iphone-backlight-121/REPORT.md
+          test -s sideplay/audit/iphone-backlight-121/ORIGINAL_BACKLIGHT_KEYWORDS.json
+          sed -n '1,110p' sideplay/audit/iphone-backlight-121/REPORT.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-121-Original-Backlight-ReadOnly-Comparison
+          path: |
+            sideplay/audit/iphone-backlight-121/REPORT.md
+            sideplay/audit/iphone-backlight-121/ORIGINAL_BACKLIGHT_KEYWORDS.json
+          if-no-files-found: error
+      - name: Persist original signed DEB metadata report to project feature branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          REL=sideplay/audit/iphone-backlight-121
+          SRC="$(pwd)/$REL"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$REL"
+            cp "$SRC/REPORT.md" "$SRC/ORIGINAL_BACKLIGHT_KEYWORDS.json" "$TEMP/$REL/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$REL/REPORT.md" "$REL/ORIGINAL_BACKLIGHT_KEYWORDS.json"
+            if git -C "$TEMP" diff --cached --quiet;then
+              git worktree remove --force "$TEMP"
+              echo BACKLIGHT121_REPORT_ALREADY_SAVED
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'audit: original vendor SHA-verified backlight/idle and locked-scene metadata [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH";then
+              git worktree remove --force "$TEMP"
+              echo BACKLIGHT121_REPORT_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
