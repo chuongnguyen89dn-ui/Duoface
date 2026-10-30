@@ -19,7 +19,18 @@ def main():
     if hashlib.sha256(binary).hexdigest()!=SHA[name]:raise RuntimeError(name+" SHA256 does not match actual original")
     mach=MachO(select_arm64(binary))
     classes={}
-    for cl in mach.classes():
+    # Some OmniCar arm64e chained/auth pointers cannot be represented by the
+    # original non-auth classlist decoder. Fail closed *for that binary only*
+    # rather than fabricate method names or skip DuoNavi's proven metadata.
+    try:
+      class_names=list(mach.classes())
+      class_error=None
+    except (ValueError,KeyError,IndexError,AssertionError) as e:
+      class_names=[]
+      class_error=type(e).__name__+": "+str(e)
+    print("ORIGINAL121_METHOD_SCAN",name,"classes",len(class_names),
+          "metadata_status",class_error or "decoded",flush=True)
+    for cl in class_names:
       try:classes[cl]=methods(mach,cl)
       except (ValueError,KeyError,IndexError,AssertionError):continue
     starts=sorted(set(m.get("vm") for d in classes.values() for m in d.values() if m.get("vm")))
@@ -34,12 +45,14 @@ def main():
         instructions=disassemble(mach,vm,limit)
         matched.append({"class":cl,"selector":sel,"imp":hex(vm),
                         "instructionCount":len(instructions),"instructions":instructions[:160]})
-    info[name]={"sha256":SHA[name],"classCount":len(classes),"methods":matched}
+    info[name]={"sha256":SHA[name],"classCount":len(classes),
+                "metadataError":class_error,"methods":matched}
   (out/"ORIGINAL_SLEEP_METHOD_IMP.json").write_text(json.dumps(info,indent=2,ensure_ascii=False)+"\n")
   md=["# DuoNavi / OmniCar original sleep assertion, blanking and lock policy — ARM64",
       "","SHA verified original binaries, bounded ARM64 method inspection. Selector presence is NOT proof of invocation.",""]
   for name,row in info.items():
-    md+=["## "+name,"- SHA256: "+row["sha256"],"- Matches: "+str(len(row["methods"])),""]
+    md+=["## "+name,"- SHA256: "+row["sha256"],"- Matches: "+str(len(row["methods"])),
+           "- Class metadata: "+(row["metadataError"] or "decoded"),""]
     for method in row["methods"]:
       md+=["### "+method["class"]+"."+method["selector"]+" @ "+method["imp"],
             "ARM64 instructions: "+str(method["instructionCount"])]
