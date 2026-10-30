@@ -1,0 +1,380 @@
+{
+  "Native12Derived": {
+    "sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+    "macho_count": 8,
+    "candidates": [
+      {
+        "file": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "markers": [
+          "screenBlankEnabled",
+          "setScreenBlankEnabled:"
+        ],
+        "nearby_refs": [
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x10000de54",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "screenBlankEnabled",
+            "pc": "0x10000f1d0",
+            "kind": "loaded_cf_or_sel_ref"
+          }
+        ],
+        "classes_status": "parsed"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "markers": [
+          "BKSDisplayServicesSetScreenBlanked",
+          "CADisplayLink",
+          "IOPMAssertionCreateWithName",
+          "IOPMAssertionRelease",
+          "PreventUserIdleSystemSleep",
+          "_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "displayLinkWithTarget:selector:",
+          "initWithCADisplay:isMainDisplay:",
+          "interceptUpdateForScene:withNewSettings:",
+          "screenBlankEnabled",
+          "setAudioOnlyBackgroundMode:",
+          "setIdleTimerDisabled:",
+          "setScreenBlankEnabled:",
+          "shouldBeUnderLockForScene:"
+        ],
+        "nearby_refs": [
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x31af0",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x31da8",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "setIdleTimerDisabled:",
+            "pc": "0x36f78",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x601c4",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x63ee0",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x640cc",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x64284",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x64438",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x645f0",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x64840",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x649f4",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x64a6c",
+            "kind": "loaded_cf_or_sel_ref"
+          }
+        ],
+        "classes_status": "parsed"
+      }
+    ]
+  },
+  "DuoNavi104": {
+    "sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+    "macho_count": 4,
+    "candidates": [
+      {
+        "file": "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
+        "markers": [
+          "screenBlankEnabled",
+          "setScreenBlankEnabled:"
+        ],
+        "nearby_refs": [
+          {
+            "marker": "setScreenBlankEnabled:",
+            "pc": "0x10000d3f0",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "screenBlankEnabled",
+            "pc": "0x10000e798",
+            "kind": "loaded_cf_or_sel_ref"
+          }
+        ],
+        "classes_status": "parsed"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+        "markers": [
+          "BKSDisplayServicesSetScreenBlanked",
+          "CADisplayLink",
+          "IOPMAssertionCreateWithName",
+          "IOPMAssertionRelease",
+          "PreventUserIdleSystemSleep",
+          "_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "displayLinkWithTarget:selector:",
+          "initWithCADisplay:isMainDisplay:",
+          "interceptUpdateForScene:withNewSettings:",
+          "screenBlankEnabled",
+          "setAudioOnlyBackgroundMode:",
+          "setIdleTimerDisabled:",
+          "setScreenBlankEnabled:",
+          "shouldBeUnderLockForScene:"
+        ],
+        "nearby_refs": [
+          {
+            "marker": "displayLinkWithTarget:selector:",
+            "pc": "0x8209c",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0xae32c",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "initWithCADisplay:isMainDisplay:",
+            "pc": "0xb1984",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setAudioOnlyBackgroundMode:",
+            "pc": "0x10bcac",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "setAudioOnlyBackgroundMode:",
+            "pc": "0x10c548",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x16169c",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x192e68",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "screenBlankEnabled",
+            "pc": "0x192ea8",
+            "kind": "loaded_cf_or_sel_ref"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x1a63dc",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x1a642c",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "interceptUpdateForScene:withNewSettings:",
+            "pc": "0x1b5b98",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "interceptUpdateForScene:withNewSettings:",
+            "pc": "0x1b5c84",
+            "kind": "direct_literal_pointer"
+          }
+        ],
+        "classes_status": "parsed"
+      }
+    ]
+  },
+  "OmniCar103": {
+    "sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+    "macho_count": 8,
+    "candidates": [
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+        "markers": [
+          "BKSDisplayServicesSetScreenBlanked",
+          "CADisplayLink",
+          "_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "displayLinkWithTarget:selector:",
+          "initWithCADisplay:isMainDisplay:"
+        ],
+        "nearby_refs": [
+          {
+            "marker": "CADisplayLink",
+            "pc": "0x4784",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x6f54",
+            "kind": "direct_literal_pointer"
+          }
+        ],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib",
+        "markers": [
+          "displayLinkWithTarget:selector:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "parsed"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib",
+        "markers": [
+          "displayLinkWithTarget:selector:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "parsed"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
+        "markers": [
+          "displayLinkWithTarget:selector:",
+          "initWithCADisplay:isMainDisplay:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
+        "markers": [
+          "displayLinkWithTarget:selector:",
+          "initWithCADisplay:isMainDisplay:",
+          "setPreventsDisplaySleepDuringVideoPlayback:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
+        "markers": [
+          "displayLinkWithTarget:selector:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      },
+      {
+        "file": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs",
+        "markers": [
+          "displayLinkWithTarget:selector:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      }
+    ]
+  },
+  "SidePlay104": {
+    "sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+    "macho_count": 7,
+    "candidates": [
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib",
+        "markers": [
+          "BKSDisplayServicesSetScreenBlanked",
+          "_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "initWithCADisplay:isMainDisplay:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "parsed"
+      }
+    ]
+  },
+  "DuoDash113Repack": {
+    "sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+    "macho_count": 4,
+    "candidates": [
+      {
+        "file": "var/jb/usr/lib/TweakInject/DuoDash.dylib",
+        "markers": [
+          "BKSDisplayServicesSetScreenBlanked",
+          "initWithCADisplay:isMainDisplay:",
+          "interceptUpdateForScene:withNewSettings:"
+        ],
+        "nearby_refs": [
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x24e74",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "BKSDisplayServicesSetScreenBlanked",
+            "pc": "0x52808",
+            "kind": "direct_literal_pointer"
+          }
+        ],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      }
+    ]
+  },
+  "DuoFaceQA130": {
+    "sha256": "d0573ac14e402dfca450e4b01fd57f898ed03852b354361b0a8acf54a432e24b",
+    "macho_count": 8,
+    "candidates": [
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "markers": [
+          "IOPMAssertionCreateWithName",
+          "IOPMAssertionRelease",
+          "PreventUserIdleSystemSleep",
+          "_shouldBeBackgroundUnderLockForScene:withSettings:",
+          "initWithCADisplay:isMainDisplay:",
+          "interceptUpdateForScene:withNewSettings:",
+          "shouldBeUnderLockForScene:"
+        ],
+        "nearby_refs": [
+          {
+            "marker": "IOPMAssertionCreateWithName",
+            "pc": "0x6f18",
+            "kind": "direct_literal_pointer"
+          },
+          {
+            "marker": "IOPMAssertionRelease",
+            "pc": "0x6f2c",
+            "kind": "direct_literal_pointer"
+          }
+        ],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      },
+      {
+        "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+        "markers": [
+          "initWithCADisplay:isMainDisplay:"
+        ],
+        "nearby_refs": [],
+        "classes_status": "unresolved_arm64e_or_metadata:ValueError"
+      }
+    ]
+  }
+}

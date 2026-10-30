@@ -1,0 +1,2430 @@
+{
+  "evidence": "real SHA checked DEB extraction and per-MachO ARM64 code call-site xref",
+  "claim": "binary references only, not a runtime activated call trace",
+  "provenance": {
+    "Native12Derived": "original Dashboard payload inside independent derived reference package, not vendor stock package",
+    "DuoDash113Repack": "repacked DuoDash, not verified stock vendor byte identity"
+  },
+  "scans": {
+    "Native12Derived": {
+      "package_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+      "control_subset": [
+        "Package: com.duoface.independent",
+        "Architecture: iphoneos-arm64",
+        "Version: 0.1.0~native12+speed8compact"
+      ],
+      "macho_count": 8,
+      "macho": [
+        {
+          "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+          "bytes": 1220256,
+          "marker_locations": {
+            "setScreenBlankEnabled:": {
+              "literal_vm": [
+                "0x1000a62c0"
+              ],
+              "ref_vm": [
+                "0x10011a790"
+              ]
+            },
+            "screenBlankEnabled": {
+              "literal_vm": [
+                "0x1000a650e",
+                "0x1000ad800"
+              ],
+              "ref_vm": [
+                "0x100115400",
+                "0x10011a888",
+                "0x1000ea578"
+              ]
+            }
+          },
+          "literal_reference_count": 2,
+          "literal_callsite_samples": [
+            {
+              "pc": "0x10000de54",
+              "target_vm": "0x10011a790",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x10000de40 ldr x1, [x8, #0x780]",
+                "0x10000de44 mov x0, x2",
+                "0x10000de48 bl #0x1000a2a84",
+                "0x10000de4c mov x2, x0",
+                "0x10000de50 adrp x8, #0x10011a000",
+                "0x10000de54 ldr x1, [x8, #0x790]",
+                "0x10000de58 mov x0, x19",
+                "0x10000de5c bl #0x1000a2a84",
+                "0x10000de60 adrp x8, #0x10011a000",
+                "0x10000de64 ldr x1, [x8, #0x5f8]",
+                "0x10000de68 mov x0, x19",
+                "0x10000de6c ldp x29, x30, [sp, #0x10]",
+                "0x10000de70 ldp x20, x19, [sp], #0x20",
+                "0x10000de74 b #0x1000a2a84"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x10000f1d0",
+              "target_vm": "0x10011a888",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x10000f1bc adrp x8, #0x10011b000",
+                "0x10000f1c0 ldr x0, [x8, #0x9a0]",
+                "0x10000f1c4 bl #0x1000a29dc",
+                "0x10000f1c8 mov x21, x0",
+                "0x10000f1cc adrp x8, #0x10011a000",
+                "0x10000f1d0 ldr x1, [x8, #0x888]",
+                "0x10000f1d4 mov x0, x22",
+                "0x10000f1d8 bl #0x1000a2a84",
+                "0x10000f1dc mov x2, x0",
+                "0x10000f1e0 adrp x8, #0x10011a000",
+                "0x10000f1e4 ldr x1, [x8, #0x868]",
+                "0x10000f1e8 mov x0, x21",
+                "0x10000f1ec bl #0x1000a2a84",
+                "0x10000f1f0 adrp x8, #0x10011a000"
+              ],
+              "marker": "screenBlankEnabled"
+            }
+          ],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": [
+              {
+                "class": "CBGeneralSettingsViewController",
+                "selector": "-screenBlankToggleChanged:",
+                "imp": "0x10000de2c",
+                "abi": "v24@0:8@16"
+              },
+              {
+                "class": "CBGeneralSettingsViewController",
+                "selector": "-screenBlankEnabled",
+                "imp": "0x1000104a4",
+                "abi": "B16@0:8"
+              },
+              {
+                "class": "CBGeneralSettingsViewController",
+                "selector": "-setScreenBlankEnabled:",
+                "imp": "0x1000104b4",
+                "abi": "v20@0:8B16"
+              }
+            ]
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+        },
+        {
+          "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+          "bytes": 3760032,
+          "marker_locations": {
+            "BKSDisplayServicesSetScreenBlanked": {
+              "literal_vm": [
+                "0x3078f5"
+              ],
+              "ref_vm": []
+            },
+            "setScreenBlankEnabled:": {
+              "literal_vm": [
+                "0x2f47c2"
+              ],
+              "ref_vm": [
+                "0x37d080"
+              ]
+            },
+            "screenBlankEnabled": {
+              "literal_vm": [
+                "0x2f47af",
+                "0x307c6e"
+              ],
+              "ref_vm": [
+                "0x379238",
+                "0x37ebc8",
+                "0x36f178"
+              ]
+            },
+            "setIdleTimerDisabled:": {
+              "literal_vm": [
+                "0x2fa0cf"
+              ],
+              "ref_vm": [
+                "0x37f060"
+              ]
+            },
+            "PreventUserIdleSystemSleep": {
+              "literal_vm": [
+                "0x30a137"
+              ],
+              "ref_vm": [
+                "0x371718"
+              ]
+            },
+            "IOPMAssertionCreateWithName": {
+              "literal_vm": [
+                "0x30a0fc"
+              ],
+              "ref_vm": []
+            },
+            "IOPMAssertionRelease": {
+              "literal_vm": [
+                "0x30a19d"
+              ],
+              "ref_vm": []
+            },
+            "setAudioOnlyBackgroundMode:": {
+              "literal_vm": [
+                "0x2f723d"
+              ],
+              "ref_vm": [
+                "0x37e9e8"
+              ]
+            },
+            "_shouldBeBackgroundUnderLockForScene:withSettings:": {
+              "literal_vm": [
+                "0x2fa8a8"
+              ],
+              "ref_vm": [
+                "0x37f340"
+              ]
+            },
+            "interceptUpdateForScene:withNewSettings:": {
+              "literal_vm": [
+                "0x2fa87f"
+              ],
+              "ref_vm": [
+                "0x37f338"
+              ]
+            },
+            "shouldBeUnderLockForScene:": {
+              "literal_vm": [
+                "0x2fa8db"
+              ],
+              "ref_vm": [
+                "0x37f348"
+              ]
+            },
+            "CADisplayLink": {
+              "literal_vm": [
+                "0x30cd49"
+              ],
+              "ref_vm": []
+            },
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x2f5591"
+              ],
+              "ref_vm": [
+                "0x37ddd0"
+              ]
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0x2f754c"
+              ],
+              "ref_vm": [
+                "0x37e508"
+              ]
+            }
+          },
+          "literal_reference_count": 85,
+          "literal_callsite_samples": [
+            {
+              "pc": "0x31af0",
+              "target_vm": "0x3078f5",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x31adc mov x0, x20",
+                "0x31ae0 mov x1, x25",
+                "0x31ae4 bl #0x2ecd00",
+                "0x31ae8 cbz w0, #0x31d14",
+                "0x31aec adrp x1, #0x307000",
+                "0x31af0 add x1, x1, #0x8f5",
+                "0x31af4 mov x0, #-2",
+                "0x31af8 bl #0x2ecb68",
+                "0x31afc cbz x0, #0x31b0c",
+                "0x31b00 mov x8, x0",
+                "0x31b04 mov w0, #1",
+                "0x31b08 blr x8",
+                "0x31b0c adrp x22, #0x37f000",
+                "0x31b10 ldr x0, [x22, #0x740]"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x31da8",
+              "target_vm": "0x3078f5",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x31d94 mov x0, x20",
+                "0x31d98 mov x1, x25",
+                "0x31d9c bl #0x2ecd00",
+                "0x31da0 cbz w0, #0x31e78",
+                "0x31da4 adrp x1, #0x307000",
+                "0x31da8 add x1, x1, #0x8f5",
+                "0x31dac mov x0, #-2",
+                "0x31db0 bl #0x2ecb68",
+                "0x31db4 cbz x0, #0x31dc4",
+                "0x31db8 mov x8, x0",
+                "0x31dbc mov w0, #0",
+                "0x31dc0 blr x8",
+                "0x31dc4 adrp x22, #0x37f000",
+                "0x31dc8 ldr x0, [x22, #0x740]"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x36f78",
+              "target_vm": "0x37f060",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x36f64 bl #0x2ecd60",
+                "0x36f68 mov x19, x0",
+                "0x36f6c ldr x24, [sp, #0x60]",
+                "0x36f70 mov x1, x24",
+                "0x36f74 bl #0x2ecd00",
+                "0x36f78 ldr x8, [x25, #0x60]",
+                "0x36f7c str x0, [x25, #0x60]",
+                "0x36f80 mov x0, x8",
+                "0x36f84 bl #0x2ecd30",
+                "0x36f88 mov x0, x19",
+                "0x36f8c bl #0x2ecd30",
+                "0x36f90 adrp x2, #0x36f000",
+                "0x36f94 add x2, x2, #0x2a8",
+                "0x36f98 mov x0, x21"
+              ],
+              "marker": "setIdleTimerDisabled:"
+            },
+            {
+              "pc": "0x601c4",
+              "target_vm": "0x37d080",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x601b0 str q7, [sp, #0x7d0]",
+                "0x601b4 mov x0, x4",
+                "0x601b8 blr x5",
+                "0x601bc mov x8, #0",
+                "0x601c0 add x9, x0, #1",
+                "0x601c4 add x10, x10, #0x80",
+                "0x601c8 mov x20, x12",
+                "0x601cc ldurh w12, [x9, #-1]",
+                "0x601d0 str x12, [x10, x8]",
+                "0x601d4 add x8, x8, #8",
+                "0x601d8 add x9, x9, #2",
+                "0x601dc cmp x8, #0x80",
+                "0x601e0 b.ne #0x601cc",
+                "0x601e4 mov x8, #0"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x63ee0",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x63ecc add x26, x26, #8",
+                "0x63ed0 cmp x25, #0x10",
+                "0x63ed4 b.ne #0x63e80",
+                "0x63ed8 mov x14, #0",
+                "0x63edc add x25, x6, x14",
+                "0x63ee0 ldr x26, [x25, #0x80]",
+                "0x63ee4 ldr x27, [x25]",
+                "0x63ee8 madd x26, x26, x7, x27",
+                "0x63eec str x26, [x25]",
+                "0x63ef0 add x14, x14, #8",
+                "0x63ef4 cmp x14, #0x78",
+                "0x63ef8 b.ne #0x63edc",
+                "0x63efc mov x25, #0",
+                "0x63f00 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x640cc",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x640b8 add x26, x26, #8",
+                "0x640bc cmp x25, #0x10",
+                "0x640c0 b.ne #0x6406c",
+                "0x640c4 mov x14, #0",
+                "0x640c8 add x25, x6, x14",
+                "0x640cc ldr x26, [x25, #0x80]",
+                "0x640d0 ldr x27, [x25]",
+                "0x640d4 madd x26, x26, x7, x27",
+                "0x640d8 str x26, [x25]",
+                "0x640dc add x14, x14, #8",
+                "0x640e0 cmp x14, #0x78",
+                "0x640e4 b.ne #0x640c8",
+                "0x640e8 mov x25, #0",
+                "0x640ec ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64284",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x64270 add x26, x26, #8",
+                "0x64274 cmp x25, #0x10",
+                "0x64278 b.ne #0x64220",
+                "0x6427c mov x14, #0",
+                "0x64280 add x25, x6, x14",
+                "0x64284 ldr x26, [x25, #0x80]",
+                "0x64288 ldr x27, [x25]",
+                "0x6428c madd x26, x26, x7, x27",
+                "0x64290 str x26, [x25]",
+                "0x64294 add x14, x14, #8",
+                "0x64298 cmp x14, #0x78",
+                "0x6429c b.ne #0x64280",
+                "0x642a0 mov x25, #0",
+                "0x642a4 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64438",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x64424 add x26, x26, #8",
+                "0x64428 cmp x25, #0x10",
+                "0x6442c b.ne #0x643d8",
+                "0x64430 mov x14, #0",
+                "0x64434 add x25, x6, x14",
+                "0x64438 ldr x26, [x25, #0x80]",
+                "0x6443c ldr x27, [x25]",
+                "0x64440 madd x26, x26, x7, x27",
+                "0x64444 str x26, [x25]",
+                "0x64448 add x14, x14, #8",
+                "0x6444c cmp x14, #0x78",
+                "0x64450 b.ne #0x64434",
+                "0x64454 mov x25, #0",
+                "0x64458 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x645f0",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x645dc add x26, x26, #8",
+                "0x645e0 cmp x25, #0x10",
+                "0x645e4 b.ne #0x6458c",
+                "0x645e8 mov x14, #0",
+                "0x645ec add x25, x6, x14",
+                "0x645f0 ldr x26, [x25, #0x80]",
+                "0x645f4 ldr x27, [x25]",
+                "0x645f8 madd x26, x26, x7, x27",
+                "0x645fc str x26, [x25]",
+                "0x64600 add x14, x14, #8",
+                "0x64604 cmp x14, #0x78",
+                "0x64608 b.ne #0x645ec",
+                "0x6460c mov x25, #0",
+                "0x64610 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64840",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x6482c add x26, x26, #8",
+                "0x64830 cmp x25, #0x10",
+                "0x64834 b.ne #0x647e0",
+                "0x64838 mov x14, #0",
+                "0x6483c add x25, x6, x14",
+                "0x64840 ldr x26, [x25, #0x80]",
+                "0x64844 ldr x27, [x25]",
+                "0x64848 madd x26, x26, x7, x27",
+                "0x6484c str x26, [x25]",
+                "0x64850 add x14, x14, #8",
+                "0x64854 cmp x14, #0x78",
+                "0x64858 b.ne #0x6483c",
+                "0x6485c mov x25, #0",
+                "0x64860 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x649f4",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x649e0 add x26, x26, #8",
+                "0x649e4 cmp x25, #0x10",
+                "0x649e8 b.ne #0x64994",
+                "0x649ec mov x14, #0",
+                "0x649f0 add x25, x6, x14",
+                "0x649f4 ldr x26, [x25, #0x80]",
+                "0x649f8 ldr x27, [x25]",
+                "0x649fc madd x26, x26, x7, x27",
+                "0x64a00 str x26, [x25]",
+                "0x64a04 add x14, x14, #8",
+                "0x64a08 cmp x14, #0x78",
+                "0x64a0c b.ne #0x649f0",
+                "0x64a10 mov x25, #0",
+                "0x64a14 ldr q18, [sp, #0xe20]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64a6c",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x64a58 mul x27, x26, x19",
+                "0x64a5c cmp x25, #0xf",
+                "0x64a60 csel x27, x27, xzr, eq",
+                "0x64a64 csinc x28, xzr, x25, eq",
+                "0x64a68 add x28, x0, x28, lsl #3",
+                "0x64a6c ldr x30, [x28, #0x80]",
+                "0x64a70 add x26, x26, x30",
+                "0x64a74 add x26, x26, x27",
+                "0x64a78 str x26, [x28, #0x80]",
+                "0x64a7c and x14, x14, #0xffffffffffff0000",
+                "0x64a80 ldr x26, [x16, x25, lsl #3]",
+                "0x64a84 sub x14, x26, x14",
+                "0x64a88 str x14, [x16, x25, lsl #3]",
+                "0x64a8c add x14, x25, #1"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64ac8",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x64ab4 mul x27, x26, x19",
+                "0x64ab8 cmp x14, #0xf",
+                "0x64abc csel x27, x27, xzr, eq",
+                "0x64ac0 csinc x28, xzr, x14, eq",
+                "0x64ac4 add x28, x0, x28, lsl #3",
+                "0x64ac8 ldr x30, [x28, #0x80]",
+                "0x64acc add x26, x26, x30",
+                "0x64ad0 add x26, x26, x27",
+                "0x64ad4 str x26, [x28, #0x80]",
+                "0x64ad8 and x25, x25, #0xffffffffffff0000",
+                "0x64adc ldr x26, [x16, x14, lsl #3]",
+                "0x64ae0 sub x25, x26, x25",
+                "0x64ae4 str x25, [x16, x14, lsl #3]",
+                "0x64ae8 add x25, x14, #1"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64ba0",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x64b8c add x26, x26, #8",
+                "0x64b90 cmp x25, #0x10",
+                "0x64b94 b.ne #0x64b40",
+                "0x64b98 mov x14, #0",
+                "0x64b9c add x25, x6, x14",
+                "0x64ba0 ldr x26, [x25, #0x80]",
+                "0x64ba4 ldr x27, [x25]",
+                "0x64ba8 madd x26, x26, x7, x27",
+                "0x64bac str x26, [x25]",
+                "0x64bb0 add x14, x14, #8",
+                "0x64bb4 cmp x14, #0x78",
+                "0x64bb8 b.ne #0x64b9c",
+                "0x64bbc mov x25, #0",
+                "0x64bc0 ldr q18, [sp, #0xe20]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64d54",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x64d40 add x26, x26, #8",
+                "0x64d44 cmp x25, #0x10",
+                "0x64d48 b.ne #0x64cf4",
+                "0x64d4c mov x14, #0",
+                "0x64d50 add x25, x6, x14",
+                "0x64d54 ldr x26, [x25, #0x80]",
+                "0x64d58 ldr x27, [x25]",
+                "0x64d5c madd x26, x26, x7, x27",
+                "0x64d60 str x26, [x25]",
+                "0x64d64 add x14, x14, #8",
+                "0x64d68 cmp x14, #0x78",
+                "0x64d6c b.ne #0x64d50",
+                "0x64d70 mov x25, #0",
+                "0x64d74 ldr q18, [sp, #0xe20]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x64f4c",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x64f38 add x26, x26, #8",
+                "0x64f3c cmp x25, #0x10",
+                "0x64f40 b.ne #0x64eec",
+                "0x64f44 mov x14, #0",
+                "0x64f48 add x25, x6, x14",
+                "0x64f4c ldr x26, [x25, #0x80]",
+                "0x64f50 ldr x27, [x25]",
+                "0x64f54 madd x26, x26, x7, x27",
+                "0x64f58 str x26, [x25]",
+                "0x64f5c add x14, x14, #8",
+                "0x64f60 cmp x14, #0x78",
+                "0x64f64 b.ne #0x64f48",
+                "0x64f68 mov x25, #0",
+                "0x64f6c ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x65138",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x65124 add x26, x26, #8",
+                "0x65128 cmp x25, #0x10",
+                "0x6512c b.ne #0x650d8",
+                "0x65130 mov x14, #0",
+                "0x65134 add x25, x6, x14",
+                "0x65138 ldr x26, [x25, #0x80]",
+                "0x6513c ldr x27, [x25]",
+                "0x65140 madd x26, x26, x7, x27",
+                "0x65144 str x26, [x25]",
+                "0x65148 add x14, x14, #8",
+                "0x6514c cmp x14, #0x78",
+                "0x65150 b.ne #0x65134",
+                "0x65154 mov x25, #0",
+                "0x65158 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x652f0",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x652dc add x26, x26, #8",
+                "0x652e0 cmp x25, #0x10",
+                "0x652e4 b.ne #0x6528c",
+                "0x652e8 mov x14, #0",
+                "0x652ec add x25, x6, x14",
+                "0x652f0 ldr x26, [x25, #0x80]",
+                "0x652f4 ldr x27, [x25]",
+                "0x652f8 madd x26, x26, x7, x27",
+                "0x652fc str x26, [x25]",
+                "0x65300 add x14, x14, #8",
+                "0x65304 cmp x14, #0x78",
+                "0x65308 b.ne #0x652ec",
+                "0x6530c mov x25, #0",
+                "0x65310 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x654a4",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x65490 add x26, x26, #8",
+                "0x65494 cmp x25, #0x10",
+                "0x65498 b.ne #0x65444",
+                "0x6549c mov x14, #0",
+                "0x654a0 add x25, x6, x14",
+                "0x654a4 ldr x26, [x25, #0x80]",
+                "0x654a8 ldr x27, [x25]",
+                "0x654ac madd x26, x26, x7, x27",
+                "0x654b0 str x26, [x25]",
+                "0x654b4 add x14, x14, #8",
+                "0x654b8 cmp x14, #0x78",
+                "0x654bc b.ne #0x654a0",
+                "0x654c0 mov x25, #0",
+                "0x654c4 ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x6565c",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x65648 add x26, x26, #8",
+                "0x6564c cmp x25, #0x10",
+                "0x65650 b.ne #0x655f8",
+                "0x65654 mov x14, #0",
+                "0x65658 add x25, x6, x14",
+                "0x6565c ldr x26, [x25, #0x80]",
+                "0x65660 ldr x27, [x25]",
+                "0x65664 madd x26, x26, x7, x27",
+                "0x65668 str x26, [x25]",
+                "0x6566c add x14, x14, #8",
+                "0x65670 cmp x14, #0x78",
+                "0x65674 b.ne #0x65658",
+                "0x65678 mov x25, #0",
+                "0x6567c ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x658ac",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x65898 add x26, x26, #8",
+                "0x6589c cmp x25, #0x10",
+                "0x658a0 b.ne #0x6584c",
+                "0x658a4 mov x14, #0",
+                "0x658a8 add x25, x6, x14",
+                "0x658ac ldr x26, [x25, #0x80]",
+                "0x658b0 ldr x27, [x25]",
+                "0x658b4 madd x26, x26, x7, x27",
+                "0x658b8 str x26, [x25]",
+                "0x658bc add x14, x14, #8",
+                "0x658c0 cmp x14, #0x78",
+                "0x658c4 b.ne #0x658a8",
+                "0x658c8 mov x25, #0",
+                "0x658cc ldr q18, [sp, #0xe60]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x65a60",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x65a4c add x26, x26, #8",
+                "0x65a50 cmp x25, #0x10",
+                "0x65a54 b.ne #0x65a00",
+                "0x65a58 mov x14, #0",
+                "0x65a5c add x25, x6, x14",
+                "0x65a60 ldr x26, [x25, #0x80]",
+                "0x65a64 ldr x27, [x25]",
+                "0x65a68 madd x26, x26, x7, x27",
+                "0x65a6c str x26, [x25]",
+                "0x65a70 add x14, x14, #8",
+                "0x65a74 cmp x14, #0x78",
+                "0x65a78 b.ne #0x65a5c",
+                "0x65a7c mov x25, #0",
+                "0x65a80 ldr q18, [sp, #0xe20]"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x65ad8",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x65ac4 mul x27, x26, x19",
+                "0x65ac8 cmp x25, #0xf",
+                "0x65acc csel x27, x27, xzr, eq",
+                "0x65ad0 csinc x28, xzr, x25, eq",
+                "0x65ad4 add x28, x17, x28, lsl #3",
+                "0x65ad8 ldr x30, [x28, #0x80]",
+                "0x65adc add x26, x26, x30",
+                "0x65ae0 add x26, x26, x27",
+                "0x65ae4 str x26, [x28, #0x80]",
+                "0x65ae8 and x14, x14, #0xffffffffffff0000",
+                "0x65aec ldr x26, [x13, x25, lsl #3]",
+                "0x65af0 sub x14, x26, x14",
+                "0x65af4 str x14, [x13, x25, lsl #3]",
+                "0x65af8 add x14, x25, #1"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x65b34",
+              "target_vm": "0x37d080",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x65b20 mul x27, x26, x19",
+                "0x65b24 cmp x14, #0xf",
+                "0x65b28 csel x27, x27, xzr, eq",
+                "0x65b2c csinc x28, xzr, x14, eq",
+                "0x65b30 add x28, x17, x28, lsl #3",
+                "0x65b34 ldr x30, [x28, #0x80]",
+                "0x65b38 add x26, x26, x30",
+                "0x65b3c add x26, x26, x27",
+                "0x65b40 str x26, [x28, #0x80]",
+                "0x65b44 and x25, x25, #0xffffffffffff0000",
+                "0x65b48 ldr x26, [x13, x14, lsl #3]",
+                "0x65b4c sub x25, x26, x25",
+                "0x65b50 str x25, [x13, x14, lsl #3]",
+                "0x65b54 add x25, x14, #1"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            }
+          ],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": [
+              {
+                "class": "CBDashboardSettings",
+                "selector": "-screenBlankEnabled",
+                "imp": "0x37ec0",
+                "abi": "B16@0:8"
+              },
+              {
+                "class": "CBDashboardSettings",
+                "selector": "-setScreenBlankEnabled:",
+                "imp": "0x37ec8",
+                "abi": "v20@0:8B16"
+              },
+              {
+                "class": "CBBridgedUIAppView",
+                "selector": "-setAudioOnlyBackgroundMode:",
+                "imp": "0xac858",
+                "abi": "v20@0:8B16"
+              },
+              {
+                "class": "CBBridgedUIAppView",
+                "selector": "-audioOnlyBackgroundMode",
+                "imp": "0xaf2d8",
+                "abi": "B16@0:8"
+              },
+              {
+                "class": "CBBridgeManager",
+                "selector": "-acquireCarPlaySleepAssertion",
+                "imp": "0x19eaf8",
+                "abi": "v16@0:8"
+              },
+              {
+                "class": "CBBridgeManager",
+                "selector": "-releaseCarPlaySleepAssertion",
+                "imp": "0x19eb90",
+                "abi": "v16@0:8"
+              }
+            ]
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+        },
+        {
+          "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+          "bytes": 124976,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+        },
+        {
+          "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1",
+          "bytes": 72320,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib"
+        },
+        {
+          "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364",
+          "bytes": 106928,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib"
+        },
+        {
+          "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3",
+          "bytes": 70736,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib"
+        },
+        {
+          "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+          "bytes": 75536,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+        },
+        {
+          "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906",
+          "bytes": 150528,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/usr/libexec/duoface_cboptimize_helper"
+        }
+      ]
+    },
+    "DuoNavi104": {
+      "package_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+      "control_subset": [
+        "Package: com.duonavi.app",
+        "Architecture: iphoneos-arm64",
+        "Version: 1.0.4"
+      ],
+      "macho_count": 4,
+      "macho": [
+        {
+          "sha256": "98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c",
+          "bytes": 2435008,
+          "marker_locations": {
+            "setScreenBlankEnabled:": {
+              "literal_vm": [
+                "0x1000aa6e0"
+              ],
+              "ref_vm": [
+                "0x10011a710"
+              ]
+            },
+            "screenBlankEnabled": {
+              "literal_vm": [
+                "0x1000aa92e",
+                "0x1000b1f40"
+              ],
+              "ref_vm": [
+                "0x100115448",
+                "0x10011a808",
+                "0x1000ea7b8"
+              ]
+            }
+          },
+          "literal_reference_count": 2,
+          "literal_callsite_samples": [
+            {
+              "pc": "0x10000d3f0",
+              "target_vm": "0x10011a710",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x10000d3dc ldr x1, [x8, #0x700]",
+                "0x10000d3e0 mov x0, x2",
+                "0x10000d3e4 bl #0x1000a6d4c",
+                "0x10000d3e8 mov x2, x0",
+                "0x10000d3ec adrp x8, #0x10011a000",
+                "0x10000d3f0 ldr x1, [x8, #0x710]",
+                "0x10000d3f4 mov x0, x19",
+                "0x10000d3f8 bl #0x1000a6d4c",
+                "0x10000d3fc adrp x8, #0x10011a000",
+                "0x10000d400 ldr x1, [x8, #0x5a0]",
+                "0x10000d404 mov x0, x19",
+                "0x10000d408 ldp x29, x30, [sp, #0x10]",
+                "0x10000d40c ldp x20, x19, [sp], #0x20",
+                "0x10000d410 b #0x1000a6d4c"
+              ],
+              "marker": "setScreenBlankEnabled:"
+            },
+            {
+              "pc": "0x10000e798",
+              "target_vm": "0x10011a808",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x10000e784 adrp x8, #0x10011b000",
+                "0x10000e788 ldr x0, [x8, #0x898]",
+                "0x10000e78c bl #0x1000a6ca4",
+                "0x10000e790 mov x21, x0",
+                "0x10000e794 adrp x8, #0x10011a000",
+                "0x10000e798 ldr x1, [x8, #0x808]",
+                "0x10000e79c mov x0, x22",
+                "0x10000e7a0 bl #0x1000a6d4c",
+                "0x10000e7a4 mov x2, x0",
+                "0x10000e7a8 adrp x8, #0x10011a000",
+                "0x10000e7ac ldr x1, [x8, #0x7e8]",
+                "0x10000e7b0 mov x0, x21",
+                "0x10000e7b4 bl #0x1000a6d4c",
+                "0x10000e7b8 adrp x8, #0x10011a000"
+              ],
+              "marker": "screenBlankEnabled"
+            }
+          ],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": [
+              {
+                "class": "CBGeneralSettingsViewController",
+                "selector": "-screenBlankToggleChanged:",
+                "imp": "0x10000d3c8",
+                "abi": "v24@0:8@16"
+              },
+              {
+                "class": "CBGeneralSettingsViewController",
+                "selector": "-screenBlankEnabled",
+                "imp": "0x10000fa6c",
+                "abi": "B16@0:8"
+              },
+              {
+                "class": "CBGeneralSettingsViewController",
+                "selector": "-setScreenBlankEnabled:",
+                "imp": "0x10000fa7c",
+                "abi": "v20@0:8B16"
+              }
+            ]
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Applications/DuoNaviUI.app/DuoNaviUI"
+        },
+        {
+          "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+          "bytes": 7921472,
+          "marker_locations": {
+            "BKSDisplayServicesSetScreenBlanked": {
+              "literal_vm": [
+                "0x332835"
+              ],
+              "ref_vm": []
+            },
+            "setScreenBlankEnabled:": {
+              "literal_vm": [
+                "0x31c659"
+              ],
+              "ref_vm": [
+                "0x3a7d30"
+              ]
+            },
+            "screenBlankEnabled": {
+              "literal_vm": [
+                "0x31c646",
+                "0x330aa5"
+              ],
+              "ref_vm": [
+                "0x3a0a20",
+                "0x3a9db8",
+                "0x397b30"
+              ]
+            },
+            "setIdleTimerDisabled:": {
+              "literal_vm": [
+                "0x3244bb"
+              ],
+              "ref_vm": [
+                "0x3aa2a0"
+              ]
+            },
+            "PreventUserIdleSystemSleep": {
+              "literal_vm": [
+                "0x336943"
+              ],
+              "ref_vm": [
+                "0x39c610"
+              ]
+            },
+            "IOPMAssertionCreateWithName": {
+              "literal_vm": [
+                "0x336908"
+              ],
+              "ref_vm": []
+            },
+            "IOPMAssertionRelease": {
+              "literal_vm": [
+                "0x3369a9"
+              ],
+              "ref_vm": []
+            },
+            "setAudioOnlyBackgroundMode:": {
+              "literal_vm": [
+                "0x31f700"
+              ],
+              "ref_vm": [
+                "0x3a9660"
+              ]
+            },
+            "_shouldBeBackgroundUnderLockForScene:withSettings:": {
+              "literal_vm": [
+                "0x324d5a"
+              ],
+              "ref_vm": [
+                "0x3aa5a8"
+              ]
+            },
+            "interceptUpdateForScene:withNewSettings:": {
+              "literal_vm": [
+                "0x324d31"
+              ],
+              "ref_vm": [
+                "0x3aa5a0"
+              ]
+            },
+            "shouldBeUnderLockForScene:": {
+              "literal_vm": [
+                "0x324d8d"
+              ],
+              "ref_vm": [
+                "0x3aa5b0"
+              ]
+            },
+            "CADisplayLink": {
+              "literal_vm": [
+                "0x339a02"
+              ],
+              "ref_vm": []
+            },
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x31d686"
+              ],
+              "ref_vm": [
+                "0x3a8760"
+              ]
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0x31fa31"
+              ],
+              "ref_vm": [
+                "0x3a8ff8"
+              ]
+            }
+          },
+          "literal_reference_count": 49,
+          "literal_callsite_samples": [
+            {
+              "pc": "0x8209c",
+              "target_vm": "0x3a8760",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x82088 adrp x8, #0x3aa000",
+                "0x8208c ldr x0, [x8, #0xaa0]",
+                "0x82090 adrp x8, #0x3a8000",
+                "0x82094 ldr x3, [x8, #0x758]",
+                "0x82098 nop ",
+                "0x8209c ldr x1, [x8, #0x760]",
+                "0x820a0 mov x2, x19",
+                "0x820a4 bl #0x313780",
+                "0x820a8 mov x29, x29",
+                "0x820ac bl #0x3137e0",
+                "0x820b0 ldr x8, [x19, x20]",
+                "0x820b4 str x0, [x19, x20]",
+                "0x820b8 mov x0, x8",
+                "0x820bc bl #0x3137b0"
+              ],
+              "marker": "displayLinkWithTarget:selector:"
+            },
+            {
+              "pc": "0xae32c",
+              "target_vm": "0x332835",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0xae318 str x19, [sp, #0x48]",
+                "0xae31c mov x0, #0",
+                "0xae320 mov w1, #0",
+                "0xae324 bl #0x3135d0",
+                "0xae328 adrp x1, #0x332000",
+                "0xae32c add x1, x1, #0x835",
+                "0xae330 bl #0x3135dc",
+                "0xae334 cbz x0, #0xae344",
+                "0xae338 mov x8, x0",
+                "0xae33c mov w0, #0",
+                "0xae340 blr x8",
+                "0xae344 adrp x8, #0x3aa000",
+                "0xae348 ldr x0, [x8, #0xae0]",
+                "0xae34c bl #0x3136a8"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0xb1984",
+              "target_vm": "0x3a8ff8",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0xb1970 ldr x8, [sp, #0x38]",
+                "0xb1974 cbz x8, #0xb1998",
+                "0xb1978 cbz x0, #0xb1998",
+                "0xb197c bl #0x3136a8",
+                "0xb1980 adrp x8, #0x3a8000",
+                "0xb1984 ldr x1, [x8, #0xff8]",
+                "0xb1988 ldr x2, [sp, #0x38]",
+                "0xb198c mov w3, #0",
+                "0xb1990 bl #0x313780",
+                "0xb1994 mov x23, x0",
+                "0xb1998 add x0, x21, #0x10",
+                "0xb199c mov x1, x23",
+                "0xb19a0 bl #0x313810",
+                "0xb19a4 adrp x0, #0x332000"
+              ],
+              "marker": "initWithCADisplay:isMainDisplay:"
+            },
+            {
+              "pc": "0x10bcac",
+              "target_vm": "0x3a9660",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x10bc98 stp x8, x9, [sp, #0x110]",
+                "0x10bc9c adrp x8, #0x3a8000",
+                "0x10bca0 ldr x8, [x8, #0x828]",
+                "0x10bca4 str x8, [sp, #0xe8]",
+                "0x10bca8 adrp x8, #0x3a9000",
+                "0x10bcac ldr x9, [x8, #0x660]",
+                "0x10bcb0 adrp x8, #0x3a8000",
+                "0x10bcb4 ldr x8, [x8, #0x7f8]",
+                "0x10bcb8 str x8, [sp, #0x100]",
+                "0x10bcbc adrp x8, #0x3a8000",
+                "0x10bcc0 ldr x10, [x8, #0x970]",
+                "0x10bcc4 nop ",
+                "0x10bcc8 ldr x28, [x8, #0x7c0]",
+                "0x10bccc nop "
+              ],
+              "marker": "setAudioOnlyBackgroundMode:"
+            },
+            {
+              "pc": "0x10c548",
+              "target_vm": "0x3a9660",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x10c534 stp x8, x10, [sp, #0x80]",
+                "0x10c538 adrp x8, #0x3a8000",
+                "0x10c53c ldr x8, [x8, #0x808]",
+                "0x10c540 str x8, [sp, #0x78]",
+                "0x10c544 adrp x8, #0x3a9000",
+                "0x10c548 ldr x10, [x8, #0x660]",
+                "0x10c54c adrp x8, #0x3a8000",
+                "0x10c550 ldr x8, [x8, #0x198]",
+                "0x10c554 stp x8, x10, [sp, #0x50]",
+                "0x10c558 adrp x8, #0x3a8000",
+                "0x10c55c ldr x10, [x8, #0x2e8]",
+                "0x10c560 nop ",
+                "0x10c564 ldr x8, [x8, #0xd88]",
+                "0x10c568 stp x8, x10, [sp, #8]"
+              ],
+              "marker": "setAudioOnlyBackgroundMode:"
+            },
+            {
+              "pc": "0x16169c",
+              "target_vm": "0x332835",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x161688 bl #0x313780",
+                "0x16168c mov x0, #0",
+                "0x161690 mov w1, #0",
+                "0x161694 bl #0x3135d0",
+                "0x161698 adrp x1, #0x332000",
+                "0x16169c add x1, x1, #0x835",
+                "0x1616a0 bl #0x3135dc",
+                "0x1616a4 cbz x0, #0x15b868",
+                "0x1616a8 mov x8, x0",
+                "0x1616ac mov w0, #0",
+                "0x1616b0 blr x8",
+                "0x1616b4 b #0x15b868",
+                "0x1616b8 mov x0, x24",
+                "0x1616bc bl #0x3137b0"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x192e68",
+              "target_vm": "0x332835",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x192e54 bl #0x313780",
+                "0x192e58 mov x0, #0",
+                "0x192e5c mov w1, #0",
+                "0x192e60 bl #0x3135d0",
+                "0x192e64 adrp x1, #0x332000",
+                "0x192e68 add x1, x1, #0x835",
+                "0x192e6c bl #0x3135dc",
+                "0x192e70 adrp x24, #0x370000",
+                "0x192e74 ldr x24, [x24, #0x140]",
+                "0x192e78 adrp x19, #0x33c000",
+                "0x192e7c cbz x0, #0x192f38",
+                "0x192e80 mov x22, x0",
+                "0x192e84 adrp x8, #0x3aa000",
+                "0x192e88 ldr x0, [x8, #0x9c8]"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x192ea8",
+              "target_vm": "0x3a9db8",
+              "kind": "loaded_cf_or_sel_ref",
+              "near": [
+                "0x192e94 bl #0x313780",
+                "0x192e98 mov x29, x29",
+                "0x192e9c bl #0x3137e0",
+                "0x192ea0 mov x20, x0",
+                "0x192ea4 adrp x8, #0x3a9000",
+                "0x192ea8 ldr x1, [x8, #0xdb8]",
+                "0x192eac bl #0x313780",
+                "0x192eb0 mov x23, x0",
+                "0x192eb4 mov x0, x20",
+                "0x192eb8 bl #0x3137b0",
+                "0x192ebc cbz w23, #0x192f30",
+                "0x192ec0 mov w0, #1",
+                "0x192ec4 blr x22",
+                "0x192ec8 mov x0, #0"
+              ],
+              "marker": "screenBlankEnabled"
+            },
+            {
+              "pc": "0x1a63dc",
+              "target_vm": "0x332835",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1a63c8 cbz w0, #0x1a63f8",
+                "0x1a63cc mov x0, #0",
+                "0x1a63d0 mov w1, #0",
+                "0x1a63d4 bl #0x3135d0",
+                "0x1a63d8 adrp x1, #0x332000",
+                "0x1a63dc add x1, x1, #0x835",
+                "0x1a63e0 bl #0x3135dc",
+                "0x1a63e4 cbz x0, #0x1a63f8",
+                "0x1a63e8 mov x1, x0",
+                "0x1a63ec mov w0, #0",
+                "0x1a63f0 ldp x29, x30, [sp], #0x10",
+                "0x1a63f4 br x1",
+                "0x1a63f8 ldp x29, x30, [sp], #0x10",
+                "0x1a63fc ret "
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x1a642c",
+              "target_vm": "0x332835",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1a6418 cbz w0, #0x1a6448",
+                "0x1a641c mov x0, #0",
+                "0x1a6420 mov w1, #0",
+                "0x1a6424 bl #0x3135d0",
+                "0x1a6428 adrp x1, #0x332000",
+                "0x1a642c add x1, x1, #0x835",
+                "0x1a6430 bl #0x3135dc",
+                "0x1a6434 cbz x0, #0x1a6448",
+                "0x1a6438 mov x1, x0",
+                "0x1a643c mov w0, #0",
+                "0x1a6440 ldp x29, x30, [sp], #0x10",
+                "0x1a6444 br x1",
+                "0x1a6448 ldp x29, x30, [sp], #0x10",
+                "0x1a644c ret "
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x1b5b98",
+              "target_vm": "0x3aa5a0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1b5b84 strb wzr, [x19, #0x116]",
+                "0x1b5b88 adrp x8, #0x370000",
+                "0x1b5b8c ldr x8, [x8, #0x198]",
+                "0x1b5b90 ldr x0, [x8]",
+                "0x1b5b94 add x22, sp, #1, lsl #12",
+                "0x1b5b98 add x22, x22, #0x5a0",
+                "0x1b5b9c add x1, sp, #1, lsl #12",
+                "0x1b5ba0 add x1, x1, #0x5a0",
+                "0x1b5ba4 str x0, [sp, #0xe0]",
+                "0x1b5ba8 mov w2, #0x100",
+                "0x1b5bac movk w2, #0x800, lsl #16",
+                "0x1b5bb0 bl #0x3131f8",
+                "0x1b5bb4 movi v0.16b, #0",
+                "0x1b5bb8 stp q0, q0, [x19, #0x100]"
+              ],
+              "marker": "interceptUpdateForScene:withNewSettings:"
+            },
+            {
+              "pc": "0x1b5c84",
+              "target_vm": "0x3aa5a0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1b5c70 b.ne #0x1b5c34",
+                "0x1b5c74 add x19, sp, #1, lsl #12",
+                "0x1b5c78 add x19, x19, #0x4a0",
+                "0x1b5c7c strb wzr, [x19, #0x10e]",
+                "0x1b5c80 add x22, sp, #1, lsl #12",
+                "0x1b5c84 add x22, x22, #0x5a0",
+                "0x1b5c88 add x1, sp, #1, lsl #12",
+                "0x1b5c8c add x1, x1, #0x5a0",
+                "0x1b5c90 ldr x0, [sp, #0xe0]",
+                "0x1b5c94 mov w2, #0x100",
+                "0x1b5c98 movk w2, #0x800, lsl #16",
+                "0x1b5c9c bl #0x3131f8",
+                "0x1b5ca0 movi v0.16b, #0",
+                "0x1b5ca4 stp q0, q0, [x19, #0x100]"
+              ],
+              "marker": "interceptUpdateForScene:withNewSettings:"
+            },
+            {
+              "pc": "0x1b5d6c",
+              "target_vm": "0x3aa5a0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1b5d58 b.ne #0x1b5d1c",
+                "0x1b5d5c add x19, sp, #1, lsl #12",
+                "0x1b5d60 add x19, x19, #0x4a0",
+                "0x1b5d64 strb wzr, [x19, #0x10e]",
+                "0x1b5d68 add x22, sp, #1, lsl #12",
+                "0x1b5d6c add x22, x22, #0x5a0",
+                "0x1b5d70 add x1, sp, #1, lsl #12",
+                "0x1b5d74 add x1, x1, #0x5a0",
+                "0x1b5d78 ldr x0, [sp, #0xe0]",
+                "0x1b5d7c mov w2, #0x100",
+                "0x1b5d80 movk w2, #0x800, lsl #16",
+                "0x1b5d84 bl #0x3131f8",
+                "0x1b5d88 movi v0.16b, #0",
+                "0x1b5d8c stp q0, q0, [x19, #0x100]"
+              ],
+              "marker": "interceptUpdateForScene:withNewSettings:"
+            },
+            {
+              "pc": "0x1ba574",
+              "target_vm": "0x3aa5a0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1ba560 b.ne #0x1ba524",
+                "0x1ba564 add x19, sp, #1, lsl #12",
+                "0x1ba568 add x19, x19, #0x4a0",
+                "0x1ba56c strb wzr, [x19, #0x106]",
+                "0x1ba570 add x22, sp, #1, lsl #12",
+                "0x1ba574 add x22, x22, #0x5a0",
+                "0x1ba578 add x1, sp, #1, lsl #12",
+                "0x1ba57c add x1, x1, #0x5a0",
+                "0x1ba580 ldr x0, [sp, #0xe0]",
+                "0x1ba584 mov w2, #0x100",
+                "0x1ba588 movk w2, #0x800, lsl #16",
+                "0x1ba58c bl #0x3131f8",
+                "0x1ba590 movi v0.16b, #0",
+                "0x1ba594 stp q0, q0, [x19, #0x100]"
+              ],
+              "marker": "interceptUpdateForScene:withNewSettings:"
+            },
+            {
+              "pc": "0x1bbb04",
+              "target_vm": "0x3aa5a0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1bbaf0 add x19, x19, #0x4a0",
+                "0x1bbaf4 strb wzr, [x19, #0x10a]",
+                "0x1bbaf8 mov w8, #0x40",
+                "0x1bbafc str x8, [sp, #0x1420]",
+                "0x1bbb00 add x22, sp, #1, lsl #12",
+                "0x1bbb04 add x22, x22, #0x5a0",
+                "0x1bbb08 add x0, sp, #1, lsl #12",
+                "0x1bbb0c add x0, x0, #0x5a0",
+                "0x1bbb10 sub x1, x29, #0xf0",
+                "0x1bbb14 add x2, sp, #1, lsl #12",
+                "0x1bbb18 add x2, x2, #0x420",
+                "0x1bbb1c mov x3, #0",
+                "0x1bbb20 mov x4, #0",
+                "0x1bbb24 bl #0x313930"
+              ],
+              "marker": "interceptUpdateForScene:withNewSettings:"
+            },
+            {
+              "pc": "0x1bf0d0",
+              "target_vm": "0x332835",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1bf0bc bl #0x3137b0",
+                "0x1bf0c0 mov x0, #0",
+                "0x1bf0c4 mov w1, #0",
+                "0x1bf0c8 bl #0x3135d0",
+                "0x1bf0cc adrp x1, #0x332000",
+                "0x1bf0d0 add x1, x1, #0x835",
+                "0x1bf0d4 bl #0x3135dc",
+                "0x1bf0d8 cbz x0, #0x1bf0e8",
+                "0x1bf0dc mov x8, x0",
+                "0x1bf0e0 mov w0, #0",
+                "0x1bf0e4 blr x8",
+                "0x1bf0e8 adrp x0, #0x39c000",
+                "0x1bf0ec add x0, x0, #0x580",
+                "0x1bf0f0 bl #0x3133c0"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x1c05f8",
+              "target_vm": "0x336908",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1c05e4 cbnz x0, #0x1c05f4",
+                "0x1c05e8 mov w1, #1",
+                "0x1c05ec bl #0x3135d0",
+                "0x1c05f0 cbz x0, #0x1c0640",
+                "0x1c05f4 adrp x1, #0x336000",
+                "0x1c05f8 add x1, x1, #0x908",
+                "0x1c05fc bl #0x3135dc",
+                "0x1c0600 cbz x0, #0x1c0640",
+                "0x1c0604 mov x8, x0",
+                "0x1c0608 adrp x0, #0x39c000",
+                "0x1c060c add x0, x0, #0x600",
+                "0x1c0610 adrp x2, #0x39c000",
+                "0x1c0614 add x2, x2, #0x5e0",
+                "0x1c0618 adrp x19, #0x3ad000"
+              ],
+              "marker": "IOPMAssertionCreateWithName"
+            },
+            {
+              "pc": "0x1c0690",
+              "target_vm": "0x3369a9",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x1c067c cbnz x0, #0x1c068c",
+                "0x1c0680 mov w1, #1",
+                "0x1c0684 bl #0x3135d0",
+                "0x1c0688 cbz x0, #0x1c06bc",
+                "0x1c068c adrp x1, #0x336000",
+                "0x1c0690 add x1, x1, #0x9a9",
+                "0x1c0694 bl #0x3135dc",
+                "0x1c0698 cbz x0, #0x1c06bc",
+                "0x1c069c mov x8, x0",
+                "0x1c06a0 ldr w0, [x19, #0x560]",
+                "0x1c06a4 blr x8",
+                "0x1c06a8 ldr w8, [x19, #0x560]",
+                "0x1c06ac str x8, [sp]",
+                "0x1c06b0 adrp x0, #0x39c000"
+              ],
+              "marker": "IOPMAssertionRelease"
+            },
+            {
+              "pc": "0x280d64",
+              "target_vm": "0x3aa5a0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x280d50 cmp w8, w10",
+                "0x280d54 cset w8, eq",
+                "0x280d58 orr w8, w8, w9",
+                "0x280d5c orr w21, w11, w8",
+                "0x280d60 add x22, sp, #1, lsl #12",
+                "0x280d64 add x22, x22, #0x5a0",
+                "0x280d68 strb wzr, [x22, #0x216]",
+                "0x280d6c nop ",
+                "0x280d70 ldr x8, #0x3701a8",
+                "0x280d74 ldr w19, [x8]",
+                "0x280d78 add x0, sp, #1, lsl #12",
+                "0x280d7c add x0, x0, #0x7a0",
+                "0x280d80 bl #0x31339c",
+                "0x280d84 mov x1, x0"
+              ],
+              "marker": "interceptUpdateForScene:withNewSettings:"
+            },
+            {
+              "pc": "0x2868ec",
+              "target_vm": "0x3aa5a0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x2868d8 strb w12, [x10, x8]",
+                "0x2868dc add x8, x8, #1",
+                "0x2868e0 cmp x8, #0xa",
+                "0x2868e4 b.ne #0x2868a8",
+                "0x2868e8 add x22, sp, #1, lsl #12",
+                "0x2868ec add x22, x22, #0x5a0",
+                "0x2868f0 strb wzr, [x22, #0x10a]",
+                "0x2868f4 mov w8, #0x40",
+                "0x2868f8 str x8, [sp, #0x1520]",
+                "0x2868fc add x19, sp, #1, lsl #12",
+                "0x286900 add x19, x19, #0x6a0",
+                "0x286904 add x0, sp, #1, lsl #12",
+                "0x286908 add x0, x0, #0x6a0",
+                "0x28690c add x1, sp, #1, lsl #12"
+              ],
+              "marker": "interceptUpdateForScene:withNewSettings:"
+            },
+            {
+              "pc": "0x298a9c",
+              "target_vm": "0x3aa5b0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x298a88 strb wzr, [x27, #0x116]",
+                "0x298a8c nop ",
+                "0x298a90 ldr x8, #0x370198",
+                "0x298a94 ldr x0, [x8]",
+                "0x298a98 add x23, sp, #1, lsl #12",
+                "0x298a9c add x23, x23, #0x5b0",
+                "0x298aa0 add x1, sp, #1, lsl #12",
+                "0x298aa4 add x1, x1, #0x5b0",
+                "0x298aa8 str x0, [sp, #0xd8]",
+                "0x298aac mov w2, #0x100",
+                "0x298ab0 movk w2, #0x800, lsl #16",
+                "0x298ab4 bl #0x3131f8",
+                "0x298ab8 movi v0.16b, #0",
+                "0x298abc stp q0, q0, [x27, #0x100]"
+              ],
+              "marker": "shouldBeUnderLockForScene:"
+            },
+            {
+              "pc": "0x298b8c",
+              "target_vm": "0x3aa5b0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x298b78 b.ne #0x298b3c",
+                "0x298b7c add x27, sp, #1, lsl #12",
+                "0x298b80 add x27, x27, #0x4b0",
+                "0x298b84 strb wzr, [x27, #0x10e]",
+                "0x298b88 add x23, sp, #1, lsl #12",
+                "0x298b8c add x23, x23, #0x5b0",
+                "0x298b90 add x1, sp, #1, lsl #12",
+                "0x298b94 add x1, x1, #0x5b0",
+                "0x298b98 ldr x0, [sp, #0xd8]",
+                "0x298b9c mov w2, #0x100",
+                "0x298ba0 movk w2, #0x800, lsl #16",
+                "0x298ba4 bl #0x3131f8",
+                "0x298ba8 movi v0.16b, #0",
+                "0x298bac stp q0, q0, [x27, #0x100]"
+              ],
+              "marker": "shouldBeUnderLockForScene:"
+            },
+            {
+              "pc": "0x298c78",
+              "target_vm": "0x3aa5b0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x298c64 b.ne #0x298c28",
+                "0x298c68 add x27, sp, #1, lsl #12",
+                "0x298c6c add x27, x27, #0x4b0",
+                "0x298c70 strb wzr, [x27, #0x10e]",
+                "0x298c74 add x23, sp, #1, lsl #12",
+                "0x298c78 add x23, x23, #0x5b0",
+                "0x298c7c add x1, sp, #1, lsl #12",
+                "0x298c80 add x1, x1, #0x5b0",
+                "0x298c84 ldr x0, [sp, #0xd8]",
+                "0x298c88 mov w2, #0x100",
+                "0x298c8c movk w2, #0x800, lsl #16",
+                "0x298c90 bl #0x3131f8",
+                "0x298c94 movi v0.16b, #0",
+                "0x298c98 stp q0, q0, [x27, #0x100]"
+              ],
+              "marker": "shouldBeUnderLockForScene:"
+            },
+            {
+              "pc": "0x299eb0",
+              "target_vm": "0x3aa5b0",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x299e9c strb wzr, [x27, #0x116]",
+                "0x299ea0 nop ",
+                "0x299ea4 ldr x8, #0x370198",
+                "0x299ea8 ldr x0, [x8]",
+                "0x299eac add x23, sp, #1, lsl #12",
+                "0x299eb0 add x23, x23, #0x5b0",
+                "0x299eb4 add x1, sp, #1, lsl #12",
+                "0x299eb8 add x1, x1, #0x5b0",
+                "0x299ebc str x0, [sp, #0xa0]",
+                "0x299ec0 mov w2, #0x100",
+                "0x299ec4 movk w2, #0x800, lsl #16",
+                "0x299ec8 bl #0x3131f8",
+                "0x299ecc movi v0.16b, #0",
+                "0x299ed0 stp q0, q0, [x27, #0x100]"
+              ],
+              "marker": "shouldBeUnderLockForScene:"
+            }
+          ],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": [
+              {
+                "class": "CBDashboardSettings",
+                "selector": "-screenBlankEnabled",
+                "imp": "0x2f48c",
+                "abi": "B16@0:8"
+              },
+              {
+                "class": "CBDashboardSettings",
+                "selector": "-setScreenBlankEnabled:",
+                "imp": "0x2f494",
+                "abi": "v20@0:8B16"
+              },
+              {
+                "class": "CBBridgedUIAppView",
+                "selector": "-setAudioOnlyBackgroundMode:",
+                "imp": "0xac334",
+                "abi": "v20@0:8B16"
+              },
+              {
+                "class": "CBBridgedUIAppView",
+                "selector": "-audioOnlyBackgroundMode",
+                "imp": "0xaf604",
+                "abi": "B16@0:8"
+              },
+              {
+                "class": "CBAIBubbleView",
+                "selector": "-cancelIdleTimer",
+                "imp": "0xbb738",
+                "abi": "v16@0:8"
+              },
+              {
+                "class": "CBAIBubbleView",
+                "selector": "-restartIdleTimer",
+                "imp": "0xbb784",
+                "abi": "v16@0:8"
+              },
+              {
+                "class": "CBBridgeManager",
+                "selector": "-acquireCarPlaySleepAssertion",
+                "imp": "0x1c05b8",
+                "abi": "v16@0:8"
+              },
+              {
+                "class": "CBBridgeManager",
+                "selector": "-releaseCarPlaySleepAssertion",
+                "imp": "0x1c0650",
+                "abi": "v16@0:8"
+              }
+            ]
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib"
+        },
+        {
+          "sha256": "9f801b4b03265f5eb5425ac8ee9d05aeeba34544601a74415da80fb948476979",
+          "bytes": 67552,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/usr/lib/ellekit/OldABI.dylib"
+        },
+        {
+          "sha256": "421656d74a08174c3c37c734669bef0eda218fa2089ab3cda227ab3f63b1b33e",
+          "bytes": 150720,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/usr/libexec/cboptimize_helper"
+        }
+      ]
+    },
+    "OmniCar103": {
+      "package_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+      "control_subset": [
+        "Package: com.anlai.omnicar",
+        "Architecture: iphoneos-arm64",
+        "Version: 1.0.3"
+      ],
+      "macho_count": 8,
+      "macho": [
+        {
+          "sha256": "8e7dc4ddaf98a73b80910c0d5d00e38a084bfef2e9f97084f8bbdf76313807c8",
+          "bytes": 168880,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Applications/OmniCar.app/OmniCar"
+        },
+        {
+          "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+          "bytes": 613376,
+          "marker_locations": {
+            "BKSDisplayServicesSetScreenBlanked": {
+              "literal_vm": [
+                "0x293ee"
+              ],
+              "ref_vm": []
+            },
+            "_shouldBeBackgroundUnderLockForScene:withSettings:": {
+              "literal_vm": [
+                "0x30025"
+              ],
+              "ref_vm": []
+            },
+            "CADisplayLink": {
+              "literal_vm": [
+                "0x2900b"
+              ],
+              "ref_vm": []
+            },
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x2f666"
+              ],
+              "ref_vm": []
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0x2a22f"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 2,
+          "literal_callsite_samples": [
+            {
+              "pc": "0x4784",
+              "target_vm": "0x2900b",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x4770 adrp x19, #0x3e000",
+                "0x4774 tbnz w9, #0, #0x49f0",
+                "0x4778 mov w9, #1",
+                "0x477c strb w9, [x8, #0x938]",
+                "0x4780 adrp x0, #0x29000",
+                "0x4784 add x0, x0, #0xb",
+                "0x4788 bl #0x24788",
+                "0x478c mov x21, x0",
+                "0x4790 bl #0x2489c",
+                "0x4794 adrp x8, #0x3d000",
+                "0x4798 ldr x1, [x8, #0x5c0]",
+                "0x479c adrp x2, #0x5000",
+                "0x47a0 add x2, x2, #0xa8",
+                "0x47a4 adrp x3, #0x3e000"
+              ],
+              "marker": "CADisplayLink"
+            },
+            {
+              "pc": "0x6f54",
+              "target_vm": "0x293ee",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x6f40 add x0, x0, #0xef0",
+                "0x6f44 adrp x1, #0x39000",
+                "0x6f48 add x1, x1, #0x408",
+                "0x6f4c bl #0x1e580",
+                "0x6f50 adrp x1, #0x29000",
+                "0x6f54 add x1, x1, #0x3ee",
+                "0x6f58 mov x0, #-2",
+                "0x6f5c bl #0x245f0",
+                "0x6f60 cbz x0, #0x6f94",
+                "0x6f64 adrp x1, #0x7000",
+                "0x6f68 add x1, x1, #0x77c",
+                "0x6f6c adrp x2, #0x3e000",
+                "0x6f70 add x2, x2, #0xa10",
+                "0x6f74 ldp x29, x30, [sp, #0x20]"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            }
+          ],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib"
+        },
+        {
+          "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f",
+          "bytes": 242784,
+          "marker_locations": {
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0xd2b9"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib"
+        },
+        {
+          "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5",
+          "bytes": 276832,
+          "marker_locations": {
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x10008"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib"
+        },
+        {
+          "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836",
+          "bytes": 649808,
+          "marker_locations": {
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x33736"
+              ],
+              "ref_vm": []
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0x2e96d"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib"
+        },
+        {
+          "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754",
+          "bytes": 1229920,
+          "marker_locations": {
+            "setPreventsDisplaySleepDuringVideoPlayback:": {
+              "literal_vm": [
+                "0x7360e"
+              ],
+              "ref_vm": []
+            },
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x7006a"
+              ],
+              "ref_vm": []
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0x61454"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib"
+        },
+        {
+          "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037",
+          "bytes": 567792,
+          "marker_locations": {
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x29d37"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib"
+        },
+        {
+          "sha256": "15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76",
+          "bytes": 1303344,
+          "marker_locations": {
+            "displayLinkWithTarget:selector:": {
+              "literal_vm": [
+                "0x674ef"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs"
+        }
+      ]
+    },
+    "SidePlay104": {
+      "package_sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+      "control_subset": [
+        "Package: com.sideplay",
+        "Architecture: iphoneos-arm64",
+        "Version: 1.0.4-1"
+      ],
+      "macho_count": 7,
+      "macho": [
+        {
+          "sha256": "338173777cc588c7dadb46ad2a01f25e74f7231e7ffca325cd3bfdca189d9ba2",
+          "bytes": 178672,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Applications/SidePlay.app/SidePlay"
+        },
+        {
+          "sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971",
+          "bytes": 899088,
+          "marker_locations": {
+            "BKSDisplayServicesSetScreenBlanked": {
+              "literal_vm": [
+                "0x49c9f"
+              ],
+              "ref_vm": []
+            },
+            "_shouldBeBackgroundUnderLockForScene:withSettings:": {
+              "literal_vm": [
+                "0x4dbb2"
+              ],
+              "ref_vm": [
+                "0x5eae8"
+              ]
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0x4b8b0"
+              ],
+              "ref_vm": [
+                "0x57860"
+              ]
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib"
+        },
+        {
+          "sha256": "ab655d41a8abee367a654c151e26261ee2e5b08d73e8e06a08dea058e1bb473e",
+          "bytes": 129936,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib"
+        },
+        {
+          "sha256": "513142a87eb45a9279850bc6a7a1420ebf7e7766b7f5a78b2525f1a6e9606736",
+          "bytes": 240128,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib"
+        },
+        {
+          "sha256": "b79905049c97f496733c6614b0f1f18b9b7b888766a867f0b3c2ef7024a159ec",
+          "bytes": 162752,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib"
+        },
+        {
+          "sha256": "b6f2e0896d401202e1847ba07e2094d37ca94e245451ba388cd9b35fb9e92057",
+          "bytes": 145328,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib"
+        },
+        {
+          "sha256": "3b68dd567ffdc9ec11672ed2aee9391d50f84c2f019f7709458d5c720f874636",
+          "bytes": 613648,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs"
+        }
+      ]
+    },
+    "DuoDash113Repack": {
+      "package_sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+      "control_subset": [
+        "Package: com.sensetechlab.duodash",
+        "Version: 1.1.3+fullscreen1",
+        "Architecture: iphoneos-arm64"
+      ],
+      "macho_count": 4,
+      "macho": [
+        {
+          "sha256": "7c1a46fb2e3c12112a1d8be16680e1b707eb0b69ee2a528d4442d42eb41c216f",
+          "bytes": 167408,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Applications/DuoDash.app/DuoDash"
+        },
+        {
+          "sha256": "82614a42fa72fc1044a6096310cf3d9cebd1daaa883f950dff8916dd2f22a3ff",
+          "bytes": 169840,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/DuoDashPrefs"
+        },
+        {
+          "sha256": "b41dd7f892bfd3722e95a40f764a989886078b4a30943c1f0b50d47b6e248a47",
+          "bytes": 1959936,
+          "marker_locations": {
+            "BKSDisplayServicesSetScreenBlanked": {
+              "literal_vm": [
+                "0x82578"
+              ],
+              "ref_vm": []
+            },
+            "interceptUpdateForScene:withNewSettings:": {
+              "literal_vm": [
+                "0x80db1",
+                "0xb0413"
+              ],
+              "ref_vm": []
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0xb0212"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 2,
+          "literal_callsite_samples": [
+            {
+              "pc": "0x24e74",
+              "target_vm": "0x82578",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x24e60 mov w1, #1",
+                "0x24e64 bl #0x6ca9c",
+                "0x24e68 cbz x0, #0x24eb4",
+                "0x24e6c mov x19, x0",
+                "0x24e70 adrp x1, #0x82000",
+                "0x24e74 add x1, x1, #0x578",
+                "0x24e78 bl #0x6caa8",
+                "0x24e7c adrp x8, #0xdc000",
+                "0x24e80 str x0, [x8, #0x740]",
+                "0x24e84 adrp x1, #0x7f000",
+                "0x24e88 add x1, x1, #0x5dc",
+                "0x24e8c mov x0, x19",
+                "0x24e90 bl #0x6caa8",
+                "0x24e94 adrp x8, #0xdc000"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            },
+            {
+              "pc": "0x52808",
+              "target_vm": "0x82578",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x527f4 mov x0, x19",
+                "0x527f8 bl #0x6caa8",
+                "0x527fc adrp x8, #0xdc000",
+                "0x52800 str x0, [x8, #0xbb8]",
+                "0x52804 adrp x1, #0x82000",
+                "0x52808 add x1, x1, #0x578",
+                "0x5280c mov x0, x19",
+                "0x52810 bl #0x6caa8",
+                "0x52814 adrp x8, #0xdc000",
+                "0x52818 str x0, [x8, #0xbc8]",
+                "0x5281c ldur x8, [x29, #-0x18]",
+                "0x52820 adrp x9, #0xb8000",
+                "0x52824 ldr x9, [x9, #0x6d0]",
+                "0x52828 ldr x9, [x9]"
+              ],
+              "marker": "BKSDisplayServicesSetScreenBlanked"
+            }
+          ],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/usr/lib/TweakInject/DuoDash.dylib"
+        },
+        {
+          "sha256": "38c2c2aa4d990ce1119962bc2c757c61070295da99e8b0eac6e41b23caec6aa5",
+          "bytes": 68048,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/usr/lib/TweakInject/DuoDashUnifiedFullscreen.dylib"
+        }
+      ]
+    },
+    "DuoFaceQA130": {
+      "package_sha256": "d0573ac14e402dfca450e4b01fd57f898ed03852b354361b0a8acf54a432e24b",
+      "control_subset": [
+        "Package: com.duoface.jb.embedded",
+        "Version: 0.0.130~sceneowner1",
+        "Architecture: iphoneos-arm64"
+      ],
+      "macho_count": 8,
+      "macho": [
+        {
+          "sha256": "a6ff949b24ee1b4480dc461dc942b1137455f280dec012c9c91b62eee9ce3dbb",
+          "bytes": 330240,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+        },
+        {
+          "sha256": "842b07e0d9e5c275404d530f7f2773fff305e1c6c53627099f6dbea641c05364",
+          "bytes": 132736,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
+        },
+        {
+          "sha256": "23e34288ccd207a10970ba17bb7c98f3a4a75e170ac1e71ad57cf6c71029ae12",
+          "bytes": 187024,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "parsed",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib"
+        },
+        {
+          "sha256": "21b77d3b8350ea5975339db3e4c8cea03e03b52592b8a0df56ecdf26401ae45b",
+          "bytes": 275520,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib"
+        },
+        {
+          "sha256": "4bbe7287e399801403fdfabf5053fc71c9f01ee967050bbc38b6229a7f6489c0",
+          "bytes": 122912,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib"
+        },
+        {
+          "sha256": "4d741ef9608fad022c79688415de15e39a5ddf90046e8722c7252f8215f328f5",
+          "bytes": 522832,
+          "marker_locations": {
+            "PreventUserIdleSystemSleep": {
+              "literal_vm": [
+                "0x46c89"
+              ],
+              "ref_vm": []
+            },
+            "IOPMAssertionCreateWithName": {
+              "literal_vm": [
+                "0x46c35"
+              ],
+              "ref_vm": []
+            },
+            "IOPMAssertionRelease": {
+              "literal_vm": [
+                "0x46c51"
+              ],
+              "ref_vm": []
+            },
+            "_shouldBeBackgroundUnderLockForScene:withSettings:": {
+              "literal_vm": [
+                "0x49910"
+              ],
+              "ref_vm": []
+            },
+            "interceptUpdateForScene:withNewSettings:": {
+              "literal_vm": [
+                "0x49a86"
+              ],
+              "ref_vm": []
+            },
+            "shouldBeUnderLockForScene:": {
+              "literal_vm": [
+                "0x49943"
+              ],
+              "ref_vm": []
+            },
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0x4645f"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 2,
+          "literal_callsite_samples": [
+            {
+              "pc": "0x6f18",
+              "target_vm": "0x46c35",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x6f04 mov w1, #5",
+                "0x6f08 bl #0x3d2cc",
+                "0x6f0c str x0, [x22, #0x78]",
+                "0x6f10 cbz x0, #0x7014",
+                "0x6f14 adrp x1, #0x46000",
+                "0x6f18 add x1, x1, #0xc35",
+                "0x6f1c bl #0x3d2d8",
+                "0x6f20 mov x19, x0",
+                "0x6f24 ldr x0, [x22, #0x78]",
+                "0x6f28 adrp x1, #0x46000",
+                "0x6f2c add x1, x1, #0xc51",
+                "0x6f30 bl #0x3d2d8",
+                "0x6f34 adrp x8, #0x61000",
+                "0x6f38 str x0, [x8, #0x80]"
+              ],
+              "marker": "IOPMAssertionCreateWithName"
+            },
+            {
+              "pc": "0x6f2c",
+              "target_vm": "0x46c51",
+              "kind": "direct_literal_pointer",
+              "near": [
+                "0x6f18 add x1, x1, #0xc35",
+                "0x6f1c bl #0x3d2d8",
+                "0x6f20 mov x19, x0",
+                "0x6f24 ldr x0, [x22, #0x78]",
+                "0x6f28 adrp x1, #0x46000",
+                "0x6f2c add x1, x1, #0xc51",
+                "0x6f30 bl #0x3d2d8",
+                "0x6f34 adrp x8, #0x61000",
+                "0x6f38 str x0, [x8, #0x80]",
+                "0x6f3c cbz x19, #0x7000",
+                "0x6f40 cbz x0, #0x7000",
+                "0x6f44 str wzr, [sp, #0x1c]",
+                "0x6f48 adrp x0, #0x55000",
+                "0x6f4c add x0, x0, #0xcc8"
+              ],
+              "marker": "IOPMAssertionRelease"
+            }
+          ],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+        },
+        {
+          "sha256": "7d42490b5ef1d0dd0eb2e161600d3384ea2239584b4882938b36967dc6c964bc",
+          "bytes": 292160,
+          "marker_locations": {
+            "initWithCADisplay:isMainDisplay:": {
+              "literal_vm": [
+                "0xf1d8"
+              ],
+              "ref_vm": []
+            }
+          },
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+        },
+        {
+          "sha256": "8a1d89742d7d32d3a58efa0bb424cc9c7df45e5fa052260849087d31ba0b92c7",
+          "bytes": 100352,
+          "marker_locations": {},
+          "literal_reference_count": 0,
+          "literal_callsite_samples": [],
+          "objc_methods": {
+            "status": "unresolved_arm64e_or_metadata:ValueError",
+            "matched": []
+          },
+          "reference_scan_limitation": "adrp/add or adrp/ldr only; GOT, arm64e chained authenticated pointers, indirection and runtime dispatch can be missed",
+          "relative_path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
+        }
+      ]
+    }
+  }
+}
