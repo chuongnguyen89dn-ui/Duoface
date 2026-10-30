@@ -434,11 +434,19 @@ static void DFInstallScopedBlankPolicy132(void) {
         if(sDFBKSFramework132)
             original=dlsym(sDFBKSFramework132,"BKSDisplayServicesSetScreenBlanked");
     }
+    if(!original) {
+        DFTOLog(@"qa132-bks-install-skipped",@"bks-export-unavailable");
+        return;
+    }
     DFHookFn132 hook=(DFHookFn132)dlsym(RTLD_DEFAULT,"MSHookFunction");
-    if(!original || !hook) {
-        DFTOLog(@"qa132-bks-install-skipped",
-                original?@"runtime-hook-provider-unavailable":
-                         @"bks-export-unavailable");
+    // A rootless environment may expose BackBoardServices without substrate's
+    // function trampoline. In that case retain ONLY our guarded direct BKS(0)
+    // path and never install a global interception of Apple blanking.
+    if(!hook) {
+        sDFBKSOriginal132=(DFScreenBlankFn132)original;
+        sDFBKSInstalled132=YES;
+        DFTOLog(@"qa132-bks-direct-guarded",
+                @"no-hook-provider owned-locked-pane watchdog only");
         return;
     }
     void *trampoline=NULL;
