@@ -3,7 +3,7 @@
 name: DuoFace QA135 native CarPlay Home ABI probe signed diagnostic candidate
 on:
   push:
-    branches: [fix/duoface-qa135-gofa-owner-candidate-20261030]
+    branches: [feature/duoface-qa135-home-library-20261030]
     paths:
       - '.github/workflows/duoface-135-home-abi-signed-staging.yml'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
@@ -39,7 +39,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: duoface-134-native12-catalog-signed-qa
+  group: duoface-135-home-abi-signed-qa
   cancel-in-progress: false
 jobs:
   build:
@@ -163,7 +163,7 @@ jobs:
           QA_ARTIFACT: ${{ steps.qa.outputs.artifact-id }}
         run: |
           set -euo pipefail
-          BRANCH='fix/duoface-qa135-gofa-owner-candidate-20261030'
+          BRANCH='feature/duoface-qa135-home-library-20261030'
           SRC="$QA_OUTPUT"
           NAME='com.duoface.jb.embedded_0.0.135~homeabi1_iphoneos-arm64.deb'
           for attempt in 1 2 3 4; do
