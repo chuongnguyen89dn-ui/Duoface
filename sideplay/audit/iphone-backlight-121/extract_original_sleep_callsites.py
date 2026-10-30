@@ -18,6 +18,19 @@ def main():
     binary=pathlib.Path(path).read_bytes()
     if hashlib.sha256(binary).hexdigest()!=SHA[name]:raise RuntimeError(name+" SHA256 does not match actual original")
     mach=MachO(select_arm64(binary))
+    if name=="DuoNavi":
+      cfstrings={}
+      # Original verified IOPM acquire method at 0x1c05b8 passes these
+      # two literal CFStrings in x0 and x2. Capture the public API argument
+      # names (not implementation/license) to distinguish idle-vs-display
+      # assertions. If any pointer is protected, retain an unresolved value.
+      for role,vm in (("assertionType",0x39c0600),("assertionName",0x39c05e0)):
+        try:
+          cfstrings[role]=mach.cstr(mach.ptr(vm+16))
+        except (ValueError,KeyError,IndexError,AssertionError) as error:
+          cfstrings[role]="unresolved:"+type(error).__name__
+    else:
+      cfstrings={}
     classes={}
     # Some OmniCar arm64e chained/auth pointers cannot be represented by the
     # original non-auth classlist decoder. Fail closed *for that binary only*
@@ -45,13 +58,13 @@ def main():
         instructions=disassemble(mach,vm,limit)
         matched.append({"class":cl,"selector":sel,"imp":hex(vm),
                         "instructionCount":len(instructions),"instructions":instructions[:160]})
-    info[name]={"sha256":SHA[name],"classCount":len(classes),
+    info[name]={"sha256":SHA[name],"carPlaySleepAssertionCFStrings":cfstrings,"classCount":len(classes),
                 "metadataError":class_error,"methods":matched}
   (out/"ORIGINAL_SLEEP_METHOD_IMP.json").write_text(json.dumps(info,indent=2,ensure_ascii=False)+"\n")
   md=["# DuoNavi / OmniCar original sleep assertion, blanking and lock policy — ARM64",
       "","SHA verified original binaries, bounded ARM64 method inspection. Selector presence is NOT proof of invocation.",""]
   for name,row in info.items():
-    md+=["## "+name,"- SHA256: "+row["sha256"],"- Matches: "+str(len(row["methods"])),
+    md+=["## "+name,"- SHA256: "+row["sha256"],"- Verified IOPM CFString x0/x2: "+str(row["carPlaySleepAssertionCFStrings"]),"- Matches: "+str(len(row["methods"])),
            "- Class metadata: "+(row["metadataError"] or "decoded"),""]
     for method in row["methods"]:
       md+=["### "+method["class"]+"."+method["selector"]+" @ "+method["imp"],
