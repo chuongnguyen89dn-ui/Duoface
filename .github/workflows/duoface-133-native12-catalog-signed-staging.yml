@@ -38,6 +38,8 @@ jobs:
     timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Validate QA133 Native12 selected apps plus QA132 preserved BKS/GOFA geometry
         run: |
           set -euo pipefail
