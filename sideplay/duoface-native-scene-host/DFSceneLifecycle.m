@@ -149,8 +149,8 @@ static void DFObserverForwardBreadcrumb126(id controller, id callbackHandle) {
         int n=snprintf(line,sizeof(line),
           "utc=%.6f pid=%d area=qa126-observer event=before-apple-forward count=%u owners=%lu controller=%p registered=%p currentHandle=%p callbackHandle=%p observed=%p ownerKnown=%d handleMatch=%d sceneMatch=%d manual=%d hosting=%d\n",
           NSDate.date.timeIntervalSince1970,getpid(),records,
-          (unsigned long)sOwners.count,(void *)controller,(void *)registered,
-          (void *)current,(void *)callbackHandle,(void *)observed,
+          (unsigned long)sOwners.count,(__bridge void *)controller,(__bridge void *)registered,
+          (__bridge void *)current,(__bridge void *)callbackHandle,(__bridge void *)observed,
           owned!=nil,current==callbackHandle,registered!=nil && registered==observed,
           manual,hosting);
         if(n<=0)return;
