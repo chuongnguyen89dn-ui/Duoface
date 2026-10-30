@@ -1,0 +1,40 @@
+{
+  "version": "0.0.90~nativegetters1",
+  "sha256": "c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27",
+  "size": 1007564,
+  "package": "com.duoface.jb.embedded",
+  "publisher_source": "e19da6c40b072bc199c1da646b7fe633ca3af1ed",
+  "run": 41038564389,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 124005370552,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 124007101038,
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "id": 124007197252,
+      "name": "verify-qa11-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 124007197305,
+      "name": "verify-duonavi-observer-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 124007197417,
+      "name": "verify-duoface-integrated-pages",
+      "conclusion": "success"
+    }
+  ],
+  "direct_deb_verified": true,
+  "direct_live_apt_verified": true,
+  "deb_rebuilt": false,
+  "device_tested": false
+}
