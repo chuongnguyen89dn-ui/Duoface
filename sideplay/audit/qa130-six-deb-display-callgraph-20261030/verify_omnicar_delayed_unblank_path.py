@@ -28,6 +28,7 @@ assert symbol("0x243e0")=="_MSHookFunction"
 assert symbol("0x245f0")=="_dlsym"
 assert symbol("0x245cc")=="_dispatch_time"
 assert symbol("0x24548")=="_dispatch_after"
+assert im["dispatch_queue_ref_at_0x34290_classic_import"]["name"]=="__dispatch_main_q"
 
 names={x["class"]:x for x in methods["ABHost"]}
 assert "ABHost" in names
@@ -92,6 +93,7 @@ result={
  "dispatch_time_pc":"0x77e0",
  "dispatch_after_pc":"0x77f4",
  "dispatch_delay_nanoseconds":delay_ns,
+ "queue":"__dispatch_main_q",
  "global_dispatch_block_vm":"0x347d0",
  "global_block_invoke_vm":"0x9688",
  "global_block_import":"__NSConcreteGlobalBlock",
