@@ -377,7 +377,7 @@ static NSDictionary *DFZVerifiedRailForPulse(NSDictionary *pulse,
         if(railWindow.hidden || railWindow.alpha<.95 || !railWindow.screen ||
            railWindow.screen==UIScreen.mainScreen)continue;
         UIWindowScene *ownerScene=railWindow.windowScene;
-        if(![ownerScene.session.role isEqualToString:UIWindowSceneSessionRoleCarPlay] ||
+        if(![ownerScene.session.role isEqualToString:@"UIWindowSceneSessionRoleCarPlay"] ||
            ownerScene.activationState==UISceneActivationStateBackground)continue;
         UIViewController *root=railWindow.rootViewController;
         if(!root || ![NSStringFromClass(root.class)
@@ -413,7 +413,7 @@ static NSDictionary *DFZVerifiedRailForPulse(NSDictionary *pulse,
                candidate.hidden || candidate.alpha<.9 ||
                candidate.screen!=railWindow.screen || !candidate.windowScene ||
                ![candidate.windowScene.session.role
-                    isEqualToString:UIWindowSceneSessionRoleCarPlay])continue;
+                    isEqualToString:@"UIWindowSceneSessionRoleCarPlay"])continue;
             CGRect frame=[candidate convertRect:candidate.bounds
                              toCoordinateSpace:candidate.screen.coordinateSpace];
             if(fabs(CGRectGetMinX(frame)-CGRectGetMaxX(rail))<=1.5 &&
