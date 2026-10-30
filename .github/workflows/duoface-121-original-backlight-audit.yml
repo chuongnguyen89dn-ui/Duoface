@@ -44,12 +44,34 @@ jobs:
           test -s sideplay/audit/iphone-backlight-121/REPORT.md
           test -s sideplay/audit/iphone-backlight-121/ORIGINAL_BACKLIGHT_KEYWORDS.json
           sed -n '1,110p' sideplay/audit/iphone-backlight-121/REPORT.md
+      - name: Disassemble exact original sleep assertion and foreground-under-lock methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/parser" "$RUNNER_TEMP/duonavi-extracted" "$RUNNER_TEMP/omnicar-extracted"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/parser/audit_native12_license_class_xrefs.py"
+          dpkg-deb -x dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/duonavi-extracted"
+          dpkg-deb -x "$RUNNER_TEMP/omnicar-original.deb" "$RUNNER_TEMP/omnicar-extracted"
+          python3 -m py_compile sideplay/audit/iphone-backlight-121/extract_original_sleep_callsites.py
+          PYTHONPATH="$RUNNER_TEMP/parser" python3 sideplay/audit/iphone-backlight-121/extract_original_sleep_callsites.py \
+            --duonavi "$RUNNER_TEMP/duonavi-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+            --omnibridge "$RUNNER_TEMP/omnicar-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib" \
+            --omnisplit "$RUNNER_TEMP/omnicar-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib" \
+            --out sideplay/audit/iphone-backlight-121
+          test -s sideplay/audit/iphone-backlight-121/ORIGINAL_SLEEP_CALLSITES.md
+          test -s sideplay/audit/iphone-backlight-121/ORIGINAL_SLEEP_METHOD_IMP.json
+          grep -F 'DuoNavi' sideplay/audit/iphone-backlight-121/ORIGINAL_SLEEP_CALLSITES.md
       - uses: actions/upload-artifact@v4
         with:
           name: DuoFace-121-Original-Backlight-ReadOnly-Comparison
           path: |
             sideplay/audit/iphone-backlight-121/REPORT.md
             sideplay/audit/iphone-backlight-121/ORIGINAL_BACKLIGHT_KEYWORDS.json
+            sideplay/audit/iphone-backlight-121/ORIGINAL_SLEEP_CALLSITES.md
+            sideplay/audit/iphone-backlight-121/ORIGINAL_SLEEP_METHOD_IMP.json
           if-no-files-found: error
       - name: Persist original signed DEB metadata report to project feature branch
         shell: bash
@@ -63,10 +85,10 @@ jobs:
             TEMP="$(mktemp -d)"
             git worktree add --detach "$TEMP" FETCH_HEAD
             mkdir -p "$TEMP/$REL"
-            cp "$SRC/REPORT.md" "$SRC/ORIGINAL_BACKLIGHT_KEYWORDS.json" "$TEMP/$REL/"
+            cp "$SRC/REPORT.md" "$SRC/ORIGINAL_BACKLIGHT_KEYWORDS.json" "$SRC/ORIGINAL_SLEEP_CALLSITES.md" "$SRC/ORIGINAL_SLEEP_METHOD_IMP.json" "$TEMP/$REL/"
             git -C "$TEMP" config user.name 'github-actions[bot]'
             git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TEMP" add "$REL/REPORT.md" "$REL/ORIGINAL_BACKLIGHT_KEYWORDS.json"
+            git -C "$TEMP" add "$REL/REPORT.md" "$REL/ORIGINAL_BACKLIGHT_KEYWORDS.json" "$REL/ORIGINAL_SLEEP_CALLSITES.md" "$REL/ORIGINAL_SLEEP_METHOD_IMP.json"
             if git -C "$TEMP" diff --cached --quiet;then
               git worktree remove --force "$TEMP"
               echo BACKLIGHT121_REPORT_ALREADY_SAVED
