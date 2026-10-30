@@ -1,0 +1,317 @@
+{
+  "evidence": "full original ARM64 direct PC-relative xrefs, not an executed app",
+  "DuoNavi104": {
+    "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+    "function_count": 1788,
+    "ref_count": 19,
+    "xref_count": 24,
+    "references": [
+      {
+        "marker": "bridgedApps",
+        "instruction": "0xa0478",
+        "function_start": "0xa03f0",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "allInstalledApplications",
+        "instruction": "0xa0554",
+        "function_start": "0xa03f0",
+        "target_pointer_or_literal": "0x3a8aa8"
+      },
+      {
+        "marker": "appSelected:",
+        "instruction": "0xa42a4",
+        "function_start": "0xa35cc",
+        "target_pointer_or_literal": "0x3a8be0"
+      },
+      {
+        "marker": "showAppPickerForSlot:",
+        "instruction": "0x10b040",
+        "function_start": "0x10b008",
+        "target_pointer_or_literal": "0x3a95c8"
+      },
+      {
+        "marker": "showAppPickerForSlot:",
+        "instruction": "0x10b090",
+        "function_start": "0x10b058",
+        "target_pointer_or_literal": "0x3a95c8"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x12a310",
+        "function_start": "0x12a158",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "CARApplication",
+        "instruction": "0x141488",
+        "function_start": "0x141464",
+        "target_pointer_or_literal": "0x335f51"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x1f0ca4",
+        "function_start": "0x1f0738",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x28f868",
+        "function_start": "0x289a7c",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "showAppPickerForSlot:",
+        "instruction": "0x2a2728",
+        "function_start": "0x2a2630",
+        "target_pointer_or_literal": "0x3a95c8"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2a3348",
+        "function_start": "0x2a32b4",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2a65b0",
+        "function_start": "0x2a64cc",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2c5b98",
+        "function_start": "0x2c5ab8",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2c5ca4",
+        "function_start": "0x2c5c74",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2f1730",
+        "function_start": "0x2f16bc",
+        "target_pointer_or_literal": "0x3a8a98"
+      },
+      {
+        "marker": "allInstalledApplications",
+        "instruction": "0x2f18f4",
+        "function_start": "0x2f16bc",
+        "target_pointer_or_literal": "0x3a8aa8"
+      },
+      {
+        "marker": "DBApplicationInfo",
+        "instruction": "0x2f2140",
+        "function_start": "0x2f2130",
+        "target_pointer_or_literal": "0x33af5f"
+      },
+      {
+        "marker": "CARApplicationInfo",
+        "instruction": "0x2f21b8",
+        "function_start": "0x2f2130",
+        "target_pointer_or_literal": "0x33af71"
+      },
+      {
+        "marker": "allInstalledApplications",
+        "instruction": "0x2f2228",
+        "function_start": "0x2f2130",
+        "target_pointer_or_literal": "0x3a8aa8"
+      },
+      {
+        "marker": "setLaunchAsCarApplication:",
+        "instruction": "0x2f2e18",
+        "function_start": "0x2f2bdc",
+        "target_pointer_or_literal": "0x33b0d7"
+      },
+      {
+        "marker": "setLaunchAsCarApplication:",
+        "instruction": "0x2f2e38",
+        "function_start": "0x2f2bdc",
+        "target_pointer_or_literal": "0x33b0d7"
+      },
+      {
+        "marker": "homeButtonUp:",
+        "instruction": "0x30f23c",
+        "function_start": "0x30f1ac",
+        "target_pointer_or_literal": "0x3aa8b8"
+      },
+      {
+        "marker": "_newApplicationLibrary",
+        "instruction": "0x310744",
+        "function_start": "0x3106f4",
+        "target_pointer_or_literal": "0x3aa908"
+      },
+      {
+        "marker": "CARApplication",
+        "instruction": "0x310780",
+        "function_start": "0x3106f4",
+        "target_pointer_or_literal": "0x335f51"
+      }
+    ],
+    "strings": [
+      "0x3255f5:_newApplicationLibrary",
+      "0x33b0d7:setLaunchAsCarApplication:",
+      "0x3aa908:_newApplicationLibrary"
+    ]
+  },
+  "Native12Reference": {
+    "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+    "function_count": 1526,
+    "ref_count": 19,
+    "xref_count": 24,
+    "references": [
+      {
+        "marker": "allInstalledApplications",
+        "instruction": "0x32ac4",
+        "function_start": "0x32a5c",
+        "target_pointer_or_literal": "0x37d948"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0xa0cd0",
+        "function_start": "0xa0c48",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "allInstalledApplications",
+        "instruction": "0xa0dac",
+        "function_start": "0xa0c48",
+        "target_pointer_or_literal": "0x37d948"
+      },
+      {
+        "marker": "appSelected:",
+        "instruction": "0xa4b34",
+        "function_start": "0xa3e5c",
+        "target_pointer_or_literal": "0x37e108"
+      },
+      {
+        "marker": "showAppPickerForSlot:",
+        "instruction": "0x103a60",
+        "function_start": "0x103a28",
+        "target_pointer_or_literal": "0x37e950"
+      },
+      {
+        "marker": "showAppPickerForSlot:",
+        "instruction": "0x103ab0",
+        "function_start": "0x103a78",
+        "target_pointer_or_literal": "0x37e950"
+      },
+      {
+        "marker": "CARApplication",
+        "instruction": "0x121508",
+        "function_start": "0x1214e4",
+        "target_pointer_or_literal": "0x30982a"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x1cea4c",
+        "function_start": "0x1ce480",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x26d610",
+        "function_start": "0x267764",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "showAppPickerForSlot:",
+        "instruction": "0x27ffdc",
+        "function_start": "0x27fee4",
+        "target_pointer_or_literal": "0x37e950"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x280ddc",
+        "function_start": "0x280d48",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x283fe4",
+        "function_start": "0x283ea8",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2a3274",
+        "function_start": "0x2a314c",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2a3394",
+        "function_start": "0x2a3364",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "bridgedApps",
+        "instruction": "0x2ca9e8",
+        "function_start": "0x2ca974",
+        "target_pointer_or_literal": "0x37dff8"
+      },
+      {
+        "marker": "allInstalledApplications",
+        "instruction": "0x2caca8",
+        "function_start": "0x2ca974",
+        "target_pointer_or_literal": "0x37d948"
+      },
+      {
+        "marker": "DBApplicationInfo",
+        "instruction": "0x2cb5d0",
+        "function_start": "0x2cb5c0",
+        "target_pointer_or_literal": "0x30e12f"
+      },
+      {
+        "marker": "CARApplicationInfo",
+        "instruction": "0x2cb648",
+        "function_start": "0x2cb5c0",
+        "target_pointer_or_literal": "0x30e141"
+      },
+      {
+        "marker": "allInstalledApplications",
+        "instruction": "0x2cb6b8",
+        "function_start": "0x2cb5c0",
+        "target_pointer_or_literal": "0x37d948"
+      },
+      {
+        "marker": "setLaunchAsCarApplication:",
+        "instruction": "0x2cc2ec",
+        "function_start": "0x2cc0b0",
+        "target_pointer_or_literal": "0x30e2a7"
+      },
+      {
+        "marker": "setLaunchAsCarApplication:",
+        "instruction": "0x2cc30c",
+        "function_start": "0x2cc0b0",
+        "target_pointer_or_literal": "0x30e2a7"
+      },
+      {
+        "marker": "homeButtonUp:",
+        "instruction": "0x2e8a08",
+        "function_start": "0x2e8978",
+        "target_pointer_or_literal": "0x37f628"
+      },
+      {
+        "marker": "_newApplicationLibrary",
+        "instruction": "0x2e9d98",
+        "function_start": "0x2e9d48",
+        "target_pointer_or_literal": "0x37f678"
+      },
+      {
+        "marker": "CARApplication",
+        "instruction": "0x2e9dd4",
+        "function_start": "0x2e9d48",
+        "target_pointer_or_literal": "0x30982a"
+      }
+    ],
+    "strings": [
+      "0x2fb074:_newApplicationLibrary",
+      "0x30e2a7:setLaunchAsCarApplication:",
+      "0x37f678:_newApplicationLibrary"
+    ]
+  }
+}
