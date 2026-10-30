@@ -37,6 +37,53 @@ static BOOL DFSessionStillActive(void);
 static void DFEnsureDisconnectMonitor(void);
 static BOOL sDisconnectMonitorArmed;
 static BOOL sShownFirstSplashForPhysicalConnection;
+static NSUInteger sNativeRail120WaitCount;
+static NSString *const kNativeRail120File=
+    @"/var/mobile/Library/Preferences/com.duoface.nativehost.native-rail.v1.plist";
+// QA120: only an independently validated native CarPlay AppDock/status-rail
+// and matching content-window edge may replace the .118 emergency left guard.
+// The counterpart verifies actual UIKit controller/view/window ancestry.
+// No zero-offset, fixed 45pt, or guessed percentage is accepted here.
+static BOOL DFVerifiedNativeContent120(NSDictionary *rail, NSString *session,
+                                       UIScreen *screen, CGRect *outContent) {
+    if(![rail isKindOfClass:NSDictionary.class] || !screen ||
+       ![rail[@"Version"] isEqual:@1] ||
+       ![rail[@"Status"] isEqualToString:@"verified-native-rail"] ||
+       ![rail[@"OwnerProcess"] isEqualToString:@"CarPlay"] ||
+       ![rail[@"Session"] isEqualToString:session] ||
+       ![rail[@"RailOwnerClass"] isEqualToString:@"DBStatusBarWindow"] ||
+       ![rail[@"RootControllerClass"] isEqualToString:@"DBRootStatusBarViewController"] ||
+       ![@[@"DBAppDockViewController",@"CARAppDockViewController"]
+                   containsObject:rail[@"DockControllerClass"]] ||
+       ![rail[@"ContentWindowClass"] isEqualToString:@"DBNotificationWindow"] ||
+       ![rail[@"Timestamp"] isKindOfClass:NSNumber.class] ||
+       ![rail[@"ScreenScale"] isKindOfClass:NSNumber.class])return NO;
+    NSTimeInterval age=NSDate.date.timeIntervalSince1970-[rail[@"Timestamp"] doubleValue];
+    if(!isfinite(age)||age<0||age>2.5||
+       fabs([rail[@"ScreenScale"] doubleValue]-screen.scale)>.01)return NO;
+    CGRect whole=CGRectFromString(rail[@"ScreenBounds"]?:@"");
+    CGRect dockRail=CGRectFromString(rail[@"RailFrameInScreen"]?:@"");
+    CGRect dockView=CGRectFromString(rail[@"DockViewFrameInScreen"]?:@"");
+    CGRect content=CGRectFromString(rail[@"ContentFrameInScreen"]?:@"");
+    CGRect actual=screen.bounds;
+    if(CGRectIsNull(whole)||CGRectIsEmpty(whole)||
+       CGRectIsNull(dockRail)||CGRectIsEmpty(dockRail)||
+       CGRectIsNull(dockView)||CGRectIsEmpty(dockView)||
+       CGRectIsNull(content)||CGRectIsEmpty(content)||
+       fabs(whole.origin.x-actual.origin.x)>.5 ||
+       fabs(whole.origin.y-actual.origin.y)>.5 ||
+       fabs(whole.size.width-actual.size.width)>.5 ||
+       fabs(whole.size.height-actual.size.height)>.5 ||
+       fabs(CGRectGetMinX(dockRail)-CGRectGetMinX(actual))>1.5 ||
+       fabs(CGRectGetMaxX(dockRail)-CGRectGetMinX(content))>1.5 ||
+       fabs(CGRectGetMaxX(content)-CGRectGetMaxX(actual))>1.5 ||
+       fabs(CGRectGetMaxY(content)-CGRectGetMaxY(actual))>1.5 ||
+       fabs(CGRectGetMinY(content)-CGRectGetMinY(actual))>1.5 ||
+       CGRectGetMinX(dockView)<CGRectGetMinX(dockRail)-1.5 ||
+       CGRectGetMaxX(dockView)>CGRectGetMaxX(dockRail)+1.5)return NO;
+    if(outContent)*outContent=content;
+    return YES;
+}
 // CrashReporter .ips names the exact SpringBoard assertion receiver at
 // SBAppViewController sceneHandle:didUpdateSettingsWithDiff:+440, but omits
 // NSException.name/reason. Do not hook private SpringBoard methods or swallow
@@ -253,6 +300,7 @@ static void DFStopProbe(NSString *reason) {
     // Revoke the current generation BEFORE any potentially slow media-scene
     // teardown. Queued start/ACK commands can never revive a closed session.
     sGeneration++;
+    sNativeRail120WaitCount=0;
     // Exact old-session cleanup while its ID still exists. The CarPlay
     // process also has an independent heartbeat watchdog restoring the Dock.
     // On Home the old external overlays must disappear BEFORE any Dock
@@ -400,6 +448,34 @@ static void DFStartProbe(void) {
         // CarPlay Dock owns the left rail. Even a mistaken client geometry
         // cannot place our touch windows in that area.
         CGFloat safeLeft=CGRectGetMinX(screen)+MAX(42,screen.size.width*.082);
+        NSDictionary *nativeRail=[NSDictionary dictionaryWithContentsOfFile:kNativeRail120File];
+        CGRect verifiedNativeContent=CGRectNull;
+        BOOL nativeOwned=DFVerifiedNativeContent120(nativeRail,sSession,
+                                                  discovery.screen,&verifiedNativeContent);
+        if(!nativeOwned && sNativeRail120WaitCount<5) {
+            // The native CarPlay process publishes measured geometry on its
+            // 0.5s monitor. Wait briefly for the same active session before
+            // making the one-time fallback choice. No external window exists yet.
+            sNativeRail120WaitCount++;
+            sActivated=NO;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.20*NSEC_PER_SEC)),
+                           dispatch_get_main_queue(),^{DFStartProbe();});
+            return;
+        }
+        sNativeRail120WaitCount=0;
+        if(nativeOwned && !CGRectIsNull(region) && !CGRectIsEmpty(region) &&
+           region.origin.x<=CGRectGetMinX(verifiedNativeContent)+1.5 &&
+           CGRectGetMaxX(region)>=CGRectGetMaxX(verifiedNativeContent)-1.5) {
+            safeLeft=CGRectGetMinX(verifiedNativeContent);
+            DFTOLog(@"qa120-native-usable-bounds-owned",
+               [NSString stringWithFormat:@"system=%@ appPre=%@ left=%.3f",
+                  NSStringFromCGRect(verifiedNativeContent),
+                  NSStringFromCGRect(region),safeLeft]);
+        }else{
+            DFTOLog(@"qa120-safe-dock-fallback",
+                 nativeOwned?@"CPWindow does not cover verified native content":
+                             @"native Dock/root owner not verified in this session");
+        }
         if(CGRectIsNull(region) || CGRectIsEmpty(region) ||
            !isfinite(region.origin.x) || !isfinite(region.origin.y) ||
            !CGRectContainsRect(screen,CGRectInset(region,1,1))) {
