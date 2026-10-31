@@ -3,6 +3,7 @@
 #import <UIKit/UIKit.h>
 #import "DFAppEligibility.h"
 #import "DFAppCatalogPolicy.h"
+#import "DFHomePublisher136Config.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerDisplayPolicy.h"
 #import "DFAppHabits.h"
@@ -466,7 +467,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?8:(NSInteger)[self appsInGroup:section].count;
+ return section==0?9:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -474,7 +475,7 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đóng app khi ngắt CarPlay",@"Đặt lại tùy chọn",@"Ngôn ngữ / Language"];
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đóng app khi ngắt CarPlay",@"Đặt lại tùy chọn",@"Ngôn ngữ / Language",@"Hiện app trên CarPlay Home"];
     NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
        @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
        @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô",
@@ -482,10 +483,20 @@
        [DFCurrentWorkspace()[@"RestoreOnReconnect"] boolValue]?@"Đang bật — chỉ app đã cho phép":@"Đang tắt",
        DFDisconnectCloseEnabled()?@"Đang bật — ngắt thật, chờ 10 giây":@"Đang tắt — không đóng app trên iPhone",
        @"Đặt lại mặc định, ưa dùng hoặc giao diện chọn App",
-       [DFCurrentExtended()[@"Language"] isEqual:@"en"]?@"English":@"Tiếng Việt"];
+       [DFCurrentExtended()[@"Language"] isEqual:@"en"]?@"English":@"Tiếng Việt",
+       DFHome136Enabled()?@"Đang bật thử nghiệm — có công tắc khẩn cấp":@"Đang tắt — không thay đổi Home"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    if(indexPath.row==8){
+      UISwitch *home=[UISwitch new];
+      home.on=DFHome136Enabled();
+      home.accessibilityLabel=@"Hiển thị ứng dụng đã bật trên CarPlay Home — thử nghiệm";
+      [home addTarget:self action:@selector(home136SwitchChanged:)
+        forControlEvents:UIControlEventValueChanged];
+      cell.accessoryView=home;
+      cell.accessoryType=UITableViewCellAccessoryNone;
+    }
     if(indexPath.row==5){
       UISwitch *control=[UISwitch new];
       control.on=DFDisconnectCloseEnabled();
@@ -525,6 +536,14 @@
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)home136SwitchChanged:(UISwitch *)control {
+ if(!DFHome136Write(control.on)){
+   [control setOn:!control.on animated:YES];
+   [self appSettingsSaveFailed];
+   return;
+ }
+ [self.appsTable reloadData];
 }
 - (void)disconnectCloseSwitchChanged:(UISwitch *)control {
  BOOL enable=control.on;
@@ -805,7 +824,14 @@
        }
     }
     else if(indexPath.row==6)[self showResetOptions];
-    else [self showLanguageOptions];
+     else if(indexPath.row==7)[self showLanguageOptions];
+     else if(indexPath.row==8){
+       UISwitch *home=(UISwitch *)[tableView cellForRowAtIndexPath:indexPath].accessoryView;
+       if([home isKindOfClass:UISwitch.class]){
+          [home setOn:!home.on animated:YES];
+          [self home136SwitchChanged:home];
+       }
+     }
   } else {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
