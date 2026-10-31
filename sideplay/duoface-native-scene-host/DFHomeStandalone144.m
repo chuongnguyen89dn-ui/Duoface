@@ -316,8 +316,26 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
    v.frame=root.view.bounds;v.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
    // Explicit SOLO, never call DFNative12Chrome or its app picker.
    [[DFSceneHost sharedHost] setSplitMode:NO forHostedView:v];
+   // didMoveToWindow -> start -> sceneReady/sceneFailed can synchronously run
+   // inside addSubview. Publish nonterminal pending FIRST, never after ready/fail.
+   [self reply:@"pending-scene" reason:@"single-app-window-mounting-no-media-ack"];
+   DF144Log(@"before-standalone-mount",
+       [NSString stringWithFormat:@"req=%@ content=%@ window=%@ root=%@ surface=%@",
+       p[@"RequestID"],NSStringFromCGRect(content),NSStringFromCGRect(w.bounds),
+       NSStringFromCGRect(root.view.bounds),NSStringFromCGRect(v.bounds)]);
    [root.view addSubview:v];
-   [self reply:@"pending-scene" reason:@"single-app-window-attached-no-media-ack"];
+   // An attach failure can synchronously call sceneFailed -> stop -> clear owner.
+   // Never report a completed mount or create another timeout in that case.
+   if(self.generation!=generation || self.surface!=v || self.window!=w ||
+      ![self.request isEqualToString:p[@"RequestID"]]) {
+     DF144Log(@"mount-reentrancy-terminal",
+        [NSString stringWithFormat:@"req=%@ bid=%@",p[@"RequestID"],p[@"BundleID"]]);
+     return NO;
+   }
+   DF144Log(@"after-standalone-mount",
+       [NSString stringWithFormat:@"req=%@ window=%@ root=%@ surface=%@",
+       p[@"RequestID"],NSStringFromCGRect(w.bounds),
+       NSStringFromCGRect(root.view.bounds),NSStringFromCGRect(v.bounds)]);
    __weak typeof(self) weakSelf=self;
    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(9.0*NSEC_PER_SEC)),
                   dispatch_get_main_queue(),^{
@@ -330,20 +348,62 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
    });
    return YES;
  } @catch(NSException *e) {
-   [self reply:@"failed" reason:e.name];
-   [self stop:@"owner-exception"];return NO;
+   // Do not overwrite a terminal result from a synchronous nested failure.
+   if(self.generation==generation && [self.request isEqualToString:p[@"RequestID"]]) {
+     [self reply:@"failed" reason:e.name];
+     [self stop:@"owner-exception"];
+   } else {
+     DF144Log(@"owner-exception-after-terminal",
+       [NSString stringWithFormat:@"req=%@ exception=%@",p[@"RequestID"],e.name]);
+   }
+   return NO;
  }
 }
-- (void)sceneReady:(NSNotification *)notice {
- if(notice.object!=self.surface || !self.window || self.window.hidden)return;
+- (void)attemptOwnedReadyForView:(UIView *)v request:(NSString *)rid
+                       generation:(NSUInteger)generation attempt:(NSUInteger)attempt {
+ // No delayed callback may attach an old PID to a replaced or revoked surface.
+ if(self.generation!=generation || self.surface!=v ||
+    ![self.request isEqualToString:rid] || self.emittedHosted)return;
+ if(!self.window || self.window.hidden) {
+   DF144Log(@"qa147-ready-window-refused",rid);return;
+ }
  DFSceneHost *host=[DFSceneHost sharedHost];
- if(![host isLiveSceneForHostedView:self.surface] ||
-    ![[host bundleIDForHostedView:self.surface] isEqualToString:self.bundle])return;
- NSNumber *pid=[host verifiedPIDForHostedView:self.surface];
- if(!pid || self.emittedHosted)return; // no fake render/PID or duplicate ACK
- self.emittedHosted=YES;
- [self reply:@"scene-hosted-render-and-touch-unverified"
+ if(![host isLiveSceneForHostedView:v]) {
+   DF144Log(@"qa147-ready-scene-not-live",rid);return;
+ }
+ if(![[host bundleIDForHostedView:v] isEqualToString:self.bundle]) {
+   DF144Log(@"qa147-ready-bundle-mismatch",rid);return;
+ }
+ NSNumber *pid=[host verifiedPIDForHostedView:v];
+ if(pid) {
+   self.emittedHosted=YES;
+   DF144Log(@"qa147-ready-verified-pid",
+       [NSString stringWithFormat:@"req=%@ attempt=%lu pid=%@",rid,(unsigned long)attempt,pid]);
+   [self reply:@"scene-hosted-render-and-touch-unverified"
        reason:[NSString stringWithFormat:@"verifiedPID=%@",pid]];
+   return;
+ }
+ // Scene liveness and process identity are different clocks. Retry only the
+ // existing real PID verifier, bounded within native pending's 10s watchdog.
+ if(attempt==0 || attempt==4 || attempt==14)
+   DF144Log(@"qa147-ready-pid-unavailable",
+     [NSString stringWithFormat:@"req=%@ attempt=%lu generation=%lu",
+      rid,(unsigned long)attempt,(unsigned long)generation]);
+ if(attempt>=14)return;
+ __weak typeof(self) weakSelf=self;
+ dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.5*NSEC_PER_SEC)),
+                dispatch_get_main_queue(),^{
+   [weakSelf attemptOwnedReadyForView:v request:rid
+                         generation:generation attempt:attempt+1];
+ });
+}
+- (void)sceneReady:(NSNotification *)notice {
+ if(notice.object!=self.surface) {
+   DF144Log(@"qa147-ready-foreign-surface",@"not-owned-surface");
+   return;
+ }
+ [self attemptOwnedReadyForView:self.surface request:[self.request copy]
+                       generation:self.generation attempt:0];
 }
 - (void)sceneFailed:(NSNotification *)notice {
  if(notice.object!=self.surface)return;
