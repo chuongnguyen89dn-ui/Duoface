@@ -23,7 +23,7 @@ jobs:
           python3 -m py_compile sideplay/audit/qa147-full-route-evidence-20261031/verify_full_route_evidence.py
           python3 sideplay/audit/qa147-full-route-evidence-20261031/verify_full_route_evidence.py --repo . > full-route-verification.json
           python3 -m json.tool full-route-verification.json >/dev/null
-          grep -F '23_STATIC_ASSERTIONS_PASS_NOT_RUNTIME_PARITY' full-route-verification.json
+          grep -F '25_STATIC_ASSERTIONS_PASS_NOT_RUNTIME_PARITY' full-route-verification.json
       - name: Upload evidence (not a functional release)
         uses: actions/upload-artifact@v4
         with:
