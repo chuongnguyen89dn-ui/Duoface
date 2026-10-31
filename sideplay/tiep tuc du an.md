@@ -1,3 +1,9 @@
+## QA154 finished private build and verification — 2026-10-31
+
+**Confirmed** GitHub Actions private signed build `41216554297` source `c7844358ca28845877f39525825a01ca190a92e8` **SUCCESS**, including a standalone iOS16 syntax-only compile of the unshipped generic app-side source. Scoped test `41216470683` SUCCESS; pinned 31 source/historic checks `41216635707` SUCCESS. Earlier compile-check run `41216478996` FAILED only because unused linker-only framework flags were passed to syntax-only clang; correction `c7844358` re-ran successfully.
+
+Signed integrated PRIVATE DEB archived in DuoFace repository `sideplay/jb-embedded-appbridge/evidence/runs/41216554297/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb`, **1,179,264 bytes**, SHA256 `4bee21d0bd3976be01dac799b6a61ebb3b3f76d143f327ff2811f43d74d45c46`, Git blob `61cebcb2c126ea8797a5ae9dfcbee6e03494844b`. Archive Git head `cb53c625c54a86b3df539a863c06b77019fcdfe2` verified nontruncated tree with exact DEB + `CI_RESULT.txt` + `SHA256SUMS.txt` + `PACKAGING_PROVENANCE.json`; both SHA/provenance match. Private Actions artifact `13048302826`. **SILEO_PUBLISHED=false, DEVICE_DIRECT_HOME_TESTED=false**, generic app-side source remains **unshipped**, no real app restore accepted on iPhone. Original native Home/Dock, latency/touch/rotation remain unproven. Do not send user through repeated speculative Sileo installs. Source-level report: `sideplay/audit/qa154-app-state-continuation-20261031/STATUS.md`. Physical same-RequestID device evidence required before any parity claim.
+
 ## 2026-10-31 — QA154 generic app-side lease and restoration source staged
 
 **New request:** "Tiếp tục". Stay on `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-qa146-native-home-exit-20261031`. Baseline QA153 private signed build `41214955481` stays unchanged/preserved. Original user-rejected Log23 unchanged.
