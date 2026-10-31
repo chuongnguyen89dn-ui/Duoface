@@ -1,0 +1,28 @@
+name: QA147 launch mount and ACK scoped regressions
+on:
+  push:
+    branches:
+      - feature/duoface-qa146-native-home-exit-20261031
+    paths:
+      - '.github/workflows/duoface-qa147-mount-ready-guards.yml'
+      - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa147_mount_ack_reentrancy.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scope-and-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and run targeted guard assertions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/duoface-native-scene-host/tests/test_qa147_mount_ack_reentrancy.py
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa146_native_home_exit.py' -v
+          echo 'QA147_MOUNT_ACK_GUARD_STATIC_ONLY_PASS'
