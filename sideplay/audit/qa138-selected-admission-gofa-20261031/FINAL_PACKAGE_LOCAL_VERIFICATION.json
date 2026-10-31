@@ -1,0 +1,20 @@
+{
+  "run": 41162732197,
+  "source": "5d9e216af1f6c62b60b130e61976b07fb026f726",
+  "archive": "f85cdeccab252b707743fc80d5a4e8400eda0311",
+  "sha256": "2805b78d2378efa3ed5e2c0351688397e5e6f7b95605e3249b7b5b1511512784",
+  "metadata": "Package: com.duoface.jb.embedded\nVersion: 0.0.138~selectedlayout1\nArchitecture: iphoneos-arm64\n",
+  "five_receiver_payloads": true,
+  "gofa_only_filter": true,
+  "youtube_filter_unchanged": true,
+  "home_policy_markers": true,
+  "gofa_host_ack_marker": true,
+  "local_device_tested": false,
+  "signature_verification": "CI ldid on all five receivers passed; not repeated on Linux",
+  "ci_runtime_excerpt": [
+    "2026-10-31T03:04:48.5595310Z 2026-10-31 03:04:48.558 home138-runtime[14811:42813] QA138 admission runtime: selected-only, disabled, typed, native passthrough, absent info getter, correct original policy receiver, declaration and factory identity PASS"
+  ],
+  "publisher_commit": "a63a7ba11909e13a0721fe7ebdd546a2e08d53f2",
+  "publisher_run": 41163039562,
+  "publication_status": "IN_PROGRESS_NOT_PUBLIC_VERIFIED"
+}
