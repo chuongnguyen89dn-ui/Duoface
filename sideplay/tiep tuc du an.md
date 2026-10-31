@@ -1,3 +1,14 @@
+# 2026-10-31 — Đối chiếu AppBridge tích hợp với cơ chế điều hướng gốc
+
+- Yêu cầu: ứng dụng không hỗ trợ CarPlay cần có cơ chế bridge tương đương tích hợp sẵn trong DuoFace, hoạt động đúng với Dock, Home và hướng giao diện. Không coi việc hiển thị được nội dung là hoàn tất.
+- Audit DEB DuoNavi và bản tham chiếu Native12: Actions 41188049562 SUCCESS, báo cáo sideplay/audit/qa146-native-home-dock-parity-20261031/runs/41188049562/ORIGINAL_DUONAVI_NATIVE12_APPBRIDGE_IMP_DEEP.json.
+- Đối chiếu mã hiện tại với kết quả DEB: Actions 41188209674 SUCCESS; báo cáo runs/41188209674/FIRST_PARTY_CARBRIDGE_EQUIVALENT_GAPS_VERIFIED.json.
+- Đã xác nhận tĩnh: bản gốc nối vòng đời app với lịch sử Dock và trạng thái Home. QA146 chỉ hiển thị trên cửa sổ riêng và chưa nối tương ứng, phù hợp lỗi thực tế người dùng phản ánh. Bản gốc cũng dùng thông điệp qua file; không được mặc định đó là nguyên nhân chậm. Chưa có phép đo độ trễ cuối đến cảm ứng.
+- Đóng gói QA146 sử dụng bộ bridge tự phát triển; không nhúng binary CarBridge thương mại. DEB CarBridge thương mại chưa có artifact xác thực để phân tích trực tiếp; không được nhầm với DuoNavi.
+- Tiếp theo: kiểm chứng trên iOS16.7.16 đối tượng quản lý Dock và Home thật, vòng đời scene và hướng hiển thị; chỉ sửa/build sau khi xác minh. QA146 vẫn chưa đạt, chưa phát hành QA147. Không có test vật lý mới.
+
+---
+
 # 2026-10-31 — CARBRIDGE INSIDE DUOFACE EXPLICIT REQUIREMENT; ORIGINAL DUONAVI/DERIVED NATIVE12 DEEP ROOT CAUSE VERIFIED
 
 - **LATEST USER REQUIREMENT / SCOPE:** "tiếp tục nghiên cứu. Và lưu ý chúng ta đang add carbridge trong duoface. Nên để ứng dụng ko đc hỗ trợ lên carplay phải cần carbridge. Xem đoạn đó có vướng mắc j ko? Và quét sâu den gốc tìm nguyên nhân". Interpret precisely: **independently develop integrated CarBridge-EQUIVALENT scene bridging inside ONE DuoFace package** for selected non-CarPlay iPhone apps, preserve real Apple native CarPlay/Dock/Home and split 1–4. **Do not** distribute licensed official CarBridge payload, source, license or demand its install as a dependency. Actual signed QA146 integrated package already has first-party AppBridge but **the essential full native activation/Dock/Home state integration is missing**.
