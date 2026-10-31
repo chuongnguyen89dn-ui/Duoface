@@ -3,6 +3,8 @@
 // process lifecycle, player input, or other apps. Reverts its own frames only.
 #import <UIKit/UIKit.h>
 #import "DF154AppStateProtocol.h"
+#import "DF155PilotAppScope.h"
+#import <notify.h>
 
 @interface DF154WindowOriginal : NSObject
 @property(nonatomic) CGRect frame;
@@ -51,6 +53,11 @@
 - (void)receive:(NSNotification *)notification {
  NSDictionary *next=[notification.userInfo copy];
  dispatch_async(dispatch_get_main_queue(),^{
+  // Never apply a stale or forged host lease after the user disabled the app.
+  if(!DF155EnabledPilotApp(self.bundle)) {
+    if(self.state)[self restore:@"allowlist-revoked"];
+    return;
+  }
   NSTimeInterval now=NSDate.date.timeIntervalSince1970;
   if(!DF154Valid(next,now) ||
      ![next[@"bundleIdentifier"] isEqualToString:self.bundle])return;
@@ -85,7 +92,12 @@
  });
 }
 - (void)reconcile {
- if(!NSThread.isMainThread || self.applying ||
+ if(!NSThread.isMainThread || self.applying)return;
+ if(!DF155EnabledPilotApp(self.bundle)) {
+   if(self.state)[self restore:@"allowlist-revoked"];
+   return;
+ }
+ if(
     !DF154Valid(self.state,NSDate.date.timeIntervalSince1970) ||
     ![self.state[@"active"] boolValue])return;
  // The original host's actual FBScene ID must match the UIKit scene;
@@ -146,16 +158,29 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
   NSString *path=NSBundle.mainBundle.bundlePath;
   if(!DF154String(bundle) || ![path hasSuffix:@".app"] ||
      NSBundle.mainBundle.infoDictionary[@"NSExtension"] ||
-     [bundle isEqualToString:@"com.google.ios.youtube"] ||
-     [bundle isEqualToString:@"com.lumi.GOFA"] ||
+     !DF155PilotAppID(bundle) ||
      NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
   dispatch_async(dispatch_get_main_queue(),^{
     id center=DF154Center();
-    if(!center)return;
+    if(!center) {
+      NSLog(@"[DF154AppState] bundle=%@ transport-unavailable; no UIKit changes",bundle);
+      return;
+    }
     DF154GeneralAppStateRelay *relay=[DF154GeneralAppStateRelay new];
     relay.bundle=bundle;
     relay.originals=[NSMapTable weakToStrongObjectsMapTable];
     DF154Relay=relay;
+    // Filtered injection is fixed at packaging time. Runtime allowlist is
+    // rechecked on every lease, window event, timer and consent change.
+    static int sEnabledChangedToken=-1;
+    uint32_t status=notify_register_dispatch(DFEnabledAppsChangedNotification,
+      &sEnabledChangedToken,dispatch_get_main_queue(),^(int __unused token) {
+        if(!DF155EnabledPilotApp(relay.bundle)) {
+          if(relay.state)[relay restore:@"allowlist-disabled"];
+        } else [relay reconcile];
+      });
+    if(status!=NOTIFY_STATUS_OK)
+      NSLog(@"[DF154AppState] bundle=%@ consent-watch-unavailable status=%u",bundle,status);
     [center addObserver:relay selector:@selector(receive:)
                   name:DF154StateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserverForName:
@@ -171,7 +196,8 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
           [relay restore:@"app-reentered-after-expiry"];
         else [relay reconcile];
       }];
-    NSLog(@"[DF154AppState] bundle=%@ registered=exact-owned-scene-only",bundle);
+    NSLog(@"[DF154AppState] bundle=%@ registered=exact-owned-scene-only enabled=%d",
+      bundle,DF155EnabledPilotApp(bundle));
   });
  }
 }

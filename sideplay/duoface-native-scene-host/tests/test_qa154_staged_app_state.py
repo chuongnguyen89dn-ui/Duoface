@@ -1,4 +1,4 @@
-"""QA154 source-only owner/recovery invariants; no app-side installation."""
+"""QA154 historical owner/recovery invariants; QA155 installs a scoped pilot."""
 from pathlib import Path
 import hashlib
 import unittest
@@ -27,8 +27,9 @@ class GenericStateStaging(unittest.TestCase):
   for x in ('owner-terminal','lease-expired','owner-replaced','window.frame=original.frame'):
    self.assertIn(x,RELAY)
   self.assertNotIn("setInterfaceOrientation:",RELAY)
- def test_generic_receiver_not_in_build(self):
-  self.assertNotIn("DF154GeneralAppStateRelay.m",BUILD)
+ def test_qa155_receiver_now_built_with_restricted_filter(self):
+  self.assertIn("DF154GeneralAppStateRelay.m",BUILD)
+  self.assertIn("DF155GeneralAppStateRelay.plist",BUILD)
  def test_frozen_host_unmodified(self):
   sha=hashlib.sha1(b"blob "+str(len(FROZEN)).encode()+b"\0"+FROZEN).hexdigest()
   self.assertEqual(sha,"ec2924c145be4edaaa27b7320bb869b18de12c6b")

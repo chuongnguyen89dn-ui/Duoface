@@ -58,6 +58,16 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$GOFA_DYLIB" DFGofaMapResize141.m
 cp DFGofaMapResize141.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaMapResize141.plist"
 ldid -S "$GOFA_DYLIB"
+# QA155 private app-side receiver. Scope is an explicit, reviewable two-app
+# injection pilot (Safari/VLC); actual enabled state must also be true in
+# DFEnabledAppsPolicy. Never inject system CarPlay/Dock, YouTube or GOFA.
+APP_STATE_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib"
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+  -framework UIKit -framework Foundation -framework CoreGraphics \
+  -o "$APP_STATE_DYLIB" DF154GeneralAppStateRelay.m
+cp DF155GeneralAppStateRelay.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
+ldid -S "$APP_STATE_DYLIB"
 # Assets are our previously approved DuoFace artwork from the project's source.
 ART="$ROOT/../../dist/visual-1.0.3-12/assets"
 APP_ART="$APP/VisualAssets"

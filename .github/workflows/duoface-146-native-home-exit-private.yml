@@ -11,6 +11,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DF154AppStateProtocol.h'
       - 'sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m'
+      - 'sideplay/duoface-native-scene-host/DF155PilotAppScope.h'
+      - 'sideplay/duoface-native-scene-host/DF155GeneralAppStateRelay.plist'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa155_integrated_relay.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa154_staged_app_state.py'
       - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
       - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
@@ -68,6 +71,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"
           "$RUNNER_TEMP/workspace152"
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
@@ -125,9 +129,11 @@ jobs:
           test "$(dpkg-deb -f "$OUT" Version)" = '0.0.147~native-dock-sync1'
           mkdir -p "$RUNNER_TEMP/qa147-merged"
           dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa147-merged"
-          for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator; do
+          for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator DF155GeneralAppStateRelay; do
             ldid -e "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
           done
+          test -s "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
+          strings -a "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'
           strings -a "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'
           test "$(dpkg-deb -c "$OUT" | head -1 | awk '{print $1, $2}')" = "drwxr-xr-x root/root"
           echo "QA147_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"

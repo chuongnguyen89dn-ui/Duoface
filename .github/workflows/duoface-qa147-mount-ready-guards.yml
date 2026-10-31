@@ -8,6 +8,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DF154AppStateProtocol.h'
       - 'sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m'
+      - 'sideplay/duoface-native-scene-host/DF155PilotAppScope.h'
+      - 'sideplay/duoface-native-scene-host/DF155GeneralAppStateRelay.plist'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa155_integrated_relay.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa154_staged_app_state.py'
       - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
       - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
@@ -48,6 +51,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"
           "$RUNNER_TEMP/workspace152"
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o /tmp/manager149

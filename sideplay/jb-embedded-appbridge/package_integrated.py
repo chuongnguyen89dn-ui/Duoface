@@ -77,6 +77,19 @@ def build(expected_nativehost_sha256,expected_source_sha):
   with observer.with_suffix(".plist").open("rb") as file:
    if plistlib.load(file)!={"Filter":{"Bundles":["com.lumi.GOFA"]}}:
     raise RuntimeError("GOFA map resize receiver filter broadened")
+  # QA155: assert the app-side receiver was actually merged, not just
+  # syntax-checked. The injection filter is exact: no global UIKit wildcard.
+  generic=stage/"var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay"
+  if not generic.with_suffix(".dylib").is_file():
+   raise RuntimeError("QA155 app-side receiver binary absent from integrated DEB")
+  with generic.with_suffix(".plist").open("rb") as file:
+   exact_filter=plistlib.load(file)
+  if exact_filter!={"Filter":{"Bundles":["com.apple.mobilesafari","org.videolan.vlc-ios"]}}:
+   raise RuntimeError("QA155 filter expanded, malformed or missing")
+  if any(x in seen for x in (
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.plist")):
+   raise RuntimeError("QA155 must not revive the obsolete viewport receiver")
   # A genuine CarPlay process-only, user-armed native Maps UIKit pane
   # experiment, shipped INSIDE the one DuoFace package (never standalone).
   # Default OFF. No SpringBoard injection and no vendor/CPWindow payload.
@@ -138,6 +151,10 @@ def build(expected_nativehost_sha256,expected_source_sha):
     "device_carplay_icon_tested":False,
     "real_two_app_scene_tested":False,
     "native_content_receiver_compiled":True,
+    "qa155_app_receiver_present_in_merged_payload":True,
+    "qa155_app_receiver_filter":["com.apple.mobilesafari","org.videolan.vlc-ios"],
+    "qa155_app_receiver_requires_runtime_enabled_allowlist":True,
+    "qa155_app_receiver_device_accepted":False,
     "native_map_optin_controller_coordinator_compiled":True,
     "native_map_tiles_device_verified":False,
     "native_map_navigation_continuity_verified":False,
