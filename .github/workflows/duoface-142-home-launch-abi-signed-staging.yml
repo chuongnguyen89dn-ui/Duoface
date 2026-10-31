@@ -7,6 +7,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHomeLaunchABI142.m'
       - 'sideplay/duoface-native-scene-host/build.sh'
       - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
       - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa142_home_launch_probe.py'
@@ -61,6 +62,7 @@ jobs:
           HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.142~homeabi1_iphoneos-arm64.deb'
           test -s "$HOST"
           test "$(dpkg-deb -f "$HOST" Version)" = '0.1.142~homeabi1'
+          grep -Fq '<key>CFBundleVersion</key><string>142</string>' sideplay/duoface-native-scene-host/Info.plist
           mkdir -p "$RUNNER_TEMP/native"
           dpkg-deb -x "$HOST" "$RUNNER_TEMP/native"
           for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay DFGofaMapResize141; do
