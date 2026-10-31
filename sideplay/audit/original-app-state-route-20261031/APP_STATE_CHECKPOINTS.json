@@ -1,0 +1,347 @@
+{
+  "binary_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+  "mode": "static_read_only",
+  "checks": [
+    {
+      "kind": "instruction",
+      "pc": "0x2cf450",
+      "meaning": "listener checks persisted state during init"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cf468",
+      "meaning": "listener opens distributed notification center"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cf4b4",
+      "meaning": "listener registers app-state notification receiver"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cf4fc",
+      "meaning": "listener registers didBecomeActive receiver"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cf514",
+      "meaning": "listener requests current state during init"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cfcf4",
+      "meaning": "app active checks persisted state again"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cfb98",
+      "meaning": "app request dictionary contains one bundle key"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x26bdf8",
+      "meaning": "SB app request asks whether that bundle is currently bridged"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x26be14",
+      "meaning": "SB sends bridge state in response"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x1fb26c",
+      "meaning": "SB constructs eight-field app-state payload"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x1fb358",
+      "meaning": "SB posts app state with deliverImmediately when supported"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x1fb39c",
+      "meaning": "SB supported fallback notification post"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cfdf0",
+      "meaning": "receiver compares target bundle to process bundle"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce1c4",
+      "meaning": "apply enumerates application windows"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce714",
+      "meaning": "eligible window applies frame"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce730",
+      "meaning": "eligible window applies bounds"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce76c",
+      "meaning": "eligible window applies native orientation selector"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce778",
+      "meaning": "eligible window requests layout"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cee70",
+      "meaning": "restore branch restores eligible window frame"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cee8c",
+      "meaning": "restore branch restores eligible window bounds"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d02bc",
+      "meaning": "app startup callback obtains CBAppStateListener singleton"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x313114",
+      "meaning": "app startup function invokes listener startup"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d0168",
+      "meaning": "notification continuation stores bridge-active state"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d018c",
+      "meaning": "notification continuation stores dimensions"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d0194",
+      "meaning": "notification continuation stores orientation"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d019c",
+      "meaning": "notification continuation stores split state"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d01d4",
+      "meaning": "active continuation enters window layout"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce920",
+      "meaning": "restore resets active state"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce930",
+      "meaning": "restore resets dimensions"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce938",
+      "meaning": "restore resets orientation"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2ce940",
+      "meaning": "restore resets split state"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cfd0c",
+      "meaning": "app active tail-calls request current state again"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d0250",
+      "meaning": "inactive-after-active continuation enters restoration"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d009c",
+      "meaning": "receiver constructs state-application continuation"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d00d8",
+      "meaning": "receiver dispatches application continuation"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d01dc",
+      "meaning": "first retry delay low bits"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d01e0",
+      "meaning": "first retry total 150000000ns"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d0204",
+      "meaning": "second retry delay low bits"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d0208",
+      "meaning": "second retry total 500000000ns"
+    },
+    {
+      "kind": "block_invoke",
+      "literal": "0x372380",
+      "target": "0x2d0264"
+    },
+    {
+      "kind": "block_invoke",
+      "literal": "0x3723a0",
+      "target": "0x2d0284"
+    },
+    {
+      "kind": "block_invoke",
+      "literal": "0x372340",
+      "target": "0x2cfae8"
+    },
+    {
+      "kind": "block_invoke",
+      "literal": "0x372360",
+      "target": "0x2cfb08"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d0278",
+      "meaning": "delayed callback re-enters layout after active-state check"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2d0298",
+      "meaning": "delayed callback re-enters layout after active-state check"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cfafc",
+      "meaning": "delayed callback re-enters layout after active-state check"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cfb1c",
+      "meaning": "delayed callback re-enters layout after active-state check"
+    },
+    {
+      "kind": "local_class_reference",
+      "slot": "0x3aad58",
+      "class_name": "CBAppStateListener"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x398b80",
+      "value": "bundleIdentifier"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d160",
+      "value": "shouldBridge"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d180",
+      "value": "bridgeToken"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d1a0",
+      "value": "fixedKeyboardWidth"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d1c0",
+      "value": "displayWidth"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d1e0",
+      "value": "displayHeight"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d200",
+      "value": "orientation"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d220",
+      "value": "isSplit"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d260",
+      "value": "bridgedBundleID"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d2a0",
+      "value": "activeBridgedBundleIDs"
+    },
+    {
+      "kind": "CFString",
+      "address": "0x39d280",
+      "value": "size_%@"
+    },
+    {
+      "kind": "dyld_binding",
+      "slot": "0x3aad20",
+      "symbol": "_OBJC_CLASS_$_NSDistributedNotificationCenter"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x2cf458",
+      "meaning": "listener and sender resolve same distributed center class"
+    },
+    {
+      "kind": "encoded_notification_literal_equality",
+      "bytes": 21,
+      "sender": "0x342ac0",
+      "receiver": "0x3442ef",
+      "sha256": "e5f650124701a96531297375cbcffad7bd3b6e544cb040df32236f7ef3971f32",
+      "plaintext_decoded": false
+    }
+  ],
+  "packaged_filter_bundles": [
+    "com.apple.CarPlayApp",
+    "com.apple.CarPlay",
+    "com.apple.dashboard",
+    "com.apple.springboard",
+    "com.apple.SpringBoard",
+    "com.google.ios.youtube",
+    "com.google.ios.youtubemusic",
+    "com.netflix.Netflix",
+    "org.videolan.vlc-ios",
+    "com.apple.mobilesafari",
+    "tv.twitch",
+    "com.zhiliaoapp.musically",
+    "com.google.Maps",
+    "com.waze.iphone",
+    "com.spotify.client",
+    "com.apple.Preferences",
+    "com.apple.mobilenotes",
+    "com.apple.mobilephone",
+    "com.apple.Music",
+    "com.google.chrome.ios",
+    "com.apple.BarcodeScanner",
+    "com.apple.PrintKit.Print-Center",
+    "com.duonavi.duonaviui"
+  ],
+  "packaged_filter_sha256": "1e1ac54b30b58ba7d3cfd4d243f7c8fcb0b2ca3bd4774134c013478079cb8cfe",
+  "runtime_equivalence_proven": false,
+  "opaque_bridge_token_implementation_reproduced": false
+}

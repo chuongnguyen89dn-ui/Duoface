@@ -1,0 +1,33 @@
+{
+  "source_head": "5d068755742134b9dfb55ccb7d30a73c837d1d77",
+  "git_blob_pins": {
+    "DFSceneHost.m": "ec2924c145be4edaaa27b7320bb869b18de12c6b",
+    "DFHomeStandalone144.m": "63b12c0577c0384b779004a216d4782ee7d7661c",
+    "DFHostedMapRenderSize.h": "dabd6784d94cb7ad5b9f4ad56c123bbd695c22aa",
+    "DFYouTubeOrientationRelay.plist": "bb8042a571c2580aa6e84108eee8ed14ba4fb3db",
+    "build.sh": "172f9d2b9740367c66582d1e976889e828059410"
+  },
+  "line_locations": {
+    "factory_loads_view": 882,
+    "start_adds_view": 356,
+    "start_sets_lifecycle": 363,
+    "commit_requires_ready": 433,
+    "host_emits_ready": 727,
+    "owner_ready_callback": 337,
+    "owner_requires_verified_pid": 343,
+    "owner_adds_surface": 319,
+    "owner_pending_after_attach": 320,
+    "owner_registers_ready_observer": 399
+  },
+  "observations": [
+    "Factory loads controller view before surface start.",
+    "Startup adds host view before occlusion/lifecycle flags.",
+    "Reference commit requires ready; readiness notification emitted on transition only.",
+    "Standalone ready callback requires verified PID. Reply also reads PID, but does not promote pending into ready; no readiness retry is scheduled.",
+    "Begin continues after addSubview, even if nested failure already tore down owner.",
+    "First-party logical render size already doubles slot bounds; a blanket scale doubling is not justified."
+  ],
+  "exact_failed_ready_predicate_measured": false,
+  "late_pid_causation_proven": false,
+  "original_runtime_equivalence_proven": false
+}

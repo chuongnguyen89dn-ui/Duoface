@@ -1,3 +1,19 @@
+# 2026-10-31 — ORIGINAL APP-SIDE STATE ROUTE (62 NEW CHECKPOINTS)
+
+CONFIRMED investigation continuation requested by user. QA147 still REJECTED; no production source change, new DEB/Sileo release or device success in this checkpoint.
+
+Read `sideplay/audit/original-app-state-route-20261031/APP_STATE_ROUTE_FINDINGS.md`, `APP_STATE_CHECKPOINTS.json`, `FIRST_PARTY_BOUNDARIES.json` and their reproducible scripts. New original verifier passes62 static checkpoints; prior71 verifier rerun and passes. Original dylib pin44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15 unchanged. Counts do not imply complete runtime/CFG parity.
+
+New original linkage: app startup313090 ->2d02a4 ->CBAppStateListener.sharedInstance; listener init/active checks persisted state and requests current bundle state. SB receivedAppRequestNotification checks isCurrentlyBridging then sends app state. Sender1fb26c constructs8-field payload, sends via NSDistributedNotificationCenter classref3aad20 (resolved actual dyld bind, not zero/nil classref assumption). ReceiverhandleAppStateNotification ->main continuation2d0148 ->window layout2ce094 with eligibility guards, frame/bounds/native rotation;150ms and500ms active-guarded layout retries; previously-active->inactive path restores via2ce8e0. Packaged original filter covers23bundles, not all arbitrary apps. Full constructor selection/dynamic filter expansion still unproven. No vendor opaque-token validator copied or bypassed.
+
+Payload fields:shouldBridge,bridgeToken,fixedKeyboardWidth,displayWidth,displayHeight,orientation,isSplit,bundleIdentifier. Persisted reader also seesbridgedBundleID/activeBridgedBundleIDs/size_<bundle>. Current package explicitly enforces YouTube-only and GOFA-only relay filters; equivalent shared receiver for other enabled phone apps remains unproven. Native CP maps are separate from phone-app hosting.
+
+Source audit pins match GitHub at5d068755742134b9dfb55ccb7d30a73c837d1d77. Factory loads view BEFORE surface startup; start adds view before lifecycle flags; initial reference setters gated onready. Logical render size ALREADY2xslot as original, so doubling again is unjustified. Standalone ready callback requires PID once; reply also reads PID but cannot promotepending toready. Late-PID missing-ACK is structural hypothesis, not measured cause. Begin unconditionally writespending afteraddSubview; nested failure can have already cleared owner (8actual Log23 cases). Successful synchronousready overwrite bypending is another structural risk, not demonstrated in Log23.16host-ready/0standalone-ACK still lack exact failed predicate.
+
+Next implementation boundary: preserve native prep/eviction/host initialization/shared app-side state+recovery/manager response/Dock+Home/teardown; identify startup exception operation and ready rejection guard; prevent stalepending after reentrant completion/failure; any ready retry must retain exact request/bundle/display/generation with actual ownership/PID. Do not claim native parity from selector matches or release another Dock-only patch. Previous handoff preserved below.
+
+---
+
 # 2026-10-31 — ORIGINAL EXECUTION ROUTE TRACING (71 PINNED CHECKPOINTS)
 
 User instruction: “Truy tiếp đi”. Same lifecycle/execution route is required, independently implemented. QA147 remains REJECTED by Log23; no QA148 build/release in this investigation.
