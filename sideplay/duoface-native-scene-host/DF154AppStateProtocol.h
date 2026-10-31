@@ -9,6 +9,7 @@
 #import <math.h>
 
 static NSString *const DF154StateNotification=@"com.duoface.independent.app-state.v154";
+static NSString *const DF155AckNotification=@"com.duoface.independent.app-state.ack.v155";
 
 static inline id DF154Object(id object,const char *getter) {
  if(!object)return nil;
@@ -49,6 +50,12 @@ static inline id DF154Center(void) {
  id center=[cls defaultCenter];
  return [center respondsToSelector:@selector(postNotificationName:object:userInfo:deliverImmediately:)] &&
         [center respondsToSelector:@selector(addObserver:selector:name:object:)]?center:nil;
+}
+static inline void DF155PostAck(NSDictionary *s) {
+ if(DF154String(s[@"requestID"]) && DF154String(s[@"bundleIdentifier"]) &&
+    DF154String(s[@"owner"]) && DF154String(s[@"sceneIdentifier"]) &&
+    DF154String(s[@"phase"]))
+   [DF154Center() postNotificationName:DF155AckNotification object:nil userInfo:s deliverImmediately:YES];
 }
 static inline void DF154Post(NSDictionary *s) {
  if(DF154Valid(s,NSDate.date.timeIntervalSince1970))
