@@ -1,0 +1,102 @@
+name: DuoFace QA142 verified two-DEB Home tap research (read only)
+on:
+  push:
+    branches:
+      - feature/duoface-qa141-declaration-map-layout-20261031
+    paths:
+      - '.github/workflows/duoface-qa142-two-deb-home-readonly.yml'
+      - 'sideplay/audit/qa142-log20-home-launch-20261031/verify_two_debs_readonly.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa142-two-debs-readonly
+  cancel-in-progress: false
+jobs:
+  static-binary-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify central skill archives and read actual skill instructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          for item in \
+            '01-github-continuity.zip 80efec9a6cbbb49135eabeafb339bf13f74ff6ddef9706659871b30a2c020d7e' \
+            '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' \
+            '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            read -r name expected <<< "$item"
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$name" -o "$RUNNER_TEMP/$name"
+            echo "$expected  $RUNNER_TEMP/$name" | sha256sum -c -
+            unzip -t "$RUNNER_TEMP/$name" >/dev/null
+            unzip -p "$RUNNER_TEMP/$name" SKILL.md | head -35
+          done
+      - name: Verify original DuoNavi and explicitly repacked DuoDash package SHAs
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb | sha256sum -c -
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb' -o "$RUNNER_TEMP/duodash-REPACK.deb"
+          printf '%s  %s\n' ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465 "$RUNNER_TEMP/duodash-REPACK.deb" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/duonavi" "$RUNNER_TEMP/duodash"
+          dpkg-deb -x dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/duonavi"
+          dpkg-deb -x "$RUNNER_TEMP/duodash-REPACK.deb" "$RUNNER_TEMP/duodash"
+          printf '%s  %s\n' 44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15 "$RUNNER_TEMP/duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" | sha256sum -c -
+          printf '%s  %s\n' b41dd7f892bfd3722e95a40f764a989886078b4a30943c1f0b50d47b6e248a47 "$RUNNER_TEMP/duodash/var/jb/usr/lib/TweakInject/DuoDash.dylib" | sha256sum -c -
+      - name: Execute read-only original ARM64 xref audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/verified-parser" "$RUNNER_TEMP/results"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/verified-parser/audit_native12_license_class_xrefs.py"
+          cp sideplay/audit/carplay-home-icons-20261030/decode_original_home_roster_callsites.py "$RUNNER_TEMP/verified-parser/decode_original_home_roster_callsites.py"
+          python3 -m py_compile sideplay/audit/qa142-log20-home-launch-20261031/verify_two_debs_readonly.py
+          PYTHONPATH="$RUNNER_TEMP/verified-parser" python3 sideplay/audit/qa142-log20-home-launch-20261031/verify_two_debs_readonly.py \
+            --duonavi "$RUNNER_TEMP/duonavi/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib" \
+            --duodash-repack "$RUNNER_TEMP/duodash/var/jb/usr/lib/TweakInject/DuoDash.dylib" \
+            --scanner "$RUNNER_TEMP/verified-parser/decode_original_home_roster_callsites.py" \
+            --out "$RUNNER_TEMP/results/TWO_DEB_HOME_XREFS_VERIFIED.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          j=json.loads((Path(os.environ['RUNNER_TEMP'])/'results/TWO_DEB_HOME_XREFS_VERIFIED.json').read_text())
+          assert len(j['images'])==2
+          assert j['execution_or_device_proof'] is False
+          assert j['home_tap_to_launch_proven'] is False
+          print('TWO_DEB_SOURCE_PROVENANCE_AND_STATIC_EVIDENCE_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA142-original-DuoNavi-DuoDash-repack-static-Home-xrefs
+          path: ${{ runner.temp }}/results/TWO_DEB_HOME_XREFS_VERIFIED.json
+          if-no-files-found: error
+      - name: Persist verified static evidence into DuoFace (no binaries)
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa141-declaration-map-layout-20261031
+          REL=sideplay/audit/qa142-log20-home-launch-20261031
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            cp "$RUNNER_TEMP/results/TWO_DEB_HOME_XREFS_VERIFIED.json" "$T/$REL/TWO_DEB_HOME_XREFS_VERIFIED.json"
+            printf 'RUN_ID=%s\nSOURCE_SHA=%s\nDUONAVI_ORIGINAL=true\nDUODASH_REPACK_NOT_STOCK=true\nBINARY_EXECUTED=false\nDEVICE_TAP_VERIFIED=false\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > "$T/$REL/TWO_DEB_HOME_XREFS_RUN.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$REL/TWO_DEB_HOME_XREFS_VERIFIED.json" "$REL/TWO_DEB_HOME_XREFS_RUN.txt"
+            if git -C "$T" diff --cached --quiet; then git worktree remove --force "$T"; exit 0; fi
+            git -C "$T" commit -m 'audit(qa142): persist original vs repack static Home crosswalk [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$T"
+              echo QA142_TWO_DEB_STATIC_EVIDENCE_GITHUB_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
