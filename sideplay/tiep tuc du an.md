@@ -1,3 +1,13 @@
+# 2026-10-31 QA143 SIGNED RELEASE CHECKPOINT
+
+- Verified QA143 source/build/signed DEB, CI, private runtime and pending Sileo status in sideplay/audit/qa143-home-bridge-signed-20261031/QA143_SIGNED_RELEASE_CHECKPOINT.md.
+- Signed action run 41177472190 completed/success. Source SHA 7e9cb8df5c02903557f53f47447d977ba7a84aef; immutable archive commit e475878b2fe93dde2e62f66f5f8c2d1217798618; package 0.0.143~homebridge1 SHA256 db9019a708c4905602d00ed500878c01f208b26655e42ee079dacf30d925c39c.
+- Sileo publisher workflow metadata carplaydsp commit 1a91d54a, YAML/actionlint run 41177913539 success, active Pages run 41177913481; public live CDN and actual iPhone external app click not yet verified when written.
+- Home143 user click uses real iOS16 Home selector to original-launch the genuine DuoFace icon for selected apps only when rendered in same Home page; after CPTemplate foreground, SpringBoard invokes original DFSceneHost. When no host icon/consent/ABI, forward original once; no fake native app or foreground. On-device needs selected icon plus real DuoFace icon on same page, new Log143 and sceneReady/touch proof, preserving GOFA/YouTube/Dock.
+
+
+---
+
 # 2026-10-31 — QA143 PHYSICAL HOME-TAP→REAL DUOFACE SCENE BRIDGE SOURCE; SIGNED MACOS CI PENDING
 
 - **User explicitly said "Làm đi"**. Implemented first actual selected CarPlay Home click bridge (previous QA142 had only a read-only ABI sampler); scope private first-party source, **not yet real physical success**. Repo `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-qa142-home-abi-20261031` (keep original QA142 as rollback). Latest edited source commit `7e9cb8df5c02903557f53f47447d977ba7a84aef`; later handoff/checkpoint will advance HEAD without changing QA143 executable.
