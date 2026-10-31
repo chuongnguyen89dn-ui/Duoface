@@ -32,7 +32,7 @@ class QA155AppReceiver(unittest.TestCase):
    self.assertNotIn(forbidden,relay)
   self.assertIn('DF154Valid(self.state,NSDate.date.timeIntervalSince1970)',relay)
   native=(ROOT/"DFSceneHost.m").read_bytes()
-  self.assertEqual(hashlib.sha1(b"blob "+str(len(native)).encode()+b"\\0"+native).hexdigest(),
+  self.assertEqual(hashlib.sha1(b"blob "+str(len(native)).encode()+b"\0"+native).hexdigest(),
                    "ec2924c145be4edaaa27b7320bb869b18de12c6b")
  def test_no_legacy_relay_filter_broadening(self):
   for name,bundle in (("DFYouTubeOrientationRelay.plist","com.google.ios.youtube"),
