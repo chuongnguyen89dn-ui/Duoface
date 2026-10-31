@@ -9,6 +9,7 @@
 #import <unistd.h>
 #import <string.h>
 #import "DFHomePublisher136Config.h"
+#import "DFEnabledAppsPolicy.h"
 extern NSInteger DFHome136ReconcileVerifiedLibrary(id library);
 static NSString *const DFHome136LogPath=
  @"/var/mobile/Library/Logs/DuoFaceHomePublisher136.log";
