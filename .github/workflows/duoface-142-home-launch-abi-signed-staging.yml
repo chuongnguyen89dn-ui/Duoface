@@ -1,0 +1,91 @@
+name: DuoFace QA142 Native Home ABI safe signed build
+on:
+  push:
+    branches: [feature/duoface-qa142-home-abi-20261031]
+    paths:
+      - '.github/workflows/duoface-142-home-launch-abi-signed-staging.yml'
+      - 'sideplay/duoface-native-scene-host/DFHomeLaunchABI142.m'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa142_home_launch_probe.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_142.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa142-home-abi-signed
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate native Home ABI and baseline regression contracts
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa142_home_launch_probe.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_home_admission_probe.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_142.py' -v
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m -o "$RUNNER_TEMP/home141"
+          "$RUNNER_TEMP/home141"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_resize_141.c -o "$RUNNER_TEMP/gofa141"
+          "$RUNNER_TEMP/gofa141"
+          grep -Fq 'VERSION="0.0.142~homeabi1"' sideplay/jb-embedded-appbridge/package_integrated.py
+      - name: Install existing rootless toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          test -d "$(xcrun --sdk iphoneos --show-sdk-path)"
+      - name: Build three unchanged first-party rootless modules
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+      - name: Build and verify signed QA142 native host
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.142~homeabi1_iphoneos-arm64.deb'
+          test -s "$HOST"
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.142~homeabi1'
+          mkdir -p "$RUNNER_TEMP/native"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/native"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay DFGofaMapResize141; do
+            ldid -e "$RUNNER_TEMP/native/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib" >/dev/null
+          done
+          xcrun dwarfdump --uuid "$RUNNER_TEMP/native/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" > "$RUNNER_TEMP/QA142_UUIDS.txt"
+          echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
+      - name: Merge and verify exact independently signed rootless QA142 DEB
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.142~homeabi1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.142~homeabi1'
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$RUNNER_TEMP/merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/merged"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay DFGofaMapResize141; do
+            ldid -e "$RUNNER_TEMP/merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib" >/dev/null
+          done
+          echo "QA_OUTPUT=$OUT" >> "$GITHUB_ENV"
+          shasum -a 256 "$OUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-QA142-Home-ABI-Signed-Rootless
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.142~homeabi1_iphoneos-arm64.deb
+          if-no-files-found: error
