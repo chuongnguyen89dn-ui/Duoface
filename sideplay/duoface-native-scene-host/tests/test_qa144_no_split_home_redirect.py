@@ -46,9 +46,9 @@ class StandaloneHome144Guard(unittest.TestCase):
   self.assertNotIn("setDockHidden",BRIDGE)
   self.assertNotIn("CPWindow alloc",BRIDGE)
  def test_default_off_and_physical_limits_and_cleanup(self):
-  self.assertIn("standalone144-optin.plist",BRIDGE)
-  self.assertIn('p[@"StandaloneHomeDirect"] isEqual:@YES',BRIDGE)
-  self.assertIn("DFHome140Enabled()",BRIDGE)
+  self.assertIn("DFHome145Enabled()",BRIDGE)
+  self.assertIn("DF144LiveReceiver()",BRIDGE)
+  self.assertIn("standalone144-sb-lease.plist",BRIDGE)
   self.assertIn("DFPickerAllowsApp",BRIDGE)
   self.assertIn("DF144ValidRequest",BRIDGE)
   self.assertIn("DF144Owner stop:",BRIDGE)
@@ -56,8 +56,8 @@ class StandaloneHome144Guard(unittest.TestCase):
   self.assertIn("scene-hosted-render-and-touch-unverified",BRIDGE)
   self.assertNotIn("scene-ready-and-play-verified",BRIDGE)
  def test_qa144_not_qa143_packaging_and_split_retained(self):
-  self.assertIn("0.1.144~standalone-probe1",BUILD)
-  self.assertIn('VERSION="0.0.144~standalone-probe1"',PACK)
+  self.assertIn("0.1.145~standalone-controlled1",BUILD)
+  self.assertIn('VERSION="0.0.145~standalone-controlled1"',PACK)
   self.assertIn("DFNative12Chrome.m",BUILD)
   self.assertIn("appPicker:(DFAppPickerVC *)picker",SPLIT)
   self.assertIn("DFSceneHost.m",BUILD)
