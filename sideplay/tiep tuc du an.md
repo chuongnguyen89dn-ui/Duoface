@@ -1,3 +1,12 @@
+# QA141 signed build PASS; publishing in progress; device outcome pending
+
+- Source 5fd07d2720fbfd1db5429f224604fab37e575b0a; signed macOS run41169218555/job124443328321 SUCCESS; archive 3414bca0aeb7a0391ea2413ba940674a11081f3c. Version0.0.141~declmap1; SHA256 7aa43717a19b2a94ae66e25650f0078185bb9e1e7618c3909844657d567aef19.
+- Foundation runtime negative control reproduces QA138 recursion; QA141 forwarding remains depth2/calls3. Actual declaration object slot/setter/idempotence/native preservation/failed readback tests pass. C Log19 geometry gates pass; all existing CI regressions and 5 signed receivers pass.
+- Independently extracted the actual archived DEB: correct141 Info/metadata, declaration-attached/getterReadback/Home140consent markers; GOFA-only resize141 receiver and before/after fields; no old138 relay/140 observer; YouTube filter unchanged.
+- Sileo publisher commit bbe3579e65b86cae079e92d24472beb651f825f3 submitted with exact hash; public deploy/verification still pending. No real Home icon or GOFA device success claimed.
+
+---
+
 # QA141 source checkpoint — Log19 failure addressed in code; signed CI and device results pending
 
 - User confirms QA140: no added Home apps; GOFA still boxed. Log19 blob e01382c76292b4d806f0be899f5ff3278580a236 independently parsed: six selected ordinary bundles have nil declarations, zero effective declaration/policy callbacks; 6/11 GOFA stale-child samples, 5 active.

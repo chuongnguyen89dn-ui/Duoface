@@ -1,0 +1,23 @@
+{
+  "input": {
+    "commit": "341a4dfbd5c10a5e8ca03475741860e983e6e483",
+    "blob": "e01382c76292b4d806f0be899f5ff3278580a236"
+  },
+  "source": "5fd07d2720fbfd1db5429f224604fab37e575b0a",
+  "archive": "3414bca0aeb7a0391ea2413ba940674a11081f3c",
+  "ci_run": 41169218555,
+  "ci_job": 124443328321,
+  "ci_conclusion": "success",
+  "version": "0.0.141~declmap1",
+  "sha256": "7aa43717a19b2a94ae66e25650f0078185bb9e1e7618c3909844657d567aef19",
+  "actual_deb_extracted_checks": "pass",
+  "runtime_forwarding": "negative old138 capped;141 depth2 calls3; declaration setter/ivar/native/idempotence/rollback pass",
+  "gofa_policy_log19_replay": "pass",
+  "device_home_icons_verified": false,
+  "device_gofa_fix_verified": false,
+  "publisher": {
+    "commit_sha": "bbe3579e65b86cae079e92d24472beb651f825f3",
+    "content_sha": "f6fc7ecea5f48aed4ee6ef87f3ea456213a1c2ad"
+  },
+  "public_verified": false
+}
