@@ -54,6 +54,7 @@
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission141.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeLaunch142.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeLaunch143.log",
+      @"/var/mobile/Library/Logs/DuoFaceStandalone144.log",
       @"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log",
       @"/var/mobile/Library/Logs/DuoFaceCarPlayOwnerSnapshot.log",
       @"/var/mobile/Library/Logs/DuoFaceNativeMapPane.log",
@@ -81,6 +82,25 @@
     if([stamp isKindOfClass:NSNumber.class])
        [summary appendFormat:@"%.2f\n",NSDate.date.timeIntervalSince1970-stamp.doubleValue];
     else [summary appendString:@"unknown\n"];
+
+    // Separate standalone Home owner: diagnostic only, no one-time request UUIDs.
+    NSDictionary *soloConsent=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-optin.plist"];
+    NSDictionary *soloLease=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-sb-lease.plist"];
+    NSDictionary *soloResult=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-result.plist"];
+    NSNumber *leaseStamp=soloLease[@"Timestamp"],*resultStamp=soloResult[@"Timestamp"];
+    NSTimeInterval leaseAge=[leaseStamp isKindOfClass:NSNumber.class]?
+      NSDate.date.timeIntervalSince1970-leaseStamp.doubleValue:INFINITY;
+    NSTimeInterval resultAge=[resultStamp isKindOfClass:NSNumber.class]?
+      NSDate.date.timeIntervalSince1970-resultStamp.doubleValue:INFINITY;
+    [summary appendFormat:@"\nStandalone Home: enabled=%@ receiverAlive=%@ age=%.2fs outcome=%@ reason=%@ resultAge=%.2fs bundle=%@; display/touch UNVERIFIED\n",
+      [soloConsent[@"StandaloneHomeDirect"] boolValue]?@"YES":@"NO",
+      [soloLease[@"Alive"] boolValue]?@"YES":@"NO",leaseAge,
+      [soloResult[@"Outcome"] isKindOfClass:NSString.class]?soloResult[@"Outcome"]:@"none",
+      [soloResult[@"Reason"] isKindOfClass:NSString.class]?soloResult[@"Reason"]:@"none",
+      resultAge,[soloResult[@"BundleID"] isKindOfClass:NSString.class]?soloResult[@"BundleID"]:@"unknown"];
 
     // Native Maps is owned by CarPlayApp, not SpringBoard. Include its
     // acknowledged attach result and measured PHYSICAL panes so a human can
