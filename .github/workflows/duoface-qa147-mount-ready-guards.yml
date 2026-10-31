@@ -8,6 +8,10 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
       - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
+      - 'sideplay/duoface-native-scene-host/DFNativePrepOnce152.h'
+      - 'sideplay/duoface-native-scene-host/DF152NativeWorkspacePrepare.h'
+      - 'sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa152_workspace_prepare.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa151_workspace_owner_capture.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa150_workspace_preflight.py'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
@@ -36,6 +40,9 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa149_manager_live_scene.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa150_workspace_preflight.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"
+          "$RUNNER_TEMP/workspace152"
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o /tmp/manager149
           /tmp/manager149
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
