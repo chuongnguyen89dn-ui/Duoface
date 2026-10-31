@@ -27,6 +27,8 @@ static NSString *const DF144LogPath=@"/var/mobile/Library/Logs/DuoFaceStandalone
 static const char *const DF144RequestNotify="com.duoface.nativehost.standalone144.request";
 static const char *const DF144StopNotify="com.duoface.nativehost.standalone144.stop";
 static const char *const DF148WatchdogStopNotify="com.duoface.nativehost.standalone144.stop.pending-watchdog";
+static const char *const DF148NativeSwitchStopNotify="com.duoface.nativehost.standalone144.stop.native-switch";
+static const char *const DF148OwnerRevokeStopNotify="com.duoface.nativehost.standalone144.stop.owner-revoke";
 static const char *const DF144ResultNotify="com.duoface.nativehost.standalone144.result";
 static NSString *const DF144HostApp=@"com.duoface.native.scenehost";
 static void DF144Log(NSString *tag,NSString *detail) {
@@ -507,6 +509,7 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
   [[NSNotificationCenter defaultCenter] addObserver:DF144Owner
      selector:@selector(physicalDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
   static int requestToken=-1,stopToken=-1,watchdogToken=-1;
+  static int switchToken=-1,revokeToken=-1;
   notify_register_dispatch(DF144RequestNotify,&requestToken,dispatch_get_main_queue(),
     ^(__unused int t){DF144Consume();});
   notify_register_dispatch(DF144StopNotify,&stopToken,dispatch_get_main_queue(),
@@ -514,6 +517,10 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
   // A CarPlay pending-watchdog expiry is NOT a physical Home press.
   notify_register_dispatch(DF148WatchdogStopNotify,&watchdogToken,dispatch_get_main_queue(),
     ^(__unused int t){[DF144Owner stop:@"native-pending-watchdog-expiry"];});
+  notify_register_dispatch(DF148NativeSwitchStopNotify,&switchToken,dispatch_get_main_queue(),
+    ^(__unused int t){[DF144Owner stop:@"native-app-switch"];});
+  notify_register_dispatch(DF148OwnerRevokeStopNotify,&revokeToken,dispatch_get_main_queue(),
+    ^(__unused int t){[DF144Owner stop:@"native-owner-or-consent-revoked"];});
   DF144LeaseHeartbeat();
   DF144Log(@"independent-standalone-receiver-registered",
     @"default-off no-DuoFace-CPTemplate no-chrome no-Sileo");
