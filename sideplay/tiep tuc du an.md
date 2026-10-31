@@ -1,3 +1,12 @@
+# 2026-10-31 QA145 SILEO PUBLISH RECOVERED — LIVE VERIFIED (device pending)
+
+- Publisher corrected commit `184ac689728a72a0e59527511637fd90f9e779bb` in `chuongnguyen89dn-ui/carplaydsp` completed full [run 41183829135](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41183829135) **SUCCESS**. Jobs `build=124486566428`, `deploy=124487370502`, `verify-duoface-integrated-pages=124487411694`, other QA verification all completed SUCCESS. YAML validator [41183829149](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41183829149) completed SUCCESS.
+- Actual public Pages verifier log (2026-10-31T08:19:27–08:19:32Z) confirmed exactly one `com.duoface.jb.embedded` Sileo APT entry and successful public DEB download SHA256: `DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED`, `/home/runner/work/_temp/duoface-public.deb: OK`, `DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED`. Current pin version `0.0.145~standalone-controlled1`, SHA256 `c43a84b42f8a6e7a7f064ae13b2561ea95d82588ceee104fb5bab750651e32d5`. Preserved older baseline archive checks PASS. Sileo source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`.
+- Previous [run 41183491842](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41183491842) failed exclusively on wrong publisher assumption `CFBundleShortVersionString='0.1.145'`; signed real QA145 has `CFBundleVersion='145'` / `CFBundleShortVersionString='0.1.143'`. Corrected only publisher assertion to actual immutable bytes, not rebuilt DEB or changed DuoFace runtime; future source metadata cleanup needed separately.
+- **Physical CarPlay still UNVERIFIED:** user can refresh Sileo and update exactly once on parked iPhone X 16.7.16; explicitly select app in phone DuoFace, enable parent Home140 roster and child `Mở trực tiếp App từ CarPlay Home` (default OFF), test native Home app click standalone without split, Dock/Back, touch/video, GOFA/YouTube, reconnect. Collect `Xuất log / lỗi CarPlay`. If instability switch child OFF and export log before another code revision. No claim device test performed.
+
+---
+
 # 2026-10-31 QA145 Sileo build failure and correction
 
 - Public Sileo publisher run 41183491842 failed at APT generation. Actual job 124485555561 verified the QA145 signed DEB SHA, then asserted Info.plist short version 0.1.145. The signed archive actually has CFBundleVersion 145 and CFBundleShortVersionString 0.1.143; exit 1 from Python assertion. This is metadata mismatch, not QA145 compiler failure.
