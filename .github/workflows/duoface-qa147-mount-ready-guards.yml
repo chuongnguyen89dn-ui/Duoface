@@ -7,6 +7,8 @@ on:
       - '.github/workflows/duoface-qa147-mount-ready-guards.yml'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
+      - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa151_workspace_owner_capture.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa150_workspace_preflight.py'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
       - 'sideplay/duoface-native-scene-host/tests/test_qa147_mount_ack_reentrancy.py'
@@ -33,6 +35,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa149_manager_live_scene.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa150_workspace_preflight.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o /tmp/manager149
           /tmp/manager149
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
