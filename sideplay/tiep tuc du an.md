@@ -7,6 +7,8 @@
 - Đóng gói QA146 sử dụng bộ bridge tự phát triển; không nhúng binary CarBridge thương mại. DEB CarBridge thương mại chưa có artifact xác thực để phân tích trực tiếp; không được nhầm với DuoNavi.
 - Tiếp theo: kiểm chứng trên iOS16.7.16 đối tượng quản lý Dock và Home thật, vòng đời scene và hướng hiển thị; chỉ sửa/build sau khi xác minh. QA146 vẫn chưa đạt, chưa phát hành QA147. Không có test vật lý mới.
 
+- **Verified actual signed QA146 package (run 41188441830):** SHA-pinned source package 1,165,448 bytes, 8 first-party injection dylibs, only YouTube and GOFA app-bundle-specific process filters. SpringBoard and CarPlay native owner/admission modules are present, official CarBridge binary absent and no paid vendor dependency. CI run 41188441830 SUCCESS; report `sideplay/audit/qa146-native-home-dock-parity-20261031/runs/41188441830/ACTUAL_SIGNED_QA146_APPBRIDGE_FILTER_INVENTORY.json` archived on correct DuoFace branch. This independently verifies **package composition, not functional parity**. No QA147 generated.
+
 ---
 
 # 2026-10-31 — CARBRIDGE INSIDE DUOFACE EXPLICIT REQUIREMENT; ORIGINAL DUONAVI/DERIVED NATIVE12 DEEP ROOT CAUSE VERIFIED
