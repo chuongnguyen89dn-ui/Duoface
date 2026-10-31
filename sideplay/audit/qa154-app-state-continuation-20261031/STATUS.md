@@ -21,3 +21,11 @@
 ## Next
 
 Do not publish or install a speculative general-app receiver. Review exact eligible-app process scope and packaging permissions; add isolated app-process compile/restore tests without affecting the working YouTube/GOFA modules; require same-request iPhone X iOS16.7.16 trace for real app scene ID and stop restore before declaring native execution parity. The source-only relay must not be treated as an installed component.
+
+## Source-only validation and CI revision
+
+- Additional test `sideplay/duoface-native-scene-host/tests/test_qa154_staged_app_state.py` committed `0cc66369297e2d20c8c718f391d25569ff870c62`, verifies sender requires a live owned scene, three-second app lease, window restore and that generic app-process receiver is **not included** in `build.sh`.
+- Scoped workflow commit `9706752b159f8398fd2d0b6c6a19f5a585ba3d1c`; [run 41216470683](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216470683) **SUCCESS**.
+- Private macOS workflow commit `ecba74effb7848cfe7deae86a57b87d12f2588fe` adds iOS16 syntax-only compile of staged receiver (does **not** build it into package). Initial [run 41216478996](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216478996) **FAILED** only due to unused linker-only `-framework` flags under `clang -fsyntax-only -Werror`. Corrected workflow at `c7844358ca28845877f39525825a01ca190a92e8`. [run 41216554297](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216554297) passed source and iOS syntax validation; signed build was still running when observed. Inspect final result before claiming success.
+- Pinned historic/source verifier expanded 29→31 static checks, commit `2b9d5454f7638e3371c0bd3ea0b096eb864d02ab`, CI marker `d1b950790695d48f03a22a3cb646003572435bd9`; [run 41216635707](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216635707) **SUCCESS**. This is code/string/archive consistency, not physical app or UI parity.
+- No generic receiver plist/filter or third-party app injection was shipped. Source-only generic receiver is deliberately excluded from the integrated DEB and cannot yet fix arbitrary-app orientation on a CarPlay device.
