@@ -41,8 +41,7 @@ def hashfile(path):
   for blob in iter(lambda:f.read(1048576),b""):h.update(blob)
  return h.hexdigest()
 
-def method_imps(m,cname,requested):
- cl=m.classes()
+def method_imps(m,cname,requested,cl):
  if cname not in cl:return None
  ptr=cl[cname]["class_ptr"]
  out=[]
@@ -80,8 +79,17 @@ def scan(label,deb,root):
  out={"deb_sha256":p[0],"macho_sha256":p[1],
       "scanned_method_count":0,"methods":{},
       "scope":"static method IMP + named selector/CFString xrefs only; no runtime branch proof"}
+ # The repacked DuoDash uses a different dyld/fixup representation. Our
+ # legacy MachO.classes parser can reject that image; record it as UNKNOWN
+ # instead of claiming its methods are absent or extrapolating ABI.
+ try:
+  classes=m.classes()
+ except (ValueError,IndexError,KeyError) as exc:
+  out["objc_metadata_parser_limitation"]=type(exc).__name__+": "+str(exc)[:140]
+  out["method_absence_proven"]=False
+  return out
  for cname,req in METHODS.items():
-  found=method_imps(m,cname,set(req))
+  found=method_imps(m,cname,set(req),classes)
   if found is None:continue
   records=[]
   for meth,imp in found:
