@@ -10,7 +10,7 @@ PINS = {
  "mgr":("sideplay/audit/original-manager-window-route-20261031/MANAGER_WINDOW_FINDINGS.md","83bf569a7ef5a3a45a33d0cd5dadb6399e1233f3"),
  "app":("sideplay/audit/original-app-state-route-20261031/APP_STATE_ROUTE_FINDINGS.md","34db633d2a0ba28ace0ddfa1da3ceb518c91f697"),
  "host":("sideplay/duoface-native-scene-host/DFSceneHost.m","ec2924c145be4edaaa27b7320bb869b18de12c6b"),
- "solo":("sideplay/duoface-native-scene-host/DFHomeStandalone144.m","63b12c0577c0384b779004a216d4782ee7d7661c"),
+ "solo":("sideplay/duoface-native-scene-host/DFHomeStandalone144.m","878ebfe6f3d106a42a6a11d2b572b7680c01b9d8"),
  "dock":("sideplay/duoface-native-scene-host/DFNativeDockSync147.h","54844255af5fae93c515d994661f7a7daca8ae37"),
  "home":("sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h","7fe060ca5229a1f723b1145215cbf21a9ff052f6"),
  "build":("sideplay/duoface-native-scene-host/build.sh","172f9d2b9740367c66582d1e976889e828059410"),
@@ -38,8 +38,8 @@ def run(repo):
  original,manager,app=(source[k] for k in ("orig","mgr","app"))
  host,solo,dock=(source[k] for k in ("host","solo","dock"))
  log=json.loads(source["log"]);focused=json.loads(source["focus"])
- begin=segment(solo,"- (BOOL)begin:(NSDictionary *)p {","- (void)sceneReady:(NSNotification *)notice {")
- ready=segment(solo,"- (void)sceneReady:(NSNotification *)notice {","- (void)sceneFailed:(NSNotification *)notice {")
+ begin=segment(solo,"- (BOOL)begin:(NSDictionary *)p {","- (void)attemptOwnedReadyForView:")
+ ready=segment(solo,"- (void)attemptOwnedReadyForView:","- (void)sceneFailed:(NSNotification *)notice {")
  start=segment(host,"- (void)start {","- (void)layoutSubviews {")
  checks={
   "original_home_and_dock_entry":"Home app entry" in original and "Dock entry" in original,
@@ -48,8 +48,8 @@ def run(repo):
   "original_manager_state_after_show":"notifyStateUpdated" in manager and "handleStateDict:" in original,
   "original_app_state_and_restore":"NSDistributedNotificationCenter" in app and "150ms and 500ms" in app and "inactive" in app,
   "current_start_flags_order_diff":0<=start.find("[self addSubview:appView]")<start.find("setIgnoresOcclusions:")<start.find("setRequestedMode:"),
-  "current_pending_post_mount_no_terminal_recheck":0<=begin.find("[root.view addSubview:v]")<begin.find('[self reply:@"pending-scene"') and "if(self.generation==generation)" not in begin,
-  "current_single_shot_pid":'if(!pid || self.emittedHosted)return;' in ready and "dispatch_after" not in ready,
+  "current_pending_pre_mount_and_terminal_guard":0<=begin.find('[self reply:@"pending-scene"')<begin.find("[root.view addSubview:v]") and "if(self.generation!=generation || self.surface!=v || self.window!=w" in begin,
+  "current_owned_pid_bounded_retry":'verifiedPIDForHostedView:v' in ready and "if(attempt>=14)return;" in ready and "dispatch_after" in ready and "self.generation!=generation" in ready,
   "current_dock_requires_custom_ack_pid":"scene-hosted-render-and-touch-unverified" in dock and "DF147ResultAction" in dock and "VerifiedPID" in dock,
   "log23_26_requests_16_scene_observed_no_native_dock":len(log["requests"])==26 and log["scene_event_counts"]["scene-handle-observed-render-unverified"]==16 and not log["stage_counts"].get("qa147-native-dock-active") and not log["stage_counts"].get("scene-hosted-render-and-touch-unverified"),
   "log23_eight_attach_failures_and_null_pending":log["stage_counts"]["failed"]==8 and log["null_identity_pending_count"]==8 and len(focused["failed_attach_requests"])==8,
@@ -70,7 +70,7 @@ def run(repo):
   "checks":checks,
   "counts":{"passed":len(checks),"home_requests":26,"host_observed":16,"standalone_hosted_ack":0,"native_dock_active":0,"attach_failures":8,"null_identity_pending":8,"first_host_dimensions_swapped":2},
   "source_git_blobs":{key:{"path":path,"sha":sha} for key,(path,sha) in PINS.items()},
-  "limitations":["Previous original-DEB static audits and prior Log23 parser are inputs, not rerun vendor binary/disassembly or device runtime.","No exact startup throw site, sceneReady reject guard, PID getter readout, Home navigation branch, pixel/first-tap/latency proof.","DuoDash reference package is repacked; not a pristine original."]
+  "limitations":["Previous original-DEB static audits and prior Log23 parser are inputs, not rerun vendor binary/disassembly or device runtime.","New Solo readiness guard telemetry added, but no actual device log yet identifies which guard rejected Log23. Exact native throw operation, Home navigation branch, pixel/first-tap/latency proof are absent.","DuoDash reference package is repacked; not a pristine original."]
  }
 
 if __name__=="__main__":
