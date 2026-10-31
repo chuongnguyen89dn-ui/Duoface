@@ -10,7 +10,7 @@ PINS = {
  "mgr":("sideplay/audit/original-manager-window-route-20261031/MANAGER_WINDOW_FINDINGS.md","83bf569a7ef5a3a45a33d0cd5dadb6399e1233f3"),
  "app":("sideplay/audit/original-app-state-route-20261031/APP_STATE_ROUTE_FINDINGS.md","34db633d2a0ba28ace0ddfa1da3ceb518c91f697"),
  "host":("sideplay/duoface-native-scene-host/DFSceneHost.m","ec2924c145be4edaaa27b7320bb869b18de12c6b"),
- "solo":("sideplay/duoface-native-scene-host/DFHomeStandalone144.m","908b11a99f667ca04edec9360b7767ceb9d778ab"),
+ "solo":("sideplay/duoface-native-scene-host/DFHomeStandalone144.m","9eb87799e2b017f2f74865754328ca51fcb9cb40"),
  "dock":("sideplay/duoface-native-scene-host/DFNativeDockSync147.h","d0debeb06feeae241849aa1b30b922458dedf610"),
  "home":("sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h","7fe060ca5229a1f723b1145215cbf21a9ff052f6"),
  "build":("sideplay/duoface-native-scene-host/build.sh","172f9d2b9740367c66582d1e976889e828059410"),
@@ -25,6 +25,8 @@ PINS = {
  "nativeprep":("sideplay/duoface-native-scene-host/DF152NativeWorkspacePrepare.h","d17cde230c805040977bfd7d18c4244e2b7d4ef6"),
  "once":("sideplay/duoface-native-scene-host/DFNativePrepOnce152.h","ac3af8c33081f96995d5e1338fde79ff56ef62b7"),
  "phoneevict":("sideplay/duoface-native-scene-host/DF153PhoneEviction.h","c468102f9efef875bf349b2cd181d3530792480f"),
+ "appstate":("sideplay/duoface-native-scene-host/DF154AppStateProtocol.h","4e95d6b6edb3627feaea299fd43c9d537c3ab58e"),
+ "apprelay":("sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m","b63fc8e8c8dc42ac783544cdc6441a28451844ad"),
 }
 
 def blob_sha(raw):
@@ -66,6 +68,8 @@ def run(repo):
   "native_prepare_once_cancel_and_abi_gates": all(t in source["nativeprep"] for t in ('DF151IsDashboardOwner(owner)','homeWorkspace==workspace','DF152ShowNativeApp(home,&showing)','deactivateApplication:','setCompletionHandler:','native-workspace-fallback-250ms','DF152Revoke(&DF152Prep)')) and all(t in source["once"] for t in ("DF152Begin","DF152FinishOnce","DF152Revoke")) and "DF152RevokeNativePreparation();" in solo,
   "phone_eviction_only_matching_real_frontmost_and_fresh": 'DF153PreparePhoneForSelectedApp(uuid,p[@"BundleID"],^{' in solo and all(t in source["phoneevict"] for t in ('_accessibilityFrontMostApplication','[bundle isEqualToString:target]','DF153BoolGetter(process,"isForeground",&foreground)','clickedMenuButton','0.12*NSEC_PER_SEC')),
   "phone_eviction_generation_home_and_native_switch_revoke": "DF153PhoneRevoke();[DF144Owner stop" in solo and "DF152FinishOnce(&DF153PhonePrep,generation)" in source["phoneevict"] and "DF152Revoke(&DF153PhonePrep)" in source["phoneevict"] and "executeTransitionRequest:" not in source["phoneevict"],
+  "appstate_live_owned_scene_sender_and_terminal":all(t in solo for t in ('publishGeneralAppState:(BOOL)active','isLiveSceneForHostedView:self.surface','DF144Get(self.surface,"scene")','DFHostedLogicalSizeForBundle','[self publishGeneralAppState:NO]','DF144Owner publishGeneralAppState:YES')) and all(t in source["appstate"] for t in ('NSDistributedNotificationCenter','age>3.0','sceneIdentifier','requestID')),
+  "appstate_receiver_restoration_staged_not_packaged":all(t in source["apprelay"] for t in ('window.frame=original.frame','window.bounds=original.bounds','owner-terminal','owner-replaced','lease-expired','window.windowScene!=target')) and 'DF154GeneralAppStateRelay.m' not in source["build"],
   "early_receiver_rejection_terminates_and_duplicate_terminal_guarded":"DF150ReplyRejected(p);" in solo and '"receiver-preflight-rejected-no-scene-owner"' in solo and "if(self.emittedTerminal)" in solo and "if(terminal)self.emittedTerminal=YES;" in solo,
   "live_app_processstate_pid_verification": all(t in solo for t in ("verifiedProcessStatePIDForView:","isLiveSceneForHostedView:view","bundleIDForHostedView:view","SBApplicationController","processState","kill((pid_t)candidate,0)","verifiedPID:pid")),
   "physical_home_separate_from_native_switch_and_timeout":all(t in solo and t in dock for t in ("DF148NativeSwitchStopNotify","DF148WatchdogStopNotify","DF148OwnerRevokeStopNotify")) and "notify_post(DF144StopNotify)" not in dock,
@@ -81,7 +85,7 @@ def run(repo):
  failed=[k for k,v in checks.items() if not v]
  assert not failed, "static checks failed: "+",".join(failed)
  return {
-  "result":"29_STATIC_ASSERTIONS_PASS_NOT_RUNTIME_PARITY",
+  "result":"31_STATIC_ASSERTIONS_PASS_NOT_RUNTIME_PARITY",
   "source_baseline_commit":"02893d86e827e1f281d8a6496be9ad9789609730",
   "original_duonavi_dylib_sha256_from_prior_verified_audit":"44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
   "log23_sha256_from_prior_analysis":focused["log_sha256"],
