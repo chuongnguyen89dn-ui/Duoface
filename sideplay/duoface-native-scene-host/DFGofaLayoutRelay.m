@@ -67,7 +67,7 @@
         state[@"owner"],state[@"sceneIdentifier"],state[@"generation"],state[@"width"],state[@"height"]];
    NSUInteger refreshed=0;
    if(![key isEqual:self.lastLayoutKey]) {
-     self.lastLayoutKey=key;
+     BOOL acceptedWindow=NO;
      for(UIWindow *window in scene.windows) {
        UIView *root=window.rootViewController.viewIfLoaded;
        // Refresh only a measured mismatch after the scene itself accepted
@@ -76,11 +76,16 @@
        BOOL accepted=fabs(window.bounds.size.width-target.width)<1 &&
                      fabs(window.bounds.size.height-target.height)<1;
        if(!window.hidden && window.windowLevel==UIWindowLevelNormal && root &&
+          root.window==window && accepted)acceptedWindow=YES;
+       if(!window.hidden && window.windowLevel==UIWindowLevelNormal && root &&
           root.window==window && accepted && !CGSizeEqualToSize(root.bounds.size,window.bounds.size)) {
          [window setNeedsLayout];[root setNeedsLayout];
          [window layoutIfNeeded];[root layoutIfNeeded];++refreshed;
        }
      }
+     // A request may beat FrontBoard's asynchronous resize. Keep the
+     // next heartbeat eligible until a real window has accepted the size.
+     if(acceptedWindow)self.lastLayoutKey=key;
    }
    DFYTPost(@"com.duoface.gofa.layout-ack.v1",@{
      @"bundleIdentifier":@"com.lumi.GOFA",@"owner":state[@"owner"],
