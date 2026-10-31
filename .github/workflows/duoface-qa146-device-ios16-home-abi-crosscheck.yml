@@ -1,0 +1,70 @@
+name: QA146 verify actual iOS16.7.16 Dashboard ABI vs public source READONLY
+on:
+  push:
+    branches: [feature/duoface-qa146-native-home-exit-20261031]
+    paths:
+      - '.github/workflows/duoface-qa146-device-ios16-home-abi-crosscheck.yml'
+      - 'sideplay/audit/qa146-native-home-dock-parity-20261031/verify_live_ios16_dashboard_abi_from_log22.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa146-physical-abi-readonly
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Extract exact previously uploaded immutable physical Log22, not vendor method guesses
+        shell: bash
+        run: |
+          set -euo pipefail
+          M=ce436ddb04e62d1762531a97ad74e21d3354a34d
+          mkdir -p "$RUNNER_TEMP/device22" "$RUNNER_TEMP/qa146-deviceabi"
+          git fetch origin main
+          git ls-tree -r "$M" 'sideplay/log/DuoFaceAudit 22.txt' | grep -F 4a80d75f6bb831b00be8b5d2075aa9d76d7f99d0
+          git show "$M:sideplay/log/DuoFaceAudit 22.txt" > "$RUNNER_TEMP/device22/Log22.txt"
+          test "$(wc -c < "$RUNNER_TEMP/device22/Log22.txt")" -eq 6611528
+      - name: Verify actual user native Home and workspace selector encodings; mark gaps
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa146-native-home-dock-parity-20261031/verify_live_ios16_dashboard_abi_from_log22.py
+          python3 sideplay/audit/qa146-native-home-dock-parity-20261031/verify_live_ios16_dashboard_abi_from_log22.py \
+            --log "$RUNNER_TEMP/device22/Log22.txt" \
+            --output "$RUNNER_TEMP/qa146-deviceabi/PHYSICAL_LOG22_IOS16_NATIVE_DASHBOARD_ABI.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA146-physical-Log22-native-DBWorkspace-ABI-presence-vs-open-source
+          path: ${{ runner.temp }}/qa146-deviceabi/PHYSICAL_LOG22_IOS16_NATIVE_DASHBOARD_ABI.json
+          if-no-files-found: error
+      - name: Persist exact device ABI negative controls in DuoFace only
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=feature/duoface-qa146-native-home-exit-20261031
+          P="sideplay/audit/qa146-native-home-dock-parity-20261031/runs/$GITHUB_RUN_ID"
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$B"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$P"
+            cp "$RUNNER_TEMP/qa146-deviceabi/PHYSICAL_LOG22_IOS16_NATIVE_DASHBOARD_ABI.json" "$T/$P/"
+            printf 'RUN=%s\nEXACT_LOG_MAIN_COMMIT=ce436ddb04e62d1762531a97ad74e21d3354a34d\nABI_PRESENCE_READONLY=true\nNO_NEW_PHONE_ACTION=true\nNO_SILEO_BUILD_OR_RELEASE=true\n' "$GITHUB_RUN_ID" > "$T/$P/CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$P"
+            git -C "$T" commit -m 'audit(qa146): actual phone Log22 native workspace negative ABI evidence [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$B"; then
+              git worktree remove --force "$T"
+              git fetch origin "$B"
+              git cat-file -e "FETCH_HEAD:$P/PHYSICAL_LOG22_IOS16_NATIVE_DASHBOARD_ABI.json"
+              echo REAL_DEVICE_ABI_SAVED_AND_VERIFIED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
