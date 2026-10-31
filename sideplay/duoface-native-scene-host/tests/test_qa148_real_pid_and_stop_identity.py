@@ -43,7 +43,7 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
         self.assertEqual(DOCK.count("notify_post(DF144StopNotify)"),0)
     def test_frozen_scene_host_and_app_specific_filters_preserved(self):
         import hashlib
-        digest=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\\0"+HOST).hexdigest()
+        digest=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
         self.assertEqual(digest,"ec2924c145be4edaaa27b7320bb869b18de12c6b")
         self.assertIn("DFGofaMapResize141.m",(ROOT/"build.sh").read_text())
         self.assertIn("DFYouTubeOrientationRelay.m",(ROOT/"build.sh").read_text())
