@@ -1,3 +1,11 @@
+# 2026-10-31 — FINAL INSTALL CANDIDATE dockabi2 SIGNED/ROOT-OWNERSHIP VERIFIED; LIVE PUBLICATION PENDING
+
+- CONFIRMED signed build [41193875955](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41193875955), job 124516011962 SUCCESS. Source f04b2955ea3e1c74284a2f36dc4c9d9bf4ddec8c; artifact commit 9deb662aad540486811cdcfd0b599913f4e16c54. Exact package `sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.2~dockabi2_iphoneos-arm64.deb`, SHA256 `f3e3e04b74ef76b09f529954e708ae0521f13d139313405f18b1390b28999f40`. Read-back verified root `drwxr-xr-x root/root`, all payload root/root, app and dylib executable, correct package/version/arch/entitlements/compiled native metadata marker. Evidence `sideplay/duonavi-observer/evidence/signed-dockabi/41193875955/` contains CI_RESULT.txt, DEB_FILE_LIST.txt and SHA256SUMS.txt.
+- CONFIRMED dockabi1 Sileo publisher 41193736314 CANCELLED before deploy (job was still building); passive1 reset publisher started by dbb5cab0 will be superseded by corrected candidate. Corrected source checksum/URL/version pin now published in carplaydsp commit `eb6dc00bec30ab608e59c21cb2357f0036e35ecc`, only observer metadata; integrated QA146 unchanged. Await build/deploy/live verifier; not yet claim current public source serves dockabi2. dockabi1 remains preserved historical evidence, not install candidate.
+- NEXT: verify corrected carplaydsp build/deploy/public observer download and SHA; then refresh Sileo source/install **DuoNavi Observer (Read Only) 0.0.2~dockabi2**, respring, reconnect CarPlay, open app/Home/switch within 60 seconds and export via phone observer. No device install or physical QA claimed. No further production bridge changes until real capture.
+
+---
+
 # 2026-10-31 — SIGNED OBSERVER 0.0.2 DEB VERIFIED; SILEO PUBLISH IN PROGRESS
 
 - CONFIRMED signed [build 41193656856](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41193656856), job 124515378081 SUCCESS; source 6bd36209dcfcd89277f8be798261c6a232eb052a, persisted artifact head 9168f7f7e5ed4da5cb294c239d71e4154799fff7. Package `sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.2~dockabi1_iphoneos-arm64.deb`, SHA256 `bcf33a88d9f46b5a5fc240b493788338bec84b6fa83c688077fcef96f989eb99  sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.2~dockabi1_iphoneos-arm64.deb
