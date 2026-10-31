@@ -1,9 +1,9 @@
 name: QA145 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)
 on:
   push:
-    branches: [feature/duoface-qa145-standalone-carplay-home-20261031]
+    branches: [feature/duoface-qa144-standalone-carplay-home-20261031]
     paths:
-      - '.github/workflows/duoface-144-integrated-private-staging.yml'
+      - '.github/workflows/duoface-145-controlled-standalone-private.yml'
       - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
@@ -31,7 +31,7 @@ jobs:
       - name: Verify independent selected Home and preserved scene-host contracts
         run: |
           set -euo pipefail
-          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa145_no_split_home_redirect.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa145_controlled_home.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
@@ -94,7 +94,7 @@ jobs:
       - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
         run: |
           set -euo pipefail
-          BRANCH='feature/duoface-qa145-standalone-carplay-home-20261031'
+          BRANCH='feature/duoface-qa144-standalone-carplay-home-20261031'
           ART='com.duoface.jb.embedded_0.0.145~standalone-controlled1_iphoneos-arm64.deb'
           for n in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
