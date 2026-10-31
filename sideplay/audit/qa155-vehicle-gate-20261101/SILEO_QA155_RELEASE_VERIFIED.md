@@ -1,3 +1,15 @@
+# QA155 — nguồn Sileo cũ được khôi phục, đã xác minh công khai (không phải device PASS)
+
+**Yêu cầu mới nhất 2026-11-01 ghi đè phần lịch sử phía dưới:** Người dùng không đồng ý tạo nguồn thử nghiệm mới. QA155 được đưa về **Sileo source đang dùng** `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, *không cần thêm* URL `/qa155/`. Nguồn thử nghiệm phụ đã bị loại khỏi nội dung build/publish GitHub Pages mới; lịch sử phát hành phụ phía dưới chỉ để đối chiếu, KHÔNG sử dụng hướng dẫn cài từ đó.
+
+**Đã thực hiện + kiểm chứng:** workflow `chuongnguyen89dn-ui/carplaydsp/.github/workflows/build.yml` commit `b8beb2fa8f54ae1207e7a5b851743f9ae02a62d0`, file readback blob `9fa5b965d1808c1a5a36401cfb4c0b3b5e04aad0`. Main Pages [run 41253732237](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41253732237): build `124692397697` success, deploy `124693157367` success, public `verify-duoface-integrated-pages` `124693199743` success. Log confirmed APT entry unique `com.duoface.jb.embedded 0.0.155~appack1`, publicly fetched signed DEB `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.155~appack1_iphoneos-arm64.deb` has SHA256 `24143b1893f464a1d56b57bf60956bc4503bcafe57f8d8e4675bd64bbda3ff74`, SHA of published QA147 rollback remains intact, unrelated packages and observers verify success. Validator `41253732243` success. User's required source unchanged: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`.
+
+**Không làm:** Không tạo repo GitHub mới, không sửa DEB/source binary, không tăng QA, không chứng minh thiết bị/xe. `DEVICE_TESTED=false`, `SILEO_MAIN_LIVE_VERIFIED=true`, `OLD_SEPARATE_SOURCE_NOT_GENERATED=true`. Không đo được riêng HTTP 404 của URL `/qa155/` bằng công cụ web hiện có, tránh khẳng định HTTP status. Nguồn bên dưới là trạng thái lịch sử, không còn là hướng dẫn hiện hành.
+
+---
+
+## Hồ sơ nguồn beta cũ (đã bị thay thế; chỉ giữ để truy vết)
+
 # QA155 Sileo beta distribution verified — NOT device-tested
 
 **2026-11-01. This is an isolated testing channel, not an official DuoFace release.**
