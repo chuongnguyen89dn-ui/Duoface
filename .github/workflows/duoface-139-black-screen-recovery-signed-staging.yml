@@ -3,7 +3,7 @@
 name: DuoFace QA139 black-screen recovery to exact QA137 runtime signed staging
 on:
   push:
-    branches: [feature/duoface-qa139-black-screen-recovery-20261031]
+    branches: [fix/duoface-qa139-black-screen-recovery-20261031]
     paths:
       - '.github/workflows/duoface-139-black-screen-recovery-signed-staging.yml'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
@@ -181,7 +181,7 @@ jobs:
           QA_ARTIFACT: ${{ steps.qa.outputs.artifact-id }}
         run: |
           set -euo pipefail
-          BRANCH='feature/duoface-qa139-black-screen-recovery-20261031'
+          BRANCH='fix/duoface-qa139-black-screen-recovery-20261031'
           SRC="$QA_OUTPUT"
           NAME='com.duoface.jb.embedded_0.0.139~recovery1371_iphoneos-arm64.deb'
           for attempt in 1 2 3 4; do
