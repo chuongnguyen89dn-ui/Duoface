@@ -91,6 +91,18 @@ static BOOL DF144ValidRequest(NSDictionary *p,NSTimeInterval now) {
 // Original real iOS16 Home tap ABI from user's physical Log21; no substitute
 // DuoFace icon, no app picker, no accidental native-app click override.
 static void (*DF144Original)(id,SEL,id,id);
+static void (*DF144OriginalHomeAppear)(id,SEL,BOOL);
+static NSTimeInterval DF144LastHomeRequest;
+static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
+ DF144OriginalHomeAppear(owner,sel,animated);
+ // Home/Back must revoke ONLY a prior standalone scene (not a brand-new tap).
+ if(DF144LastHomeRequest>0 &&
+    NSDate.date.timeIntervalSince1970-DF144LastHomeRequest>0.7) {
+   DF144Log(@"native-home-return",@"revoke-standalone-only");
+   notify_post(DF144StopNotify);
+ }
+}
+
 typedef void (*DF144Hook)(Class,SEL,IMP,IMP*);
 static UIWindow *DF144UniqueNativeContentWindow(CGRect *frame,CGRect *whole,NSString **displayID) {
  NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSetWithArray:UIApplication.sharedApplication.windows];
@@ -158,6 +170,7 @@ static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  // Native Apple Home remains in place while the *separate* SpringBoard
  // standalone scene attempts to attach. No fabricated CarPlay app activation.
  // No success is asserted until receiver verifies the actual hosted scene.
+ DF144LastHomeRequest=NSDate.date.timeIntervalSince1970;
  DF144Log(@"standalone-requested-not-yet-ready",[NSString stringWithFormat:
       @"bid=%@ uuid=%@ content=%@",bundle,rid,NSStringFromCGRect(content)]);
 }
@@ -169,10 +182,19 @@ static void DF144Install(int tryNo) {
  DF144Hook hook=(DF144Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
  if(hook&&m&&!strcmp(method_getTypeEncoding(m),"v32@0:8@16@24"))
    hook(home,sel,(IMP)DF144Launch,(IMP*)&DF144Original);
+ if(DF144Original && !DF144OriginalHomeAppear) {
+   SEL appeared=sel_registerName("viewDidAppear:");
+   Method original=class_getInstanceMethod(home,appeared);
+   const char *type=original?method_getTypeEncoding(original):NULL;
+   if(type && (!strcmp(type,"v24@0:8B16") || !strcmp(type,"v24@0:8c16")))
+     hook(home,appeared,(IMP)DF144HomeAppeared,(IMP*)&DF144OriginalHomeAppear);
+ }
  if(!DF144Original && tryNo<15)
    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,NSEC_PER_SEC),
                   dispatch_get_main_queue(),^{DF144Install(tryNo+1);});
- else DF144Log(@"native-home-abi-hook-installed",@"selected-only standalone");
+ else DF144Log(DF144Original?@"native-home-hook-installed":@"native-home-hook-not-available",
+               [NSString stringWithFormat:@"tap=%d home=%d",DF144Original!=NULL,
+                                             DF144OriginalHomeAppear!=NULL]);
 }
 __attribute__((constructor))static void DF144StartCarPlay(void) {
  if(![NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"] ||
