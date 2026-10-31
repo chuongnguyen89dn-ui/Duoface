@@ -91,6 +91,7 @@ static void DF143Launch(id owner,SEL selector,id manager,id iconView) {
  // One original forwarding path. Never intercept a known Apple, native, disabled,
  // unrecognized, or non-UIView tap.
  NSString *bundle=DF143Bundle(iconView,0);
+ if(DFHome140Enabled())DF143Log([NSString stringWithFormat:@"home-callback class=%@ bundle=%@ view=%d",NSStringFromClass([iconView class]),bundle?:@"unresolved",[iconView isKindOfClass:UIView.class]]);
  if(!DF143Chosen(bundle) || ![iconView isKindOfClass:UIView.class]) {
     DF143Original(owner,selector,manager,iconView);
     return;
