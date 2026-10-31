@@ -51,7 +51,7 @@ jobs:
           p=o['log']
           assert p['gofa']['remote_precommit_mismatch']>0
           assert p['gofa']['portrait_375x812_precommit']>0
-          assert 'type=' in p['home_137']['method_abi_by_process']['CarPlay']['_newApplicationLibrary']
+          assert 'type=' in p['home_137']['method_abi_by_process']['CarPlay']['+[DashBoard _newApplicationLibrary]']
           assert len(o['crashes'])==3
           assert all(x['procName']=='CarPlayTemplateUIHost' and x['exception']=='SIGABRT' for x in o['crashes'])
           assert all('setShortCutButtons:' in str(x['backtrace_top_symbols']) for x in o['crashes'])
