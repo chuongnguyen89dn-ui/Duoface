@@ -7,6 +7,7 @@
 #import <notify.h>
 #import <fcntl.h>
 #import <unistd.h>
+#import <string.h>
 #import "DFHomePublisher136Config.h"
 extern NSInteger DFHome136ReconcileVerifiedLibrary(id library);
 static NSString *const DFHome136LogPath=
@@ -72,24 +73,24 @@ static void DFHome136Search(NSString *reason) {
        @"native-FBS-library-instance-not-exposed reason=%@; no mutation",
        reason]);
 }
-static void DFHome136Retry(NSUInteger token) {
- if(token!=sAttempts || !DFHome136Enabled())return;
+static void DFHome136Retry(NSUInteger generation,NSUInteger attempt) {
+ if(generation!=sAttempts || !DFHome136Enabled() || attempt>6)return;
  DFHome136Search(@"live-system-home-lookup");
- if(token!=sAttempts || token>6)return;
+ if(generation!=sAttempts || attempt>=6)return;
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,3*NSEC_PER_SEC),
-                dispatch_get_main_queue(),^{DFHome136Retry(token+1);});
+                dispatch_get_main_queue(),^{DFHome136Retry(generation,attempt+1);});
 }
 static void DFHome136Changed(NSString *reason) {
  if(![NSThread isMainThread]) {
     dispatch_async(dispatch_get_main_queue(),^{DFHome136Changed(reason);});return;
  }
- sAttempts=1;
+ ++sAttempts;
  if(!DFHome136Enabled()){
     DFHome136Log(@"user Home switch OFF or kill switch; no mutation");
     return;
  }
  DFHome136Search(reason);
- DFHome136Retry(sAttempts);
+ DFHome136Retry(sAttempts,1);
 }
 __attribute__((constructor)) static void DFHome136Start(void) {
  @autoreleasepool {
