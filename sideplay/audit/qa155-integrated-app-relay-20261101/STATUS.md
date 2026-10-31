@@ -12,6 +12,15 @@ QA154 run `41216554297` signed a private merged DEB but its `DF154GeneralAppStat
 - `package_integrated.py` validates merged `.dylib` and exact `.plist` before finishing; GitHub Actions validates signed dylib, extracted filter and marker after extracting the actual merged DEB. **A green source test alone is insufficient.**
 - Known remaining risk: the iOS 16 device must confirm `NSDistributedNotificationCenter` availability and the true FrontBoard/UIKit scene-ID match; missing transport is logged `[DF154AppState] ... transport-unavailable` and all UIKit changes are refused. The runtime allowlist could be unreadable inside a target sandbox; this also fails closed. No evidence yet that this pilot fixes arbitrary apps or that Safari/VLC are the desired selections.
 
+## Signed private integrated QA155 build — VERIFIED
+
+- Target GitHub Actions [41235256020](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41235256020) job `124637582484`: completed **SUCCESS** at source commit `1de989b1b137d978c495cc53fbee6ae97e5f7a8e`. Job compiled the signed app-side relay, inspected the extracted merged DEB and successfully read back the dylib signature via `ldid -e`, exact filter and binary `[DF154AppState]` marker.
+- Archive saver commit `667c40227b5b0d99adeef5e75e2b17770e1f8181`, size `1187604`, binary Git blob `2b03bbaf1515bf7e1c84d810ddf97053bba3ae5c`; SHA256 `6015775803249f3501b1947ab216e4505e737e3cf021655220c607ebc3adeef6`.
+- Path `sideplay/jb-embedded-appbridge/evidence/runs/41235256020/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb`; `CI_RESULT.txt`, `SHA256SUMS.txt`, `PACKAGING_PROVENANCE.json` read back and agree. Actions artifact `13054924764`; no Sileo or device test. Package version intentionally remains **0.0.147** from existing private workflow; cannot be called an automatically upgradable Sileo QA155 version.
+- Fast regression run `41235255967` SUCCESS. Earlier `41235235213` test failure was an escaped byte in the SHA assertion; correction `1de989b1` passed.
+- First attempt at private package version bump via GitHub connector returned `GithubGraphQLAPIError UNKNOWN` without confirmed commit or file modifications. Branch still held the original version when signed DEB archived; no further binary rebuilt.
+- **Physical status remains FAILED-TO-PROVE, not a device pass**: verified only packaging and signing. The real app-side NSDistributedNotificationCenter transport/scene/allowlist and all Home/Dock/YouTube/GOFA behaviors are still device-unverified.
+
 ## Exact source evidence & runs
 - Source integration `dc12b0cc833e2a28bc0bf2f09c030e2a74a928c3`.
 - Test NUL separator fix `1de989b1b137d978c495cc53fbee6ae97e5f7a8e`.
