@@ -23,7 +23,9 @@ static NSString *const DF144OptIn=@"/var/mobile/Library/Preferences/com.duoface.
 static NSString *const DF144LogPath=@"/var/mobile/Library/Logs/DuoFaceStandalone144.log";
 static const char *const DF144RequestNotify="com.duoface.nativehost.standalone144.request";
 static const char *const DF144StopNotify="com.duoface.nativehost.standalone144.stop";
+#if defined(DF144_SPRINGBOARD)
 static const char *const DF144ResultNotify="com.duoface.nativehost.standalone144.result";
+#endif
 static NSString *const DF144HostApp=@"com.duoface.native.scenehost";
 static void DF144Log(NSString *tag,NSString *detail) {
  NSString *line=[NSString stringWithFormat:@"[DFStandalone144] time=%.3f process=%@ stage=%@ %@\n",
