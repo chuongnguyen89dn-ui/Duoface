@@ -521,6 +521,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @end
 static DF144Solo *DF144Owner;
 static NSString *DF144LastRequest;
+#import "DF153PhoneEviction.h"
 static void DF144LeaseHeartbeat(void) {
  if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
  BOOL usable=NSClassFromString(@"FBSDisplayConfiguration")!=nil &&
@@ -575,10 +576,22 @@ static void DF144Consume(void) {
  DF144LastRequest=[uuid copy];
  [[NSFileManager defaultManager] removeItemAtPath:DF144Request error:nil];
  DF150ProbeWorkspaceForRequest(uuid,p[@"BundleID"],p[@"CarDisplayID"],YES);
- if(![DF144Owner begin:p]) {
-  DF144Log(@"no-valid-standalone-owner",[NSString stringWithFormat:@"req=%@ bid=%@",uuid,p[@"BundleID"]]);
-  DF150ReplyRejected(p);
- }
+ DF153PreparePhoneForSelectedApp(uuid,p[@"BundleID"],^{
+   // The actual phone foreground transition may be asynchronous. Never open
+   // an obsolete scene after Home, disconnect, a replaced request or opt-out.
+   if(![DF144LastRequest isEqualToString:uuid] ||
+      !DF144ValidRequest(p,NSDate.date.timeIntervalSince1970) ||
+      !DF144Allowed(p[@"BundleID"])) {
+      DF144Log(@"qa153-phone-prep-owner-revoked",
+        [NSString stringWithFormat:@"req=%@ bid=%@",uuid,p[@"BundleID"]]);
+      return;
+   }
+   if(![DF144Owner begin:p]) {
+     DF144Log(@"no-valid-standalone-owner",
+        [NSString stringWithFormat:@"req=%@ bid=%@",uuid,p[@"BundleID"]]);
+     DF150ReplyRejected(p);
+   }
+ });
 }
 __attribute__((constructor))static void DF144StartSpringBoard(void) {
  if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"] ||
@@ -596,14 +609,14 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
   notify_register_dispatch(DF144RequestNotify,&requestToken,dispatch_get_main_queue(),
     ^(__unused int t){DF144Consume();});
   notify_register_dispatch(DF144StopNotify,&stopToken,dispatch_get_main_queue(),
-    ^(__unused int t){[DF144Owner stop:@"native-Home-exit"];});
+    ^(__unused int t){DF153PhoneRevoke();[DF144Owner stop:@"native-Home-exit"];});
   // A CarPlay pending-watchdog expiry is NOT a physical Home press.
   notify_register_dispatch(DF148WatchdogStopNotify,&watchdogToken,dispatch_get_main_queue(),
-    ^(__unused int t){[DF144Owner stop:@"native-pending-watchdog-expiry"];});
+    ^(__unused int t){DF153PhoneRevoke();[DF144Owner stop:@"native-pending-watchdog-expiry"];});
   notify_register_dispatch(DF148NativeSwitchStopNotify,&switchToken,dispatch_get_main_queue(),
-    ^(__unused int t){[DF144Owner stop:@"native-app-switch"];});
+    ^(__unused int t){DF153PhoneRevoke();[DF144Owner stop:@"native-app-switch"];});
   notify_register_dispatch(DF148OwnerRevokeStopNotify,&revokeToken,dispatch_get_main_queue(),
-    ^(__unused int t){[DF144Owner stop:@"native-owner-or-consent-revoked"];});
+    ^(__unused int t){DF153PhoneRevoke();[DF144Owner stop:@"native-owner-or-consent-revoked"];});
   DF144LeaseHeartbeat();
   DF144Log(@"independent-standalone-receiver-registered",
     @"default-off no-DuoFace-CPTemplate no-chrome no-Sileo");
