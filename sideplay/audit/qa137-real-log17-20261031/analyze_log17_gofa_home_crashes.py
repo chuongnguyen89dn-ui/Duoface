@@ -42,7 +42,11 @@ def audit_text(path):
             if m2:classes[m2.group(1)]+=1
         if "fbs-info-abi" in line and "method-absent" in line:
             counts["fbs_missing_getter_observations"]+=1
-        m2=re.search(r'abi ([+-]\[[^\]]+\]) (.*)
+        if ' abi ' in line:
+            signature=line.split(' abi ',1)[1]
+            if '] ' in signature:
+                methodName,encoding=signature.split('] ',1)
+                abi.setdefault(proc,{})[methodName+']']=encoding
     gofa=[line for line in sections.get('DuoFaceSceneHost.log',[])
           if 'bundle=com.lumi.GOFA' in line]
     f=[line for line in gofa if 'event=scene-frame-readback ' in line]
