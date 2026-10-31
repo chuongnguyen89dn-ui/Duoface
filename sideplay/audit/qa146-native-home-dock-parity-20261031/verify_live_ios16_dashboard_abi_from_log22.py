@@ -36,6 +36,8 @@ def main():
  report={"source":"actual iPhone X iOS16.7.16 Log22; main commit ce436ddb04e62d1762531a97ad74e21d3354a34d",
   "source_blob":blob,"source_sha256":hashlib.sha256(raw).hexdigest(),
   "measured_methods":checks,
+  "full_native_home142_abi_inventory":observed,
+  "native_home142_section_line_count":len(log.splitlines()),
   "carplay_native_workspace_methods_present":True,
   "carsurf_diagnostic_controller_sharedInstance_missing_on_this_capture":True,
   "carsurf_diagnostic_activeBundleIdentifier_missing_on_this_capture":True,
