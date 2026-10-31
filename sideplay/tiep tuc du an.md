@@ -1,3 +1,11 @@
+# 2026-10-31 QA142 SIGNED / SILEO VERIFY PASS
+
+- QA142 signed macOS Actions 41175055449/job 124460827771 ALL PASS, source 418861c6, immutable DEB archive commit 11c8fcf5. Version 0.0.142~homeabi1, SHA256 9f8c35435538f5b80822f2c072260ca3b4cc55b10777d130559fef6e4d1e8329; path sideplay/jb-embedded-appbridge/evidence/runs/41175055449/com.duoface.jb.embedded_0.0.142~homeabi1_iphoneos-arm64.deb.
+- Public Sileo publisher carplaydsp main commit ea29f479, Actions 41175333223: build, deploy, QA integrated verifier, observer verifier, QA11 verifier ALL PASS. CDN verified exact 0.0.142~homeabi1 and SHA; public https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.142~homeabi1_iphoneos-arm64.deb. YAML validator 41175333126 PASS. Previous QA141 kept as rollback.
+- IMPORTANT: QA142 is read-only native Home/DBWorkspace ABI discovery, NOT tap-to-launch fix; no real device test yet. iPhone diagnostics includes DuoFaceHomeLaunch142.log. Next on parked iPhone X: update via Sileo, respring, tap selected app and genuine native icon, export diagnostics; then use measured current iOS16 classes/ABIs to implement selected-app click to live scene host. Preserve GOFA, YouTube, Dock, lock. No unsupported launch success claim.
+
+---
+
 # QA142 SOURCE AND SIGNED BUILD SUCCESS — NATIVE HOME ABI, PUBLICATION CHECK IN PROGRESS (2026-10-31)
 
 - Latest exact QA142 branch `feature/duoface-qa142-home-abi-20261031` (born from QA141 `9c17451c`). User wants a **real tap-to-launch fix**, not only icons; QA141 user confirms six native Home icons displayed but tapping fails; this source checkpoint adds only a safe, bounded **real-process ABI discovery**, NOT yet an opening fix. No new device Log21 or physical QA142 tap pass.
