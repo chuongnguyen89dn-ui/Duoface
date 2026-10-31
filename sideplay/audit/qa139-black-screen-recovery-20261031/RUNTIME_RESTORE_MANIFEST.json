@@ -1,0 +1,42 @@
+{
+  "base": "725531b",
+  "runtime": "QA137 exact source; version only changes",
+  "restored": [
+    {
+      "path": "sideplay/duoface-native-scene-host/DFHomePublisher136Core.m",
+      "base_blob_sha256": "6c673193dba6f211db52a92c255e35c457f6089813089bba4e3722d790ac956b",
+      "recovery_sha256": "6c673193dba6f211db52a92c255e35c457f6089813089bba4e3722d790ac956b",
+      "version_only_difference": false
+    },
+    {
+      "path": "sideplay/duoface-native-scene-host/DFNativeDiagnostics.m",
+      "base_blob_sha256": "10797d5f65f25ccfb05511d9429ff1efdfd7b26eee18710d04f031cab5eed67a",
+      "recovery_sha256": "10797d5f65f25ccfb05511d9429ff1efdfd7b26eee18710d04f031cab5eed67a",
+      "version_only_difference": false
+    },
+    {
+      "path": "sideplay/duoface-native-scene-host/DFSceneHost.m",
+      "base_blob_sha256": "91c4b73f2f2d9dcacec365203fa5103f8cd6e853bb7bbb3a2c7abdf0ba1d8d1e",
+      "recovery_sha256": "91c4b73f2f2d9dcacec365203fa5103f8cd6e853bb7bbb3a2c7abdf0ba1d8d1e",
+      "version_only_difference": false
+    },
+    {
+      "path": "sideplay/duoface-native-scene-host/Info.plist",
+      "base_blob_sha256": "c5fa38b6f87679c1cc5f01f5a14a66e8005d8d6a3db054367a0e27519d616f58",
+      "recovery_sha256": "7a33c91a5839e8104f4a279ab8f668acc9c57e65253c938c7eb68cf4e9063146",
+      "version_only_difference": true
+    },
+    {
+      "path": "sideplay/duoface-native-scene-host/build.sh",
+      "base_blob_sha256": "4892fd114a87cfffdec3bbefdef25a80d1d7714a5d40e88329e0f65d90c85418",
+      "recovery_sha256": "c5abf166cf263f2ff44b552bd637dbedaee1461077247a9a86f831095537a0aa",
+      "version_only_difference": true
+    },
+    {
+      "path": "sideplay/duoface-native-scene-host/control",
+      "base_blob_sha256": "5421c1736c8e791eb406736ddfdc24c3bac0ec990dfd90cdb5901583c4092e00",
+      "recovery_sha256": "f80f8ec808a4b3a4638dcd3c7808c87d6ef48a7b11d06106f2ebb99ee246926a",
+      "version_only_difference": true
+    }
+  ]
+}

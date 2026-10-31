@@ -51,8 +51,34 @@ static NSArray *DF136InstalledIDs(void) {
 // Only a newly created THIRD-PARTY application info may be promoted.
 // Existing native objects, including GOFA and all Apple CarPlay apps, must
 // remain exactly as returned by the original OS library.
-extern BOOL DFHome138PromoteAdmittedInfo(id info);
-extern BOOL DFHome138RequestSelectedAdmission(id proxy);
+static void DF136PromoteNewInfo(id info) {
+ if(!info)return;
+ Class db=objc_getClass("DBApplicationInfo");
+ if(!db || ![info isKindOfClass:db])return;
+ SEL is=sel_registerName("isCarPlaySupported");
+ SEL set=sel_registerName("setCarPlaySupported:");
+ SEL launch=sel_registerName("setLaunchAsCarApplication:");
+ Method getter=class_getInstanceMethod(db,is);
+ Method setter=class_getInstanceMethod(db,set);
+ if(!getter || !setter || method_getNumberOfArguments(getter)!=2 ||
+    method_getNumberOfArguments(setter)!=3)return;
+ char ret[8]={0},arg[8]={0},out[8]={0};
+ method_getReturnType(getter,ret,sizeof(ret));
+ method_getArgumentType(setter,2,arg,sizeof(arg));
+ method_getReturnType(setter,out,sizeof(out));
+ if((ret[0]!='B' && ret[0]!='c') ||
+    (arg[0]!='B' && arg[0]!='c') || out[0]!='v')return;
+ if(((BOOL(*)(id,SEL))objc_msgSend)(info,is))return;
+ ((void(*)(id,SEL,BOOL))objc_msgSend)(info,set,YES);
+ Method launchMethod=class_getInstanceMethod(db,launch);
+ if(launchMethod && method_getNumberOfArguments(launchMethod)==3) {
+   char a[8]={0},r[8]={0};
+   method_getArgumentType(launchMethod,2,a,sizeof(a));
+   method_getReturnType(launchMethod,r,sizeof(r));
+   if(r[0]=='v' && (a[0]=='B'||a[0]=='c'))
+      ((void(*)(id,SEL,BOOL))objc_msgSend)(info,launch,YES);
+ }
+}
 // Returns count of verified new FBS records, or -1 for unavailable native ABI.
 NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
  if(!DFHome136Enabled() ||
@@ -69,29 +95,27 @@ NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
     !DF136Exact(library,lookup,"@24@0:8@16"))return -1;
  NSArray *native=((id(*)(id,SEL))objc_msgSend)(library,all);
  if(![native isKindOfClass:NSArray.class])return -1;
+ NSMutableOrderedSet<NSString *> *nativeIDs=[NSMutableOrderedSet orderedSet];
+ for(id app in native) {
+    NSString *bid=DF136Identifier(app);
+    if(bid)[nativeIDs addObject:bid];
+ }
  NSArray *installed=DF136InstalledIDs();
  NSArray *selected=DFConfiguredEnabledAppIDs();
  if(!installed || !selected)return -1;
- // A stale QA136-added record is not necessarily a native CarPlay app.
- // The original LS capabilities, not FBS membership alone, decide whether
- // the new selected-only gate is permitted to promote it.
- NSArray *allowed=DFHomeBridgeBundleIDs(installed,selected,@[]);
+ NSArray *allowed=DFHomeBridgeBundleIDs(installed,selected,nativeIDs.array);
  NSMutableArray *infos=[NSMutableArray array];
  for(NSString *bundle in allowed) {
     if([bundle hasPrefix:@"com.apple."])continue;
-    id proxy=DF136InstalledProxy(bundle);
-    if(!proxy || !DFHome138RequestSelectedAdmission(proxy))continue;
     id already=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
-    if(already){
-      DF137ObserveExistingAppInfo(already,@"already-present");
-      (void)DFHome138PromoteAdmittedInfo(already);
-      continue;
-    }
+    if(already){DF137ObserveExistingAppInfo(already,@"already-present");continue;}
+    id proxy=DF136InstalledProxy(bundle);
+    if(!proxy)continue;
     ((void(*)(id,SEL,id,id))objc_msgSend)(library,add,proxy,nil);
     id info=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
     if(info){
       DF137ObserveExistingAppInfo(info,@"new-before-promotion");
-      (void)DFHome138PromoteAdmittedInfo(info);
+      DF136PromoteNewInfo(info);
       DF137ObserveExistingAppInfo(info,@"new-after-promotion");
       [infos addObject:info];
     }
