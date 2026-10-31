@@ -1,0 +1,30 @@
+2026-10-31T11:14:03.6093180Z DOCK147_ASYNC_LIFECYCLE_TRANSITIONS_PASS
+2026-10-31T11:14:03.8900610Z Ran 5 tests in 0.001s
+2026-10-31T11:14:03.8901720Z OK
+2026-10-31T11:14:03.9687640Z Ran 5 tests in 0.000s
+2026-10-31T11:14:03.9688200Z OK
+2026-10-31T11:14:04.0277330Z Ran 4 tests in 0.000s
+2026-10-31T11:14:04.0277550Z OK
+2026-10-31T11:14:04.0842810Z Ran 4 tests in 0.000s
+2026-10-31T11:14:04.0843100Z OK
+2026-10-31T11:14:04.2016320Z Ran 2 tests in 0.036s
+2026-10-31T11:14:04.2017170Z OK
+2026-10-31T11:14:04.2614510Z Ran 6 tests in 0.001s
+2026-10-31T11:14:04.2614790Z OK
+2026-10-31T11:14:04.3294450Z Ran 3 tests in 0.001s
+2026-10-31T11:14:04.3294950Z OK
+2026-10-31T11:16:36.1126090Z BUILT=/Users/runner/work/Duoface/Duoface/sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.147~native-dock-sync1_iphoneos-arm64.deb
+2026-10-31T11:16:36.3154030Z [36;1mstrings -a "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'[0m
+2026-10-31T11:16:36.3155470Z [36;1mecho "QA147_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"[0m
+2026-10-31T11:16:36.3156220Z [36;1mecho 'QA147_SIGNED_OFFLINE_NO_DEVICE_PROOF_NO_SILEO_RELEASE'[0m
+2026-10-31T11:16:37.6615110Z DUOFACE_JB_EMBEDDED_CANDIDATE_BUILT /Users/runner/work/Duoface/Duoface/sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb 4d330ae909dc6f1e12ead482aef5b0754bf93ea8678e3ed41f97bd6d8ea1b7a6 36
+2026-10-31T11:16:37.8164730Z qa147-native-dock-active
+2026-10-31T11:16:37.8604390Z tar: stdout: write error: Broken pipe
+2026-10-31T11:16:37.8607540Z dpkg-deb: error: tar subprocess failed with exit status 2
+2026-10-31T11:16:37.8820650Z 4d330ae909dc6f1e12ead482aef5b0754bf93ea8678e3ed41f97bd6d8ea1b7a6  sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb
+2026-10-31T11:16:37.8924020Z QA147_SIGNED_OFFLINE_NO_DEVICE_PROOF_NO_SILEO_RELEASE
+2026-10-31T11:16:37.9116140Z   QA147_PRIVATE_OUTPUT: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb
+2026-10-31T11:16:39.1344100Z [36;1m  cp "$QA147_PRIVATE_OUTPUT" "$OUT/$ART"[0m
+2026-10-31T11:16:39.1352120Z [36;1m    echo QA147_PRIVATE_SIGNED_ARTIFACT_SAVED_NO_SILEO[0m
+2026-10-31T11:16:39.1401130Z   QA147_PRIVATE_OUTPUT: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb
+2026-10-31T11:16:46.1880550Z QA147_PRIVATE_SIGNED_ARTIFACT_SAVED_NO_SILEO
