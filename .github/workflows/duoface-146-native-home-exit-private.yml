@@ -9,6 +9,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
       - 'sideplay/duoface-native-scene-host/DFHome145Consent.h'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DF154AppStateProtocol.h'
+      - 'sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa154_staged_app_state.py'
       - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
       - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
       - 'sideplay/duoface-native-scene-host/DFNativePrepOnce152.h'
@@ -64,6 +67,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"
           "$RUNNER_TEMP/workspace152"
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
@@ -74,6 +78,14 @@ jobs:
           "$RUNNER_TEMP/home141"
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_resize_141.c -o "$RUNNER_TEMP/gofa141"
           "$RUNNER_TEMP/gofa141"
+      - name: Compile-check QA154 app-only relay source without packaging it
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -framework UIKit -framework Foundation -fsyntax-only \
+            sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m
       - name: Prepare previous verified macOS iOS16 rootless toolchain
         run: |
           set -euo pipefail
