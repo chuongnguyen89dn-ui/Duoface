@@ -46,3 +46,12 @@ python3 sideplay/audit/qa147-full-route-evidence-20261031/verify_full_route_evid
 3. Confirm native app switching, foreground restoration, genuine previous Home page, correct scene geometry and lower touch region, launch→first-frame/tap latency, reconnect and DuoFace split/YouTube/GOFA regressions before Sileo release. If any ABI fails, retain private staging rather than ship fabricated UI state.
 
 **Deliberately unchanged**: normal supported native CarPlay app launch, original Apple Home handler, the actual pass-through Dock region, existing user consent/default-off, third-party vendor licensing and original vendor DEB payloads. No public Sileo publication authorized by an offline compile alone.
+
+## FINALIZED PRIVATE SIGNED BUILD — verified GitHub evidence (2026-10-31)
+
+- GitHub Actions [41205639630](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41205639630), job `124550044100`, source SHA `e72122c3fdcb904ad8bb445a2bde8ff6cb98d33b`: **COMPLETED SUCCESS**. The job verified C+Python regressions, prepared Theos iOS16 macOS toolchain, compiled independent host and current native Dock receiver, signed the integrated package, uploaded it and archived the exact signed file into DuoFace GitHub.
+- Signed private DEB: `sideplay/jb-embedded-appbridge/evidence/runs/41205639630/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb`, size **1,170,960 bytes**, SHA256 **`0f1c3a2bd28dbfb05e565e3cebdaa28e035a2ab09c77d4899eaafaad32950c64`**, exact Git blob **`71e03d796d620b5b8e7233b9637d1ced125364b6`**.
+- Source + artifact archive was read back on GitHub branch at commit **`45156fa0d722779877d89ad9ac05c9f8af45f2b9`**. Nontruncated Git tree (4411 entries) confirms four files under `evidence/runs/41205639630/`: actual DEB, `SHA256SUMS.txt`, `PACKAGING_PROVENANCE.json`, `CI_RESULT.txt`. The latter explicitly states `SILEO_PUBLISHED=false`, `DEVICE_DIRECT_HOME_TESTED=false`, `STANDALONE_OWNER_FOREGROUND_VERIFIED=false`.
+- Actions uploaded private artifact `QA147-private-standalone-signed-UNPUBLISHED` ID **13043869789**, ZIP digest `sha256:bfe8135d562cb626bb4812de0260e3723f9811c4ac059f27c6df2d7a8e4ff95f`. ZIP digest is NOT the internal DEB's hash.
+- Source and archived artifact **verified and saved durably in `Duoface`**, not `Gpt-training-` or `carplaydsp`. No Sileo release or physical-car testing has been claimed. The original user-rejected public QA147 is **not** replaced by this unpublished private candidate.
+
