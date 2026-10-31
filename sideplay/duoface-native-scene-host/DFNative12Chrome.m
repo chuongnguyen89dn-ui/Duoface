@@ -8,6 +8,7 @@
 #import "DFNative12MenuHeader.h"
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
+#import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerVC.h"
 #import "DFSlotWorkspacePolicy.h"
 #import "DFAppLibrary.h"
@@ -1871,6 +1872,19 @@ static void DFCLog(NSString *text) {
     self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
     [self noteUserActivity];
+}
+// CarPlay Home outside DuoFace can only reach this once a genuine system scene
+// has activated and the original SpringBoard chrome is live.
+- (BOOL)openSelectedHomeBundleID143:(NSString *)bundleID {
+    if(![NSThread isMainThread] || !self.appPickerController ||
+       !self.appPickerWindow || ![bundleID isKindOfClass:NSString.class] ||
+       !DFPickerAllowsApp(bundleID,DFConfiguredEnabledAppIDs()))return NO;
+    self.selectedSlot=0; // Existing first physical pane; preserves other slots.
+    DFCLog([NSString stringWithFormat:@"home143-owned-scene-request bundle=%@ selected=0",bundleID]);
+    [self appPicker:self.appPickerController
+       didSelectBundleID:bundleID displayName:bundleID];
+    // A real scene is only confirmed later via sceneReady: (not here).
+    return YES;
 }
 - (void)appPicker:(DFAppPickerVC *)picker
  didSelectBundleID:(NSString *)bundleID displayName:(NSString *)name {
