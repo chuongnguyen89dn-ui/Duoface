@@ -1,3 +1,14 @@
+# 2026-10-31 QA143 PUBLIC SILEO RELEASE VERIFIED
+
+- User asked for real clickable ordinary iPhone apps on CarPlay Home. First-party QA143 click->actual DuoFace native icon->foreground CPTemplate->SpringBoard existing real DFSceneHost host implementation signed; actual on-device app-open/touch still NOT tested.
+- Built/SIGNED macOS Actions run 41177472190 PASS, source 7e9cb8df5c02903557f53f47447d977ba7a84aef, immutable DEB archive e475878b2fe93dde2e62f66f5f8c2d1217798618; package 0.0.143~homebridge1 SHA256 db9019a708c4905602d00ed500878c01f208b26655e42ee079dacf30d925c39c.
+- Sileo publisher carplaydsp main 1a91d54ab1c790eb970cf32e36696e5249668f6c, validator 41177913539 PASS; real public Pages build/deploy/live Packages and binary hash verification run 41177913481 ALL FIVE JOBS PASS (verify-duoface-integrated-pages job 124469967464). Public https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.143~homebridge1_iphoneos-arm64.deb ; QA142 binary retained as rollback.
+- Detailed source provenance, exact public CDN check and physical QA: sideplay/audit/qa143-home-bridge-signed-20261031/QA143_PUBLIC_SILEO_VERIFICATION.md.
+- Next at parked iPhone X iOS16.7.16: refresh Sileo, install QA143, respring, have real DuoFace icon visible on SAME CarPlay Home page as consented app icon; tap app and export current DuoFaceHomeLaunch143.log via DuoFace iPhone diagnostics. Need actual selected app sceneReady and touch/GOFA/Home/Dock observations; no assumed physical fix.
+
+
+---
+
 # 2026-10-31 13:47 ICT — QA143 SIGNED BUILD SUCCESS, SILEO PUBLISHER IN PROGRESS (USER ASKED STATUS)
 
 - Verified actual macOS iOS16 arm64 signed QA143 **SUCCESS**, GitHub Actions run [41177472190](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41177472190), job `124467956220`: source tests, original 3 Theos modules, native signing, merged signed rootless DEB, artifacts, archive all completed success. Source SHA `7e9cb8df5c02903557f53f47447d977ba7a84aef`. Archived exact package `sideplay/jb-embedded-appbridge/evidence/runs/41177472190/com.duoface.jb.embedded_0.0.143~homebridge1_iphoneos-arm64.deb` at archive commit `e475878b2fe93dde2e62f66f5f8c2d1217798618`; verified `SHA256SUMS.txt` contents SHA256 `db9019a708c4905602d00ed500878c01f208b26655e42ee079dacf30d925c39c`, `CI_RESULT.txt` says `SIGNED=true` / `DEVICE_HOME_TAP_TESTED=false` / `SILEO_PUBLISHED=false`. Independent release evidence `sideplay/audit/qa143-home-bridge-signed-20261031/QA143_SIGNED_RELEASE_CHECKPOINT.md` saved via `7558d737d16e447d02b8c0a40794734400c772d4`.
