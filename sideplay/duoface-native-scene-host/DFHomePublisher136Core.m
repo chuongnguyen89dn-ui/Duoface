@@ -48,11 +48,12 @@ static NSArray *DF136InstalledIDs(void) {
  }
  return IDs.array;
 }
-// Only a newly created THIRD-PARTY application info may be promoted.
-// Existing native objects, including GOFA and all Apple CarPlay apps, must
+// Only selected admitted THIRD-PARTY records with a missing declaration may be completed.
+// Existing native declarations, including GOFA and all Apple CarPlay apps, must
 // remain exactly as returned by the original OS library.
-extern BOOL DFHome140PromoteAdmittedInfo(id info);
-extern BOOL DFHome140RequestSelectedAdmission(id proxy);
+extern BOOL DFHome141CompleteInfo(id info);
+extern BOOL DFHome141InfoHasDeclaration(id info);
+extern BOOL DFHome141RequestSelectedAdmission(id proxy);
 // Returns count of verified new FBS records, or -1 for unavailable native ABI.
 NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
  if(!DFHome136Enabled() ||
@@ -79,22 +80,23 @@ NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
  NSMutableArray *infos=[NSMutableArray array];
  for(NSString *bundle in allowed) {
     if([bundle hasPrefix:@"com.apple."])continue;
-    id proxy=DF136InstalledProxy(bundle);
-    if(!proxy || !DFHome140RequestSelectedAdmission(proxy))continue;
     id already=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
-    if(already){
-      DF137ObserveExistingAppInfo(already,@"already-present");
-      (void)DFHome140PromoteAdmittedInfo(already);
-      continue;
+    // Log19 native Maps/GOFA/Waze already have real declarations. Do not
+    // change their admission or native launch policy.
+    if(already && DFHome141InfoHasDeclaration(already))continue;
+    id proxy=DF136InstalledProxy(bundle);
+    if(!proxy || !DFHome141RequestSelectedAdmission(proxy))continue;
+    id info=already;
+    if(!info) {
+      ((void(*)(id,SEL,id,id))objc_msgSend)(library,add,proxy,nil);
+      info=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
     }
-    ((void(*)(id,SEL,id,id))objc_msgSend)(library,add,proxy,nil);
-    id info=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
-    if(info){
-      DF137ObserveExistingAppInfo(info,@"new-before-promotion");
-      (void)DFHome140PromoteAdmittedInfo(info);
-      DF137ObserveExistingAppInfo(info,@"new-after-promotion");
-      [infos addObject:info];
-    }
+    if(!info)continue;
+    DF137ObserveExistingAppInfo(info,@"before-declaration-completion");
+    BOOL completed=DFHome141CompleteInfo(info);
+    DF137ObserveExistingAppInfo(info,@"after-declaration-completion");
+    // Existing nil records need notification too after a verified attachment.
+    if(completed || (!already && DFHome141InfoHasDeclaration(info))) [infos addObject:info];
  }
  if(infos.count && DF136Exact(library,notify,"v24@0:8@16"))
     ((void(*)(id,SEL,id))objc_msgSend)(library,notify,infos);

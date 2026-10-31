@@ -1,3 +1,13 @@
+# QA141 source checkpoint — Log19 failure addressed in code; signed CI and device results pending
+
+- User confirms QA140: no added Home apps; GOFA still boxed. Log19 blob e01382c76292b4d806f0be899f5ff3278580a236 independently parsed: six selected ordinary bundles have nil declarations, zero effective declaration/policy callbacks; 6/11 GOFA stale-child samples, 5 active.
+- QA141 completes the actual missing DB declaration with getter readback and notifies only ready records; owned-only policy; preserves native declarations and QA140 reentry guard/consent.
+- GOFA receiver now performs qualified canvas resize to actual full-size parent bounds, with before/after/parent evidence and short autoresizing lease; no Metal, root, window, orientation, scale or camera writes. Transport/host geometry unchanged.
+- Local 17 Python checks and C geometry gates pass. Foundation behavior and signed build still pending; no device success claimed.
+- Evidence and replay: sideplay/audit/qa141-log19-declaration-map-20261031/. Branch feature/duoface-qa141-declaration-map-layout-20261031; integrated 0.0.141~declmap1.
+
+---
+
 ## 2026-10-31 — USER QA140 STILL FAIL; REAL LOG19 IDENTIFIES NIL HOME DECLARATIONS AND STALE GOFA MAP VIEWS
 - User reports both original goals stillFAIL: no selected app on realHome and GOFA still boxed. Actual newmain upload341a4dfbd5c10a5e8ca03475741860e983e6e483 contains `sideplay/log/DuoFaceAudit 19.txt`, blobe01382c76292b4d806f0be899f5ff3278580a236,4,820,217bytes/23,223lines, export04:17:46Z.140CarPlayPID91871 reaches selectedLSinclusion9apps; no138recursivecrashloop evidenced in this interval.
 - HOME new evidence: Home140has190admitted-info lines,6ordinary selectedbundle families repeatedly `carPlayDeclaration=nil`, nativeWaze/GOFA/GoogleMapsnon-nil. `selected-declaration-created=0`, `selected-original-policy=0`, FBSreconcile6once then0. Thus140CRfactoryhookdidnotpopulateactualDBinfo; plainFBSentryisnotHome-ready. Existing exact originalcatalog audit references `_carPlayDeclaration` and CRdeclarationalloc/setBundleIdentifier; next fill only admittedinstalledselected nilDBdeclaration with runtime-checked setter/ivar, verify getterreadback, notify newlycompleted entries. Preserve all existingnative declarations and threadlocal recursionguard.

@@ -1,0 +1,213 @@
+# QA131: same native-owner lease across phone lock, explicit per-UUID Home revocation.
+# Preserve on-device verified QA120 native geometry and .90/.92 regressions. Retry: remove test false-positive on comment.
+name: DuoFace QA141 DB declaration completion and owned map resize signed staging
+on:
+  push:
+    branches: [feature/duoface-qa141-declaration-map-layout-20261031]
+    paths:
+      - '.github/workflows/duoface-141-declaration-map-layout-signed-staging.yml'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/audit/qa131-iphone-clock-20261030/test_frame_clock_probe.py'
+      - 'sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_evidence_owner_reflow_127.py'
+      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.m'
+      - 'sideplay/duoface-native-scene-host/DFCarPlaySelectedAppCatalog.h'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayHomeCatalogPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayHomeABIProbe.m'
+      - 'sideplay/duoface-native-scene-host/DFHomePublisher136Config.h'
+      - 'sideplay/duoface-native-scene-host/DFHomePublisher136Core.m'
+      - 'sideplay/duoface-native-scene-host/DFHomeAdmission137Probe.m'
+      - 'sideplay/duoface-native-scene-host/DFHomeAdmission141.m'
+      - 'sideplay/duoface-native-scene-host/DFHome140Consent.h'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/DFGofaMapResize141.m'
+      - 'sideplay/duoface-native-scene-host/DFGofaMapResize141.plist'
+      - 'sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa141_map_layout.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa141_home_admission_probe.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_141.py'
+      - 'sideplay/duoface-native-scene-host/DFHomePublisher136Entry.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa136_home_publisher_contract.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
+      - 'sideplay/duoface-native-scene-host/tests/carplay_home_catalog_policy_135.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_carplay_home_abi_135.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_scoped_bks_132.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_native12_phone_apps_manager_094.py'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerSelection.h'
+      - 'sideplay/duoface-native-scene-host/tests/carplay_owner_selection_134.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_native_owner_contract.py'
+      - 'sideplay/duoface-native-scene-host/DFSceneLifecycle.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_scene_destroy_owner_130.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_scene_background_owner_fix_130.py'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_136.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_lock_runtime_125.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_native_rail_120.py'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-141-home-abi-signed-qa
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate QA141 preserved QA134 owner and QA132 BKS with new opt-in system Home publisher candidate
+        run: |
+          set -euo pipefail
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manual_observer_contract_test.c -o "$RUNNER_TEMP/manual-owner-contract"
+          "$RUNNER_TEMP/manual-owner-contract"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/owner_lease_policy_test.c -o "$RUNNER_TEMP/owner-policy"
+          "$RUNNER_TEMP/owner-policy"
+          clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/owner_lease_records_test.m -o "$RUNNER_TEMP/owner-records"
+          "$RUNNER_TEMP/owner-records"
+          clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/carplay_owner_selection_134.m -o "$RUNNER_TEMP/owner-selection134"
+          "$RUNNER_TEMP/owner-selection134"
+          clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/carplay_home_catalog_policy_135.m -o "$RUNNER_TEMP/home-catalog135"
+          "$RUNNER_TEMP/home-catalog135"
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_carplay_home_abi_135.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_home_admission_probe.py' -v
+          python3 -m unittest discover -s sideplay/audit/qa131-iphone-clock-20261030 -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native12_phone_apps_manager_094.py' -v
+          python3 sideplay/audit/carplay-home-icons-20261030/audit_home_selection.py --out "$RUNNER_TEMP/qa141-home-gap.json"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m -o "$RUNNER_TEMP/home141-forwarding"
+          "$RUNNER_TEMP/home141-forwarding"
+          clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/home140_consent_runtime.m -o "$RUNNER_TEMP/home140-consent"
+          "$RUNNER_TEMP/home140-consent"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_resize_141.c -o "$RUNNER_TEMP/gofa141"
+          "$RUNNER_TEMP/gofa141"
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
+          # GOFA baseline and owner BKS are exactly the user-accepted frozen code.
+          for path in sideplay/duoface-native-scene-host/DFHostedMapRenderSize.h sideplay/duoface-native-scene-host/DFNative12Chrome.m; do
+            git show f84e27a9a97d58e0fb0509bdc6d3de13444c4a75:"$path" > "$RUNNER_TEMP/qa141-qa128-reference"
+            cmp "$RUNNER_TEMP/qa141-qa128-reference" "$path"
+          done
+          git show 5a66876d7a39c167e222ea5b02b78408a3017ef5:sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m > "$RUNNER_TEMP/qa141-qa132-bks-reference"
+          cmp "$RUNNER_TEMP/qa141-qa132-bks-reference" sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m
+          echo QA141_FROZEN_QA128_GOFA_QA132_BKS_PRESERVED
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scene_destroy_owner_130.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scene_background_owner_fix_130.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_postlock_contract.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_evidence_owner_reflow_127.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_geometry_119.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_rail_120.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_underlock_owner_123.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_lock_runtime_125.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_inactive_lifecycle_124.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_carplay_sleep_121.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_emergency_no_wake_dock_118.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_logo_092_exact_regression.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_141.py' -v
+          grep -Fq 'VERSION="0.0.141~declmap1"' sideplay/jb-embedded-appbridge/package_integrated.py
+          grep -Fq '0.1.141~declmap1' sideplay/duoface-native-scene-host/control
+      - name: Install existing rootless toolchain and sign utilities
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          test -d "$(xcrun --sdk iphoneos --show-sdk-path)"
+      - name: Build three original first-party rootless dependency modules
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+          test -s sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb
+          test -s sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb
+          test -s sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb
+      - name: Compile sign and hash QA141 native host and four receivers including Home FBS registered-proxy source
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.141~declmap1_iphoneos-arm64.deb'
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.141~declmap1'
+          mkdir -p "$RUNNER_TEMP/qa-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa-host"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay DFGofaMapResize141; do
+            D="$RUNNER_TEMP/qa-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib"
+            test -s "$D"
+            ldid -e "$D" >/dev/null
+          done
+          SHA="$(shasum -a 256 "$HOST" | awk '{print $1}')"
+          echo "NATIVEHOST_SHA=$SHA" >> "$GITHUB_ENV"
+      - name: Record signed native host Mach-O UUIDs
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/QA141_MACHO_UUIDS.txt"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay DFGofaMapResize141; do
+            D="$RUNNER_TEMP/qa-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib"
+            xcrun dwarfdump --uuid "$D" | tee -a "$OUT"
+          done
+          test -s "$OUT"
+      - name: Produce one immutable independent signed rootless QA141 package
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build \
+             --expected-nativehost-sha256 "$NATIVEHOST_SHA" \
+             --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.141~declmap1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.141~declmap1'
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Architecture)" = iphoneos-arm64
+          mkdir -p "$RUNNER_TEMP/qa-integrated"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa-integrated"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay DFGofaMapResize141; do
+            ldid -e "$RUNNER_TEMP/qa-integrated/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib" >/dev/null
+          done
+          shasum -a 256 "$OUT"
+          echo "QA_OUTPUT=$OUT" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        id: qa
+        with:
+          name: DuoFace-141-Declaration-Map-Resize
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.141~declmap1_iphoneos-arm64.deb
+          if-no-files-found: error
+      - name: Archive signed QA141 native Home candidate in DuoFace repo (NOT Sileo, device pending)
+        env:
+          QA_ARTIFACT: ${{ steps.qa.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa141-declaration-map-layout-20261031'
+          SRC="$QA_OUTPUT"
+          NAME='com.duoface.jb.embedded_0.0.141~declmap1_iphoneos-arm64.deb'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            DEST="$TEMP/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$DEST"
+            cp "$SRC" "$DEST/$NAME"
+            ( cd "$DEST" && shasum -a 256 "$NAME" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$DEST/"
+            cp "$RUNNER_TEMP/QA141_MACHO_UUIDS.txt" "$DEST/"
+            printf 'BUILD=success\nSIGNED=true\nDEVICE_QA=false\nSILEO_PUBLISHED=false\nREAL_PLAY_NOT_VERIFIED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nARTIFACT_ID=%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" "$QA_ARTIFACT" > "$DEST/CI_RESULT.txt"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$TEMP" commit -m 'qa141: archive opt-in native Home candidate, preserve QA134 GOFA and QA132 dim [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo SIGNED_PANE_TRACE_QA_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1

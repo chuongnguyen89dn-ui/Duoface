@@ -1,0 +1,615 @@
+{
+  "input_git_blob": "e01382c76292b4d806f0be899f5ff3278580a236",
+  "input_sha256": "86732f2118632aebf0bc063eeb5618cd081c3735b9d4c63624b895bc1821a860",
+  "input_bytes": 4820217,
+  "input_lines": 23223,
+  "admitted_info": {
+    "com.waze.iphone": {
+      "CRCarPlayAppDeclaration": 22
+    },
+    "com.lumi.GOFA": {
+      "CRCarPlayAppDeclaration": 22
+    },
+    "com.ss.iphone.ugc.Ame": {
+      "nil": 22
+    },
+    "com.google.ios.youtube": {
+      "nil": 18
+    },
+    "com.wynauto.wyn": {
+      "nil": 18
+    },
+    "com.google.Maps": {
+      "CRCarPlayAppDeclaration": 22
+    },
+    "com.openai.chat": {
+      "nil": 22
+    },
+    "com.facebook.Facebook": {
+      "nil": 22
+    },
+    "com.google.gemini": {
+      "nil": 22
+    }
+  },
+  "selected_declaration_created": 0,
+  "selected_original_policy": 0,
+  "gofa_samples": [
+    {
+      "line": 2043,
+      "pid": 91880,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        793.0,
+        685.0
+      ],
+      "root": [
+        793.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": false
+    },
+    {
+      "line": 2104,
+      "pid": 91880,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        793.0,
+        685.0
+      ],
+      "root": [
+        793.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": false
+    },
+    {
+      "line": 2173,
+      "pid": 91880,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        1190.0,
+        685.0
+      ],
+      "root": [
+        1190.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": true
+    },
+    {
+      "line": 2234,
+      "pid": 91880,
+      "appActivation": 1,
+      "sceneActivation": 1,
+      "window": [
+        375.0,
+        812.0
+      ],
+      "root": [
+        375.0,
+        812.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            793.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": true
+    },
+    {
+      "line": 2308,
+      "pid": 91883,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        1190.0,
+        685.0
+      ],
+      "root": [
+        1190.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": false
+    },
+    {
+      "line": 2419,
+      "pid": 91883,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        793.0,
+        685.0
+      ],
+      "root": [
+        793.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": true
+    },
+    {
+      "line": 2577,
+      "pid": 91883,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        1190.0,
+        685.0
+      ],
+      "root": [
+        1190.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": false
+    },
+    {
+      "line": 2637,
+      "pid": 91883,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        1190.0,
+        685.0
+      ],
+      "root": [
+        1190.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": false
+    },
+    {
+      "line": 2748,
+      "pid": 91883,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        793.0,
+        685.0
+      ],
+      "root": [
+        793.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": true
+    },
+    {
+      "line": 2855,
+      "pid": 91883,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        397.0,
+        685.0
+      ],
+      "root": [
+        397.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": true
+    },
+    {
+      "line": 3042,
+      "pid": 91883,
+      "appActivation": 0,
+      "sceneActivation": 0,
+      "window": [
+        793.0,
+        685.0
+      ],
+      "root": [
+        793.0,
+        685.0
+      ],
+      "maps": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.ViewAnnotationsContainer",
+          "size": [
+            1190.0,
+            685.0
+          ]
+        },
+        {
+          "class": "MapboxMaps.IndoorSelectorView",
+          "size": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "mismatch": true
+    }
+  ],
+  "gofa_mismatches": 6,
+  "gofa_active_mismatches": 5,
+  "device_icon_success": false,
+  "device_fix_verified": false
+}
