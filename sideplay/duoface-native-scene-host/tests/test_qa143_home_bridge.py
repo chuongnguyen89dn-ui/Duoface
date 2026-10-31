@@ -4,7 +4,7 @@ CAR=(ROOT/"DFHomeLaunch143.m").read_text()
 SB=(ROOT/"DFHomeRequestReceiver143.m").read_text()
 BR=(ROOT/"DFHomeSceneBridge143.m").read_text()
 TO=(ROOT/"DFTouchOwnerProbe.m").read_text()
-CH=(ROOT/"DFNative12Chrome.h").read_text()
+CH=(ROOT/"DFHomeSceneBridge143.h").read_text()
 BUILD=(ROOT/"build.sh").read_text()
 PACK=(ROOT.parent/"jb-embedded-appbridge"/"package_integrated.py").read_text()
 
