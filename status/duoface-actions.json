@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-31T20:03:27.553384+00:00",
+  "checked_at_utc": "2026-10-31T23:27:26.663205+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4019,
+  "total_actions_runs": 4020,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -43,11 +43,21 @@
   },
   "latest_runs": [
     {
+      "id": 41252593274,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 99,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41252593274",
+      "created_at": "2026-10-31T23:27:15Z",
+      "head_sha": "4af562d541217e174fa3b016af7b493e7a3ccb34"
+    },
+    {
       "id": 41237066963,
       "name": "DuoFace Actions status snapshot",
       "run_number": 98,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41237066963",
       "created_at": "2026-10-31T20:03:16Z",
       "head_sha": "fdade8c70c0f9f7601107c1cd0624597e843e326"
@@ -331,16 +341,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216451533",
       "created_at": "2026-10-31T15:46:33Z",
       "head_sha": "a067fbc931ce9ddf98f918bdfbd3a222eb662bb3"
-    },
-    {
-      "id": 41216201038,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 24,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216201038",
-      "created_at": "2026-10-31T15:43:24Z",
-      "head_sha": "24e5126a38c7f9f23bb161d9971cebec73453b0c"
     }
   ]
 }
