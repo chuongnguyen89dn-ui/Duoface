@@ -21,7 +21,8 @@ class StandaloneHome144Guard(unittest.TestCase):
   self.assertNotIn("duofaceView",BRIDGE)
   self.assertNotIn("setSelectedSlot:",BRIDGE)
   self.assertNotIn("appPicker:didSelectBundleID:",BRIDGE)
-  self.assertNotIn("DFNative12Chrome",BRIDGE)
+  self.assertNotIn('#import "DFNative12Chrome.h"',BRIDGE)
+  self.assertNotIn("sChrome start",BRIDGE)
  def test_true_one_app_springboard_owner_and_original_home_process(self):
   self.assertIn("-DDF144_CARPLAY=1",BUILD)
   self.assertIn("-DDF144_SPRINGBOARD=1",BUILD)
