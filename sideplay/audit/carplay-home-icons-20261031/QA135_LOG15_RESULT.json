@@ -1,0 +1,2574 @@
+{
+  "input_commit": "12ef117f469ed6cd1dd11c0096621953329793ee",
+  "report_kind": "READ_ONLY_USER_UPLOADED_LOG15_NOT_CI_DEVICE_QA",
+  "user_report": "GOFA fixed on device; third-party selected apps not visible on actual CarPlay Home",
+  "log": {
+    "bytes": 4683740,
+    "sha256": "d810b9a17165658de0f8548f9b1356be58abeffc7ae44519654da084f58730ec",
+    "line_count": 17843,
+    "groups": {
+      "home_scope": 11966,
+      "error": 624,
+      "home_abi": 614
+    },
+    "sections": [
+      {
+        "section": "DuoFaceDeepTrace.log.previous (last 2 MiB; timestamped diagnostic build)",
+        "kind": "home_scope",
+        "hits": 5317
+      },
+      {
+        "section": "DuoFaceSceneHost.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 1611
+      },
+      {
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 1528
+      },
+      {
+        "section": "DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build)",
+        "kind": "home_scope",
+        "hits": 1353
+      },
+      {
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 1352
+      },
+      {
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "kind": "home_abi",
+        "hits": 380
+      },
+      {
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 380
+      },
+      {
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "kind": "error",
+        "hits": 215
+      },
+      {
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "kind": "home_abi",
+        "hits": 214
+      },
+      {
+        "section": "DuoFaceDisconnectClose.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 191
+      },
+      {
+        "section": "DuoFaceDeepTrace.log.previous (last 2 MiB; timestamped diagnostic build)",
+        "kind": "error",
+        "hits": 172
+      },
+      {
+        "section": "DuoFaceFatalException.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 79
+      },
+      {
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "kind": "error",
+        "hits": 65
+      },
+      {
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "kind": "error",
+        "hits": 64
+      },
+      {
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "kind": "home_scope",
+        "hits": 56
+      },
+      {
+        "section": "DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build)",
+        "kind": "error",
+        "hits": 55
+      },
+      {
+        "section": "DuoFaceDockOwner.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 36
+      },
+      {
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "kind": "home_scope",
+        "hits": 34
+      },
+      {
+        "section": "DuoFaceFatalException.log (last 256 KiB)",
+        "kind": "error",
+        "hits": 32
+      },
+      {
+        "section": "DuoFaceCarPlayOwnerSnapshot.log (last 256 KiB)",
+        "kind": "home_scope",
+        "hits": 25
+      },
+      {
+        "section": "DuoFaceCarPlayOwnerSnapshot.log (last 256 KiB)",
+        "kind": "error",
+        "hits": 21
+      },
+      {
+        "section": "DuoFaceCarPlayOwnerSnapshot.log (last 256 KiB)",
+        "kind": "home_abi",
+        "hits": 20
+      },
+      {
+        "section": "unsectioned",
+        "kind": "home_scope",
+        "hits": 2
+      },
+      {
+        "section": "DuoFaceGeometry119-CarPlayApp.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "kind": "home_scope",
+        "hits": 1
+      },
+      {
+        "section": "DuoFaceGeometry119-Dashboard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "kind": "home_scope",
+        "hits": 1
+      }
+    ],
+    "date_first": [
+      [
+        2,
+        "2026-10-31 00:48:25"
+      ],
+      [
+        17841,
+        "2026-10-30"
+      ],
+      [
+        17842,
+        "2026-10-30"
+      ],
+      [
+        17843,
+        "2026-10-30"
+      ]
+    ],
+    "date_last": [
+      [
+        2,
+        "2026-10-31 00:48:25"
+      ],
+      [
+        17841,
+        "2026-10-30"
+      ],
+      [
+        17842,
+        "2026-10-30"
+      ],
+      [
+        17843,
+        "2026-10-30"
+      ]
+    ],
+    "abi_lines": [
+      {
+        "line": 7721,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "=== DuoFaceHomeCatalogABI.log (last 256 KiB) ==="
+      },
+      {
+        "line": 7722,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7723,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[FBSApplicationInfo entitlementValuesForKeys:]"
+      },
+      {
+        "line": 7724,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7725,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues boolForKey:]"
+      },
+      {
+        "line": 7726,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues boolForKey: type=B24@0:8@16 return=B argc=3"
+      },
+      {
+        "line": 7727,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues objectForKey:]"
+      },
+      {
+        "line": 7728,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues objectForKey: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7729,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]"
+      },
+      {
+        "line": 7730,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass: type=@40@0:8@16#24#32 return=@ argc=5"
+      },
+      {
+        "line": 7731,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:]"
+      },
+      {
+        "line": 7732,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass: type=@32@0:8@16#24 return=@ argc=4"
+      },
+      {
+        "line": 7733,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 notify-listener=0"
+      },
+      {
+        "line": 7734,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7735,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[FBSApplicationInfo entitlementValuesForKeys:]"
+      },
+      {
+        "line": 7736,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7737,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues boolForKey:]"
+      },
+      {
+        "line": 7738,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues boolForKey: type=B24@0:8@16 return=B argc=3"
+      },
+      {
+        "line": 7739,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues objectForKey:]"
+      },
+      {
+        "line": 7740,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues objectForKey: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7741,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]"
+      },
+      {
+        "line": 7742,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass: type=@40@0:8@16#24#32 return=@ argc=5"
+      },
+      {
+        "line": 7743,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:]"
+      },
+      {
+        "line": 7744,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass: type=@32@0:8@16#24 return=@ argc=4"
+      },
+      {
+        "line": 7745,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 notify-listener=0"
+      },
+      {
+        "line": 7746,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7747,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[FBSApplicationInfo entitlementValuesForKeys:]"
+      },
+      {
+        "line": 7748,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7749,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues boolForKey:]"
+      },
+      {
+        "line": 7750,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues boolForKey: type=B24@0:8@16 return=B argc=3"
+      },
+      {
+        "line": 7751,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues objectForKey:]"
+      },
+      {
+        "line": 7752,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues objectForKey: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7753,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]"
+      },
+      {
+        "line": 7754,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass: type=@40@0:8@16#24#32 return=@ argc=5"
+      },
+      {
+        "line": 7755,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:]"
+      },
+      {
+        "line": 7756,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass: type=@32@0:8@16#24 return=@ argc=4"
+      },
+      {
+        "line": 7757,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7758,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[FBSApplicationInfo entitlementValuesForKeys:]"
+      },
+      {
+        "line": 7759,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7760,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues boolForKey:]"
+      },
+      {
+        "line": 7761,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues boolForKey: type=B24@0:8@16 return=B argc=3"
+      },
+      {
+        "line": 7762,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues objectForKey:]"
+      },
+      {
+        "line": 7763,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues objectForKey: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7764,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]"
+      },
+      {
+        "line": 7765,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass: type=@40@0:8@16#24#32 return=@ argc=5"
+      },
+      {
+        "line": 7766,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:]"
+      },
+      {
+        "line": 7767,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass: type=@32@0:8@16#24 return=@ argc=4"
+      },
+      {
+        "line": 7768,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7769,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[FBSApplicationInfo entitlementValuesForKeys:]"
+      },
+      {
+        "line": 7770,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7771,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues boolForKey:]"
+      },
+      {
+        "line": 7772,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues boolForKey: type=B24@0:8@16 return=B argc=3"
+      },
+      {
+        "line": 7773,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues objectForKey:]"
+      },
+      {
+        "line": 7774,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues objectForKey: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7775,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]"
+      },
+      {
+        "line": 7776,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass: type=@40@0:8@16#24#32 return=@ argc=5"
+      },
+      {
+        "line": 7777,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:]"
+      },
+      {
+        "line": 7778,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass: type=@32@0:8@16#24 return=@ argc=4"
+      },
+      {
+        "line": 7779,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7780,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[FBSApplicationInfo entitlementValuesForKeys:]"
+      },
+      {
+        "line": 7781,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7782,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues boolForKey:]"
+      },
+      {
+        "line": 7783,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues boolForKey: type=B24@0:8@16 return=B argc=3"
+      },
+      {
+        "line": 7784,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleInfoCachedValues objectForKey:]"
+      },
+      {
+        "line": 7785,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleInfoCachedValues objectForKey: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7786,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]"
+      },
+      {
+        "line": 7787,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass: type=@40@0:8@16#24#32 return=@ argc=5"
+      },
+      {
+        "line": 7788,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 loaded -[LSBundleProxy entitlementValueForKey:ofClass:]"
+      },
+      {
+        "line": 7789,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi LSBundleProxy entitlementValueForKey:ofClass: type=@32@0:8@16#24 return=@ argc=4"
+      },
+      {
+        "line": 7790,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7791,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded +[CARApplication _newApplicationLibrary]"
+      },
+      {
+        "line": 7792,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7793,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[CARApplication _newApplicationLibrary]"
+      },
+      {
+        "line": 7794,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7795,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[CARApplication init]"
+      },
+      {
+        "line": 7796,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7797,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary addApplicationProxy:]"
+      },
+      {
+        "line": 7798,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7799,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary addApplicationProxy:withOverrideURL:]"
+      },
+      {
+        "line": 7800,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy:withOverrideURL: type=v32@0:8@16@24 return=v argc=4"
+      },
+      {
+        "line": 7801,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary applicationInfoForBundleIdentifier:]"
+      },
+      {
+        "line": 7802,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary applicationInfoForBundleIdentifier: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7803,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary _notifyDidAddApplications:]"
+      },
+      {
+        "line": 7804,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary _notifyDidAddApplications: type=v24@0:8@16 return=v argc=3"
+      },
+      {
+        "line": 7805,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary _notifyDidRemoveApplications:]"
+      },
+      {
+        "line": 7806,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary _notifyDidRemoveApplications: type=v24@0:8@16 return=v argc=3"
+      },
+      {
+        "line": 7807,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[DBApplicationInfo _loadFromProxy:]"
+      },
+      {
+        "line": 7808,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationInfo _loadFromProxy: type=v24@0:8@16 return=v argc=3"
+      },
+      {
+        "line": 7809,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[CARApplicationInfo _loadFromProxy:]"
+      },
+      {
+        "line": 7810,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 7811,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[CRCarPlayAppPolicyEvaluator effectivePolicyForAppDeclaration:]"
+      },
+      {
+        "line": 7812,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CRCarPlayAppPolicyEvaluator effectivePolicyForAppDeclaration: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7813,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[DBApplicationController applicationWithBundleIdentifier:]"
+      },
+      {
+        "line": 7814,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 7815,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 notify-listener=0"
+      },
+      {
+        "line": 7816,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7817,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded +[CARApplication _newApplicationLibrary]"
+      },
+      {
+        "line": 7818,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7819,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[CARApplication _newApplicationLibrary]"
+      },
+      {
+        "line": 7820,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7821,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[CARApplication init]"
+      },
+      {
+        "line": 7822,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7823,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary addApplicationProxy:]"
+      },
+      {
+        "line": 7824,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7825,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary addApplicationProxy:withOverrideURL:]"
+      },
+      {
+        "line": 7826,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy:withOverrideURL: type=v32@0:8@16@24 return=v argc=4"
+      },
+      {
+        "line": 7827,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary applicationInfoForBundleIdentifier:]"
+      },
+      {
+        "line": 7828,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary applicationInfoForBundleIdentifier: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7829,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary _notifyDidAddApplications:]"
+      },
+      {
+        "line": 7830,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary _notifyDidAddApplications: type=v24@0:8@16 return=v argc=3"
+      },
+      {
+        "line": 7831,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[FBSApplicationLibrary _notifyDidRemoveApplications:]"
+      },
+      {
+        "line": 7832,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary _notifyDidRemoveApplications: type=v24@0:8@16 return=v argc=3"
+      },
+      {
+        "line": 7833,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[DBApplicationInfo _loadFromProxy:]"
+      },
+      {
+        "line": 7834,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationInfo _loadFromProxy: type=v24@0:8@16 return=v argc=3"
+      },
+      {
+        "line": 7835,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[CARApplicationInfo _loadFromProxy:]"
+      },
+      {
+        "line": 7836,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 7837,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 loaded -[CRCarPlayAppPolicyEvaluator effectivePolicyForAppDeclaration:]"
+      },
+      {
+        "line": 7838,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CRCarPlayAppPolicyEvaluator effectivePolicyForAppDeclaration: type=@24@0:8@16 return=@ argc=3"
+      },
+      {
+        "line": 7839,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 unloaded -[DBApplicationController applicationWithBundleIdentifier:]"
+      },
+      {
+        "line": 7840,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      }
+    ],
+    "scope_lines": [
+      {
+        "line": 1,
+        "section": "unsectioned",
+        "text": "DuoFace CarPlay / media scene diagnostic (manual export)"
+      },
+      {
+        "line": 4,
+        "section": "unsectioned",
+        "text": "App: com.duoface.native.scenehost"
+      },
+      {
+        "line": 313,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "=== DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+      },
+      {
+        "line": 314,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373869.362829,\"Timestamp\":1793373869.8630331,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 315,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373873.1123672,\"Timestamp\":1793373873.5808039,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 316,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373876.862556,\"Timestamp\":1793373877.3013649,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 317,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373879.8626208,\"Timestamp\":1793373879.93577,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 318,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373883.6131539,\"Timestamp\":1793373883.6572299,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 319,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373887.3630528,\"Timestamp\":1793373887.579118,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 320,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373891.1126871,\"Timestamp\":1793373891.2507,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 34"
+      },
+      {
+        "line": 321,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373894.112761,\"Timestamp\":1793373894.4026752,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 322,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373897.862236,\"Timestamp\":1793373898.1222181,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 323,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373900.862962,\"Timestamp\":1793373901.2654281,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 324,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373904.612577,\"Timestamp\":1793373904.9723601,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 325,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373907.6125841,\"Timestamp\":1793373907.640168,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 326,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373912.3568211,\"Timestamp\":1793373913.865283,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 327,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373915.3581681,\"Timestamp\":1793373915.448231,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 328,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373919.1079521,\"Timestamp\":1793373919.6433392,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 329,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373922.8581419,\"Timestamp\":1793373923.35021,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 330,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793373925.8583589,\"Timestamp\":1793373926.025214,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 331,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407490.3932009,\"Timestamp\":1793407491.075032,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 332,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407494.143136,\"Timestamp\":1793407494.1560059,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 333,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407497.893714,\"Timestamp\":1793407498.3106761,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 334,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407500.8938799,\"Timestamp\":1793407500.9317479,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 335,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407504.6425581,\"Timestamp\":1793407505.1246572,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 336,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407508.3933902,\"Timestamp\":1793407508.876672,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 337,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407512.142926,\"Timestamp\":1793407512.5883031,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 338,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407515.1430149,\"Timestamp\":1793407515.2344289,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 339,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407518.8936419,\"Timestamp\":1793407519.1580129,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 340,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407522.642545,\"Timestamp\":1793407522.841296,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 341,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407525.6427169,\"Timestamp\":1793407525.9960189,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 342,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407528.64362,\"Timestamp\":1793407528.668365,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 34"
+      },
+      {
+        "line": 343,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407532.393471,\"Timestamp\":1793407532.916949,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 344,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407536.1431251,\"Timestamp\":1793407536.6212311,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 345,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407539.143554,\"Timestamp\":1793407539.3041379,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 346,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407542.1436529,\"Timestamp\":1793407542.5306621,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 347,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407545.8939061,\"Timestamp\":1793407546.270668,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 348,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407549.643332,\"Timestamp\":1793407550.022665,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 349,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407552.643734,\"Timestamp\":1793407552.7034922,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 350,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407556.3931041,\"Timestamp\":1793407556.9088809,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 351,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407559.393163,\"Timestamp\":1793407559.5258579,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 352,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407562.3936272,\"Timestamp\":1793407562.7100081,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 353,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407566.1435919,\"Timestamp\":1793407566.449136,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 354,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407569.1438761,\"Timestamp\":1793407569.6776371,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 355,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407572.893425,\"Timestamp\":1793407573.3993521,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 356,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407639.243391,\"Timestamp\":1793407640.2824988,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 357,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407642.244168,\"Timestamp\":1793407642.3890362,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 358,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407645.244668,\"Timestamp\":1793407645.7292671,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 359,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407648.2451658,\"Timestamp\":1793407648.3488541,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 360,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407651.994936,\"Timestamp\":1793407652.0521312,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 361,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407655.7442489,\"Timestamp\":1793407656.208271,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 362,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407658.7446949,\"Timestamp\":1793407658.8694949,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640,"
+      },
+      {
+        "line": 363,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407662.495131,\"Timestamp\":1793407662.536804,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 364,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407666.2448931,\"Timestamp\":1793407666.732496,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 365,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407669.245271,\"Timestamp\":1793407669.345015,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 366,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407672.995163,\"Timestamp\":1793407673.5348649,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 367,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407675.995187,\"Timestamp\":1793407676.140522,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 3"
+      },
+      {
+        "line": 368,
+        "section": "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407679.7442021,\"Timestamp\":1793407679.793879,\"Process\":\"SpringBoard\",\"Measurements\":{\"LaunchGeometry\":{\"PostClampRegion\":\"{{45, 0}, {595, 342.66666666666669}}\",\"DiscoveryWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, "
+      },
+      {
+        "line": 371,
+        "section": "DuoFaceGeometry119-CarPlayApp.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "=== DuoFaceGeometry119-CarPlayApp.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+      },
+      {
+        "line": 374,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "=== DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+      },
+      {
+        "line": 375,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "nScreen\":0,\"CoordinateSpace\":\"UIScreen.coordinateSpace\",\"Bounds\":\"{{0, 0}, {595, 342.66666666666663}}\",\"SceneRole\":\"UIWindowSceneSessionRoleCarPlay\",\"ScreenBounds\":\"{{0, 0}, {640, 342.66666666666669}}\",\"SceneBounds\":\"{{0, 0}, {640, 342.66666666666669}}\",\"SafeLayoutInScreen\":\"{{45"
+      },
+      {
+        "line": 376,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407512.142926,\"Timestamp\":1793407512.4233022,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 377,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407515.1430149,\"Timestamp\":1793407515.613297,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 378,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407518.8936419,\"Timestamp\":1793407519.3413939,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 379,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407522.642545,\"Timestamp\":1793407523.1618981,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 380,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407525.6427169,\"Timestamp\":1793407525.868784,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 381,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407528.64362,\"Timestamp\":1793407529.0885479,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 382,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407532.393471,\"Timestamp\":1793407532.867631,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 383,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407536.1431251,\"Timestamp\":1793407536.62135,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 384,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407539.143554,\"Timestamp\":1793407539.3196201,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 385,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407542.1436529,\"Timestamp\":1793407542.5452862,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 386,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407545.8939061,\"Timestamp\":1793407546.287493,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 387,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407549.643332,\"Timestamp\":1793407550.048492,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 388,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407552.643734,\"Timestamp\":1793407552.7266002,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 389,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407556.3931041,\"Timestamp\":1793407556.4393401,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 390,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407559.393163,\"Timestamp\":1793407559.6076841,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 391,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407562.3936272,\"Timestamp\":1793407562.8954279,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 392,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407566.1435919,\"Timestamp\":1793407566.6455011,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 393,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407569.1438761,\"Timestamp\":1793407569.3375349,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 394,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407572.893425,\"Timestamp\":1793407573.063807,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 395,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407639.243391,\"Timestamp\":1793407639.675894,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 396,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407642.244168,\"Timestamp\":1793407642.3389339,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 397,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407645.244668,\"Timestamp\":1793407645.5313411,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 398,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407648.2451658,\"Timestamp\":1793407648.7611198,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 399,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407651.994936,\"Timestamp\":1793407652.4733529,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 400,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407655.7442489,\"Timestamp\":1793407655.8133922,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 401,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407658.7446949,\"Timestamp\":1793407659.044522,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 402,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407662.495131,\"Timestamp\":1793407662.8290491,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 403,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407666.2448931,\"Timestamp\":1793407666.5955181,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTrunca"
+      },
+      {
+        "line": 404,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407669.245271,\"Timestamp\":1793407669.298353,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 405,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407672.995163,\"Timestamp\":1793407673.079653,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncate"
+      },
+      {
+        "line": 406,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407675.995187,\"Timestamp\":1793407676.3276749,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 407,
+        "section": "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793407679.7442021,\"Timestamp\":1793407680.102025,\"Process\":\"CarPlay\",\"Measurements\":{\"OriginalRootOwnerStatus\":\"unresolved\",\"ActiveCarPlayRootCandidates\":[],\"DockCandidates\":[],\"LayoutChanged\":false,\"InventoryTruncat"
+      },
+      {
+        "line": 410,
+        "section": "DuoFaceGeometry119-Dashboard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+        "text": "=== DuoFaceGeometry119-Dashboard.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+      },
+      {
+        "line": 413,
+        "section": "DuoFaceSceneHost.log (last 256 KiB)",
+        "text": "=== DuoFaceSceneHost.log (last 256 KiB) ==="
+      }
+    ],
+    "error_lines": [
+      {
+        "line": 2391,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2426,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2452,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2478,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2504,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2665,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2695,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2757,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2775,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2863,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2905,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2934,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 2963,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3016,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3176,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3214,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3290,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3367,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3428,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3457,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3486,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3527,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3651,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3669,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3699,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3759,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3788,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3807,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3876,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3894,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3922,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 3963,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4017,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4035,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4069,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4109,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4127,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4219,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4261,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4368,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4399,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4510,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4544,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4579,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4651,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4698,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4714,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4889,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4943,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 4985,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5037,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5169,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5198,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5267,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5376,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5395,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5478,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5545,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5564,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5597,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5701,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5724,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5814,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5861,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 5923,
+        "section": "DuoFaceTouchOwner.log (last 256 KiB)",
+        "text": "[DFTouchOwner] fatal-exception-reason-recorder-armed uncaught-only chain-previous no-exception-swallow"
+      },
+      {
+        "line": 7724,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7736,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7748,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7759,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7770,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7781,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7792,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7794,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7796,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7798,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7810,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 7814,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 7818,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7820,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7822,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7824,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7836,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 7840,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 7843,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7845,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7847,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7849,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7861,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 7865,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 7870,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7871,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7874,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7878,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7882,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7896,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7904,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 7912,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 7917,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7919,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7923,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7926,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7930,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7941,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7952,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 7959,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 7962,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7965,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 7968,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7969,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 7973,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 7990,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 7997,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 8005,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 8009,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 8011,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 8014,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 8017,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 8018,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 8038,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 8045,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 8053,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 8057,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 8059,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 8064,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication _newApplicationLibrary unavailable"
+      },
+      {
+        "line": 8070,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplication init unavailable"
+      },
+      {
+        "line": 8073,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi FBSApplicationLibrary addApplicationProxy: absent"
+      },
+      {
+        "line": 8077,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 abi FBSApplicationInfo entitlementValuesForKeys: absent"
+      },
+      {
+        "line": 8096,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi CARApplicationInfo _loadFromProxy: unavailable"
+      },
+      {
+        "line": 8100,
+        "section": "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 abi DBApplicationController applicationWithBundleIdentifier: unavailable"
+      },
+      {
+        "line": 8104,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-unavailable DBApplicationInfo=yes workspaceInitOwner=@24@0:8@16"
+      },
+      {
+        "line": 8106,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8108,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8110,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8112,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8114,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8116,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8118,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8120,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8122,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      },
+      {
+        "line": 8124,
+        "section": "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+        "text": "[DuoFaceNativeSceneJoin] native-admission-abi CARApplication=no allInstalled=class-unavailable byBundleID=class-unavailable LSBundleProxy=yes typed3=@40@0:8@16#24#32 typed2=@32@0:8@16#24 bulk=@24@0:8@16 infoDictionary=selector-unavailable FBSApplicationInfo=yes fbBulk=selector-un"
+      }
+    ],
+    "version_lines": [],
+    "first_lines": [
+      {
+        "line": 1,
+        "text": "DuoFace CarPlay / media scene diagnostic (manual export)"
+      },
+      {
+        "line": 2,
+        "text": "Date: 2026-10-31 00:48:25 +0000"
+      },
+      {
+        "line": 3,
+        "text": "iOS: 16.7.16"
+      },
+      {
+        "line": 4,
+        "text": "App: com.duoface.native.scenehost"
+      },
+      {
+        "line": 5,
+        "text": "This file contains technical diagnostics; share only with a trusted recipient."
+      },
+      {
+        "line": 6,
+        "text": "Audit schema: 3; exporter build 0.0.90~nativegetters1; runtime process build is in timestamped traces."
+      },
+      {
+        "line": 7,
+        "text": ""
+      },
+      {
+        "line": 8,
+        "text": "=== DuoFaceGeometry119-DuoFaceNativeHost.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+      },
+      {
+        "line": 9,
+        "text": "reen\":0,\"CoordinateSpace\":\"UIScreen.coordinateSpace\",\"Bounds\":\"{{0, 0}, {640, 342.66666666666669}}\",\"ScreenBounds\":\"{{0, 0}, {640, 342.66666666666669}}\",\"WindowClass\":\"CPWindow\",\"Alpha\":1},\"EmptySafeFrameFallback\":false},\"Kind\":\"geometry-readonly\"}"
+      },
+      {
+        "line": 10,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369585.0603161,\"Timestamp\":1793369585.0614328,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 11,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369588.810293,\"Timestamp\":1793369588.8111911,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 12,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369592.560241,\"Timestamp\":1793369592.5611041,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 13,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369596.3101912,\"Timestamp\":1793369596.3110142,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 14,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369600.0604129,\"Timestamp\":1793369600.0613329,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 15,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369603.8102989,\"Timestamp\":1793369603.8111291,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 16,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369606.810353,\"Timestamp\":1793369606.8118091,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 17,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369610.5597949,\"Timestamp\":1793369610.563797,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 18,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369614.3101559,\"Timestamp\":1793369614.3107471,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 19,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369618.0600851,\"Timestamp\":1793369618.0609369,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 20,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369621.810061,\"Timestamp\":1793369621.810921,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.6666666666666"
+      },
+      {
+        "line": 21,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369625.5599489,\"Timestamp\":1793369625.5608039,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 22,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369629.309705,\"Timestamp\":1793369629.3104591,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 23,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369632.3098879,\"Timestamp\":1793369632.3103828,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 24,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793369636.0599351,\"Timestamp\":1793369636.061204,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 25,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793370973.3634629,\"Timestamp\":1793370973.363574,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 26,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793370976.364655,\"Timestamp\":1793370976.3655171,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 27,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793370979.3649759,\"Timestamp\":1793370979.3667212,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 28,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793370983.1142559,\"Timestamp\":1793370983.115494,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.666666666666"
+      },
+      {
+        "line": 29,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793370986.1144519,\"Timestamp\":1793370986.1153631,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      },
+      {
+        "line": 30,
+        "text": "{\"Schema\":119,\"Session\":\"[UUID]\",\"Sample\":\"[UUID]\",\"SampleTime\":1793370989.8640251,\"Timestamp\":1793370989.8666911,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 342.66666666666669}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 342.66666666666"
+      }
+    ],
+    "last_lines": [
+      {
+        "line": 17824,
+        "text": "utc=1793407698.171935 uptime=1014865.913982 build=0.0.90~nativegetters1 pid=88437 process=DuoFaceNativeHost run=[UUID] main=1 area=native-cpwindow native-carplay-template-scene-disconnected"
+      },
+      {
+        "line": 17825,
+        "text": "utc=1793407698.387702 uptime=1014866.129748 build=0.0.90~nativegetters1 pid=88408 process=SpringBoard run=[UUID] main=1 area=touch-owner event=physical-carplay-disconnected-reset-splash"
+      },
+      {
+        "line": 17826,
+        "text": ""
+      },
+      {
+        "line": 17827,
+        "text": ""
+      },
+      {
+        "line": 17828,
+        "text": "Session active: NO; heartbeat age seconds: 1793407705.82"
+      },
+      {
+        "line": 17829,
+        "text": ""
+      },
+      {
+        "line": 17830,
+        "text": "Native Map ACK: applied=YES attached=NO reason=native-owner-restored owner=CarPlay age=137322.72s"
+      },
+      {
+        "line": 17831,
+        "text": "Native Maps physical frame readback: count=2 age=47.49s"
+      },
+      {
+        "line": 17832,
+        "text": "physical=0 visual=1 external=1 visible=1 app=1 frame={{441.66666666666657, 0}, {198.33333333333334, 342.66666666666669}}"
+      },
+      {
+        "line": 17833,
+        "text": "physical=1 visual=0 external=1 visible=1 app=1 frame={{45, 0}, {396.66666666666663, 342.66666666666669}}"
+      },
+      {
+        "line": 17834,
+        "text": "Native Maps pixels and actual route continuation require CarPlay on-device visual QA; never inferred from ACK."
+      },
+      {
+        "line": 17835,
+        "text": "Remembered app slot 0: com.lumi.GOFA"
+      },
+      {
+        "line": 17836,
+        "text": "Remembered app slot 1: com.google.ios.youtube"
+      },
+      {
+        "line": 17837,
+        "text": "Remembered app slot 2: empty"
+      },
+      {
+        "line": 17838,
+        "text": "Remembered app slot 3: empty"
+      },
+      {
+        "line": 17839,
+        "text": "Native map chosen physical slot: none; last verified owner bundle: unverified; lease age: infs (must match current session)"
+      },
+      {
+        "line": 17840,
+        "text": "Physical unplug app close enabled: NO (default OFF)"
+      },
+      {
+        "line": 17841,
+        "text": "Disconnect close (10s opt-in): status=new-verified-carplay-session attempted=0 verified=0 age=65.55s (process exit requires PID check; never an ACK alone)\\nCrash included: SpringBoard-2026-10-30-173211.ips (59297 bytes)"
+      },
+      {
+        "line": 17842,
+        "text": "Crash included: SpringBoard-2026-10-30-173109.ips (57387 bytes)"
+      },
+      {
+        "line": 17843,
+        "text": "Crash included: SpringBoard-2026-10-30-142555.ips (46229 bytes)"
+      }
+    ]
+  },
+  "crashes": [
+    {
+      "file": "crash0.ips",
+      "sha256": "f51c9190c9d862112905bb37e27b13c18e364a9aa6e7e59a9258a1af8d6374f4",
+      "timestamp": "2026-10-30 17:32:11.00 +0700",
+      "capture_time": "2026-10-30 17:32:07.2638 +0700",
+      "process": "SpringBoard",
+      "os": "iPhone OS 16.7.16",
+      "signal": "SIGABRT",
+      "exception": "EXC_CRASH",
+      "consecutive_crashes": 7,
+      "top_triggered_frames": [
+        {
+          "symbol": "__pthread_kill",
+          "offset": 29080
+        },
+        {
+          "symbol": "pthread_kill",
+          "offset": 54776
+        },
+        {
+          "symbol": "abort",
+          "offset": 115896
+        },
+        {
+          "symbol": "abort_message",
+          "offset": 81748
+        },
+        {
+          "symbol": "demangling_terminate_handler()",
+          "offset": 19020
+        },
+        {
+          "symbol": "_objc_terminate()",
+          "offset": 109308
+        },
+        {
+          "symbol": "std::__terminate(void (*)())",
+          "offset": 78884
+        },
+        {
+          "symbol": "std::terminate()",
+          "offset": 78804
+        }
+      ],
+      "important_exception_frames": [
+        {
+          "symbol": "-[SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings:]",
+          "symbolLocation": 440,
+          "imageIndex": 67
+        },
+        {
+          "symbol": "__61-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]_block_invoke",
+          "symbolLocation": 60,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[SBSceneHandle _enumerateObserversWithBlock:]",
+          "symbolLocation": 212,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]",
+          "symbolLocation": 120,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBSceneMonitor _updateSceneSettings:]",
+          "symbolLocation": 220,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBSceneMonitor sceneManagerDidEndSceneUpdateSynchronization:]",
+          "symbolLocation": 56,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBSceneManagerObserver sceneManagerDidEndSceneUpdateSynchronization:]",
+          "symbolLocation": 60,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "__123-[FBSceneWorkspace _enqueueObserverCalloutsForScene:eventName:preferInternal:sceneObserverBlock:sceneManagerObserverBlock:]_block_invoke_2",
+          "symbolLocation": 228,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBSceneWorkspace _enqueueObserverCalloutsForScene:eventName:preferInternal:sceneObserverBlock:sceneManagerObserverBlock:]",
+          "symbolLocation": 392,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBSceneWorkspace _endSynchronizationBlock]",
+          "symbolLocation": 140,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBSceneWorkspace scene:handleUpdateToSettings:withTransitionContext:completion:]",
+          "symbolLocation": 1400,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBScene _updateSettings:withTransitionContext:completion:]",
+          "symbolLocation": 484,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBScene updateSettings:withTransitionContext:completion:]",
+          "symbolLocation": 148,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "_logos_method$ImmortalizerHooks$FBScene$updateSettings$withTransitionContext$completion$(FBScene*, objc_selector*, objc_object*, objc_object*, objc_object*)",
+          "symbolLocation": 364,
+          "imageIndex": 13
+        },
+        {
+          "symbol": "-[FBScene updateSettingsWithTransitionBlock:]",
+          "symbolLocation": 112,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "-[FBScene(UIApp) updateUISettingsWithTransitionBlock:]",
+          "symbolLocation": 104,
+          "imageIndex": 76
+        },
+        {
+          "symbol": "__183-[BLSHBacklightFBSceneHostEnvironment updateToVisualState:presentationDateSpecifier:animated:triggerEvent:touchTargetable:sceneContentsUpdated:performBacklightRamp:animationComplete:]_block_invoke.52",
+          "symbolLocation": 348,
+          "imageIndex": 79
+        }
+      ],
+      "important_triggered_frames": [],
+      "is_pre_qa135_build": true
+    },
+    {
+      "file": "crash1.ips",
+      "sha256": "5d6c3a92470fc8c81b333734f1f4255bcd66b7a82a50cec250e37c24c24a9362",
+      "timestamp": "2026-10-30 17:31:09.00 +0700",
+      "capture_time": "2026-10-30 17:31:06.0138 +0700",
+      "process": "SpringBoard",
+      "os": "iPhone OS 16.7.16",
+      "signal": "SIGABRT",
+      "exception": "EXC_CRASH",
+      "consecutive_crashes": 6,
+      "top_triggered_frames": [
+        {
+          "symbol": "__pthread_kill",
+          "offset": 29080
+        },
+        {
+          "symbol": "pthread_kill",
+          "offset": 54776
+        },
+        {
+          "symbol": "abort",
+          "offset": 115896
+        },
+        {
+          "symbol": "abort_message",
+          "offset": 81748
+        },
+        {
+          "symbol": "demangling_terminate_handler()",
+          "offset": 19020
+        },
+        {
+          "symbol": "_objc_terminate()",
+          "offset": 109308
+        },
+        {
+          "symbol": "std::__terminate(void (*)())",
+          "offset": 78884
+        },
+        {
+          "symbol": "std::terminate()",
+          "offset": 78804
+        }
+      ],
+      "important_exception_frames": [
+        {
+          "symbol": "-[SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings:]",
+          "symbolLocation": 440,
+          "imageIndex": 67
+        },
+        {
+          "symbol": "__61-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]_block_invoke",
+          "symbolLocation": 60,
+          "imageIndex": 74
+        },
+        {
+          "symbol": "-[SBSceneHandle _enumerateObserversWithBlock:]",
+          "symbolLocation": 212,
+          "imageIndex": 74
+        },
+        {
+          "symbol": "-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]",
+          "symbolLocation": 120,
+          "imageIndex": 74
+        },
+        {
+          "symbol": "-[FBSceneMonitor _updateSceneSettings:]",
+          "symbolLocation": 220,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBSceneMonitor sceneManagerDidEndSceneUpdateSynchronization:]",
+          "symbolLocation": 56,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBSceneManagerObserver sceneManagerDidEndSceneUpdateSynchronization:]",
+          "symbolLocation": 60,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "__123-[FBSceneWorkspace _enqueueObserverCalloutsForScene:eventName:preferInternal:sceneObserverBlock:sceneManagerObserverBlock:]_block_invoke_2",
+          "symbolLocation": 228,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBSceneWorkspace _enqueueObserverCalloutsForScene:eventName:preferInternal:sceneObserverBlock:sceneManagerObserverBlock:]",
+          "symbolLocation": 392,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBSceneWorkspace _endSynchronizationBlock]",
+          "symbolLocation": 140,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBSceneWorkspace scene:handleUpdateToSettings:withTransitionContext:completion:]",
+          "symbolLocation": 1400,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBScene _updateSettings:withTransitionContext:completion:]",
+          "symbolLocation": 484,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBScene updateSettings:withTransitionContext:completion:]",
+          "symbolLocation": 148,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "_logos_method$ImmortalizerHooks$FBScene$updateSettings$withTransitionContext$completion$(FBScene*, objc_selector*, objc_object*, objc_object*, objc_object*)",
+          "symbolLocation": 364,
+          "imageIndex": 13
+        },
+        {
+          "symbol": "-[FBScene updateSettingsWithTransitionBlock:]",
+          "symbolLocation": 112,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "-[FBScene(UIApp) updateUISettingsWithTransitionBlock:]",
+          "symbolLocation": 104,
+          "imageIndex": 75
+        },
+        {
+          "symbol": "__183-[BLSHBacklightFBSceneHostEnvironment updateToVisualState:presentationDateSpecifier:animated:triggerEvent:touchTargetable:sceneContentsUpdated:performBacklightRamp:animationComplete:]_block_invoke.52",
+          "symbolLocation": 348,
+          "imageIndex": 78
+        }
+      ],
+      "important_triggered_frames": [],
+      "is_pre_qa135_build": true
+    },
+    {
+      "file": "crash2.ips",
+      "sha256": "30641cb41ad522beaa607c1f32756c1b5499bb2c2227b67a2f89d0d9ad274d15",
+      "timestamp": "2026-10-30 14:25:55.00 +0700",
+      "capture_time": "2026-10-30 14:25:51.0434 +0700",
+      "process": "SpringBoard",
+      "os": "iPhone OS 16.7.16",
+      "signal": "SIGTRAP",
+      "exception": "EXC_BREAKPOINT",
+      "consecutive_crashes": 5,
+      "top_triggered_frames": [
+        {
+          "symbol": "-[SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings:]",
+          "offset": 625280
+        },
+        {
+          "symbol": "DFManagedSceneObserver",
+          "offset": 182972
+        },
+        {
+          "symbol": "__61-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]_block_invoke",
+          "offset": 20852
+        },
+        {
+          "symbol": "-[SBSceneHandle _enumerateObserversWithBlock:]",
+          "offset": 8580
+        },
+        {
+          "symbol": "-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]",
+          "offset": 8108
+        },
+        {
+          "symbol": "-[SBDeviceApplicationSceneHandle _didUpdateSettingsWithDiff:previousSettings:]",
+          "offset": 154624
+        },
+        {
+          "symbol": "-[FBSceneMonitor _updateSceneSettings:]",
+          "offset": 127820
+        },
+        {
+          "symbol": "-[FBSceneMonitor sceneManagerDidEndSceneUpdateSynchronization:]",
+          "offset": 81004
+        }
+      ],
+      "important_exception_frames": [],
+      "important_triggered_frames": [
+        {
+          "symbol": "-[SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings:]",
+          "symbolLocation": 720,
+          "imageIndex": 58
+        },
+        {
+          "symbol": "DFManagedSceneObserver",
+          "symbolLocation": 224,
+          "imageIndex": 22
+        },
+        {
+          "symbol": "__61-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]_block_invoke",
+          "symbolLocation": 60,
+          "imageIndex": 59
+        },
+        {
+          "symbol": "-[SBSceneHandle _enumerateObserversWithBlock:]",
+          "symbolLocation": 212,
+          "imageIndex": 59
+        },
+        {
+          "symbol": "-[SBSceneHandle _didUpdateSettingsWithDiff:previousSettings:]",
+          "symbolLocation": 120,
+          "imageIndex": 59
+        },
+        {
+          "symbol": "-[FBSceneMonitor _updateSceneSettings:]",
+          "symbolLocation": 220,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBSceneMonitor sceneManagerDidEndSceneUpdateSynchronization:]",
+          "symbolLocation": 56,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBSceneManagerObserver sceneManagerDidEndSceneUpdateSynchronization:]",
+          "symbolLocation": 60,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "__123-[FBSceneWorkspace _enqueueObserverCalloutsForScene:eventName:preferInternal:sceneObserverBlock:sceneManagerObserverBlock:]_block_invoke_2",
+          "symbolLocation": 228,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBSceneWorkspace _enqueueObserverCalloutsForScene:eventName:preferInternal:sceneObserverBlock:sceneManagerObserverBlock:]",
+          "symbolLocation": 392,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBSceneWorkspace _endSynchronizationBlock]",
+          "symbolLocation": 140,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBSceneWorkspace scene:handleUpdateToSettings:withTransitionContext:completion:]",
+          "symbolLocation": 1400,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBScene _updateSettings:withTransitionContext:completion:]",
+          "symbolLocation": 484,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBScene updateSettings:withTransitionContext:completion:]",
+          "symbolLocation": 148,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "_logos_method$ImmortalizerHooks$FBScene$updateSettings$withTransitionContext$completion$(FBScene*, objc_selector*, objc_object*, objc_object*, objc_object*)",
+          "symbolLocation": 364,
+          "imageIndex": 13
+        },
+        {
+          "symbol": "DFUpdateScene",
+          "symbolLocation": 284,
+          "imageIndex": 22
+        },
+        {
+          "symbol": "-[FBScene updateSettingsWithTransitionBlock:]",
+          "symbolLocation": 112,
+          "imageIndex": 60
+        },
+        {
+          "symbol": "-[FBScene updateSettingsWithBlock:]",
+          "symbolLocation": 96,
+          "imageIndex": 60
+        }
+      ],
+      "is_pre_qa135_build": true
+    }
+  ],
+  "warning": "An uploaded historical SpringBoard IPS is not proof QA135 caused the crash; respect original incident timestamp."
+}
