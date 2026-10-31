@@ -27,7 +27,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreGraphics \
   -DDFCarPlayCaptureLiveOwnerSnapshot=DFIntegratedCarPlayCaptureLiveOwnerSnapshot \
-  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m DFHomeAdmission140.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
 # User-opted-in in-process native Maps scene UIKit container. Default idle;
@@ -50,6 +50,14 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$YT_DYLIB" DFYouTubeOrientationRelay.m DFYouTubeOrientationVirtualization.m
 cp DFYouTubeOrientationRelay.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist"
 ldid -S "$YT_DYLIB"
+# Passive GOFA observer in the existing integrated package.
+GOFA_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaLayoutObserver140.dylib"
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+  -framework UIKit -framework Foundation -framework CoreGraphics \
+  -o "$GOFA_DYLIB" DFGofaLayoutObserver140.m
+cp DFGofaLayoutObserver140.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaLayoutObserver140.plist"
+ldid -S "$GOFA_DYLIB"
 # Assets are our previously approved DuoFace artwork from the project's source.
 ART="$ROOT/../../dist/visual-1.0.3-12/assets"
 APP_ART="$APP/VisualAssets"
@@ -80,6 +88,6 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.139~recovery1371_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.140~guardedhome1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"

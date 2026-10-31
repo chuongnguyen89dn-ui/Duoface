@@ -4,6 +4,7 @@
 #import "DFAppEligibility.h"
 #import "DFAppCatalogPolicy.h"
 #import "DFHomePublisher136Config.h"
+#import "DFHome140Consent.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerDisplayPolicy.h"
 #import "DFAppHabits.h"
@@ -484,13 +485,13 @@
        DFDisconnectCloseEnabled()?@"Đang bật — ngắt thật, chờ 10 giây":@"Đang tắt — không đóng app trên iPhone",
        @"Đặt lại mặc định, ưa dùng hoặc giao diện chọn App",
        [DFCurrentExtended()[@"Language"] isEqual:@"en"]?@"English":@"Tiếng Việt",
-       DFHome136Enabled()?@"Đang bật thử nghiệm — có công tắc khẩn cấp":@"Đang tắt — không thay đổi Home"];
+       DFHome140Enabled()?@"Đang bật thử nghiệm — có công tắc khẩn cấp":@"Đang tắt — không thay đổi Home"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     if(indexPath.row==8){
       UISwitch *home=[UISwitch new];
-      home.on=DFHome136Enabled();
+      home.on=DFHome140Enabled();
       home.accessibilityLabel=@"Hiển thị ứng dụng đã bật trên CarPlay Home — thử nghiệm";
       [home addTarget:self action:@selector(home136SwitchChanged:)
         forControlEvents:UIControlEventValueChanged];
@@ -538,7 +539,7 @@
  return cell;
 }
 - (void)home136SwitchChanged:(UISwitch *)control {
- if(!DFHome136Write(control.on)){
+ if(!DFHome140Write(control.on)){
    [control setOn:!control.on animated:YES];
    [self appSettingsSaveFailed];
    return;

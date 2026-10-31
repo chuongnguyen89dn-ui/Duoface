@@ -150,6 +150,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @property(nonatomic,copy) NSDictionary *youtubeState;
 @property(nonatomic) NSTimeInterval youtubeLastPublish;
 - (void)publishYouTubeState;
+- (void)publishGofaLayoutRequest;
+- (void)gofaLayoutAcknowledged:(NSNotification *)note;
+@property(nonatomic,copy) NSString *gofaOwner;
+@property(nonatomic) NSTimeInterval gofaLastPublish;
 - (void)revokeYouTubeState;
 - (void)youtubeStateRequested:(NSNotification *)note;
 - (void)youtubeStateAcknowledged:(NSNotification *)note;
@@ -173,6 +177,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
     self.youtubeState=nil; self.youtubeOwner=nil; self.youtubeLastPublish=0;
 }
 - (void)publishYouTubeState {
+    [self publishGofaLayoutRequest];
     if(![self.bundleID isEqual:DFYTBundle])return;
     id handle=DFCall0(self.appController,@"sceneHandle");
     if(!NSThread.isMainThread || self.stopped || !self.ready || !self.scene ||
@@ -208,6 +213,39 @@ static NSInteger DFObservedSceneForeground(id scene) {
     if(!DFYTValidState(state,now)){[self revokeYouTubeState];return;}
     self.youtubeState=state; self.youtubeLastPublish=now;
     DFYTPost(DFYTStateName,state);
+}
+- (void)publishGofaLayoutRequest {
+    if(![self.bundleID isEqual:@"com.lumi.GOFA"] || !NSThread.isMainThread ||
+       self.stopped || !self.ready || !self.scene || self.owner.live[self.bundleID]!=self ||
+       !self.window || self.window.hidden || self.hidden || self.alpha<=0 ||
+       self.appController.viewIfLoaded.window!=self.window ||
+       !DFHostingFlag(self.appController,@"isHostingAnApp",NO) ||
+       DFCall0(DFCall0(self.appController,@"sceneHandle"),@"sceneIfExists")!=self.scene)return;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(now-self.gofaLastPublish<5)return;
+    NSString *identifier=DFYTObject(self.scene,@"identifier");
+    CGSize pane=self.committedReferenceSize;
+    if(!DFYTString(identifier) || pane.width<=0 || pane.height<=0)return;
+    if(!self.gofaOwner)self.gofaOwner=NSUUID.UUID.UUIDString;
+    self.gofaLastPublish=now;
+    CGSize logical=DFHostedLogicalSizeForBundle(pane,self.bundleID);
+    DFYTPost(@"com.duoface.gofa.layout-state.v140",@{
+      @"bundleIdentifier":self.bundleID,@"owner":self.gofaOwner,
+      @"sceneIdentifier":identifier,@"generation":@(self.sceneGeneration),
+      @"issuedAt":@(now),@"width":@(logical.width),@"height":@(logical.height)});
+}
+- (void)gofaLayoutAcknowledged:(NSNotification *)note {
+    NSDictionary *ack=[note.userInfo copy];
+    dispatch_async(dispatch_get_main_queue(),^{
+      NSTimeInterval age=NSDate.date.timeIntervalSince1970-[ack[@"issuedAt"] doubleValue];
+      if(![self.bundleID isEqual:@"com.lumi.GOFA"] || self.stopped || !self.ready ||
+         age<0 || age>3 || ![ack[@"owner"] isEqual:self.gofaOwner] ||
+         ![ack[@"generation"] isEqual:@(self.sceneGeneration)] ||
+         ![ack[@"sceneIdentifier"] isEqual:DFYTObject(self.scene,@"identifier")] ||
+         DFCall0(DFCall0(self.appController,@"sceneHandle"),@"sceneIfExists")!=self.scene)return;
+      DFSceneLog(@"gofa-owned-app-layout-observed140",self.bundleID,
+          [NSString stringWithFormat:@"time=%.3f %@",NSDate.date.timeIntervalSince1970,ack]);
+    });
 }
 - (void)youtubeStateRequested:(NSNotification *)note {
     if(![note.userInfo[@"bundleIdentifier"] isEqual:DFYTBundle])return;
@@ -301,6 +339,8 @@ static NSInteger DFObservedSceneForeground(id scene) {
         [DFYTCenter() addObserver:self selector:@selector(youtubeStateRequested:) name:DFYTRequestName object:nil];
         [DFYTCenter() addObserver:self selector:@selector(youtubeStateAcknowledged:) name:DFYTAckName object:nil];
     }
+    if([self.bundleID isEqual:@"com.lumi.GOFA"])
+        [DFYTCenter() addObserver:self selector:@selector(gofaLayoutAcknowledged:) name:@"com.duoface.gofa.layout-ack.v140" object:nil];
     if (!self.window || CGRectIsEmpty(self.bounds)) {
         [self setNeedsLayout];
         return;

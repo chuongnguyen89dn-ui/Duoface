@@ -1,0 +1,47 @@
+[
+  {
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "sideplay/duoface-native-scene-host/tests",
+      "-p",
+      "test_qa140_home_admission_probe.py",
+      "-v"
+    ],
+    "returncode": 0,
+    "output": "test_existing_publisher_unchanged_except_readonly_info (test_qa140_home_admission_probe.Home137ReadOnlyContract.test_existing_publisher_unchanged_except_readonly_info) ... ok\ntest_one_sileo_package_both_process_probes (test_qa140_home_admission_probe.Home137ReadOnlyContract.test_one_sileo_package_both_process_probes) ... ok\ntest_probe_bounded_and_observe_only (test_qa140_home_admission_probe.Home137ReadOnlyContract.test_probe_bounded_and_observe_only) ... ok\ntest_qa135_goaf_and_qa136_switch_remain (test_qa140_home_admission_probe.Home137ReadOnlyContract.test_qa135_goaf_and_qa136_switch_remain) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "sideplay/duoface-native-scene-host/tests",
+      "-p",
+      "test_qa140_passive_gofa.py",
+      "-v"
+    ],
+    "returncode": 0,
+    "output": "test_observer_cannot_change_layout_orientation_or_screen (test_qa140_passive_gofa.PassiveGofa140.test_observer_cannot_change_layout_orientation_or_screen) ... ok\ntest_recovered_scene_geometry_transaction_unchanged (test_qa140_passive_gofa.PassiveGofa140.test_recovered_scene_geometry_transaction_unchanged) ... ok\ntest_withdrawn_138_dylibs_are_not_reintroduced (test_qa140_passive_gofa.PassiveGofa140.test_withdrawn_138_dylibs_are_not_reintroduced) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.004s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "sideplay/jb-embedded-appbridge/tests",
+      "-p",
+      "test_integrated_package_140.py",
+      "-v"
+    ],
+    "returncode": 0,
+    "output": "test_does_not_publish_or_claim_carplay_success (test_integrated_package_140.EmbeddedPackagePolicy.test_does_not_publish_or_claim_carplay_success) ... ok\ntest_final_one_deb_does_not_archive_stale_native_host_47 (test_integrated_package_140.EmbeddedPackagePolicy.test_final_one_deb_does_not_archive_stale_native_host_47) ... ok\ntest_merged_one_app_uicache_scripts (test_integrated_package_140.EmbeddedPackagePolicy.test_merged_one_app_uicache_scripts) ... ok\ntest_nativehost_version_matches_real_build_output (test_integrated_package_140.EmbeddedPackagePolicy.test_nativehost_version_matches_real_build_output) ... ok\ntest_only_owned_inputs (test_integrated_package_140.EmbeddedPackagePolicy.test_only_owned_inputs) ... ok\ntest_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass (test_integrated_package_140.EmbeddedPackagePolicy.test_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass) ... ok\ntest_will_not_redistribute_vendor_and_does_not_auto_restart (test_integrated_package_140.EmbeddedPackagePolicy.test_will_not_redistribute_vendor_and_does_not_auto_restart) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nOK\n"
+  }
+]
