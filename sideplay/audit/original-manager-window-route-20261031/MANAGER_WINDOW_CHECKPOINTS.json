@@ -1,0 +1,432 @@
+{
+  "binary_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+  "mode": "read_only_static",
+  "checks": [
+    {
+      "kind": "ivar_metadata",
+      "class_name": "CBBridgeManager",
+      "verified_offsets": {
+        "_activated": 8,
+        "_bundleIdentifier": 56,
+        "_window": 64,
+        "_currentApp": 72,
+        "_appFrame": 96,
+        "_renderSize": 128,
+        "_autoResumeBundleID": 48
+      }
+    },
+    {
+      "kind": "ivar_metadata",
+      "class_name": "CBWindow",
+      "verified_offsets": {
+        "_rootWindow": 32,
+        "_rootViewController": 40,
+        "_contentView": 48,
+        "_appFrame": 80
+      }
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b5c8",
+      "meaning": "inactive request takes teardown branch"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b5f0",
+      "meaning": "missing bundle takes teardown branch"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b65c",
+      "meaning": "inactive manager takes direct load branch"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b6a0",
+      "meaning": "different bundle takes replace branch"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b80c",
+      "meaning": "active replacement deactivates before loading"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b6a8",
+      "meaning": "same bundle missing window reloads"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b6b8",
+      "meaning": "same bundle invalid display reloads"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b6cc",
+      "meaning": "same bundle hidden window reloads"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b6d4",
+      "meaning": "same bundle missing app reloads"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b714",
+      "meaning": "same bundle app view lacks window reloads"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b804",
+      "meaning": "inactive request returns after deactivation"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192880",
+      "meaning": "host continuation stores manager activated flag"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192858",
+      "meaning": "activation app-frame dimension threshold constant 50.0"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192864",
+      "meaning": "activation tests app-frame width against threshold"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192870",
+      "meaning": "activation tests app-frame height against threshold"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192878",
+      "meaning": "both greater-than comparisons determine activated flag"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b4f0",
+      "meaning": "request parser stores app frame origin"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b4f4",
+      "meaning": "request parser stores app frame size"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b518",
+      "meaning": "request parser stores doubled rounded render size"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3cbc",
+      "meaning": "pointInside accepts usable content area"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3dfc",
+      "meaning": "pointInside rejects outside window or no eligible subview hit"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3e0c",
+      "meaning": "pointInside accepts content or eligible subview hit"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3ba8",
+      "meaning": "hitTest compares superclass result to root window"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3bac",
+      "meaning": "hitTest discards root-window self hits"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3bc8",
+      "meaning": "root-window self hit becomes nil"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb2888",
+      "meaning": "show unhides root window"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x1bf1c4",
+      "meaning": "dismiss checks supplied completion"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x1bf1d0",
+      "meaning": "dismiss invokes completion after deactivation"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b800",
+      "meaning": "inactive request deactivates current app"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b850",
+      "meaning": "replacement or stale-host branch deactivates current app"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x15b864",
+      "meaning": "load uses actual incoming request as argument"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x19299c",
+      "meaning": "host continuation constructs CBWindow with app frame"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x19293c",
+      "meaning": "valid existing window receives app frame"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192950",
+      "meaning": "valid existing window resizes"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192968",
+      "meaning": "invalid existing window destroys native windows"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192a90",
+      "meaning": "host continuation constructs app after activation state assignment"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192e10",
+      "meaning": "start hosted app in parent"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192e34",
+      "meaning": "show window before publishing state"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x192e44",
+      "meaning": "publish manager state after start/show"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb24ec",
+      "meaning": "resize obtains full CarPlay screen bounds"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb250c",
+      "meaning": "resize obtains usable CarPlay bounds"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb254c",
+      "meaning": "root window frame uses full screen bounds"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb25d8",
+      "meaning": "root controller view frame uses full screen bounds"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb2600",
+      "meaning": "content view frame uses usable bounds"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb1c80",
+      "meaning": "set root window level from original constant"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb28b8",
+      "meaning": "show makes key and visible where supported"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3cd8",
+      "meaning": "pointInside examines subviews outside usable content"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3d74",
+      "meaning": "pass-through checks subview hidden state"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3d84",
+      "meaning": "pass-through checks subview alpha"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3d98",
+      "meaning": "pass-through checks subview interaction"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3db4",
+      "meaning": "pass-through converts point to subview coordinates"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0xb3dc4",
+      "meaning": "pass-through queries eligible subview pointInside"
+    },
+    {
+      "kind": "instruction",
+      "pc": "0x1bf1c0",
+      "meaning": "dismiss deactivates before completion"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a9d48",
+      "selector": "isDisplayValid"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a9d50",
+      "selector": "isVisible"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a9d88",
+      "selector": "loadNewAppFromCurrentRequest:"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a9d90",
+      "selector": "initWithAppFrame:"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a9d98",
+      "selector": "setAppFrame:"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a8f38",
+      "selector": "resizeWindows"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a8fd0",
+      "selector": "carPlayScreenBounds"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a8df0",
+      "selector": "carPlayUsableBounds"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a8d98",
+      "selector": "hitTest:withEvent:"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a90f8",
+      "selector": "pointInside:withEvent:"
+    },
+    {
+      "kind": "selector",
+      "slot": "0x3a9100",
+      "selector": "sendEvent:"
+    },
+    {
+      "kind": "class_name_literal",
+      "address": "0x332be8",
+      "value": "UIRootSceneWindow"
+    },
+    {
+      "kind": "class_name_literal",
+      "address": "0x332bfa",
+      "value": "SBFTouchPassThroughWindow"
+    },
+    {
+      "kind": "class_name_literal",
+      "address": "0x332c14",
+      "value": "UIWindow"
+    },
+    {
+      "kind": "class_name_literal",
+      "address": "0x332d87",
+      "value": "CBTouchPassThroughRootSceneWindow"
+    },
+    {
+      "kind": "constant",
+      "address": "0x33e860",
+      "name": "original_root_window_level",
+      "value": 10000.0
+    }
+  ],
+  "ivar_metadata": {
+    "CBBridgeManager": {
+      "_activated": {
+        "offset": 8,
+        "type": "B"
+      },
+      "_bundleIdentifier": {
+        "offset": 56,
+        "type": "@\"NSString\""
+      },
+      "_window": {
+        "offset": 64,
+        "type": "@\"CBWindow\""
+      },
+      "_currentApp": {
+        "offset": 72,
+        "type": "@\"CBBridgedApp\""
+      },
+      "_appFrame": {
+        "offset": 96,
+        "type": "{CGRect=\"origin\"{CGPoint=\"x\"d\"y\"d}\"size\"{CGSize=\"width\"d\"height\"d}}"
+      },
+      "_renderSize": {
+        "offset": 128,
+        "type": "{CGSize=\"width\"d\"height\"d}"
+      },
+      "_autoResumeBundleID": {
+        "offset": 48,
+        "type": "@\"NSString\""
+      }
+    },
+    "CBWindow": {
+      "_rootWindow": {
+        "offset": 32,
+        "type": "@\"UIWindow\""
+      },
+      "_rootViewController": {
+        "offset": 40,
+        "type": "@\"UIViewController\""
+      },
+      "_contentView": {
+        "offset": 48,
+        "type": "@\"UIVisualEffectView\""
+      },
+      "_appFrame": {
+        "offset": 80,
+        "type": "{CGRect=\"origin\"{CGPoint=\"x\"d\"y\"d}\"size\"{CGSize=\"width\"d\"height\"d}}"
+      }
+    }
+  },
+  "limits": [
+    "Not a full CFG; healthy same-bundle continuation crosses untraced code.",
+    "Activation flag source is verified in this continuation; absence of all PID checks elsewhere is not claimed.",
+    "Window policy must be considered with full touch/coordinate/ownership contract.",
+    "No original runtime execution, new device evidence or behavioral acceptance."
+  ],
+  "runtime_equivalence_proven": false
+}

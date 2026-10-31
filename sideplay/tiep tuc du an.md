@@ -1,3 +1,23 @@
+# 2026-10-31 — MANAGER ACCEPTANCE / ROOT WINDOW ROUTE (71 NEW CHECKPOINTS)
+
+CONFIRMED continuation investigation. QA147 remains rejected by Log23; no production patch, new DEB/Sileo release or physical-device success at this checkpoint.
+
+Read `sideplay/audit/original-manager-window-route-20261031/MANAGER_WINDOW_FINDINGS.md`, `MANAGER_WINDOW_CHECKPOINTS.json`, `verify_manager_window_route.py`, and first-party design `INDEPENDENT_BOUNDARY_CONTRACT.md`.71new sparse static assertions passed against exact original dylib SHA44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15. This is a separate verifier from earlier71+62 audits, not proof of entire CFG/runtime parity.
+
+New direct manager entry links: request.activateNO or nilbundle ->deactivate+return; inactive manager ->loadNewAppFromCurrentRequest at15b864; active different bundle ->deactivate15b850 thenload; samebundle with missing window, invalid native display, hidden window, missing currentApp or view.window ->deactivate/reload. Healthy samebundle path enters large untraced region; do not invent full reuse CFG or follow licensing callees.
+
+Key state boundary: original continuation18c708 loads capturedmanager, storesappFrame/renderSize; compares saved APP-FRAME width/height (before2xrender conversion) >50 and stores activated at192880 BEFORE constructing/starting host. It then starts hosted app, showswindow192e34, publishesmanagerstate192e44. No custom standalone-ready/PID ACK is read in this bounded suffix. QA147 gates native Dock AND Home displayState0 on hosted-outcome+VerifiedPID. Log23zerooutcomes =>no successful transition through this consumer. Therefore manager acceptance must be separate from scene/PID/pixel/touch observations; do not fabricate ACK/remove ownership checks. Exact ready rejection still unmeasured.
+
+Original window policy: fullCarPlayScreenBounds ->rootWindow/rootVC.view; usableBounds ->contentView. Supported rootwindowlevel10000 constant verified. Runtime windowclass alternatives UIRootSceneWindow /SBFTouchPassThroughWindow /UIWindow; dynamic CBTouchPassThroughRootSceneWindow installs hitTest/pointInside/sendEvent. hitTest turns self-root hits into nil; pointInside outside usable area only accepts eligible visible interactive child hits. This is a coupled transparent-root/input policy, not permission to stretch/numerically raise the current ordinary window alone. Current standalone usescontent-sized rootwindow, levelNormal+1; structural difference is not automatically a proven bug. Runtime variant/coordinate/touch behavior remains unverified.
+
+Exit: dismiss deactivates current app then invokes completion. Earlier complete teardown/managerstate and AppleHome forwarding evidence retained. MissingHome displayState0 is consistent with wrong destination, not a proven sole cause.
+
+Source compare head dae94d3d7b4feee98f42a47b7772599649672306; GitHub readback matches DFNativeDockSync147.h blob54844255af5fae93c515d994661f7a7daca8ae37 and DFDockLifecycle147.h blob22d6034911a522d7caebfdadef1134b1b14f7672. Existing source pins unchanged.
+
+Next implementation boundary is concrete in contract: native prepare/evict ->host startup/visible owned window ->truthful manageractive ->native Dock/Home; separate scene/PID and app-state observation ->symmetric stop/restore. Instrument exact startup operation and eachready guard, handle reentrant terminal results and stalegenerations, distinguish pending expiry from hosted lifetime. PID for owned-process termination remains mandatory. No runtime equivalence claimed until same-device testing. Preserve previous handoff below.
+
+---
+
 # 2026-10-31 — ORIGINAL APP-SIDE STATE ROUTE (62 NEW CHECKPOINTS)
 
 CONFIRMED investigation continuation requested by user. QA147 still REJECTED; no production source change, new DEB/Sileo release or device success in this checkpoint.
