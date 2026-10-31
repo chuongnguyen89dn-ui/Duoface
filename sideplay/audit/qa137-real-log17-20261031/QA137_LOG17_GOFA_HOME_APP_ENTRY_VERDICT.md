@@ -9,6 +9,28 @@ Date: 2026-10-31, iOS 16.7.16 (iPhone X). USER PHYSICAL VERDICT: QA137 Home icon
 - Reproducible parser in this folder: `analyze_log17_gofa_home_crashes.py`, workflow `.github/workflows/duoface-qa137-user-log17-forensics.yml`. Script reads exact existing user upload with `git show 488a2b5:... ` and writes sanitized `QA137_REAL_LOG17_RESULT.json` without duplicating raw user log. CI status/ID in `CI_RESULT.txt` when verified.
 - Never infer hardware success from CI replay of stored logs. This report is source/log evidence, not a new on-device test.
 
+## 2026-10-31 — CROSS-APP CORRECTION: NORMAL INITIAL PORTRAIT; GOFA REMOTE FRAME DOES UPDATE
+
+**The previous interpretation that GOFA alone fails to switch from 375×812 to the remote scene frame is not supported by Log17.** Cross-app investigation of the exact same 2248-line `DuoFaceSceneHost.log` section corrects it:
+
+| Evidence from the SAME Log17 | GOFA | YouTube | Waze | Facebook |
+| --- | ---: | ---: | ---: | ---: |
+| Newly attached `FBScene` (count) | 19 | 14 | 1 | 1 |
+| Initial remote frame = iPhone portrait 375×812 (count) | 19 | 14 | 1 | 1 |
+| Frame differences BEFORE the next size request | 52/52 | 50/50 | 1/1 | 1/1 |
+| Consecutive SAME-scene readbacks where next actual equals preceding target | **33/33** | **36/36** | Not enough reads | Not enough reads |
+| Remote portrait 375×812 reappearing MID-scene after the first size update | **0 observed** | **0 observed** | Not enough reads | Not enough reads |
+| `scene-instance-changed` detected | **2** | **0** | 0 | 0 |
+
+**Confirmed:** All tested iPhone apps initially attach with native portrait 375×812. GOFA and YouTube BOTH have pre-update frame differences due real pane resizing. In all available successive same-scene readbacks the remote `FBScene.settings.frame` reflects the previously requested frame (33/33 GOFA; 36/36 YouTube). Thus the earlier theory `GOFA cannot accept the remote scene size, and DuoFace's cached width is the observed root cause` is **refuted as an explanation of these recorded sessions**; no code change to 0.50x/2x or periodic forced resizing justified.
+
+**What still differs:** GOFA was user-confirmed visually boxed despite a correctly resized scene frame on follow-up measurements; its **internal content/layout (map render view, trait collection, safe area, foreground/attachment or cached app process state)** is not measured by the system `FBScene.settings.frame`. The user reports killing GOFA from the iPhone app switcher recovers the display, consistent with a fresh app UI/render tree or scene/process reinitialization. That is a **testable hypothesis**, not proof of which GOFA internal component. The current DuoFace source deliberately uses **YouTube-specific app handshake and orientation repair**, while GOFA receives generic hosted size dispatch. GOFA alone had two scene-handle replacements in this export; YouTube had none. This difference can help instrument fresh/stale GOFA app process/host scene lifecycle, but does not prove the cause.
+
+**Original vendor nuance:** original DEB file `sideplay/extracted-1.0.4-1/rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.plist` filters `com.lumi.GOFA` and its matching DLL exports GOFA-specific speed board/location functions. This shows per-GOFA customization exists in that original package, but **does NOT prove that DLL modifies remote scene geometry or repairs boxed GOFA**; do not copy vendor code or infer an unknown hook.
+
+**Next targeted observation:** compare the same GOFA launch *before and after user force-quits it*, recording exact app PID/scene generation and both remote FBScene frame AND internal `UIView.bounds`/map content renderer bounds, `traitCollection`, safe area, and foreground/activation state on the correct iPhone app process. Trace GOFA scene reattachment. Test whether GOFA content is boxed despite remote scene frame equal target. No generic `FBScene.updateSettingsWithBlock:` patch until app-specific mismatch is demonstrated.
+
+---
 ## A. Home: now have actual system class and invalid existing setter
 
 Real `DuoFaceHomeAdmission137.log` section:
