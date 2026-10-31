@@ -1,0 +1,61 @@
+name: DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate
+on:
+  push:
+    branches: [feature/duoface-qa144-standalone-carplay-home-20261031]
+    paths:
+      - '.github/workflows/duoface-144-standalone-native-compile.yml'
+      - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa144_no_split_home_redirect.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: qa144-native-compile-no-sileo
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run direct standalone Home architecture and regression tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v
+          test "$(grep -c 'DFHomeStandalone144.m' sideplay/duoface-native-scene-host/build.sh)" = 2
+          ! grep -q 'DFHomeLaunch143.m' sideplay/duoface-native-scene-host/build.sh
+          ! grep -q 'DFHome143ConsumeRequest' sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m
+          test "$(grep -c 'VERSION="0.0.144~standalone-probe1"' sideplay/jb-embedded-appbridge/package_integrated.py)" = 1
+      - name: Prepare same iOS16 signed native toolchain as QA143
+        run: |
+          set -euo pipefail
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          test -d "$(xcrun --sdk iphoneos --show-sdk-path)"
+      - name: Build native source with Apple iOS16 SDK and ldid, NOT publish to Sileo
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.144~standalone-probe1_iphoneos-arm64.deb'
+          test -s "$HOST"
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.144~standalone-probe1'
+          mkdir -p "$RUNNER_TEMP/native"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/native"
+          for name in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DFYouTubeOrientationRelay DFGofaMapResize141; do
+            ldid -e "$RUNNER_TEMP/native/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib" >/dev/null
+          done
+          xcrun dwarfdump --uuid "$RUNNER_TEMP/native/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
+          shasum -a 256 "$HOST"
+          echo 'QA144_COMPILED_SIGNED_ONLY_NOT_PUBLISHED_TO_SILEO_NOT_DEVICE_TESTED'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA144-standalone-native-UNPUBLISHED-compile-proof
+          path: sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.144~standalone-probe1_iphoneos-arm64.deb
+          if-no-files-found: error
