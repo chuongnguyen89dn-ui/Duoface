@@ -1956,6 +1956,147 @@
       }
     ],
     "version_lines": [],
+    "abi_by_process": {
+      "SpringBoard": 178,
+      "CarPlay": 201
+    },
+    "abi_sample_count": {
+      "SpringBoard": 16,
+      "CarPlay": 8
+    },
+    "abi_unique": [],
+    "abi_samples": [
+      {
+        "line": 7722,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7733,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 notify-listener=0"
+      },
+      {
+        "line": 7734,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7745,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 notify-listener=0"
+      },
+      {
+        "line": 7746,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7757,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7768,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7779,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7790,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7815,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 notify-listener=0"
+      },
+      {
+        "line": 7816,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7841,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7866,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=5 preference=present"
+      },
+      {
+        "line": 7867,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=5 preference=present"
+      },
+      {
+        "line": 7892,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=5 preference=present"
+      },
+      {
+        "line": 7913,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7914,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7937,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 7960,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=5 preference=present"
+      },
+      {
+        "line": 7964,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=5 preference=present"
+      },
+      {
+        "line": 7986,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=5 preference=present"
+      },
+      {
+        "line": 8007,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 8013,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 8035,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=6 preference=present"
+      },
+      {
+        "line": 8054,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=7 preference=present"
+      },
+      {
+        "line": 8055,
+        "text": "[DuoFaceHomeABI] process=CarPlay pid=88433 sample generation=1 version=16 configured=7 preference=present"
+      },
+      {
+        "line": 8074,
+        "text": "[DuoFaceHomeABI] process=SpringBoard pid=88408 sample generation=1 version=16 configured=7 preference=present"
+      }
+    ],
+    "native_scene_top_signals": [
+      {
+        "summary": "[DuoFaceNativeHost] touchowner-stop reason=scene-resigned-carplay-home revoked=1 notify=0",
+        "count": 46
+      },
+      {
+        "summary": "[DuoFaceNativeHost] qa125-background-boundary own-state=2 app-state=2 protected-data=0 external",
+        "count": 18
+      },
+      {
+        "summary": "[DuoFaceNativeHost] touchowner-stop reason=native-home-button revoked=1 notify=0",
+        "count": 13
+      },
+      {
+        "summary": "[DuoFaceNativeHost] native-owner-background-retention-requested",
+        "count": 6
+      },
+      {
+        "summary": "[DuoFaceNativeHost] qa125-background-boundary own-state=2 app-state=2 protected-data=1 external",
+        "count": 2
+      }
+    ],
     "first_lines": [
       {
         "line": 1,
