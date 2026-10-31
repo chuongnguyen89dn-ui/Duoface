@@ -1,0 +1,120 @@
+name: QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)
+on:
+  push:
+    branches: [feature/duoface-qa144-standalone-carplay-home-20261031]
+    paths:
+      - '.github/workflows/duoface-144-integrated-private-staging.yml'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa144-private-no-sileo
+  cancel-in-progress: true
+jobs:
+  stage-only:
+    runs-on: macos-15
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify independent selected Home and preserved scene-host contracts
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m -o "$RUNNER_TEMP/home141"
+          "$RUNNER_TEMP/home141"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_resize_141.c -o "$RUNNER_TEMP/gofa141"
+          "$RUNNER_TEMP/gofa141"
+      - name: Prepare previous verified macOS iOS16 rootless toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build baseline first-party modules without runtime source changes
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+      - name: Recompile signed QA144 standalone native owner and independent Home handler
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.144~standalone-probe1_iphoneos-arm64.deb'
+          test -s "$HOST"
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.144~standalone-probe1'
+          mkdir -p "$RUNNER_TEMP/qa144-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa144-host"
+          ldid -e "$RUNNER_TEMP/qa144-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
+          ldid -e "$RUNNER_TEMP/qa144-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null
+          ! strings -a "$RUNNER_TEMP/qa144-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'selected-tap-redirect-to-existing-duoface-icon'
+          echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
+      - name: Assemble signed independent merged QA144 private candidate, NOT public APT
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.144~standalone-probe1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.144~standalone-probe1'
+          mkdir -p "$RUNNER_TEMP/qa144-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa144-merged"
+          for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator; do
+            ldid -e "$RUNNER_TEMP/qa144-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
+          done
+          echo "QA144_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"
+          shasum -a 256 "$OUT"
+          echo 'QA144_SIGNED_OFFLINE_NO_DEVICE_PROOF_NO_SILEO_RELEASE'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA144-private-standalone-signed-UNPUBLISHED
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.144~standalone-probe1_iphoneos-arm64.deb
+          if-no-files-found: error
+      - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa144-standalone-carplay-home-20261031'
+          ART='com.duoface.jb.embedded_0.0.144~standalone-probe1_iphoneos-arm64.deb'
+          for n in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$OUT"
+            cp "$QA144_PRIVATE_OUTPUT" "$OUT/$ART"
+            ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
+            printf 'BUILD=success
+SIGNED=true
+SOURCE_SHA=%s
+RUN_ID=%s
+SILEO_PUBLISHED=false
+DEVICE_DIRECT_HOME_TESTED=false
+STANDALONE_OWNER_FOREGROUND_VERIFIED=false
+DO_NOT_INSTALL_REPEATEDLY=true
+' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$DIR" commit -m 'qa144: archive signed UNPUBLISHED standalone single-app candidate (hardware unverified) [skip ci]'
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$DIR"
+              git fetch origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/SHA256SUMS.txt"
+              echo QA144_PRIVATE_SIGNED_ARTIFACT_SAVED_NO_SILEO
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
