@@ -52,7 +52,7 @@ def main():
  assert "notify_post(DF144RequestNotify)" in broker
  assert "UIRootSceneWindow" in broker and "UIWindowLevelNormal+1" in broker
  assert "hostViewForBundleID:self.bundle" in broker
- assert "DF144Original(self,cmd,manager,icon);" not in broker.split('// Native Apple Home remains in place')[0].split('if(rc!=0)')[1]
+ assert "DF144Original(self,cmd,manager,icon);" not in broker.split('// Native Apple Home remains in place')[1].split('static void DF144Install')[0]
  assert "_refreshAppDock" not in broker and "setAppDockActiveBundleID" not in broker
  assert "_bundleIdentifierDidBecomeVisible" not in broker
  assert "requestStateChange:" not in broker
