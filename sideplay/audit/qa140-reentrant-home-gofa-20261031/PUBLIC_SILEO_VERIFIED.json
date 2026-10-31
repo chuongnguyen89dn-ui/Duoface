@@ -1,0 +1,26 @@
+{
+  "publisher_repository": "chuongnguyen89dn-ui/carplaydsp",
+  "publisher_commit": "3e8917036c4c016e88a9c876035fbdfc0b5223b4",
+  "run": 41167024531,
+  "conclusion": "success",
+  "jobs": {
+    "build": 124436679805,
+    "deploy": 124437306310,
+    "qa11": 124437356862,
+    "public_integrated": 124437356905,
+    "observer": 124437356944
+  },
+  "source": "a50c5c8a9eccdd5ab7770678deca599df75364e2",
+  "archive": "ca2a4d73952c4ac5eed36b043e1b2f7e5b315d5c",
+  "version": "0.0.140~guardedhome1",
+  "sha256": "a838c67badee14425955ac8affc196e84ea7b712272bef5b3ce1dcde6155128d",
+  "fresh_home_activation_required": true,
+  "real_device_home_icon_and_tap_verified": false,
+  "gofa_fixed": false,
+  "gofa_measurement_only": true,
+  "log_excerpt": [
+    "2026-10-31T04:07:38.3090552Z DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED",
+    "2026-10-31T04:07:38.6445173Z /home/runner/work/_temp/duoface-public.deb: OK",
+    "2026-10-31T04:07:38.6447296Z DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED"
+  ]
+}
