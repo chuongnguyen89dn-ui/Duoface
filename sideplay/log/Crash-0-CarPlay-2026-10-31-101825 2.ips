@@ -1,0 +1,308 @@
+{"app_name":"CarPlay","timestamp":"2026-10-31 10:18:25.00 +0700","app_version":"1.0","slice_uuid":"b2e3ff82-bc1f-3e2c-916d-a11fcb4c58e4","build_version":"1","platform":2,"bundleID":"com.apple.CarPlayApp","share_with_app_devs":0,"is_first_party":1,"bug_type":"309","os_version":"iPhone OS 16.7.16 (20H392)","roots_installed":0,"name":"CarPlay","incident_id":"CC484DD1-3D4C-41C6-BE38-041FDEFE5FC0"}
+{
+  "uptime" : 1000000,
+  "procRole" : "Foreground",
+  "version" : 2,
+  "userID" : 501,
+  "deployVersion" : 210,
+  "modelCode" : "iPhone10,6",
+  "coalitionID" : 8398,
+  "osVersion" : {
+    "isEmbedded" : true,
+    "train" : "iPhone OS 16.7.16",
+    "releaseType" : "User",
+    "build" : "20H392"
+  },
+  "captureTime" : "2026-10-31 10:18:24.1005 +0700",
+  "incident" : "CC484DD1-3D4C-41C6-BE38-041FDEFE5FC0",
+  "pid" : 89744,
+  "cpuType" : "ARM-64",
+  "roots_installed" : 0,
+  "bug_type" : "309",
+  "procLaunch" : "2026-10-31 10:18:22.2544 +0700",
+  "procStartAbsTime" : 24572878498659,
+  "procExitAbsTime" : 24572922792191,
+  "procName" : "CarPlay",
+  "procPath" : "\/System\/Library\/CoreServices\/CarPlay.app\/CarPlay",
+  "bundleInfo" : {"CFBundleShortVersionString":"1.0","CFBundleVersion":"1","CFBundleIdentifier":"com.apple.CarPlayApp"},
+  "storeInfo" : {"deviceIdentifierForVendor":"D040698E-7D3C-4C51-988F-CBAB3C417BB0"},
+  "parentProc" : "launchd",
+  "parentPid" : 1,
+  "coalitionName" : "com.apple.CarPlayApp",
+  "crashReporterKey" : "8d076dfd9fd51a172cb6fdfae63e645fab7df3f4",
+  "wasUnlockedSinceBoot" : 1,
+  "isLocked" : 0,
+  "consecutiveCrashCount" : 18,
+  "throttleTimeout" : 10,
+  "codeSigningID" : "com.apple.CarPlayApp",
+  "codeSigningTeamID" : "",
+  "codeSigningFlags" : 838868993,
+  "codeSigningValidationCategory" : 1,
+  "codeSigningTrustLevel" : 0,
+  "basebandVersion" : "6.01.02",
+  "vmRegionInfo" : "0x16f23bfd0 is in 0x16f238000-0x16f23c000;  bytes after start: 16336  bytes before end: 47\n      REGION TYPE                 START - END      [ VSIZE] PRT\/MAX SHRMOD  REGION DETAIL\n      VM_ALLOCATE              100ef8000-100f1c000 [  144K] rw-\/rw- SM=PRV  \n      GAP OF 0x6e31c000 BYTES\n--->  STACK GUARD              16f238000-16f23c000 [   16K] ---\/rwx SM=NUL  ... for thread 0\n      Stack                    16f23c000-16f338000 [ 1008K] rw-\/rwx SM=PRV  thread 0",
+  "exception" : {"codes":"0x0000000000000002, 0x000000016f23bfd0","rawCodes":[2,6159581136],"type":"EXC_BAD_ACCESS","signal":"SIGSEGV","subtype":"KERN_PROTECTION_FAILURE at 0x000000016f23bfd0"},
+  "termination" : {"flags":0,"code":11,"namespace":"SIGNAL","indicator":"Segmentation fault: 11","byProc":"exc handler","byPid":89744},
+  "vmregioninfo" : "0x16f23bfd0 is in 0x16f238000-0x16f23c000;  bytes after start: 16336  bytes before end: 47\n      REGION TYPE                 START - END      [ VSIZE] PRT\/MAX SHRMOD  REGION DETAIL\n      VM_ALLOCATE              100ef8000-100f1c000 [  144K] rw-\/rw- SM=PRV  \n      GAP OF 0x6e31c000 BYTES\n--->  STACK GUARD              16f238000-16f23c000 [   16K] ---\/rwx SM=NUL  ... for thread 0\n      Stack                    16f23c000-16f338000 [ 1008K] rw-\/rwx SM=PRV  thread 0",
+  "faultingThread" : 0,
+  "threads" : [{"triggered":true,"id":5108372,"threadState":{"x":[{"value":6159581232},{"value":6159585440},{"value":6829553564,"symbolLocation":0,"symbol":"containsKey"},{"value":1},{"value":6159585440},{"value":6829553564,"symbolLocation":0,"symbol":"containsKey"},{"value":10752745424},{"value":0},{"value":1},{"value":6159581232},{"value":0},{"value":13},{"value":2},{"value":6159581232},{"value":1},{"value":1},{"value":8084891440,"symbolLocation":0,"symbol":"___chkstk_darwin"},{"value":6829522592,"symbolLocation":0,"symbol":"-[__NSCFString retain]"},{"value":0},{"value":6829553564,"symbolLocation":0,"symbol":"containsKey"},{"value":6159585440},{"value":1},{"value":8310028176},{"value":41552258046},{"value":91},{"value":4707459271952638268},{"value":8310028944},{"value":8310028912},{"value":8310028880}],"flavor":"ARM_THREAD_STATE64","lr":{"value":6829673216},"cpsr":{"value":1610612736},"fp":{"value":6159585424},"sp":{"value":6159581232},"esr":{"value":2449473607,"description":"(Data Abort) byte write Translation fault"},"pc":{"value":6829994616,"matchesCrashFrame":1},"far":{"value":6159581136}},"queue":"com.apple.frontboard.applicationLibrary.taskQueue","frames":[{"imageOffset":979576,"symbol":"findCFBurstTrieList","symbolLocation":0,"imageIndex":19},{"imageOffset":658176,"symbol":"traverseCFBurstTrieWithCursor","symbolLocation":544,"imageIndex":19},{"imageOffset":552368,"symbol":"CFBurstTrieContainsUTF8String","symbolLocation":256,"imageIndex":19},{"imageOffset":73004,"symbol":"_createUniqueStringWithUTF8Bytes","symbolLocation":68,"imageIndex":19},{"imageOffset":814228,"symbol":"parseStringTag","symbolLocation":1740,"imageIndex":19},{"imageOffset":324100,"symbol":"parseXMLElement","symbolLocation":1568,"imageIndex":19},{"imageOffset":1224624,"symbol":"parseArrayTag","symbolLocation":488,"imageIndex":19},{"imageOffset":1225260,"symbol":"parseDictTag","symbolLocation":344,"imageIndex":19},{"imageOffset":1223892,"symbol":"parsePListTag","symbolLocation":68,"imageIndex":19},{"imageOffset":174396,"symbol":"_CFPropertyListCreateFromUTF8Data","symbolLocation":1456,"imageIndex":19},{"imageOffset":639932,"symbol":"_CFPropertyListCreateWithData","symbolLocation":616,"imageIndex":19},{"imageOffset":645192,"symbol":"CFPropertyListCreateWithData","symbolLocation":56,"imageIndex":19},{"imageOffset":99892,"symbol":"+[NSPropertyListSerialization propertyListWithData:options:format:error:]","symbolLocation":52,"imageIndex":20},{"imageOffset":99272,"symbol":"+[NSDictionary(NSDictionary) newWithContentsOf:immutable:]","symbolLocation":140,"imageIndex":20},{"imageOffset":99120,"symbol":"+[NSDictionary(NSDictionary) dictionaryWithContentsOfFile:]","symbolLocation":28,"imageIndex":20},{"imageOffset":58852,"symbol":"DF138Selected","symbolLocation":648,"imageIndex":9},{"imageOffset":64328,"symbol":"DF138Answer","symbolLocation":264,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10},{"imageOffset":64392,"symbol":"DF138Answer","symbolLocation":328,"imageIndex":9},{"imageOffset":61976,"symbol":"DF138Entitlement3","symbolLocation":116,"imageIndex":9},{"imageOffset":21824,"imageIndex":10}]},{"id":5108376,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]},{"id":5108380,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]},{"id":5108383,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]},{"id":5108385,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]},{"id":5108386,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]},{"id":5108389,"name":"com.apple.uikit.eventfetch-thread","frames":[{"imageOffset":4144,"symbol":"mach_msg2_trap","symbolLocation":8,"imageIndex":22},{"imageOffset":76568,"symbol":"mach_msg2_internal","symbolLocation":76,"imageIndex":22},{"imageOffset":77240,"symbol":"mach_msg_overwrite","symbolLocation":484,"imageIndex":22},{"imageOffset":5412,"symbol":"mach_msg","symbolLocation":20,"imageIndex":22},{"imageOffset":475464,"symbol":"__CFRunLoopServiceMachPort","symbolLocation":156,"imageIndex":19},{"imageOffset":479968,"symbol":"__CFRunLoopRun","symbolLocation":1208,"imageIndex":19},{"imageOffset":498976,"symbol":"CFRunLoopRunSpecific","symbolLocation":584,"imageIndex":19},{"imageOffset":257784,"symbol":"-[NSRunLoop(NSRunLoop) runMode:beforeDate:]","symbolLocation":208,"imageIndex":20},{"imageOffset":257524,"symbol":"-[NSRunLoop(NSRunLoop) runUntilDate:]","symbolLocation":60,"imageIndex":20},{"imageOffset":4798488,"symbol":"-[UIEventFetcher threadMain]","symbolLocation":404,"imageIndex":23},{"imageOffset":354908,"symbol":"__NSThread__start__","symbolLocation":704,"imageIndex":20},{"imageOffset":12524,"symbol":"_pthread_start","symbolLocation":116,"imageIndex":21},{"imageOffset":5932,"symbol":"thread_start","symbolLocation":8,"imageIndex":21}]},{"id":5108391,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]},{"id":5108392,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]},{"id":5108393,"frames":[{"imageOffset":5912,"symbol":"start_wqthread","symbolLocation":0,"imageIndex":21}]}],
+  "usedImages" : [
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4306976768,
+    "size" : 573440,
+    "uuid" : "444f5041-332e-302e-3900-ae6387a9fa9a",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/basebin\/gen\/dyld",
+    "name" : "dyld"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4306272256,
+    "size" : 16384,
+    "uuid" : "b2e3ff82-bc1f-3e2c-916d-a11fcb4c58e4",
+    "path" : "\/System\/Library\/CoreServices\/CarPlay.app\/CarPlay",
+    "name" : "CarPlay"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4306616320,
+    "size" : 49152,
+    "uuid" : "153ab2a8-28bb-3234-b8f5-acb07980e49a",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/basebin\/systemhook.dylib",
+    "name" : "systemhook.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4308221952,
+    "size" : 65536,
+    "uuid" : "c534297b-d752-3357-8a5f-3f42db26445e",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/   Choicy.dylib",
+    "name" : "   Choicy.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4308336640,
+    "size" : 32768,
+    "uuid" : "30f2465c-5103-3d08-8257-f7ae61f6c206",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/libroot.dylib",
+    "name" : "libroot.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4308418560,
+    "size" : 32768,
+    "uuid" : "ef048be7-bcb6-3f0d-ba58-aff1d4ed4761",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/3DAppVersionSpoofer.dylib",
+    "name" : "3DAppVersionSpoofer.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4308500480,
+    "size" : 147456,
+    "uuid" : "f36fc36c-33a3-3f08-9283-79157f867d6b",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/libellekit.dylib",
+    "name" : "libellekit.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4308877312,
+    "size" : 32768,
+    "uuid" : "62f90d8f-02c5-3591-8ba4-e84ec45dfa9c",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/AAAASnowBoardFontsSB.dylib",
+    "name" : "AAAASnowBoardFontsSB.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4308942848,
+    "size" : 81920,
+    "uuid" : "9a32fd2a-1d0c-3de6-ac49-d0897d66d86a",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/Library\/Frameworks\/Cephei.framework\/Cephei",
+    "name" : "Cephei"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309090304,
+    "size" : 114688,
+    "uuid" : "26f13ecd-22fa-3fe0-8350-fc80dc45c526",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/DFCarPlayDockOwner.dylib",
+    "name" : "DFCarPlayDockOwner.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309286912,
+    "size" : 32768,
+    "uuid" : "20cb0cc0-bc9d-3c0f-8921-e5046053e54c",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/DFFirstPartyAdmission.dylib",
+    "name" : "DFFirstPartyAdmission.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309368832,
+    "size" : 81920,
+    "uuid" : "1d7829f3-5ffb-335e-9932-898f21f49b71",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/DFNativeDashboardBridgeQA.dylib",
+    "name" : "DFNativeDashboardBridgeQA.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309499904,
+    "size" : 65536,
+    "uuid" : "bc99deeb-08d1-3660-9eb7-5adcb3830ffa",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/DFNativeMapPaneCoordinator.dylib",
+    "name" : "DFNativeMapPaneCoordinator.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309630976,
+    "size" : 49152,
+    "uuid" : "6c926027-94d4-3689-88e4-34b01021480f",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/GhostBoardXFeatures.dylib",
+    "name" : "GhostBoardXFeatures.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309762048,
+    "size" : 49152,
+    "uuid" : "48ac03db-79ca-3e85-bfad-66d9440a9c4f",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/SnowBoardStatusBarSB.dylib",
+    "name" : "SnowBoardStatusBarSB.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309843968,
+    "size" : 32768,
+    "uuid" : "ccc76880-ef53-3f36-90d4-72d9375a73b0",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/Snowboard.dylib",
+    "name" : "Snowboard.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4309925888,
+    "size" : 376832,
+    "uuid" : "3ab6836d-300a-30d9-ba92-2a486421f387",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/SnowBoardBase.dylib",
+    "name" : "SnowBoardBase.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4310417408,
+    "size" : 114688,
+    "uuid" : "848a658c-195f-31c0-96a2-aa045e6524c4",
+    "path" : "\/private\/preboot\/529DDF8803C7A508C1EB0FEA88E33C5E02C44AC7DD244138A5CAFDE7264B2491A14D34662914358E1774D4D73DEE9AEF\/dopamine-MRT7ad\/procursus\/usr\/lib\/TweakInject\/aaaSnowBoardUISB.dylib",
+    "name" : "aaaSnowBoardUISB.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4310564864,
+    "size" : 49152,
+    "uuid" : "1ab75847-bb2d-36f9-999a-72dd61f86b85",
+    "path" : "\/private\/preboot\/Cryptexes\/OS\/usr\/lib\/libobjc-trampolines.dylib",
+    "name" : "libobjc-trampolines.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 6829015040,
+    "size" : 3993600,
+    "uuid" : "55b9ba28-4c5c-3fe7-9c47-4983337d6e83",
+    "path" : "\/System\/Library\/Frameworks\/CoreFoundation.framework\/CoreFoundation",
+    "name" : "CoreFoundation"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 6732062720,
+    "size" : 8687616,
+    "uuid" : "dce5e587-2a0d-34cf-8245-23e1b12936a9",
+    "path" : "\/System\/Library\/Frameworks\/Foundation.framework\/Foundation",
+    "name" : "Foundation"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 8084885504,
+    "size" : 69632,
+    "uuid" : "78c98f18-5985-3be3-bc4b-f2a3a34ae906",
+    "path" : "\/usr\/lib\/system\/libsystem_pthread.dylib",
+    "name" : "libsystem_pthread.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 7827423232,
+    "size" : 221176,
+    "uuid" : "2e54c705-1974-30d2-b371-81fd168f8d76",
+    "path" : "\/usr\/lib\/system\/libsystem_kernel.dylib",
+    "name" : "libsystem_kernel.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 6862155776,
+    "size" : 24203264,
+    "uuid" : "1242978a-2c2c-3781-8d6c-9777edce2804",
+    "path" : "\/System\/Library\/PrivateFrameworks\/UIKitCore.framework\/UIKitCore",
+    "name" : "UIKitCore"
+  },
+  {
+    "size" : 0,
+    "source" : "A",
+    "base" : 0,
+    "uuid" : "00000000-0000-0000-0000-000000000000"
+  }
+],
+  "sharedCache" : {
+  "base" : 6713769984,
+  "size" : 2866708480,
+  "uuid" : "8f970452-c9e3-3e88-b114-feb1864bc9e0"
+},
+  "vmSummary" : "ReadOnly portion of Libraries: Total=998.5M resident=0K(0%) swapped_out_or_unallocated=998.5M(100%)\nWritable regions: Total=583.1M written=0K(0%) resident=0K(0%) swapped_out=0K(0%) unallocated=583.1M(100%)\n\n                                VIRTUAL   REGION \nREGION TYPE                        SIZE    COUNT (non-coalesced) \n===========                     =======  ======= \nActivity Tracing                   256K        1 \nColorSync                           32K        2 \nCoreAnimation                       16K        1 \nFoundation                          16K        1 \nKernel Alloc Once                   32K        1 \nMALLOC                           576.6M       35 \nMALLOC guard page                  128K        8 \nMach message                        32K        2 \nSTACK GUARD                        160K       10 \nStack                             5904K       10 \nVM_ALLOCATE                        160K        2 \n__CTF                               824        1 \n__DATA                            13.9M      760 \n__DATA_CONST                      69.1M      772 \n__DATA_DIRTY                      8008K      705 \n__FONT_DATA                          4K        1 \n__INFO_FILTER                         8        1 \n__LINKEDIT                       318.5M       20 \n__OBJC_RO                         79.8M        1 \n__OBJC_RW                         2464K        1 \n__TEXT                           680.0M      788 \ndyld private memory                272K        2 \nmapped file                       35.7M        5 \nshared memory                       48K        3 \n===========                     =======  ======= \nTOTAL                              1.7G     3133 \n",
+  "legacyInfo" : {
+  "threadTriggered" : {
+    "queue" : "com.apple.frontboard.applicationLibrary.taskQueue"
+  }
+},
+  "logWritingSignature" : "a6f4dd493e3256c2425a94002f3ac59881ef8380",
+  "trialInfo" : {
+  "rollouts" : [
+    {
+      "rolloutId" : "62c74108bcb0435c2153f963",
+      "factorPackIds" : {
+        "SIRI_TEXT_TO_SPEECH" : "657a4921d6ad146894c1b003"
+      },
+      "deploymentId" : 240000394
+    },
+    {
+      "rolloutId" : "62c751b6bcb0435c2153fe92",
+      "factorPackIds" : {
+        "SIRI_UNDERSTANDING_NL" : "6523f799d0c9ce2f459b53ad",
+        "SIRI_UNDERSTANDING_MORPHUN" : "64e514ddc83b9a3d50649ddc",
+        "SIRI_UNDERSTANDING_ASR_ASSISTANT" : "639a67358061fa721c8edfb6"
+      },
+      "deploymentId" : 240000366
+    }
+  ],
+  "experiments" : [
+
+  ]
+}
+}
