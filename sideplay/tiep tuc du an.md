@@ -1,3 +1,13 @@
+# 2026-10-31 — USER CLARIFICATION: SAME EXECUTION ROUTE, INDEPENDENT IMPLEMENTATION
+
+- USER_DECISION (verbatim): "Ko có nghĩa là giống nhưng phải cùng 1 đường đi thì nó ms hoạt động đc."
+- Acceptance means independently written code must follow the reference's equivalent execution route: actual initiating actor, native workspace/application transition, host ownership handoff, app-side scene contract, real completion response, native Dock/Home navigation state, and symmetric teardown/restoration. This is a set of relationships to verify, not a claim that a full original call graph has already been proven in this order. Identical source/UI/private implementation or commercial license reuse is NOT required.
+- Corrects prior framing: isolated matching selectors/ABI/arguments or merely displaying pixels is insufficient; the next implementation must be justified by verified caller→receiver→state/conditions→response at EACH relevant boundary in genuine DuoNavi, separately labeled DuoDash REPACK, then compared against observed DuoFace runtime. Unknown edges remain UNKNOWN. Do not use this clarification as permission to invent untraced transitions or copy vendor binaries/licensing.
+- QA147 remains physically rejected per Log23; its separate host→missing ACK→Dock route is not accepted as equivalent to the original lifecycle. No further patch/release on top of guessed route. Next research artifact should identify proven route segments, missing/unknown edges and source/runtime evidence, then implement the corresponding independent connections. Keep app-selection/Home destination requirement, native app switching, orientation, latency and Dock identity together in acceptance; not just an icon test.
+- This update changes the implementation criterion only; no source changes/build/deploy or new physical test in this clarification turn. Existing failure analysis in sideplay/audit/qa147-user-log23-failure-20261031/ remains the current device evidence.
+
+---
+
 # 2026-10-31 — QA147 PHYSICALLY REJECTED: LOG23 PROVES BROKEN HOST→ACK→DOCK FLOW
 
 - LATEST USER ACCEPTANCE/REJECTION: QA147 still wrong. Home returns CarPlay Home instead of the normal app selection page; app opening very slow; sometimes mobile/wrong-direction UI; native Dock does not identify/show active app. User questions forced overlay vs original lifecycle; check actual log and original mechanism, no more guessed releases. **Supersedes QA147 physical-test-pending with USER-REJECTED.** Delivery/build success remains historical, not functionality success.
