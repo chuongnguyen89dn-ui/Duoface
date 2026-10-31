@@ -1,0 +1,73 @@
+﻿2026-10-31T10:48:27.4445933Z Current runner version: '2.338.2'
+2026-10-31T10:48:27.4489734Z ##[group]Runner Image Provisioner
+2026-10-31T10:48:27.4491212Z Hosted Compute Agent
+2026-10-31T10:48:27.4492236Z Version: 20261021.618
+2026-10-31T10:48:27.4493535Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-31T10:48:27.4495082Z Build Date: 2026-10-21T00:45:21Z
+2026-10-31T10:48:27.4496526Z Worker ID: {53af50c0-5c7d-4723-b399-6cee48806cda}
+2026-10-31T10:48:27.4497956Z Region: westcentralus
+2026-10-31T10:48:27.4499171Z Cloud: Azure
+2026-10-31T10:48:27.4500213Z ##[endgroup]
+2026-10-31T10:48:27.4502467Z ##[group]Operating System
+2026-10-31T10:48:27.4503820Z Ubuntu
+2026-10-31T10:48:27.4505194Z 24.04.5
+2026-10-31T10:48:27.4506157Z LTS
+2026-10-31T10:48:27.4507305Z ##[endgroup]
+2026-10-31T10:48:27.4508361Z ##[group]Runner Image
+2026-10-31T10:48:27.4509758Z Image: ubuntu-24.04
+2026-10-31T10:48:27.4510843Z Version: 20261025.353.1
+2026-10-31T10:48:27.4513118Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-31T10:48:27.4516227Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-10-31T10:48:27.4518411Z ##[endgroup]
+2026-10-31T10:48:27.4520558Z ##[group]GITHUB_TOKEN Permissions
+2026-10-31T10:48:27.4523860Z Contents: read
+2026-10-31T10:48:27.4525213Z Metadata: read
+2026-10-31T10:48:27.4526127Z Pages: write
+2026-10-31T10:48:27.4527735Z ##[endgroup]
+2026-10-31T10:48:27.4531179Z Secret source: Actions
+2026-10-31T10:48:27.4532803Z Cache mode: write
+2026-10-31T10:48:27.4534634Z Prepare workflow directory
+2026-10-31T10:48:27.4922663Z Prepare all required actions
+2026-10-31T10:48:27.5039955Z Complete job name: verify-duonavi-observer-pages
+2026-10-31T10:48:28.1465591Z ##[group]Run set -euo pipefail
+2026-10-31T10:48:28.1466763Z [36;1mset -euo pipefail[0m
+2026-10-31T10:48:28.1467671Z [36;1mSITE='https://chuongnguyen89dn-ui.github.io/carplaydsp'[0m
+2026-10-31T10:48:28.1468852Z [36;1mFILE='com.duoface.qa.duonaviobserver_0.0.2~dockabi2_iphoneos-arm64.deb'[0m
+2026-10-31T10:48:28.1470220Z [36;1mSHA='f3e3e04b74ef76b09f529954e708ae0521f13d139313405f18b1390b28999f40'[0m
+2026-10-31T10:48:28.1471221Z [36;1mfor attempt in $(seq 1 24); do[0m
+2026-10-31T10:48:28.1472340Z [36;1m  curl -fLsS --max-time 25 "$SITE/Packages" -o "$RUNNER_TEMP/duonavi-observer-Packages" || true[0m
+2026-10-31T10:48:28.1473823Z [36;1m  if grep -Fqx "SHA256: $SHA" "$RUNNER_TEMP/duonavi-observer-Packages" 2>/dev/null; then break; fi[0m
+2026-10-31T10:48:28.1475458Z [36;1m  sleep 10[0m
+2026-10-31T10:48:28.1580161Z [36;1mdone[0m
+2026-10-31T10:48:28.1581599Z [36;1mpython3 - "$RUNNER_TEMP/duonavi-observer-Packages" <<'PY'[0m
+2026-10-31T10:48:28.1583210Z [36;1mfrom pathlib import Path[0m
+2026-10-31T10:48:28.1584293Z [36;1mimport sys[0m
+2026-10-31T10:48:28.1585718Z [36;1mp=Path(sys.argv[1]).read_text()[0m
+2026-10-31T10:48:28.1586924Z [36;1mentries=[][0m
+2026-10-31T10:48:28.1587697Z [36;1mfor block in p.split('\n\n'):[0m
+2026-10-31T10:48:28.1588306Z [36;1m    record={}[0m
+2026-10-31T10:48:28.1588932Z [36;1m    for line in block.splitlines():[0m
+2026-10-31T10:48:28.1589650Z [36;1m        if ': ' in line and not line.startswith(' '):[0m
+2026-10-31T10:48:28.1590392Z [36;1m            k,v=line.split(': ',1);record[k]=v[0m
+2026-10-31T10:48:28.1591099Z [36;1m    if record:entries.append(record)[0m
+2026-10-31T10:48:28.1592032Z [36;1mhits=[x for x in entries if x.get('Package')=='com.duoface.qa.duonaviobserver'][0m
+2026-10-31T10:48:28.1592915Z [36;1massert len(hits)==1,hits[0m
+2026-10-31T10:48:28.1593481Z [36;1mitem=hits[0][0m
+2026-10-31T10:48:28.1594064Z [36;1massert item['Version']=='0.0.2~dockabi2',item[0m
+2026-10-31T10:48:28.1595456Z [36;1massert item['SHA256']=='f3e3e04b74ef76b09f529954e708ae0521f13d139313405f18b1390b28999f40',item[0m
+2026-10-31T10:48:28.1596849Z [36;1massert item['Filename']=='debs/com.duoface.qa.duonaviobserver_0.0.2~dockabi2_iphoneos-arm64.deb',item[0m
+2026-10-31T10:48:28.1597964Z [36;1massert item['Architecture']=='iphoneos-arm64',item[0m
+2026-10-31T10:48:28.1599354Z [36;1mothers=[x for x in entries if x.get('Package')=='com.duoface.jb.embedded'][0m
+2026-10-31T10:48:28.1600492Z [36;1massert len(others)==1 and others[0]['Version']=='0.0.146~native-home-release1',others[0m
+2026-10-31T10:48:28.1601663Z [36;1mprint('DUONAVI_OBSERVER_PUBLIC_SINGLE_INDEX_AND_DUOFACE_QA135_SELECTED')[0m
+2026-10-31T10:48:28.1602503Z [36;1mPY[0m
+2026-10-31T10:48:28.1603274Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/$FILE" -o "$RUNNER_TEMP/duonavi-observer-public.deb"[0m
+2026-10-31T10:48:28.1604928Z [36;1mprintf '%s  %s\n' "$SHA" "$RUNNER_TEMP/duonavi-observer-public.deb" | sha256sum -c -[0m
+2026-10-31T10:48:28.1606295Z [36;1mtest "$(dpkg-deb -f "$RUNNER_TEMP/duonavi-observer-public.deb" Package)" = 'com.duoface.qa.duonaviobserver'[0m
+2026-10-31T10:48:28.1607506Z [36;1mecho DUONAVI_OBSERVER_PUBLIC_SILEO_SIGNED_DEB_VERIFIED[0m
+2026-10-31T10:48:28.1885153Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-31T10:48:28.1886493Z ##[endgroup]
+2026-10-31T10:48:28.4202067Z DUONAVI_OBSERVER_PUBLIC_SINGLE_INDEX_AND_DUOFACE_QA135_SELECTED
+2026-10-31T10:48:28.5523444Z /home/runner/work/_temp/duonavi-observer-public.deb: OK
+2026-10-31T10:48:28.5588156Z DUONAVI_OBSERVER_PUBLIC_SILEO_SIGNED_DEB_VERIFIED
+2026-10-31T10:48:28.5763707Z Cleaning up orphan processes
