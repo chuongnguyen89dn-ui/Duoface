@@ -1,3 +1,19 @@
+# 2026-10-31 — ORIGINAL EXECUTION ROUTE TRACING (71 PINNED CHECKPOINTS)
+
+User instruction: “Truy tiếp đi”. Same lifecycle/execution route is required, independently implemented. QA147 remains REJECTED by Log23; no QA148 build/release in this investigation.
+
+Read full new evidence: `sideplay/audit/original-execution-route-20261031/ROUTE_FINDINGS.md`, `VERIFIED_CHECKPOINTS.json`, reproducible `verify_route_checkpoints.py`. Verified original dylib SHA256 44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15; 71 sparse static checkpoints passed. No vendor implementation copied; no original device runtime proof.
+
+New confirmed route: Home/Dock intercepted launch -> Dashboard manager pending/completion -> native foreground workspace preparation with completion/250ms fallback -> activation request -> SB manager request -> loadNewAppFromCurrentRequest passes actual block18c708 to evictAppFromPhoneScreen:completion: at179cec -> phone native Home transition with completion/120ms once fallback -> captured-manager host creation/start/window.show/notifyStateUpdated -> Dashboard state response clears pending, updates Dock/Home, consumes completion. Full request CFG and all app-side consumers remain unproven.
+
+CORRECTION to earlier Home diagnosis: genuine Home hook30f4d4 ALSO calls saved Apple Home unconditionally at30f5c0 after stop request30f5a0. Forwarding alone is not a demonstrated cause of wrong destination. Need full teardown/native workspace state.
+
+Concrete gaps: original Dock tap hook30f8f4 routes bridged icons into manager and suppresses native fallback while pending; QA147 setter hook lacks that route. Original pending timeout2.5s clears only pending/completion, not host teardown. Original host sets occlusion/lifecycle flags BEFORE obtaining hosted view, configures computed native reference size during startup BEFORE final containment; DuoFace DFSceneHost.m adds view before flags and defers reference setters until ready. This order mismatch is a candidate for Log23 bogus-reference-size failures, NOT a proven unique cause. Original reference orientation args are1; do not force landscape based on aspect ratio. No fabricated readiness/PID or removal of ownership checks.
+
+Next: trace app-side receiver and exact startup exception/readiness predicate; implement independently owned manager transaction and full lifecycle order before a new device build. Preserve native preparation, eviction, host initialization, manager publication, Dock/Home update, teardown. Source comparison pinned to a3dec1d9bc62dcafac4d34fff3988e886493bc47, DFSceneHost blobec2924c145be4edaaa27b7320bb869b18de12c6b. Full previous handoff preserved below.
+
+---
+
 # 2026-10-31 — USER CLARIFICATION: SAME EXECUTION ROUTE, INDEPENDENT IMPLEMENTATION
 
 - USER_DECISION (verbatim): "Ko có nghĩa là giống nhưng phải cùng 1 đường đi thì nó ms hoạt động đc."

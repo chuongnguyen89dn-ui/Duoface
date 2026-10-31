@@ -1,0 +1,371 @@
+{
+  "schema": 1,
+  "binary_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+  "mode": "static_read_only",
+  "runtime_equivalence_proven": false,
+  "checks": [
+    {
+      "pc": "0x2c5d18",
+      "kind": "instruction",
+      "meaning": "save launch completion"
+    },
+    {
+      "pc": "0x2c5d2c",
+      "kind": "instruction",
+      "meaning": "begin preparation"
+    },
+    {
+      "pc": "0x2c5e74",
+      "kind": "instruction",
+      "meaning": "prepare native Home with activation continuation"
+    },
+    {
+      "pc": "0x2c6088",
+      "kind": "instruction",
+      "meaning": "close official foreground app with once completion"
+    },
+    {
+      "pc": "0x2c6358",
+      "kind": "instruction",
+      "meaning": "workspace request deactivates foreground native application"
+    },
+    {
+      "pc": "0x2c6388",
+      "kind": "instruction",
+      "meaning": "workspace completion handler"
+    },
+    {
+      "pc": "0x2c6398",
+      "kind": "instruction",
+      "meaning": "submit workspace change"
+    },
+    {
+      "pc": "0x2c65fc",
+      "kind": "instruction",
+      "meaning": "build activation request dictionary"
+    },
+    {
+      "pc": "0x15b534",
+      "kind": "instruction",
+      "meaning": "construct CBBridgeRequest"
+    },
+    {
+      "pc": "0x15b54c",
+      "kind": "instruction",
+      "meaning": "submit manager state request"
+    },
+    {
+      "pc": "0x179cec",
+      "kind": "instruction",
+      "meaning": "evict phone app with host continuation"
+    },
+    {
+      "pc": "0x192a90",
+      "kind": "instruction",
+      "meaning": "create app with bundle and frame in host continuation"
+    },
+    {
+      "pc": "0x192db4",
+      "kind": "instruction",
+      "meaning": "send app-side shouldBridge state"
+    },
+    {
+      "pc": "0x192e10",
+      "kind": "instruction",
+      "meaning": "start host in parent controller"
+    },
+    {
+      "pc": "0x192e20",
+      "kind": "instruction",
+      "meaning": "fallback start"
+    },
+    {
+      "pc": "0x192e34",
+      "kind": "instruction",
+      "meaning": "show bridge window"
+    },
+    {
+      "pc": "0x192e44",
+      "kind": "instruction",
+      "meaning": "notify manager state"
+    },
+    {
+      "pc": "0x2c6fbc",
+      "kind": "instruction",
+      "meaning": "clear pending upon state response"
+    },
+    {
+      "pc": "0x2c7034",
+      "kind": "instruction",
+      "meaning": "activate Dashboard side from manager response"
+    },
+    {
+      "pc": "0x2c7050",
+      "kind": "instruction",
+      "meaning": "deactivate Dashboard side from manager response"
+    },
+    {
+      "pc": "0x30f5a0",
+      "kind": "instruction",
+      "meaning": "Home hook requests stop before native forwarding"
+    },
+    {
+      "pc": "0x30f99c",
+      "kind": "instruction",
+      "meaning": "bridged Dock tap goes to manager"
+    },
+    {
+      "pc": "0x2c726c",
+      "kind": "instruction",
+      "meaning": "active bridge Dock tap requests bundle switch"
+    },
+    {
+      "pc": "0x2c728c",
+      "kind": "instruction",
+      "meaning": "inactive bridge Dock tap starts preparation"
+    },
+    {
+      "pc": "0x1bef84",
+      "kind": "instruction",
+      "meaning": "stop current hosted app"
+    },
+    {
+      "pc": "0x1befe4",
+      "kind": "instruction",
+      "meaning": "destroy bridge windows"
+    },
+    {
+      "pc": "0x1bf010",
+      "kind": "instruction",
+      "meaning": "publish deactivated manager state"
+    },
+    {
+      "slot": "0x3a96b0",
+      "kind": "selector_reference",
+      "selector": "evictAppFromPhoneScreen:completion:"
+    },
+    {
+      "slot": "0x3a9da0",
+      "kind": "selector_reference",
+      "selector": "appForBundleIdentifier:frame:"
+    },
+    {
+      "slot": "0x3a9650",
+      "kind": "selector_reference",
+      "selector": "sendStateToApp:shouldBridge:"
+    },
+    {
+      "slot": "0x3a8ed8",
+      "kind": "selector_reference",
+      "selector": "startInParentViewController:"
+    },
+    {
+      "slot": "0x3a9470",
+      "kind": "selector_reference",
+      "selector": "start"
+    },
+    {
+      "slot": "0x3a9d78",
+      "kind": "selector_reference",
+      "selector": "show"
+    },
+    {
+      "slot": "0x3a9d80",
+      "kind": "selector_reference",
+      "selector": "notifyStateUpdated"
+    },
+    {
+      "slot": "0x3a9f58",
+      "kind": "selector_reference",
+      "selector": "setActivatingEntity:"
+    },
+    {
+      "slot": "0x3a9f60",
+      "kind": "selector_reference",
+      "selector": "setCompletionBlock:"
+    },
+    {
+      "slot": "0x3a9f68",
+      "kind": "selector_reference",
+      "selector": "addCompletionHandler:"
+    },
+    {
+      "pc": "0x26c788",
+      "kind": "instruction",
+      "meaning": "notification continuation tail-calls decoded request handler"
+    },
+    {
+      "pc": "0x179cb0",
+      "kind": "instruction",
+      "meaning": "host continuation invoke address"
+    },
+    {
+      "pc": "0x179cc4",
+      "kind": "instruction",
+      "meaning": "invoke stored at block base + 16"
+    },
+    {
+      "pc": "0x179cc8",
+      "kind": "instruction",
+      "meaning": "manager captured at block base + 32"
+    },
+    {
+      "pc": "0x179ce4",
+      "kind": "instruction",
+      "meaning": "completion argument points to constructed block"
+    },
+    {
+      "pc": "0x192820",
+      "kind": "instruction",
+      "meaning": "host continuation loads captured manager; x28 advances by 32"
+    },
+    {
+      "pc": "0x26d2ec",
+      "kind": "instruction",
+      "meaning": "eviction once-wrapper invoke"
+    },
+    {
+      "pc": "0x26d680",
+      "kind": "instruction",
+      "meaning": "eviction fallback invokes wrapper"
+    },
+    {
+      "pc": "0x26d66c",
+      "kind": "instruction",
+      "meaning": "eviction fallback delay low 16 bits"
+    },
+    {
+      "pc": "0x26d670",
+      "kind": "instruction",
+      "meaning": "eviction fallback delay total 120000000 ns"
+    },
+    {
+      "pc": "0x26d6a8",
+      "kind": "instruction",
+      "meaning": "dispatch eviction fallback"
+    },
+    {
+      "pc": "0x30f5c0",
+      "kind": "instruction",
+      "meaning": "Home hook forwards saved Apple implementation"
+    },
+    {
+      "pc": "0xae228",
+      "kind": "instruction",
+      "meaning": "ignore occlusions before reading hosted view"
+    },
+    {
+      "pc": "0xae254",
+      "kind": "instruction",
+      "meaning": "disable automated lifecycle before reading hosted view"
+    },
+    {
+      "pc": "0xae278",
+      "kind": "instruction",
+      "meaning": "calculate native size from slot bounds"
+    },
+    {
+      "pc": "0xae2d8",
+      "kind": "instruction",
+      "meaning": "read hosted view after lifecycle flags"
+    },
+    {
+      "pc": "0xae310",
+      "kind": "instruction",
+      "meaning": "request native mode before reference setters"
+    },
+    {
+      "pc": "0xae61c",
+      "kind": "instruction",
+      "meaning": "child two-argument reference size setter"
+    },
+    {
+      "pc": "0xae658",
+      "kind": "instruction",
+      "meaning": "independent child three-argument reference size setter"
+    },
+    {
+      "pc": "0xae690",
+      "kind": "instruction",
+      "meaning": "main controller reference size setter"
+    },
+    {
+      "pc": "0xae9c8",
+      "kind": "instruction",
+      "meaning": "finish parent containment after initial reference setters"
+    },
+    {
+      "pc": "0xf2fec",
+      "kind": "instruction",
+      "meaning": "outer app sets hosted view frame"
+    },
+    {
+      "pc": "0xf3000",
+      "kind": "instruction",
+      "meaning": "outer app starts hosted view in parent"
+    },
+    {
+      "slot": "0x3a8dc8",
+      "kind": "selector_reference",
+      "selector": "calculateNativeSizeForSlotRect:"
+    },
+    {
+      "slot": "0x3a8dd8",
+      "kind": "selector_reference",
+      "selector": "setContentReferenceSize:withInterfaceOrientation:"
+    },
+    {
+      "slot": "0x3a8de0",
+      "kind": "selector_reference",
+      "selector": "setContentReferenceSize:withContentOrientation:andContainerOrientation:"
+    },
+    {
+      "pc": "0xac798",
+      "kind": "instruction",
+      "meaning": "native width is twice positive slot width before float rounding"
+    },
+    {
+      "pc": "0xac7a8",
+      "kind": "instruction",
+      "meaning": "native height is twice positive slot height before float rounding"
+    },
+    {
+      "pc": "0xae618",
+      "kind": "instruction",
+      "meaning": "initial child interface orientation 1"
+    },
+    {
+      "pc": "0xae650",
+      "kind": "instruction",
+      "meaning": "initial child content orientation 1"
+    },
+    {
+      "pc": "0xae654",
+      "kind": "instruction",
+      "meaning": "initial child container orientation 1"
+    },
+    {
+      "pc": "0xae68c",
+      "kind": "instruction",
+      "meaning": "initial main interface orientation 1"
+    },
+    {
+      "kind": "encoded_literal_equality",
+      "name": "long",
+      "left": "0x34378e",
+      "right": "0x342c3f",
+      "bytes": 57,
+      "sha256": "290c79339cf82eae912edc6bfa468cc2749ab6b4977c949447bf76256fef9935",
+      "plaintext_verified": false
+    },
+    {
+      "kind": "encoded_literal_equality",
+      "name": "short",
+      "left": "0x3437c7",
+      "right": "0x342c1d",
+      "bytes": 34,
+      "sha256": "fa9a111cdce9d3af00d0982ab8d9e7807a3ad06101fac7c0f0c7b881a2ae109a",
+      "plaintext_verified": false
+    }
+  ]
+}
