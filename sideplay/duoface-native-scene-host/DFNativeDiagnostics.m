@@ -91,13 +91,13 @@
     NSDictionary *soloResult=[NSDictionary dictionaryWithContentsOfFile:
       @"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-result.plist"];
     NSNumber *leaseStamp=soloLease[@"Timestamp"],*resultStamp=soloResult[@"Timestamp"];
-    NSTimeInterval leaseAge=[leaseStamp isKindOfClass:NSNumber.class]?
+    NSTimeInterval soloLeaseAge=[leaseStamp isKindOfClass:NSNumber.class]?
       NSDate.date.timeIntervalSince1970-leaseStamp.doubleValue:INFINITY;
     NSTimeInterval resultAge=[resultStamp isKindOfClass:NSNumber.class]?
       NSDate.date.timeIntervalSince1970-resultStamp.doubleValue:INFINITY;
     [summary appendFormat:@"\nStandalone Home: enabled=%@ receiverAlive=%@ age=%.2fs outcome=%@ reason=%@ resultAge=%.2fs bundle=%@; display/touch UNVERIFIED\n",
       [soloConsent[@"StandaloneHomeDirect"] boolValue]?@"YES":@"NO",
-      [soloLease[@"Alive"] boolValue]?@"YES":@"NO",leaseAge,
+      [soloLease[@"Alive"] boolValue]?@"YES":@"NO",soloLeaseAge,
       [soloResult[@"Outcome"] isKindOfClass:NSString.class]?soloResult[@"Outcome"]:@"none",
       [soloResult[@"Reason"] isKindOfClass:NSString.class]?soloResult[@"Reason"]:@"none",
       resultAge,[soloResult[@"BundleID"] isKindOfClass:NSString.class]?soloResult[@"BundleID"]:@"unknown"];
