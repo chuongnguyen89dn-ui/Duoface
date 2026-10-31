@@ -1,0 +1,96 @@
+name: QA146 verify public Sileo and persist current DuoFace handoff
+on:
+  push:
+    branches: [feature/duoface-qa146-native-home-exit-20261031]
+    paths: ['.github/workflows/duoface-qa146-live-handoff.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa146-live-handoff
+  cancel-in-progress: false
+jobs:
+  confirm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Independently check live Sileo package metadata and DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          SITE='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          FILE='com.duoface.jb.embedded_0.0.146~native-home-release1_iphoneos-arm64.deb'
+          SHA='1785d5d6bef53337033f5664d5acfc573dabe20892bd629649fab5730b04e078'
+          curl -fLsS --retry 4 "$SITE/Packages" -o "$RUNNER_TEMP/Packages"
+          python3 - "$RUNNER_TEMP/Packages" "$FILE" "$SHA" <<'PY'
+          from pathlib import Path
+          import sys
+          entries=[]
+          for block in Path(sys.argv[1]).read_text().split('\n\n'):
+              x={}
+              for line in block.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);x[k]=v
+              if x.get('Package')=='com.duoface.jb.embedded':entries.append(x)
+          assert len(entries)==1,entries
+          x=entries[0]
+          assert x.get('Version')=='0.0.146~native-home-release1',x
+          assert x.get('Filename')=='debs/'+sys.argv[2],x
+          assert x.get('SHA256')==sys.argv[3],x
+          print('QA146_LIVE_APT_INDEX_EXACT_ONE_PASS')
+          PY
+          curl -fLsS --retry 4 "$SITE/debs/$FILE" -o "$RUNNER_TEMP/QA146.deb"
+          printf '%s  %s\n' "$SHA" "$RUNNER_TEMP/QA146.deb" | sha256sum -c -
+          echo QA146_LIVE_SILEO_DEB_EXACT_SHA_PASS
+      - name: Update the exact preexisting project handoff and audit evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa146-native-home-exit-20261031'
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            ROOT="$DIR" python3 - <<'PY'
+          import os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          path=root/'sideplay/tiep tuc du an.md'
+          old=path.read_text()
+          title='# 2026-10-31 QA146 public Sileo live verified; physical Home exit STILL pending'
+          note="""# 2026-10-31 QA146 public Sileo live verified; physical Home exit STILL pending
+
+          - QA145 real Log22 physical bug: selected Facebook/YouTube apps open from CarPlay Home but native Home cannot release independent scene; Home visibility hook was not installed, native statusbar Home receiver is available, old owner check depended on DuoFace CPTemplate. Forensics run 41184755646 SUCCESS, report sideplay/audit/qa145-log22-home-exit-20261031/QA145_LOG22_NATIVE_HOME_EXIT_ROOT_CAUSE.md.
+          - QA146 canonical standalone-Home exit repair signed in project branch feature/duoface-qa146-native-home-exit-20261031: source 1159f7119d515a5eefe0959ce9aa6701d92a62bb, build 41185002153 SUCCESS, archive sideplay/jb-embedded-appbridge/evidence/runs/41185002153/, package SHA256 1785d5d6bef53337033f5664d5acfc573dabe20892bd629649fab5730b04e078.
+          - Public Sileo publisher carplaydsp commit 416679c1b518f56d59a9ac557f315911f880dba0, run 41185275192: build, deploy, integrated Pages SHA, all other verification SUCCESS. YAML 41185275135 SUCCESS. Independent this-checkpoint workflow additionally fetched current public Packages, validated exactly one current integrated DuoFace version 0.0.146~native-home-release1 and downloaded exact DEB with matching SHA256.
+          - Different branch feature/duoface-qa144-standalone-carplay-home-20261031 received later experimental source commits 44d8ed5, cadf26c, 593f830 (extra external-screen/consent guard, source static test). Its separate static CI 41185438031 SUCCESS; none of those extra commits is included in immutable canonical signed QA146 source 1159f711. Do not present or merge as shipped.
+          - Physical QA146 Home/Back/app switching not yet tested. Next: refresh Sileo QA146 once with car parked, press native Home, choose another app; export Log23, verify real qa146-native-home-standalone-stop-notified and stopped native-Home-exit evidence. Direct Dock switch, GOFA and YouTube touch still unverified.
+
+          ---
+
+          """
+          if not old.startswith(title):path.write_text(note+old)
+          audit=root/'sideplay/audit/qa146-native-home-exit-20261031'
+          audit.mkdir(parents=True,exist_ok=True)
+          (audit/'QA146_LIVE_SILEO_HANDOFF_RECEIPT.md').write_text(note)
+          PY
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add 'sideplay/tiep tuc du an.md' 'sideplay/audit/qa146-native-home-exit-20261031/QA146_LIVE_SILEO_HANDOFF_RECEIPT.md'
+            if git -C "$DIR" diff --cached --quiet; then
+              git worktree remove --force "$DIR"
+              echo 'QA146_HANDOFF_ALREADY_CURRENT'
+              exit 0
+            fi
+            git -C "$DIR" commit -m 'handoff(qa146): independently verified public Sileo SHA; physical Home exit pending [skip ci]'
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$DIR"
+              echo 'QA146_PUBLIC_SILEO_HANDOFF_SAVED'
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
