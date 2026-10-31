@@ -1,0 +1,62 @@
+name: QA146 embedded CarBridge-equivalent missing native lifecycle regression audit
+on:
+  push:
+    branches: [feature/duoface-qa146-native-home-exit-20261031]
+    paths:
+      - '.github/workflows/duoface-qa146-embedded-carbridge-gap-tests.yml'
+      - 'sideplay/audit/qa146-native-home-dock-parity-20261031/test_carbridge_integration_gap_from_originals.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa146-bridge-original-gaps
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Compare real original method-local behavior vs current independent source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa146-native-home-dock-parity-20261031/test_carbridge_integration_gap_from_originals.py
+          mkdir -p "$RUNNER_TEMP/carbridge-gap"
+          python3 sideplay/audit/qa146-native-home-dock-parity-20261031/test_carbridge_integration_gap_from_originals.py \
+            --root . \
+            --original-report sideplay/audit/qa146-native-home-dock-parity-20261031/runs/41188049562/ORIGINAL_DUONAVI_NATIVE12_APPBRIDGE_IMP_DEEP.json \
+            --out "$RUNNER_TEMP/carbridge-gap/FIRST_PARTY_CARBRIDGE_EQUIVALENT_GAPS_VERIFIED.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA146-carbridge-equivalent-original-vs-QA146-static-negative-controls
+          path: ${{ runner.temp }}/carbridge-gap/FIRST_PARTY_CARBRIDGE_EQUIVALENT_GAPS_VERIFIED.json
+          if-no-files-found: error
+      - name: Save exact test results in project branch and read back
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=feature/duoface-qa146-native-home-exit-20261031
+          P="sideplay/audit/qa146-native-home-dock-parity-20261031/runs/$GITHUB_RUN_ID"
+          for n in 1 2 3 4; do
+            git fetch --no-tags origin "$B"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$P"
+            cp "$RUNNER_TEMP/carbridge-gap/FIRST_PARTY_CARBRIDGE_EQUIVALENT_GAPS_VERIFIED.json" "$T/$P/"
+            printf 'RUN=%s\nSOURCE_SHA=%s\nSTATIC_NEGATIVE_CONTROLS_PASS=true\nSIGNED_NEW_DEB=false\nSILEO_RELEASE=false\nDEVICE_RUNTIME_TEST=false\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > "$T/$P/CI_RESULT.txt"
+            git -C "$T" config user.name github-actions[bot]
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$P"
+            git -C "$T" commit -m 'test(qa146): original CarBridge-equivalent native ownership gaps verified [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$B"; then
+              git worktree remove --force "$T"
+              git fetch --no-tags origin "$B"
+              git cat-file -e "FETCH_HEAD:$P/FIRST_PARTY_CARBRIDGE_EQUIVALENT_GAPS_VERIFIED.json"
+              echo QA146_CARBRIDGE_EQUIVALENT_GAPS_SAVED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
