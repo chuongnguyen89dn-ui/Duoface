@@ -1,0 +1,81 @@
+name: DuoFace QA142 Log21 real iPhone Home tap and CarPlay crash forensics
+on:
+  push:
+    branches: [feature/duoface-qa142-home-abi-20261031]
+    paths:
+      - '.github/workflows/duoface-qa142-log21-home-forensics.yml'
+      - 'sideplay/audit/qa142-log21-home-click-20261031/analyze_log21_home_click.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa142-real-log21
+  cancel-in-progress: false
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify exact user Log21 and separate Apple crash report sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          U=b495e90a8d25f9c65802cf7ef040fe4f4c0aba54
+          test "$(git rev-parse "$U")" = "$U"
+          mkdir -p "$RUNNER_TEMP/log21" "$RUNNER_TEMP/results"
+          git show "$U:sideplay/log/DuoFaceAudit 21.txt" > "$RUNNER_TEMP/log21/DuoFaceAudit21.txt"
+          test "$(wc -c < "$RUNNER_TEMP/log21/DuoFaceAudit21.txt")" -eq 6370307
+          git ls-tree "$U" 'sideplay/log/DuoFaceAudit 21.txt' | grep -F 595cff0e687825008bc443e2a1d2bcc63560b3f5
+          for name in \
+            'Crash-0-CarPlay-2026-10-31-101825 4.ips' \
+            'Crash-1-CarPlay-2026-10-31-101814 4.ips' \
+            'Crash-2-CarPlay-2026-10-31-101803 4.ips'; do
+            git show "$U:sideplay/log/$name" > "$RUNNER_TEMP/log21/$name"
+            test -s "$RUNNER_TEMP/log21/$name"
+          done
+      - name: Run exact bounded Log21 analysis (not replayed launch)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa142-log21-home-click-20261031/analyze_log21_home_click.py
+          python3 sideplay/audit/qa142-log21-home-click-20261031/analyze_log21_home_click.py \
+            --log "$RUNNER_TEMP/log21/DuoFaceAudit21.txt" \
+            --crash \
+              "$RUNNER_TEMP/log21/Crash-0-CarPlay-2026-10-31-101825 4.ips" \
+              "$RUNNER_TEMP/log21/Crash-1-CarPlay-2026-10-31-101814 4.ips" \
+              "$RUNNER_TEMP/log21/Crash-2-CarPlay-2026-10-31-101803 4.ips" \
+            --out "$RUNNER_TEMP/results/LOG21_HOME_CLICK_AND_CRASH_FINDINGS.json"
+          test -s "$RUNNER_TEMP/results/LOG21_HOME_CLICK_AND_CRASH_FINDINGS.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-QA142-real-Log21-Home-ABI-Crash-Analysis
+          path: ${{ runner.temp }}/results/LOG21_HOME_CLICK_AND_CRASH_FINDINGS.json
+          if-no-files-found: error
+      - name: Commit grounded Log21 forensic result to project branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=feature/duoface-qa142-home-abi-20261031
+          P=sideplay/audit/qa142-log21-home-click-20261031
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$B"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            cp "$RUNNER_TEMP/results/LOG21_HOME_CLICK_AND_CRASH_FINDINGS.json" "$T/$P/"
+            printf 'GITHUB_RUN_ID=%s\nUSER_LOG_UPLOAD_SHA=%s\nBUILD_NOT_RUN=true\nDEVICE_FIX_NOT_TESTED=true\n' "$GITHUB_RUN_ID" b495e90a8d25f9c65802cf7ef040fe4f4c0aba54 > "$T/$P/LOG21_CI_RECEIPT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$P/"
+            git -C "$T" commit -m 'audit: verified actual Log21 ABI and historical CarPlay crash IPS [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$B"; then
+              git worktree remove --force "$T"
+              echo QA142_LOG21_RESULTS_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
