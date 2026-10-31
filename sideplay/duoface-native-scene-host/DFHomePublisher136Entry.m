@@ -104,9 +104,9 @@ static void DFHome136Retry(NSUInteger generation,NSUInteger attempt) {
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,3*NSEC_PER_SEC),
                 dispatch_get_main_queue(),^{DFHome136Retry(generation,attempt+1);});
 }
-static void DFHome136Changed(NSString *reason) {
+static void DFHome136Refresh(NSString *reason) {
  if(![NSThread isMainThread]) {
-    dispatch_async(dispatch_get_main_queue(),^{DFHome136Changed(reason);});return;
+    dispatch_async(dispatch_get_main_queue(),^{DFHome136Refresh(reason);});return;
  }
  ++sAttempts;
  if(!DFHome136Enabled()){
@@ -124,15 +124,15 @@ __attribute__((constructor)) static void DFHome136Start(void) {
   dispatch_async(dispatch_get_main_queue(),^{
     int a=notify_register_dispatch(DFHome136Changed,&sHomeToken,
               dispatch_get_main_queue(),^(__unused int token){
-                DFHome136Changed(@"user-Home-toggle");
+                DFHome136Refresh(@"user-Home-toggle");
               });
     int b=notify_register_dispatch(DFEnabledAppsChangedNotification,&sAppsToken,
               dispatch_get_main_queue(),^(__unused int token){
-                DFHome136Changed(@"selected-apps-updated");
+                DFHome136Refresh(@"selected-apps-updated");
               });
     DFHome136Log([NSString stringWithFormat:
       @"started no-hook no-new-library notify home=%d enabled=%d",a,b]);
-    DFHome136Changed(@"CarPlay-start");
+    DFHome136Refresh(@"CarPlay-start");
   });
  }
 }
