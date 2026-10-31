@@ -19,7 +19,6 @@
 #import <dlfcn.h>
 #import <CoreFoundation/CoreFoundation.h>
 
-extern BOOL DFHome143ConsumeRequest(DFNative12Chrome *owner,NSString *activeSession);
 static const char *const kStart = "com.duoface.nativehost.touchowner.start.v1";
 static const char *const kStop  = "com.duoface.nativehost.touchowner.stop.v1";
 static DFNative12Chrome *sChrome;
@@ -701,9 +700,8 @@ static void DFStartProbe(void) {
         if(!DFSessionStillActive()){
             DFStopProbe(@"session-revoked-during-window-start");return;
         }
-        // A Home-origin click is not forwarded to the app scene until this
-        // genuine CPTemplate session has activated and the chrome exists.
-        (void)DFHome143ConsumeRequest(sChrome,sSession);
+        // Only the DuoFace icon activates this CPTemplate-owned split chrome.
+        // External CarPlay Home apps use the isolated QA144 standalone owner.
         DFDisconnectCloseNewActiveSession();
         DFDisconnectCloseSetConnectionProbe(^BOOL{
             return DFConnectedCarDisplay()!=nil;
