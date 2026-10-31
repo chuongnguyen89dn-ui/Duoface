@@ -1,0 +1,29 @@
+test_default_off_and_physical_limits_and_cleanup (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_default_off_and_physical_limits_and_cleanup) ... ok
+test_native_system_dock_region_not_guessed (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_native_system_dock_region_not_guessed) ... ok
+test_old_wrong_icon_substitution_never_compiled (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_old_wrong_icon_substitution_never_compiled) ... ok
+test_qa144_not_qa143_packaging_and_split_retained (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_qa144_not_qa143_packaging_and_split_retained) ... ok
+test_true_one_app_springboard_owner_and_original_home_process (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_true_one_app_springboard_owner_and_original_home_process) ... ok
+test_default_off_and_parent_policy_distinct (test_qa145_controlled_home.Home145OptInRegression.test_default_off_and_parent_policy_distinct) ... ok
+test_manual_diagnostics_does_not_assume_render (test_qa145_controlled_home.Home145OptInRegression.test_manual_diagnostics_does_not_assume_render) ... ok
+test_native_home_forwards_if_no_live_receiver (test_qa145_controlled_home.Home145OptInRegression.test_native_home_forwards_if_no_live_receiver) ... ok
+test_phone_ui_has_separate_consent_and_safe_cancel (test_qa145_controlled_home.Home145OptInRegression.test_phone_ui_has_separate_consent_and_safe_cancel) ... ok
+test_qa145_distinct_signed_artifact_no_old_home_to_split (test_qa145_controlled_home.Home145OptInRegression.test_qa145_distinct_signed_artifact_no_old_home_to_split) ... ok
+test_only_independent_owned_surface_is_released (test_qa146_native_home_exit.NativeSoloHomeRelease.test_only_independent_owned_surface_is_released) ... ok
+test_real_native_home_callback_and_original_preserved (test_qa146_native_home_exit.NativeSoloHomeRelease.test_real_native_home_callback_and_original_preserved) ... ok
+test_selected_home_app_callback_and_native_dock_remain (test_qa146_native_home_exit.NativeSoloHomeRelease.test_selected_home_app_callback_and_native_dock_remain) ... ok
+test_stop_is_before_old_duoface_only_pulse_gate (test_qa146_native_home_exit.NativeSoloHomeRelease.test_stop_is_before_old_duoface_only_pulse_gate) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.001s
+
+OK
+test_broker_is_native_and_springboard_not_split (test_integrated_package_144.Q144PackageContract.test_broker_is_native_and_springboard_not_split) ... ok
+test_explicit_default_off_and_no_success_shortcut (test_integrated_package_144.Q144PackageContract.test_explicit_default_off_and_no_success_shortcut) ... ok
+test_new_unique_candidate_both_versions (test_integrated_package_144.Q144PackageContract.test_new_unique_candidate_both_versions) ... ok
+test_preserve_regressions_native_maps_gofa_youtube_split (test_integrated_package_144.Q144PackageContract.test_preserve_regressions_native_maps_gofa_youtube_split) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+DOCK147_ASYNC_LIFECYCLE_TRANSITIONS_PASS

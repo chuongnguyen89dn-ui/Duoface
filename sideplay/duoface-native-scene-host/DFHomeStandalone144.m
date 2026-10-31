@@ -23,9 +23,7 @@ static NSString *const DF144LeasePath=@"/var/mobile/Library/Preferences/com.duof
 static NSString *const DF144LogPath=@"/var/mobile/Library/Logs/DuoFaceStandalone144.log";
 static const char *const DF144RequestNotify="com.duoface.nativehost.standalone144.request";
 static const char *const DF144StopNotify="com.duoface.nativehost.standalone144.stop";
-#if defined(DF144_SPRINGBOARD)
 static const char *const DF144ResultNotify="com.duoface.nativehost.standalone144.result";
-#endif
 static NSString *const DF144HostApp=@"com.duoface.native.scenehost";
 static void DF144Log(NSString *tag,NSString *detail) {
  NSString *line=[NSString stringWithFormat:@"[DFStandalone144] time=%.3f process=%@ stage=%@ %@\n",
@@ -148,6 +146,7 @@ static BOOL DF144LiveReceiver(void) {
  NSTimeInterval age=now-[p[@"Timestamp"] doubleValue];
  return isfinite(age) && age>=0 && age<=2.0;
 }
+#import "DFNativeDockSync147.h"
 static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  NSString *bundle=DF144Bundle(icon,0);
  if(![icon isKindOfClass:UIView.class] || !DF144Allowed(bundle) || !DF144LiveReceiver()) {
@@ -170,8 +169,10 @@ static void DF144Launch(id self,SEL cmd,id manager,id icon) {
    DF144Log(@"invalid-request-original-forwarded",bundle);
    DF144Original(self,cmd,manager,icon);return;
  }
+ DF147Prepare(p);
  int rc=notify_post(DF144RequestNotify);
  if(rc!=0) {
+   DF147Reset(@"request-notify-failed");
    [[NSFileManager defaultManager] removeItemAtPath:DF144Request error:nil];
    DF144Log(@"notify-error-original-forwarded",[NSString stringWithFormat:@"bid=%@ status=%d",bundle,rc]);
    DF144Original(self,cmd,manager,icon);return;
@@ -208,7 +209,7 @@ static void DF144Install(int tryNo) {
 __attribute__((constructor))static void DF144StartCarPlay(void) {
  if(![NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"] ||
     NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
- dispatch_async(dispatch_get_main_queue(),^{DF144Install(0);});
+ dispatch_async(dispatch_get_main_queue(),^{DF147Start();DF144Install(0);});
 }
 #endif
 #if defined(DF144_SPRINGBOARD)
@@ -225,7 +226,9 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @end
 @implementation DF144Solo
 - (void)reply:(NSString *)state reason:(NSString *)reason {
- NSDictionary *ack=@{@"Version":@1,@"RequestID":self.request?:@"",
+ NSNumber *pid=self.surface?[[DFSceneHost sharedHost] verifiedPIDForHostedView:self.surface]:nil;
+ NSDictionary *ack=@{@"Version":@2,@"RequestID":self.request?:@"",
+   @"CarDisplayID":self.carDisplayID?:@"",@"VerifiedPID":pid?:@0,
    @"BundleID":self.bundle?:@"",@"Outcome":state?:@"unresolved",
    @"Reason":reason?:@"",@"Timestamp":@(NSDate.date.timeIntervalSince1970)};
  if([ack writeToFile:DF144Result atomically:YES])notify_post(DF144ResultNotify);
