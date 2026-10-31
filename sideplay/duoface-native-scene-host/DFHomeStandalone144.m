@@ -229,6 +229,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @property(nonatomic,strong) id display;
 @property(nonatomic,assign) NSUInteger generation;
 @property(nonatomic,assign) BOOL emittedHosted;
+@property(nonatomic,assign) BOOL emittedManager;
 @end
 @implementation DF144Solo
 // Only the real, process-owned SBApplication object and matching live scene
@@ -283,6 +284,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 - (void)stop:(NSString *)reason {
  ++self.generation;
  self.emittedHosted=NO;
+ self.emittedManager=NO;
  if(self.window)self.window.hidden=YES; // hide external content before scene invalidate
  UIView *view=self.surface;self.surface=nil;
  self.window.rootViewController=nil;self.window=nil;self.root=nil;
@@ -326,7 +328,8 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  CGRect expectedScreen=CGRectFromString(p[@"ScreenBounds"]);
  if(!DF144ValidRect(content,expectedScreen))return NO;
  if(self.window)[self stop:@"next-home-selection"];
- self.bundle=p[@"BundleID"];self.request=p[@"RequestID"];self.emittedHosted=NO;
+ self.bundle=p[@"BundleID"];self.request=p[@"RequestID"];
+ self.emittedHosted=NO;self.emittedManager=NO;
  self.carDisplayID=p[@"CarDisplayID"];self.display=display;
  NSUInteger generation=++self.generation;
  @try {
@@ -420,6 +423,17 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  if(![[host bundleIDForHostedView:v] isEqualToString:self.bundle]) {
    DF144Log(@"qa147-ready-bundle-mismatch",rid);return;
  }
+ // This is a distinct, TRUE manager-owned live-scene/window event. It does
+ // NOT attest pixels, user touch, process PID or original native workspace.
+ // Native Dock state may follow this owner receipt; PID remains an observation.
+ if(!self.emittedManager) {
+   self.emittedManager=YES;
+   DF144Log(@"qa149-manager-live-scene-owned",
+      [NSString stringWithFormat:@"req=%@ bid=%@ generation=%lu window=%@",
+        rid,self.bundle,(unsigned long)generation,NSStringFromCGRect(self.window.bounds)]);
+   [self reply:@"manager-owned-live-scene-pixels-unverified"
+       reason:@"SB-owned-scene-handle-and-window-confirmed-PID-observed-separately"];
+ }
  NSNumber *pid=[host verifiedPIDForHostedView:v];
  if(!pid)pid=[self verifiedProcessStatePIDForView:v];
  if(pid) {
@@ -479,9 +493,9 @@ static void DF144LeaseHeartbeat(void) {
       DF144Owner.window.screen==UIScreen.mainScreen ||
       ![DF144Owner currentCarDisplayWithID:DF144Owner.carDisplayID])
        [DF144Owner stop:@"owner-revoked-consent-or-external-display"];
-   else if(DF144Owner.emittedHosted && DF144Owner.surface &&
+   else if(DF144Owner.emittedManager && DF144Owner.surface &&
           ![[DFSceneHost sharedHost] isLiveSceneForHostedView:DF144Owner.surface])
-       [DF144Owner stop:@"previous-live-scene-no-longer-hosted"];
+       [DF144Owner stop:@"manager-live-scene-revoked"];
  }
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.7*NSEC_PER_SEC)),
                 dispatch_get_main_queue(),^{DF144LeaseHeartbeat();});
