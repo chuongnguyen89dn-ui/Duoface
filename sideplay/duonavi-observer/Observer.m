@@ -30,6 +30,7 @@ static void DNLog(NSString *event,NSDictionary *fields) {
   (void)write(fd,json.bytes,json.length);(void)write(fd,"\n",1);(void)close(fd);
  });
 }
+#import "NativeDockABI.h"
 static NSDictionary *DNState(void) {
  NSMutableArray *displays=[NSMutableArray array];
  for(UIScreen *s in UIScreen.screens)if(s!=UIScreen.mainScreen)
@@ -70,6 +71,7 @@ static void DNCheckABI(void) {
  }
 }
 static void DNSample(void) {
+ DNNativeDockSample();
  NSDictionary *d=DNState();
  NSTimeInterval now=NSDate.date.timeIntervalSince1970;
  if(![d isEqualToDictionary:dnPreviousState]||now-dnLastTime>=12) {

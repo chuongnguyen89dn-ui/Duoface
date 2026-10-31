@@ -10,3 +10,15 @@ Log limitation: this is a passive sampler, not a guaranteed per-selector method-
 
 Source test: python3 sideplay/duonavi-observer/tests/test_passive.py.
 Build: bash sideplay/duonavi-observer/build.sh on macOS with iOS SDK, ldid, dpkg. Do not claim real-device working until user supplies log. Do not alter QA120 measured Dock, .90 YouTube rotation, .92 split divider.
+
+## Native Dock metadata continuation (2026-10-31, source only until CI/device proof)
+
+`NativeDockABI.h` extends this existing passive observer, without changing its injection scope. In CarPlay/CarPlayApp only, the first 24 samples (3s cadence, approximately 71s from process start) enumerate registered Apple DB/CAR/CR class declarations for the 13 selectors in `DNDockSelectors()`, record actual type encodings and method declaring image, and record Dock/history/workspace/Home ivar **declarations**. Public UIWindowScene -> UIWindow -> UIViewController containment is capped at 64 controllers per sample; records include orientation, role, window level, parent class and external-display status. No private selector invocation, KVC, ivar-value dereference, method hook, UI mutation, broad UIKit injection or target app injection.
+
+The sample starts with the existing observer process startup. Connect CarPlay promptly to capture within this bounded window. Loaded method declarations do not prove actual invocation or the receiver stored in an unobserved private ivar. The trace does not capture app-side ACK or first accepted touch. Metadata may be absent because of process/class loading, so absence is not proof of incompatibility.
+
+`python3 sideplay/duonavi-observer/tests/test_native_dock_capture.py` checks missing/corrupt capture, duplicate declaring owners and the distinction between all ABI metadata and a verified runtime fix. Parse an exported TXT with `python3 sideplay/duonavi-observer/analyze_native_dock.py --log /path/to/export.txt --output /path/to/result.json`. `activation_safe_to_implement` intentionally remains false: review actual receiver provenance and activation arguments separately before changing production.
+
+Workflow `.github/workflows/duoface-native-dock-passive-abi-compile.yml` only compiles an object using the iPhoneOS SDK and stores evidence in `sideplay/duonavi-observer/evidence/native-dock-abi/<run>/`. It does not build/sign a DEB or publish/install anything. Existing `0.0.1~passive1` packages remain historical; they do not contain this extension. Before distribution use a new version and inspect the package. Test original and DuoFace separately; do not install active commercial and independent bridge hooks concurrently without an inventory.
+
+Runtime API references: https://developer.apple.com/documentation/objectivec/objc_copyclasslist(_:) , https://developer.apple.com/documentation/objectivec/class_copymethodlist(_:_:) , https://developer.apple.com/documentation/objectivec/class_copyivarlist(_:_:) . Read copied metadata lists and free them; superclass ownership must be distinguished from declared methods.
