@@ -1,0 +1,40 @@
+{
+  "source": "actual iPhone X iOS16.7.16 Log22; main commit ce436ddb04e62d1762531a97ad74e21d3354a34d",
+  "source_blob": "4a80d75f6bb831b00be8b5d2075aa9d76d7f99d0",
+  "source_sha256": "21dc19c52406ae3f1b8ac8a3b39bf48457ac694dddcf2b3591e32ed12a9edc54",
+  "measured_methods": {
+    "-[DBDashboardHomeViewController iconManager:launchIconForIconView:]": {
+      "type_encoding": "v32@0:8@16@24",
+      "present": true
+    },
+    "-[DBWorkspace initWithOwner:]": {
+      "type_encoding": "@24@0:8@16",
+      "present": true
+    },
+    "-[DBWorkspace requestStateChange:]": {
+      "type_encoding": "v24@0:8@16",
+      "present": true
+    },
+    "-[DBWorkspace state]": {
+      "type_encoding": "@16@0:8",
+      "present": true
+    },
+    "+[DBApplicationController sharedInstance]": {
+      "type_encoding": "absent",
+      "present": false
+    },
+    "-[DBApplicationController applicationWithBundleIdentifier:]": {
+      "type_encoding": "absent",
+      "present": false
+    },
+    "-[DBWorkspaceState activeBundleIdentifier]": {
+      "type_encoding": "absent",
+      "present": false
+    }
+  },
+  "carplay_native_workspace_methods_present": true,
+  "carsurf_diagnostic_controller_sharedInstance_missing_on_this_capture": true,
+  "carsurf_diagnostic_activeBundleIdentifier_missing_on_this_capture": true,
+  "result": "CANNOT_PORT_OTHER_IOS_VERSION_PRIVATE_LAUNCH_ABI_WITHOUT_MEASURING_REAL_OWNER",
+  "does_not_prove": "Class/method probe absence can depend on class loading/time/process; no runtime activation has been tested"
+}
