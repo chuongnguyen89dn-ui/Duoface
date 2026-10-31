@@ -1,0 +1,384 @@
+{
+  "source_commit": "b495e90a8d25f9c65802cf7ef040fe4f4c0aba54",
+  "source_git_blob": "595cff0e687825008bc443e2a1d2bcc63560b3f5",
+  "log_sha256": "45408726bce40fcf7193c615968891dddad1f86ea5a2146324d81617bf876ac1",
+  "log_size": 6370307,
+  "line_count": 35067,
+  "header": [
+    "DuoFace CarPlay / media scene diagnostic (manual export)",
+    "Date: 2026-10-31 06:19:13 +0000",
+    "iOS: 16.7.16",
+    "App: com.duoface.native.scenehost",
+    "This file contains technical diagnostics; share only with a trusted recipient."
+  ],
+  "sections": {
+    "header": 7,
+    "DuoFaceGeometry119-DuoFaceNativeHost.jsonl": 304,
+    "DuoFaceGeometry119-SpringBoard.jsonl": 58,
+    "DuoFaceGeometry119-CarPlayApp.jsonl": 2,
+    "DuoFaceGeometry119-CarPlay.jsonl": 35,
+    "DuoFaceGeometry119-Dashboard.jsonl": 2,
+    "DuoFaceSceneHost.log": 4792,
+    "DuoFaceTouchOwner.log": 3502,
+    "DuoFaceDockOwner.log": 1729,
+    "DuoFaceHomeCatalogABI.log": 2396,
+    "DuoFaceHomePublisher136.log": 152,
+    "DuoFaceHomeAdmission137.log": 2320,
+    "DuoFaceHomeAdmission140.log": 202,
+    "DuoFaceHomeAdmission141.log": 54,
+    "DuoFaceHomeLaunch142.log": 13,
+    "DuoFaceNativeSceneJoin.log": 2007,
+    "DuoFaceCarPlayOwnerSnapshot.log": 26,
+    "DuoFaceNativeMapPane.log": 47,
+    "DuoFaceDisconnectClose.log": 311,
+    "DuoFaceFatalException.log": 235,
+    "DuoFaceDeepTrace.log.previous": 6273,
+    "DuoFaceDeepTrace.log": 10579
+  },
+  "home142": {
+    "lines": 13,
+    "abi_matches": [
+      "[DFHome142] method=-[DBDashboardHomeViewController iconManager:launchIcon:] types=absent",
+      "[DFHome142] method=-[DBDashboardHomeViewController iconManager:launchIconForIconView:] types=v32@0:8@16@24",
+      "[DFHome142] method=-[DBWorkspace initWithOwner:] types=@24@0:8@16",
+      "[DFHome142] method=-[DBWorkspace requestStateChange:] types=v24@0:8@16",
+      "[DFHome142] method=-[DBWorkspace state] types=@16@0:8",
+      "[DFHome142] method=-[DBDashboardWorkspaceOwner init] types=@16@0:8",
+      "[DFHome142] method=+[DBApplicationController sharedInstance] types=absent",
+      "[DFHome142] method=-[DBApplicationController applicationWithBundleIdentifier:] types=absent",
+      "[DFHome142] method=-[DBMutableWorkspaceStateChangeRequest activateApplication:] types=v24@0:8@16",
+      "[DFHome142] method=-[DBWorkspaceState activeBundleIdentifier] types=absent",
+      "[DFHome142] read-only-abi-report-complete no-launch-mutation"
+    ],
+    "recent": [
+      "[DFHome142] method=-[DBDashboardHomeViewController iconManager:launchIcon:] types=absent",
+      "[DFHome142] method=-[DBDashboardHomeViewController iconManager:launchIconForIconView:] types=v32@0:8@16@24",
+      "[DFHome142] method=-[DBWorkspace initWithOwner:] types=@24@0:8@16",
+      "[DFHome142] method=-[DBWorkspace requestStateChange:] types=v24@0:8@16",
+      "[DFHome142] method=-[DBWorkspace state] types=@16@0:8",
+      "[DFHome142] method=-[DBDashboardWorkspaceOwner init] types=@16@0:8",
+      "[DFHome142] method=+[DBApplicationController sharedInstance] types=absent",
+      "[DFHome142] method=-[DBApplicationController applicationWithBundleIdentifier:] types=absent",
+      "[DFHome142] method=-[DBMutableWorkspaceStateChangeRequest activateApplication:] types=v24@0:8@16",
+      "[DFHome142] method=-[DBWorkspaceState activeBundleIdentifier] types=absent",
+      "[DFHome142] read-only-abi-report-complete no-launch-mutation",
+      "",
+      ""
+    ]
+  },
+  "home141": {
+    "lines": 54,
+    "policy": [
+      "[DFHome141] time=1793421921.872 pid=92302 declaration-attached bundle=com.google.gemini route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793421921.876 pid=92302 declaration-attached bundle=com.google.ios.youtube route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793421921.881 pid=92302 declaration-attached bundle=com.wynauto.wyn route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793421921.882 pid=92302 original-DashBoard-factory returned=FBSApplicationLibrary newRecords=6; not-icon-proof",
+      "[DFHome141] time=1793421923.066 pid=92302 selected-original-policy bundle=com.google.ios.youtube class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793421923.067 pid=92302 selected-original-policy bundle=com.facebook.Facebook class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793421923.070 pid=92302 selected-original-policy bundle=com.ss.iphone.ugc.Ame class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793421923.071 pid=92302 selected-original-policy bundle=com.wynauto.wyn class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793421923.082 pid=92302 selected-original-policy bundle=com.google.gemini class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793421923.083 pid=92302 selected-original-policy bundle=com.openai.chat class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793421968.776 pid=92302 selected-original-policy bundle=com.ss.iphone.ugc.Ame class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793421976.304 pid=92302 selected-original-policy bundle=com.facebook.Facebook class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427168.409 pid=92554 ABI-checked hooks typed3=1 typed2=1 DashBoardFactory=1; scope=CarPlay; switch=1",
+      "[DFHome141] time=1793427170.316 pid=92554 declaration-attached bundle=com.openai.chat route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793427170.322 pid=92554 declaration-attached bundle=com.facebook.Facebook route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793427170.327 pid=92554 declaration-attached bundle=com.google.gemini route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793427170.331 pid=92554 declaration-attached bundle=com.google.ios.youtube route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793427170.336 pid=92554 declaration-attached bundle=com.wynauto.wyn route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793427170.342 pid=92554 declaration-attached bundle=com.ss.iphone.ugc.Ame route=runtime-object-ivar getterReadback=1",
+      "[DFHome141] time=1793427170.344 pid=92554 original-DashBoard-factory returned=FBSApplicationLibrary newRecords=6; not-icon-proof",
+      "[DFHome141] time=1793427171.704 pid=92554 selected-original-policy bundle=com.ss.iphone.ugc.Ame class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427171.705 pid=92554 selected-original-policy bundle=com.facebook.Facebook class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427171.706 pid=92554 selected-original-policy bundle=com.google.ios.youtube class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427171.708 pid=92554 selected-original-policy bundle=com.wynauto.wyn class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427171.710 pid=92554 selected-original-policy bundle=com.google.gemini class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427171.710 pid=92554 selected-original-policy bundle=com.openai.chat class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427177.910 pid=92554 selected-original-policy bundle=com.google.ios.youtube class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427189.713 pid=92554 selected-original-policy bundle=com.wynauto.wyn class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427204.026 pid=92554 selected-original-policy bundle=com.ss.iphone.ugc.Ame class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+      "[DFHome141] time=1793427251.698 pid=92554 selected-original-policy bundle=com.facebook.Facebook class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified"
+    ]
+  },
+  "observations": {
+    "DuoFaceGeometry119-DuoFaceNativeHost.jsonl": {
+      "lines": 304,
+      "events": {}
+    },
+    "DuoFaceGeometry119-SpringBoard.jsonl": {
+      "lines": 58,
+      "events": {}
+    },
+    "DuoFaceGeometry119-CarPlayApp.jsonl": {
+      "lines": 2,
+      "events": {}
+    },
+    "DuoFaceGeometry119-CarPlay.jsonl": {
+      "lines": 35,
+      "events": {}
+    },
+    "DuoFaceGeometry119-Dashboard.jsonl": {
+      "lines": 2,
+      "events": {}
+    },
+    "DuoFaceSceneHost.log": {
+      "lines": 4792,
+      "events": {
+        "gofa": 472
+      }
+    },
+    "DuoFaceTouchOwner.log": {
+      "lines": 3502,
+      "events": {
+        "gofa": 185,
+        "scene-replace-committed": 115
+      }
+    },
+    "DuoFaceDockOwner.log": {
+      "lines": 1729,
+      "events": {
+        "native-owner-state": 83
+      }
+    },
+    "DuoFaceHomeCatalogABI.log": {
+      "lines": 2396,
+      "events": {}
+    },
+    "DuoFaceHomePublisher136.log": {
+      "lines": 152,
+      "events": {
+        "reconcile=": 133
+      }
+    },
+    "DuoFaceHomeAdmission137.log": {
+      "lines": 2320,
+      "events": {
+        "launchIcon": 142
+      }
+    },
+    "DuoFaceHomeAdmission140.log": {
+      "lines": 202,
+      "events": {
+        "gofa": 23
+      }
+    },
+    "DuoFaceHomeAdmission141.log": {
+      "lines": 54,
+      "events": {
+        "gofa": 2,
+        "newRecords=": 2
+      }
+    },
+    "DuoFaceHomeLaunch142.log": {
+      "lines": 13,
+      "events": {
+        "launchIcon": 2
+      }
+    },
+    "DuoFaceNativeSceneJoin.log": {
+      "lines": 2007,
+      "events": {}
+    },
+    "DuoFaceCarPlayOwnerSnapshot.log": {
+      "lines": 26,
+      "events": {}
+    },
+    "DuoFaceNativeMapPane.log": {
+      "lines": 47,
+      "events": {}
+    },
+    "DuoFaceDisconnectClose.log": {
+      "lines": 311,
+      "events": {}
+    },
+    "DuoFaceFatalException.log": {
+      "lines": 235,
+      "events": {
+        "gofa": 6
+      }
+    },
+    "DuoFaceDeepTrace.log.previous": {
+      "lines": 6273,
+      "events": {
+        "gofa": 997,
+        "native-owner-state": 31,
+        "scene-replace-committed": 44
+      }
+    },
+    "DuoFaceDeepTrace.log": {
+      "lines": 10579,
+      "events": {
+        "gofa": 1110,
+        "native-owner-state": 20,
+        "scene-replace-committed": 22
+      }
+    }
+  },
+  "crashes": [
+    {
+      "filename": "Crash-0-CarPlay-2026-10-31-101825 4.ips",
+      "sha256": "828b645a25a409e7c9d08584ffac1237035e7c2f92167b0b680b045c0ddc872a",
+      "header": {
+        "app_name": "CarPlay",
+        "timestamp": "2026-10-31 10:18:25.00 +0700"
+      },
+      "process": "CarPlay",
+      "capture_time": "2026-10-31 10:18:24.1005 +0700",
+      "signal": "SIGSEGV",
+      "type": "EXC_BAD_ACCESS",
+      "fault_thread_queue": "com.apple.frontboard.applicationLibrary.taskQueue",
+      "frame_count": 511,
+      "source_owned_frame_counts": {
+        "DF138Selected": 1,
+        "DF138Answer": 165,
+        "DF138Entitlement3": 165
+      },
+      "injected_image_uuids": {
+        "DFCarPlayDockOwner.dylib": "26f13ecd-22fa-3fe0-8350-fc80dc45c526",
+        "DFFirstPartyAdmission.dylib": "20cb0cc0-bc9d-3c0f-8921-e5046053e54c"
+      },
+      "top_symbols": [
+        "findCFBurstTrieList",
+        "traverseCFBurstTrieWithCursor",
+        "CFBurstTrieContainsUTF8String",
+        "_createUniqueStringWithUTF8Bytes",
+        "parseStringTag",
+        "parseXMLElement",
+        "parseArrayTag",
+        "parseDictTag",
+        "parsePListTag",
+        "_CFPropertyListCreateFromUTF8Data",
+        "_CFPropertyListCreateWithData",
+        "CFPropertyListCreateWithData",
+        "+[NSPropertyListSerialization propertyListWithData:options:format:error:]",
+        "+[NSDictionary(NSDictionary) newWithContentsOf:immutable:]",
+        "+[NSDictionary(NSDictionary) dictionaryWithContentsOfFile:]",
+        "DF138Selected",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer"
+      ]
+    },
+    {
+      "filename": "Crash-1-CarPlay-2026-10-31-101814 4.ips",
+      "sha256": "dd1492dfcbf12ff75554329d22f2b11f08073eea90b4a641e945c41b53a4e281",
+      "header": {
+        "app_name": "CarPlay",
+        "timestamp": "2026-10-31 10:18:14.00 +0700"
+      },
+      "process": "CarPlay",
+      "capture_time": "2026-10-31 10:18:13.2517 +0700",
+      "signal": "SIGSEGV",
+      "type": "EXC_BAD_ACCESS",
+      "fault_thread_queue": "com.apple.frontboard.applicationLibrary.taskQueue",
+      "frame_count": 511,
+      "source_owned_frame_counts": {
+        "DF138Selected": 1,
+        "DF138Answer": 165,
+        "DF138Entitlement3": 165
+      },
+      "injected_image_uuids": {
+        "DFCarPlayDockOwner.dylib": "26f13ecd-22fa-3fe0-8350-fc80dc45c526",
+        "DFFirstPartyAdmission.dylib": "20cb0cc0-bc9d-3c0f-8921-e5046053e54c"
+      },
+      "top_symbols": [
+        "findCFBurstTrieList",
+        "traverseCFBurstTrieWithCursor",
+        "CFBurstTrieContainsUTF8String",
+        "_createUniqueStringWithUTF8Bytes",
+        "parseStringTag",
+        "parseXMLElement",
+        "parseArrayTag",
+        "parseDictTag",
+        "parsePListTag",
+        "_CFPropertyListCreateFromUTF8Data",
+        "_CFPropertyListCreateWithData",
+        "CFPropertyListCreateWithData",
+        "+[NSPropertyListSerialization propertyListWithData:options:format:error:]",
+        "+[NSDictionary(NSDictionary) newWithContentsOf:immutable:]",
+        "+[NSDictionary(NSDictionary) dictionaryWithContentsOfFile:]",
+        "DF138Selected",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer"
+      ]
+    },
+    {
+      "filename": "Crash-2-CarPlay-2026-10-31-101803 4.ips",
+      "sha256": "c655e6f99c8d4ce25b444113481b994ad1ab79f69c6b2f569c800df6a161b295",
+      "header": {
+        "app_name": "CarPlay",
+        "timestamp": "2026-10-31 10:18:03.00 +0700"
+      },
+      "process": "CarPlay",
+      "capture_time": "2026-10-31 10:18:02.4141 +0700",
+      "signal": "SIGSEGV",
+      "type": "EXC_BAD_ACCESS",
+      "fault_thread_queue": "com.apple.frontboard.applicationLibrary.taskQueue",
+      "frame_count": 511,
+      "source_owned_frame_counts": {
+        "DF138Selected": 1,
+        "DF138Answer": 165,
+        "DF138Entitlement3": 165
+      },
+      "injected_image_uuids": {
+        "DFCarPlayDockOwner.dylib": "26f13ecd-22fa-3fe0-8350-fc80dc45c526",
+        "DFFirstPartyAdmission.dylib": "20cb0cc0-bc9d-3c0f-8921-e5046053e54c"
+      },
+      "top_symbols": [
+        "findCFBurstTrieList",
+        "traverseCFBurstTrieWithCursor",
+        "CFBurstTrieContainsUTF8String",
+        "_createUniqueStringWithUTF8Bytes",
+        "parseStringTag",
+        "parseXMLElement",
+        "parseArrayTag",
+        "parseDictTag",
+        "parsePListTag",
+        "_CFPropertyListCreateFromUTF8Data",
+        "_CFPropertyListCreateWithData",
+        "CFPropertyListCreateWithData",
+        "+[NSPropertyListSerialization propertyListWithData:options:format:error:]",
+        "+[NSDictionary(NSDictionary) newWithContentsOf:immutable:]",
+        "+[NSDictionary(NSDictionary) dictionaryWithContentsOfFile:]",
+        "DF138Selected",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer",
+        "DF138Entitlement3",
+        "image10+21824",
+        "DF138Answer"
+      ]
+    }
+  ],
+  "scope": "read-only; uploaded IPS are separate events; do not assume they occurred during QA142",
+  "device_click_confirmed_by_user": false
+}
