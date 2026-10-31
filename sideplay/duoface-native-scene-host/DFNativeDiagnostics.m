@@ -52,6 +52,7 @@
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission137.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission140.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission141.log",
+      @"/var/mobile/Library/Logs/DuoFaceHomeLaunch142.log",
       @"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log",
       @"/var/mobile/Library/Logs/DuoFaceCarPlayOwnerSnapshot.log",
       @"/var/mobile/Library/Logs/DuoFaceNativeMapPane.log",
