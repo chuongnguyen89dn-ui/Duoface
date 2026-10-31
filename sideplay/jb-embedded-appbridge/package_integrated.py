@@ -10,10 +10,10 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.137~homeabi2_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.138~selectedlayout1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.137~homeabi2"
+VERSION="0.0.138~selectedlayout1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -72,6 +72,11 @@ def build(expected_nativehost_sha256,expected_source_sha):
   with relay.with_suffix(".plist").open("rb") as file:
    if plistlib.load(file)!={"Filter":{"Bundles":["com.google.ios.youtube"]}}:
     raise RuntimeError("YouTube relay filter broadened")
+  gofa=stage/"var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaLayoutRelay"
+  if not gofa.with_suffix(".dylib").is_file():raise RuntimeError("GOFA layout relay missing")
+  with gofa.with_suffix(".plist").open("rb") as file:
+   if plistlib.load(file)!={"Filter":{"Bundles":["com.lumi.GOFA"]}}:
+    raise RuntimeError("GOFA layout relay filter broadened")
   # A genuine CarPlay process-only, user-armed native Maps UIKit pane
   # experiment, shipped INSIDE the one DuoFace package (never standalone).
   # Default OFF. No SpringBoard injection and no vendor/CPWindow payload.
