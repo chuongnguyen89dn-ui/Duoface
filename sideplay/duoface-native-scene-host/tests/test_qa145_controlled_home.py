@@ -34,7 +34,7 @@ class Home145OptInRegression(unittest.TestCase):
   self.assertIn("DF144LeaseHeartbeat",bridge)
   self.assertIn("SpringBoard-Standalone144",bridge)
   self.assertIn("owner-revoked-consent-or-external-display",bridge)
-  self.assertIn("previous-live-scene-no-longer-hosted",bridge)
+  self.assertIn("manager-live-scene-revoked",bridge)
  def test_manual_diagnostics_does_not_assume_render(self):
   self.assertIn("DuoFaceStandalone144.log",trace)
   self.assertIn("standalone144-result.plist",trace)
