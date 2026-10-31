@@ -1,0 +1,79 @@
+name: DuoFace QA135 user-uploaded Log15 and historical SpringBoard crash audit
+on:
+  push:
+    branches: [feature/duoface-qa135-home-library-20261030]
+    paths:
+      - '.github/workflows/duoface-qa135-user-log15-20261031.yml'
+      - 'sideplay/audit/carplay-home-icons-20261031/analyze_qa135_uploaded_log15.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa135-user-log15-20261031
+  cancel-in-progress: false
+jobs:
+  read-real-user-log:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read exact uploaded log and IPS from user main commit
+        run: |
+          set -euo pipefail
+          git cat-file -e 12ef117f469ed6cd1dd11c0096621953329793ee^{commit}
+          git show '12ef117f469ed6cd1dd11c0096621953329793ee:sideplay/log/DuoFaceAudit 15.txt' > "$RUNNER_TEMP/DuoFaceAudit15.txt"
+          git show '12ef117f469ed6cd1dd11c0096621953329793ee:sideplay/log/Crash-0-SpringBoard-2026-10-30-173211 2.ips' > "$RUNNER_TEMP/crash0.ips"
+          git show '12ef117f469ed6cd1dd11c0096621953329793ee:sideplay/log/Crash-1-SpringBoard-2026-10-30-173109 2.ips' > "$RUNNER_TEMP/crash1.ips"
+          git show '12ef117f469ed6cd1dd11c0096621953329793ee:sideplay/log/Crash-2-SpringBoard-2026-10-30-142555 2.ips' > "$RUNNER_TEMP/crash2.ips"
+          test -s "$RUNNER_TEMP/DuoFaceAudit15.txt"
+          wc -lc "$RUNNER_TEMP/DuoFaceAudit15.txt"
+          sha256sum "$RUNNER_TEMP/"*.ips "$RUNNER_TEMP/DuoFaceAudit15.txt"
+      - name: Parse uploaded user data read only and distinguish old crashes
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/carplay-home-icons-20261031/analyze_qa135_uploaded_log15.py
+          python3 sideplay/audit/carplay-home-icons-20261031/analyze_qa135_uploaded_log15.py \
+            --log "$RUNNER_TEMP/DuoFaceAudit15.txt" \
+            --ips "$RUNNER_TEMP/crash0.ips" "$RUNNER_TEMP/crash1.ips" "$RUNNER_TEMP/crash2.ips" \
+            --out "$RUNNER_TEMP/QA135_LOG15_RESULT.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"QA135_LOG15_RESULT.json"
+          r=json.loads(p.read_text())
+          assert r["log"]["line_count"]>50
+          assert len(r["crashes"])==3
+          print("USER_LOG15_GITHUB_UPLOAD_READ_AND_PARSED_NOT_DEVICE_LIVE_SNAPSHOT")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA135-USER-LOG15-READONLY-SUMMARY
+          path: ${{ runner.temp }}/QA135_LOG15_RESULT.json
+          if-no-files-found: error
+      - name: Persist device log forensic summary in DuoFace work branch
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa135-home-library-20261030
+          REL=sideplay/audit/carplay-home-icons-20261031
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$REL"
+            cp "$RUNNER_TEMP/QA135_LOG15_RESULT.json" "$T/$REL/QA135_LOG15_RESULT.json"
+            printf 'RUN_ID=%s\nINPUT_COMMIT=12ef117f469ed6cd1dd11c0096621953329793ee\nREAL_USER_LOG=true\nUSER_GOFA_FIXED_REPORTED=true\nHOME_ICONS_WORKING=false\nNO_DEVICE_REEXECUTION=true\n' "$GITHUB_RUN_ID" > "$T/$REL/QA135_LOG15_CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$REL"
+            if git -C "$T" diff --cached --quiet; then git worktree remove --force "$T"; exit 0; fi
+            git -C "$T" commit -m 'audit(qa135): preserve verified user Log15 and IPS summary [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$T"
+              echo QA135_REAL_USER_LOG15_AUDIT_ARCHIVED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
