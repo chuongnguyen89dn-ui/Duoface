@@ -1,0 +1,71 @@
+name: QA145 inspect user real Log22 standalone Home/Back
+on:
+  push:
+    branches: [feature/duoface-qa144-standalone-carplay-home-20261031]
+    paths:
+      - '.github/workflows/duoface-qa145-log22-forensics.yml'
+      - 'sideplay/audit/qa145-log22-home-exit-20261031/analyze_log22_standalone_exit.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa145-user-real-log22-readonly
+  cancel-in-progress: false
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Load exact physical Log22 from immutable main upload
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          U=ce436ddb04e62d1762531a97ad74e21d3354a34d
+          test "$(git rev-parse "$U")" = "$U"
+          git ls-tree -r "$U" 'sideplay/log/DuoFaceAudit 22.txt' | grep -F 4a80d75f6bb831b00be8b5d2075aa9d76d7f99d0
+          mkdir -p "$RUNNER_TEMP/log22" "$RUNNER_TEMP/qa145-results"
+          git show "$U:sideplay/log/DuoFaceAudit 22.txt" > "$RUNNER_TEMP/log22/Log22.txt"
+          test "$(wc -c < "$RUNNER_TEMP/log22/Log22.txt")" -eq 6611528
+      - name: Parse QA145 Home exit and scene-owner chronology
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa145-log22-home-exit-20261031/analyze_log22_standalone_exit.py
+          python3 sideplay/audit/qa145-log22-home-exit-20261031/analyze_log22_standalone_exit.py \
+            --log "$RUNNER_TEMP/log22/Log22.txt" \
+            --output "$RUNNER_TEMP/qa145-results/LOG22_STANDALONE_EXIT_FINDINGS.json"
+          test -s "$RUNNER_TEMP/qa145-results/LOG22_STANDALONE_EXIT_FINDINGS.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA145-real-iPhone-Log22-standalone-exit-verified
+          path: ${{ runner.temp }}/qa145-results/LOG22_STANDALONE_EXIT_FINDINGS.json
+          if-no-files-found: error
+      - name: Persist exact analysis in DuoFace project branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=feature/duoface-qa144-standalone-carplay-home-20261031
+          P=sideplay/audit/qa145-log22-home-exit-20261031
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$B"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$P"
+            cp "$RUNNER_TEMP/qa145-results/LOG22_STANDALONE_EXIT_FINDINGS.json" "$T/$P/"
+            printf 'RUN=%s\nREAL_LOG_SOURCE_MAIN_COMMIT=ce436ddb04e62d1762531a97ad74e21d3354a34d\nREAL_LOG_BLOB=4a80d75f6bb831b00be8b5d2075aa9d76d7f99d0\nDEVICE_SESSION_REPLAY_ONLY=true\nNEW_BUILD=false\n' "$GITHUB_RUN_ID" > "$T/$P/CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$P"
+            git -C "$T" commit -m 'audit(qa145): exact on-phone Log22 standalone Home/Back analysis [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$B"; then
+              git worktree remove --force "$T"
+              echo QA145_LOG22_RESULTS_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
