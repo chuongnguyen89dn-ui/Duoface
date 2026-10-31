@@ -27,7 +27,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreGraphics \
   -DDFCarPlayCaptureLiveOwnerSnapshot=DFIntegratedCarPlayCaptureLiveOwnerSnapshot \
-  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m DFHomeAdmission141.m DFHomeLaunchABI142.m DFHomeLaunch143.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
+  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m DFHomeAdmission141.m DFHomeLaunchABI142.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
 # User-opted-in in-process native Maps scene UIKit container. Default idle;
