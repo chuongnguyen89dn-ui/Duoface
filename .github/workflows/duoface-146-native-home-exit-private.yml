@@ -84,7 +84,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
             -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
-            -framework UIKit -framework Foundation -fsyntax-only \
+            -fsyntax-only \
             sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m
       - name: Prepare previous verified macOS iOS16 rootless toolchain
         run: |
