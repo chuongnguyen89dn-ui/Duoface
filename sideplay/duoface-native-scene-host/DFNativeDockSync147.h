@@ -1,13 +1,16 @@
 // Independent Dock lifecycle. Receivers/ABI from physical observer 8170d2a.
 // Original semantic evidence: audit qa147 ORIGINAL_DOCK_HOME_ARGUMENTS.json.
 #import "DFDockLifecycle147.h"
+#import "DFManagerLifecycle149.h"
 static DF147Lifecycle DF147Life;
+static DF149Manager DF149Life;
 static NSString *DF147RequestID,*DF147Bundle,*DF147Session,*DF147Previous;
 static NSTimeInterval DF147RequestedAt,DF147LastResultAt;
 static __weak id DF147Dock,DF147Home;
 static NSUInteger DF147HomeBefore;
 static BOOL DF147HaveHome,DF147Applying,DF147Captured;
 static void (*DF147NativeActiveOriginal)(id,SEL,id,BOOL);
+static void (*DF149NativeDockPressedOriginal)(id,SEL,id);
 static BOOL DF147ABI(id object,const char *name,const char *encoding) {
  Method m=object?class_getInstanceMethod(object_getClass(object),sel_registerName(name)):NULL;
  return m && !strcmp(method_getTypeEncoding(m),encoding);
@@ -62,6 +65,7 @@ static void DF147RestoreDock(NSString *reason) {
  } else DF144Log(@"qa147-native-owner-changed-restore-skipped",reason);
 }
 static void DF147Reset(NSString *reason) {
+ DF149Revoke(&DF149Life);
  if(DF147RevokeGeneration(&DF147Life)==DF147Restore)DF147RestoreDock(reason);
  DF147Captured=NO;DF147HaveHome=NO;DF147Dock=nil;DF147Home=nil;
  DF147RequestID=nil;DF147Bundle=nil;DF147Session=nil;DF147Previous=nil;
@@ -69,6 +73,7 @@ static void DF147Reset(NSString *reason) {
 static void DF147Prepare(NSDictionary *p) {
  DF147Reset(@"replacement-request");
  DF147BeginGeneration(&DF147Life);
+ DF149Start(&DF149Life);
  DF147RequestID=[p[@"RequestID"] copy];DF147Bundle=[p[@"BundleID"] copy];
  DF147Session=[p[@"CarDisplayID"] copy];DF147RequestedAt=[p[@"Timestamp"] doubleValue];DF147LastResultAt=DF147RequestedAt;
 }
@@ -108,13 +113,30 @@ static void DF147ConsumeResult(void) {
                [a[@"CarDisplayID"] isEqual:DF147Session];
  double stamp=[a[@"Timestamp"] doubleValue],age=NSDate.date.timeIntervalSince1970-stamp;
  BOOL hosted=[outcome isEqual:@"scene-hosted-render-and-touch-unverified"];
+ BOOL managerLive=[outcome isEqual:@"manager-owned-live-scene-pixels-unverified"];
  BOOL terminal=[outcome isEqual:@"failed"] || [outcome isEqual:@"stopped"];
  BOOL fresh=isfinite(age)&&age>=0&&(terminal||age<=5.0)&&stamp>=DF147LastResultAt;
  if(identity&&fresh)DF147LastResultAt=stamp;
  BOOL pid=[a[@"VerifiedPID"] isKindOfClass:NSNumber.class] && [a[@"VerifiedPID"] longLongValue]>0;
+ // Distinguish real SpringBoard-owned scene/window from optional process PID.
+ // Old strict PID outcome stays supported if two Darwin notifications coalesce.
+ DF149Action managerAction=DF149Receive(&DF149Life,identity,fresh,
+     managerLive || (hosted&&pid),hosted&&pid,terminal);
  DF147Action action=DF147ResultAction(&DF147Life,identity,fresh,hosted,terminal,pid);
+ if(managerAction==DF149ManagerActivate && action==DF147Ignore) {
+   DF147Life.pending=false;DF147Life.active=true;
+   action=DF147Activate;
+ }
+ if(managerLive && identity && fresh)
+   DF144Log(@"qa149-manager-result-accepted",
+       [NSString stringWithFormat:@"req=%@ scene=%d pidObserved=%d action=%d",
+        DF147RequestID,DF149Life.sceneObserved,DF149Life.pidObserved,(int)action]);
  if(action==DF147Activate) {
-  if(!DF147ActivateDock())DF147Reset(@"activation-refused");
+  if(!DF147ActivateDock()) {
+    // Do not leave a SpringBoard overlay alive with an unowned native Dock.
+    DF147Reset(@"activation-refused");
+    notify_post(DF148OwnerRevokeStopNotify);
+  }
  } else if(action==DF147Restore) {
   DF147RestoreDock(outcome);DF147Reset(outcome);
  } else if(identity&&fresh&&terminal)DF147Reset(outcome);
@@ -125,6 +147,32 @@ static void DF147NativeActiveChanged(id object,SEL sel,id bundle,BOOL animated) 
   DF147Reset(@"native-app-switch");
   notify_post(DF148NativeSwitchStopNotify); // Hide ours; preserve the NEW native Dock app.
  }
+}
+// Read-only native Dock press observation. The original Apple action ALWAYS
+// executes; this does not substitute an overlay for a real Dock launch.
+static void DF149ObserveDockPressed(id receiver,SEL sel,id button) {
+ if(NSThread.isMainThread) {
+   NSString *bid=DF144Bundle(button,0);
+   DF144Log(@"qa149-native-dock-press-original-forwarded",
+     [NSString stringWithFormat:@"owner=%@ argument=%@ bundle=%@",
+      NSStringFromClass([receiver class]),NSStringFromClass([button class]),bid?:@"unresolved"]);
+ }
+ if(DF149NativeDockPressedOriginal)
+   DF149NativeDockPressedOriginal(receiver,sel,button);
+}
+static void DF149InstallNativeDockPressObserver(void) {
+ if(DF149NativeDockPressedOriginal)return;
+ Class cls=NSClassFromString(@"DBAppDockViewController");
+ SEL sel=sel_registerName("_dockButtonPressed:");
+ Method m=cls?class_getInstanceMethod(cls,sel):NULL;
+ DF144Hook hook=(DF144Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
+ if(!m || !hook || method_getNumberOfArguments(m)!=3)return;
+ char r[16]={0},a[16]={0};
+ method_getReturnType(m,r,sizeof(r));method_getArgumentType(m,2,a,sizeof(a));
+ if(r[0]!='v'||a[0]!='@')return;
+ hook(cls,sel,(IMP)DF149ObserveDockPressed,(IMP*)&DF149NativeDockPressedOriginal);
+ if(DF149NativeDockPressedOriginal)
+   DF144Log(@"qa149-native-dock-press-observer-installed",@"passive-forward-only");
 }
 static void DF147InstallNativeSwitchHook(void) {
  if(DF147NativeActiveOriginal)return;
@@ -137,6 +185,7 @@ static void DF147InstallNativeSwitchHook(void) {
 }
 static void DF147Watch(void) {
  DF147InstallNativeSwitchHook();
+ DF149InstallNativeDockPressObserver();
  if(DF147Life.pending||DF147Life.active) {
   id home=nil,dock=DF147FindDock(DF147Session,&home);
   if(!DF144ExplicitConsent() || !dock) {
