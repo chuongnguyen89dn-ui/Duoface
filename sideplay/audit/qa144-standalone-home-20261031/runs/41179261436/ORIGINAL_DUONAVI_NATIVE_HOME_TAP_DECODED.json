@@ -1,0 +1,200 @@
+{
+  "icon": {
+    "direct_resolved_references": [
+      {
+        "pc": "0x311458",
+        "selector": "setIcon:"
+      },
+      {
+        "pc": "0x311464",
+        "selector": "shouldInterceptLaunchForApp:"
+      },
+      {
+        "pc": "0x3114b0",
+        "selector": "startBridging:"
+      },
+      {
+        "pc": "0x3114d0",
+        "selector": "pending"
+      },
+      {
+        "pc": "0x311508",
+        "selector": "activated"
+      },
+      {
+        "pc": "0x311544",
+        "selector": "stopBridging"
+      }
+    ],
+    "fn_end": "0x3115a4",
+    "fn_start": "0x311400",
+    "instructions": 105,
+    "presence_only_not_executed": true,
+    "target_pc": "0x311478"
+  },
+  "icon_alternate": {
+    "direct_resolved_references": [
+      {
+        "pc": "0x3119b4",
+        "selector": "setIcon:"
+      },
+      {
+        "pc": "0x3119c0",
+        "selector": "shouldInterceptLaunchForApp:"
+      },
+      {
+        "pc": "0x311a0c",
+        "selector": "startBridging:"
+      },
+      {
+        "pc": "0x311a44",
+        "selector": "pending"
+      },
+      {
+        "pc": "0x311a7c",
+        "selector": "activated"
+      },
+      {
+        "pc": "0x311ab8",
+        "selector": "stopBridging"
+      }
+    ],
+    "fn_end": "0x311b30",
+    "fn_start": "0x311938",
+    "instructions": 126,
+    "presence_only_not_executed": true,
+    "target_pc": "0x3119d4"
+  },
+  "icon_location": {
+    "direct_resolved_references": [
+      {
+        "pc": "0x311610",
+        "selector": "setIcon:"
+      },
+      {
+        "pc": "0x31161c",
+        "selector": "shouldInterceptLaunchForApp:"
+      },
+      {
+        "pc": "0x311668",
+        "selector": "startBridging:"
+      },
+      {
+        "pc": "0x31168c",
+        "selector": "pending"
+      },
+      {
+        "pc": "0x3116c4",
+        "selector": "activated"
+      },
+      {
+        "pc": "0x311700",
+        "selector": "stopBridging"
+      }
+    ],
+    "fn_end": "0x31176c",
+    "fn_start": "0x3115a4",
+    "instructions": 114,
+    "presence_only_not_executed": true,
+    "target_pc": "0x311630"
+  },
+  "icon_location_animated": {
+    "direct_resolved_references": [
+      {
+        "pc": "0x3117dc",
+        "selector": "setIcon:"
+      },
+      {
+        "pc": "0x3117e8",
+        "selector": "shouldInterceptLaunchForApp:"
+      },
+      {
+        "pc": "0x311834",
+        "selector": "startBridging:"
+      },
+      {
+        "pc": "0x311858",
+        "selector": "pending"
+      },
+      {
+        "pc": "0x311890",
+        "selector": "activated"
+      },
+      {
+        "pc": "0x3118cc",
+        "selector": "stopBridging"
+      }
+    ],
+    "fn_end": "0x311938",
+    "fn_start": "0x31176c",
+    "instructions": 115,
+    "presence_only_not_executed": true,
+    "target_pc": "0x3117fc"
+  },
+  "iconview": {
+    "direct_resolved_references": [
+      {
+        "pc": "0x3110e8",
+        "selector": "setIcon:"
+      },
+      {
+        "pc": "0x3110f4",
+        "selector": "shouldInterceptLaunchForApp:"
+      },
+      {
+        "pc": "0x311144",
+        "selector": "startBridging:"
+      },
+      {
+        "pc": "0x311164",
+        "selector": "pending"
+      },
+      {
+        "pc": "0x31119c",
+        "selector": "activated"
+      },
+      {
+        "pc": "0x3111d8",
+        "selector": "stopBridging"
+      }
+    ],
+    "fn_end": "0x311238",
+    "fn_start": "0x311094",
+    "instructions": 105,
+    "presence_only_not_executed": true,
+    "target_pc": "0x3110f4"
+  },
+  "iconview_actions": {
+    "direct_resolved_references": [
+      {
+        "pc": "0x3112a0",
+        "selector": "setIcon:"
+      },
+      {
+        "pc": "0x3112ac",
+        "selector": "shouldInterceptLaunchForApp:"
+      },
+      {
+        "pc": "0x3112fc",
+        "selector": "startBridging:"
+      },
+      {
+        "pc": "0x311320",
+        "selector": "pending"
+      },
+      {
+        "pc": "0x311358",
+        "selector": "activated"
+      },
+      {
+        "pc": "0x311394",
+        "selector": "stopBridging"
+      }
+    ],
+    "fn_end": "0x311400",
+    "fn_start": "0x311238",
+    "instructions": 114,
+    "presence_only_not_executed": true,
+    "target_pc": "0x3112ac"
+  }
+}

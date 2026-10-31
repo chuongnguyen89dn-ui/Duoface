@@ -1,0 +1,3866 @@
+{
+  "duodash_repack": {
+    "control": {
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate (>= 0.9.5000) | ellekit, firmware (>= 14.0), preferenceloader",
+      "Package": "com.sensetechlab.duodash",
+      "Version": "1.1.3+fullscreen1"
+    },
+    "file_count": 44,
+    "files": [
+      {
+        "bytes": 1087,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/AppIcon60x60@2x.png",
+        "sha256": "e6f57c77493984ea655cf34116d4c92581c2c060627bee2bc9b70c57c7967b46"
+      },
+      {
+        "bytes": 1530,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/AppIcon60x60@3x.png",
+        "sha256": "fb4e7377ef0242e27ad365368dd22a11056aac6f3436cbcd00856da1998a9e3b"
+      },
+      {
+        "bytes": 167408,
+        "mach_o": true,
+        "path": "var/jb/Applications/DuoDash.app/DuoDash",
+        "sha256": "7c1a46fb2e3c12112a1d8be16680e1b707eb0b69ee2a528d4442d42eb41c216f"
+      },
+      {
+        "bytes": 1022,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/Info.plist",
+        "sha256": "7ba79f46bdd8559dff9f01c8c3b15738afdd939e77e5940fb740e29f681142ae"
+      },
+      {
+        "bytes": 277,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/ar.lproj/InfoPlist.strings",
+        "sha256": "d692ed28f1de51df765987c55d36379bc28fbf8a8576f56161568ff814f093ff"
+      },
+      {
+        "bytes": 243,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/de.lproj/InfoPlist.strings",
+        "sha256": "45aa612b3b98e2f03c56fec27ed776e741a186849872b6a8bdebbffde28398f1"
+      },
+      {
+        "bytes": 223,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/en.lproj/InfoPlist.strings",
+        "sha256": "13cd5a9f970ef4ac0b4ffe8333daa89a186a887e8c3a9c1e270d8addfe6979f0"
+      },
+      {
+        "bytes": 231,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/es.lproj/InfoPlist.strings",
+        "sha256": "8a4a84b81510b0bf74b4c1231026caabd22a1d195246795d6f67b55d8f04e955"
+      },
+      {
+        "bytes": 239,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/fr.lproj/InfoPlist.strings",
+        "sha256": "8b000d909974a0041fa073f63a5e1c104d4f69a3e46dbfbf0e406096efc5e599"
+      },
+      {
+        "bytes": 232,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/id.lproj/InfoPlist.strings",
+        "sha256": "545fa2830988000567f7640f12bb12b6911449a36d34738ae3888bfc9fa7a450"
+      },
+      {
+        "bytes": 291,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/it.lproj/InfoPlist.strings",
+        "sha256": "91ba69661799085be1cfc4c96a8150e865c6af1cb256a12ab65a79cda3cf4aaf"
+      },
+      {
+        "bytes": 233,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/ja.lproj/InfoPlist.strings",
+        "sha256": "007eb0d0b125fd21e7974c4be83687cdfafcf5e9a8bfeee12bf2302730d3d004"
+      },
+      {
+        "bytes": 235,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/ko.lproj/InfoPlist.strings",
+        "sha256": "aa08301dd42ff50160b20f46567e8d9f14988fb94b647e819bf9b07df32f589b"
+      },
+      {
+        "bytes": 328,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/pl.lproj/InfoPlist.strings",
+        "sha256": "86e0c46fb305cfbacfd2400eded1a3c7fa5b63a287377fb057de04f6a971da59"
+      },
+      {
+        "bytes": 229,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/pt-BR.lproj/InfoPlist.strings",
+        "sha256": "2e9bd752b27a7830b17415fae9150d700dced827541c777cb78a5cd0150e01b8"
+      },
+      {
+        "bytes": 302,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/ru.lproj/InfoPlist.strings",
+        "sha256": "fe1fcb7d77230aea16aad989c6b62861466a16fc05e1f986d6870f9e5df4bc8b"
+      },
+      {
+        "bytes": 265,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/th.lproj/InfoPlist.strings",
+        "sha256": "574d4ff5a88ef55323fcfc67976872b8ab4ef567bd13c10f6b56dd25e1c75dff"
+      },
+      {
+        "bytes": 285,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/tr.lproj/InfoPlist.strings",
+        "sha256": "33a613c2eb0628e1634d4f037f53c5650051055da0055d285d4ab7f12a236162"
+      },
+      {
+        "bytes": 291,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/vi.lproj/InfoPlist.strings",
+        "sha256": "a2468007e836b2f26e2c6ee6fd5e1cf758205a6c49d1d744d4c751f82cb63939"
+      },
+      {
+        "bytes": 227,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/zh-Hans.lproj/InfoPlist.strings",
+        "sha256": "ccd0bcd1015e430e2bb6e50acbb383fb36075774aa043b4745aebe0e10147786"
+      },
+      {
+        "bytes": 227,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoDash.app/zh-Hant.lproj/InfoPlist.strings",
+        "sha256": "56b2663f6a16c7e88a7e20ddedcec932c7ac659a308fe4b70f9ffef8e3081f92"
+      },
+      {
+        "bytes": 32783,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoDash/DualAppsIcon.png",
+        "sha256": "82e63ddffe9fb1c8bf475c6de57be4a66aa41ff1046035c16aa214b6b3977e64"
+      },
+      {
+        "bytes": 193298,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoDash/Splash1.jpg",
+        "sha256": "60fa8066e63bd29c97134cf3e680de5f21eed5149b361a094940e889a3a2aa1c"
+      },
+      {
+        "bytes": 175655,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoDash/Splash2.jpg",
+        "sha256": "cd63f099af2fc6a129f41edf5c1d0ee80dd6554ea17f846dd18b7084c77ffa7a"
+      },
+      {
+        "bytes": 96138,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoDash/Splash3.jpg",
+        "sha256": "efb9328cb33efdf0c50aab49d97615e398ece022d1f270a1158c16c617e56619"
+      },
+      {
+        "bytes": 28792,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoDash/navbubble_beep.caf",
+        "sha256": "fd0af3d2208b28864399f3887512a1dfa65325cdc38b613d171b325cc6228d05"
+      },
+      {
+        "bytes": 861,
+        "mach_o": false,
+        "path": "var/jb/Library/LaunchDaemons/com.sensetechlab.autoinject.plist",
+        "sha256": "3d37e121abb5b101bec87fce3b80a7870845b29e0dcc6dcb120527e634b1e092"
+      },
+      {
+        "bytes": 169840,
+        "mach_o": true,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/DuoDashPrefs",
+        "sha256": "82614a42fa72fc1044a6096310cf3d9cebd1daaa883f950dff8916dd2f22a3ff"
+      },
+      {
+        "bytes": 264,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/Info.plist",
+        "sha256": "a2af3fa82daadd43432b01600f8616338d75b950df65663a8bd9c8ecd3f5868a"
+      },
+      {
+        "bytes": 2683,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/Root.plist",
+        "sha256": "fdb497a47107dbecda13f945469688187ae9d55e69a23bc4ec0c4cdcee185f43"
+      },
+      {
+        "bytes": 313,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/brightness_max@2x.png",
+        "sha256": "c708ab35350bdbf4b98fb8c7ea0b95b971231245c453fe9fe78eb8241bf9a5b7"
+      },
+      {
+        "bytes": 434,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/brightness_max@3x.png",
+        "sha256": "0995821911c44a12ee3a255566e01f99ddacdf4573ce87f53bf8e0022a535d83"
+      },
+      {
+        "bytes": 208,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/brightness_min@2x.png",
+        "sha256": "ba1f01456207935a52fd33b5adfd29265973210c79d520d1ad441a3bb8943109"
+      },
+      {
+        "bytes": 277,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/brightness_min@3x.png",
+        "sha256": "137f2ea808fe6548856f493d29d1eb74ba2fb8df533a5d7b0ee3a613d7583856"
+      },
+      {
+        "bytes": 894,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/icon@2x.png",
+        "sha256": "02642104f569be082bd53d1491c2da842870201be3f894bf6e137709f354ce53"
+      },
+      {
+        "bytes": 1322,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/icon@3x.png",
+        "sha256": "fbfc3f81ac9f3c5471aaa03173942aabe67302857ecc4333dd854b533ba2cc0d"
+      },
+      {
+        "bytes": 5718,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceLoader/Preferences/DuoDashPrefs.plist",
+        "sha256": "e66eb05c5ed225bb6be3c765d4760aed831910904f85adef44953b45fb709efb"
+      },
+      {
+        "bytes": 894,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceLoader/Preferences/icon@2x.png",
+        "sha256": "02642104f569be082bd53d1491c2da842870201be3f894bf6e137709f354ce53"
+      },
+      {
+        "bytes": 1322,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceLoader/Preferences/icon@3x.png",
+        "sha256": "fbfc3f81ac9f3c5471aaa03173942aabe67302857ecc4333dd854b533ba2cc0d"
+      },
+      {
+        "bytes": 1959936,
+        "mach_o": true,
+        "path": "var/jb/usr/lib/TweakInject/DuoDash.dylib",
+        "sha256": "b41dd7f892bfd3722e95a40f764a989886078b4a30943c1f0b50d47b6e248a47"
+      },
+      {
+        "bytes": 209,
+        "mach_o": false,
+        "path": "var/jb/usr/lib/TweakInject/DuoDash.plist",
+        "sha256": "a423c2f19b3c884f5fe1ae6d081f1cc20b8246d2e852eddce34ba08e653156ce"
+      },
+      {
+        "bytes": 68048,
+        "mach_o": true,
+        "path": "var/jb/usr/lib/TweakInject/DuoDashUnifiedFullscreen.dylib",
+        "sha256": "38c2c2aa4d990ce1119962bc2c757c61070295da99e8b0eac6e41b23caec6aa5"
+      },
+      {
+        "bytes": 89,
+        "mach_o": false,
+        "path": "var/jb/usr/lib/TweakInject/DuoDashUnifiedFullscreen.plist",
+        "sha256": "3ea097c1d94418bb5309e76b9634972701362c5def3d2273a77858a4f853bdec"
+      },
+      {
+        "bytes": 5620,
+        "mach_o": false,
+        "path": "var/jb/usr/local/bin/auto_inject.sh",
+        "sha256": "9193d4f868dbabb779a049b9819ccf4c14de4c4f99b20c7556b124a1a2f2a1b9"
+      }
+    ],
+    "filters": {
+      "var/jb/usr/lib/TweakInject/DuoDash.plist": {
+        "Bundles": [
+          "com.apple.springboard",
+          "com.apple.Preferences",
+          "com.apple.CarPlayApp",
+          "com.apple.UIKit"
+        ],
+        "Executables": [
+          "mediaserverd"
+        ]
+      },
+      "var/jb/usr/lib/TweakInject/DuoDashUnifiedFullscreen.plist": {
+        "Bundles": [
+          "com.apple.CarPlay"
+        ]
+      }
+    },
+    "macho_count": 4,
+    "method_classes": {
+      "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/DuoDashPrefs": {
+        "DuoDashAppPickerController": [
+          "-_readBridged"
+        ]
+      }
+    },
+    "modules": {
+      "var/jb/Applications/DuoDash.app/DuoDash": {
+        "bytes": 167408,
+        "metadata_parse_error": "cannot map Mach-O address 0x1000010000c710",
+        "sha256": "7c1a46fb2e3c12112a1d8be16680e1b707eb0b69ee2a528d4442d42eb41c216f",
+        "signals": {}
+      },
+      "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/DuoDashPrefs": {
+        "bytes": 169840,
+        "objc_class_count": 2,
+        "sha256": "82614a42fa72fc1044a6096310cf3d9cebd1daaa883f950dff8916dd2f22a3ff",
+        "signals": {}
+      },
+      "var/jb/usr/lib/TweakInject/DuoDash.dylib": {
+        "bytes": 1959936,
+        "metadata_parse_error": "cannot map Mach-O address 0x100000000db0d0",
+        "sha256": "b41dd7f892bfd3722e95a40f764a989886078b4a30943c1f0b50d47b6e248a47",
+        "signals": {
+          "app_side": [
+            "setBridgeState:width:height:orientation:"
+          ],
+          "bridge_request": [
+            "onHostRequest:",
+            "onHostRequestSplit:",
+            "cnabBuildSceneHostForBid:displaySize:"
+          ],
+          "close_back": [
+            "dismiss"
+          ],
+          "home_roster": [
+            "CARApplication",
+            "_newApplicationLibrary",
+            "FBSApplicationLibrary",
+            "DBApplicationInfo",
+            "CRCarPlayAppDeclaration"
+          ],
+          "media_input": [
+            "sendEvent:",
+            "touchesBegan:withEvent:",
+            "sceneHandle",
+            "setIgnoresOcclusions:"
+          ],
+          "native_dock": [
+            "DBRootStatusBarViewController",
+            "Dock",
+            "CarPlay"
+          ],
+          "standalone_scene": [
+            "SBDeviceApplicationSceneEntity",
+            "SBAppViewController",
+            "setRequestedMode:",
+            "setAutomatesLifecycle:"
+          ]
+        }
+      },
+      "var/jb/usr/lib/TweakInject/DuoDashUnifiedFullscreen.dylib": {
+        "bytes": 68048,
+        "objc_class_count": 0,
+        "sha256": "38c2c2aa4d990ce1119962bc2c757c61070295da99e8b0eac6e41b23caec6aa5",
+        "signals": {
+          "native_dock": [
+            "DBStatusBarWindow"
+          ]
+        }
+      }
+    },
+    "package_sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+    "scene_config": {
+      "var/jb/Applications/DuoDash.app/Info.plist": {
+        "CFBundleExecutable": "DuoDash",
+        "CFBundleIdentifier": "com.sensetechlab.duodash"
+      },
+      "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/Info.plist": {
+        "CFBundleExecutable": "DuoDashPrefs",
+        "CFBundleIdentifier": "com.sensetechlab.duodash.prefs"
+      }
+    },
+    "scope": "all extracted files, all detected Mach-O, first-party filtered selected selectors; static only",
+    "stage_modules": {
+      "var/jb/Applications/DuoDash.app/DuoDash": {},
+      "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/DuoDashPrefs": {},
+      "var/jb/usr/lib/TweakInject/DuoDash.dylib": {
+        "app_side": [
+          "setBridgeState:width:height:orientation:"
+        ],
+        "bridge_request": [
+          "onHostRequest:",
+          "onHostRequestSplit:",
+          "cnabBuildSceneHostForBid:displaySize:"
+        ],
+        "close_back": [
+          "dismiss"
+        ],
+        "home_roster": [
+          "CARApplication",
+          "_newApplicationLibrary",
+          "FBSApplicationLibrary",
+          "DBApplicationInfo",
+          "CRCarPlayAppDeclaration"
+        ],
+        "media_input": [
+          "sendEvent:",
+          "touchesBegan:withEvent:",
+          "sceneHandle",
+          "setIgnoresOcclusions:"
+        ],
+        "native_dock": [
+          "DBRootStatusBarViewController",
+          "Dock",
+          "CarPlay"
+        ],
+        "standalone_scene": [
+          "SBDeviceApplicationSceneEntity",
+          "SBAppViewController",
+          "setRequestedMode:",
+          "setAutomatesLifecycle:"
+        ]
+      },
+      "var/jb/usr/lib/TweakInject/DuoDashUnifiedFullscreen.dylib": {
+        "native_dock": [
+          "DBStatusBarWindow"
+        ]
+      }
+    }
+  },
+  "duonavi": {
+    "control": {
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)",
+      "Name": "DuoNavi",
+      "Package": "com.duonavi.app",
+      "Version": "1.0.4"
+    },
+    "file_count": 50,
+    "files": [
+      {
+        "bytes": 1683,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29.png",
+        "sha256": "ee80e6fa985c810594e9a9d71a9345754a258e1fd003e09e1928f0a1ccbe27ac"
+      },
+      {
+        "bytes": 4418,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29@2x.png",
+        "sha256": "57b53e56337554990e8fb5a942408c9ad639bc4c922e9fc516a0937e9ff8dc5c"
+      },
+      {
+        "bytes": 6962,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29@3x.png",
+        "sha256": "6ed032ef6def302b730c1a3b0d7f2780608e774e0699c045d57db8ca18bd099e"
+      },
+      {
+        "bytes": 2558,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40.png",
+        "sha256": "bf8f1a8ecd6aacfa4629c9270931810813a1c4988761a7f9719125c0d99cc680"
+      },
+      {
+        "bytes": 6442,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40@2x.png",
+        "sha256": "21a34128183099a44a7c6e704132082c58c1c40b60c8f84d35eabf339acb83f1"
+      },
+      {
+        "bytes": 11080,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40@3x.png",
+        "sha256": "d74c578b1052c39c611c16c1f5422cc0722124f7a20fc58734cb03ba19f3f805"
+      },
+      {
+        "bytes": 3512,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon50x50.png",
+        "sha256": "c9b0bee8fc96ee428b1b01a5dcc1e91d2519c507b54352948ea8c97e44c4b0fe"
+      },
+      {
+        "bytes": 8772,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon50x50@2x.png",
+        "sha256": "2c5eb7cd7305f16e2f897d1ecdcb217aa40389cdc44307e2506cb21098c9e26e"
+      },
+      {
+        "bytes": 4310,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57.png",
+        "sha256": "eedd555f14f961e136dbbe82538490d43dcb44005a0533f7e2bc23b00faf1cbd"
+      },
+      {
+        "bytes": 10259,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57@2x.png",
+        "sha256": "6775b1cdd74e7e7ece5ff59f1ef0b6a4dfa2d8d02cd344494a4dd154d34ae688"
+      },
+      {
+        "bytes": 16921,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57@3x.png",
+        "sha256": "2dc50b732978993fa86c73363ef34032911fe58b95231d63e78f984c529a8927"
+      },
+      {
+        "bytes": 4569,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60.png",
+        "sha256": "4db4e1af06c3a1da875b999a3c4cacee6860145f22f30058b8275f3ce5687c0e"
+      },
+      {
+        "bytes": 11080,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60@2x.png",
+        "sha256": "d74c578b1052c39c611c16c1f5422cc0722124f7a20fc58734cb03ba19f3f805"
+      },
+      {
+        "bytes": 19030,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60@3x.png",
+        "sha256": "84a8b781eb530fc1d7b151c808b7b74180821521f0ae210024d5016dee10b187"
+      },
+      {
+        "bytes": 5677,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon72x72.png",
+        "sha256": "5ac4c55f52533820d590636d24169514c9f41b8219633970e091f955c14951a1"
+      },
+      {
+        "bytes": 14138,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon72x72@2x.png",
+        "sha256": "25ca49474d902148a8162992ce00d69f19b70127a1d451baee4463ca22975051"
+      },
+      {
+        "bytes": 6072,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon76x76.png",
+        "sha256": "9ebf4e4d31b21ff82d73deef8d6d4625482fac27ee7a0684a8fba9a7c256fd1a"
+      },
+      {
+        "bytes": 14885,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon76x76@2x.png",
+        "sha256": "2038ffa9fed00b065491d4f6b3771ff648ce3f44ccce7c50383d3596e83a322e"
+      },
+      {
+        "bytes": 2435008,
+        "mach_o": true,
+        "path": "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
+        "sha256": "98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c"
+      },
+      {
+        "bytes": 2303,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoNaviUI.app/Info.plist",
+        "sha256": "091a21ef2bda97f72e8bd948f290785102160a238abed9a6185a21a3aad3970b"
+      },
+      {
+        "bytes": 15129,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/ar/error.mp3",
+        "sha256": "3de250a66ad95ed650965b1dd392df8339d92fdf5f83610da44d304277061ae0"
+      },
+      {
+        "bytes": 12861,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/de/error.mp3",
+        "sha256": "14a49955036fb520aacf15a28c48257a8e723c0043f9767aa9ccf024bbb1f62c"
+      },
+      {
+        "bytes": 9945,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/en/error.mp3",
+        "sha256": "93ff8cd65f77304eb870e2d2a6f261b9eff8a1064aa923855701d044d21a1237"
+      },
+      {
+        "bytes": 11241,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/es/error.mp3",
+        "sha256": "cdfbc1c47f1c26401d80fe9d9c3d3cf171bf21bb3e3531aa7992e6790daaca4d"
+      },
+      {
+        "bytes": 11889,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/fr/error.mp3",
+        "sha256": "a9c3ecda497a74e2ffe403e4a92f7729bf291f038d5e95b816840895433269e1"
+      },
+      {
+        "bytes": 12753,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/hi/error.mp3",
+        "sha256": "dea8626ed9eafbe4c597687af55e3bfb69add3d380401b788dc81d97fc0a0107"
+      },
+      {
+        "bytes": 12753,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/id/error.mp3",
+        "sha256": "ba7cbee28c23173fd12ce945446a4391ca1e3d283a629251e02661f91fb2c260"
+      },
+      {
+        "bytes": 10161,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/it/error.mp3",
+        "sha256": "9a7fc830fdd731d008c719b10cbc42d64137d1d13bf8ee97f769c5ee279f329c"
+      },
+      {
+        "bytes": 17073,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/ja/error.mp3",
+        "sha256": "85be85a060191b70873b7f0b2ff85ce78ee4ee1310a07b0ea1e56e58cc155b03"
+      },
+      {
+        "bytes": 14157,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/ko/error.mp3",
+        "sha256": "212df33d52eb17e48414f26b8571ad9e1b4342482bf71ef69990315f85df3efc"
+      },
+      {
+        "bytes": 11565,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/ms/error.mp3",
+        "sha256": "da40108929a741b855ab25e8ea1807d8690ffd92b7a6da03b61f002c302b52d8"
+      },
+      {
+        "bytes": 10593,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/nl/error.mp3",
+        "sha256": "f9c51a4dbef69188dd2af5a711b1f6e430bcdfe44175b31d931baf12f99b9e71"
+      },
+      {
+        "bytes": 11673,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/pl/error.mp3",
+        "sha256": "2ee119491ce004ca30942bf45ad3f00ed424e708b89dc60d92f366e9c6b0f1a2"
+      },
+      {
+        "bytes": 15777,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/pt/error.mp3",
+        "sha256": "f3e0844952cacd948662662c2bf067ae1378b0148c801db0882571cb36148597"
+      },
+      {
+        "bytes": 12969,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/ru/error.mp3",
+        "sha256": "6793c31d689b0ae2753e1e2bc9e9f81f641634c2526973f7abb6da86f920f1fb"
+      },
+      {
+        "bytes": 14049,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/th/error.mp3",
+        "sha256": "df232a4e7e1e42c9c4c50191d927cb447df61e6abeabd42951da7228125e97c6"
+      },
+      {
+        "bytes": 25090,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/ting.caf",
+        "sha256": "1710d2d049c587b446920db21e12e38fa45784e3d752cca1cba432026aef5723"
+      },
+      {
+        "bytes": 14913,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/tr/error.mp3",
+        "sha256": "cb8da1ef7b951245fd7b7ff4496fee4f1dcc81de8180c44b00dc25f301f7ead8"
+      },
+      {
+        "bytes": 10161,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/vi/error.mp3",
+        "sha256": "4455e6754ae7c868d9fde5b672f8feea9afd99b8e6e7bf428048f0cfaee00b6f"
+      },
+      {
+        "bytes": 11781,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/zh/error.mp3",
+        "sha256": "34be3fff861becca7623c0d07578068f56211cd02c0a34f4b79e4e7698d8f856"
+      },
+      {
+        "bytes": 11997,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/Audio/zh-Hant/error.mp3",
+        "sha256": "79ca60ed1de00099c2b74095658a7e97e88107155d5322f9786bdffcc5c988a9"
+      },
+      {
+        "bytes": 19601,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/duonavi-icon.png",
+        "sha256": "8f5ea15b4cd6a14ef23c50d9f794f327b0a16dac8765c386279cafbb99fecd14"
+      },
+      {
+        "bytes": 22348,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/duonavi-logo-vert.png",
+        "sha256": "9e098245d3147a0e6bb834af71f6ae4462d60a4c058399dfd97fffa57221924d"
+      },
+      {
+        "bytes": 22203,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoNavi/duonavi-logo.png",
+        "sha256": "c177d9534f5d044ff7367da5c1a1dcd846bd008ddc19a0a99a8f856dc9781b14"
+      },
+      {
+        "bytes": 7921472,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+        "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15"
+      },
+      {
+        "bytes": 1446,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist",
+        "sha256": "1e1ac54b30b58ba7d3cfd4d243f7c8fcb0b2ca3bd4774134c013478079cb8cfe"
+      },
+      {
+        "bytes": 28,
+        "mach_o": false,
+        "path": "var/jb/etc/sudoers.d/duonavi",
+        "sha256": "72fd64f87a8564969df22bedc7c2e36e46776b3ad6bc4d2014f4b8029599ac5a"
+      },
+      {
+        "bytes": 3364,
+        "mach_o": false,
+        "path": "var/jb/usr/bin/cboptimize",
+        "sha256": "dc51c0de747e0c1f6e0307c9da286ac731ca1c1b9c859804f8408c34a437b80d"
+      },
+      {
+        "bytes": 67552,
+        "mach_o": true,
+        "path": "var/jb/usr/lib/ellekit/OldABI.dylib",
+        "sha256": "9f801b4b03265f5eb5425ac8ee9d05aeeba34544601a74415da80fb948476979"
+      },
+      {
+        "bytes": 150720,
+        "mach_o": true,
+        "path": "var/jb/usr/libexec/cboptimize_helper",
+        "sha256": "421656d74a08174c3c37c734669bef0eda218fa2089ab3cda227ab3f63b1b33e"
+      }
+    ],
+    "filters": {
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.google.ios.youtube",
+          "com.google.ios.youtubemusic",
+          "com.netflix.Netflix",
+          "org.videolan.vlc-ios",
+          "com.apple.mobilesafari",
+          "tv.twitch",
+          "com.zhiliaoapp.musically",
+          "com.google.Maps",
+          "com.waze.iphone",
+          "com.spotify.client",
+          "com.apple.Preferences",
+          "com.apple.mobilenotes",
+          "com.apple.mobilephone",
+          "com.apple.Music",
+          "com.google.chrome.ios",
+          "com.apple.BarcodeScanner",
+          "com.apple.PrintKit.Print-Center",
+          "com.duonavi.duonaviui"
+        ]
+      }
+    },
+    "macho_count": 4,
+    "method_classes": {
+      "var/jb/Applications/DuoNaviUI.app/DuoNaviUI": {
+        "CBSplitViewController": [
+          "-splitEnabled",
+          "-setSplitEnabled:",
+          "-splitPreset",
+          "-setSplitPreset:"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib": {
+        "CBBridgeManager": [
+          "-trackBridgedBundleID:",
+          "-runningBridgedApplications",
+          "-switchToSplitWithLeft:right:ratio:",
+          "-switchToMultiSplitMode:apps:ratio:",
+          "-sendStateToApp:shouldBridge:",
+          "-saveBridgeStateToDisk",
+          "-clearBridgeStateOnDisk",
+          "-isUIAppBridging",
+          "-shouldBridge:",
+          "-isCurrentlyBridging:",
+          "-terminateAllBridgedApplications",
+          "-effectiveAutoLaunchBundleID"
+        ],
+        "CBBridgeManagerDashboard": [
+          "-startBridging:",
+          "-startBridging:withCompletion:",
+          "-stopBridging",
+          "-stopBridgingWithCompletion:",
+          "-prepareHomeScreenForBridge:",
+          "-bridgeDidActivate:",
+          "-bridgeDidDeactivate",
+          "-setHomeButtonInApp:",
+          "+isBridgedApp:",
+          "+shouldInterceptLaunchForApp:",
+          "+bridgedApps"
+        ],
+        "CBBridgedSplitApp": [
+          "-layoutSplitViews",
+          "-restoreSplitAnimated:",
+          "-splitPreset",
+          "-setSplitPreset:",
+          "-splitRatio",
+          "-setSplitRatio:"
+        ],
+        "CBBridgedUIAppView": [
+          "-updateSceneSettingsFrame",
+          "-updateSceneFrame",
+          "-refreshSceneLayout",
+          "-hostedScene",
+          "-openURLInScene:",
+          "-hosting",
+          "-setHosting:"
+        ],
+        "CBDashboardSettings": [
+          "-bridgedApps",
+          "-setBridgedApps:",
+          "-splitScreenEnabled",
+          "-setSplitScreenEnabled:",
+          "-splitLeftBundleID",
+          "-setSplitLeftBundleID:",
+          "-splitRightBundleID",
+          "-setSplitRightBundleID:",
+          "-splitPreset",
+          "-setSplitPreset:",
+          "-splitMode",
+          "-setSplitMode:",
+          "-splitApp1",
+          "-setSplitApp1:",
+          "-splitApp2",
+          "-setSplitApp2:",
+          "-splitApp3",
+          "-setSplitApp3:",
+          "-splitApp4",
+          "-setSplitApp4:",
+          "-splitRatio",
+          "-setSplitRatio:",
+          "-autoLaunchOnConnect",
+          "-setAutoLaunchOnConnect:",
+          "-autoLaunchBundleID",
+          "-setAutoLaunchBundleID:",
+          "+splitScreenIconImage"
+        ],
+        "CBDashboardShared": [
+          "+homeVC"
+        ],
+        "CBSplitContainerView": [
+          "-splitApp",
+          "-setSplitApp:"
+        ],
+        "CBVoiceSceneDispatcher": [
+          "-dispatchAppWithBundleID:launchURL:targetSlot:completion:",
+          "-dispatchAppWithBundleID:launchURL:targetSlot:category:completion:"
+        ]
+      }
+    },
+    "modules": {
+      "var/jb/Applications/DuoNaviUI.app/DuoNaviUI": {
+        "bytes": 2435008,
+        "objc_class_count": 26,
+        "sha256": "98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c",
+        "signals": {
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib": {
+        "bytes": 7921472,
+        "objc_class_count": 47,
+        "sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+        "signals": {
+          "app_side": [
+            "setAudioOnlyBackgroundMode:",
+            "refreshSceneLayout"
+          ],
+          "bridge_request": [
+            "startBridging:",
+            "requestStateChange:"
+          ],
+          "close_back": [
+            "stopBridging",
+            "dismiss"
+          ],
+          "home_roster": [
+            "CARApplication",
+            "_newApplicationLibrary",
+            "FBSApplicationLibrary",
+            "DBApplicationInfo",
+            "CRCarPlayAppDeclaration",
+            "_setupIconModel"
+          ],
+          "home_tap": [
+            "iconManager:launchIconForIconView:",
+            "iconManager:launchIcon:",
+            "shouldInterceptLaunchForApp:"
+          ],
+          "media_input": [
+            "sendEvent:",
+            "touchesBegan:withEvent:",
+            "sceneHandle",
+            "setIgnoresOcclusions:"
+          ],
+          "native_dock": [
+            "DBRootStatusBarViewController"
+          ],
+          "standalone_scene": [
+            "SBDeviceApplicationSceneEntity",
+            "SBAppViewController",
+            "setHosting:",
+            "setRequestedMode:",
+            "setAutomatesLifecycle:"
+          ]
+        }
+      },
+      "var/jb/usr/lib/ellekit/OldABI.dylib": {
+        "bytes": 67552,
+        "objc_class_count": 0,
+        "sha256": "9f801b4b03265f5eb5425ac8ee9d05aeeba34544601a74415da80fb948476979",
+        "signals": {}
+      },
+      "var/jb/usr/libexec/cboptimize_helper": {
+        "bytes": 150720,
+        "objc_class_count": 0,
+        "sha256": "421656d74a08174c3c37c734669bef0eda218fa2089ab3cda227ab3f63b1b33e",
+        "signals": {}
+      }
+    },
+    "package_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+    "scene_config": {
+      "var/jb/Applications/DuoNaviUI.app/Info.plist": {
+        "CFBundleExecutable": "DuoNaviUI",
+        "CFBundleIdentifier": "com.duonavi.duonaviui"
+      }
+    },
+    "scope": "all extracted files, all detected Mach-O, first-party filtered selected selectors; static only",
+    "stage_modules": {
+      "var/jb/Applications/DuoNaviUI.app/DuoNaviUI": {
+        "native_dock": [
+          "CarPlay"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib": {
+        "app_side": [
+          "setAudioOnlyBackgroundMode:",
+          "refreshSceneLayout"
+        ],
+        "bridge_request": [
+          "startBridging:",
+          "requestStateChange:"
+        ],
+        "close_back": [
+          "stopBridging",
+          "dismiss"
+        ],
+        "home_roster": [
+          "CARApplication",
+          "_newApplicationLibrary",
+          "FBSApplicationLibrary",
+          "DBApplicationInfo",
+          "CRCarPlayAppDeclaration",
+          "_setupIconModel"
+        ],
+        "home_tap": [
+          "iconManager:launchIconForIconView:",
+          "iconManager:launchIcon:",
+          "shouldInterceptLaunchForApp:"
+        ],
+        "media_input": [
+          "sendEvent:",
+          "touchesBegan:withEvent:",
+          "sceneHandle",
+          "setIgnoresOcclusions:"
+        ],
+        "native_dock": [
+          "DBRootStatusBarViewController"
+        ],
+        "standalone_scene": [
+          "SBDeviceApplicationSceneEntity",
+          "SBAppViewController",
+          "setHosting:",
+          "setRequestedMode:",
+          "setAutomatesLifecycle:"
+        ]
+      },
+      "var/jb/usr/lib/ellekit/OldABI.dylib": {},
+      "var/jb/usr/libexec/cboptimize_helper": {}
+    }
+  },
+  "native12": {
+    "control": {
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)",
+      "Name": "DuoFace Mới (Native thử nghiệm)",
+      "Package": "com.duoface.independent",
+      "Version": "0.1.0~native12+speed8compact"
+    },
+    "file_count": 43,
+    "files": [
+      {
+        "bytes": 1625,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29.png",
+        "sha256": "71debbd1ec86ddc0f81ec912b81270cd015e0cbc72b21ba4657d7a89a65c9b66"
+      },
+      {
+        "bytes": 4927,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@2x.png",
+        "sha256": "7cd2974d10f2ec892957a0e5995f43e81ba0d73efe701d45719765cc57de77cf"
+      },
+      {
+        "bytes": 9504,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@3x.png",
+        "sha256": "444a05ca1cf748cfd7440fa390e758d3a2e9e365701d3c9787374ae055171295"
+      },
+      {
+        "bytes": 2650,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40.png",
+        "sha256": "9934e080e8d4fe2c7c1ee5feda7f3d1b0ceeabf8dd65834d03fa0baadd49d1ed"
+      },
+      {
+        "bytes": 8309,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@2x.png",
+        "sha256": "9ab7dc6d37efbed691648cf545ffd490125e24d1a78a3f11043b167c780f5ff6"
+      },
+      {
+        "bytes": 16021,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@3x.png",
+        "sha256": "ca2e7402c268eb08ecb031b24bce4fd8c9bfde7c169431f7aa860070e6964e7d"
+      },
+      {
+        "bytes": 3845,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon50x50.png",
+        "sha256": "a3d6c1fb86f75aab76dda4dd51368ab903f23cd98be1522edab6a684d23ff420"
+      },
+      {
+        "bytes": 11898,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon50x50@2x.png",
+        "sha256": "a0b2483b684eec28c813a0ba13bf25700c240681905cfd26e86320c96f7a063c"
+      },
+      {
+        "bytes": 4818,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57.png",
+        "sha256": "02954587d7cff643f4805a79df90da4c5d5a4eb7ab5026eb71698b42af85ee52"
+      },
+      {
+        "bytes": 14778,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@2x.png",
+        "sha256": "a6ef5deaa71c36aaea9e2646f1b9759f62b792a6a0ff3b9720bda88258aecacd"
+      },
+      {
+        "bytes": 28859,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@3x.png",
+        "sha256": "5d796161858e6dc07bf90283f1528149a5be01437ed242095cb3af3ebc2425bf"
+      },
+      {
+        "bytes": 5185,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60.png",
+        "sha256": "e0cd867606e62b90c9dc9962520ca1d760b47ba7dd9593505f826e757625cb11"
+      },
+      {
+        "bytes": 16021,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@2x.png",
+        "sha256": "ca2e7402c268eb08ecb031b24bce4fd8c9bfde7c169431f7aa860070e6964e7d"
+      },
+      {
+        "bytes": 31467,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@3x.png",
+        "sha256": "6cf13a7c3e5aac30d0232a53b8388ae6623b43259afd125ef88e2ff509604d12"
+      },
+      {
+        "bytes": 7026,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon72x72.png",
+        "sha256": "0480a1a0adbc74d7e3272c82e7b0f8fe86352b44c99e7c151aea76eaa085f3ac"
+      },
+      {
+        "bytes": 21616,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon72x72@2x.png",
+        "sha256": "ca01ebbfc396c8f6e1ebffa03c80df4714fc099c6decce0e49ab58eafe3a79a5"
+      },
+      {
+        "bytes": 7628,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon76x76.png",
+        "sha256": "df2a07dc88e81ed07a33fc51161510d1404fc59df0e5231cc7c7e94ac261371c"
+      },
+      {
+        "bytes": 23597,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon76x76@2x.png",
+        "sha256": "3e875d60e256732dbbc2774ed88cbce098fdf81d684e9724d7bbe7c6b17dc3a8"
+      },
+      {
+        "bytes": 1220256,
+        "mach_o": true,
+        "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9"
+      },
+      {
+        "bytes": 2303,
+        "mach_o": false,
+        "path": "var/jb/Applications/DuoFaceUI.app/Info.plist",
+        "sha256": "d34a7d08c593dd2ee29b0fbe79d51b369253a8728282b1fff2b757302b7a5e67"
+      },
+      {
+        "bytes": 6400,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-fullscreen.png",
+        "sha256": "10e52f01a16cb7d34a81330373a290bcac1bdb0ba9c91119527ef3dcb13cdb36"
+      },
+      {
+        "bytes": 15225,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-picker.png",
+        "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+      },
+      {
+        "bytes": 22085,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-swap.png",
+        "sha256": "d3ec77c783a186896d63bb08732ee78e427f16e1c127c0785b36bf5eaa037275"
+      },
+      {
+        "bytes": 1998,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/asset-manifest.json",
+        "sha256": "5b5eaf4958ae7e2898c69f2b2dc95672aecb08d6ca5952d13df513c56d7ede29"
+      },
+      {
+        "bytes": 64297,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/duoface-icon.png",
+        "sha256": "03f0a9e31bffced19419f06193d866bb2d66d824c5ba10c5c24eee8718217def"
+      },
+      {
+        "bytes": 143191,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png",
+        "sha256": "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7"
+      },
+      {
+        "bytes": 378795,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/duoface-logo-vert.png",
+        "sha256": "7fa216e2fa89e4fc32e49045ab29d72f6bee3fef4f974444c98fb5bd631e25d2"
+      },
+      {
+        "bytes": 147482,
+        "mach_o": false,
+        "path": "var/jb/Library/Application Support/DuoFace/duoface-logo.png",
+        "sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
+      },
+      {
+        "bytes": 3760032,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+      },
+      {
+        "bytes": 1446,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist",
+        "sha256": "584038db14fd6d61b7e56e096b6ca2f020dd8b4f97fb5485ee72763d817fcd10"
+      },
+      {
+        "bytes": 124976,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+        "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe"
+      },
+      {
+        "bytes": 594,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist",
+        "sha256": "d0d7082b78fb83dc15d0a02cb6e247486d982d9870871e698c2a64b70c1bf2af"
+      },
+      {
+        "bytes": 72320,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+        "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1"
+      },
+      {
+        "bytes": 511,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist",
+        "sha256": "9b3e9dc8b5e1d195b5b0fe0a6c6f12104a17683273582408c8a398f1a8529966"
+      },
+      {
+        "bytes": 106928,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+        "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364"
+      },
+      {
+        "bytes": 49,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist",
+        "sha256": "62ee8d853176f7a2ab39a9b343be76d9f38ce8113c3c868a93f3b4ec50dbcdab"
+      },
+      {
+        "bytes": 70736,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib",
+        "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3"
+      },
+      {
+        "bytes": 49,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.plist",
+        "sha256": "62ee8d853176f7a2ab39a9b343be76d9f38ce8113c3c868a93f3b4ec50dbcdab"
+      },
+      {
+        "bytes": 75536,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+        "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d"
+      },
+      {
+        "bytes": 511,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist",
+        "sha256": "9b3e9dc8b5e1d195b5b0fe0a6c6f12104a17683273582408c8a398f1a8529966"
+      },
+      {
+        "bytes": 28,
+        "mach_o": false,
+        "path": "var/jb/etc/sudoers.d/duoface",
+        "sha256": "72fd64f87a8564969df22bedc7c2e36e46776b3ad6bc4d2014f4b8029599ac5a"
+      },
+      {
+        "bytes": 3364,
+        "mach_o": false,
+        "path": "var/jb/usr/bin/duoface-cboptimize",
+        "sha256": "73b19cdafe1624f089d54ae06aa0f00b1545ca5f11fd62fc6e69dcf44417eb46"
+      },
+      {
+        "bytes": 150528,
+        "mach_o": true,
+        "path": "var/jb/usr/libexec/duoface_cboptimize_helper",
+        "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906"
+      }
+    ],
+    "filters": {
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.google.ios.youtube",
+          "com.google.ios.youtubemusic",
+          "com.netflix.Netflix",
+          "org.videolan.vlc-ios",
+          "com.apple.mobilesafari",
+          "tv.twitch",
+          "com.zhiliaoapp.musically",
+          "com.google.Maps",
+          "com.waze.iphone",
+          "com.spotify.client",
+          "com.apple.Preferences",
+          "com.apple.mobilenotes",
+          "com.apple.mobilephone",
+          "com.apple.Music",
+          "com.google.chrome.ios",
+          "com.apple.BarcodeScanner",
+          "com.apple.PrintKit.Print-Center",
+          "com.duoface.duofaceui"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp",
+          "Dashboard",
+          "SpringBoard"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.duoface.duofaceui"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.duoface.duofaceui"
+        ]
+      }
+    },
+    "macho_count": 8,
+    "method_classes": {
+      "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+        "CBSplitViewController": [
+          "-splitEnabled",
+          "-setSplitEnabled:",
+          "-splitPreset",
+          "-setSplitPreset:"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+        "CBBridgeManager": [
+          "-trackBridgedBundleID:",
+          "-runningBridgedApplications",
+          "-switchToSplitWithLeft:right:ratio:",
+          "-switchToMultiSplitMode:apps:ratio:",
+          "-sendStateToApp:shouldBridge:",
+          "-saveBridgeStateToDisk",
+          "-clearBridgeStateOnDisk",
+          "-isUIAppBridging",
+          "-shouldBridge:",
+          "-isCurrentlyBridging:",
+          "-terminateAllBridgedApplications",
+          "-effectiveAutoLaunchBundleID"
+        ],
+        "CBBridgeManagerDashboard": [
+          "-startBridging:",
+          "-startBridging:withCompletion:",
+          "-stopBridging",
+          "-stopBridgingWithCompletion:",
+          "-prepareHomeScreenForBridge:",
+          "-bridgeDidActivate:",
+          "-bridgeDidDeactivate",
+          "-setHomeButtonInApp:",
+          "+isBridgedApp:",
+          "+shouldInterceptLaunchForApp:",
+          "+bridgedApps"
+        ],
+        "CBBridgedSplitApp": [
+          "-layoutSplitViews",
+          "-restoreSplitAnimated:",
+          "-splitPreset",
+          "-setSplitPreset:",
+          "-splitRatio",
+          "-setSplitRatio:"
+        ],
+        "CBBridgedUIAppView": [
+          "-updateSceneSettingsFrame",
+          "-updateSceneFrame",
+          "-refreshSceneLayout",
+          "-hosting",
+          "-setHosting:"
+        ],
+        "CBDashboardSettings": [
+          "-bridgedApps",
+          "-setBridgedApps:",
+          "-splitScreenEnabled",
+          "-setSplitScreenEnabled:",
+          "-splitLeftBundleID",
+          "-setSplitLeftBundleID:",
+          "-splitRightBundleID",
+          "-setSplitRightBundleID:",
+          "-splitPreset",
+          "-setSplitPreset:",
+          "-splitMode",
+          "-setSplitMode:",
+          "-splitApp1",
+          "-setSplitApp1:",
+          "-splitApp2",
+          "-setSplitApp2:",
+          "-splitApp3",
+          "-setSplitApp3:",
+          "-splitApp4",
+          "-setSplitApp4:",
+          "-splitRatio",
+          "-setSplitRatio:",
+          "-autoLaunchOnConnect",
+          "-setAutoLaunchOnConnect:",
+          "-autoLaunchBundleID",
+          "-setAutoLaunchBundleID:",
+          "+splitScreenIconImage"
+        ],
+        "CBDashboardShared": [
+          "+homeVC"
+        ],
+        "CBSplitContainerView": [
+          "-splitApp",
+          "-setSplitApp:"
+        ]
+      }
+    },
+    "modules": {
+      "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+        "bytes": 1220256,
+        "objc_class_count": 27,
+        "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+        "signals": {
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+        "bytes": 3760032,
+        "objc_class_count": 36,
+        "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+        "signals": {
+          "app_side": [
+            "setAudioOnlyBackgroundMode:",
+            "refreshSceneLayout"
+          ],
+          "bridge_request": [
+            "startBridging:",
+            "requestStateChange:"
+          ],
+          "close_back": [
+            "stopBridging",
+            "dismiss"
+          ],
+          "home_roster": [
+            "CARApplication",
+            "_newApplicationLibrary",
+            "FBSApplicationLibrary",
+            "DBApplicationInfo",
+            "CRCarPlayAppDeclaration",
+            "_setupIconModel"
+          ],
+          "home_tap": [
+            "iconManager:launchIconForIconView:",
+            "iconManager:launchIcon:",
+            "shouldInterceptLaunchForApp:"
+          ],
+          "media_input": [
+            "sendEvent:",
+            "touchesBegan:withEvent:",
+            "sceneHandle",
+            "setIgnoresOcclusions:"
+          ],
+          "native_dock": [
+            "DBRootStatusBarViewController"
+          ],
+          "standalone_scene": [
+            "SBDeviceApplicationSceneEntity",
+            "SBAppViewController",
+            "setHosting:",
+            "setRequestedMode:",
+            "setAutomatesLifecycle:"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+        "bytes": 124976,
+        "metadata_parse_error": "cannot map Mach-O address 0x10000000018ee0",
+        "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+        "signals": {
+          "native_dock": [
+            "DBStatusBarWindow"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib": {
+        "bytes": 72320,
+        "metadata_parse_error": "cannot map Mach-O address 0x30000000005938",
+        "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1",
+        "signals": {}
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": {
+        "bytes": 106928,
+        "metadata_parse_error": "cannot map Mach-O address 0x10000000014968",
+        "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364",
+        "signals": {}
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib": {
+        "bytes": 70736,
+        "metadata_parse_error": "cannot map Mach-O address 0x2000000000c290",
+        "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3",
+        "signals": {}
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib": {
+        "bytes": 75536,
+        "objc_class_count": 0,
+        "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+        "signals": {}
+      },
+      "var/jb/usr/libexec/duoface_cboptimize_helper": {
+        "bytes": 150528,
+        "objc_class_count": 0,
+        "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906",
+        "signals": {}
+      }
+    },
+    "package_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+    "scene_config": {
+      "var/jb/Applications/DuoFaceUI.app/Info.plist": {
+        "CFBundleExecutable": "DuoFaceUI",
+        "CFBundleIdentifier": "com.duoface.duofaceui"
+      }
+    },
+    "scope": "all extracted files, all detected Mach-O, first-party filtered selected selectors; static only",
+    "stage_modules": {
+      "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+        "native_dock": [
+          "CarPlay"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+        "app_side": [
+          "setAudioOnlyBackgroundMode:",
+          "refreshSceneLayout"
+        ],
+        "bridge_request": [
+          "startBridging:",
+          "requestStateChange:"
+        ],
+        "close_back": [
+          "stopBridging",
+          "dismiss"
+        ],
+        "home_roster": [
+          "CARApplication",
+          "_newApplicationLibrary",
+          "FBSApplicationLibrary",
+          "DBApplicationInfo",
+          "CRCarPlayAppDeclaration",
+          "_setupIconModel"
+        ],
+        "home_tap": [
+          "iconManager:launchIconForIconView:",
+          "iconManager:launchIcon:",
+          "shouldInterceptLaunchForApp:"
+        ],
+        "media_input": [
+          "sendEvent:",
+          "touchesBegan:withEvent:",
+          "sceneHandle",
+          "setIgnoresOcclusions:"
+        ],
+        "native_dock": [
+          "DBRootStatusBarViewController"
+        ],
+        "standalone_scene": [
+          "SBDeviceApplicationSceneEntity",
+          "SBAppViewController",
+          "setHosting:",
+          "setRequestedMode:",
+          "setAutomatesLifecycle:"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+        "native_dock": [
+          "DBStatusBarWindow"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib": {},
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": {},
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib": {},
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib": {},
+      "var/jb/usr/libexec/duoface_cboptimize_helper": {}
+    }
+  },
+  "omnicar": {
+    "control": {
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate (>= 0.9.5000), preferenceloader, firmware (>= 15.0)",
+      "Name": "OmniCar",
+      "Package": "com.anlai.omnicar",
+      "Version": "1.0.3"
+    },
+    "file_count": 176,
+    "files": [
+      {
+        "bytes": 24659,
+        "mach_o": false,
+        "path": "var/jb/Applications/OmniCar.app/AppIcon60x60@2x.png",
+        "sha256": "b304145f7002c44d0e33b43c30886510ce6c97c6e215cad36f938f63827fb164"
+      },
+      {
+        "bytes": 44470,
+        "mach_o": false,
+        "path": "var/jb/Applications/OmniCar.app/AppIcon60x60@3x.png",
+        "sha256": "bab820c8bd04975393d268ac3ea9e1dd8665a317a0eab4dbe9a6d1f62381da00"
+      },
+      {
+        "bytes": 897,
+        "mach_o": false,
+        "path": "var/jb/Applications/OmniCar.app/Info.plist",
+        "sha256": "058136b8e31515de8b7368e80af989c67cea64d80fb99a122e6851c83ca6b541"
+      },
+      {
+        "bytes": 168880,
+        "mach_o": true,
+        "path": "var/jb/Applications/OmniCar.app/OmniCar",
+        "sha256": "8e7dc4ddaf98a73b80910c0d5d00e38a084bfef2e9f97084f8bbdf76313807c8"
+      },
+      {
+        "bytes": 613376,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib",
+        "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79"
+      },
+      {
+        "bytes": 87,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.plist",
+        "sha256": "023eb9e22181a840bc7ead9806b70b33e6ebb5822adb1ffe5afda3873459c35b"
+      },
+      {
+        "bytes": 242784,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib",
+        "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f"
+      },
+      {
+        "bytes": 92,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.plist",
+        "sha256": "9fbf4a476ff57470977adc2b30c7c7052d0434d1b713895b82fe44e71a8d58b0"
+      },
+      {
+        "bytes": 276832,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib",
+        "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5"
+      },
+      {
+        "bytes": 93,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.plist",
+        "sha256": "86345479d62d39c2b9fc6f879bbed191913b153deefa1aa486ca1e19c8664304"
+      },
+      {
+        "bytes": 649808,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib",
+        "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836"
+      },
+      {
+        "bytes": 194,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.plist",
+        "sha256": "f31137da54adf6860904581cd1db44a8addda023b857550d9ef21361217788fe"
+      },
+      {
+        "bytes": 1229920,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib",
+        "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754"
+      },
+      {
+        "bytes": 118,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.plist",
+        "sha256": "9503d73445cec4a57d8210637028a5730d587551d457e70e448b9f974fc04e14"
+      },
+      {
+        "bytes": 567792,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib",
+        "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037"
+      },
+      {
+        "bytes": 118,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.plist",
+        "sha256": "9503d73445cec4a57d8210637028a5730d587551d457e70e448b9f974fc04e14"
+      },
+      {
+        "bytes": 438,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSpeedBubble.plist",
+        "sha256": "6d34c6447f0dde63b0589a50cacbdb01c6237a5dd4222b4b8533276975210a13"
+      },
+      {
+        "bytes": 453,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureSplitScreen.plist",
+        "sha256": "26e7f57d6953f48ec008157eb0b0acb5d7e6d52caf51b163311680ba8c4f15e1"
+      },
+      {
+        "bytes": 4055,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/FeatureStartupScreen.plist",
+        "sha256": "368e27c2309d2f793a47e45b9ae194b9b3c903950b995f8df222602ff71fbb9c"
+      },
+      {
+        "bytes": 402,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Info.plist",
+        "sha256": "96f58b1cb9f43708a487bad46ab9382b7b55b854f529c01435df18960492f2e2"
+      },
+      {
+        "bytes": 1303344,
+        "mach_o": true,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs",
+        "sha256": "15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76"
+      },
+      {
+        "bytes": 74767,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/PackageIcon.png",
+        "sha256": "e8663a8b360c85c9b151e354d7bc62262e5b18edada7bc80c52cb32095ee972c"
+      },
+      {
+        "bytes": 1033,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Root.plist",
+        "sha256": "9b44aadf58c92e1aae94567c5b49545865ce958255dc3c24276c8a797e56df24"
+      },
+      {
+        "bytes": 2092,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon.png",
+        "sha256": "3b63f8510689c9393936b96eb85f67dd9a36591af6a5000958d67b80a9b33156"
+      },
+      {
+        "bytes": 4963,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon@2x.png",
+        "sha256": "615f6f8beea12ddb419ba850e31696fc8d9d8cf023fc9e1d77d489e80c7dfc18"
+      },
+      {
+        "bytes": 7688,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/SpeedBubbleIcon@3x.png",
+        "sha256": "ecc7e132e77729c009c11153afa2fad2bd7832e44f9271c80f98076b35b0c43b"
+      },
+      {
+        "bytes": 1567,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon.png",
+        "sha256": "8912542026dd6b1d8af665721cb71550a225d0c9a3e3f6096878ca91811ffe90"
+      },
+      {
+        "bytes": 3150,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon@2x.png",
+        "sha256": "02068cf8c3a7cae437f16cb40eeba7e284f276dd8b2a98382e4a3982da43fda8"
+      },
+      {
+        "bytes": 4912,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/StartupScreenIcon@3x.png",
+        "sha256": "1bfc0b7305f3ec4c1e12252329ed0da12d6c956d0fce76eae41381639d3c86cf"
+      },
+      {
+        "bytes": 334,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/WhatsNew.plist",
+        "sha256": "6f787826422ae62820f1329008bf9f5b3bea1567e20d6d0a21e07bc2ede02160"
+      },
+      {
+        "bytes": 663,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/AppBridge.strings",
+        "sha256": "a8ad9b1624e730d073659c2ddc8367d965e1e30ba33279fa06ad2833b2224b27"
+      },
+      {
+        "bytes": 5582,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Car.strings",
+        "sha256": "ac89ccda57c694534af23d5d397d4d9af6b67cccd0b7b0c7817aac757cc4e8b8"
+      },
+      {
+        "bytes": 3835,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/HomeScreen.strings",
+        "sha256": "acc1a301de2e1dbdc269744f1504690dd8dc7d88cb42ae2e797263b8d3f37bf5"
+      },
+      {
+        "bytes": 15237,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Localizable.strings",
+        "sha256": "21d5d285959a5c9650af40704b5d83fa3b2091394561acd17d4f5c3b45fb3497"
+      },
+      {
+        "bytes": 2515,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Onboarding.strings",
+        "sha256": "ffc0f6b30ad53003e63929862fca18964dd2ac6630343b632688bcc79561d10f"
+      },
+      {
+        "bytes": 893,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/Profiles.strings",
+        "sha256": "907f12fc267f1d0de2700edd029ac95fafc829e219129e5a8c4a6d3bbfbda5a0"
+      },
+      {
+        "bytes": 5182,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/SpeedBubble.strings",
+        "sha256": "283332c39a210c56eb543c4ea3a98e511a027ccf67ad943d296819a089e50647"
+      },
+      {
+        "bytes": 4587,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/SplitScreen.strings",
+        "sha256": "468c1e102283a463f9f91f5c00226306463b3e0d0c3f44f100ec1dd3d4e74172"
+      },
+      {
+        "bytes": 4995,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/StartupScreen.strings",
+        "sha256": "7b34faaae2f2373d545f9727a47dbe5e648b3ba6fd659c0d804383e42056fef7"
+      },
+      {
+        "bytes": 1120,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ar.lproj/WhatsNew.strings",
+        "sha256": "a52973587c7075916123873fc28175358e0fc7d4a8524c7fb8044612d41b92c3"
+      },
+      {
+        "bytes": 553,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/AppBridge.strings",
+        "sha256": "fbaa5e74d2ed0c19c3808a48261987c6168382d77ecbf8069c16187f61f20be8"
+      },
+      {
+        "bytes": 5723,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Car.strings",
+        "sha256": "19e634ab081e55557f8c27b791ab0eab00839d3b60cb345388e6017280a6b7e7"
+      },
+      {
+        "bytes": 3970,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/HomeScreen.strings",
+        "sha256": "bb4ff9eeb9a876a0179128ea4c88e1db71c3e4751efe4d38c71e27d835fd7404"
+      },
+      {
+        "bytes": 15344,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Localizable.strings",
+        "sha256": "82c93e18c1e9573b90668a0327a8b7396b3904556b299b14c3e0fafdb7a1397a"
+      },
+      {
+        "bytes": 2799,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Onboarding.strings",
+        "sha256": "70065b75d7a34acea5296421fa3024c06db2ba28f342508506f00ef2731a9aec"
+      },
+      {
+        "bytes": 920,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/Profiles.strings",
+        "sha256": "4a8f1fb995fc4ae2d07f2904949cf419dcfd8bbaf913bff025eae558ea4d4167"
+      },
+      {
+        "bytes": 5070,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/SpeedBubble.strings",
+        "sha256": "d4a5a0fdb7267d0a762cddedc4bcab46ca275ec26629a5514279a3fa0ea0a112"
+      },
+      {
+        "bytes": 4509,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/SplitScreen.strings",
+        "sha256": "bbec305189bf3286c1053ccb346a321bcc22684bfd39ce3a2bd11661351981c9"
+      },
+      {
+        "bytes": 4975,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/StartupScreen.strings",
+        "sha256": "f8bf9782c59afc94fd5ca4bd0c6e342b37ec75755f2bd055d43b695a9fc67c26"
+      },
+      {
+        "bytes": 1156,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/de.lproj/WhatsNew.strings",
+        "sha256": "6ab861e93354be16e1f08ebb577d9290e2a35988f2b076d3ebb2ba9e03826a1d"
+      },
+      {
+        "bytes": 462,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/AppBridge.strings",
+        "sha256": "cb4f92cfde6ce4cb70770d80ea3ba165700affda4e4aae1417ff49c3eea944f2"
+      },
+      {
+        "bytes": 3245,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Car.strings",
+        "sha256": "abc121162e1e0e68ff2c1145f75550d38a2ed5cbb7f132f119d25b9a4280295e"
+      },
+      {
+        "bytes": 2609,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/HomeScreen.strings",
+        "sha256": "0d81a36b27bbd5ac64f67051f54f254ee3390265664cbc340ffd3b5ce712261c"
+      },
+      {
+        "bytes": 10556,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Localizable.strings",
+        "sha256": "4e98adc62dd47a0c9c163cbb224ad0e38470ce9a65e9f8981b043478f30a4289"
+      },
+      {
+        "bytes": 2063,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Onboarding.strings",
+        "sha256": "aa42901451df45a5a0794e6da6710181c01c1ed7b30e64ad58f06c0c61ef6c5c"
+      },
+      {
+        "bytes": 594,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/Profiles.strings",
+        "sha256": "23ed744cad8f4a53f282978f38ed1a99fab1ccd4ab3068337718d924ae62c388"
+      },
+      {
+        "bytes": 4134,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/SpeedBubble.strings",
+        "sha256": "8a6b8fe60831247a8770feb343e4c1736b3454288f61475faebe1692375d4f23"
+      },
+      {
+        "bytes": 3741,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/SplitScreen.strings",
+        "sha256": "09ebad422b7a35053e14b704c1c0ae88330bd61cd3f6d1ee999b48481efd22f0"
+      },
+      {
+        "bytes": 5452,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/StartupScreen.strings",
+        "sha256": "1327a9d41b9b5965ac2360383cf41556819e1f7a16cc80567969aeb6d43a3e56"
+      },
+      {
+        "bytes": 834,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/en.lproj/WhatsNew.strings",
+        "sha256": "7acab7025e860564e4a52e9112aa97311e2f884c0d59b1f659048679b2cd4861"
+      },
+      {
+        "bytes": 503,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/AppBridge.strings",
+        "sha256": "18c0dd41655d4f35bd4e5576af145aa397c436fb25aa168f2454e0922683c7d0"
+      },
+      {
+        "bytes": 5259,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Car.strings",
+        "sha256": "d90796edbe26af4475370f90d7c71039041dec71945becabd67e9f1e2bad641b"
+      },
+      {
+        "bytes": 3885,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/HomeScreen.strings",
+        "sha256": "39e07a462619a250b76d59c1bb4cea710230802ef2ba5810bb8ef85c752e199d"
+      },
+      {
+        "bytes": 15568,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Localizable.strings",
+        "sha256": "cfc2fe0f326b7d2d9f59ad2730c910118d4ccc63022b59247278b9b18321cfb6"
+      },
+      {
+        "bytes": 2903,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Onboarding.strings",
+        "sha256": "2d1ca70650fc80ff787615985a8389e963fa7bea2378e313ad4ec2431be76fa3"
+      },
+      {
+        "bytes": 959,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/Profiles.strings",
+        "sha256": "3b32914a863734e3b32bc01f7f4d1ee11dc8d8319ffbbd8a22a7e0e43460b090"
+      },
+      {
+        "bytes": 5369,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/SpeedBubble.strings",
+        "sha256": "9f93b12aaad3d1c340f1b0be3c0b0cb04cd83ddc42b60ba0dfd2b7a5dd860ce5"
+      },
+      {
+        "bytes": 4465,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/SplitScreen.strings",
+        "sha256": "0f652f3f6ba191fd68877d21f855089712ed8116f86c806c66c8588bbe770fbd"
+      },
+      {
+        "bytes": 5225,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/StartupScreen.strings",
+        "sha256": "2777d22136dcaca6474e9e519cf8ec8f4b8c34101b8094dfac22cd0f6496c180"
+      },
+      {
+        "bytes": 1150,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/es.lproj/WhatsNew.strings",
+        "sha256": "b381dd87da9cd33a2159827639a9c3df9e929535c8c62c8df842fc380815d0dc"
+      },
+      {
+        "bytes": 691,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/AppBridge.strings",
+        "sha256": "5b8949c66efb54efef77a14a0886c786d4f32808b92090ac9f3efc3812811315"
+      },
+      {
+        "bytes": 6013,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Car.strings",
+        "sha256": "dbb504a22f2ceb7717b0e4a51c0920fddbd910ea89c43e3c452b51060892797e"
+      },
+      {
+        "bytes": 4434,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/HomeScreen.strings",
+        "sha256": "d5fe308f7ccbf9b083d4865b02770c1750cfd4cbc56313f7b4668e1baf85e1f1"
+      },
+      {
+        "bytes": 16972,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Localizable.strings",
+        "sha256": "58fbb0e2bebef69d7e78b79b428c9b366b8320bb80b49998593bdfd19197639c"
+      },
+      {
+        "bytes": 3076,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Onboarding.strings",
+        "sha256": "2d6355cb7c1c9e834b8a9c34fef68dcb1e6f4764d5b5c1800e68605846ed5aa7"
+      },
+      {
+        "bytes": 1046,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/Profiles.strings",
+        "sha256": "b689058594ddc8167182f5baa95659739ac5fc48f673108e4b8758d34da13c85"
+      },
+      {
+        "bytes": 5494,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/SpeedBubble.strings",
+        "sha256": "7e0ee6c83d73fb8d7bd0316c582719ec2ae6c0fab358a149a20e68785909e5f5"
+      },
+      {
+        "bytes": 4797,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/SplitScreen.strings",
+        "sha256": "f8670b7249bd5fad6ed4359c1a6f2b5de5d1b19efe597a3cd5122611998e32aa"
+      },
+      {
+        "bytes": 5611,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/StartupScreen.strings",
+        "sha256": "be216d9dc47880b253e281e211f83cba475c6714f2836980c8488dd78a5ebc6d"
+      },
+      {
+        "bytes": 1408,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/fr.lproj/WhatsNew.strings",
+        "sha256": "262782b33f073fcd14be796459bd4da3a4bbcfdc70ad4e8cc36cb703fbde884f"
+      },
+      {
+        "bytes": 2481,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon.png",
+        "sha256": "db186260d10b29bcfcf48d8fb2e1ecd346fd60c13eb31c7a4130b29ee58450bd"
+      },
+      {
+        "bytes": 7968,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon@2x.png",
+        "sha256": "473c7dc85b502977bd4d5b19b672ed30ad76e6d2a219a66abf416b66804dc073"
+      },
+      {
+        "bytes": 14988,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/icon@3x.png",
+        "sha256": "0d4e4682b382861ef68b2cf48cc33ee12b8b9fad1357d6299aef6bd7227d6360"
+      },
+      {
+        "bytes": 478,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/AppBridge.strings",
+        "sha256": "780e53099897332de1458497a940c8d54e8c8772d0246fb5dd588457e4c96593"
+      },
+      {
+        "bytes": 4438,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Car.strings",
+        "sha256": "99068a638ecf876d99f12472442152211fb2b27dc81b147190abc0fc46674ddb"
+      },
+      {
+        "bytes": 2826,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/HomeScreen.strings",
+        "sha256": "ca6814192d39bd6e6756ad6b926db19df4a292024b2370fd0de33ee1591b5f6e"
+      },
+      {
+        "bytes": 11228,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Localizable.strings",
+        "sha256": "d196207c4af7b5decbf6cebed227ea8dce428be6ea4ad2f348f2cd9616b50d6f"
+      },
+      {
+        "bytes": 2213,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Onboarding.strings",
+        "sha256": "e833c8a30564c4cacd6a9049f353e947cb9c45f64d1127267e880f3777ba56b8"
+      },
+      {
+        "bytes": 697,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/Profiles.strings",
+        "sha256": "c8988f956bf8f4b686b752790d7b4b8405d1bc2477cf561980248975cfc9d386"
+      },
+      {
+        "bytes": 4273,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/SpeedBubble.strings",
+        "sha256": "fa6105e34a829de316e99b977509695e026c4bd0e8c7c5ab2bbeaea79b3560d0"
+      },
+      {
+        "bytes": 3929,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/SplitScreen.strings",
+        "sha256": "8bc4d97c2d405bd62cfdaabdffc41e2665d8a477535bf76f1c3eeefa1b864337"
+      },
+      {
+        "bytes": 3885,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/StartupScreen.strings",
+        "sha256": "5634449cb23ad3a476b4e9ac6d6b01dc203f0a19702ecc438de0313dc9bc0a84"
+      },
+      {
+        "bytes": 846,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/id.lproj/WhatsNew.strings",
+        "sha256": "bf976dc5521f6760752f680345a477c47d2de043ee7576a6b2131b606393dfd6"
+      },
+      {
+        "bytes": 500,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/AppBridge.strings",
+        "sha256": "8bb54fe193c970d1fa77d5c8d426a6ef1dd95179267d8eddb89926e50e0b6409"
+      },
+      {
+        "bytes": 5370,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Car.strings",
+        "sha256": "d2c6928f0038768e3b4c4fceba657627d7cf35e6a1b5d44bd904cefb05f37d1b"
+      },
+      {
+        "bytes": 3588,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/HomeScreen.strings",
+        "sha256": "db4531b794ca17eebf70d627671c361919f7ba9cec0ce3e08f8d8f457ace6a73"
+      },
+      {
+        "bytes": 13854,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Localizable.strings",
+        "sha256": "045572ef73469b8b30f18a23dc61dd2bc3721294cc7bf9f1d783cee459eaaa41"
+      },
+      {
+        "bytes": 2726,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Onboarding.strings",
+        "sha256": "4a81affb80fabe6a13d5662cea03d2873fc9ab0f9b1ea01a34583ab6d9910785"
+      },
+      {
+        "bytes": 881,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/Profiles.strings",
+        "sha256": "6bb37712721d6acfbd243f356077bd1aadd921944e123b2ce60796121cf50e5d"
+      },
+      {
+        "bytes": 4910,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/SpeedBubble.strings",
+        "sha256": "4de2471b9538ab1b56a31405f25e1ed0f92a915169666c21c673ec8b0ff05444"
+      },
+      {
+        "bytes": 4115,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/SplitScreen.strings",
+        "sha256": "52796f49d72a7c9171d4ab4529d263aea7500e490ad05ea9f73041550f236389"
+      },
+      {
+        "bytes": 4206,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/StartupScreen.strings",
+        "sha256": "2986f13641f5a19db5faac8f938f1a7013220f60a37c1c3b8df879b2948b570a"
+      },
+      {
+        "bytes": 990,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/it.lproj/WhatsNew.strings",
+        "sha256": "2a792f27f50fa9843f3deb5ba80d73f669057763375ca3a13f978939465ba0f4"
+      },
+      {
+        "bytes": 495,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/AppBridge.strings",
+        "sha256": "98e3dd2b53b319a9b2217bfe81ad0ad732fec7594df8bea7993254c8dd7136b2"
+      },
+      {
+        "bytes": 4431,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Car.strings",
+        "sha256": "9300848252e85bbd6dedd0312978c97fd02ce791537e3eef8343f917fa27d83a"
+      },
+      {
+        "bytes": 2662,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/HomeScreen.strings",
+        "sha256": "c29f3471a33c2fb8a7fc4e840383b96b13e1184689a1a1b5145ceca4d04a8a08"
+      },
+      {
+        "bytes": 11304,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Localizable.strings",
+        "sha256": "0b04b48ff71890ce05cd6d1ce524087945f81927d340ca41ec396b8d245d0f41"
+      },
+      {
+        "bytes": 1712,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Onboarding.strings",
+        "sha256": "dde0139df218bf7dbfd5cdef96aa870b4883bdf5eb77164e9e6b576ae561c3de"
+      },
+      {
+        "bytes": 569,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/Profiles.strings",
+        "sha256": "e29e87436759dfa83bde364262f4c4b2fe5d62513c6da730e4d7f015c536f487"
+      },
+      {
+        "bytes": 3989,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/SpeedBubble.strings",
+        "sha256": "f8756c87c2ccb7b80c726b13ecc0cbca8721b0a59061342b716ed5a6f57e4a16"
+      },
+      {
+        "bytes": 3564,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/SplitScreen.strings",
+        "sha256": "2818da9d20571eaba40faaf67fb27852715b66327635c5d60121751eb867b071"
+      },
+      {
+        "bytes": 3932,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/StartupScreen.strings",
+        "sha256": "2da5dfb079a489e09305d09b278a212a251e9ac8eadd69150e399c3711162e36"
+      },
+      {
+        "bytes": 724,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ja.lproj/WhatsNew.strings",
+        "sha256": "290f3cded8e18dc4cee35d9ec4bea5adf30b9fbd19b1bb706525fad38155cd48"
+      },
+      {
+        "bytes": 489,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/AppBridge.strings",
+        "sha256": "2dfdfa91c520b31e0e77e550a2fed41e133b02d5c8581bb383f49cba9a2e8b76"
+      },
+      {
+        "bytes": 4433,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Car.strings",
+        "sha256": "6028599aa58f1c511c577cd051cfd55deedd181dff39be37bf362a97edcb8c0f"
+      },
+      {
+        "bytes": 2697,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/HomeScreen.strings",
+        "sha256": "f2e5349fc15a347ba4af43550e54d3a856a2d13c39b4748d7dfdc247cb429e31"
+      },
+      {
+        "bytes": 11245,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Localizable.strings",
+        "sha256": "6562ea038926c004a7b11e38ee7930d8a6fd7c9afce705309554a89e730fb555"
+      },
+      {
+        "bytes": 1818,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Onboarding.strings",
+        "sha256": "9109dcc057292b6beb7ab37b194cbad8a4e74843bd11782b12d404f56a591895"
+      },
+      {
+        "bytes": 613,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/Profiles.strings",
+        "sha256": "58735a80021841503938b429c9ac489d044038d76a401d62f0e6d8d62575e0e3"
+      },
+      {
+        "bytes": 4059,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/SpeedBubble.strings",
+        "sha256": "9f9f2a970a4ec80288493c1136998e35bc4afceaadb481b834274d001bab7d57"
+      },
+      {
+        "bytes": 3552,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/SplitScreen.strings",
+        "sha256": "b1b5ec04213c88f924e4cc0827ef6da4f498b9f1d54b0cc662d50a19c8274aa4"
+      },
+      {
+        "bytes": 4048,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/StartupScreen.strings",
+        "sha256": "9a674fdaaeb01855f197470cb7002c08fa815e271752c477296ebfd49e561f6f"
+      },
+      {
+        "bytes": 812,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ko.lproj/WhatsNew.strings",
+        "sha256": "5d7373c07f86dca2cfe9fbd7ec4562f2abcce30e36b510c0be633e8f5855aec2"
+      },
+      {
+        "bytes": 9406,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo.png",
+        "sha256": "7077849cb7ce87b43a56bf52cceacf6ebd28f79837d12c16beaae3838a92b27a"
+      },
+      {
+        "bytes": 27891,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@2x.png",
+        "sha256": "9e234f6a399cd603e34050d5b623ae68c31e352b63dbaeb57aaa5a82ece1c232"
+      },
+      {
+        "bytes": 48665,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@3x.png",
+        "sha256": "d6407325dca6ec9f864dfc7b0906930015a702318f851a9d7c30782fdfd4ba08"
+      },
+      {
+        "bytes": 612,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/AppBridge.strings",
+        "sha256": "94cc9e39fe9665d8826a33a6a6d7e078c4c37345ade41a36e98215e68b6d31b0"
+      },
+      {
+        "bytes": 5629,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Car.strings",
+        "sha256": "83479ec69145f64595a6ed70ca843e154d0fdb4a7536ea1a7f255c450cd909e6"
+      },
+      {
+        "bytes": 3943,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/HomeScreen.strings",
+        "sha256": "d32b4232ede988a3058b3f016c4cfddaba7321c7ed5e7fef570c52ece3aa2444"
+      },
+      {
+        "bytes": 15011,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Localizable.strings",
+        "sha256": "2a07506a72b8d842be2e7736478809d4f68785c9952077ae9df68254192b9a17"
+      },
+      {
+        "bytes": 2747,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Onboarding.strings",
+        "sha256": "6cbd4f394d6052915b168a3d9ec6a988a4a2f08f713682150fbd53a88e72a7c2"
+      },
+      {
+        "bytes": 925,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/Profiles.strings",
+        "sha256": "d4defcf200894b651359f9415904c925a083d73634d3d54ebeec30363293cdce"
+      },
+      {
+        "bytes": 4819,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/SpeedBubble.strings",
+        "sha256": "724e19328bf393389aaf30eb83322eb717081c70b700de864c04bb36867fc147"
+      },
+      {
+        "bytes": 4323,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/SplitScreen.strings",
+        "sha256": "c46e6006836968a1e667f542ad52177328ed9d1f2d51d4de00faacf5a0452ea0"
+      },
+      {
+        "bytes": 5383,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/StartupScreen.strings",
+        "sha256": "7b357d5a017311fc3417f65b0ba229922f7aa58a1e26778298bcc134dcee9608"
+      },
+      {
+        "bytes": 1054,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/pt-BR.lproj/WhatsNew.strings",
+        "sha256": "f0d2dc3f3fc49d8a269ae483840f42abccea004267781d5da79b42c47b9d6811"
+      },
+      {
+        "bytes": 715,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/AppBridge.strings",
+        "sha256": "5188257a24afe6d8c26c1fca280716fad8195915151382fa11e9ee2df7558602"
+      },
+      {
+        "bytes": 6315,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Car.strings",
+        "sha256": "1f24197c5695f14524f138060bc8c7535f96d4e26ae59352d9c79ecc70546f10"
+      },
+      {
+        "bytes": 4264,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/HomeScreen.strings",
+        "sha256": "e90f0a5e698da145cf2dfa9fc933b46df2ae8415e8298fb113e0194701e4f7c2"
+      },
+      {
+        "bytes": 17450,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Localizable.strings",
+        "sha256": "cb6915a824562a4a7028a224339b96692e247a44f53714b5d08365f033157e8a"
+      },
+      {
+        "bytes": 3107,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Onboarding.strings",
+        "sha256": "660f436235deb82b3c8dbff46a3e18ec0bee05fde743aaa8131dc6a80b1ffa14"
+      },
+      {
+        "bytes": 1093,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/Profiles.strings",
+        "sha256": "4bb1e97ca1880f1f258310335b4b10871721b6559035afe8e095719f64e3dfb7"
+      },
+      {
+        "bytes": 5960,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/SpeedBubble.strings",
+        "sha256": "2fd29db769fa496cdf7335b966b5c66bab982b16d89354fec48c76f284ad8ac1"
+      },
+      {
+        "bytes": 5157,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/SplitScreen.strings",
+        "sha256": "b40a7b357df7ae64d6f637d0418250803ea9d5599f400d3f7f4a787741367b04"
+      },
+      {
+        "bytes": 5617,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/StartupScreen.strings",
+        "sha256": "49f8d3f132ef8c620c54072510736091ec13b2baccc7b1f254697a3210b17169"
+      },
+      {
+        "bytes": 1338,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/ru.lproj/WhatsNew.strings",
+        "sha256": "5389679d6c71a4b467d678ac0b82595db2decda59286b2cfe26265fe1196e4ac"
+      },
+      {
+        "bytes": 577,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/AppBridge.strings",
+        "sha256": "48f10d3f7f10c9ad363e398de8caa05c9c2b73cc6efa8e6cc46a0cf83595c186"
+      },
+      {
+        "bytes": 5477,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Car.strings",
+        "sha256": "9f9814681f2471cf4653cbc21f1b2c43cb127fc6f87beb6dd5c4569fdeffc566"
+      },
+      {
+        "bytes": 3475,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/HomeScreen.strings",
+        "sha256": "176c36c34341751f794b7ab413432d224b8f8e2dc84b2a79b339d0276e0e8be9"
+      },
+      {
+        "bytes": 14455,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Localizable.strings",
+        "sha256": "661f7db0b7cad9d5d7e153202689f968ed1269776cdf956915af478647d8517c"
+      },
+      {
+        "bytes": 2375,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Onboarding.strings",
+        "sha256": "41d392644fc1838b461881332f0b6c67d336370db63e82b4355e167d19dce14e"
+      },
+      {
+        "bytes": 849,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/Profiles.strings",
+        "sha256": "084ebc341c1e57608fa592dfcabe394e0a9f04ac34bf3eea03c85f83bcfcb923"
+      },
+      {
+        "bytes": 5179,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/SpeedBubble.strings",
+        "sha256": "0717604c99a423035a8cea74f1584374445ec7810fb40286c729db7658687774"
+      },
+      {
+        "bytes": 4283,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/SplitScreen.strings",
+        "sha256": "2f0541901b3b472e388ac19941e93117f4c4e56628e6f75317ef8729f6834e93"
+      },
+      {
+        "bytes": 5029,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/StartupScreen.strings",
+        "sha256": "ab43c82328b1073d6bf909dc349e1fbe00d5ed1cdaced2dd619f4686b1c116d7"
+      },
+      {
+        "bytes": 1102,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/th.lproj/WhatsNew.strings",
+        "sha256": "880c0f2d1f6bea0c2ada5ccdd46a93c18eb50a266ccea884641a93030ae6a2e5"
+      },
+      {
+        "bytes": 572,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/AppBridge.strings",
+        "sha256": "73cd243b98aa14d3c8248e616e5aa33ba9360ef9eb40b07ed78a9ab0ef976d23"
+      },
+      {
+        "bytes": 3588,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/HomeScreen.strings",
+        "sha256": "32f4da7542f158fd0b5680df7154ef1c3428d407d7aed5a1bf74bd4e447fb223"
+      },
+      {
+        "bytes": 14526,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Localizable.strings",
+        "sha256": "0ac8f2c805ec20c88caf7cdf90989206f5b5ea7738c8aa519b12d727921d2814"
+      },
+      {
+        "bytes": 2479,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Onboarding.strings",
+        "sha256": "fef6a75b605ac251162f25c7bc27cf3d1612bc739c3e555c0a1e0b8be2036e81"
+      },
+      {
+        "bytes": 853,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/Profiles.strings",
+        "sha256": "e2459569d52d3bfaf52397714622761d0de0dfeff57b806e524fb733227178d7"
+      },
+      {
+        "bytes": 5233,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/SpeedBubble.strings",
+        "sha256": "455b1f62e4bc0fa5d38a4829d822dcac17beebf4c81a0362f9d287383a8798fb"
+      },
+      {
+        "bytes": 4302,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/SplitScreen.strings",
+        "sha256": "9baa87703adb19354f5fe7b5f41f6cc56e8869e500c7f8e6174a208b343b1767"
+      },
+      {
+        "bytes": 7408,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/StartupScreen.strings",
+        "sha256": "9cd4f4164859244008a6c5d37f74339a8095b00576bbd7b8ef3cc84de1f3d50e"
+      },
+      {
+        "bytes": 1212,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/vi.lproj/WhatsNew.strings",
+        "sha256": "c563e97234502d0d3c49840f331f374b12fcf4ca26e503d761ed3b561ebe9c46"
+      },
+      {
+        "bytes": 469,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/AppBridge.strings",
+        "sha256": "e20270fe2c5780c8ec6c7d3a19f08f1e0daf4cb263488f35e1be91866e161474"
+      },
+      {
+        "bytes": 3778,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Car.strings",
+        "sha256": "548bdc77c20192586a89a9a809aa4f4ecffdbd684963f26f3da0d71c2c15f806"
+      },
+      {
+        "bytes": 2398,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/HomeScreen.strings",
+        "sha256": "965b64d7e0be54583cf69a0393eee2b215029bd9fed09fbc6aa62273e112697c"
+      },
+      {
+        "bytes": 9498,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Localizable.strings",
+        "sha256": "6fdce63afbdb981a39b7b565f8e5d2de5ebb70c673e65ba3774fed6824fcfa7c"
+      },
+      {
+        "bytes": 1410,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Onboarding.strings",
+        "sha256": "92a2e5421cdf9508986f9d697d4cb759c1405390eb87e48311e523f9ae9695cb"
+      },
+      {
+        "bytes": 477,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/Profiles.strings",
+        "sha256": "1cf22acb55ef08600be61e59c2398b95e525d5cd407c127783bb7b3c24d63f6f"
+      },
+      {
+        "bytes": 3634,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/SpeedBubble.strings",
+        "sha256": "cd2686ce09ba95bd4f53e442d06d86a4e0d69a9e4318064bcb2cbf2e50be10fa"
+      },
+      {
+        "bytes": 3243,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/SplitScreen.strings",
+        "sha256": "ee43d699f9bca7aad40cfd8efc24777602a9e3831d0b1986ddc186e55d328800"
+      },
+      {
+        "bytes": 3354,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/StartupScreen.strings",
+        "sha256": "ff81e90c0086ffe4073f88b47f8b07b435198369b8ac12e946d412e5e391aabe"
+      },
+      {
+        "bytes": 620,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/zh-Hans.lproj/WhatsNew.strings",
+        "sha256": "b432a03f4ec2985ce1babc5685e47a4a9efb0cef5e23eabbd9d13b6cbc7a6d99"
+      },
+      {
+        "bytes": 186,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceLoader/Preferences/OmniCarPrefs.plist",
+        "sha256": "577dc46878a58aa6cd1f068f84a73f86e31dcd6313ec4eaf0b5960b25ea91f8e"
+      }
+    ],
+    "filters": {
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.plist": {
+        "Bundles": [
+          "com.apple.UIKit"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.plist": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.plist": {
+        "Bundles": [
+          "com.apple.springboard",
+          "com.apple.CarPlayApp",
+          "vn.vietmap.live",
+          "com.lumi.GOFA",
+          "com.waze.iphone",
+          "com.wynauto.wyn"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.plist": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "macho_count": 8,
+    "method_classes": {},
+    "modules": {
+      "var/jb/Applications/OmniCar.app/OmniCar": {
+        "bytes": 168880,
+        "metadata_parse_error": "cannot map Mach-O address 0x1000000000c830",
+        "sha256": "8e7dc4ddaf98a73b80910c0d5d00e38a084bfef2e9f97084f8bbdf76313807c8",
+        "signals": {}
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib": {
+        "bytes": 613376,
+        "metadata_parse_error": "cannot map Mach-O address 0x1000000003e570",
+        "sha256": "d99b8d00dc60f69db7b54fc1addaec6b8cb866b8dcdde6f1d85e06ce5b7d6e79",
+        "signals": {
+          "app_side": [
+            "setInterfaceOrientation:"
+          ],
+          "close_back": [
+            "dismiss"
+          ],
+          "home_roster": [
+            "CARApplication"
+          ],
+          "media_input": [
+            "touchesBegan:withEvent:",
+            "sceneHandle",
+            "setIgnoresOcclusions:"
+          ],
+          "native_dock": [
+            "CarPlay"
+          ],
+          "standalone_scene": [
+            "SBDeviceApplicationSceneEntity",
+            "SBAppViewController"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib": {
+        "bytes": 242784,
+        "objc_class_count": 0,
+        "sha256": "85db0c33e9a918e9dfd944dcdc53e3326fb83259554d5c1a3fd976fcb9c6026f",
+        "signals": {
+          "home_roster": [
+            "CARApplication"
+          ],
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib": {
+        "bytes": 276832,
+        "objc_class_count": 0,
+        "sha256": "c95c66f46d960702e2f7f4ea930b85fd96d01709c2733a14373b37eaca9ed0a5",
+        "signals": {
+          "home_roster": [
+            "CARApplication"
+          ],
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib": {
+        "bytes": 649808,
+        "metadata_parse_error": "cannot map Mach-O address 0x10000000043338",
+        "sha256": "f9531a646d5ce11f70cba34d1b30c6ffed3311d347922b890e41b9b330b8a836",
+        "signals": {
+          "home_roster": [
+            "CARApplication"
+          ],
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib": {
+        "bytes": 1229920,
+        "metadata_parse_error": "cannot map Mach-O address 0x10000000087ad0",
+        "sha256": "f696b518579266cf99cfd46f85cb54931d18e679c793a563ee2fcc9bf8115754",
+        "signals": {
+          "home_roster": [
+            "CARApplication",
+            "_newApplicationLibrary",
+            "DBApplicationInfo",
+            "CRCarPlayAppDeclaration"
+          ],
+          "media_input": [
+            "touchesBegan:withEvent:",
+            "sceneHandle"
+          ],
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib": {
+        "bytes": 567792,
+        "metadata_parse_error": "cannot map Mach-O address 0x1000000003ae10",
+        "sha256": "2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037",
+        "signals": {
+          "close_back": [
+            "dismiss"
+          ],
+          "home_roster": [
+            "CARApplication"
+          ],
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      },
+      "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs": {
+        "bytes": 1303344,
+        "metadata_parse_error": "cannot map Mach-O address 0x1000000008f138",
+        "sha256": "15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76",
+        "signals": {
+          "native_dock": [
+            "CarPlay"
+          ]
+        }
+      }
+    },
+    "package_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+    "scene_config": {
+      "var/jb/Applications/OmniCar.app/Info.plist": {
+        "CFBundleExecutable": "OmniCar",
+        "CFBundleIdentifier": "com.anlai.omnicar.app"
+      },
+      "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/Info.plist": {
+        "CFBundleExecutable": "OmniCarPrefs",
+        "CFBundleIdentifier": "com.anlai.omnicar.prefs"
+      }
+    },
+    "scope": "all extracted files, all detected Mach-O, first-party filtered selected selectors; static only",
+    "stage_modules": {
+      "var/jb/Applications/OmniCar.app/OmniCar": {},
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarAppBridge.dylib": {
+        "app_side": [
+          "setInterfaceOrientation:"
+        ],
+        "close_back": [
+          "dismiss"
+        ],
+        "home_roster": [
+          "CARApplication"
+        ],
+        "media_input": [
+          "touchesBegan:withEvent:",
+          "sceneHandle",
+          "setIgnoresOcclusions:"
+        ],
+        "native_dock": [
+          "CarPlay"
+        ],
+        "standalone_scene": [
+          "SBDeviceApplicationSceneEntity",
+          "SBAppViewController"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCarProbe.dylib": {
+        "home_roster": [
+          "CARApplication"
+        ],
+        "native_dock": [
+          "CarPlay"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarCore.dylib": {
+        "home_roster": [
+          "CARApplication"
+        ],
+        "native_dock": [
+          "CarPlay"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSpeedBubble.dylib": {
+        "home_roster": [
+          "CARApplication"
+        ],
+        "native_dock": [
+          "CarPlay"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib": {
+        "home_roster": [
+          "CARApplication",
+          "_newApplicationLibrary",
+          "DBApplicationInfo",
+          "CRCarPlayAppDeclaration"
+        ],
+        "media_input": [
+          "touchesBegan:withEvent:",
+          "sceneHandle"
+        ],
+        "native_dock": [
+          "CarPlay"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib": {
+        "close_back": [
+          "dismiss"
+        ],
+        "home_roster": [
+          "CARApplication"
+        ],
+        "native_dock": [
+          "CarPlay"
+        ]
+      },
+      "var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs": {
+        "native_dock": [
+          "CarPlay"
+        ]
+      }
+    }
+  },
+  "sideplay": {
+    "control": {
+      "Architecture": "iphoneos-arm64",
+      "Depends": "firmware (>= 15.0), mobilesubstrate, preferenceloader",
+      "Name": "SidePlay",
+      "Package": "com.sideplay",
+      "Version": "1.0.4-1"
+    },
+    "file_count": 136,
+    "files": [
+      {
+        "bytes": 3392,
+        "mach_o": false,
+        "path": "var/jb/Applications/SidePlay.app/AppIcon40x40@2x.png",
+        "sha256": "30142d1bb7e82cc28afdd5014d27455d35bf210a4a9b5774645cd68d2a9a6ace"
+      },
+      {
+        "bytes": 5746,
+        "mach_o": false,
+        "path": "var/jb/Applications/SidePlay.app/AppIcon40x40@3x.png",
+        "sha256": "d530846e27571484aff70b78c37c2f854d9a88004891ce6a8257a261383fa505"
+      },
+      {
+        "bytes": 5746,
+        "mach_o": false,
+        "path": "var/jb/Applications/SidePlay.app/AppIcon60x60@2x.png",
+        "sha256": "d530846e27571484aff70b78c37c2f854d9a88004891ce6a8257a261383fa505"
+      },
+      {
+        "bytes": 9274,
+        "mach_o": false,
+        "path": "var/jb/Applications/SidePlay.app/AppIcon60x60@3x.png",
+        "sha256": "e9beb330d441bcd62301138a6cb8cf54a2bf013b0c8e039ed0e01866dac9d676"
+      },
+      {
+        "bytes": 2688,
+        "mach_o": false,
+        "path": "var/jb/Applications/SidePlay.app/Info.plist",
+        "sha256": "bf7ecdd8ced37c1a0b30042900cadb179c4146f1fc4e737b6d7762c008cb1829"
+      },
+      {
+        "bytes": 178672,
+        "mach_o": true,
+        "path": "var/jb/Applications/SidePlay.app/SidePlay",
+        "sha256": "338173777cc588c7dadb46ad2a01f25e74f7231e7ffca325cd3bfdca189d9ba2"
+      },
+      {
+        "bytes": 899088,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib",
+        "sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971"
+      },
+      {
+        "bytes": 76,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.plist",
+        "sha256": "eb676c62f14fe14f088c91104a5908fb0ad1f3d4ca59f3c7c7ccc95333e6db28"
+      },
+      {
+        "bytes": 129936,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib",
+        "sha256": "ab655d41a8abee367a654c151e26261ee2e5b08d73e8e06a08dea058e1bb473e"
+      },
+      {
+        "bytes": 49,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.plist",
+        "sha256": "e5a0dfc5ec82c94ab61b952d50fdeb860ec33de27e0d712c36eb1930479dd6cc"
+      },
+      {
+        "bytes": 240128,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib",
+        "sha256": "513142a87eb45a9279850bc6a7a1420ebf7e7766b7f5a78b2525f1a6e9606736"
+      },
+      {
+        "bytes": 57,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.plist",
+        "sha256": "4f6dc3dfce77d213ff2a80a92a6918cb0a9ecd358e80579ce2a64daffd928d17"
+      },
+      {
+        "bytes": 162752,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib",
+        "sha256": "b79905049c97f496733c6614b0f1f18b9b7b888766a867f0b3c2ef7024a159ec"
+      },
+      {
+        "bytes": 51,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.plist",
+        "sha256": "f43c74117c060fb8f44faef51a00d11a86c56ebc5ed730c7a884133ac65cc3dd"
+      },
+      {
+        "bytes": 145328,
+        "mach_o": true,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib",
+        "sha256": "b6f2e0896d401202e1847ba07e2094d37ca94e245451ba388cd9b35fb9e92057"
+      },
+      {
+        "bytes": 51,
+        "mach_o": false,
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.plist",
+        "sha256": "c37253666617dee469c1b918808bc14d48bd34d2c8c44aa2ed56c042af946e84"
+      },
+      {
+        "bytes": 676,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Info.plist",
+        "sha256": "dd45e9389938c50d0ed68b2d4165cfda137d106163fd600ada8b673c50f030e6"
+      },
+      {
+        "bytes": 5762,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Root.plist",
+        "sha256": "15b6447af5dab4f10ea3c177323aea46a216fe96b7d460179cee38e1d484c03b"
+      },
+      {
+        "bytes": 613648,
+        "mach_o": true,
+        "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs",
+        "sha256": "3b68dd567ffdc9ec11672ed2aee9391d50f84c2f019f7709458d5c720f874636"
+      },
+      {
+        "bytes": 1121,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon.png",
+        "sha256": "48254c8159d796cebb1752b0f5f30f7bfe26054c25a36fd4c5e214747cb39c84"
+      },
+      {
+        "bytes": 2798,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon@2x.png",
+        "sha256": "648e0c2464f63272ae7bbb7e4a086aa54d2f194cb94b91bfca1ff2e6945d6fc3"
+      },
+      {
+        "bytes": 4602,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon@3x.png",
+        "sha256": "38a6e2c089f5d6acf0e37008a125fe7bff743b703d9ac2cfc6158290fc7f99eb"
+      },
+      {
+        "bytes": 513,
+        "mach_o": false,
+        "path": "var/jb/Library/PreferenceLoader/Preferences/SidePlay.plist",
+        "sha256": "bad37eef94d0fbbd0bc280e365fad64aef520618614948d200d3f3a337763283"
+      },
+      {
+        "bytes": 1077,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/LICENSE-GMapHUD",
+        "sha256": "6f19116a8dc1bba52db7f8a23ab88b54490b63f0ad2c10ddbbc10390f650e50e"
+      },
+      {
+        "bytes": 57015,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/accident-minor.png",
+        "sha256": "68914af2b9f3e36ec50c0f4540852c3292f0c89c30f0db94122a97c0a52a1af6"
+      },
+      {
+        "bytes": 64727,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/accident.png",
+        "sha256": "64a0e0908ed77b567e5e6c5b869bf69522953e37ea80fc7b7fb0fe32db9941a0"
+      },
+      {
+        "bytes": 58217,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/animal.png",
+        "sha256": "0bf37acf91f170b024c10aeaeb92c5d96657eb54b5943b7168daef6eff6353b2"
+      },
+      {
+        "bytes": 64442,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/assistance.png",
+        "sha256": "024a306ae0374419b3e57b0b7c7abad10646f761db5de0b0cd95441357dba0c2"
+      },
+      {
+        "bytes": 86541,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/average-speed-enforcement.png",
+        "sha256": "2fd2d877bbc0a3cb6e2addf7c502d9ad837ab3f55290e8b8b51d106223dd0fbc"
+      },
+      {
+        "bytes": 56487,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/bad-weather.png",
+        "sha256": "1df681c179515bbed76dea5ba8294bdbf194645fab5a3f4477393dc5afae11a9"
+      },
+      {
+        "bytes": 41269,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/blocked-lane.png",
+        "sha256": "4118ef5ccc933897dd6833600c1fc699b9823c11ebe049d414aab0da403c6619"
+      },
+      {
+        "bytes": 44793,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/both-shoulders-ending.png",
+        "sha256": "eee47304f9e06c073d33f562a76bad4985d167528854e3a1595a490c8215f86e"
+      },
+      {
+        "bytes": 82292,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/bus-lane-cam.png",
+        "sha256": "3b4fab769fa9000f162b38da6aa19af993312386aa36f95b306951ca350d54c8"
+      },
+      {
+        "bytes": 20949,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/camera_ai.png",
+        "sha256": "3c65d4205d6bd39552e5d3177ea3e7745ec3094ae359c7d97279b6cfed5c78c9"
+      },
+      {
+        "bytes": 55349,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/closed-lane-construction.png",
+        "sha256": "6871a7ebf4fcdbd5f75e78e85f12c920224939ce58e3ec123cba00591c8f64e1"
+      },
+      {
+        "bytes": 60765,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/closed-lane-crash.png",
+        "sha256": "85b64283212a337e3988e335cf6aae55bf78375964f1e8da6ce7ecf0d02e7515"
+      },
+      {
+        "bytes": 45463,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/closure.png",
+        "sha256": "7208c59686a01b851ca94ff18eec163e3dcfd73052ea7cfdca1a83a97b1c4398"
+      },
+      {
+        "bytes": 79644,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/cyclist.png",
+        "sha256": "fe4b854f290ceb8a01c86c589af08f645349c6c6364e746ebc4c3f30ac17e118"
+      },
+      {
+        "bytes": 46880,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/dangerous-curves.png",
+        "sha256": "8f4af1ae885da1724b6d81b5e015276b5d50c36b9b51dcd84ae9cc8b3f0734a5"
+      },
+      {
+        "bytes": 36709,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/dangerous-intersection.png",
+        "sha256": "ae0c86cdb8e184f0dbd414a1b1366a4673e3e23fed2eaf1ba246a0ec9c9e9726"
+      },
+      {
+        "bytes": 61222,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/dangerous-zone.png",
+        "sha256": "d5d4fd05a0dbac43d5a44624c16c9fd5cff16052c500a4b0efbe75534fdf3486"
+      },
+      {
+        "bytes": 89957,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/distance-between-vehicles-camera.png",
+        "sha256": "4468fadfc4db8ee8ea80df823c8282e555b23d04c654ef8f3fda370184e3487b"
+      },
+      {
+        "bytes": 84532,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/dummy-camera.png",
+        "sha256": "3a4b8a23df2ded34f27cebeb6808d6c8a43e46cbdf65952dea9389ce0c98b030"
+      },
+      {
+        "bytes": 52284,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/emergency-vehicle.png",
+        "sha256": "18b04e37eff7323dc4683c85da2d64a491dd798ce3ddb4804d8aa8de7e763b43"
+      },
+      {
+        "bytes": 49748,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/fork.png",
+        "sha256": "294b25cd05d9ce2b2884d5c052214092af77bc430e0992c33230749fd9c2f518"
+      },
+      {
+        "bytes": 56332,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-animals.png",
+        "sha256": "495fe74f2298460d15cd6a3e3ca94eb5b16d53e6131536287f34e955aa3eb1bd"
+      },
+      {
+        "bytes": 56583,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-broken-light.png",
+        "sha256": "319f4f1bcd8631ee2c550d6cc0714d26e9204c26df5f921e1040c5fd31fbf4ff"
+      },
+      {
+        "bytes": 52101,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-construction.png",
+        "sha256": "a3e049c732fbe41e8454c80171379353b202713e905efde2de60291bb6f5232e"
+      },
+      {
+        "bytes": 47802,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-object-on-road.png",
+        "sha256": "0be8170374a4d489cef6c42a8c4cdd0eb2c937375f6c1ed2c531465a27e65adb"
+      },
+      {
+        "bytes": 49116,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-on-shoulder.png",
+        "sha256": "b2ac9c9a3aa8a293a4f8139b49d644bec665dcae716ea7ca1b84c22ee5291a98"
+      },
+      {
+        "bytes": 53713,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-pothole.png",
+        "sha256": "f8a660bce2d44651e9cf93d3006dc55ced0576e85e21f9cb44b35b1434b743b3"
+      },
+      {
+        "bytes": 76723,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-roadkill.png",
+        "sha256": "f82ced49814416f65f94b7aa286406ac9d67765e5c7580e5d6ea77d55206959d"
+      },
+      {
+        "bytes": 48005,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-stopped.png",
+        "sha256": "1f0b9de745af07d3706eb05d2f0928b147ff120e8221b875dbc7aef5b79b9d7a"
+      },
+      {
+        "bytes": 57704,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-weather-flood.png",
+        "sha256": "2c547b887a51636caaf37960e4c8a6b6cabc85f219a1bd483eec68fe1b8cae1f"
+      },
+      {
+        "bytes": 48630,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-weather-fog.png",
+        "sha256": "d9303119ac1ca2618d30e9a439844e12ea56338ff896bc74c7af71873795e219"
+      },
+      {
+        "bytes": 59158,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-weather-hail.png",
+        "sha256": "a6afb03a4e857a280bfa92ce4babe0be00fd93b05c3d816a4e11369ffa2cbae3"
+      },
+      {
+        "bytes": 53307,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-weather-ice.png",
+        "sha256": "95832b3fe229551e86ddae199e79ef1f07699442b08ccd8a78cad818db3c18fb"
+      },
+      {
+        "bytes": 61552,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard-weather-snow.png",
+        "sha256": "890f86c02b964c47d9e3cdceeeb3a505463929db6f7792ae69d5de24e05b5680"
+      },
+      {
+        "bytes": 63954,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazard.png",
+        "sha256": "290b52355dc161c0852f546d80b76f56f9d93331e064aaaeb0ebcd67402f18cc"
+      },
+      {
+        "bytes": 52021,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hazardonroad.png",
+        "sha256": "a5c10b72112cb16389685f9b5765c6cd6dbed9f8a917607acf5768a6e463f571"
+      },
+      {
+        "bytes": 53665,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/highway-crosswalk.png",
+        "sha256": "59110e0f7ebdd13e8d48bea05cf19ee3055a9dcb06845a59e8da1cc9354c4207"
+      },
+      {
+        "bytes": 17538,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/highway_rest_area.png",
+        "sha256": "2217b50fbb513ba3694072e086646bd73f312f5e4ba69fbfbc189903a6065002"
+      },
+      {
+        "bytes": 82860,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/hov-camera.png",
+        "sha256": "38809575328d537311703cc7d94db6224d49d9f5c6e0e0b6c040642dbad9812d"
+      },
+      {
+        "bytes": 36709,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/intersection.png",
+        "sha256": "0f1aaa082e56875269933323c3b064f705584a05f8a0cc19b6f922085aa30b94"
+      },
+      {
+        "bytes": 6294,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/khu_dan_cu.png",
+        "sha256": "5114504ed17c9c93d339c8e45720f6c0988b5f4acacf44a7421a7c7081d3c00d"
+      },
+      {
+        "bytes": 44093,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/lanes-merging.png",
+        "sha256": "0c6b3b159ee49773088dc37ed02317b33e4dfca99af94f5b8b66d027bd19d159"
+      },
+      {
+        "bytes": 43185,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/left-lane-ending.png",
+        "sha256": "b281ec357b626961318a181d4a66009c41b20867632820afd78ddc2ad8a8b1d3"
+      },
+      {
+        "bytes": 39018,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/left-shoulder-ending.png",
+        "sha256": "e45efb20c17a53880811088f2ff9ab2ca17574074816364edf6bbc9455664399"
+      },
+      {
+        "bytes": 9036,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/leftAndRightTurnOnly.png",
+        "sha256": "583b90892f4bc66f6007d6a71021f624e099f84f87300bbbc720941b9ee9c71b"
+      },
+      {
+        "bytes": 7766,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/leftTurnOnly.png",
+        "sha256": "bdcc4b97a0a87549aafc797b17609284fd4630ff890ee19f0f519c11b42ddb88"
+      },
+      {
+        "bytes": 19310,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/limit_80.png",
+        "sha256": "9b112159b67267bc9a048512271fd1d886e6760fd2e1f54de71f58b907774db7"
+      },
+      {
+        "bytes": 44093,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/merge.png",
+        "sha256": "788d86d3d801f435f88e56be1310b8e0d7b991212ddbf86257d4043021b509d9"
+      },
+      {
+        "bytes": 43818,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/missing-sign.png",
+        "sha256": "81b9e3b6aa893ae93e0910938e39fd0ffa19a494bf3c5eea7db5bf164fa2fea8"
+      },
+      {
+        "bytes": 50467,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/narrow-bridge.png",
+        "sha256": "b782e6a5bdc709348d3d77cd3627fd71de45acd4009704eca9b961811408cf78"
+      },
+      {
+        "bytes": 13539,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noEntry.png",
+        "sha256": "83d92fe8dbf785e840c6827c7f4e76b5c7a5a24c5e8dfff66398458cc1c94a73"
+      },
+      {
+        "bytes": 14997,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noEntryNoLeftTurn.png",
+        "sha256": "dddf20d2d6583dfb7f88708e97739b877a633b778e94d0ff76781eb4458a50a2"
+      },
+      {
+        "bytes": 14912,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noEntryNoRightTurn.png",
+        "sha256": "84a40a24a31c83c6635681a567c9e61a48c3fa88f7d353188fb99504386ebb10"
+      },
+      {
+        "bytes": 13613,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noLeftTurn.png",
+        "sha256": "2e30a48a77bd7e7f13502f30ab3bb513facf513d266a9311cdb87afec53d07f7"
+      },
+      {
+        "bytes": 15166,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noLeftTurnNoRightTurn.png",
+        "sha256": "524fbe488fd36f95732f6f5c6ea57e1e3ce13dc689cdafbaa08299cc83a64f2c"
+      },
+      {
+        "bytes": 14774,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noLeftTurnUTurn.png",
+        "sha256": "ca4ff8fd837393e6ebe31565f03b1aa233e0b273f499be233678c0133ad922db"
+      },
+      {
+        "bytes": 13953,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noRightTurn.png",
+        "sha256": "0c4ea2cf3689073c3f78b27b86aeed1cae7efcfd8027a76621bf8ae0b42e40c7"
+      },
+      {
+        "bytes": 14986,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noRightTurnUTurn.png",
+        "sha256": "ddf7352f5016eb1f1760a898a0e56dfbbf3688dad615df74e88de4e26072f957"
+      },
+      {
+        "bytes": 13885,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noUTurnLeft.png",
+        "sha256": "34f5ea14809dc3ecc49717faee1c8b555e8a35d82b2b1c8004df3f497d7524b2"
+      },
+      {
+        "bytes": 13544,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noUTurnRight.png",
+        "sha256": "b0d8fe617b24fafc8544e6ec8aeb05c2d03c1eb04654bdcd76e5a2af5e7f57e7"
+      },
+      {
+        "bytes": 16505,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/no_passing_in.png",
+        "sha256": "26b6788feda47a4450721fbc2bc3b90d2615416c3b5487355b1ffd570b5a9e67"
+      },
+      {
+        "bytes": 30608,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/no_passing_out.png",
+        "sha256": "5471f3ea27746bea1dce3486aaff6aa89075076cf48f21b93833a1083f684b1a"
+      },
+      {
+        "bytes": 83204,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/noise-camera.png",
+        "sha256": "d0d99ec51477c5d823f1f20813ed50b0d6324fb94a9887acf46e64c03f1cd8ae"
+      },
+      {
+        "bytes": 50831,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/oil-spill.png",
+        "sha256": "7ec6a62bf5d75e0f9a497a9915cf971327183a5d9b0e734c4c8b395303b10901"
+      },
+      {
+        "bytes": 17248,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/penalty_camera.png",
+        "sha256": "d70fe5ec3002d3a4c755ce57a548838676b1b4f44eb1536b14bb7bc208a24dd3"
+      },
+      {
+        "bytes": 80136,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/phone-camera.png",
+        "sha256": "2041d17b1a17469e015e6aba106b2bd82b32fbfd6d57dea27b89cc9f4e010043"
+      },
+      {
+        "bytes": 58254,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/police-mobile-camera.png",
+        "sha256": "e17055c51842fef9269d17348c514c06abd2c01e31aef92da1f7d51ae515c75c"
+      },
+      {
+        "bytes": 60031,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/police.png",
+        "sha256": "7349984c91f39649380b2e41f5a1f95cf892945bc89522e0aab933ea0de404b1"
+      },
+      {
+        "bytes": 12929,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/railway.png",
+        "sha256": "b90add05cb04099c036754a8775f7e31b9a261d8c9cdb414605dfae14bc6cb13"
+      },
+      {
+        "bytes": 51796,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/rain.png",
+        "sha256": "6d6a8d2c47504d03258ccd4e73506c401d6d684cc9611fa957fddccacebd89ac"
+      },
+      {
+        "bytes": 54170,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/raised-crosswalk.png",
+        "sha256": "e0c2c23c0ad7bacda9c80d27e85e7cbe2aba0235ff7ea62cb7f10db9ad9c7e19"
+      },
+      {
+        "bytes": 85834,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/red-light-and-speed-camera.png",
+        "sha256": "a769cd87b5fea3ff812469c3881b0f5f7a2667d1892cc0a99afaf6e10fd400e1"
+      },
+      {
+        "bytes": 6294,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/residential_area_in.png",
+        "sha256": "5114504ed17c9c93d339c8e45720f6c0988b5f4acacf44a7421a7c7081d3c00d"
+      },
+      {
+        "bytes": 7247,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/residential_area_out.png",
+        "sha256": "24421c982d62ee902cba958ac67e1c45f1f34c73072ed7c51f1d29965a9c1d5c"
+      },
+      {
+        "bytes": 14122,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/retrict_unknown.png",
+        "sha256": "95ee901bdec5ad0b2d266c73342e6a61e19e9c378330ad4249cc4bd7ad521a45"
+      },
+      {
+        "bytes": 43456,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/right-lane-ending.png",
+        "sha256": "a1f12ae9cd0bb2f6100657d9eb44a67d6314bfd51bd796ddfb2842fa09ea9992"
+      },
+      {
+        "bytes": 39255,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/right-shoulder-ending.png",
+        "sha256": "139d59b329c9b478f3499778626b75748fc93f07b8660d9e5305050f4434cda6"
+      },
+      {
+        "bytes": 7665,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/rightTurnOnly.png",
+        "sha256": "997336cd9a3da6be2e669896281034f9862630d03e1c6686d72a15a7c603c45d"
+      },
+      {
+        "bytes": 65548,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/school-zone.png",
+        "sha256": "d981f57e89914983df00b421027a716c052986a25b5ac4bc0a68d45e06a1869b"
+      },
+      {
+        "bytes": 87592,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/seatbelt-camera.png",
+        "sha256": "fa78288be2c0e77488b98e7c151f47194143fd730ec63ca61019c45df78ae0e6"
+      },
+      {
+        "bytes": 54907,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/slippery-road.png",
+        "sha256": "36837223f2c130cc14222f18fb3b01f310eac940a59e9b23069cbfec9978b3ac"
+      },
+      {
+        "bytes": 12575,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/slow_down.png",
+        "sha256": "46550d59f9613f904ba66d0cc39dad310fc9543fc4c6610f3b0574325944fbbc"
+      },
+      {
+        "bytes": 37479,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed-bumps.png",
+        "sha256": "6ca5f548ae7a7bcab4242bc4bba95097c5e8c80b70a5501f5e8bc8dcd8e11bf3"
+      },
+      {
+        "bytes": 15811,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_10.png",
+        "sha256": "3687f42b1cdf067aa6ecef4ead344303206289f6bb579947513efc65291b5b6e"
+      },
+      {
+        "bytes": 19023,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_100.png",
+        "sha256": "41033152c6f8c2a4f2dddb6d8a2777f44114009d335cbe690d5bd868cb5d3ea8"
+      },
+      {
+        "bytes": 16335,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_110.png",
+        "sha256": "03a6d420ac898ae89ec844e4c14ef9616ab10f4dde26ab2d139f0502d6110cc3"
+      },
+      {
+        "bytes": 18291,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_120.png",
+        "sha256": "5a65ebd0f37a5b108de08c4208e359013bc11b04152aa2e99248577189c0cc29"
+      },
+      {
+        "bytes": 73861,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_15.png",
+        "sha256": "2aed952170543cab916d2fa6e32b9fb67f713430e32c79ce8c34a8ff06a5ef63"
+      },
+      {
+        "bytes": 17707,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_20.png",
+        "sha256": "5c82d05e019859ae1a24f2b325a9f14e3b5728dc20a2fae627209819f1059e29"
+      },
+      {
+        "bytes": 82584,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_25.png",
+        "sha256": "9e8cd2b7d0100a1877bf7be290bc8167684c4174cca09c777858735ada494a6c"
+      },
+      {
+        "bytes": 18659,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_30.png",
+        "sha256": "0335c4676879866654d0e430e5d98d2905e65bd270d8f3bba535e060ba1484e3"
+      },
+      {
+        "bytes": 86294,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_35.png",
+        "sha256": "2ae27bc8e5eb4c56e9d1475ee36ddab2ca8848a9a4003d6ec503815b7366bdcd"
+      },
+      {
+        "bytes": 16785,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_40.png",
+        "sha256": "ac00f518b954e11f7e191a936e8da5d8b8877ea2db589bd659ed468863dfcd77"
+      },
+      {
+        "bytes": 77455,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_45.png",
+        "sha256": "f542296a273675d7cb98ba6638b88d8a8f0a6089b84812a9113450d7250e43d4"
+      },
+      {
+        "bytes": 72022,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_5.png",
+        "sha256": "802fde61941a58f3aa9ecc61961c1c3cc19adc0aea525fbfff508f73890c7e14"
+      },
+      {
+        "bytes": 18036,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_50.png",
+        "sha256": "7329f86430d001f752dc514422e9882f568df355be5f19f46393d2ad689199f2"
+      },
+      {
+        "bytes": 18950,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_60.png",
+        "sha256": "02faa113394f591bebd624424c1bc128ebe20a03ae9e899b05d09aa12b69b9ba"
+      },
+      {
+        "bytes": 16706,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_70.png",
+        "sha256": "c3515d123e6522da2f671f20a99df90a5cfd4b688884aa5e7c86e32f03d37107"
+      },
+      {
+        "bytes": 19310,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_80.png",
+        "sha256": "9b112159b67267bc9a048512271fd1d886e6760fd2e1f54de71f58b907774db7"
+      },
+      {
+        "bytes": 19010,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_90.png",
+        "sha256": "a8444c45355ff0da6b9926ce8e8a7b2684d0da7afdf8b45e3a7601502e6db542"
+      },
+      {
+        "bytes": 19742,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/speed_limit_camera.png",
+        "sha256": "7484b1d5a5e1d7bd43ef1fb15479e6ac71c32eb81893f87b8fc702ded4e44d01"
+      },
+      {
+        "bytes": 84703,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/stop-sign-camera.png",
+        "sha256": "f36bbc319a181c04d628ee1487cbf02e390ccb843ef954692e41f23441062c52"
+      },
+      {
+        "bytes": 33121,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/stop_lane.png",
+        "sha256": "1ed52c58ae57fb24726d76537fff35aaf64c9fb393c22e5d07666691f38a141f"
+      },
+      {
+        "bytes": 7500,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/straightAheadOnly.png",
+        "sha256": "1faa9eeff6977b44df5b68f91747ff33c446d49a8b981b0af7afe6dbe4080275"
+      },
+      {
+        "bytes": 8917,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/straightAndLeftTurnOnly.png",
+        "sha256": "1038e494d9858eea80d92a1b53c490bd817309f98da2244c15377d3f6b3d0743"
+      },
+      {
+        "bytes": 8878,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/straightAndRightTurnOnly.png",
+        "sha256": "b3ec40722d4e19d32b4ca5acdf93b907ec7f78f6bf8b932c560fbf61c847663c"
+      },
+      {
+        "bytes": 9803,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/toll.png",
+        "sha256": "d94e92d75b4770403ed4c834108142ce636ed747c5f6a5bd07a4b000242698cb"
+      },
+      {
+        "bytes": 12245,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/toll_etc.png",
+        "sha256": "9edd761fb07da838d6ab502d5e0f922df3fc6dcbc93e9325d89d71c41b326300"
+      },
+      {
+        "bytes": 37645,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/topes.png",
+        "sha256": "546f6663f5a9ea87039d364530c70872f15015cedfdc01550b5238c38e5fd433"
+      },
+      {
+        "bytes": 18633,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/traffic_camera.png",
+        "sha256": "98d245aeb4c7350ec73b9204ce41daf56c60d97e1faa41887fd03b634c126aab"
+      },
+      {
+        "bytes": 10761,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/tunnel.png",
+        "sha256": "6b524b5802780e0772d7b361c7fed1f4524f4a1d3dd064e93d43ad234c20ac06"
+      },
+      {
+        "bytes": 58229,
+        "mach_o": false,
+        "path": "var/jb/usr/share/sideplay-hud/unplowed-road.png",
+        "sha256": "24dc77309e70da6eb222547bba1f54959b884cd7dd9bbced2c0d39f75d315993"
+      }
+    ],
+    "filters": {},
+    "macho_count": 7,
+    "method_classes": {
+      "var/jb/Applications/SidePlay.app/SidePlay": {
+        "SPCarSceneDelegate": [
+          "-templateApplicationScene:didConnectInterfaceController:",
+          "-sceneDidBecomeActive:",
+          "-templateApplicationScene:didDisconnectInterfaceController:"
+        ],
+        "SPPhoneSceneDelegate": [
+          "-scene:willConnectToSession:options:",
+          "-scene:openURLContexts:",
+          "-sceneWillEnterForeground:",
+          "-sceneDidBecomeActive:",
+          "-sceneWillResignActive:",
+          "-sceneDidEnterBackground:"
+        ]
+      }
+    },
+    "modules": {
+      "var/jb/Applications/SidePlay.app/SidePlay": {
+        "bytes": 178672,
+        "objc_class_count": 6,
+        "sha256": "338173777cc588c7dadb46ad2a01f25e74f7231e7ffca325cd3bfdca189d9ba2",
+        "signals": {
+          "close_back": [
+            "sceneDidEnterBackground:",
+            "sceneDidDisconnect:"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib": {
+        "bytes": 899088,
+        "objc_class_count": 11,
+        "sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971",
+        "signals": {
+          "app_side": [
+            "setInterfaceOrientation:"
+          ],
+          "media_input": [
+            "sendEvent:",
+            "sceneHandle",
+            "setIgnoresOcclusions:"
+          ],
+          "native_dock": [
+            "CarPlay"
+          ],
+          "standalone_scene": [
+            "SBDeviceApplicationSceneEntity",
+            "SBAppViewController"
+          ]
+        }
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib": {
+        "bytes": 129936,
+        "objc_class_count": 2,
+        "sha256": "ab655d41a8abee367a654c151e26261ee2e5b08d73e8e06a08dea058e1bb473e",
+        "signals": {}
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib": {
+        "bytes": 240128,
+        "objc_class_count": 1,
+        "sha256": "513142a87eb45a9279850bc6a7a1420ebf7e7766b7f5a78b2525f1a6e9606736",
+        "signals": {}
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib": {
+        "bytes": 162752,
+        "objc_class_count": 3,
+        "sha256": "b79905049c97f496733c6614b0f1f18b9b7b888766a867f0b3c2ef7024a159ec",
+        "signals": {}
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib": {
+        "bytes": 145328,
+        "objc_class_count": 3,
+        "sha256": "b6f2e0896d401202e1847ba07e2094d37ca94e245451ba388cd9b35fb9e92057",
+        "signals": {}
+      },
+      "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs": {
+        "bytes": 613648,
+        "objc_class_count": 18,
+        "sha256": "3b68dd567ffdc9ec11672ed2aee9391d50f84c2f019f7709458d5c720f874636",
+        "signals": {}
+      }
+    },
+    "package_sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+    "scene_config": {
+      "var/jb/Applications/SidePlay.app/Info.plist": {
+        "CFBundleExecutable": "SidePlay",
+        "CFBundleIdentifier": "com.sideplay.app"
+      },
+      "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Info.plist": {
+        "CFBundleExecutable": "SidePlayPrefs",
+        "CFBundleIdentifier": "com.sideplay.prefs"
+      }
+    },
+    "scope": "all extracted files, all detected Mach-O, first-party filtered selected selectors; static only",
+    "stage_modules": {
+      "var/jb/Applications/SidePlay.app/SidePlay": {
+        "close_back": [
+          "sceneDidEnterBackground:",
+          "sceneDidDisconnect:"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib": {
+        "app_side": [
+          "setInterfaceOrientation:"
+        ],
+        "media_input": [
+          "sendEvent:",
+          "sceneHandle",
+          "setIgnoresOcclusions:"
+        ],
+        "native_dock": [
+          "CarPlay"
+        ],
+        "standalone_scene": [
+          "SBDeviceApplicationSceneEntity",
+          "SBAppViewController"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib": {},
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib": {},
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib": {},
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib": {},
+      "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs": {}
+    }
+  }
+}
