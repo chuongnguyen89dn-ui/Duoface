@@ -35,6 +35,39 @@ static void DF142Method(const char *cls, const char *sel, BOOL meta) {
   DF142Method("DBApplicationController","applicationWithBundleIdentifier:",NO);
   DF142Method("DBMutableWorkspaceStateChangeRequest","activateApplication:",NO);
   DF142Method("DBWorkspaceState","activeBundleIdentifier",NO);
+
+  // Discover renamed iOS16 Dashboard selectors by their actual own methods.
+  // A present literal alone is not proof of a runnable class or correct ABI.
+  int capacity=objc_getClassList(NULL,0);
+  if(capacity>0 && capacity<20000) {
+    Class *classes=calloc((size_t)capacity,sizeof(Class));
+    if(classes) {
+      int n=objc_getClassList(classes,capacity);
+      unsigned count=0;
+      for(int i=0;i<n && count<48;i++) {
+        const char *cname=class_getName(classes[i]);
+        if(!cname || strncmp(cname,"DB",2))continue;
+        NSString *className=[NSString stringWithUTF8String:cname];
+        if([className rangeOfString:@"Home"].location==NSNotFound &&
+           [className rangeOfString:@"Icon"].location==NSNotFound &&
+           [className rangeOfString:@"Workspace"].location==NSNotFound)continue;
+        unsigned int total=0;
+        Method *methods=class_copyMethodList(classes[i],&total);
+        for(unsigned int k=0;k<total && count<48;k++) {
+          const char *selector=sel_getName(method_getName(methods[k]));
+          if(!selector || (!strstr(selector,"launchIcon") &&
+             !strstr(selector,"activateApplication") &&
+             !strstr(selector,"requestStateChange")))continue;
+          DF142Record([NSString stringWithFormat:@"candidate=%s selector=%s types=%s",
+             cname,selector,method_getTypeEncoding(methods[k])]);
+          count++;
+        }
+        free(methods);
+      }
+      free(classes);
+      DF142Record([NSString stringWithFormat:@"candidate-count=%u",count]);
+    }
+  }
   DF142Record(@"read-only-abi-report-complete no-launch-mutation");
 }
 @end
