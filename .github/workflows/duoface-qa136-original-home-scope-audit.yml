@@ -1,0 +1,81 @@
+name: DuoFace QA136 DuoNavi DuoDash live Home process scope audit
+on:
+  push:
+    branches: [feature/duoface-qa136-ios16-native-home-publisher-20261031]
+    paths:
+      - '.github/workflows/duoface-qa136-original-home-scope-audit.yml'
+      - 'sideplay/audit/carplay-home-icons-20261031/inspect_original_duonavi_duodash_home_scope.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa136-original-home-scope-audit
+  cancel-in-progress: false
+jobs:
+  original-deb-and-real-log:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify DuoNavi and retrieve known repacked DuoDash exact binary
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb | sha256sum -c -
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb' -o "$RUNNER_TEMP/duodash-repacked.deb"
+          printf '%s  %s\n' ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465 "$RUNNER_TEMP/duodash-repacked.deb" | sha256sum -c -
+          git show '31166d15e3606e571bc34b023e59f76613d4953c:sideplay/log/DuoFaceAudit 16.txt' > "$RUNNER_TEMP/log16.txt"
+          test -s "$RUNNER_TEMP/log16.txt"
+      - name: Read original bundle process filters and compare QA136 device Log16
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/carplay-home-icons-20261031/inspect_original_duonavi_duodash_home_scope.py
+          mkdir -p "$RUNNER_TEMP/result"
+          python3 sideplay/audit/carplay-home-icons-20261031/inspect_original_duonavi_duodash_home_scope.py \
+            --duonavi dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb \
+            --duodash-repacked "$RUNNER_TEMP/duodash-repacked.deb" \
+            --log "$RUNNER_TEMP/log16.txt" \
+            --out "$RUNNER_TEMP/result/HOME_PROCESS_SCOPE_RESULT.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'result/HOME_PROCESS_SCOPE_RESULT.json').read_text())
+          assert r['real_user_QA136_Log16']['lines']==20323
+          assert len(r['original_packages'])==2
+          assert r['original_packages']['DuoNavi104']['input_sha']=='f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd'
+          print('ORIGINAL_HOME_STATIC_SCOPE_VS_LOG16_GROUNDED_NO_DEVICE_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA136-DUONAVI-DUODASH-HOME-PROCESS-SCOPE
+          path: /tmp/none
+          if-no-files-found: ignore
+      - name: Preserve exact process scope evidence in project repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa136-ios16-native-home-publisher-20261031
+          REL=sideplay/audit/carplay-home-icons-20261031
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$REL"
+            cp "$RUNNER_TEMP/result/HOME_PROCESS_SCOPE_RESULT.json" "$T/$REL/HOME_PROCESS_SCOPE_RESULT.json"
+            printf 'RUN_ID=%s\nSOURCE_COMMIT=31166d15e3606e571bc34b023e59f76613d4953c\nORIGINAL_SHA_PINNED=true\nDUODASH_REPACK_NOT_STOCK=true\nDEVICE_HOME_PASS=false\n' "$GITHUB_RUN_ID" > "$T/$REL/HOME_PROCESS_SCOPE_CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$REL"
+            if git -C "$T" diff --cached --quiet; then git worktree remove --force "$T"; exit 0; fi
+            git -C "$T" commit -m 'audit(qa136): archive SHA-pinned actual DuoNavi DuoDash Home process evidence [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$T"
+              echo 'HOME_PROCESS_SCOPE_EVIDENCE_GITHUB_PERSISTED'
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
