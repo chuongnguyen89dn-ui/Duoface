@@ -1,0 +1,24 @@
+name: QA144 forbid CarPlay Home launch through DuoFace split UI
+on:
+  push:
+    branches: [feature/duoface-qa144-standalone-carplay-home-20261031]
+    paths:
+      - '.github/workflows/duoface-144-home-standalone-negative-contract.yml'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa144_no_split_home_redirect.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  negative-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify no QA143 wrong Home-to-split icon substitution in future build
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
+          grep -Fq 'DFSceneHost.m' sideplay/duoface-native-scene-host/build.sh
+          ! grep 'DFHomeAdmission141.m.*DFHomeLaunch143.m' sideplay/duoface-native-scene-host/build.sh
+          echo 'QA144_BAD_HOME_SPLIT_ROUTE_EXCLUDED_NEW_STANDALONE_NOT_YET_BUILT'
