@@ -41,6 +41,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa145_controlled_home.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa146_native_home_exit.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
