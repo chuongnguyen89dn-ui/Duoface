@@ -1,0 +1,9 @@
+RUN=41162317777
+JOB=124422354432
+SOURCE=75042b369e4f4f727c85eb65bc6fff1d7b55caba
+2026-10-31T02:58:47.6078340Z 2026-10-31 02:58:47.607 home138-runtime[1165:6282] QA138 admission runtime: selected-only, disabled, typed, native passthrough, absent getter and original factory identity PASS
+2026-10-31T03:00:21.9790680Z DFSceneHost.m:158:33: error: expected ';' after method prototype
+2026-10-31T03:00:21.9825100Z DFSceneHost.m:203:17: error: method definition for 'publishGofaLayoutRequest' not found [-Werror,-Wincomplete-implementation]
+2026-10-31T03:00:21.9828430Z DFSceneHost.m:153:1: note: method 'publishGofaLayoutRequest' declared here
+2026-10-31T03:00:21.9831140Z DFSceneHost.m:203:17: error: method definition for 'gofaLayoutAcknowledged:' not found [-Werror,-Wincomplete-implementation]
+2026-10-31T03:00:21.9833790Z DFSceneHost.m:154:1: note: method 'gofaLayoutAcknowledged:' declared here

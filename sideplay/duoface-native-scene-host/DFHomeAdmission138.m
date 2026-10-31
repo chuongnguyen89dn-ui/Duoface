@@ -15,6 +15,8 @@ typedef void (*DF138Hook)(Class,SEL,IMP,IMP *);
 static id (*DF138Original3)(id,SEL,id,Class,Class);
 static id (*DF138Original2)(id,SEL,id,Class);
 static id (*DF138OriginalFactory)(id,SEL);
+static id (*DF138OriginalPolicy)(id,SEL,id);
+static id (*DF138OriginalDeclaration)(id,SEL,id);
 static NSMutableSet<NSString *> *DF138Granted;
 extern NSInteger DFHome136ReconcileVerifiedLibrary(id library);
 
@@ -82,33 +84,66 @@ BOOL DFHome138RequestSelectedAdmission(id proxy) {
  (void)((id(*)(id,SEL,id,Class))objc_msgSend)(proxy,s,@"CARCapableApp",NSNumber.class);
  @synchronized(DF138Granted) {return [DF138Granted containsObject:bundle];}
 }
-// Only objects actually admitted by this module may receive launch flags.
-// There is deliberately no dependency on absent iOS16 boolean GETTERS.
+static BOOL DF138GrantedBundle(NSString *bundle) {
+ if(!DF138Selected(bundle))return NO;
+ @synchronized(DF138Granted) {return [DF138Granted containsObject:bundle];}
+}
+static BOOL DF138SetBool(id object,NSString *name,BOOL value) {
+ SEL s=NSSelectorFromString(name);
+ Method m=class_getInstanceMethod(object_getClass(object),s);
+ char r[16]={0},a[16]={0};
+ if(!m || method_getNumberOfArguments(m)!=3)return NO;
+ method_getReturnType(m,r,sizeof(r));method_getArgumentType(m,2,a,sizeof(a));
+ if(r[0]!='v' || (a[0]!='B' && a[0]!='c'))return NO;
+ ((void(*)(id,SEL,BOOL))objc_msgSend)(object,s,value);
+ return YES;
+}
+static id DF138Declaration(id receiver,SEL s,id proxy) {
+ id declaration=DF138OriginalDeclaration?DF138OriginalDeclaration(receiver,s,proxy):nil;
+ // Keep native declarations intact. Only a nil result for a genuinely
+ // selected, installed LS proxy admitted by our typed gate can be filled.
+ if(declaration || !DFHome138RequestSelectedAdmission(proxy))return declaration;
+ NSString *bundle=DF138Bundle(proxy);
+ Class cls=objc_getClass("CRCarPlayAppDeclaration");
+ SEL set=sel_registerName("setBundleIdentifier:");
+ if(!DF138Exact(cls,set,"v24@0:8@16"))return nil;
+ @try {
+   id created=[[cls alloc] init];
+   ((void(*)(id,SEL,id))objc_msgSend)(created,set,bundle);
+   if(![DF138Bundle(created) isEqualToString:bundle])return nil;
+   DF138Log([NSString stringWithFormat:@"selected-declaration-created bundle=%@ class=%@",bundle,NSStringFromClass(cls)]);
+   return created;
+ } @catch(__unused NSException *e) {return nil;}
+}
+static id DF138Policy(id evaluator,SEL s,id declaration) {
+ // Original ARM64 0x2f2c1c..0x2f2c28 stores the ORIGINAL evaluator return
+ // in x20; subsequent setters act on that POLICY, not DBApplicationInfo.
+ id policy=DF138OriginalPolicy?DF138OriginalPolicy(evaluator,s,declaration):nil;
+ NSString *bundle=DF138Bundle(declaration);
+ if(!policy || !DF138GrantedBundle(bundle))return policy;
+ @try {
+   BOOL launch=DF138SetBool(policy,@"setLaunchAsCarApplication:",YES);
+   BOOL capable=DF138SetBool(policy,@"setCarPlaySupported:",YES);
+   BOOL display=DF138SetBool(policy,@"setCanDisplayOnCarScreen:",YES);
+   BOOL phone=DF138SetBool(policy,@"setLaunchUsingTemplateUI:",NO);
+   DF138Log([NSString stringWithFormat:@"selected-original-policy bundle=%@ class=%@ launch=%d capable=%d display=%d phone=%d; icon-and-tap-unverified",
+      bundle,NSStringFromClass([policy class]),launch,capable,display,phone]);
+ } @catch(NSException *e) {DF138Log([NSString stringWithFormat:@"policy exception=%@",e.name]);}
+ return policy;
+}
+// AppInfo is observed only. The native evaluator above owns launch flags.
 BOOL DFHome138PromoteAdmittedInfo(id info) {
  NSString *bundle=DF138Bundle(info);
- if(!DF138Selected(bundle))return NO;
- @synchronized(DF138Granted) {if(![DF138Granted containsObject:bundle])return NO;}
+ if(!DF138GrantedBundle(bundle))return NO;
  Class cls=object_getClass(info);
  Class db=objc_getClass("DBApplicationInfo");
  if(!db || ![info isKindOfClass:db])return NO;
- BOOL launch=NO;
- for(NSString *name in @[@"setCarPlaySupported:",@"setCanDisplayOnCarScreen:",
-                          @"setLaunchAsCarApplication:"]) {
-   SEL s=NSSelectorFromString(name);
-   Method m=class_getInstanceMethod(cls,s);
-   char r[16]={0},a[16]={0};
-   if(!m || method_getNumberOfArguments(m)!=3)continue;
-   method_getReturnType(m,r,sizeof(r));method_getArgumentType(m,2,a,sizeof(a));
-   if(r[0]!='v' || (a[0]!='B' && a[0]!='c'))continue;
-   ((void(*)(id,SEL,BOOL))objc_msgSend)(info,s,YES);
-   if([name isEqualToString:@"setLaunchAsCarApplication:"])launch=YES;
- }
  SEL declaration=sel_registerName("carPlayDeclaration");
  id declared=DF138Exact(cls,declaration,"@16@0:8")?
    ((id(*)(id,SEL))objc_msgSend)(info,declaration):nil;
- DF138Log([NSString stringWithFormat:@"admitted-info bundle=%@ declaration=%@ launchSetter=%d; physical-icon-and-tap-unverified",
-           bundle,declared?NSStringFromClass([declared class]):@"nil",launch]);
- return launch;
+ DF138Log([NSString stringWithFormat:@"admitted-info bundle=%@ declaration=%@; policy-receiver-separate; physical-icon-and-tap-unverified",
+           bundle,declared?NSStringFromClass([declared class]):@"nil"]);
+ return declared!=nil;
 }
 static id DF138Factory(id receiver,SEL s) {
  // Forward exactly once and retain the original library object/metadata.
@@ -133,13 +168,23 @@ static void DF138Install(NSUInteger attempt) {
  SEL s3=sel_registerName("entitlementValueForKey:ofClass:valuesOfClass:");
  SEL s2=sel_registerName("entitlementValueForKey:ofClass:");
  SEL factory=sel_registerName("_newApplicationLibrary");
+ Class policy=objc_getClass("CRCarPlayAppPolicyEvaluator");
+ Class declaration=objc_getClass("CRCarPlayAppDeclaration");
+ SEL evaluate=sel_registerName("effectivePolicyForAppDeclaration:");
+ SEL declare=sel_registerName("declarationForAppProxy:");
  DF138Hook hook=(DF138Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
  if(hook && DF138Exact(proxy,s3,"@40@0:8@16#24#32") &&
     DF138Exact(proxy,s2,"@32@0:8@16#24") &&
-    DF138Exact(object_getClass(dash),factory,"@16@0:8")) {
+    DF138Exact(object_getClass(dash),factory,"@16@0:8") &&
+    DF138Exact(policy,evaluate,"@24@0:8@16") &&
+    DF138Exact(object_getClass(declaration),declare,"@24@0:8@16")) {
    if(!DF138Original3)hook(proxy,s3,(IMP)DF138Entitlement3,(IMP *)&DF138Original3);
    if(!DF138Original2)hook(proxy,s2,(IMP)DF138Entitlement2,(IMP *)&DF138Original2);
-   if(DF138Original3 && DF138Original2)
+   if(DF138Original3 && DF138Original2) {
+     if(!DF138OriginalPolicy)hook(policy,evaluate,(IMP)DF138Policy,(IMP *)&DF138OriginalPolicy);
+     if(!DF138OriginalDeclaration)hook(object_getClass(declaration),declare,(IMP)DF138Declaration,(IMP *)&DF138OriginalDeclaration);
+   }
+   if(DF138Original3 && DF138Original2 && DF138OriginalPolicy && DF138OriginalDeclaration)
      hook(object_getClass(dash),factory,(IMP)DF138Factory,(IMP *)&DF138OriginalFactory);
    DF138Log([NSString stringWithFormat:@"ABI-checked hooks typed3=%d typed2=%d DashBoardFactory=%d; scope=CarPlay; switch=%d",
              DF138Original3!=NULL,DF138Original2!=NULL,DF138OriginalFactory!=NULL,DFHome136Enabled()]);
