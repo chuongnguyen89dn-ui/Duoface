@@ -38,6 +38,7 @@ def save(path,data):
 def inspect(name,deb,tmp):
  assert sha(deb)==PINS[name][0],(name,"bad original package SHA",sha(deb))
  root=tmp/"root"
+ root.mkdir(parents=True,exist_ok=True)
  run("dpkg-deb","-x",deb,root)
  control=run("dpkg-deb","-f",deb)
  meta={}
