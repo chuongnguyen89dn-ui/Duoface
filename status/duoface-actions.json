@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-31T02:29:13.453378+00:00",
+  "checked_at_utc": "2026-10-31T09:46:33.179049+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3848,
+  "total_actions_runs": 3920,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -9,6 +9,180 @@
       "success": 3,
       "failure": 0,
       "other": 1
+    },
+    "QA146 original DuoNavi DuoDash native Dock and app process contract verification": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 actual DuoNavi vs DuoDash REPACK deep bridge ABI READ ONLY": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 verify signed real DEB embeds first-party CarBridge-equivalent NO DEPLOY": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 embedded CarBridge-equivalent missing native lifecycle regression audit": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 deep original integrated AppBridge vs fake CarBridge NO BUILD": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 verify actual iOS16.7.16 Dashboard ABI vs public source READONLY": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 multisource true CarPlay workspace Dock scene forensics READONLY": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 original navigation Dock orientation method xrefs READ ONLY": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "QA146 verify public Sileo and persist current DuoFace handoff": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 native Home button restores standalone owner - regression only": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA146 native Home exit - signed integrated PRIVATE, before physical QA": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA145 inspect user real Log22 standalone Home/Back": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA145 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate": {
+      "recent_runs": 11,
+      "success": 1,
+      "failure": 8,
+      "other": 2
+    },
+    "QA144 forbid CarPlay Home launch through DuoFace split UI": {
+      "recent_runs": 6,
+      "success": 3,
+      "failure": 3,
+      "other": 0
+    },
+    ".github/workflows/duoface-144-integrated-private-staging.yml": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
+    },
+    "QA144 five original DEBs full Home-to-app forensic NO SILEO": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA143 public Sileo verified handoff": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Persist QA143 signed Home-bridge checkpoint into existing DuoFace handoff": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA143 selected Home icon to first-party scene signed staging": {
+      "recent_runs": 6,
+      "success": 1,
+      "failure": 1,
+      "other": 4
+    },
+    "DuoFace QA142 Native Home ABI safe signed build": {
+      "recent_runs": 10,
+      "success": 1,
+      "failure": 3,
+      "other": 6
+    },
+    "DuoFace QA142 Log21 real iPhone Home tap and CarPlay crash forensics": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA142 verified two-DEB Home tap research (read only)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA141 DB declaration completion and owned map resize signed staging": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA140 guarded Home admission and passive GOFA observer signed staging": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA139 black-screen recovery to exact QA137 runtime signed staging": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA138 selected Home admission and GOFA layout signed staging": {
+      "recent_runs": 3,
+      "success": 2,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA137 actual user Log17 Home GOFA and CarPlayTemplateUIHost IPS": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 4,
+      "other": 0
     },
     "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging": {
       "recent_runs": 5,
@@ -81,458 +255,308 @@
       "success": 1,
       "failure": 1,
       "other": 0
-    },
-    "DuoFace QA133 iPhone selected apps catalog native CarPlay picker signed": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA133 Native12 GOFA baseline and selected app catalog (source-only)": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA132 verified-session BKS original-first signed physical QA": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA131 append verified checkpoint to existing long project handoff": {
-      "recent_runs": 3,
-      "success": 3,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA131 clock-probe diagnostics unique signed staging": {
-      "recent_runs": 5,
-      "success": 2,
-      "failure": 3,
-      "other": 0
-    },
-    "DuoFace QA131 passive iPhone frame clock diagnostic gate (iOS16)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 130 scene destroy + current owner signed staging QA": {
-      "recent_runs": 5,
-      "success": 3,
-      "failure": 2,
-      "other": 0
-    },
-    "DuoFace original OmniCar BKS replacement and pointer consumers verified": {
-      "recent_runs": 19,
-      "success": 19,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace original OmniCar BKS hook logic machine-verified evidence gate": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace original six DEBs screen blank v blanked ARM64 proof regression": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace six real DEBs original display idle and lock ARM64 callsite forensic": {
-      "recent_runs": 5,
-      "success": 2,
-      "failure": 3,
-      "other": 0
-    },
-    "DuoFace QA130 non-CarPlay app display clock source gap audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA130 owned scene destroy + background policy SDK gate": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 130 scoped current scene background only contract": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace scene and native owner contract checks (no package or publish)": {
-      "recent_runs": 5,
-      "success": 4,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 129 native owner + explicit Home signed staging QA": {
-      "recent_runs": 3,
-      "success": 2,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA129 signed vs Native12 and OmniCar phone dim read-only": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA128 -> QA129 GOFA scene regressions read-only": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace CarPlay Home selection read-only architecture audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace Audit13 read-only tap and crash evidence": {
-      "recent_runs": 4,
-      "success": 4,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace manual observer contract checks (no package or publish)": {
-      "recent_runs": 3,
-      "success": 3,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 128 manual callback owner signed staging QA": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA127 versus actual original DuoNavi whole DEB forensic (read only)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 127 evidence based geometry writer and YouTube visibility signed staging QA": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA125 versus 4 ORIGINAL DEBs full package and scene binary forensic - no release": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 41160204633,
+      "id": 41190044686,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 95,
+      "run_number": 96,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41160204633",
-      "created_at": "2026-10-31T02:29:03Z",
-      "head_sha": "488a2b5f416ca7ff91bc7c0c7d04379e5ad8344b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41190044686",
+      "created_at": "2026-10-31T09:46:23Z",
+      "head_sha": "ce436ddb04e62d1762531a97ad74e21d3354a34d"
     },
     {
-      "id": 41158676697,
-      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
+      "id": 41189338679,
+      "name": "QA146 original DuoNavi DuoDash native Dock and app process contract verification",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41189338679",
+      "created_at": "2026-10-31T09:35:45Z",
+      "head_sha": "43a4a5065de34564ca23045acccb829e547129aa"
+    },
+    {
+      "id": 41189165129,
+      "name": "QA146 actual DuoNavi vs DuoDash REPACK deep bridge ABI READ ONLY",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41189165129",
+      "created_at": "2026-10-31T09:33:15Z",
+      "head_sha": "0ae180788104d2e0aefbdef378a10b73fd80078d"
+    },
+    {
+      "id": 41188441830,
+      "name": "QA146 verify signed real DEB embeds first-party CarBridge-equivalent NO DEPLOY",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41188441830",
+      "created_at": "2026-10-31T09:22:30Z",
+      "head_sha": "5b37697840332ebbb705b35498cd476b8271c3e3"
+    },
+    {
+      "id": 41188209674,
+      "name": "QA146 embedded CarBridge-equivalent missing native lifecycle regression audit",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41188209674",
+      "created_at": "2026-10-31T09:19:16Z",
+      "head_sha": "fc254685698d1e18a82c281fd39d969ae83ab624"
+    },
+    {
+      "id": 41188049562,
+      "name": "QA146 deep original integrated AppBridge vs fake CarBridge NO BUILD",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41188049562",
+      "created_at": "2026-10-31T09:16:54Z",
+      "head_sha": "803269a55ef144a1079fbb8c34765c95da20142d"
+    },
+    {
+      "id": 41186995190,
+      "name": "QA146 verify actual iOS16.7.16 Dashboard ABI vs public source READONLY",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186995190",
+      "created_at": "2026-10-31T09:02:06Z",
+      "head_sha": "a77caa199d44b9f76c1b367d9ca8cde2a0cda7a1"
+    },
+    {
+      "id": 41186940154,
+      "name": "QA146 verify actual iOS16.7.16 Dashboard ABI vs public source READONLY",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186940154",
+      "created_at": "2026-10-31T09:01:20Z",
+      "head_sha": "e22c95ea5d4b6391cc8cee0600ff1ea8952dac54"
+    },
+    {
+      "id": 41186800542,
+      "name": "QA146 multisource true CarPlay workspace Dock scene forensics READONLY",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186800542",
+      "created_at": "2026-10-31T08:59:26Z",
+      "head_sha": "2d426a57400d007831d04972eb6f936cb6728b6c"
+    },
+    {
+      "id": 41186440398,
+      "name": "QA146 original navigation Dock orientation method xrefs READ ONLY",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186440398",
+      "created_at": "2026-10-31T08:53:44Z",
+      "head_sha": "0dcfe25dc681eda7cd47ff20efb4801fd58bc763"
+    },
+    {
+      "id": 41186392421,
+      "name": "QA146 original navigation Dock orientation method xrefs READ ONLY",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186392421",
+      "created_at": "2026-10-31T08:52:59Z",
+      "head_sha": "af52771eddec48d643000eca9a9ab3d691d46269"
+    },
+    {
+      "id": 41185640707,
+      "name": "QA146 verify public Sileo and persist current DuoFace handoff",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41185640707",
+      "created_at": "2026-10-31T08:41:42Z",
+      "head_sha": "d30b72b138d7d4c2ed3e2bd59320fe1f906864ef"
+    },
+    {
+      "id": 41185438031,
+      "name": "QA146 native Home button restores standalone owner - regression only",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41185438031",
+      "created_at": "2026-10-31T08:38:36Z",
+      "head_sha": "593f8308fbd8ee2f92c7ad0fd715cb18d152f3b4"
+    },
+    {
+      "id": 41185002153,
+      "name": "QA146 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41185002153",
+      "created_at": "2026-10-31T08:32:12Z",
+      "head_sha": "1159f7119d515a5eefe0959ce9aa6701d92a62bb"
+    },
+    {
+      "id": 41184755646,
+      "name": "QA145 inspect user real Log22 standalone Home/Back",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41184755646",
+      "created_at": "2026-10-31T08:28:36Z",
+      "head_sha": "27a073a70fa41d38224db3488a95137b256e517c"
+    },
+    {
+      "id": 41181488480,
+      "name": "QA145 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181488480",
+      "created_at": "2026-10-31T07:39:51Z",
+      "head_sha": "0ce7b5fbb045c4e41aace251885552a5dd059bdc"
+    },
+    {
+      "id": 41181330399,
+      "name": "QA145 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181330399",
+      "created_at": "2026-10-31T07:37:16Z",
+      "head_sha": "9bd5fd7e66775798a80773b81f0a6627002178e4"
+    },
+    {
+      "id": 41181210777,
+      "name": "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181210777",
+      "created_at": "2026-10-31T07:35:24Z",
+      "head_sha": "fde97b53a9876b0122461fa483a7fe31c465a77b"
+    },
+    {
+      "id": 41181200954,
+      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181200954",
+      "created_at": "2026-10-31T07:35:16Z",
+      "head_sha": "ac5b7bcb8cbc2e1aefd2d704ec8558acfb6e8f53"
+    },
+    {
+      "id": 41181200944,
+      "name": "QA144 forbid CarPlay Home launch through DuoFace split UI",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181200944",
+      "created_at": "2026-10-31T07:35:16Z",
+      "head_sha": "ac5b7bcb8cbc2e1aefd2d704ec8558acfb6e8f53"
+    },
+    {
+      "id": 41181170360,
+      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181170360",
+      "created_at": "2026-10-31T07:34:50Z",
+      "head_sha": "835608562debae5bcd681dcb1973f00b1b6cdd9b"
+    },
+    {
+      "id": 41181164014,
+      "name": "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181164014",
+      "created_at": "2026-10-31T07:34:45Z",
+      "head_sha": "5c7ddebcd4d3dc1c695bbcc77ab15c16f425e4c3"
+    },
+    {
+      "id": 41181158230,
+      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181158230",
+      "created_at": "2026-10-31T07:34:40Z",
+      "head_sha": "064b701349b286a949c7751cfef922720cae6dc1"
+    },
+    {
+      "id": 41181158228,
+      "name": "QA144 forbid CarPlay Home launch through DuoFace split UI",
       "run_number": 5,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158676697",
-      "created_at": "2026-10-31T02:09:17Z",
-      "head_sha": "5c1f4be51a107be97d81d0cf3c4bd752c33ab99a"
-    },
-    {
-      "id": 41158565412,
-      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
-      "run_number": 4,
-      "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158565412",
-      "created_at": "2026-10-31T02:07:49Z",
-      "head_sha": "bb2ffdc937c918f242ea3e194836f6162c2cf6b0"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181158228",
+      "created_at": "2026-10-31T07:34:40Z",
+      "head_sha": "064b701349b286a949c7751cfef922720cae6dc1"
     },
     {
-      "id": 41158544136,
-      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158544136",
-      "created_at": "2026-10-31T02:07:33Z",
-      "head_sha": "b6b539cb9fc4b479d9535f561273e774526c13f0"
-    },
-    {
-      "id": 41158506266,
-      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158506266",
-      "created_at": "2026-10-31T02:07:04Z",
-      "head_sha": "ec7ac24185a964b69ef6a73948cf9715ecfb8ec9"
-    },
-    {
-      "id": 41158474117,
-      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158474117",
-      "created_at": "2026-10-31T02:06:39Z",
-      "head_sha": "eb071e0d9ead2320712086e16de49bd6fefa57c0"
-    },
-    {
-      "id": 41157922214,
-      "name": "DuoFace QA136 DuoNavi DuoDash live Home process scope audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41157922214",
-      "created_at": "2026-10-31T01:59:50Z",
-      "head_sha": "8a10d426958411be2ef2d58c2c217862c5567ec9"
-    },
-    {
-      "id": 41157418748,
-      "name": "DuoFace QA136 actual Log16 vs native Home",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41157418748",
-      "created_at": "2026-10-31T01:52:52Z",
-      "head_sha": "39a4bc57f816396ae6fc985b891b20e1c099bbce"
-    },
-    {
-      "id": 41153649339,
-      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153649339",
-      "created_at": "2026-10-31T01:06:06Z",
-      "head_sha": "5711e8309429f20298896085d59b679ff9a59bb0"
-    },
-    {
-      "id": 41153623209,
-      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
-      "run_number": 3,
+      "id": 41181151879,
+      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "run_number": 8,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153623209",
-      "created_at": "2026-10-31T01:05:45Z",
-      "head_sha": "568b0f4e4618b628c55ae59ae974de1353214520"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181151879",
+      "created_at": "2026-10-31T07:34:34Z",
+      "head_sha": "ced7e4b4f2b903bb637aaff7cdfd3c70932092d7"
     },
     {
-      "id": 41153564185,
-      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
+      "id": 41181018706,
+      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181018706",
+      "created_at": "2026-10-31T07:32:37Z",
+      "head_sha": "8f2a8b4250d1732c2eb54e0108c0b0a025b84da6"
+    },
+    {
+      "id": 41180378546,
+      "name": "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
       "run_number": 2,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153564185",
-      "created_at": "2026-10-31T01:05:03Z",
-      "head_sha": "95a7bf35fcb17b046cc7be2322949fead80a78bc"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180378546",
+      "created_at": "2026-10-31T07:22:51Z",
+      "head_sha": "10bc5b4e3a124b0ff849caa8a579620f6da887d0"
     },
     {
-      "id": 41153486813,
-      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
+      "id": 41180352285,
+      "name": ".github/workflows/duoface-144-integrated-private-staging.yml",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153486813",
-      "created_at": "2026-10-31T01:04:10Z",
-      "head_sha": "3c2118da4e84f1df1fa8b0193b370163321bd52a"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180352285",
+      "created_at": "2026-10-31T07:22:26Z",
+      "head_sha": "af5ec73b52a6a660d7fed48f356ffe9a2dc8f039"
     },
     {
-      "id": 41152568016,
-      "name": "DuoFace QA135 user-uploaded Log15 and historical SpringBoard crash audit",
-      "run_number": 2,
+      "id": 41180229988,
+      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "run_number": 6,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41152568016",
-      "created_at": "2026-10-31T00:53:11Z",
-      "head_sha": "a00d32bc393e0c03922ef7df619bb1f13a618efd"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180229988",
+      "created_at": "2026-10-31T07:20:39Z",
+      "head_sha": "fbedcb200e3162866c677a039d9905fa02684ee7"
     },
     {
-      "id": 41152508547,
-      "name": "DuoFace QA135 user-uploaded Log15 and historical SpringBoard crash audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41152508547",
-      "created_at": "2026-10-31T00:52:28Z",
-      "head_sha": "b8f53427f78a798096c0e2bffa4deccabe57a129"
-    },
-    {
-      "id": 41141846294,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 94,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41141846294",
-      "created_at": "2026-10-30T23:01:13Z",
-      "head_sha": "6bef202d6c0708af0dc124fd702f275268e8ce8d"
-    },
-    {
-      "id": 41108851145,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 93,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41108851145",
-      "created_at": "2026-10-30T18:40:02Z",
-      "head_sha": "e78b082ff3a2ef53c8b02a28c5feab97381fd9f3"
-    },
-    {
-      "id": 41089867414,
-      "name": "DuoFace QA135 native CarPlay Home ABI probe signed diagnostic candidate",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41089867414",
-      "created_at": "2026-10-30T16:26:13Z",
-      "head_sha": "2882e5b5139305af4fc003ece5a8576c980156fb"
-    },
-    {
-      "id": 41088923434,
-      "name": "DuoFace QA135 original DuoNavi Native12 Home hook ABI forensic",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41088923434",
-      "created_at": "2026-10-30T16:20:05Z",
-      "head_sha": "651c0a86c9cf40366c6779e3d699550c75f3dacc"
-    },
-    {
-      "id": 41088642869,
-      "name": "DuoFace QA135 genuine Home app catalog permission safety compile and tests",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41088642869",
-      "created_at": "2026-10-30T16:18:13Z",
-      "head_sha": "e02ecc694fb0e778076814c55c569871390a7622"
-    },
-    {
-      "id": 41088406250,
-      "name": "DuoFace QA135 original DuoNavi Native12 Home hook ABI forensic",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41088406250",
-      "created_at": "2026-10-30T16:16:42Z",
-      "head_sha": "d5addda2e7f019cce59bf44a1245e026b2d4a30f"
-    },
-    {
-      "id": 41087301322,
-      "name": "Original DuoNavi Native12 actual CarPlay Home roster ARM64 xrefs",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41087301322",
-      "created_at": "2026-10-30T16:09:29Z",
-      "head_sha": "7bcba2c809b3f3fc92f7a4ee781d59b84379c015"
-    },
-    {
-      "id": 41086550926,
-      "name": "Original DuoNavi Native12 SHA verified CarPlay Home vs picker read-only audit",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41086550926",
-      "created_at": "2026-10-30T16:04:34Z",
-      "head_sha": "db428ebab98aac4654731f9bce93134987c2a17d"
-    },
-    {
-      "id": 41086108428,
-      "name": "Original DuoNavi Native12 SHA verified CarPlay Home vs picker read-only audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41086108428",
-      "created_at": "2026-10-30T16:01:41Z",
-      "head_sha": "88f2e27aa705009c98e2b7438e12596bd41bb64e"
-    },
-    {
-      "id": 41083203912,
-      "name": "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41083203912",
-      "created_at": "2026-10-30T15:42:39Z",
-      "head_sha": "84952b35605f05b540b0ef0167a63c0eec73a711"
-    },
-    {
-      "id": 41082963959,
-      "name": "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate",
-      "run_number": 2,
+      "id": 41180140890,
+      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "run_number": 5,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082963959",
-      "created_at": "2026-10-30T15:41:04Z",
-      "head_sha": "f96c296706264259028b44df3ccbf55f3a03bb3b"
-    },
-    {
-      "id": 41082747114,
-      "name": "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082747114",
-      "created_at": "2026-10-30T15:39:38Z",
-      "head_sha": "3582fb00fc241ef422e218470ffc6ed112282997"
-    },
-    {
-      "id": 41082528060,
-      "name": "DuoFace QA134 native-owner GOFA multi-scene regression gate (no package)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082528060",
-      "created_at": "2026-10-30T15:38:10Z",
-      "head_sha": "e9bc8e72b8ebb9eb990c1f15b359874f8072b4af"
-    },
-    {
-      "id": 41082216040,
-      "name": "DuoFace QA134 native-owner GOFA multi-scene regression gate (no package)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41082216040",
-      "created_at": "2026-10-30T15:36:08Z",
-      "head_sha": "c06d03ad26353417b023151049d735c4268b8a3a"
-    },
-    {
-      "id": 41076350338,
-      "name": "DuoFace QA133 iPhone selected apps catalog native CarPlay picker signed",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41076350338",
-      "created_at": "2026-10-30T14:58:10Z",
-      "head_sha": "c12c97966e0ed149edf1aee3cbae1fe6f6c0ce37"
-    },
-    {
-      "id": 41076084637,
-      "name": "DuoFace QA133 iPhone selected apps catalog native CarPlay picker signed",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41076084637",
-      "created_at": "2026-10-30T14:56:20Z",
-      "head_sha": "01fa5e5a1d2655a49f4adff31255fcf8ebf73c3f"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180140890",
+      "created_at": "2026-10-31T07:19:24Z",
+      "head_sha": "e0b344fcdce50cff563f1437c3c3b7168f5cbb39"
     }
   ]
 }
