@@ -12,7 +12,8 @@ class QA155AppReceiver(unittest.TestCase):
   for item in doc["Filter"]["Bundles"]:self.assertIn(item,scope)
   for blocked in ("com.google.ios.youtube","com.lumi.GOFA","com.apple.CarPlay","com.apple.springboard"):
    self.assertNotIn('<string>'+blocked+'</string>',(ROOT/"DF155GeneralAppStateRelay.plist").read_text())
-  self.assertIn("DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs())",scope)
+  self.assertIn("DF155PilotAppID(bundle)",scope)
+  self.assertIn("DF144Allowed(DF144Owner.bundle)",(ROOT/"DFHomeStandalone144.m").read_text())
  def test_real_build_and_merge_enforced(self):
   sh=(ROOT/"build.sh").read_text()
   self.assertRegex(sh,r'-o "\$APP_STATE_DYLIB" DF154GeneralAppStateRelay.m')
@@ -24,13 +25,15 @@ class QA155AppReceiver(unittest.TestCase):
   self.assertIn('"qa155_app_receiver_device_accepted":False',packaging)
  def test_owner_revocation_and_noninterference(self):
   relay=(ROOT/"DF154GeneralAppStateRelay.m").read_text()
-  for token in ('DF155EnabledPilotApp(self.bundle)','owner-terminal','lease-expired',
-                'allowlist-revoked','allowlist-disabled','window.windowScene!=target',
+  for token in ('DF155PilotAppID(self.bundle)','owner-terminal','lease-expired',
+                'postAck:@"scene-matched"','postAck:@"restored"','window.windowScene!=target',
                 'window.frame=original.frame','transport-unavailable'):
    self.assertIn(token,relay)
   for forbidden in ('setInterfaceOrientation:','sendEvent:','UIWindowLevelAlert','SBMainWorkspace'):
    self.assertNotIn(forbidden,relay)
   self.assertIn('DF154Valid(self.state,NSDate.date.timeIntervalSince1970)',relay)
+  self.assertIn('qa155-app-side-ack',(ROOT/"DFHomeStandalone144.m").read_text())
+  self.assertIn('DF155AckNotification',(ROOT/"DF154AppStateProtocol.h").read_text())
   native=(ROOT/"DFSceneHost.m").read_bytes()
   self.assertEqual(hashlib.sha1(b"blob "+str(len(native)).encode()+b"\0"+native).hexdigest(),
                    "ec2924c145be4edaaa27b7320bb869b18de12c6b")

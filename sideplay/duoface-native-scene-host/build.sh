@@ -98,7 +98,7 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.147~native-dock-sync1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.155~appack1_iphoneos-arm64.deb"
 chmod 0755 "$TMP"
 dpkg-deb --root-owner-group --build "$TMP" "$OUT"
 echo "BUILT=$OUT"

@@ -109,10 +109,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.147~native-dock-sync1_iphoneos-arm64.deb'
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.155~appack1_iphoneos-arm64.deb'
           test -s "$HOST"
-          grep -Fq '<key>CFBundleVersion</key><string>147</string>' sideplay/duoface-native-scene-host/Info.plist
-          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.147~native-dock-sync1'
+          grep -Fq '<key>CFBundleVersion</key><string>155</string>' sideplay/duoface-native-scene-host/Info.plist
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.155~appack1'
           mkdir -p "$RUNNER_TEMP/qa147-host"
           dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa147-host"
           ldid -e "$RUNNER_TEMP/qa147-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
@@ -123,10 +123,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
-          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb'
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.155~appack1_iphoneos-arm64.deb'
           test -s "$OUT"
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.147~native-dock-sync1'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.155~appack1'
           mkdir -p "$RUNNER_TEMP/qa147-merged"
           dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa147-merged"
           for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator DF155GeneralAppStateRelay; do
@@ -142,13 +142,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: QA147-private-standalone-signed-UNPUBLISHED
-          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.155~appack1_iphoneos-arm64.deb
           if-no-files-found: error
       - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
         run: |
           set -euo pipefail
           BRANCH='feature/duoface-qa146-native-home-exit-20261031'
-          ART='com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb'
+          ART='com.duoface.jb.embedded_0.0.155~appack1_iphoneos-arm64.deb'
           for n in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
             DIR="$(mktemp -d)"
