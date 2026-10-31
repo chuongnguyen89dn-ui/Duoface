@@ -1,0 +1,78 @@
+{
+  "scope": "original DuoNavi 1.0.4 vs DuoDash 1.1.3 Fullscreen427 REPACK static xrefs",
+  "execution_or_device_proof": false,
+  "home_tap_to_launch_proven": false,
+  "input_debs_extracted_by_workflow": true,
+  "images": {
+    "DuoNavi104": {
+      "dylib_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+      "matched_functions": 22,
+      "tracked_literals": 15,
+      "candidate_functions": [
+        {
+          "vm": "0xa35cc",
+          "markers": [
+            "indirect:iconManager:launchIconForIconView:"
+          ]
+        },
+        {
+          "vm": "0xed334",
+          "markers": [
+            "indirect:startBridging:",
+            "indirect:addApplicationProxy:withOverrideURL:",
+            "indirect:effectivePolicyForAppDeclaration:"
+          ]
+        },
+        {
+          "vm": "0x173e04",
+          "markers": [
+            "indirect:startBridging:"
+          ]
+        },
+        {
+          "vm": "0x1a68ac",
+          "markers": [
+            "indirect:startBridging:"
+          ]
+        },
+        {
+          "vm": "0x1c08e4",
+          "markers": [
+            "indirect:startBridging:",
+            "indirect:stopBridging"
+          ]
+        },
+        {
+          "vm": "0x1f39fc",
+          "markers": [
+            "indirect:startBridging:",
+            "indirect:stopBridging"
+          ]
+        },
+        {
+          "vm": "0x21fb2c",
+          "markers": [
+            "indirect:startBridging:",
+            "indirect:effectivePolicyForAppDeclaration:"
+          ]
+        },
+        {
+          "vm": "0x2fa444",
+          "markers": [
+            "indirect:startBridging:"
+          ]
+        }
+      ],
+      "candidate_function_count": 8,
+      "caveat": "co-located original xrefs do not prove invocation or selector type encoding"
+    },
+    "DuoDash113Repack": {
+      "dylib_sha256": "b41dd7f892bfd3722e95a40f764a989886078b4a30943c1f0b50d47b6e248a47",
+      "matched_functions": 4,
+      "tracked_literals": 15,
+      "candidate_functions": [],
+      "candidate_function_count": 0,
+      "caveat": "co-located original xrefs do not prove invocation or selector type encoding"
+    }
+  }
+}
