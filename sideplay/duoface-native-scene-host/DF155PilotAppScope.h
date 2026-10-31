@@ -9,7 +9,8 @@ NS_INLINE BOOL DF155PilotAppID(NSString *bundle) {
         [bundle isEqualToString:@"org.videolan.vlc-ios"];
 }
 NS_INLINE BOOL DF155EnabledPilotApp(NSString *bundle) {
- return DF155PilotAppID(bundle) &&
-        DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs());
+ // SpringBoard validates current user consent before publishing each lease.
+ // The injected application's sandbox cannot reliably read mobile preferences.
+ return DF155PilotAppID(bundle);
 }
 #endif
