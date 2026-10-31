@@ -1,3 +1,15 @@
+# QA141 PUBLIC SILEO VERIFIED — actual fixes shipped; device validation pending
+
+- Latest source 5fd07d2720fbfd1db5429f224604fab37e575b0a; archive 3414bca0aeb7a0391ea2413ba940674a11081f3c; integrated version 0.0.141~declmap1; exact SHA256 7aa43717a19b2a94ae66e25650f0078185bb9e1e7618c3909844657d567aef19.
+- Signed macOS CI41169218555/job124443328321 PASS including reproduced QA138 negative control, QA141 forwarding depth2/calls3, real object declaration slot/setter/idempotence/readback/native policy tests, consent and geometry replay.
+- Sileo publisher bbe3579e65b86cae079e92d24472beb651f825f3; run41169455838 ALL FIVE JOBS SUCCESS: build124444048435, deploy124444846983, observer124444914245, integrated public124444914265, QA11124444914373. YAML41169455803 PASS. Public verifier downloaded DEB and validated exact version/SHA against the live single APT entry.
+- Public DEB: https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.141~declmap1_iphoneos-arm64.deb
+- Concrete code changes from failing140: complete actual nil DBApplicationInfo declarations and notify ready Home records; resize exact GOFA/Mapbox canvas classes to verified own full-window parent, using normal UIKit/Mapbox layout and temporary autoresizing lease. Host geometry/BKS/chrome/YouTube unchanged.
+- Log19 remains the pre-fix evidence: six selected ordinary apps nil declaration; six of eleven GOFA samples stale children, five active. No device141 logs/test yet. Do NOT claim icons visible, app launch success, GOFA solved, or crash-free hardware from build/public checks.
+- Next device action: refresh Sileo, update existing DuoFace Independent integrated package to0.0.141~declmap1, respring to reload injected dylibs and reconnect CarPlay. Retain current Home140 consent/selected apps; no new consent switch or Filza needed. Validate real Home icon+tap and GOFA split/full transitions; inspect141 declaration-attached/getterReadback and resize141 before/after/parent only if needed.
+
+---
+
 # QA141 signed build PASS; publishing in progress; device outcome pending
 
 - Source 5fd07d2720fbfd1db5429f224604fab37e575b0a; signed macOS run41169218555/job124443328321 SUCCESS; archive 3414bca0aeb7a0391ea2413ba940674a11081f3c. Version0.0.141~declmap1; SHA256 7aa43717a19b2a94ae66e25650f0078185bb9e1e7618c3909844657d567aef19.
