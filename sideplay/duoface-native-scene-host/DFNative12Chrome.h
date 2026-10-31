@@ -11,8 +11,6 @@ typedef void (^DFNative12ChromeCommand)(NSString *action, NSNumber *ratio);
                       command:(DFNative12ChromeCommand)command;
 - (NSDictionary *)geometryReadback119;
 - (BOOL)start;
-// Accepts only selected Home app into the already active SpringBoard scene host.
-- (BOOL)openSelectedHomeBundleID143:(NSString *)bundleID;
 - (void)skipStartupSplashForHomeReentry;
 - (void)hideAllExternalWindowsImmediately;
 // Immutable post-action state sampled from the actual SpringBoard UI owner.
