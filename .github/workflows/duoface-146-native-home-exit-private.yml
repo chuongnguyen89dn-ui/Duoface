@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/duoface-qa146-native-home-exit-20261031]
     paths:
-      - '.github/workflows/duoface-145-controlled-standalone-private.yml'
+      - '.github/workflows/duoface-146-native-home-exit-private.yml'
       - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
