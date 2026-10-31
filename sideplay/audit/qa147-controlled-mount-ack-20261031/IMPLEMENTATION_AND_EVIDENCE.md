@@ -43,3 +43,16 @@ python3 sideplay/audit/qa147-full-route-evidence-20261031/verify_full_route_evid
 ```
 
 Scope remains ONLY: slow/wrong native app entry, attach reference size, standalone ACK, native Dock activation and Home exit. No full original native host execution parity is claimed.
+
+
+## Signed private build: confirmed, NOT promoted to Sileo
+
+Verified after the draft report above: [Actions 41203911733](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41203911733), job `124545016681`, **completed SUCCESS** on source commit `a9f3d8fcd52cea566fad68e1ef35009e200e3294`. Its existing QA144/145/146 and new QA147 guard tests, macOS iOS16 toolchain, native Objective-C compile, signed integrated DEB assembly, artifact upload and GitHub archive all completed successfully. Standalone source patch and reverted scene host are included in that source commit. Runtime baseline `DFSceneHost.m` remains exact blob `ec2924c145be4edaaa27b7320bb869b18de12c6b`.
+
+**Archive verified in actual DuoFace feature branch via nontruncated Git tree at `594c61d85f83b3e45b8b0585d747ad1f671be37a`:**
+- `sideplay/jb-embedded-appbridge/evidence/runs/41203911733/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb` — 1,169,216 bytes; SHA256 from runner-checked `SHA256SUMS.txt`: `ae76a8d5a9cbccc9800de22fc30135d789bc82a809bbb96ad70e72e91cdb0225`; Git blob `daf2161022bcf813933bd9bfa176f6baebd40ab4`.
+- `sideplay/jb-embedded-appbridge/evidence/runs/41203911733/SHA256SUMS.txt` plus `CI_RESULT.txt` and `PACKAGING_PROVENANCE.json`, all read back. `CI_RESULT.txt`: `SILEO_PUBLISHED=false`, `DEVICE_DIRECT_HOME_TESTED=false` and `STANDALONE_OWNER_FOREGROUND_VERIFIED=false`.
+- Actions artifact `QA147-private-standalone-signed-UNPUBLISHED` ID `13044111154`. Artifact ZIP digest is different from the *internal DEB* checksum; do not confuse them.
+
+Original-route 17-check current-source verifier repin [Actions 41204013065](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41204013065) also completed SUCCESS. These are authentic static/compile/sign/archive proofs, **not** Home/Dock/rotation/use-on-iPhone proof. No new public Sileo update was made; QA147 user hardware rejection is not overturned.
+
