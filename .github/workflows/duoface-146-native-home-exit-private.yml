@@ -15,6 +15,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DF155GeneralAppStateRelay.plist'
       - 'sideplay/duoface-native-scene-host/tests/test_qa155_integrated_relay.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa144_no_split_home_redirect.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa145_controlled_home.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa154_staged_app_state.py'
       - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
       - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
