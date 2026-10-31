@@ -5,6 +5,7 @@
 #import <fcntl.h>
 #import <unistd.h>
 #import <string.h>
+#import <stdlib.h>
 
 static void DF142Record(NSString *line) {
   NSString *full=[NSString stringWithFormat:@"[DFHome142] %@\n",line];
