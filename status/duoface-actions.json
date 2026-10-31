@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-30T23:01:32.983862+00:00",
+  "checked_at_utc": "2026-10-31T02:29:13.453378+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3834,
+  "total_actions_runs": 3848,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -9,6 +9,36 @@
       "success": 3,
       "failure": 0,
       "other": 1
+    },
+    "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 4,
+      "other": 0
+    },
+    "DuoFace QA136 DuoNavi DuoDash live Home process scope audit": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA136 actual Log16 vs native Home": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)": {
+      "recent_runs": 4,
+      "success": 1,
+      "failure": 1,
+      "other": 2
+    },
+    "DuoFace QA135 user-uploaded Log15 and historical SpringBoard crash audit": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
     },
     "DuoFace QA135 native CarPlay Home ABI probe signed diagnostic candidate": {
       "recent_runs": 1,
@@ -201,57 +231,155 @@
       "success": 1,
       "failure": 0,
       "other": 0
-    },
-    "DuoFace 125 versus 126 loaded SpringBoard dylib UUID forensic verification": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 126 bounded observer forensic signed staging QA": {
-      "recent_runs": 5,
-      "success": 1,
-      "failure": 3,
-      "other": 1
-    },
-    "DuoFace 125 verified iOS16 single selector underlock ABI signed QA": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 113 CarPlay Home reentry, YouTube scene restore and immediate conceal signed Sileo QA": {
-      "recent_runs": 1,
-      "success": 0,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 115 passive whole-pane touch wake, logo reveal, original Native12 audit and signed Sileo QA": {
-      "recent_runs": 2,
-      "success": 0,
-      "failure": 2,
-      "other": 0
-    },
-    "DuoFace original-verified native CarPlay Maps scene identity only": {
-      "recent_runs": 1,
-      "success": 0,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace 118 emergency Dock-visible no-global-wake signed QA": {
-      "recent_runs": 1,
-      "success": 0,
-      "failure": 1,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 41160204633,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 95,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41160204633",
+      "created_at": "2026-10-31T02:29:03Z",
+      "head_sha": "488a2b5f416ca7ff91bc7c0c7d04379e5ad8344b"
+    },
+    {
+      "id": 41158676697,
+      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158676697",
+      "created_at": "2026-10-31T02:09:17Z",
+      "head_sha": "5c1f4be51a107be97d81d0cf3c4bd752c33ab99a"
+    },
+    {
+      "id": 41158565412,
+      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158565412",
+      "created_at": "2026-10-31T02:07:49Z",
+      "head_sha": "bb2ffdc937c918f242ea3e194836f6162c2cf6b0"
+    },
+    {
+      "id": 41158544136,
+      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158544136",
+      "created_at": "2026-10-31T02:07:33Z",
+      "head_sha": "b6b539cb9fc4b479d9535f561273e774526c13f0"
+    },
+    {
+      "id": 41158506266,
+      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158506266",
+      "created_at": "2026-10-31T02:07:04Z",
+      "head_sha": "ec7ac24185a964b69ef6a73948cf9715ecfb8ec9"
+    },
+    {
+      "id": 41158474117,
+      "name": "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41158474117",
+      "created_at": "2026-10-31T02:06:39Z",
+      "head_sha": "eb071e0d9ead2320712086e16de49bd6fefa57c0"
+    },
+    {
+      "id": 41157922214,
+      "name": "DuoFace QA136 DuoNavi DuoDash live Home process scope audit",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41157922214",
+      "created_at": "2026-10-31T01:59:50Z",
+      "head_sha": "8a10d426958411be2ef2d58c2c217862c5567ec9"
+    },
+    {
+      "id": 41157418748,
+      "name": "DuoFace QA136 actual Log16 vs native Home",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41157418748",
+      "created_at": "2026-10-31T01:52:52Z",
+      "head_sha": "39a4bc57f816396ae6fc985b891b20e1c099bbce"
+    },
+    {
+      "id": 41153649339,
+      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153649339",
+      "created_at": "2026-10-31T01:06:06Z",
+      "head_sha": "5711e8309429f20298896085d59b679ff9a59bb0"
+    },
+    {
+      "id": 41153623209,
+      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153623209",
+      "created_at": "2026-10-31T01:05:45Z",
+      "head_sha": "568b0f4e4618b628c55ae59ae974de1353214520"
+    },
+    {
+      "id": 41153564185,
+      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153564185",
+      "created_at": "2026-10-31T01:05:03Z",
+      "head_sha": "95a7bf35fcb17b046cc7be2322949fead80a78bc"
+    },
+    {
+      "id": 41153486813,
+      "name": "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41153486813",
+      "created_at": "2026-10-31T01:04:10Z",
+      "head_sha": "3c2118da4e84f1df1fa8b0193b370163321bd52a"
+    },
+    {
+      "id": 41152568016,
+      "name": "DuoFace QA135 user-uploaded Log15 and historical SpringBoard crash audit",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41152568016",
+      "created_at": "2026-10-31T00:53:11Z",
+      "head_sha": "a00d32bc393e0c03922ef7df619bb1f13a618efd"
+    },
+    {
+      "id": 41152508547,
+      "name": "DuoFace QA135 user-uploaded Log15 and historical SpringBoard crash audit",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41152508547",
+      "created_at": "2026-10-31T00:52:28Z",
+      "head_sha": "b8f53427f78a798096c0e2bffa4deccabe57a129"
+    },
+    {
       "id": 41141846294,
       "name": "DuoFace Actions status snapshot",
       "run_number": 94,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41141846294",
       "created_at": "2026-10-30T23:01:13Z",
       "head_sha": "6bef202d6c0708af0dc124fd702f275268e8ce8d"
@@ -405,146 +533,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41076084637",
       "created_at": "2026-10-30T14:56:20Z",
       "head_sha": "01fa5e5a1d2655a49f4adff31255fcf8ebf73c3f"
-    },
-    {
-      "id": 41075488359,
-      "name": "DuoFace QA133 Native12 GOFA baseline and selected app catalog (source-only)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41075488359",
-      "created_at": "2026-10-30T14:52:20Z",
-      "head_sha": "76007e0f8b239089891b520e0207e95d33318f88"
-    },
-    {
-      "id": 41075341884,
-      "name": "DuoFace QA133 Native12 GOFA baseline and selected app catalog (source-only)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41075341884",
-      "created_at": "2026-10-30T14:51:21Z",
-      "head_sha": "cf1ad48dc40e9824f8ac43c70c2a2ea953e3e938"
-    },
-    {
-      "id": 41071107493,
-      "name": "DuoFace QA132 verified-session BKS original-first signed physical QA",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41071107493",
-      "created_at": "2026-10-30T14:21:25Z",
-      "head_sha": "5a66876d7a39c167e222ea5b02b78408a3017ef5"
-    },
-    {
-      "id": 41070941224,
-      "name": "DuoFace QA132 verified-session BKS original-first signed physical QA",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41070941224",
-      "created_at": "2026-10-30T14:20:00Z",
-      "head_sha": "66ac7a019fcd533242abd461847364e55a39f046"
-    },
-    {
-      "id": 41069171003,
-      "name": "DuoFace QA131 append verified checkpoint to existing long project handoff",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41069171003",
-      "created_at": "2026-10-30T14:08:09Z",
-      "head_sha": "b3b06452afca8efa7d8653b7cbd675e09f50f956"
-    },
-    {
-      "id": 41068783427,
-      "name": "DuoFace QA131 append verified checkpoint to existing long project handoff",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41068783427",
-      "created_at": "2026-10-30T14:05:32Z",
-      "head_sha": "4e8bc617226f50fa44c3ade602695d4304f7a3cf"
-    },
-    {
-      "id": 41068344322,
-      "name": "DuoFace QA131 append verified checkpoint to existing long project handoff",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41068344322",
-      "created_at": "2026-10-30T14:02:36Z",
-      "head_sha": "beca859a473ba520251eedac44215961c2f53174"
-    },
-    {
-      "id": 41068297392,
-      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41068297392",
-      "created_at": "2026-10-30T14:02:16Z",
-      "head_sha": "b5ba74a5bb4c3a40f84b3e641ab0559b4f86dbc6"
-    },
-    {
-      "id": 41067157830,
-      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41067157830",
-      "created_at": "2026-10-30T13:54:28Z",
-      "head_sha": "6f3e68ea572fef50d366b533c6e35e0ecda1c8ce"
-    },
-    {
-      "id": 41067125621,
-      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41067125621",
-      "created_at": "2026-10-30T13:54:15Z",
-      "head_sha": "e645136747bca3ba020a9878bf524ddaa79ab283"
-    },
-    {
-      "id": 41066969453,
-      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066969453",
-      "created_at": "2026-10-30T13:53:11Z",
-      "head_sha": "a374cd646fa02f9c993c9d13dadcad7127e11125"
-    },
-    {
-      "id": 41066938896,
-      "name": "DuoFace QA131 clock-probe diagnostics unique signed staging",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066938896",
-      "created_at": "2026-10-30T13:52:58Z",
-      "head_sha": "f899e6f3ff60c35725ac90f86ec94228343c51e2"
-    },
-    {
-      "id": 41066343467,
-      "name": "DuoFace QA131 passive iPhone frame clock diagnostic gate (iOS16)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066343467",
-      "created_at": "2026-10-30T13:48:42Z",
-      "head_sha": "0a058bf6032fb30ae53785d363b0a331de5d855a"
-    },
-    {
-      "id": 41066118431,
-      "name": "DuoFace 130 scene destroy + current owner signed staging QA",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41066118431",
-      "created_at": "2026-10-30T13:47:07Z",
-      "head_sha": "13faa5963444defeb456238510d612a14a7cdf0d"
     }
   ]
 }
