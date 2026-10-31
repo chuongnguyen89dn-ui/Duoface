@@ -15,7 +15,7 @@ class WorkspaceAndTerminalGate(unittest.TestCase):
         self.assertIn('#import "DFWorkspaceABIProbe150.h"', SOLO)
         carplay = SOLO.split("static void DF144Launch(", 1)[1].split("static void DF144Install(", 1)[0]
         self.assertLess(carplay.index("DF144ValidRequest(p,"), carplay.index("DF150ProbeWorkspaceForRequest(rid,bundle,display,NO)"))
-        self.assertLess(carplay.index("notify_post(DF144RequestNotify)"), carplay.index("DF150ProbeWorkspaceForRequest(rid,bundle,display,NO)"))
+        self.assertLess(carplay.index("DF150ProbeWorkspaceForRequest(rid,bundle,display,NO)"), carplay.index("notify_post(DF144RequestNotify)"))
         springboard = SOLO.split("static void DF144Consume(", 1)[1].split("__attribute__((constructor))static void DF144StartSpringBoard", 1)[0]
         self.assertLess(springboard.index("DF144ValidRequest(p,"), springboard.index("DF150ProbeWorkspaceForRequest(uuid,p"))
         self.assertLess(springboard.index("DF144Allowed(p["), springboard.index("DF150ProbeWorkspaceForRequest(uuid,p"))
