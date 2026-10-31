@@ -10,6 +10,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHome145Consent.h'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DFNativeDockSync147.h'
+      - 'sideplay/duoface-native-scene-host/DFManagerLifecycle149.h'
+      - 'sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa149_manager_live_scene.py'
       - 'sideplay/duoface-native-scene-host/DFDockLifecycle147.h'
       - 'sideplay/duoface-native-scene-host/tests/dock_lifecycle_147.c'
       - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h'
@@ -39,11 +42,14 @@ jobs:
           set -euo pipefail
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/dock_lifecycle_147.c -o "$RUNNER_TEMP/dock147"
           "$RUNNER_TEMP/dock147"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o "$RUNNER_TEMP/manager149"
+          "$RUNNER_TEMP/manager149"
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa145_controlled_home.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa146_native_home_exit.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa149_manager_live_scene.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
