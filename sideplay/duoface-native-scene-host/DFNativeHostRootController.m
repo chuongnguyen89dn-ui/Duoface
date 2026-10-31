@@ -557,7 +557,7 @@
    [self appSettingsSaveFailed];
    return;
  }
- if(!control.on && DFHome145Enabled()){
+ if(!control.on){
     (void)DFHome145Write(NO);
     notify_post("com.duoface.nativehost.standalone144.stop");
  }
