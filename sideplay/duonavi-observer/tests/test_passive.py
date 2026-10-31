@@ -11,7 +11,7 @@ assert filters["Executables"] == ["SpringBoard","CarPlay","CarPlayApp"]
 assert info["CFBundleIdentifier"] == "com.duoface.qa.duonaviobserver.app"
 assert ent["com.apple.private.security.no-container"] is True
 assert "Package: com.duoface.qa.duonaviobserver" in control
-assert "Version: 0.0.2~dockabi1" in control
+assert "Version: 0.0.2~dockabi2" in control
 assert not any(t.startswith(("Conflicts:","Replaces:","Breaks:")) for t in control.splitlines())
 for term in ["method_getTypeEncoding","method_getNumberOfArguments",
              "underlock_method_abi_read_only","UISceneDidEnterBackgroundNotification",

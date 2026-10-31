@@ -31,3 +31,6 @@ New distinct version; old passive1 package is preserved. Native Dock sampling no
 Install/update **DuoNavi Observer (Read Only)** via Sileo once available. Respring once so the observer loads into CarPlay, then connect CarPlay. During the first 60 seconds: open a selected unsupported app from Home, use Home, reopen using Dock if present, and repeat with another app. On iPhone open **DuoNavi Observer**, press **Xuất log**; preserve the current bridge identity (QA146 or original DuoNavi) with the capture. For a separate original comparison, disable the active DuoFace bridge first using the existing separate-session procedure. The observer does not enable, disable, replace or install any commercial bridge. Do not run both active bridges together. No Filza required.
 
 This step only establishes declaring-class metadata and public scene containment. Native private receiver identity, selector call arguments, app-side ACK and touch latency remain unproven.
+
+
+Packaging correction: first signed dockabi1 inspection showed mktemp root `0700` and macOS runner ownership. The install candidate is **0.0.2~dockabi2**, built with stage root 0755 and dpkg-deb --root-owner-group; the pipeline explicitly verifies the archive root mode/owner before promotion. dockabi1 is preserved as non-install-candidate evidence, not overwritten.
