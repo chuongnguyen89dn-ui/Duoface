@@ -1,0 +1,291 @@
+﻿2026-10-31T11:22:15.2055173Z Current runner version: '2.338.2'
+2026-10-31T11:22:15.2080920Z ##[group]Runner Image Provisioner
+2026-10-31T11:22:15.2081788Z Hosted Compute Agent
+2026-10-31T11:22:15.2082489Z Version: 20261021.618
+2026-10-31T11:22:15.2083150Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-31T11:22:15.2083966Z Build Date: 2026-10-21T00:45:21Z
+2026-10-31T11:22:15.2084788Z Worker ID: {001fc17e-365e-40cb-8c6d-2c20e990340c}
+2026-10-31T11:22:15.2085525Z Region: northcentralus
+2026-10-31T11:22:15.2086184Z Cloud: Azure
+2026-10-31T11:22:15.2086767Z ##[endgroup]
+2026-10-31T11:22:15.2088329Z ##[group]Operating System
+2026-10-31T11:22:15.2089180Z Ubuntu
+2026-10-31T11:22:15.2089776Z 24.04.5
+2026-10-31T11:22:15.2090829Z LTS
+2026-10-31T11:22:15.2091426Z ##[endgroup]
+2026-10-31T11:22:15.2092040Z ##[group]Runner Image
+2026-10-31T11:22:15.2092765Z Image: ubuntu-24.04
+2026-10-31T11:22:15.2093357Z Version: 20261025.353.1
+2026-10-31T11:22:15.2095079Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-31T11:22:15.2096721Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-10-31T11:22:15.2097800Z ##[endgroup]
+2026-10-31T11:22:15.2098950Z ##[group]GITHUB_TOKEN Permissions
+2026-10-31T11:22:15.2101538Z Contents: read
+2026-10-31T11:22:15.2102204Z Metadata: read
+2026-10-31T11:22:15.2103026Z ##[endgroup]
+2026-10-31T11:22:15.2105399Z Secret source: Actions
+2026-10-31T11:22:15.2106325Z Cache mode: write
+2026-10-31T11:22:15.2107416Z Prepare workflow directory
+2026-10-31T11:22:15.2516833Z Prepare all required actions
+2026-10-31T11:22:15.2588718Z Getting action download info
+2026-10-31T11:22:15.5646693Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-31T11:22:15.7757428Z Complete job name: verify-duoface-integrated-pages
+2026-10-31T11:22:15.8721466Z ##[group]Run actions/checkout@v4
+2026-10-31T11:22:15.8722476Z with:
+2026-10-31T11:22:15.8722973Z   repository: chuongnguyen89dn-ui/carplaydsp
+2026-10-31T11:22:15.8726945Z   token: ***
+2026-10-31T11:22:15.8727386Z   ssh-strict: true
+2026-10-31T11:22:15.8727833Z   ssh-user: git
+2026-10-31T11:22:15.8728288Z   persist-credentials: true
+2026-10-31T11:22:15.8728779Z   clean: true
+2026-10-31T11:22:15.8729243Z   sparse-checkout-cone-mode: true
+2026-10-31T11:22:15.8729776Z   fetch-depth: 1
+2026-10-31T11:22:15.8730686Z   fetch-tags: false
+2026-10-31T11:22:15.8731154Z   show-progress: true
+2026-10-31T11:22:15.8731610Z   lfs: false
+2026-10-31T11:22:15.8732026Z   submodules: false
+2026-10-31T11:22:15.8732495Z   set-safe-directory: true
+2026-10-31T11:22:15.8733004Z   allow-unsafe-pr-checkout: false
+2026-10-31T11:22:15.8733857Z ##[endgroup]
+2026-10-31T11:22:16.1710345Z Syncing repository: chuongnguyen89dn-ui/carplaydsp
+2026-10-31T11:22:16.1713148Z ##[group]Getting Git version info
+2026-10-31T11:22:16.1714777Z Working directory is '/home/runner/work/carplaydsp/carplaydsp'
+2026-10-31T11:22:16.1716773Z [command]/usr/bin/git version
+2026-10-31T11:22:16.1831032Z git version 2.56.0
+2026-10-31T11:22:16.1859166Z ##[endgroup]
+2026-10-31T11:22:16.1875323Z Temporarily overriding HOME='/home/runner/work/_temp/381ddc28-901a-408b-83a1-a472a5dabbcd' before making global git config changes
+2026-10-31T11:22:16.1877597Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-31T11:22:16.1882071Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/carplaydsp/carplaydsp
+2026-10-31T11:22:16.1948547Z Deleting the contents of '/home/runner/work/carplaydsp/carplaydsp'
+2026-10-31T11:22:16.1954287Z ##[group]Initializing the repository
+2026-10-31T11:22:16.1959447Z [command]/usr/bin/git init /home/runner/work/carplaydsp/carplaydsp
+2026-10-31T11:22:16.2094321Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-31T11:22:16.2096942Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-31T11:22:16.2099301Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-31T11:22:16.2101906Z hint: call:
+2026-10-31T11:22:16.2103018Z hint:
+2026-10-31T11:22:16.2104308Z hint: 	git config --global init.defaultBranch <name>
+2026-10-31T11:22:16.2105785Z hint:
+2026-10-31T11:22:16.2107188Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-31T11:22:16.2109337Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-31T11:22:16.2111490Z hint:
+2026-10-31T11:22:16.2112595Z hint: 	git branch -m <name>
+2026-10-31T11:22:16.2115894Z hint:
+2026-10-31T11:22:16.2117651Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-31T11:22:16.2119906Z Initialized empty Git repository in /home/runner/work/carplaydsp/carplaydsp/.git/
+2026-10-31T11:22:16.2125475Z [command]/usr/bin/git remote add origin https://github.com/chuongnguyen89dn-ui/carplaydsp
+2026-10-31T11:22:16.2191329Z ##[endgroup]
+2026-10-31T11:22:16.2193617Z ##[group]Disabling automatic garbage collection
+2026-10-31T11:22:16.2200692Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-31T11:22:16.2247123Z ##[endgroup]
+2026-10-31T11:22:16.2248949Z ##[group]Setting up auth
+2026-10-31T11:22:16.2271681Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-31T11:22:16.2319291Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-31T11:22:16.2799216Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-31T11:22:16.2854442Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-31T11:22:16.3118642Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-31T11:22:16.3165600Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-31T11:22:16.3417013Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-31T11:22:16.3470938Z ##[endgroup]
+2026-10-31T11:22:16.3485324Z ##[group]Fetching the repository
+2026-10-31T11:22:16.3488245Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +61c3b7fd4d7d8c7c824553b7a0f06c47679eaac0:refs/remotes/origin/main
+2026-10-31T11:22:16.6838461Z From https://github.com/chuongnguyen89dn-ui/carplaydsp
+2026-10-31T11:22:16.6841647Z  * [new ref]         61c3b7fd4d7d8c7c824553b7a0f06c47679eaac0 -> origin/main
+2026-10-31T11:22:16.6847505Z ##[endgroup]
+2026-10-31T11:22:16.6850692Z ##[group]Determining the checkout info
+2026-10-31T11:22:16.6853843Z ##[endgroup]
+2026-10-31T11:22:16.6857186Z [command]/usr/bin/git sparse-checkout disable
+2026-10-31T11:22:16.6924374Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-31T11:22:16.6966699Z ##[group]Checking out the ref
+2026-10-31T11:22:16.6972305Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-31T11:22:16.7096918Z Switched to a new branch 'main'
+2026-10-31T11:22:16.7103985Z branch 'main' set up to track 'origin/main'.
+2026-10-31T11:22:16.7110781Z ##[endgroup]
+2026-10-31T11:22:16.7162913Z [command]/usr/bin/git log -1 --format=%H
+2026-10-31T11:22:16.7199289Z 61c3b7fd4d7d8c7c824553b7a0f06c47679eaac0
+2026-10-31T11:22:16.7484634Z ##[group]Run set -euo pipefail
+2026-10-31T11:22:16.7486067Z [36;1mset -euo pipefail[0m
+2026-10-31T11:22:16.7487563Z [36;1mSITE='https://chuongnguyen89dn-ui.github.io/carplaydsp'[0m
+2026-10-31T11:22:16.7489267Z [36;1mPKG='com.duoface.jb.embedded'[0m
+2026-10-31T11:22:16.7490881Z [36;1mVER='0.0.147~native-dock-sync1'[0m
+2026-10-31T11:22:16.7492713Z [36;1mFILE='com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb'[0m
+2026-10-31T11:22:16.7495403Z [36;1mSHA='4d330ae909dc6f1e12ead482aef5b0754bf93ea8678e3ed41f97bd6d8ea1b7a6'[0m
+2026-10-31T11:22:16.7497305Z [36;1mfor attempt in $(seq 1 20); do[0m
+2026-10-31T11:22:16.7499245Z [36;1m  if curl -fLsS --max-time 25 "$SITE/Packages" -o "$RUNNER_TEMP/duoface-packages"; then[0m
+2026-10-31T11:22:16.7501867Z [36;1m    if grep -Fqx "Version: $VER" "$RUNNER_TEMP/duoface-packages" &&[0m
+2026-10-31T11:22:16.7503932Z [36;1m       grep -Fqx "SHA256: $SHA" "$RUNNER_TEMP/duoface-packages"; then[0m
+2026-10-31T11:22:16.7505584Z [36;1m       break[0m
+2026-10-31T11:22:16.7506519Z [36;1m    fi[0m
+2026-10-31T11:22:16.7507375Z [36;1m  fi[0m
+2026-10-31T11:22:16.7508525Z [36;1m  echo "Awaiting DuoFace Sileo Pages CDN: $attempt/20"[0m
+2026-10-31T11:22:16.7510160Z [36;1m  sleep 15[0m
+2026-10-31T11:22:16.7511162Z [36;1mdone[0m
+2026-10-31T11:22:16.7512510Z [36;1mSITE="$SITE" PKG="$PKG" VER="$VER" FILE="$FILE" SHA="$SHA" python3 - <<'PY'[0m
+2026-10-31T11:22:16.7514218Z [36;1mimport os[0m
+2026-10-31T11:22:16.7515240Z [36;1mfrom pathlib import Path[0m
+2026-10-31T11:22:16.7517236Z [36;1mall_stanzas=Path(os.environ['RUNNER_TEMP'],'duoface-packages').read_text().split('\n\n')[0m
+2026-10-31T11:22:16.7519238Z [36;1mhits=[][0m
+2026-10-31T11:22:16.7520378Z [36;1mfor block in all_stanzas:[0m
+2026-10-31T11:22:16.7521511Z [36;1m    d={}[0m
+2026-10-31T11:22:16.7522513Z [36;1m    for line in block.splitlines():[0m
+2026-10-31T11:22:16.7523983Z [36;1m        if ': ' in line and not line.startswith(' '):[0m
+2026-10-31T11:22:16.7525484Z [36;1m            k,v=line.split(': ',1);d[k]=v[0m
+2026-10-31T11:22:16.7527065Z [36;1m    if d.get('Package')==os.environ['PKG']:hits.append(d)[0m
+2026-10-31T11:22:16.7528592Z [36;1massert len(hits)==1,hits[0m
+2026-10-31T11:22:16.7529685Z [36;1md=hits[0][0m
+2026-10-31T11:22:16.7531040Z [36;1massert d['Version']==os.environ['VER'],d[0m
+2026-10-31T11:22:16.7532461Z [36;1massert d['SHA256']==os.environ['SHA'],d[0m
+2026-10-31T11:22:16.7534003Z [36;1massert d['Filename']=='debs/'+os.environ['FILE'],d[0m
+2026-10-31T11:22:16.7535600Z [36;1massert d['Architecture']=='iphoneos-arm64',d[0m
+2026-10-31T11:22:16.7537378Z [36;1massert d['Name']=='DuoFace Independent (Integrated CarPlay Beta)',d[0m
+2026-10-31T11:22:16.7539359Z [36;1mprint('DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED')[0m
+2026-10-31T11:22:16.7541096Z [36;1mPY[0m
+2026-10-31T11:22:16.7542427Z [36;1mcurl -fLsS --retry 4 "$SITE/Release" -o "$RUNNER_TEMP/duoface-release"[0m
+2026-10-31T11:22:16.7544336Z [36;1mgrep -F 'SHA256:' "$RUNNER_TEMP/duoface-release"[0m
+2026-10-31T11:22:16.7546233Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/$FILE" -o "$RUNNER_TEMP/duoface-public.deb"[0m
+2026-10-31T11:22:16.7548418Z [36;1mprintf '%s  %s\n' "$SHA" "$RUNNER_TEMP/duoface-public.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7550659Z [36;1mecho 'DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED'[0m
+2026-10-31T11:22:16.7552533Z [36;1m# Exact previous .92 remains downloadable for rollback.[0m
+2026-10-31T11:22:16.7555397Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.92~logo3s1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-092.deb"[0m
+2026-10-31T11:22:16.7559660Z [36;1mprintf '%s  %s\n' '1f4a495f8b9ba91f71bac4c7abc4e064878fb8f2edd5272df3d48fef3a95e1f0' "$RUNNER_TEMP/duoface-frozen-092.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7562993Z [36;1mecho 'DUOFACE_092_ROLLBACK_PUBLIC_SHA_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7564876Z [36;1m# Never delete or overwrite the user's physical-device-confirmed[0m
+2026-10-31T11:22:16.7567188Z [36;1m# .90 YouTube orientation rollback while QA-testing .91 native Maps.[0m
+2026-10-31T11:22:16.7570634Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.90~nativegetters1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-090.deb"[0m
+2026-10-31T11:22:16.7574923Z [36;1mprintf '%s  %s\n' 'c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27' "$RUNNER_TEMP/duoface-frozen-090.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7578183Z [36;1mecho DUOFACE_090_USER_DEVICE_VIDEO_ROLLBACK_UNCHANGED_PASS[0m
+2026-10-31T11:22:16.7580510Z [36;1m# Freeze the first USER-confirmed .83 video playback/no-crash baseline.[0m
+2026-10-31T11:22:16.7583783Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.83~manualobserver1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-083.deb"[0m
+2026-10-31T11:22:16.7588136Z [36;1mprintf '%s  %s\n' 'ced5f42db8b9a3285ccf159386f25e8e5ea0fa976e14c3b35ea24dd625534c9b' "$RUNNER_TEMP/duoface-frozen-083.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7591486Z [36;1mecho 'DUOFACE_FROZEN_083_PLAYBACK_BASELINE_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7593354Z [36;1m# .84 also remains SHA-identical and publicly downloadable.[0m
+2026-10-31T11:22:16.7596368Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.84~portraitpolicy1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-084.deb"[0m
+2026-10-31T11:22:16.7600787Z [36;1mprintf '%s  %s\n' '8cfd377d295b2fb7d5e16f6b81fb03f4744205f0cd0cbfc253d96d7d678de107' "$RUNNER_TEMP/duoface-frozen-084.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7603932Z [36;1mecho 'DUOFACE_FROZEN_084_ROTATION_CANDIDATE_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7605942Z [36;1m# Preserve previous .72 as a byte-identical public rollback binary.[0m
+2026-10-31T11:22:16.7609012Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.72~appscene1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-072.deb"[0m
+2026-10-31T11:22:16.7613585Z [36;1mprintf '%s  %s\n' '8f8e3e02630df7b69a6f9c6479858ecdf203fd02b8a251f6ab7c67a15a9e9f55' "$RUNNER_TEMP/duoface-frozen-072.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7616761Z [36;1mecho 'DUOFACE_FROZEN_072_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7618824Z [36;1m# Preserve actual .62 published package byte-identical for rollback.[0m
+2026-10-31T11:22:16.7622329Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.62~rawgrip1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-062.deb"[0m
+2026-10-31T11:22:16.7626695Z [36;1mprintf '%s  %s\n' '2a2589e2fa39fcf272890b55d0cdf02c9a91ff5df5f8ea6c47acd85b4eef9627' "$RUNNER_TEMP/duoface-frozen-062.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7630207Z [36;1mecho 'DUOFACE_FROZEN_062_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7632140Z [36;1m# .61 remains byte-identical as the earlier public baseline.[0m
+2026-10-31T11:22:16.7635142Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.61~touchbackstop1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-061.deb"[0m
+2026-10-31T11:22:16.7639309Z [36;1mprintf '%s  %s\n' '1ca60ce8d54a5fd643b821ce74c7addc178b5aa060834b57a5d09632cca99cae' "$RUNNER_TEMP/duoface-frozen-061.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7642548Z [36;1mecho 'DUOFACE_FROZEN_061_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7644518Z [36;1m# Preserve .60 physical-timer build unchanged for rollback.[0m
+2026-10-31T11:22:16.7647415Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.60~logohold1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-060.deb"[0m
+2026-10-31T11:22:16.7651574Z [36;1mprintf '%s  %s\n' 'f11f56dd8c99d816244c19d22af92d3ee62badfdbbbe02c0d95e9079214449c8' "$RUNNER_TEMP/duoface-frozen-060.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7654713Z [36;1mecho 'DUOFACE_FROZEN_060_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7656612Z [36;1m# Preserve .59 Zoom geometry candidate for manual rollback.[0m
+2026-10-31T11:22:16.7659678Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.59~zoomgeofix1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-059.deb"[0m
+2026-10-31T11:22:16.7663941Z [36;1mprintf '%s  %s\n' '4d19ec3221c67b9d25f92b7ed29e9ac2b67c37846b3dd0c6429c987cf5d7b2d3' "$RUNNER_TEMP/duoface-frozen-059.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7667041Z [36;1mecho 'DUOFACE_FROZEN_059_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7668929Z [36;1m# Preserve .58 exact diagnostic DEB online for rollback.[0m
+2026-10-31T11:22:16.7672131Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.58~deeptrace1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-058.deb"[0m
+2026-10-31T11:22:16.7676235Z [36;1mprintf '%s  %s\n' '5e9bbc8e45c8c16df58e4663b5dcb6b467634b7555ce0167e8651886c300cedd' "$RUNNER_TEMP/duoface-frozen-058.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7679333Z [36;1mecho 'DUOFACE_FROZEN_058_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7681378Z [36;1m# Preserve .56 exact public bytes after the new .57 candidate.[0m
+2026-10-31T11:22:16.7684301Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.56~ratiozoom1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-056.deb"[0m
+2026-10-31T11:22:16.7688336Z [36;1mprintf '%s  %s\n' '04e493353a906af05bf82683e629ad86ceab56d50eafde1ac92ac9dcd9700587' "$RUNNER_TEMP/duoface-frozen-056.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7691453Z [36;1mecho 'DUOFACE_FROZEN_056_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7693389Z [36;1m# Preserve .55 EXACT public bytes as well as older .54 rollback.[0m
+2026-10-31T11:22:16.7696231Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.55~zoomgrip1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-055.deb"[0m
+2026-10-31T11:22:16.7700301Z [36;1mprintf '%s  %s\n' '6084d2c56e9a4c5eba2bcf4b0b7ca445a37a5edeae34c0dfd72955321193923b' "$RUNNER_TEMP/duoface-frozen-055.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7703305Z [36;1mecho 'DUOFACE_FROZEN_055_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7705250Z [36;1m# Preserve the exact public .54 rollback file even though apt now[0m
+2026-10-31T11:22:16.7707154Z [36;1m# advertises exactly one latest .55 integrated DuoFace entry.[0m
+2026-10-31T11:22:16.7710128Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.54~nativecard1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-054.deb"[0m
+2026-10-31T11:22:16.7714044Z [36;1mprintf '%s  %s\n' '2c582c0227035c136c5f66fc4bb9268f459e68a5c777df7e2f787c11b90aa14d' "$RUNNER_TEMP/duoface-frozen-054.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7717041Z [36;1mecho 'DUOFACE_FROZEN_054_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7718975Z [36;1m# Preserve exactly the prior 0.0.23 direct URL and its binary SHA.[0m
+2026-10-31T11:22:16.7721936Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.23~hold3s1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-023.deb"[0m
+2026-10-31T11:22:16.7725821Z [36;1mprintf '%s  %s\n' '296fc26633e76690682f2fcfb77391ec6b729a3bdfbeb1defb6ce7999dcf699e' "$RUNNER_TEMP/duoface-frozen-023.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7728769Z [36;1mecho 'DUOFACE_FROZEN_023_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7731726Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.24~twopanes1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-024.deb"[0m
+2026-10-31T11:22:16.7735599Z [36;1mprintf '%s  %s\n' '87a19b3d5b1bd034ba454fada8512d9167a6ab2a9426fd46f48512860ae7ebb3' "$RUNNER_TEMP/duoface-frozen-024.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7738548Z [36;1mecho 'DUOFACE_FROZEN_024_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7741483Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.25~panemenu1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-025.deb"[0m
+2026-10-31T11:22:16.7745490Z [36;1mprintf '%s  %s\n' 'a3eccc20622fb385c98ef058344d73f2471384593b1ec9b8b62ea64ed74b03c9' "$RUNNER_TEMP/duoface-frozen-025.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7748437Z [36;1mecho 'DUOFACE_FROZEN_025_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7751425Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.26~stylepicker1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-026.deb"[0m
+2026-10-31T11:22:16.7755333Z [36;1mprintf '%s  %s\n' 'df8909cbdf93df4928e1bb253c57af40d79144307e5f5ccbc5f6519ab96bfa91' "$RUNNER_TEMP/duoface-frozen-026.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7758365Z [36;1mecho 'DUOFACE_FROZEN_026_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7761221Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.27~solo1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-027.deb"[0m
+2026-10-31T11:22:16.7764987Z [36;1mprintf '%s  %s\n' '9dfab2fa8f6ce3e4da4ee953919a63566fc31d3ac49cd5284ac0ab5e63b478c5' "$RUNNER_TEMP/duoface-frozen-027.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7767933Z [36;1mecho 'DUOFACE_FROZEN_027_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7770875Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.28~mediascene1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-028.deb"[0m
+2026-10-31T11:22:16.7774711Z [36;1mprintf '%s  %s\n' '8f2088931a004ee8bfae8ef5b2f254a5f1b9cdf05dcb1020973f910fd384cc2a' "$RUNNER_TEMP/duoface-frozen-028.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7777674Z [36;1mecho 'DUOFACE_FROZEN_028_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7779409Z [36;1m# The 0.0.29 QA test binary was also archived immutably.[0m
+2026-10-31T11:22:16.7782235Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.29~native12ui8test1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-029.deb"[0m
+2026-10-31T11:22:16.7786098Z [36;1mprintf '%s  %s\n' '912cf46fb84bfcdf5a0a843df85514bb888fc0ad437570d980f7da734c5cffd6' "$RUNNER_TEMP/duoface-frozen-029.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7788941Z [36;1mecho 'DUOFACE_FROZEN_029_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7791922Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/com.duoface.jb.embedded_0.0.30~native12equal3test1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-frozen-030.deb"[0m
+2026-10-31T11:22:16.7795806Z [36;1mprintf '%s  %s\n' 'dab6b7c3cd7e9b6d9b5fff703a37416f668803f360cfbf8c783d17e7926ffe35' "$RUNNER_TEMP/duoface-frozen-030.deb" | sha256sum -c -[0m
+2026-10-31T11:22:16.7798653Z [36;1mecho 'DUOFACE_FROZEN_030_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS'[0m
+2026-10-31T11:22:16.7826567Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-31T11:22:16.7827910Z ##[endgroup]
+2026-10-31T11:22:16.9206405Z DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED
+2026-10-31T11:22:16.9589381Z SHA256:
+2026-10-31T11:22:17.2658058Z /home/runner/work/_temp/duoface-public.deb: OK
+2026-10-31T11:22:17.2660469Z DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED
+2026-10-31T11:22:17.4843914Z /home/runner/work/_temp/duoface-frozen-092.deb: OK
+2026-10-31T11:22:17.4845929Z DUOFACE_092_ROLLBACK_PUBLIC_SHA_UNCHANGED_PASS
+2026-10-31T11:22:17.6837136Z /home/runner/work/_temp/duoface-frozen-090.deb: OK
+2026-10-31T11:22:17.6839387Z DUOFACE_090_USER_DEVICE_VIDEO_ROLLBACK_UNCHANGED_PASS
+2026-10-31T11:22:17.8231725Z /home/runner/work/_temp/duoface-frozen-083.deb: OK
+2026-10-31T11:22:17.8235655Z DUOFACE_FROZEN_083_PLAYBACK_BASELINE_UNCHANGED_PASS
+2026-10-31T11:22:17.9738113Z /home/runner/work/_temp/duoface-frozen-084.deb: OK
+2026-10-31T11:22:17.9740433Z DUOFACE_FROZEN_084_ROTATION_CANDIDATE_UNCHANGED_PASS
+2026-10-31T11:22:18.1833228Z /home/runner/work/_temp/duoface-frozen-072.deb: OK
+2026-10-31T11:22:18.1835529Z DUOFACE_FROZEN_072_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:18.3623773Z /home/runner/work/_temp/duoface-frozen-062.deb: OK
+2026-10-31T11:22:18.3635544Z DUOFACE_FROZEN_062_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:18.5867924Z /home/runner/work/_temp/duoface-frozen-061.deb: OK
+2026-10-31T11:22:18.5870505Z DUOFACE_FROZEN_061_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:18.7043213Z /home/runner/work/_temp/duoface-frozen-060.deb: OK
+2026-10-31T11:22:18.7045227Z DUOFACE_FROZEN_060_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:18.8314664Z /home/runner/work/_temp/duoface-frozen-059.deb: OK
+2026-10-31T11:22:18.8316911Z DUOFACE_FROZEN_059_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:19.0590540Z /home/runner/work/_temp/duoface-frozen-058.deb: OK
+2026-10-31T11:22:19.0611324Z DUOFACE_FROZEN_058_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:19.2602922Z /home/runner/work/_temp/duoface-frozen-056.deb: OK
+2026-10-31T11:22:19.2604724Z DUOFACE_FROZEN_056_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:19.4497393Z /home/runner/work/_temp/duoface-frozen-055.deb: OK
+2026-10-31T11:22:19.4499104Z DUOFACE_FROZEN_055_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:19.5737673Z /home/runner/work/_temp/duoface-frozen-054.deb: OK
+2026-10-31T11:22:19.5739376Z DUOFACE_FROZEN_054_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:19.7721537Z /home/runner/work/_temp/duoface-frozen-023.deb: OK
+2026-10-31T11:22:19.7726060Z DUOFACE_FROZEN_023_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:19.8953442Z /home/runner/work/_temp/duoface-frozen-024.deb: OK
+2026-10-31T11:22:19.8955636Z DUOFACE_FROZEN_024_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:19.9747775Z /home/runner/work/_temp/duoface-frozen-025.deb: OK
+2026-10-31T11:22:19.9749505Z DUOFACE_FROZEN_025_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:20.1753715Z /home/runner/work/_temp/duoface-frozen-026.deb: OK
+2026-10-31T11:22:20.1757322Z DUOFACE_FROZEN_026_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:20.2634493Z /home/runner/work/_temp/duoface-frozen-027.deb: OK
+2026-10-31T11:22:20.2636589Z DUOFACE_FROZEN_027_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:20.4547111Z /home/runner/work/_temp/duoface-frozen-028.deb: OK
+2026-10-31T11:22:20.4549560Z DUOFACE_FROZEN_028_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:20.5857643Z /home/runner/work/_temp/duoface-frozen-029.deb: OK
+2026-10-31T11:22:20.5859558Z DUOFACE_FROZEN_029_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:20.7331686Z /home/runner/work/_temp/duoface-frozen-030.deb: OK
+2026-10-31T11:22:20.7333215Z DUOFACE_FROZEN_030_PUBLIC_BINARY_CHECKSUM_UNCHANGED_PASS
+2026-10-31T11:22:20.7565151Z Post job cleanup.
+2026-10-31T11:22:20.8559142Z [command]/usr/bin/git version
+2026-10-31T11:22:20.8651590Z git version 2.56.0
+2026-10-31T11:22:20.8719724Z Temporarily overriding HOME='/home/runner/work/_temp/059e4fd7-3718-46bb-bfaa-91fc2b0d0e01' before making global git config changes
+2026-10-31T11:22:20.8721547Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-31T11:22:20.8726608Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/carplaydsp/carplaydsp
+2026-10-31T11:22:20.8783869Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-31T11:22:20.8838831Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-31T11:22:20.9191328Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-31T11:22:20.9234913Z http.https://github.com/.extraheader
+2026-10-31T11:22:20.9249597Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-31T11:22:20.9307371Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-31T11:22:20.9708416Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-31T11:22:20.9765652Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-31T11:22:21.0215737Z Cleaning up orphan processes
+2026-10-31T11:22:21.0770269Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

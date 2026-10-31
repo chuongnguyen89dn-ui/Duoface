@@ -1,0 +1,24 @@
+# QA147 — selected app scene-ready -> native Dock identity
+
+Source `659f17c2871c4d8e88d8edf636841818f8673f20`; signed CI `41195978528`; artifact commit `886096a601cb0725ee5aacd2f8a04934b6fded19`. Own integrated `com.duoface.jb.embedded 0.0.147~native-dock-sync1`, 1,168,028 bytes, SHA256 `4d330ae909dc6f1e12ead482aef5b0754bf93ea8678e3ed41f97bd6d8ea1b7a6`. Default Home145 consent/preferences preserved. No new generic app injection, pixel composition or orientation policy change.
+
+Native receiver path is from physical user capture main8170d2a: existing CarPlay scene/status-bar UIWindow/root controller child DBAppDockViewController. Guard uniqueness, session, process and exact ABI. Runtime activeBundleIdentifier object getter is additionally ABI-guarded; if absent, refuse sync and log qa147-native-dock-abi-refused. Home displayState Q64 getter is optional; do not mutate Home without a saved typed state. No fabricated Dock or hardcoded ivar offsets.
+
+Producer sends Version2 ready result only after baseline real scene, matching bundle and verified PID checks, includes exact RequestID/bundle/CarDisplayID and timestamp. Consumer rejects different identity, stale ready, backwards result order, missing PID and duplicates. Pending-scene never activates Dock. Original binary semantic checkpoints establish history(newBundle,nil), and Home in-app state0; own code snapshots previous active bundle/Home state, updates native history + active setter + refresh and restores only when the same native Dock still belongs to our active bundle. Native setter hook calls original first; when a different native app takes over, keep its Dock identity and revoke our surface. Home/failure/stop/replacement/disconnect/consent revoke metadata. Existing stop notification name/reason is shared, so SpringBoard can still label a direct native switch as native-Home-exit; correlate the CarPlay qa147 reason and request IDs.
+
+This is native Dock/identity synchronization around the existing standalone host. It does NOT implement the remaining complete native DBWorkspace activation/deactivation lifecycle or universal app-side rotation/ACK. Scene-ready+PID does not prove first frame, first tap or playback. Hardware behavior remains unverified until user test.
+
+## Validation already performed
+
+29 Python regression contracts in 7 suites, shared C lifecycle state machine tests for stale/wrong/duplicate/pending/no-PID/terminal/revoke, Foundation Home141 and GOFA C harnesses passed in source CI. Signed iPhoneOS source build and full package assembly succeeded. Exact signed artifact was read again with `verify_signed_qa147.py`: complete file listing captured without pipe, successful full extraction, every archive entry root/root and root0755, app147,8 dylibs and compiled native Dock markers, YouTube/GOFA app filters preserved. This resolves the misleading Broken pipe diagnostics from the CI root-only `head` listing; the source workflow listing command should be corrected before next build revision. No device test claimed.
+
+## Device test after public Sileo verification
+
+1. Refresh existing Sileo source and update **DuoFace Independent (Integrated CarPlay Beta)** to **0.0.147~native-dock-sync1**. This is the integrated DuoFace package, not Observer0.0.2. Respring once and reconnect CarPlay; keep the existing selected-app/Home consent settings.
+2. Open a selected unsupported app from CarPlay Home. Check whether its icon appears in the native Dock and whether another native app selected from Dock is usable without the old standalone surface blocking it.
+3. Reopen another selected app; press the same Home control as before and record which screen it returns to. Check GOFA/YouTube orientation/tap and ordinary split behavior. This test does not presume those old problems are fixed.
+4. Disconnect/reconnect; check the previous standalone surface and Dock active marker are cleared/restored correctly. Export normal **DuoFace** diagnostics (includes DuoFaceStandalone144.log), record two app names/action order; save the next available DuoFaceAudit TXT in `sideplay/log/`. Do not overwrite old captures or assume the next audit number.
+
+Expected trace markers: qa147-native-dock-result-consumer-installed, then scene-hosted-render-and-touch-unverified + real PID, then qa147-native-dock-active with matching bundle/request; on normal own-stop qa147-native-dock-restored. On actual native takeover qa147-native-owner-changed-restore-skipped is intentional to preserve the new native app. ABI refusal/readback mismatch/exception must be investigated rather than labeling the UI fixed.
+
+QA146 immutable rollback remains at `sideplay/jb-embedded-appbridge/evidence/runs/41185002153/` and source Sileo publisher downloads it alongside147; public APT advertises one latest integrated package. Do not promise an indexed Sileo downgrade entry for146.

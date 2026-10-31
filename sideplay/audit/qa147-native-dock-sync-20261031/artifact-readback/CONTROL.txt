@@ -1,0 +1,11 @@
+Package: com.duoface.jb.embedded
+Name: DuoFace Independent (Integrated CarPlay Beta)
+Version: 0.0.147~native-dock-sync1
+Architecture: iphoneos-arm64
+Section: Applications
+Priority: optional
+Maintainer: DuoFace Independent
+Depends: firmware (>= 16.0), mobilesubstrate
+Conflicts: com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp, com.duoface.independent, com.duoface.sideplaydisplay, com.duonavi.app, com.duoface.app
+Replaces: com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp
+Description: Independent rootless iOS16 CarPlay DuoFace beta in one DEB with integrated app bridge, scene host and DuoFace UI; no separate CarBridge required. Native12-inspired controls include app picker, split, logo move, swap and zoom. CarPlay hardware behavior and media playback are not yet verified. Replaces conflicting older first-party DuoFace QA modules; review changes before installation.
