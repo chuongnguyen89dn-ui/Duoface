@@ -1,6 +1,7 @@
 // Included only by DFCarPlayDockOwner.m, inside the existing CarPlay receiver.
 // Independent implementation from the original's verified Home event semantics.
 #import "DFCarPlayOwnerLease.h"
+#import "DFHome145Consent.h"
 #import "DFCarPlayOwnerSelection.h"
 #import <dlfcn.h>
 #import <string.h>
@@ -130,6 +131,20 @@ static void DFOwnerHomeReceived(id receiver) {
     UIView *view=[(UIViewController *)receiver viewIfLoaded];
     UIWindow *window=view.window;
     if(!window.screen || window.screen.bounds.size.width<300)return;
+    // QA146: the separate Home-owned app has NO DuoFace CPTemplate session.
+    // Actual QA145 Log22: native homeButtonUp: hook ready=1, but Home-return
+    // viewDidAppear hook home=0. Revoke only the independent SpringBoard owner
+    // on a real external native CarPlay Home press, BEFORE the old session gate.
+    // Never consume the Apple Home event; the original handler runs exactly once.
+    BOOL nativeRail=([receiver isKindOfClass:NSClassFromString(@"DBRootStatusBarViewController")] ||
+                     [receiver isKindOfClass:NSClassFromString(@"CARRootStatusBarViewController")]);
+    BOOL carScreen=window.screen!=UIScreen.mainScreen &&
+                   [window.windowScene.session.role isEqualToString:@"UIWindowSceneSessionRoleCarPlay"];
+    BOOL soloConsent=DFHome145Enabled();
+    if(nativeRail && carScreen && soloConsent) {
+        int status=notify_post("com.duoface.nativehost.standalone144.stop");
+        DFZLog([NSString stringWithFormat:@"native-home-standalone-stop qa146 status=%d independent-from-duoface-session=1",status]);
+    }
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
     NSString *session=pulse[@"Session"];
     id stamp=pulse[@"Timestamp"];
