@@ -1,14 +1,44 @@
 {
-  "checked_at_utc": "2026-10-31T09:46:33.179049+00:00",
+  "checked_at_utc": "2026-10-31T15:46:44.482255+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3920,
+  "total_actions_runs": 3991,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
-      "success": 3,
+      "recent_runs": 2,
+      "success": 1,
       "failure": 0,
       "other": 1
+    },
+    "QA147 launch mount and ACK scoped regressions": {
+      "recent_runs": 24,
+      "success": 17,
+      "failure": 7,
+      "other": 0
+    },
+    "QA147 native Home exit - signed integrated PRIVATE, before physical QA": {
+      "recent_runs": 27,
+      "success": 9,
+      "failure": 6,
+      "other": 12
+    },
+    "QA147 complete-route static evidence, no DEB": {
+      "recent_runs": 15,
+      "success": 9,
+      "failure": 6,
+      "other": 0
+    },
+    "DuoNavi Observer standalone passive rootless signed QA": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "Passive native Dock ABI observer compile only": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
     },
     "QA146 original DuoNavi DuoDash native Dock and app process contract verification": {
       "recent_runs": 1,
@@ -95,15 +125,15 @@
       "other": 0
     },
     "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate": {
-      "recent_runs": 11,
+      "recent_runs": 6,
       "success": 1,
-      "failure": 8,
+      "failure": 3,
       "other": 2
     },
     "QA144 forbid CarPlay Home launch through DuoFace split UI": {
-      "recent_runs": 6,
-      "success": 3,
-      "failure": 3,
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
       "other": 0
     },
     ".github/workflows/duoface-144-integrated-private-staging.yml": {
@@ -111,452 +141,308 @@
       "success": 0,
       "failure": 1,
       "other": 0
-    },
-    "QA144 five original DEBs full Home-to-app forensic NO SILEO": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA143 public Sileo verified handoff": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Persist QA143 signed Home-bridge checkpoint into existing DuoFace handoff": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA143 selected Home icon to first-party scene signed staging": {
-      "recent_runs": 6,
-      "success": 1,
-      "failure": 1,
-      "other": 4
-    },
-    "DuoFace QA142 Native Home ABI safe signed build": {
-      "recent_runs": 10,
-      "success": 1,
-      "failure": 3,
-      "other": 6
-    },
-    "DuoFace QA142 Log21 real iPhone Home tap and CarPlay crash forensics": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA142 verified two-DEB Home tap research (read only)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA141 DB declaration completion and owned map resize signed staging": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA140 guarded Home admission and passive GOFA observer signed staging": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA139 black-screen recovery to exact QA137 runtime signed staging": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA138 selected Home admission and GOFA layout signed staging": {
-      "recent_runs": 3,
-      "success": 2,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA137 actual user Log17 Home GOFA and CarPlayTemplateUIHost IPS": {
-      "recent_runs": 5,
-      "success": 1,
-      "failure": 4,
-      "other": 0
-    },
-    "DuoFace QA137 read-only iOS16 Home owner and LS inclusion ABI signed staging": {
-      "recent_runs": 5,
-      "success": 1,
-      "failure": 4,
-      "other": 0
-    },
-    "DuoFace QA136 DuoNavi DuoDash live Home process scope audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA136 actual Log16 vs native Home": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA136 selected apps native CarPlay Home library candidate (physical unverified)": {
-      "recent_runs": 4,
-      "success": 1,
-      "failure": 1,
-      "other": 2
-    },
-    "DuoFace QA135 user-uploaded Log15 and historical SpringBoard crash audit": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA135 native CarPlay Home ABI probe signed diagnostic candidate": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA135 original DuoNavi Native12 Home hook ABI forensic": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA135 genuine Home app catalog permission safety compile and tests": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Original DuoNavi Native12 actual CarPlay Home roster ARM64 xrefs": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Original DuoNavi Native12 SHA verified CarPlay Home vs picker read-only audit": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace QA134 GOFA unique CarPlay native-owner signed candidate": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "DuoFace QA134 native-owner GOFA multi-scene regression gate (no package)": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 41190044686,
+      "id": 41216451533,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 96,
+      "run_number": 97,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41190044686",
-      "created_at": "2026-10-31T09:46:23Z",
-      "head_sha": "ce436ddb04e62d1762531a97ad74e21d3354a34d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216451533",
+      "created_at": "2026-10-31T15:46:33Z",
+      "head_sha": "a067fbc931ce9ddf98f918bdfbd3a222eb662bb3"
     },
     {
-      "id": 41189338679,
-      "name": "QA146 original DuoNavi DuoDash native Dock and app process contract verification",
-      "run_number": 1,
+      "id": 41216201038,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 24,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41189338679",
-      "created_at": "2026-10-31T09:35:45Z",
-      "head_sha": "43a4a5065de34564ca23045acccb829e547129aa"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216201038",
+      "created_at": "2026-10-31T15:43:24Z",
+      "head_sha": "24e5126a38c7f9f23bb161d9971cebec73453b0c"
     },
     {
-      "id": 41189165129,
-      "name": "QA146 actual DuoNavi vs DuoDash REPACK deep bridge ABI READ ONLY",
-      "run_number": 1,
+      "id": 41216200946,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 28,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41189165129",
-      "created_at": "2026-10-31T09:33:15Z",
-      "head_sha": "0ae180788104d2e0aefbdef378a10b73fd80078d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216200946",
+      "created_at": "2026-10-31T15:43:24Z",
+      "head_sha": "24e5126a38c7f9f23bb161d9971cebec73453b0c"
     },
     {
-      "id": 41188441830,
-      "name": "QA146 verify signed real DEB embeds first-party CarBridge-equivalent NO DEPLOY",
-      "run_number": 1,
+      "id": 41215018619,
+      "name": "QA147 complete-route static evidence, no DEB",
+      "run_number": 15,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41188441830",
-      "created_at": "2026-10-31T09:22:30Z",
-      "head_sha": "5b37697840332ebbb705b35498cd476b8271c3e3"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41215018619",
+      "created_at": "2026-10-31T15:28:34Z",
+      "head_sha": "515704451d21a0f5a6a65c72ecdd21043bceeef8"
     },
     {
-      "id": 41188209674,
-      "name": "QA146 embedded CarBridge-equivalent missing native lifecycle regression audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41188209674",
-      "created_at": "2026-10-31T09:19:16Z",
-      "head_sha": "fc254685698d1e18a82c281fd39d969ae83ab624"
-    },
-    {
-      "id": 41188049562,
-      "name": "QA146 deep original integrated AppBridge vs fake CarBridge NO BUILD",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41188049562",
-      "created_at": "2026-10-31T09:16:54Z",
-      "head_sha": "803269a55ef144a1079fbb8c34765c95da20142d"
-    },
-    {
-      "id": 41186995190,
-      "name": "QA146 verify actual iOS16.7.16 Dashboard ABI vs public source READONLY",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186995190",
-      "created_at": "2026-10-31T09:02:06Z",
-      "head_sha": "a77caa199d44b9f76c1b367d9ca8cde2a0cda7a1"
-    },
-    {
-      "id": 41186940154,
-      "name": "QA146 verify actual iOS16.7.16 Dashboard ABI vs public source READONLY",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186940154",
-      "created_at": "2026-10-31T09:01:20Z",
-      "head_sha": "e22c95ea5d4b6391cc8cee0600ff1ea8952dac54"
-    },
-    {
-      "id": 41186800542,
-      "name": "QA146 multisource true CarPlay workspace Dock scene forensics READONLY",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186800542",
-      "created_at": "2026-10-31T08:59:26Z",
-      "head_sha": "2d426a57400d007831d04972eb6f936cb6728b6c"
-    },
-    {
-      "id": 41186440398,
-      "name": "QA146 original navigation Dock orientation method xrefs READ ONLY",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186440398",
-      "created_at": "2026-10-31T08:53:44Z",
-      "head_sha": "0dcfe25dc681eda7cd47ff20efb4801fd58bc763"
-    },
-    {
-      "id": 41186392421,
-      "name": "QA146 original navigation Dock orientation method xrefs READ ONLY",
-      "run_number": 1,
+      "id": 41214998384,
+      "name": "QA147 complete-route static evidence, no DEB",
+      "run_number": 14,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186392421",
-      "created_at": "2026-10-31T08:52:59Z",
-      "head_sha": "af52771eddec48d643000eca9a9ab3d691d46269"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214998384",
+      "created_at": "2026-10-31T15:28:18Z",
+      "head_sha": "196eaa2c3feeb295cd92a1503b8a733d33bfa204"
     },
     {
-      "id": 41185640707,
-      "name": "QA146 verify public Sileo and persist current DuoFace handoff",
-      "run_number": 1,
+      "id": 41214955481,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 27,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41185640707",
-      "created_at": "2026-10-31T08:41:42Z",
-      "head_sha": "d30b72b138d7d4c2ed3e2bd59320fe1f906864ef"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214955481",
+      "created_at": "2026-10-31T15:27:43Z",
+      "head_sha": "ba6c8b786f36266ef45b84894750525c711125f8"
     },
     {
-      "id": 41185438031,
-      "name": "QA146 native Home button restores standalone owner - regression only",
-      "run_number": 1,
+      "id": 41214947768,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 23,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41185438031",
-      "created_at": "2026-10-31T08:38:36Z",
-      "head_sha": "593f8308fbd8ee2f92c7ad0fd715cb18d152f3b4"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214947768",
+      "created_at": "2026-10-31T15:27:37Z",
+      "head_sha": "f534492cfb1ea81ec99ac7034bf4290400942f7e"
     },
     {
-      "id": 41185002153,
-      "name": "QA146 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 1,
+      "id": 41214883758,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214883758",
+      "created_at": "2026-10-31T15:26:46Z",
+      "head_sha": "80a27e62cc80b1b79d2c98905306ba38740f3322"
+    },
+    {
+      "id": 41214883700,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 22,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41185002153",
-      "created_at": "2026-10-31T08:32:12Z",
-      "head_sha": "1159f7119d515a5eefe0959ce9aa6701d92a62bb"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214883700",
+      "created_at": "2026-10-31T15:26:46Z",
+      "head_sha": "80a27e62cc80b1b79d2c98905306ba38740f3322"
     },
     {
-      "id": 41184755646,
-      "name": "QA145 inspect user real Log22 standalone Home/Back",
-      "run_number": 1,
+      "id": 41214067398,
+      "name": "QA147 complete-route static evidence, no DEB",
+      "run_number": 13,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41184755646",
-      "created_at": "2026-10-31T08:28:36Z",
-      "head_sha": "27a073a70fa41d38224db3488a95137b256e517c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214067398",
+      "created_at": "2026-10-31T15:16:34Z",
+      "head_sha": "be3b5526c565890ad0c0f8c1f43e6feec2be6778"
     },
     {
-      "id": 41181488480,
-      "name": "QA145 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181488480",
-      "created_at": "2026-10-31T07:39:51Z",
-      "head_sha": "0ce7b5fbb045c4e41aace251885552a5dd059bdc"
-    },
-    {
-      "id": 41181330399,
-      "name": "QA145 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
-      "run_number": 1,
+      "id": 41214050252,
+      "name": "QA147 complete-route static evidence, no DEB",
+      "run_number": 12,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181330399",
-      "created_at": "2026-10-31T07:37:16Z",
-      "head_sha": "9bd5fd7e66775798a80773b81f0a6627002178e4"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214050252",
+      "created_at": "2026-10-31T15:16:21Z",
+      "head_sha": "8d8c40c4b1e8d8df210a963b543e08d3f69ad87d"
     },
     {
-      "id": 41181210777,
-      "name": "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
-      "run_number": 4,
+      "id": 41213982305,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213982305",
+      "created_at": "2026-10-31T15:15:30Z",
+      "head_sha": "e714f4fcbdeda35530753c4ded66ff9873736c88"
+    },
+    {
+      "id": 41213973275,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213973275",
+      "created_at": "2026-10-31T15:15:23Z",
+      "head_sha": "f55e559436b6c07ce9fa8cb4839270790d42d877"
+    },
+    {
+      "id": 41213903219,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213903219",
+      "created_at": "2026-10-31T15:14:30Z",
+      "head_sha": "c6df3da4e69fe699ead716854e398dbac97f435a"
+    },
+    {
+      "id": 41213903192,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213903192",
+      "created_at": "2026-10-31T15:14:30Z",
+      "head_sha": "c6df3da4e69fe699ead716854e398dbac97f435a"
+    },
+    {
+      "id": 41213896161,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 19,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181210777",
-      "created_at": "2026-10-31T07:35:24Z",
-      "head_sha": "fde97b53a9876b0122461fa483a7fe31c465a77b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213896161",
+      "created_at": "2026-10-31T15:14:25Z",
+      "head_sha": "60abdc153457cd7cd8e8d7328eb5150690e10ec1"
     },
     {
-      "id": 41181200954,
-      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "id": 41213896159,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213896159",
+      "created_at": "2026-10-31T15:14:25Z",
+      "head_sha": "60abdc153457cd7cd8e8d7328eb5150690e10ec1"
+    },
+    {
+      "id": 41213847732,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213847732",
+      "created_at": "2026-10-31T15:13:48Z",
+      "head_sha": "3d58d6f6ecb161c7551437169de406e0c20fdc2a"
+    },
+    {
+      "id": 41213847652,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213847652",
+      "created_at": "2026-10-31T15:13:48Z",
+      "head_sha": "3d58d6f6ecb161c7551437169de406e0c20fdc2a"
+    },
+    {
+      "id": 41213017649,
+      "name": "QA147 complete-route static evidence, no DEB",
       "run_number": 11,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181200954",
-      "created_at": "2026-10-31T07:35:16Z",
-      "head_sha": "ac5b7bcb8cbc2e1aefd2d704ec8558acfb6e8f53"
-    },
-    {
-      "id": 41181200944,
-      "name": "QA144 forbid CarPlay Home launch through DuoFace split UI",
-      "run_number": 6,
-      "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181200944",
-      "created_at": "2026-10-31T07:35:16Z",
-      "head_sha": "ac5b7bcb8cbc2e1aefd2d704ec8558acfb6e8f53"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213017649",
+      "created_at": "2026-10-31T15:03:41Z",
+      "head_sha": "1ec7c144d8665ce4ace2f083bcd1a8a52939f153"
     },
     {
-      "id": 41181170360,
-      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "id": 41212995664,
+      "name": "QA147 complete-route static evidence, no DEB",
       "run_number": 10,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181170360",
-      "created_at": "2026-10-31T07:34:50Z",
-      "head_sha": "835608562debae5bcd681dcb1973f00b1b6cdd9b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212995664",
+      "created_at": "2026-10-31T15:03:26Z",
+      "head_sha": "dc9c549e77c6a9856ffc90ce8645b291b7887880"
     },
     {
-      "id": 41181164014,
-      "name": "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
-      "run_number": 3,
+      "id": 41212898487,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 17,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181164014",
-      "created_at": "2026-10-31T07:34:45Z",
-      "head_sha": "5c7ddebcd4d3dc1c695bbcc77ab15c16f425e4c3"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212898487",
+      "created_at": "2026-10-31T15:02:15Z",
+      "head_sha": "7c7229fa49fb63bad31e0fb823fb2f412c444c48"
     },
     {
-      "id": 41181158230,
-      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "id": 41212885990,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212885990",
+      "created_at": "2026-10-31T15:02:06Z",
+      "head_sha": "0c75bb216e034426dd55f701104915c8c79c95d7"
+    },
+    {
+      "id": 41212829735,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212829735",
+      "created_at": "2026-10-31T15:01:26Z",
+      "head_sha": "ef6053b084673e82abacbc3adedd6530448b4d83"
+    },
+    {
+      "id": 41212829707,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212829707",
+      "created_at": "2026-10-31T15:01:26Z",
+      "head_sha": "ef6053b084673e82abacbc3adedd6530448b4d83"
+    },
+    {
+      "id": 41206742815,
+      "name": "QA147 complete-route static evidence, no DEB",
       "run_number": 9,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181158230",
-      "created_at": "2026-10-31T07:34:40Z",
-      "head_sha": "064b701349b286a949c7751cfef922720cae6dc1"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206742815",
+      "created_at": "2026-10-31T13:42:00Z",
+      "head_sha": "349d114f0186785557e4f52d416293b044edc0cb"
     },
     {
-      "id": 41181158228,
-      "name": "QA144 forbid CarPlay Home launch through DuoFace split UI",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181158228",
-      "created_at": "2026-10-31T07:34:40Z",
-      "head_sha": "064b701349b286a949c7751cfef922720cae6dc1"
-    },
-    {
-      "id": 41181151879,
-      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
+      "id": 41206726614,
+      "name": "QA147 complete-route static evidence, no DEB",
       "run_number": 8,
       "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206726614",
+      "created_at": "2026-10-31T13:41:46Z",
+      "head_sha": "dcbfcbe08844787ae44fd028a9012684efeadf2b"
+    },
+    {
+      "id": 41206670597,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206670597",
+      "created_at": "2026-10-31T13:41:02Z",
+      "head_sha": "97835028aa51fd9bbf586cb36ec25ddb27d48eaa"
+    },
+    {
+      "id": 41206670586,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206670586",
+      "created_at": "2026-10-31T13:41:02Z",
+      "head_sha": "97835028aa51fd9bbf586cb36ec25ddb27d48eaa"
+    },
+    {
+      "id": 41206624902,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 18,
+      "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181151879",
-      "created_at": "2026-10-31T07:34:34Z",
-      "head_sha": "ced7e4b4f2b903bb637aaff7cdfd3c70932092d7"
-    },
-    {
-      "id": 41181018706,
-      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41181018706",
-      "created_at": "2026-10-31T07:32:37Z",
-      "head_sha": "8f2a8b4250d1732c2eb54e0108c0b0a025b84da6"
-    },
-    {
-      "id": 41180378546,
-      "name": "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180378546",
-      "created_at": "2026-10-31T07:22:51Z",
-      "head_sha": "10bc5b4e3a124b0ff849caa8a579620f6da887d0"
-    },
-    {
-      "id": 41180352285,
-      "name": ".github/workflows/duoface-144-integrated-private-staging.yml",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180352285",
-      "created_at": "2026-10-31T07:22:26Z",
-      "head_sha": "af5ec73b52a6a660d7fed48f356ffe9a2dc8f039"
-    },
-    {
-      "id": 41180229988,
-      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180229988",
-      "created_at": "2026-10-31T07:20:39Z",
-      "head_sha": "fbedcb200e3162866c677a039d9905fa02684ee7"
-    },
-    {
-      "id": 41180140890,
-      "name": "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41180140890",
-      "created_at": "2026-10-31T07:19:24Z",
-      "head_sha": "e0b344fcdce50cff563f1437c3c3b7168f5cbb39"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206624902",
+      "created_at": "2026-10-31T13:40:25Z",
+      "head_sha": "60c1515ba51843b7306e5edad34042326e38a177"
     }
   ]
 }
