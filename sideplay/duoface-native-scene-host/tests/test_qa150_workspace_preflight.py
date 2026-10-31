@@ -19,7 +19,7 @@ class WorkspaceAndTerminalGate(unittest.TestCase):
         springboard = SOLO.split("static void DF144Consume(", 1)[1].split("__attribute__((constructor))static void DF144StartSpringBoard", 1)[0]
         self.assertLess(springboard.index("DF144ValidRequest(p,"), springboard.index("DF150ProbeWorkspaceForRequest(uuid,p"))
         self.assertLess(springboard.index("DF144Allowed(p["), springboard.index("DF150ProbeWorkspaceForRequest(uuid,p"))
-        self.assertIn("DF150ProbeWorkspaceForRequest(uuid,p[\"BundleID\"],p[\"CarDisplayID\"],YES)", springboard)
+        self.assertIn('DF150ProbeWorkspaceForRequest(uuid,p[@"BundleID"],p[@"CarDisplayID"],YES)', springboard)
         self.assertIn("qa150-native-workspace-abi", PROBE)
         self.assertIn("qa150-native-workspace-probe-complete", PROBE)
 
