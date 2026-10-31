@@ -577,7 +577,8 @@ static void DF144LeaseHeartbeat(void) {
  if(![record writeToFile:DF144LeasePath atomically:YES])
    DF144Log(@"standalone-receiver-lease-write-failed",@"");
  if(DF144Owner && DF144Owner.window) {
-   if(!DFHome145Enabled() || !DF144Owner.window.screen ||
+   if(!DFHome145Enabled() || !DF144Allowed(DF144Owner.bundle) ||
+       !DF144Owner.window.screen ||
       DF144Owner.window.screen==UIScreen.mainScreen ||
       ![DF144Owner currentCarDisplayWithID:DF144Owner.carDisplayID])
        [DF144Owner stop:@"owner-revoked-consent-or-external-display"];
