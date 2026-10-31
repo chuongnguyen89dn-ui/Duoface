@@ -1,3 +1,19 @@
+# 2026-10-31 — QA149 manager receipt and native Dock entry, CI verified
+
+Project `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-qa146-native-home-exit-20261031`. User directed continued implementation. Baseline previous handoff commit `21eb151d`.
+
+Implemented first-party **manager receipt as a separate lifecycle fact from process PID**. `sideplay/duoface-native-scene-host/DFManagerLifecycle149.h` owns generation, pending, active, real scene and verified PID observations. `DFHomeStandalone144.m` sends `manager-owned-live-scene-pixels-unverified` only after a real live scene/window/bundle/generation readback. `DFNativeDockSync147.h` accepts that same-ID/same-display/fresh receipt to update the actual native Dock and Home; legacy true-PID outcome retained for coalesced Darwin notifications. It also observes `_dockButtonPressed:` with ABI checks and **always forwards Apple's original**. No fabricated PID, pixels, touch, Dock, foreground or licensing. Actual native workspace preparation and phone foreground eviction are still NOT implemented to the genuine DuoNavi order.
+
+Relevant commits `8cd541d9` manager lifecycle, `f781689f` scene receipt, `5a1b22d1` Dock integration, `e72122c3` coalesced PID retention, `8dbb987c` QA145 regression fixture update, `1f736348` 21-check historic/source verifier, `e5d0bbd8` CI check. Original `DFSceneHost.m` unchanged at Git blob `ec2924c145be4edaaa27b7320bb869b18de12c6b` (GOFA/YouTube geometry baseline retained).
+
+**Verified CI:** fast C+Python test run `41205639637` SUCCESS. Pinned 21 static checks `41205688327` SUCCESS. macOS iOS16 signed private build run `41205639630`, job `124550044100`, completed SUCCESS, source `e72122c3fdcb904ad8bb445a2bde8ff6cb98d33b`. DEB archived within DuoFace at `sideplay/jb-embedded-appbridge/evidence/runs/41205639630/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb`, size 1170960 bytes, SHA256 `0f1c3a2bd28dbfb05e565e3cebdaa28e035a2ab09c77d4899eaafaad32950c64`; archive commit `45156fa0d722779877d89ad9ac05c9f8af45f2b9`; DEB and `SHA256SUMS.txt`, `CI_RESULT.txt`, provenance checked by GitHub tree/readback. Private artifact ID `13043869789`. `SILEO_PUBLISHED=false`, `DEVICE_DIRECT_HOME_TESTED=false`.
+
+**Resolved CI failures:** old QA145 static label and C state test missing coalesced PID persistence; both corrected. Additional source+tests/commands/results in `sideplay/audit/qa149-independent-manager-20261031/MANAGER_RECEIPT_CI_AND_LIMITS.md` (commit `a04177833bcdd60664aa302bb0f010fe51897b65`). User original symptoms are **NOT physically verified fixed**.
+
+**Next:** read exact Dashboard workspace/native deactivation ABI and SpringBoard phone eviction on iOS16.7.16 before implementing unsafe private calls; connect native preparation and manager transaction to previous-app Home, Dock, general app state and original split restoration; test same-device first frame, tap, orientation, Home and native switching before Sileo. Original binary route is a pinned static audit, not a live reference replay. ZIP skills central verified in older CI; no fresh ZIP extraction this turn.
+
+---
+
 # 2026-10-31 — QA148 REAL PROCESS-STATE PID + SEPARATE NATIVE STOP REASONS; PRIVATE SIGNED CI PASS
 
 User: **"Tiếp tục đi"**. Continue actual original-route reconstruction WITHOUT speculative Dock-only fixes. This continuation implements **specific, proven source gaps** and preserves all frozen scene-host geometry, not yet full native manager parity.
