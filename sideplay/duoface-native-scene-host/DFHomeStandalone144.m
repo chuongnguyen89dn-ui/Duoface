@@ -98,12 +98,14 @@ static BOOL DF144ValidRequest(NSDictionary *p,NSTimeInterval now) {
 static void (*DF144Original)(id,SEL,id,id);
 static void (*DF144OriginalHomeAppear)(id,SEL,BOOL);
 static NSTimeInterval DF144LastHomeRequest;
+static void DF152RevokeNativePreparation(void);
 static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
  DF144OriginalHomeAppear(owner,sel,animated);
  // Home/Back must revoke ONLY a prior standalone scene (not a brand-new tap).
  if(DF144LastHomeRequest>0 &&
     NSDate.date.timeIntervalSince1970-DF144LastHomeRequest>0.7) {
    DF144Log(@"native-home-return",@"revoke-standalone-only");
+   DF152RevokeNativePreparation();
    notify_post(DF144StopNotify);
  }
 }
@@ -155,6 +157,7 @@ static BOOL DF144LiveReceiver(void) {
  return isfinite(age) && age>=0 && age<=2.0;
 }
 #import "DFNativeDockSync147.h"
+#import "DF152NativeWorkspacePrepare.h"
 static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  NSString *bundle=DF144Bundle(icon,0);
  if(![icon isKindOfClass:UIView.class] || !DF144Allowed(bundle) || !DF144LiveReceiver()) {
@@ -178,23 +181,43 @@ static void DF144Launch(id self,SEL cmd,id manager,id icon) {
    DF144Original(self,cmd,manager,icon);return;
  }
  DF147Prepare(p);
- int rc=notify_post(DF144RequestNotify);
- if(rc!=0) {
-   DF147Reset(@"request-notify-failed");
-   [[NSFileManager defaultManager] removeItemAtPath:DF144Request error:nil];
-   DF144Log(@"notify-error-original-forwarded",[NSString stringWithFormat:@"bid=%@ status=%d",bundle,rc]);
-   DF144Original(self,cmd,manager,icon);return;
- }
- // Native Apple Home remains in place while the *separate* SpringBoard
- // standalone scene attempts to attach. No fabricated CarPlay app activation.
- // No success is asserted until receiver verifies the actual hosted scene.
+ // Native Apple Home remains active until the first-party transaction owns a
+ // valid remote scene. Only a verified official foreground app is deactivated,
+ // and its native Dashboard workspace completion is bounded to 250ms.
  DF144LastHomeRequest=NSDate.date.timeIntervalSince1970;
- // Read-only class/selector ABI inventory on the actual CarPlay process.
- // The old DEB's native workspace transition is NOT invoked speculatively.
  DF150ProbeWorkspaceForRequest(rid,bundle,display,NO);
  DF151WorkspaceSnapshot(rid,bundle,display,self);
- DF144Log(@"standalone-requested-not-yet-ready",[NSString stringWithFormat:
-      @"bid=%@ uuid=%@ content=%@",bundle,rid,NSStringFromCGRect(content)]);
+ DF152PrepareThenContinue(rid,bundle,display,self,^{
+   // A delayed Apple completion must not activate a revoked or replaced app.
+   CGRect liveContent=CGRectZero,liveScreen=CGRectZero;
+   NSString *liveDisplay=nil;
+   NSDictionary *still=[NSDictionary dictionaryWithContentsOfFile:DF144Request];
+   BOOL same=[DF147RequestID isEqualToString:rid] && DF147Life.pending &&
+     [still[@"RequestID"] isEqualToString:rid] &&
+     [still[@"BundleID"] isEqualToString:bundle] &&
+     [still[@"CarDisplayID"] isEqualToString:display];
+   if(!same || !DF144Allowed(bundle) || !DF144LiveReceiver() ||
+      !DF144UniqueNativeContentWindow(&liveContent,&liveScreen,&liveDisplay) ||
+      ![liveDisplay isEqualToString:display]) {
+     DF144Log(@"qa152-native-prep-owner-revoked",
+       [NSString stringWithFormat:@"req=%@ same=%d",rid,same]);
+     if([DF147RequestID isEqualToString:rid])DF147Reset(@"native-prep-owner-revoked");
+     if([still[@"RequestID"] isEqualToString:rid])
+       [[NSFileManager defaultManager] removeItemAtPath:DF144Request error:nil];
+     return;
+   }
+   int rc=notify_post(DF144RequestNotify);
+   if(rc!=0) {
+     DF147Reset(@"request-notify-failed");
+     [[NSFileManager defaultManager] removeItemAtPath:DF144Request error:nil];
+     DF144Log(@"qa152-notify-failure",
+       [NSString stringWithFormat:@"req=%@ code=%d",rid,rc]);
+     return;
+   }
+   DF144Log(@"standalone-requested-not-yet-ready",
+      [NSString stringWithFormat:@"bid=%@ uuid=%@ content=%@",
+         bundle,rid,NSStringFromCGRect(liveContent)]);
+ });
 }
 static void DF144Install(int tryNo) {
  if(DF144Original || tryNo>15)return;
