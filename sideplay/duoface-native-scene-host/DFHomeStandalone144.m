@@ -233,9 +233,9 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 - (id)currentCarDisplayWithID:(NSString *)identifier {
  // Same actual AVExternalDevice/CADisplay relationship as existing DFTouchOwnerProbe,
  // but never assumes a DuoFace CPTemplate foreground lease.
- id device=DF144Get(NSClassFromString("AVExternalDevice"),"currentCarPlayExternalDevice");
+ id device=DF144Get(NSClassFromString(@"AVExternalDevice"),"currentCarPlayExternalDevice");
  NSArray *ids=DF144Get(device,"screenIDs");
- NSArray *displays=DF144Get(NSClassFromString("CADisplay"),"displays");
+ NSArray *displays=DF144Get(NSClassFromString(@"CADisplay"),"displays");
  if(![ids isKindOfClass:NSArray.class]||![displays isKindOfClass:NSArray.class])return nil;
  for(id display in displays) {
    id uid=DF144Get(display,"uniqueId");
