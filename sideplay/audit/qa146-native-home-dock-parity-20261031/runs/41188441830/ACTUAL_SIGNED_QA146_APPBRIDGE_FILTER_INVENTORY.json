@@ -1,0 +1,93 @@
+{
+  "actual_signed_deb_sha256": "1785d5d6bef53337033f5664d5acfc573dabe20892bd629649fab5730b04e078",
+  "exact_deb_size": 1165448,
+  "dpkg_control": {
+    "Package": "com.duoface.jb.embedded",
+    "Version": "0.0.146~native-home-release1",
+    "Architecture": "iphoneos-arm64",
+    "Depends": "firmware (>= 16.0), mobilesubstrate",
+    "Conflicts": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp, com.duoface.independent, com.duoface.sideplaydisplay, com.duonavi.app, com.duoface.app",
+    "Replaces": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp",
+    "Provides": "",
+    "Description": "Independent rootless iOS16 CarPlay DuoFace beta in one DEB with integrated app bridge, scene host and DuoFace UI; no separate CarBridge required. Native12-inspired controls include app picker, split, logo move, swap and zoom. CarPlay hardware behavior and media playback are not yet verified. Replaces conflicting older first-party DuoFace QA modules; review changes before installation."
+  },
+  "file_count": 36,
+  "dylib_count": 8,
+  "all_dylib_filenames": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaMapResize141.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
+  ],
+  "filters": {
+    "named_app_only": {
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaMapResize141.plist": {
+        "Bundles": [
+          "com.lumi.GOFA"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist": {
+        "Bundles": [
+          "com.google.ios.youtube"
+        ]
+      }
+    },
+    "springboard_carplay_internal": {
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist": {
+        "Bundles": [
+          "com.apple.CarPlay",
+          "com.apple.CarPlayApp",
+          "com.apple.dashboard"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp",
+          "dashboard",
+          "Dashboard"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist": {
+        "Bundles": [
+          "com.apple.springboard"
+        ],
+        "Executables": [
+          "SpringBoard"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.plist": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "other_filters": {
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.plist": {
+        "Executables": [
+          "CarPlay",
+          "SpringBoard"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.plist": {
+        "Executables": [
+          "SpringBoard",
+          "CarPlay",
+          "CarPlayApp"
+        ]
+      },
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.plist": {
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp"
+        ]
+      }
+    }
+  },
+  "third_party_carbridge_files_detected_by_name": [],
+  "package_claims_official_carbridge_dependency": false,
+  "actual_runtime_success_tested": false,
+  "scope": "SHA-locked signed integrated DEB filesystem and dpkg control; source provenance alone not dynamic vendor-code plagiarism proof"
+}
