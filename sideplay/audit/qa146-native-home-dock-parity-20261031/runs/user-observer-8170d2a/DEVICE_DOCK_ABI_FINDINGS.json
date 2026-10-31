@@ -1,0 +1,296 @@
+{
+  "source_main_commit": "8170d2ac92cf5fad400efa289b4b928b194438f8",
+  "source_path": "sideplay/log/DuoNaviObserver-13F1C6F7-9C8D-4DB1-93FE-023925D68C47.txt",
+  "blob": "15c05af45d227e42cb2572df339eceaec9dd231e",
+  "sha256": "82b6660ffcec0c859ec4317d6d271528f7d7d1ac7d81e70d781f761f1c52daf8",
+  "bytes": 435387,
+  "event_counts": {
+    "observer_started": 2,
+    "ui_state_sample": 30,
+    "underlock_method_abi_read_only": 1,
+    "uikit_notification": 16,
+    "native_dock_class_abi": 480,
+    "native_dock_scene_node": 480,
+    "native_dock_sample_complete": 24
+  },
+  "sample_count": 24,
+  "capture_start_utc": 1793444035.990344,
+  "capture_end_utc": 1793444104.778919,
+  "capture_span_seconds": 68.78857493400574,
+  "carplay_pids": [
+    94485
+  ],
+  "declaring_class_count": 20,
+  "verified_method_metadata": [
+    {
+      "class": "DBAppHistory",
+      "selector": "_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:",
+      "encoding": "v32@0:8@16@24",
+      "samples": 24
+    },
+    {
+      "class": "DBAppDockViewController",
+      "selector": "setActiveBundleIdentifier:animated:",
+      "encoding": "v28@0:8@16B24",
+      "samples": 24
+    },
+    {
+      "class": "DBAppDockViewController",
+      "selector": "_refreshAppDock",
+      "encoding": "v16@0:8",
+      "samples": 24
+    },
+    {
+      "class": "DBAppDockViewController",
+      "selector": "appHistory",
+      "encoding": "@16@0:8",
+      "samples": 24
+    },
+    {
+      "class": "DBStatusBarHomeButton",
+      "selector": "setDisplayState:",
+      "encoding": "v24@0:8Q16",
+      "samples": 24
+    },
+    {
+      "class": "DBWorkspace",
+      "selector": "requestStateChange:",
+      "encoding": "v24@0:8@16",
+      "samples": 24
+    },
+    {
+      "class": "DBMutableWorkspaceStateChangeRequest",
+      "selector": "activateApplication:",
+      "encoding": "v24@0:8@16",
+      "samples": 24
+    },
+    {
+      "class": "DBMutableWorkspaceStateChangeRequest",
+      "selector": "deactivateApplication:",
+      "encoding": "v24@0:8@16",
+      "samples": 24
+    }
+  ],
+  "dock_public_containment_observed": true,
+  "public_window_controller_snapshots": [
+    {
+      "controller_class": "DBDashboardRootViewController",
+      "parent_class": "none",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBDashboardHomeViewController",
+      "parent_class": "DBDashboardRootViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBFolderController",
+      "parent_class": "DBDashboardHomeViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBTodayViewController",
+      "parent_class": "DBFolderController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBMapsNavigationWidgetViewController",
+      "parent_class": "DBTodayViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBWidgetContainerViewController",
+      "parent_class": "DBTodayViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBWidgetStackViewController",
+      "parent_class": "DBWidgetContainerViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBMapsWidgetViewController",
+      "parent_class": "DBWidgetStackViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBInCallWidgetViewController",
+      "parent_class": "DBWidgetStackViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBNowPlayingWidgetViewController",
+      "parent_class": "DBWidgetStackViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBSmartWidgetViewController",
+      "parent_class": "DBWidgetStackViewController",
+      "window_class": "UIWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBLockOutViewController",
+      "parent_class": "none",
+      "window_class": "DBLockOutWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBNotificationViewController",
+      "parent_class": "none",
+      "window_class": "DBNotificationWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{45, 0}, {595, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "BNContentViewController",
+      "parent_class": "DBNotificationViewController",
+      "window_class": "DBNotificationWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{45, 0}, {595, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "UIInputWindowController",
+      "parent_class": "none",
+      "window_class": "UITextEffectsWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBRootStatusBarViewController",
+      "parent_class": "none",
+      "window_class": "DBStatusBarWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{-45, 0}, {45, 331.33333333333331}}",
+      "orientation": 1,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBStatusBarViewController",
+      "parent_class": "DBRootStatusBarViewController",
+      "window_class": "DBStatusBarWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{-45, 0}, {45, 331.33333333333331}}",
+      "orientation": 1,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBAppDockViewController",
+      "parent_class": "DBRootStatusBarViewController",
+      "window_class": "DBStatusBarWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{-45, 0}, {45, 331.33333333333331}}",
+      "orientation": 1,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "UIInputWindowController",
+      "parent_class": "none",
+      "window_class": "UITextEffectsWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 1,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBLockOutViewController",
+      "parent_class": "none",
+      "window_class": "DBLockOutWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {640, 331.33333333333331}}",
+      "orientation": 0,
+      "window_hidden": true
+    },
+    {
+      "controller_class": "DBRootStatusBarViewController",
+      "parent_class": "none",
+      "window_class": "DBStatusBarWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {45, 331.33333333333331}}",
+      "orientation": 1,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBStatusBarViewController",
+      "parent_class": "DBRootStatusBarViewController",
+      "window_class": "DBStatusBarWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {45, 331.33333333333331}}",
+      "orientation": 1,
+      "window_hidden": false
+    },
+    {
+      "controller_class": "DBAppDockViewController",
+      "parent_class": "DBRootStatusBarViewController",
+      "window_class": "DBStatusBarWindow",
+      "scene_role": "UIWindowSceneSessionRoleCarPlay",
+      "window_frame": "{{0, 0}, {45, 331.33333333333331}}",
+      "orientation": 1,
+      "window_hidden": false
+    }
+  ],
+  "manual_mark_count": 0,
+  "limitations": [
+    "Class metadata proves ABI availability, not actual method execution or arguments.",
+    "Dock controller instance is present in public containment; private appHistory instance value was not read.",
+    "Home display-state unsigned enum values were not measured; do not invent values.",
+    "orientation=0 is unknown, not a verified wrong landscape direction.",
+    "Initial status window x=-45 then x=0 is transient metadata, not proof of the black-gap root cause.",
+    "CarPlay controller tree presence does not prove which app pixels were visible on the display.",
+    "No app IDs, user action markers, broker RequestIDs, app-side ACK or touch latency in this capture.",
+    "Observer does not independently inventory installed active bridges; QA146 identity not established by this TXT alone."
+  ],
+  "device_fix_verified": false
+}
