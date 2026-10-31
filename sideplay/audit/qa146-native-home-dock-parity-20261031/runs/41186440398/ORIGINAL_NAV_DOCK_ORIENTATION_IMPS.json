@@ -1,0 +1,1319 @@
+{
+  "device_runtime_proof": false,
+  "vendor_binaries_copied": false,
+  "license_methods_studied": false,
+  "purpose": "original navigation, active app and orientation interface correlations",
+  "references": {
+    "duonavi": {
+      "deb_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+      "macho_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+      "scanned_method_count": 18,
+      "methods": {
+        "CBBridgeManagerDashboard": [
+          {
+            "method": "-startBridging:",
+            "imp": "0x2c5cd0",
+            "verified_within_function": true,
+            "selectors": [
+              "startBridging:withCompletion:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x2c5cd0",
+            "function_end": "0x2c5ce0",
+            "instruction_count": 4
+          },
+          {
+            "method": "-startBridging:withCompletion:",
+            "imp": "0x2c5ce0",
+            "verified_within_function": true,
+            "selectors": [
+              "setPendingCompletion:",
+              "prepareAndRequestActivation:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2c5d20",
+                "kind": "selector",
+                "name": "prepareAndRequestActivation:"
+              }
+            ],
+            "function_start": "0x2c5ce0",
+            "function_end": "0x2c5d44",
+            "instruction_count": 25
+          },
+          {
+            "method": "-stopBridging",
+            "imp": "0x2c5d44",
+            "verified_within_function": true,
+            "selectors": [
+              "stopBridgingWithCompletion:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x2c5d44",
+            "function_end": "0x2c5d54",
+            "instruction_count": 4
+          },
+          {
+            "method": "-stopBridgingWithCompletion:",
+            "imp": "0x2c5d54",
+            "verified_within_function": true,
+            "selectors": [
+              "setPendingCompletion:",
+              "requestDismiss"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x2c5d54",
+            "function_end": "0x2c5d88",
+            "instruction_count": 13
+          },
+          {
+            "method": "-prepareHomeScreenForBridge:",
+            "imp": "0x2c5f3c",
+            "verified_within_function": true,
+            "selectors": [
+              "dashboard",
+              "showingApp",
+              "respondsToSelector:",
+              "closeOfficialTopApp:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2c604c",
+                "kind": "selector",
+                "name": "showingApp"
+              },
+              {
+                "pc": "0x2c607c",
+                "kind": "selector",
+                "name": "closeOfficialTopApp:"
+              }
+            ],
+            "function_start": "0x2c5f3c",
+            "function_end": "0x2c6124",
+            "instruction_count": 122
+          },
+          {
+            "method": "-bridgeDidActivate:",
+            "imp": "0x2c70cc",
+            "verified_within_function": true,
+            "selectors": [
+              "setActivated:",
+              "setAppDockActiveBundleID:",
+              "setHomeButtonInApp:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2c70e4",
+                "kind": "selector",
+                "name": "setActivated:"
+              },
+              {
+                "pc": "0x2c7108",
+                "kind": "selector",
+                "name": "setAppDockActiveBundleID:"
+              },
+              {
+                "pc": "0x2c7124",
+                "kind": "selector",
+                "name": "setHomeButtonInApp:"
+              }
+            ],
+            "function_start": "0x2c70cc",
+            "function_end": "0x2c7140",
+            "instruction_count": 29
+          },
+          {
+            "method": "-bridgeDidDeactivate",
+            "imp": "0x2c7140",
+            "verified_within_function": true,
+            "selectors": [
+              "setActivated:",
+              "setAppDockActiveBundleID:",
+              "setHomeButtonInApp:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2c7154",
+                "kind": "selector",
+                "name": "setActivated:"
+              },
+              {
+                "pc": "0x2c7164",
+                "kind": "selector",
+                "name": "setAppDockActiveBundleID:"
+              },
+              {
+                "pc": "0x2c7178",
+                "kind": "selector",
+                "name": "setHomeButtonInApp:"
+              }
+            ],
+            "function_start": "0x2c7140",
+            "function_end": "0x2c7190",
+            "instruction_count": 20
+          },
+          {
+            "method": "-setHomeButtonInApp:",
+            "imp": "0x2c73d0",
+            "verified_within_function": true,
+            "selectors": [
+              "setIcon:",
+              "dashboard",
+              "bufferedBytesCount",
+              "statusBarViewController",
+              "respondsToSelector:",
+              "rootVC",
+              "performSelector:",
+              "homeButton",
+              "setDisplayState:"
+            ],
+            "cfstrings": [
+              "[DuoNaviDB] setHomeButtonInApp exception: %@"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2c74c0",
+                "kind": "selector",
+                "name": "homeButton"
+              },
+              {
+                "pc": "0x2c74f8",
+                "kind": "selector",
+                "name": "setDisplayState:"
+              }
+            ],
+            "function_start": "0x2c73d0",
+            "function_end": "0x2c75b8",
+            "instruction_count": 122
+          },
+          {
+            "method": "+shouldInterceptLaunchForApp:",
+            "imp": "0x2c5ab8",
+            "verified_within_function": true,
+            "selectors": [
+              "length",
+              "isEqualToString:",
+              "sharedInstance",
+              "bridgedApps",
+              "containsObject:",
+              "isDashboardPolicySignalActive"
+            ],
+            "cfstrings": [
+              "[DuoNaviDB] License inactive/expired for native CarPlay app %@ -> PASS-THROUGH to native launcher",
+              "[DuoNaviDB] License inactive/expired for non-native app %@ -> INTERCEPTING to present warning modal"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2c5b98",
+                "kind": "selector",
+                "name": "bridgedApps"
+              },
+              {
+                "pc": "0x2c5bd8",
+                "kind": "selector",
+                "name": "isDashboardPolicySignalActive"
+              }
+            ],
+            "function_start": "0x2c5ab8",
+            "function_end": "0x2c5c74",
+            "instruction_count": 111
+          }
+        ],
+        "CBBridgeManager": [
+          {
+            "method": "-trackBridgedBundleID:",
+            "imp": "0x2a3130",
+            "verified_within_function": true,
+            "selectors": [
+              "bufferedBytesCount",
+              "length",
+              "hasPrefix:",
+              "isEqualToString:",
+              "setIcon:",
+              "addObject:",
+              "count"
+            ],
+            "cfstrings": [
+              "com.apple.",
+              "[DuoNaviSB] Session tracked bridged app: %@ (Total: %lu)"
+            ],
+            "observed_named_xrefs": [],
+            "function_start": "0x2a3130",
+            "function_end": "0x2a32b4",
+            "instruction_count": 97
+          },
+          {
+            "method": "-runningBridgedApplications",
+            "imp": "0x2a32b4",
+            "verified_within_function": true,
+            "selectors": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "array",
+              "sharedInstance",
+              "reload",
+              "bridgedApps",
+              "setWithArray:",
+              "dictionary",
+              "currentApp",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "appViews",
+              "count",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "length",
+              "numberWithInteger:",
+              "setObject:forKeyedSubscript:",
+              "numberWithInt:",
+              "respondsToSelector:",
+              "performSelector:",
+              "allApplicationProcesses",
+              "allProcesses",
+              "countByEnumeratingWithState:objects:count:",
+              "isApplicationProcess",
+              "pid",
+              "rbsHandle",
+              "handle",
+              "allKeys",
+              "objectForKeyedSubscript:",
+              "applicationWithBundleIdentifier:",
+              "performSelector:withObject:",
+              "process",
+              "addObjectsFromArray:",
+              "setWithObjects:",
+              "containsObject:",
+              "hasPrefix:",
+              "intValue",
+              "objectForKey:",
+              "displayName",
+              "icon",
+              "isUserApp",
+              "applicationProxyForIdentifier:",
+              "applicationType",
+              "isEqualToString:",
+              "localizedName",
+              "componentsSeparatedByString:",
+              "lastObject",
+              "capitalizedString",
+              "_applicationIconImageForBundleIdentifier:format:scale:",
+              "systemImageNamed:",
+              "setDisplayName:",
+              "setObject:forKey:",
+              "integerValue",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "addObject:",
+              "sortUsingComparator:",
+              "copy"
+            ],
+            "cfstrings": [
+              "com.apple.shortcuts.runtime",
+              "com.apple.CompassCalibrationViewService",
+              "com.apple.AccountAuthenticationDialog",
+              "com.apple.MailCompositionService",
+              "com.apple.TrustMe",
+              "com.apple.DiagnosticsService",
+              "com.apple.CarPlayWallpaper",
+              "com.apple.purplebuddy",
+              "com.apple.SharingViewService",
+              "com.apple.CoreAuthUI",
+              "com.apple.Spotlight",
+              "com.apple.Search",
+              "com.apple.ScreenshotServicesService",
+              "com.apple.InCallService",
+              "com.apple.PassbookUIService",
+              "com.apple.backboardd",
+              "com.apple.springboard",
+              "com.apple.webkit.",
+              "com.apple.WebKit.",
+              "com.apple.ExtensionKit.",
+              "User",
+              ".",
+              "app.fill",
+              "bundleIdentifier",
+              "displayName",
+              "icon",
+              "isRunning",
+              "inActiveSlot",
+              "slotIndex",
+              "pid"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2a3348",
+                "kind": "selector",
+                "name": "bridgedApps"
+              },
+              {
+                "pc": "0x2a33c8",
+                "kind": "selector",
+                "name": "currentApp"
+              },
+              {
+                "pc": "0x2a3440",
+                "kind": "selector",
+                "name": "appViews"
+              },
+              {
+                "pc": "0x2a34ac",
+                "kind": "selector",
+                "name": "appViews"
+              },
+              {
+                "pc": "0x2a36e8",
+                "kind": "selector",
+                "name": "allApplicationProcesses"
+              },
+              {
+                "pc": "0x2a3754",
+                "kind": "selector",
+                "name": "countByEnumeratingWithState:objects:count:"
+              },
+              {
+                "pc": "0x2a3788",
+                "kind": "selector",
+                "name": "isApplicationProcess"
+              },
+              {
+                "pc": "0x2a3ac4",
+                "kind": "selector",
+                "name": "countByEnumeratingWithState:objects:count:"
+              },
+              {
+                "pc": "0x2a3afc",
+                "kind": "selector",
+                "name": "applicationWithBundleIdentifier:"
+              },
+              {
+                "pc": "0x2a3f2c",
+                "kind": "selector",
+                "name": "countByEnumeratingWithState:objects:count:"
+              },
+              {
+                "pc": "0x2a3fc8",
+                "kind": "selector",
+                "name": "isUserApp"
+              },
+              {
+                "pc": "0x2a3fd4",
+                "kind": "selector",
+                "name": "applicationProxyForIdentifier:"
+              },
+              {
+                "pc": "0x2a3ff0",
+                "kind": "selector",
+                "name": "applicationType"
+              },
+              {
+                "pc": "0x2a401c",
+                "kind": "selector",
+                "name": "applicationWithBundleIdentifier:"
+              },
+              {
+                "pc": "0x2a4044",
+                "kind": "selector",
+                "name": "_applicationIconImageForBundleIdentifier:format:scale:"
+              }
+            ],
+            "function_start": "0x2a32b4",
+            "function_end": "0x2a4910",
+            "instruction_count": 1431
+          },
+          {
+            "method": "-sendStateToApp:shouldBridge:",
+            "imp": "0x1f39fc",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x1f39fc",
+            "function_end": "0x21fac4"
+          },
+          {
+            "method": "-requestStateChange:",
+            "imp": "0x15b578",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x15b578",
+            "function_end": "0x173e04"
+          },
+          {
+            "method": "-loadNewAppFromCurrentRequest:",
+            "imp": "0x173e04",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x173e04",
+            "function_end": "0x18c708"
+          }
+        ],
+        "CBBridgedUIAppView": [
+          {
+            "method": "-updateSceneSettingsFrame",
+            "imp": "0xad368",
+            "verified_within_function": true,
+            "selectors": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "bounds",
+              "carPlayUsableBounds",
+              "calculateNativeSizeForSlotRect:",
+              "valueForKey:",
+              "setContentReferenceSize:withInterfaceOrientation:",
+              "respondsToSelector:",
+              "setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "sceneHandle",
+              "performSelector:",
+              "numberWithBool:",
+              "bundleIdentifier",
+              "class",
+              "sceneIfExists",
+              "scene",
+              "updateSettingsWithBlock:"
+            ],
+            "cfstrings": [
+              "maps",
+              "_deviceAppViewController",
+              "[DuoNavi] updateSettingsWithBlock error: %@",
+              "[CBBridgedUIAppView] Warning: _deviceAppViewController KVC failed in updateSceneSettingsFrame, falling back to ivar: %@",
+              "[DuoNavi] updateSceneSettingsFrame: scene not yet ready: %@",
+              "[CBBridgedUIAppView] Warning: Exception resolving sceneHandle: %@"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0xad428",
+                "kind": "selector",
+                "name": "setContentReferenceSize:withInterfaceOrientation:"
+              },
+              {
+                "pc": "0xad468",
+                "kind": "selector",
+                "name": "setContentReferenceSize:withContentOrientation:andContainerOrientation:"
+              },
+              {
+                "pc": "0xad4d0",
+                "kind": "selector",
+                "name": "sceneHandle"
+              },
+              {
+                "pc": "0xad6ac",
+                "kind": "selector",
+                "name": "sceneIfExists"
+              },
+              {
+                "pc": "0xad6ec",
+                "kind": "selector",
+                "name": "scene"
+              }
+            ],
+            "function_start": "0xad368",
+            "function_end": "0xada4c",
+            "instruction_count": 441
+          },
+          {
+            "method": "-updateSceneFrame",
+            "imp": "0xadc24",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0xadc24",
+            "function_end": "0xadc30"
+          },
+          {
+            "method": "-refreshSceneLayout",
+            "imp": "0xadc30",
+            "verified_within_function": true,
+            "selectors": [
+              "bufferedBytesCount",
+              "updateLayout",
+              "updateSceneSettingsFrame",
+              "setIcon:",
+              "view",
+              "setNeedsLayout",
+              "layoutIfNeeded"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0xadc54",
+                "kind": "selector",
+                "name": "updateSceneSettingsFrame"
+              }
+            ],
+            "function_start": "0xadc30",
+            "function_end": "0xadd08",
+            "instruction_count": 54
+          },
+          {
+            "method": "-hostedScene",
+            "imp": "0xaefb4",
+            "verified_within_function": true,
+            "selectors": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "scene",
+              "respondsToSelector:",
+              "performSelector:",
+              "sceneHandle",
+              "sceneIfExists",
+              "class"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0xaefe4",
+                "kind": "selector",
+                "name": "scene"
+              },
+              {
+                "pc": "0xaf030",
+                "kind": "selector",
+                "name": "sceneHandle"
+              },
+              {
+                "pc": "0xaf070",
+                "kind": "selector",
+                "name": "sceneIfExists"
+              },
+              {
+                "pc": "0xaf1a0",
+                "kind": "selector",
+                "name": "sceneIfExists"
+              }
+            ],
+            "function_start": "0xaefb4",
+            "function_end": "0xaf250",
+            "instruction_count": 167
+          }
+        ]
+      },
+      "scope": "static method IMP + named selector/CFString xrefs only; no runtime branch proof"
+    },
+    "native12_derived": {
+      "deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+      "macho_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "scanned_method_count": 17,
+      "methods": {
+        "CBBridgeManagerDashboard": [
+          {
+            "method": "-startBridging:",
+            "imp": "0x2a33c0",
+            "verified_within_function": true,
+            "selectors": [
+              "startBridging:withCompletion:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x2a33c0",
+            "function_end": "0x2a33d0",
+            "instruction_count": 4
+          },
+          {
+            "method": "-startBridging:withCompletion:",
+            "imp": "0x2a33d0",
+            "verified_within_function": true,
+            "selectors": [
+              "setPendingCompletion:",
+              "prepareAndRequestActivation:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2a3410",
+                "kind": "selector",
+                "name": "prepareAndRequestActivation:"
+              }
+            ],
+            "function_start": "0x2a33d0",
+            "function_end": "0x2a3434",
+            "instruction_count": 25
+          },
+          {
+            "method": "-stopBridging",
+            "imp": "0x2a3434",
+            "verified_within_function": true,
+            "selectors": [
+              "stopBridgingWithCompletion:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x2a3434",
+            "function_end": "0x2a3444",
+            "instruction_count": 4
+          },
+          {
+            "method": "-stopBridgingWithCompletion:",
+            "imp": "0x2a3444",
+            "verified_within_function": true,
+            "selectors": [
+              "setPendingCompletion:",
+              "requestDismiss"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x2a3444",
+            "function_end": "0x2a3478",
+            "instruction_count": 13
+          },
+          {
+            "method": "-prepareHomeScreenForBridge:",
+            "imp": "0x2a3600",
+            "verified_within_function": true,
+            "selectors": [
+              "dashboard",
+              "showingApp",
+              "respondsToSelector:",
+              "closeOfficialTopApp:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2a3700",
+                "kind": "selector",
+                "name": "showingApp"
+              },
+              {
+                "pc": "0x2a3730",
+                "kind": "selector",
+                "name": "closeOfficialTopApp:"
+              }
+            ],
+            "function_start": "0x2a3600",
+            "function_end": "0x2a37bc",
+            "instruction_count": 111
+          },
+          {
+            "method": "-bridgeDidActivate:",
+            "imp": "0x2a4738",
+            "verified_within_function": true,
+            "selectors": [
+              "setActivated:",
+              "setAppDockActiveBundleID:",
+              "setHomeButtonInApp:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2a4750",
+                "kind": "selector",
+                "name": "setActivated:"
+              },
+              {
+                "pc": "0x2a4774",
+                "kind": "selector",
+                "name": "setAppDockActiveBundleID:"
+              },
+              {
+                "pc": "0x2a4790",
+                "kind": "selector",
+                "name": "setHomeButtonInApp:"
+              }
+            ],
+            "function_start": "0x2a4738",
+            "function_end": "0x2a47ac",
+            "instruction_count": 29
+          },
+          {
+            "method": "-bridgeDidDeactivate",
+            "imp": "0x2a47ac",
+            "verified_within_function": true,
+            "selectors": [
+              "setActivated:",
+              "setAppDockActiveBundleID:",
+              "setHomeButtonInApp:"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2a47c0",
+                "kind": "selector",
+                "name": "setActivated:"
+              },
+              {
+                "pc": "0x2a47d0",
+                "kind": "selector",
+                "name": "setAppDockActiveBundleID:"
+              },
+              {
+                "pc": "0x2a47e4",
+                "kind": "selector",
+                "name": "setHomeButtonInApp:"
+              }
+            ],
+            "function_start": "0x2a47ac",
+            "function_end": "0x2a47fc",
+            "instruction_count": 20
+          },
+          {
+            "method": "-setHomeButtonInApp:",
+            "imp": "0x2a4a3c",
+            "verified_within_function": true,
+            "selectors": [
+              "activeInstance",
+              "dashboard",
+              "voiceFeedbackEnabled",
+              "itemName",
+              "statusBarViewController",
+              "respondsToSelector:",
+              "rootVC",
+              "performSelector:",
+              "homeButton",
+              "setDisplayState:"
+            ],
+            "cfstrings": [
+              "[DuoFaceDB] setHomeButtonInApp exception: %@"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2a4a58",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0x2a4a78",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0x2a4b2c",
+                "kind": "selector",
+                "name": "homeButton"
+              },
+              {
+                "pc": "0x2a4b64",
+                "kind": "selector",
+                "name": "setDisplayState:"
+              }
+            ],
+            "function_start": "0x2a4a3c",
+            "function_end": "0x2a4c24",
+            "instruction_count": 122
+          },
+          {
+            "method": "+shouldInterceptLaunchForApp:",
+            "imp": "0x2a314c",
+            "verified_within_function": true,
+            "selectors": [
+              "length",
+              "isEqualToString:",
+              "sharedInstance",
+              "bridgedApps",
+              "containsObject:",
+              "isDashboardPolicySignalActive"
+            ],
+            "cfstrings": [
+              "[DuoFaceDB] License inactive/expired for native CarPlay app %@ -> PASS-THROUGH to native launcher",
+              "[DuoFaceDB] License inactive/expired for non-native app %@ -> INTERCEPTING to present warning modal"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x2a3274",
+                "kind": "selector",
+                "name": "bridgedApps"
+              },
+              {
+                "pc": "0x2a32b4",
+                "kind": "selector",
+                "name": "isDashboardPolicySignalActive"
+              }
+            ],
+            "function_start": "0x2a314c",
+            "function_end": "0x2a3364",
+            "instruction_count": 134
+          }
+        ],
+        "CBBridgeManager": [
+          {
+            "method": "-trackBridgedBundleID:",
+            "imp": "0x280b60",
+            "verified_within_function": true,
+            "selectors": [
+              "length",
+              "hasPrefix:",
+              "isEqualToString:",
+              "addObject:",
+              "count"
+            ],
+            "cfstrings": [
+              "com.apple.",
+              "[DuoFaceSB] Session tracked bridged app: %@ (Total: %lu)"
+            ],
+            "observed_named_xrefs": [],
+            "function_start": "0x280b60",
+            "function_end": "0x280d48",
+            "instruction_count": 122
+          },
+          {
+            "method": "-runningBridgedApplications",
+            "imp": "0x280d48",
+            "verified_within_function": true,
+            "selectors": [
+              "array",
+              "sharedInstance",
+              "reload",
+              "activeInstance",
+              "bridgedApps",
+              "setWithArray:",
+              "dictionary",
+              "currentApp",
+              "class",
+              "isKindOfClass:",
+              "itemName",
+              "appViews",
+              "voiceFeedbackEnabled",
+              "count",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "length",
+              "numberWithInteger:",
+              "setObject:forKeyedSubscript:",
+              "numberWithInt:",
+              "respondsToSelector:",
+              "performSelector:",
+              "allApplicationProcesses",
+              "allProcesses",
+              "countByEnumeratingWithState:objects:count:",
+              "isApplicationProcess",
+              "pid",
+              "rbsHandle",
+              "handle",
+              "allKeys",
+              "objectForKeyedSubscript:",
+              "applicationWithBundleIdentifier:",
+              "performSelector:withObject:",
+              "process",
+              "addObjectsFromArray:",
+              "setWithObjects:",
+              "containsObject:",
+              "hasPrefix:",
+              "intValue",
+              "objectForKey:",
+              "displayName",
+              "icon",
+              "isUserApp",
+              "applicationProxyForIdentifier:",
+              "applicationType",
+              "isEqualToString:",
+              "localizedName",
+              "componentsSeparatedByString:",
+              "lastObject",
+              "capitalizedString",
+              "_applicationIconImageForBundleIdentifier:format:scale:",
+              "systemImageNamed:",
+              "setDisplayName:",
+              "setIcon:",
+              "setIsUserApp:",
+              "setObject:forKey:",
+              "integerValue",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "addObject:",
+              "sortUsingComparator:",
+              "copy"
+            ],
+            "cfstrings": [
+              "com.apple.shortcuts.runtime",
+              "com.apple.CompassCalibrationViewService",
+              "com.apple.AccountAuthenticationDialog",
+              "com.apple.MailCompositionService",
+              "com.apple.TrustMe",
+              "com.apple.DiagnosticsService",
+              "com.apple.CarPlayWallpaper",
+              "com.apple.purplebuddy",
+              "com.apple.SharingViewService",
+              "com.apple.CoreAuthUI",
+              "com.apple.Spotlight",
+              "com.apple.Search",
+              "com.apple.ScreenshotServicesService",
+              "com.apple.InCallService",
+              "com.apple.PassbookUIService",
+              "com.apple.backboardd",
+              "com.apple.springboard",
+              "com.apple.webkit.",
+              "com.apple.WebKit.",
+              "com.apple.ExtensionKit.",
+              "User",
+              ".",
+              "app.fill",
+              "bundleIdentifier",
+              "displayName",
+              "icon",
+              "isRunning",
+              "inActiveSlot",
+              "slotIndex",
+              "pid"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0x280dd0",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0x280ddc",
+                "kind": "selector",
+                "name": "bridgedApps"
+              },
+              {
+                "pc": "0x280e34",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0x280e5c",
+                "kind": "selector",
+                "name": "currentApp"
+              },
+              {
+                "pc": "0x280ed8",
+                "kind": "selector",
+                "name": "appViews"
+              },
+              {
+                "pc": "0x280ef0",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0x280f44",
+                "kind": "selector",
+                "name": "appViews"
+              },
+              {
+                "pc": "0x281038",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0x281044",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0x281134",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0x281188",
+                "kind": "selector",
+                "name": "allApplicationProcesses"
+              },
+              {
+                "pc": "0x2811f4",
+                "kind": "selector",
+                "name": "countByEnumeratingWithState:objects:count:"
+              },
+              {
+                "pc": "0x28122c",
+                "kind": "selector",
+                "name": "isApplicationProcess"
+              },
+              {
+                "pc": "0x2814f4",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0x2814f8",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0x281560",
+                "kind": "selector",
+                "name": "countByEnumeratingWithState:objects:count:"
+              },
+              {
+                "pc": "0x28159c",
+                "kind": "selector",
+                "name": "applicationWithBundleIdentifier:"
+              },
+              {
+                "pc": "0x281798",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0x281a0c",
+                "kind": "selector",
+                "name": "countByEnumeratingWithState:objects:count:"
+              },
+              {
+                "pc": "0x281aa0",
+                "kind": "selector",
+                "name": "isUserApp"
+              },
+              {
+                "pc": "0x281aac",
+                "kind": "selector",
+                "name": "applicationProxyForIdentifier:"
+              },
+              {
+                "pc": "0x281ac8",
+                "kind": "selector",
+                "name": "applicationType"
+              },
+              {
+                "pc": "0x281af4",
+                "kind": "selector",
+                "name": "applicationWithBundleIdentifier:"
+              },
+              {
+                "pc": "0x281b1c",
+                "kind": "selector",
+                "name": "_applicationIconImageForBundleIdentifier:format:scale:"
+              },
+              {
+                "pc": "0x281b44",
+                "kind": "selector",
+                "name": "setIsUserApp:"
+              },
+              {
+                "pc": "0x28214c",
+                "kind": "selector",
+                "name": "activeInstance"
+              }
+            ],
+            "function_start": "0x280d48",
+            "function_end": "0x2823fc",
+            "instruction_count": 1453
+          },
+          {
+            "method": "-sendStateToApp:shouldBridge:",
+            "imp": "0x1d1624",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x1d1624",
+            "function_end": "0x1fd218"
+          },
+          {
+            "method": "-requestStateChange:",
+            "imp": "0x13b158",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x13b158",
+            "function_end": "0x153544"
+          },
+          {
+            "method": "-loadNewAppFromCurrentRequest:",
+            "imp": "0x153544",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0x153544",
+            "function_end": "0x16b9a0"
+          }
+        ],
+        "CBBridgedUIAppView": [
+          {
+            "method": "-updateSceneSettingsFrame",
+            "imp": "0xad5bc",
+            "verified_within_function": true,
+            "selectors": [
+              "activeInstance",
+              "voiceFeedbackEnabled",
+              "bounds",
+              "itemName",
+              "carPlayUsableBounds",
+              "calculateNativeSizeForSlotRect:",
+              "valueForKey:",
+              "setContentReferenceSize:withInterfaceOrientation:",
+              "respondsToSelector:",
+              "setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "sceneHandle",
+              "performSelector:",
+              "numberWithBool:",
+              "bundleIdentifier",
+              "class",
+              "sceneIfExists",
+              "scene",
+              "updateSettingsWithBlock:"
+            ],
+            "cfstrings": [
+              "_deviceAppViewController",
+              "[DuoFace] updateSettingsWithBlock error: %@",
+              "[CBBridgedUIAppView] Warning: _deviceAppViewController KVC failed in updateSceneSettingsFrame, falling back to ivar: %@",
+              "[DuoFace] updateSceneSettingsFrame: scene not yet ready: %@",
+              "[CBBridgedUIAppView] Warning: Exception resolving sceneHandle: %@"
+            ],
+            "observed_named_xrefs": [
+              {
+                "pc": "0xad5e0",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0xad5f4",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad610",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0xad66c",
+                "kind": "selector",
+                "name": "setContentReferenceSize:withInterfaceOrientation:"
+              },
+              {
+                "pc": "0xad670",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad6ac",
+                "kind": "selector",
+                "name": "setContentReferenceSize:withContentOrientation:andContainerOrientation:"
+              },
+              {
+                "pc": "0xad714",
+                "kind": "selector",
+                "name": "sceneHandle"
+              },
+              {
+                "pc": "0xad72c",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad770",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad794",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0xad79c",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad818",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad8b0",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad8f0",
+                "kind": "selector",
+                "name": "sceneIfExists"
+              },
+              {
+                "pc": "0xad908",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xad930",
+                "kind": "selector",
+                "name": "scene"
+              },
+              {
+                "pc": "0xad948",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xadb4c",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              }
+            ],
+            "function_start": "0xad5bc",
+            "function_end": "0xadc74",
+            "instruction_count": 430
+          },
+          {
+            "method": "-updateSceneFrame",
+            "imp": "0xade4c",
+            "verified_within_function": false,
+            "selectors": [],
+            "cfstrings": [],
+            "observed_named_xrefs": [],
+            "function_start": "0xade4c",
+            "function_end": "0xade58"
+          },
+          {
+            "method": "-refreshSceneLayout",
+            "imp": "0xade58",
+            "verified_within_function": true,
+            "selectors": [
+              "itemName",
+              "updateLayout",
+              "updateSceneSettingsFrame",
+              "activeInstance",
+              "view",
+              "voiceFeedbackEnabled",
+              "setNeedsLayout",
+              "layoutIfNeeded"
+            ],
+            "cfstrings": [],
+            "observed_named_xrefs": [
+              {
+                "pc": "0xade7c",
+                "kind": "selector",
+                "name": "updateSceneSettingsFrame"
+              },
+              {
+                "pc": "0xade88",
+                "kind": "selector",
+                "name": "activeInstance"
+              },
+              {
+                "pc": "0xaded4",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              },
+              {
+                "pc": "0xadf00",
+                "kind": "selector",
+                "name": "voiceFeedbackEnabled"
+              }
+            ],
+            "function_start": "0xade58",
+            "function_end": "0xadf30",
+            "instruction_count": 54
+          }
+        ]
+      },
+      "scope": "static method IMP + named selector/CFString xrefs only; no runtime branch proof"
+    },
+    "duodash_repack": {
+      "deb_sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+      "macho_sha256": "b41dd7f892bfd3722e95a40f764a989886078b4a30943c1f0b50d47b6e248a47",
+      "scanned_method_count": 0,
+      "methods": {},
+      "scope": "static method IMP + named selector/CFString xrefs only; no runtime branch proof",
+      "objc_metadata_parser_limitation": "ValueError: cannot map Mach-O address 0x100000000db0d0",
+      "method_absence_proven": false
+    }
+  }
+}
