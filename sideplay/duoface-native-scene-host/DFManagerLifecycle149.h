@@ -23,6 +23,8 @@ static inline DF149Action DF149Receive(DF149Manager *s,bool identity,bool fresh,
  }
  if(managerSceneLive) {
    s->sceneObserved=true;
+   // A coalesced live-host + verified-PID observation must retain BOTH facts.
+   if(verifiedPID)s->pidObserved=true;
    if(s->pending) {
      s->pending=false;s->managerActive=true;
      return DF149ManagerActivate;
