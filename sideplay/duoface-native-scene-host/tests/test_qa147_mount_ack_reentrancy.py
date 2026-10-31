@@ -37,12 +37,12 @@ class NativeStandaloneMountAndAck(unittest.TestCase):
         self.assertIn('[self reply:@"scene-hosted-render-and-touch-unverified"', body)
         self.assertIn("qa147-ready-pid-unavailable", body)
 
-    def test_failure_operation_and_dimensions_observable(self):
-        self.assertIn('@"attach-exception-operation"', HOST)
-        self.assertIn('@"mount-app-view"', HOST)
-        self.assertIn('@"request-mode-2"', HOST)
+    def test_mount_geometry_and_failure_boundary_observable(self):
+        # Preserve QA141's byte-exact original DFSceneHost.m baseline.
+        self.assertIn("[self addSubview:appView]", HOST)
         self.assertIn('@"before-standalone-mount"', SOLO)
         self.assertIn('@"after-standalone-mount"', SOLO)
+        self.assertIn('@"mount-reentrancy-terminal"', SOLO)
         self.assertIn("NSStringFromCGRect(w.bounds)", SOLO)
 
     def test_no_fake_native_dock_activation(self):
