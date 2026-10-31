@@ -10,7 +10,7 @@ PINS = {
  "mgr":("sideplay/audit/original-manager-window-route-20261031/MANAGER_WINDOW_FINDINGS.md","83bf569a7ef5a3a45a33d0cd5dadb6399e1233f3"),
  "app":("sideplay/audit/original-app-state-route-20261031/APP_STATE_ROUTE_FINDINGS.md","34db633d2a0ba28ace0ddfa1da3ceb518c91f697"),
  "host":("sideplay/duoface-native-scene-host/DFSceneHost.m","ec2924c145be4edaaa27b7320bb869b18de12c6b"),
- "solo":("sideplay/duoface-native-scene-host/DFHomeStandalone144.m","a07abf56b5f5dbb749d4bb1c2e838d87c3c85f17"),
+ "solo":("sideplay/duoface-native-scene-host/DFHomeStandalone144.m","06e715a08c5e5dfdcf2eda4933d4b8d87a7fd949"),
  "dock":("sideplay/duoface-native-scene-host/DFNativeDockSync147.h","d0debeb06feeae241849aa1b30b922458dedf610"),
  "home":("sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h","7fe060ca5229a1f723b1145215cbf21a9ff052f6"),
  "build":("sideplay/duoface-native-scene-host/build.sh","172f9d2b9740367c66582d1e976889e828059410"),
@@ -22,6 +22,8 @@ PINS = {
  "managerfsm":("sideplay/duoface-native-scene-host/DFManagerLifecycle149.h","a6b0629712a403e058b5667283ee27d954f06ced"),
  "workspaceabi":("sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h","8e04998d78b2edaeb1a22ad7712e3f2a5acf42aa"),
  "workspaceowner":("sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h","b5b0e52faaee786798563056f06435934e03afd3"),
+ "nativeprep":("sideplay/duoface-native-scene-host/DF152NativeWorkspacePrepare.h","d17cde230c805040977bfd7d18c4244e2b7d4ef6"),
+ "once":("sideplay/duoface-native-scene-host/DFNativePrepOnce152.h","ac3af8c33081f96995d5e1338fde79ff56ef62b7"),
 }
 
 def blob_sha(raw):
@@ -59,6 +61,8 @@ def run(repo):
   "workspaces_abi_probed_read_only_on_both_processes": "DF150ProbeWorkspaceForRequest(rid,bundle,display,NO)" in solo and 'DF150ProbeWorkspaceForRequest(uuid,p[@"BundleID"],p[@"CarDisplayID"],YES)' in solo and all(t in source["workspaceabi"] for t in ("DBMutableWorkspaceStateChangeRequest","SBMainWorkspace","method_getTypeEncoding")) and "objc_msgSend" not in source["workspaceabi"],
   "native_workspace_owner_from_verified_dashboard_init": all(t in source["workspaceowner"] for t in ('objc_getClass("DBDashboardWorkspaceOwner")','sel_registerName("initWithOwner:")','DF151OriginalWorkspaceInit(workspace,selector,owner)','DF151DashboardWorkspace=actual','objc_addLoadImageFunc(DF151WorkspaceImageLoaded)')) and "DF151StartCapture();" in solo,
   "native_workspace_same_request_snapshot_readonly": "DF151WorkspaceSnapshot(rid,bundle,display,self)" in solo and all(t in source["workspaceowner"] for t in ('DF151SafeObjectGetter(home,"workspace"','DF151SafeObjectGetter(workspace,"state"',"homeWorkspace==workspace")) and 'sel_registerName("activateApplication:")' not in source["workspaceowner"],
+  "native_preparation_precedes_remote_scene_request": "DF152PrepareThenContinue(rid,bundle,display,self,^" in solo and 0<=solo.find("DF151WorkspaceSnapshot(rid,bundle,display,self)")<solo.find("notify_post(DF144RequestNotify)") and 'DF152ExactInstance(workspace,"requestStateChange:","v24@0:8@16")' in source["nativeprep"],
+  "native_prepare_once_cancel_and_abi_gates": all(t in source["nativeprep"] for t in ('DF151IsDashboardOwner(owner)','homeWorkspace==workspace','DF152ShowNativeApp(home,&showing)','deactivateApplication:','setCompletionHandler:','native-workspace-fallback-250ms','DF152Revoke(&DF152Prep)')) and all(t in source["once"] for t in ("DF152Begin","DF152FinishOnce","DF152Revoke")) and "DF152RevokeNativePreparation();" in solo,
   "early_receiver_rejection_terminates_and_duplicate_terminal_guarded":"DF150ReplyRejected(p);" in solo and '"receiver-preflight-rejected-no-scene-owner"' in solo and "if(self.emittedTerminal)" in solo and "if(terminal)self.emittedTerminal=YES;" in solo,
   "live_app_processstate_pid_verification": all(t in solo for t in ("verifiedProcessStatePIDForView:","isLiveSceneForHostedView:view","bundleIDForHostedView:view","SBApplicationController","processState","kill((pid_t)candidate,0)","verifiedPID:pid")),
   "physical_home_separate_from_native_switch_and_timeout":all(t in solo and t in dock for t in ("DF148NativeSwitchStopNotify","DF148WatchdogStopNotify","DF148OwnerRevokeStopNotify")) and "notify_post(DF144StopNotify)" not in dock,
@@ -74,7 +78,7 @@ def run(repo):
  failed=[k for k,v in checks.items() if not v]
  assert not failed, "static checks failed: "+",".join(failed)
  return {
-  "result":"25_STATIC_ASSERTIONS_PASS_NOT_RUNTIME_PARITY",
+  "result":"27_STATIC_ASSERTIONS_PASS_NOT_RUNTIME_PARITY",
   "source_baseline_commit":"02893d86e827e1f281d8a6496be9ad9789609730",
   "original_duonavi_dylib_sha256_from_prior_verified_audit":"44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
   "log23_sha256_from_prior_analysis":focused["log_sha256"],
