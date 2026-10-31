@@ -1,0 +1,286 @@
+{
+  "scope": "static source/extracted method xrefs only",
+  "runtime_claims_verified": false,
+  "carplay_ios_16_7_16_device_probe": false,
+  "pinned_external_commits": {
+    "pavunato/carsurf": "72cd0f8bf8d0bd1086e78fe7c7be6fff715702f8",
+    "EthanArbuckle/carplay-cast": "696bc72bfd0df9bea80a333e7c3307cd410f6156"
+  },
+  "source_syntax_fingerprints": {
+    "carsurf_dash_workspace": {
+      "sha256": "218cb1cedac31afdc1bb9d2ed2881edfa2d424467147deb5b47fd687416a957d",
+      "bytes": 8633,
+      "checks": {
+        "actual_carplay_process": {
+          "present": true,
+          "line": 49
+        },
+        "owned_workspace_type": {
+          "present": true,
+          "line": 62
+        },
+        "workspace_init_owner": {
+          "present": true,
+          "line": 91
+        },
+        "live_workspace_weak": {
+          "present": true,
+          "line": 44
+        },
+        "native_application_controller": {
+          "present": true,
+          "line": 20
+        },
+        "native_application_lookup": {
+          "present": true,
+          "line": 20
+        },
+        "native_request": {
+          "present": true,
+          "line": 21
+        },
+        "native_activate": {
+          "present": true,
+          "line": 21
+        },
+        "native_state_change": {
+          "present": true,
+          "line": 22
+        },
+        "native_active_readback": {
+          "present": true,
+          "line": 167
+        },
+        "non_native_workspace_filtered": {
+          "present": true,
+          "line": 64
+        }
+      }
+    },
+    "carsurf_ios16_admission": {
+      "sha256": "318c573edc76cd548ab2fc70e9c3b96ab0ddf43e94ab0f635c9af245debac636",
+      "bytes": 7293,
+      "checks": {
+        "ios16_17_gate": {
+          "present": true,
+          "line": 21
+        },
+        "scoped_launchservices": {
+          "present": true,
+          "line": 58
+        },
+        "separate_carplay_activation": {
+          "present": true,
+          "line": 134
+        }
+      }
+    },
+    "carsurf_scene_in_app": {
+      "sha256": "09d4d72a212ef59060e144e0b1df29e986e8566e0ac889dfa8cc6ed705ff571d",
+      "bytes": 23968,
+      "checks": {
+        "roles_from_car": {
+          "present": true,
+          "line": 24
+        },
+        "app_owns_uiwindowscene": {
+          "present": true,
+          "line": 33
+        },
+        "scene_connected": {
+          "present": true,
+          "line": 106
+        },
+        "app_screen_measure": {
+          "present": true,
+          "line": 265
+        },
+        "independent_scene_disconnected": {
+          "present": true,
+          "line": 437
+        }
+      }
+    },
+    "carsurf_per_app_layout": {
+      "sha256": "354caf21058060507322a7a6014df1f10a6eb86723b219434c91170c46734784",
+      "bytes": 27015,
+      "checks": {
+        "typed_proxy": {
+          "present": true,
+          "line": 19
+        },
+        "manifest": {
+          "present": true,
+          "line": 47
+        },
+        "carplay_role": {
+          "present": true,
+          "line": 49
+        },
+        "template_hidden": {
+          "present": true,
+          "line": 96
+        }
+      }
+    },
+    "carplayenable_native_dock_history": {
+      "sha256": "9f1707e59ba711429df12c7df86d947ac9739bd48fbbd880bc4c1aa3221d132d",
+      "bytes": 11953,
+      "checks": {
+        "apple_carplay_launch_event": {
+          "present": true,
+          "line": 146
+        },
+        "real_history": {
+          "present": true,
+          "line": 159
+        },
+        "recent_history_transition": {
+          "present": true,
+          "line": 168
+        },
+        "real_dock_refresh": {
+          "present": true,
+          "line": 172
+        },
+        "real_dock_press": {
+          "present": true,
+          "line": 198
+        },
+        "native_event": {
+          "present": true,
+          "line": 182
+        }
+      }
+    },
+    "duoface_q146_own_overlay": {
+      "sha256": "a1a68c13d14c354bcfcaed22cf9e45e7858d016029bcabdf8c63746cd10199ba",
+      "bytes": 21428,
+      "checks": {
+        "native_selected_tap": {
+          "present": true,
+          "line": 189
+        },
+        "interprocess_notify": {
+          "present": true,
+          "line": 173
+        },
+        "remote_springboard_host": {
+          "present": true,
+          "line": 307
+        },
+        "owned_window": {
+          "present": true,
+          "line": 269
+        },
+        "above_content_window": {
+          "present": true,
+          "line": 298
+        },
+        "only_split_mode_false": {
+          "present": true,
+          "line": 315
+        },
+        "pending_no_render_proof": {
+          "present": true,
+          "line": 317
+        }
+      }
+    },
+    "duoface_q146_home_forced_stop": {
+      "sha256": "beaf3e1509f607abd74fb61dd8d96b80b31f8bed0474db48ff64c2915ff5a09c",
+      "bytes": 11116,
+      "checks": {
+        "native_button": {
+          "present": true,
+          "line": 21
+        },
+        "forced_stop": {
+          "present": true,
+          "line": 139
+        },
+        "normal_home_forward": {
+          "present": true,
+          "line": 160
+        }
+      }
+    }
+  },
+  "original_dock_home_bridge_activation": {
+    "duonavi": {
+      "-bridgeDidActivate:": {
+        "original_imp": "0x2c70cc",
+        "required_selector_sequence_observed": true,
+        "observed_selectors": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ],
+        "order": {
+          "setActivated:": 0,
+          "setAppDockActiveBundleID:": 1,
+          "setHomeButtonInApp:": 2
+        },
+        "is_runtime_trace": false
+      },
+      "-bridgeDidDeactivate": {
+        "original_imp": "0x2c7140",
+        "required_selector_sequence_observed": true,
+        "observed_selectors": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ],
+        "order": {
+          "setActivated:": 0,
+          "setAppDockActiveBundleID:": 1,
+          "setHomeButtonInApp:": 2
+        },
+        "is_runtime_trace": false
+      }
+    },
+    "native12_derived": {
+      "-bridgeDidActivate:": {
+        "original_imp": "0x2a4738",
+        "required_selector_sequence_observed": true,
+        "observed_selectors": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ],
+        "order": {
+          "setActivated:": 0,
+          "setAppDockActiveBundleID:": 1,
+          "setHomeButtonInApp:": 2
+        },
+        "is_runtime_trace": false
+      },
+      "-bridgeDidDeactivate": {
+        "original_imp": "0x2a47ac",
+        "required_selector_sequence_observed": true,
+        "observed_selectors": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ],
+        "order": {
+          "setActivated:": 0,
+          "setAppDockActiveBundleID:": 1,
+          "setHomeButtonInApp:": 2
+        },
+        "is_runtime_trace": false
+      }
+    }
+  },
+  "original_imp_report_sha256": "1150a5ca2975658791a243052c3c9e65685e6d2dd1ba60c63b1f0b368935fdd6",
+  "duodash_repack_limitation": "ValueError: cannot map Mach-O address 0x100000000db0d0",
+  "verified_distinction": {
+    "qa146_is_standalone_overlay": true,
+    "carsurf_has_real_dashboard_workspace_launch_path": true,
+    "carplayenable_used_explicit_real_dock_history_update": true,
+    "duonavi_couples_bridge_active_appdock_home_state_at_own_method_body": true,
+    "no_current_device_proof": true,
+    "copy_vendor_code": false,
+    "no_release": true
+  }
+}
