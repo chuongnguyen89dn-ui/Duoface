@@ -1,29 +1,65 @@
-"""QA144 negative-control: Home external app MUST NOT redirect to DuoFace's split UI.
+"""QA144: enforce selected CarPlay Home direct one-app owner, never DuoFace split.
 
-This test verifies only that the broken QA143 launch hook is no longer linked.
-It does NOT claim the new standalone renderer has been implemented or tested.
+Static contract tests are not device execution proofs. This branch is NOT Sileo-ready.
 """
-import pathlib,unittest
+import pathlib, unittest
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=(ROOT/"build.sh").read_text()
 SPLIT=(ROOT/"DFNative12Chrome.m").read_text()
 SCENE=(ROOT/"DFSceneHost.m").read_text()
+TOUCH=(ROOT/"DFTouchOwnerProbe.m").read_text()
+BRIDGE=(ROOT/"DFHomeStandalone144.m").read_text()
+PACK=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
 OLD=(ROOT/"DFHomeLaunch143.m").read_text()
 class StandaloneHome144Guard(unittest.TestCase):
- def test_qa143_wrong_icon_substitution_not_linked(self):
+ def test_old_wrong_icon_substitution_never_compiled(self):
   self.assertNotIn("DFHomeLaunch143.m",BUILD)
-  self.assertIn('DF143Original(owner,selector,manager,duofaceView)',OLD)
-  self.assertIn('DF143HostID=@"com.duoface.native.scenehost"',OLD)
- def test_split_scoped_to_original_duoface_ui_only(self):
-  # Existing split functionality is retained for entering DuoFace by its own icon.
+  self.assertNotIn("DFHomeSceneBridge143.m",BUILD)
+  self.assertNotIn("DFHomeRequestReceiver143.m",BUILD)
+  self.assertNotIn("DFHome143ConsumeRequest(",TOUCH)
+  self.assertIn("DF143Original(owner,selector,manager,duofaceView)",OLD)
+  self.assertNotIn("duofaceView",BRIDGE)
+  self.assertNotIn("setSelectedSlot:",BRIDGE)
+  self.assertNotIn("appPicker:didSelectBundleID:",BRIDGE)
+  self.assertNotIn("DFNative12Chrome",BRIDGE)
+ def test_true_one_app_springboard_owner_and_original_home_process(self):
+  self.assertIn("-DDF144_CARPLAY=1",BUILD)
+  self.assertIn("-DDF144_SPRINGBOARD=1",BUILD)
+  self.assertEqual(BUILD.count("DFHomeStandalone144.m"),2)
+  self.assertIn("iconManager:launchIconForIconView:",BRIDGE)
+  self.assertIn("v32@0:8@16@24",BRIDGE)
+  self.assertIn("DF144Original(self,cmd,manager,icon)",BRIDGE)
+  self.assertIn("[[DFSceneHost sharedHost] hostViewForBundleID:",BRIDGE)
+  self.assertIn("UIRootSceneWindow",BRIDGE)
+  self.assertIn("SBAppViewController",SCENE)
+  self.assertIn("setSplitMode:NO",BRIDGE)
+  self.assertIn("DFSceneHostDidBecomeReadyNotification",BRIDGE)
+  self.assertIn("verifiedPIDForHostedView:",BRIDGE)
+ def test_native_system_dock_region_not_guessed(self):
+  self.assertIn("DBRootStatusBarViewController",BRIDGE)
+  self.assertIn("DBNotificationWindow",BRIDGE)
+  self.assertIn("CGRectGetMaxX(dockrail)",BRIDGE)
+  self.assertIn("CGRectGetMinX(content)",BRIDGE)
+  self.assertIn("CGRectContainsRect",BRIDGE)
+  self.assertIn("UIScreen.mainScreen",BRIDGE)
+  self.assertNotIn("setDockHidden",BRIDGE)
+  self.assertNotIn("CPWindow alloc",BRIDGE)
+ def test_default_off_and_physical_limits_and_cleanup(self):
+  self.assertIn("standalone144-optin.plist",BRIDGE)
+  self.assertIn('p[@"StandaloneHomeDirect"] isEqual:@YES',BRIDGE)
+  self.assertIn("DFHome140Enabled()",BRIDGE)
+  self.assertIn("DFPickerAllowsApp",BRIDGE)
+  self.assertIn("DF144ValidRequest",BRIDGE)
+  self.assertIn("DF144Owner stop:",BRIDGE)
+  self.assertIn("UIScreenDidDisconnectNotification",BRIDGE)
+  self.assertIn("scene-hosted-render-and-touch-unverified",BRIDGE)
+  self.assertNotIn("scene-ready-and-play-verified",BRIDGE)
+ def test_qa144_not_qa143_packaging_and_split_retained(self):
+  self.assertIn("0.1.144~standalone-probe1",BUILD)
+  self.assertIn('VERSION="0.0.144~standalone-probe1"',PACK)
   self.assertIn("DFNative12Chrome.m",BUILD)
-  self.assertIn("DFSceneHost.m",BUILD)
   self.assertIn("appPicker:(DFAppPickerVC *)picker",SPLIT)
-  self.assertIn("hostViewForBundleID:",SCENE)
- def test_qa143_outdated_home_remains_not_the_future_signed_release(self):
-  self.assertIn("0.1.143~homebridge1",BUILD)
-  # No QA144 build can be considered valid until a distinct Home standalone
-  # producer, scene consumer, lifecycle and new signed version are added.
-  self.assertNotIn("DFHomeLaunch144.m",BUILD)
-  self.assertNotIn("DFHomeStandalone144.m",BUILD)
+  self.assertIn("DFSceneHost.m",BUILD)
+  self.assertIn("DFGofaMapResize141.m",BUILD)
+  self.assertIn("DFYouTubeOrientationRelay.m",BUILD)
 if __name__=="__main__":unittest.main()
