@@ -1,0 +1,23 @@
+{
+  "publisher_repository": "chuongnguyen89dn-ui/carplaydsp",
+  "publisher_commit": "e72ad06edd7fc6d197bad7c04edb7a4288aec265",
+  "run_id": 41165107645,
+  "conclusion": "success",
+  "jobs": {
+    "build": 124430862823,
+    "deploy": 124431617953,
+    "integrated_public_sha": 124431667151,
+    "observer_public": 124431667163,
+    "qa11_public": 124431667253
+  },
+  "source": "46a138c2f5e92514abcd244d8d25eb570c456386",
+  "archive": "8007634c3a6fec6ff4c33c82879973a94607398b",
+  "version": "0.0.139~recovery1371",
+  "sha256": "dea8ede6af005f6b3160a032ddae885f79844e8300d06b0f84b5eafa22596090",
+  "physical_ui_recovery_confirmed": false,
+  "actual_log_excerpt": [
+    "2026-10-31T03:40:22.5668429Z DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED",
+    "2026-10-31T03:40:22.8869034Z /home/runner/work/_temp/duoface-public.deb: OK",
+    "2026-10-31T03:40:22.8872296Z DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED"
+  ]
+}

@@ -1,0 +1,386 @@
+{
+  "source_upload_commit": "dc147684b2a30dcef92f1e4d8f614dfa878d4c38",
+  "log_file": "sideplay/log/DuoFaceAudit 18.txt",
+  "log_blob": "f51c461bd344840bca6b033ba5946202babfdccc",
+  "log_sha256": "45cc113224b150b8ff5d5b74561b57213b98bb54ea3cdf702bb0be64aacb5243",
+  "log_bytes": 6307960,
+  "log_lines": 24423,
+  "home138_start_records": 20,
+  "home138_unique_carplay_pids": 20,
+  "first_start_utc": "2026-10-31T03:15:11.294000+00:00",
+  "last_start_utc": "2026-10-31T03:18:22.657000+00:00",
+  "home138_markers": {
+    "selected-LS-inclusion": 0,
+    "selected-original-policy": 0,
+    "selected-declaration-created": 0,
+    "original-DashBoard-factory": 0
+  },
+  "crashes": [
+    {
+      "file": "Crash-0-CarPlay-2026-10-31-101825.ips",
+      "sha256": "828b645a25a409e7c9d08584ffac1237035e7c2f92167b0b680b045c0ddc872a",
+      "dock_uuid": "26f13ecd-22fa-3fe0-8350-fc80dc45c526",
+      "matches_public_qa138_uuid": true,
+      "pid": 89744,
+      "captureTime": "2026-10-31 10:18:24.1005 +0700",
+      "exception": {
+        "codes": "0x0000000000000002, 0x000000016f23bfd0",
+        "rawCodes": [
+          2,
+          6159581136
+        ],
+        "type": "EXC_BAD_ACCESS",
+        "signal": "SIGSEGV",
+        "subtype": "KERN_PROTECTION_FAILURE at 0x000000016f23bfd0"
+      },
+      "frame_count": 511,
+      "recursive_three_frame_pattern_count": 165,
+      "symbol_counts": {
+        "findCFBurstTrieList": 1,
+        "traverseCFBurstTrieWithCursor": 1,
+        "CFBurstTrieContainsUTF8String": 1,
+        "_createUniqueStringWithUTF8Bytes": 1,
+        "parseStringTag": 1,
+        "parseXMLElement": 1,
+        "parseArrayTag": 1,
+        "parseDictTag": 1,
+        "parsePListTag": 1,
+        "_CFPropertyListCreateFromUTF8Data": 1,
+        "_CFPropertyListCreateWithData": 1,
+        "CFPropertyListCreateWithData": 1,
+        "+[NSPropertyListSerialization propertyListWithData:options:format:error:]": 1,
+        "+[NSDictionary(NSDictionary) newWithContentsOf:immutable:]": 1,
+        "+[NSDictionary(NSDictionary) dictionaryWithContentsOfFile:]": 1,
+        "DF138Selected": 1,
+        "DF138Answer": 165,
+        "DF138Entitlement3": 165
+      },
+      "image_counts": {
+        "CoreFoundation": 12,
+        "Foundation": 3,
+        "DFCarPlayDockOwner.dylib": 331,
+        "DFFirstPartyAdmission.dylib": 165
+      },
+      "fault_address_region": "STACK GUARD",
+      "representative_frames": [
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Selected",
+          "symbolLocation": 648,
+          "imageOffset": 58852
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 264,
+          "imageOffset": 64328
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        }
+      ]
+    },
+    {
+      "file": "Crash-1-CarPlay-2026-10-31-101814.ips",
+      "sha256": "dd1492dfcbf12ff75554329d22f2b11f08073eea90b4a641e945c41b53a4e281",
+      "dock_uuid": "26f13ecd-22fa-3fe0-8350-fc80dc45c526",
+      "matches_public_qa138_uuid": true,
+      "pid": 89741,
+      "captureTime": "2026-10-31 10:18:13.2517 +0700",
+      "exception": {
+        "codes": "0x0000000000000002, 0x000000016fbf7fd0",
+        "rawCodes": [
+          2,
+          6169788368
+        ],
+        "type": "EXC_BAD_ACCESS",
+        "signal": "SIGSEGV",
+        "subtype": "KERN_PROTECTION_FAILURE at 0x000000016fbf7fd0"
+      },
+      "frame_count": 511,
+      "recursive_three_frame_pattern_count": 165,
+      "symbol_counts": {
+        "findCFBurstTrieList": 1,
+        "traverseCFBurstTrieWithCursor": 1,
+        "CFBurstTrieContainsUTF8String": 1,
+        "_createUniqueStringWithUTF8Bytes": 1,
+        "parseStringTag": 1,
+        "parseXMLElement": 1,
+        "parseArrayTag": 1,
+        "parseDictTag": 1,
+        "parsePListTag": 1,
+        "_CFPropertyListCreateFromUTF8Data": 1,
+        "_CFPropertyListCreateWithData": 1,
+        "CFPropertyListCreateWithData": 1,
+        "+[NSPropertyListSerialization propertyListWithData:options:format:error:]": 1,
+        "+[NSDictionary(NSDictionary) newWithContentsOf:immutable:]": 1,
+        "+[NSDictionary(NSDictionary) dictionaryWithContentsOfFile:]": 1,
+        "DF138Selected": 1,
+        "DF138Answer": 165,
+        "DF138Entitlement3": 165
+      },
+      "image_counts": {
+        "CoreFoundation": 12,
+        "Foundation": 3,
+        "DFCarPlayDockOwner.dylib": 331,
+        "DFFirstPartyAdmission.dylib": 165
+      },
+      "fault_address_region": "STACK GUARD",
+      "representative_frames": [
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Selected",
+          "symbolLocation": 648,
+          "imageOffset": 58852
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 264,
+          "imageOffset": 64328
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        }
+      ]
+    },
+    {
+      "file": "Crash-2-CarPlay-2026-10-31-101803.ips",
+      "sha256": "c655e6f99c8d4ce25b444113481b994ad1ab79f69c6b2f569c800df6a161b295",
+      "dock_uuid": "26f13ecd-22fa-3fe0-8350-fc80dc45c526",
+      "matches_public_qa138_uuid": true,
+      "pid": 89740,
+      "captureTime": "2026-10-31 10:18:02.4141 +0700",
+      "exception": {
+        "codes": "0x0000000000000002, 0x000000016cd53fd0",
+        "rawCodes": [
+          2,
+          6120882128
+        ],
+        "type": "EXC_BAD_ACCESS",
+        "signal": "SIGSEGV",
+        "subtype": "KERN_PROTECTION_FAILURE at 0x000000016cd53fd0"
+      },
+      "frame_count": 511,
+      "recursive_three_frame_pattern_count": 165,
+      "symbol_counts": {
+        "findCFBurstTrieList": 1,
+        "traverseCFBurstTrieWithCursor": 1,
+        "CFBurstTrieContainsUTF8String": 1,
+        "_createUniqueStringWithUTF8Bytes": 1,
+        "parseStringTag": 1,
+        "parseXMLElement": 1,
+        "parseArrayTag": 1,
+        "parseDictTag": 1,
+        "parsePListTag": 1,
+        "_CFPropertyListCreateFromUTF8Data": 1,
+        "_CFPropertyListCreateWithData": 1,
+        "CFPropertyListCreateWithData": 1,
+        "+[NSPropertyListSerialization propertyListWithData:options:format:error:]": 1,
+        "+[NSDictionary(NSDictionary) newWithContentsOf:immutable:]": 1,
+        "+[NSDictionary(NSDictionary) dictionaryWithContentsOfFile:]": 1,
+        "DF138Selected": 1,
+        "DF138Answer": 165,
+        "DF138Entitlement3": 165
+      },
+      "image_counts": {
+        "CoreFoundation": 12,
+        "Foundation": 3,
+        "DFCarPlayDockOwner.dylib": 331,
+        "DFFirstPartyAdmission.dylib": 165
+      },
+      "fault_address_region": "STACK GUARD",
+      "representative_frames": [
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Selected",
+          "symbolLocation": 648,
+          "imageOffset": 58852
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 264,
+          "imageOffset": 64328
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        },
+        {
+          "image": "DFFirstPartyAdmission.dylib",
+          "symbol": null,
+          "symbolLocation": null,
+          "imageOffset": 21824
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Answer",
+          "symbolLocation": 328,
+          "imageOffset": 64392
+        },
+        {
+          "image": "DFCarPlayDockOwner.dylib",
+          "symbol": "DF138Entitlement3",
+          "symbolLocation": 116,
+          "imageOffset": 61976
+        }
+      ]
+    }
+  ],
+  "verdict": "QA138 LS admission hook recursively reenters DF138Answer/DF138Entitlement3 through existing admission forwarding; main-thread stack overflow kills CarPlay.",
+  "source_explanation": "DF138Answer calls its saved two-argument getter again to inspect native capabilities; the actual forwarding chain reaches the hooked three-argument getter and reenters DF138Answer. Original-pointer invocation does not guarantee absence of cross-selector reentry.",
+  "limits": "Does not prove a GOFA view-layout cause or physical QA139 UI recovery. Historical pre138 FatalException and TemplateUIHost reports are not this SIGSEGV."
+}
