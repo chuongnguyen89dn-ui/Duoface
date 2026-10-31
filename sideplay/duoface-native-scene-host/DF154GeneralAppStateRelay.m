@@ -4,7 +4,6 @@
 #import <UIKit/UIKit.h>
 #import "DF154AppStateProtocol.h"
 #import "DF155PilotAppScope.h"
-#import <notify.h>
 
 @interface DF154WindowOriginal : NSObject
 @property(nonatomic) CGRect frame;
@@ -22,11 +21,22 @@
 @property(nonatomic,strong) NSTimer *expiry;
 @property(nonatomic) NSTimeInterval newest;
 @property(nonatomic) BOOL applying;
+@property(nonatomic,copy) NSString *lastAckPhase;
+- (void)postAck:(NSString *)phase count:(NSUInteger)count;
 - (void)receive:(NSNotification *)notification;
 - (void)reconcile;
 - (void)restore:(NSString *)reason;
 @end
 @implementation DF154GeneralAppStateRelay
+- (void)postAck:(NSString *)phase count:(NSUInteger)count {
+ NSDictionary *state=self.state;
+ if(!DF154String(state[@"requestID"]))return;
+ if([self.lastAckPhase isEqualToString:phase] && ![phase isEqual:@"window-adjusted"])return;
+ self.lastAckPhase=phase;
+ DF155PostAck(@{@"requestID":state[@"requestID"],@"bundleIdentifier":self.bundle,
+   @"owner":state[@"owner"],@"sceneIdentifier":state[@"sceneIdentifier"],
+   @"issuedAt":@(NSDate.date.timeIntervalSince1970),@"phase":phase,@"count":@(count)});
+}
 - (void)restore:(NSString *)reason {
  if(!NSThread.isMainThread) {
   dispatch_async(dispatch_get_main_queue(),^{[self restore:reason];});return;
@@ -45,8 +55,10 @@
   [window.rootViewController.view setNeedsLayout];
   ++restored;
  }
+ [self postAck:@"restored" count:restored];
  [self.expiry invalidate];self.expiry=nil;
  self.originals=nil;self.state=nil;self.ownedScene=nil;self.applying=NO;
+ self.lastAckPhase=nil;
  NSLog(@"[DF154AppState] bundle=%@ restore=%@ windows=%lu",
    self.bundle,reason,(unsigned long)restored);
 }
@@ -79,6 +91,7 @@
             [next[@"requestID"] isEqual:self.state[@"requestID"]];
   if(self.state && !same)[self restore:@"owner-replaced"];
   self.state=next;self.newest=stamp;
+  [self postAck:@"lease-accepted" count:0];
   if(!self.expiry) {
     __weak typeof(self) weakSelf=self;
     self.expiry=[NSTimer scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(__unused NSTimer *timer){
@@ -112,7 +125,11 @@
     target=(UIWindowScene *)candidate;break;
   }
  }
- if(!target)return;
+ if(!target) {
+   [self postAck:@"scene-unmatched" count:0];
+   return;
+ }
+ [self postAck:@"scene-matched" count:0];
  if(self.ownedScene && self.ownedScene!=target)
    [self restore:@"UIKit-scene-replaced"];
  if(!self.state)return;
@@ -144,6 +161,7 @@
   ++changed;
  }
  self.applying=NO;
+ if(changed)[self postAck:@"window-adjusted" count:changed];
  if(changed)
    NSLog(@"[DF154AppState] bundle=%@ owner=%@ scene=%@ adjusted=%lu size=%@",
      self.bundle,self.state[@"owner"],self.state[@"sceneIdentifier"],
@@ -170,17 +188,8 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
     relay.bundle=bundle;
     relay.originals=[NSMapTable weakToStrongObjectsMapTable];
     DF154Relay=relay;
-    // Filtered injection is fixed at packaging time. Runtime allowlist is
-    // rechecked on every lease, window event, timer and consent change.
-    static int sEnabledChangedToken=-1;
-    uint32_t status=notify_register_dispatch(DFEnabledAppsChangedNotification,
-      &sEnabledChangedToken,dispatch_get_main_queue(),^(int __unused token) {
-        if(!DF155EnabledPilotApp(relay.bundle)) {
-          if(relay.state)[relay restore:@"allowlist-disabled"];
-        } else [relay reconcile];
-      });
-    if(status!=NOTIFY_STATUS_OK)
-      NSLog(@"[DF154AppState] bundle=%@ consent-watch-unavailable status=%u",bundle,status);
+    // The SpringBoard sender validates current user consent. Sandboxed
+    // apps may not read mobile-owned preference files.
     [center addObserver:relay selector:@selector(receive:)
                   name:DF154StateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserverForName:
