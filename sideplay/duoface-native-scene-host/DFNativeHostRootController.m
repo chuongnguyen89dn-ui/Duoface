@@ -5,6 +5,7 @@
 #import "DFAppCatalogPolicy.h"
 #import "DFHomePublisher136Config.h"
 #import "DFHome140Consent.h"
+#import "DFHome145Consent.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerDisplayPolicy.h"
 #import "DFAppHabits.h"
@@ -468,7 +469,7 @@
  (void)tableView;
  if(self.tabs.selectedSegmentIndex==2)return 10;
  if(self.tabs.selectedSegmentIndex!=1)return 0;
- return section==0?9:(NSInteger)[self appsInGroup:section].count;
+ return section==0?10:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -476,7 +477,8 @@
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
  if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
-    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đóng app khi ngắt CarPlay",@"Đặt lại tùy chọn",@"Ngôn ngữ / Language",@"Hiện app trên CarPlay Home"];
+    NSArray *titles=@[@"⋯ Tùy chọn ứng dụng",@"Bản đồ CarPlay native",@"Mặc định & Ưa dùng",@"Giao diện chọn App",@"Khôi phục App khi kết nối lại",@"Đóng app khi ngắt CarPlay",@"Đặt lại tùy chọn",@"Ngôn ngữ / Language",@"Hiện app trên CarPlay Home",
+          @"Mở trực tiếp App từ CarPlay Home"];
     NSArray *descriptions=@[@"Bật đề xuất / Bật tất cả / Tắt tất cả",
        @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ",
        @"Chọn ứng dụng ưu tiên cho bảng chọn CarPlay, không gán ô",
@@ -485,7 +487,9 @@
        DFDisconnectCloseEnabled()?@"Đang bật — ngắt thật, chờ 10 giây":@"Đang tắt — không đóng app trên iPhone",
        @"Đặt lại mặc định, ưa dùng hoặc giao diện chọn App",
        [DFCurrentExtended()[@"Language"] isEqual:@"en"]?@"English":@"Tiếng Việt",
-       DFHome140Enabled()?@"Đang bật thử nghiệm — có công tắc khẩn cấp":@"Đang tắt — không thay đổi Home"];
+       DFHome140Enabled()?@"Đang bật thử nghiệm — có công tắc khẩn cấp":@"Đang tắt — không thay đổi Home",
+          DFHome145Enabled()?@"Thử nghiệm độc lập — nhấn biểu tượng, không mở chia ô":
+              @"Đang tắt — không can thiệp nhấn biểu tượng"];
     cell.textLabel.text=titles[(NSUInteger)indexPath.row];
     cell.detailTextLabel.text=descriptions[(NSUInteger)indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -497,6 +501,15 @@
         forControlEvents:UIControlEventValueChanged];
       cell.accessoryView=home;
       cell.accessoryType=UITableViewCellAccessoryNone;
+    }
+    if(indexPath.row==9){
+       UISwitch *solo=[UISwitch new];
+       solo.on=DFHome145Enabled();
+       solo.accessibilityLabel=@"Mở ứng dụng độc lập từ CarPlay Home (thử nghiệm)";
+       [solo addTarget:self action:@selector(home145SwitchChanged:)
+           forControlEvents:UIControlEventValueChanged];
+       cell.accessoryView=solo;
+       cell.accessoryType=UITableViewCellAccessoryNone;
     }
     if(indexPath.row==5){
       UISwitch *control=[UISwitch new];
@@ -544,7 +557,53 @@
    [self appSettingsSaveFailed];
    return;
  }
+ if(!control.on && DFHome145Enabled()){
+    (void)DFHome145Write(NO);
+    notify_post("com.duoface.nativehost.standalone144.stop");
+ }
  [self.appsTable reloadData];
+}
+- (void)home145SwitchChanged:(UISwitch *)control {
+ BOOL requested=control.on;
+ // This opt-in is independent of merely adding icons to CarPlay Home.
+ [control setOn:DFHome145Enabled() animated:YES];
+ if(!requested){
+   if(!DFHome145Write(NO)){[self appSettingsSaveFailed];return;}
+   notify_post("com.duoface.nativehost.standalone144.stop");
+   [self.appsTable reloadData];
+   return;
+ }
+ if(!DFHome140Enabled()){
+   UIAlertController *alert=[UIAlertController alertControllerWithTitle:
+       @"CarPlay Home chưa được bật"
+     message:@"Bật “Hiện app trên CarPlay Home” trước. Hiển thị biểu tượng không tự cấp quyền mở độc lập."
+     preferredStyle:UIAlertControllerStyleAlert];
+   [alert addAction:[UIAlertAction actionWithTitle:@"Đóng"
+      style:UIAlertActionStyleDefault handler:nil]];
+   [self presentViewController:alert animated:YES completion:nil];
+   return;
+ }
+ if(!DFConfiguredEnabledAppIDs().count){
+   UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Chưa chọn ứng dụng"
+      message:@"Chọn ít nhất một ứng dụng trong My Apps trước khi bật thử nghiệm."
+      preferredStyle:UIAlertControllerStyleAlert];
+   [alert addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleDefault handler:nil]];
+   [self presentViewController:alert animated:YES completion:nil];
+   return;
+ }
+ UIAlertController *confirm=[UIAlertController alertControllerWithTitle:
+       @"Thử nghiệm mở ứng dụng độc lập?"
+       message:@"Chỉ dùng khi xe đang đỗ. Scene độc lập chưa được kiểm chứng trên iPhone X: có thể không hiển thị hoặc không nhận cảm ứng. Không chuyển sang giao diện chia màn hình DuoFace; bạn có thể tắt bằng công tắc này và xuất log thủ công."
+       preferredStyle:UIAlertControllerStyleAlert];
+ [confirm addAction:[UIAlertAction actionWithTitle:@"Hủy"
+        style:UIAlertActionStyleCancel handler:nil]];
+ __weak typeof(self) weakSelf=self;
+ [confirm addAction:[UIAlertAction actionWithTitle:@"Bật một lần thử"
+   style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action){
+    if(!DFHome145Write(YES)){[weakSelf appSettingsSaveFailed];return;}
+    [weakSelf.appsTable reloadData];
+ }]];
+ [self presentViewController:confirm animated:YES completion:nil];
 }
 - (void)disconnectCloseSwitchChanged:(UISwitch *)control {
  BOOL enable=control.on;
@@ -831,6 +890,13 @@
        if([home isKindOfClass:UISwitch.class]){
           [home setOn:!home.on animated:YES];
           [self home136SwitchChanged:home];
+       }
+     }
+     else if(indexPath.row==9){
+       UISwitch *solo=(UISwitch *)[tableView cellForRowAtIndexPath:indexPath].accessoryView;
+       if([solo isKindOfClass:UISwitch.class]){
+         [solo setOn:!solo.on animated:YES];
+         [self home145SwitchChanged:solo];
        }
      }
   } else {
