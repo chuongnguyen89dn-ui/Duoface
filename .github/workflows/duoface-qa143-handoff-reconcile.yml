@@ -1,0 +1,67 @@
+name: Persist QA143 signed Home-bridge checkpoint into existing DuoFace handoff
+on:
+  push:
+    branches: [feature/duoface-qa142-home-abi-20261031]
+    paths: ['.github/workflows/duoface-qa143-handoff-reconcile.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  record:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify original signed archive and record read-back source
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPORT=sideplay/audit/qa143-home-bridge-signed-20261031/QA143_SIGNED_RELEASE_CHECKPOINT.md
+          HASH=sideplay/jb-embedded-appbridge/evidence/runs/41177472190/SHA256SUMS.txt
+          test -s "$REPORT"
+          grep -Fq '7e9cb8df5c02903557f53f47447d977ba7a84aef' "$REPORT"
+          grep -Fq 'db9019a708c4905602d00ed500878c01f208b26655e42ee079dacf30d925c39c' "$HASH"
+          test -s sideplay/tiep\ tuc\ du\ an.md
+      - name: Prepend checked checkpoint to ORIGINAL handoff; preserve all old notes
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa142-home-abi-20261031
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            HANDOFF="$TEMP/sideplay/tiep tuc du an.md"
+            REPORT="$TEMP/sideplay/audit/qa143-home-bridge-signed-20261031/QA143_SIGNED_RELEASE_CHECKPOINT.md"
+            test -s "$HANDOFF"; test -s "$REPORT"
+            if ! grep -Fq '# 2026-10-31 QA143 SIGNED RELEASE CHECKPOINT' "$HANDOFF"; then
+              {
+                printf '# 2026-10-31 QA143 SIGNED RELEASE CHECKPOINT\n\n'
+                printf '%s\n' '- Verified QA143 source/build/signed DEB, CI, private runtime and pending Sileo status in sideplay/audit/qa143-home-bridge-signed-20261031/QA143_SIGNED_RELEASE_CHECKPOINT.md.'
+                printf '%s\n' '- Signed action run 41177472190 completed/success. Source SHA 7e9cb8df5c02903557f53f47447d977ba7a84aef; immutable archive commit e475878b2fe93dde2e62f66f5f8c2d1217798618; package 0.0.143~homebridge1 SHA256 db9019a708c4905602d00ed500878c01f208b26655e42ee079dacf30d925c39c.'
+                printf '%s\n' '- Sileo publisher workflow metadata carplaydsp commit 1a91d54a, YAML/actionlint run 41177913539 success, active Pages run 41177913481; public live CDN and actual iPhone external app click not yet verified when written.'
+                printf '%s\n\n' '- Home143 user click uses real iOS16 Home selector to original-launch the genuine DuoFace icon for selected apps only when rendered in same Home page; after CPTemplate foreground, SpringBoard invokes original DFSceneHost. When no host icon/consent/ABI, forward original once; no fake native app or foreground. On-device needs selected icon plus real DuoFace icon on same page, new Log143 and sceneReady/touch proof, preserving GOFA/YouTube/Dock.'
+                printf '\n---\n\n'
+                cat "$HANDOFF"
+              } > "$HANDOFF.next"
+              mv "$HANDOFF.next" "$HANDOFF"
+            fi
+            git -C "$TEMP" config user.name github-actions[bot]
+            git -C "$TEMP" config user.email 41898282+github-actions[bot]@users.noreply.github.com
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --staged --quiet; then
+              git worktree remove --force "$TEMP"
+              echo QA143_HANDOFF_ALREADY_PRESENT_VERIFIED
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'handoff(qa143): signed archive and Sileo publisher checkpoint [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo QA143_HANDOFF_PERSISTED_GITHUB
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
