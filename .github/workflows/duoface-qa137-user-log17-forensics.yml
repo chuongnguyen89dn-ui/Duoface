@@ -1,0 +1,85 @@
+name: DuoFace QA137 actual user Log17 Home GOFA and CarPlayTemplateUIHost IPS
+on:
+  push:
+    branches: [audit/duoface-qa137-log17-gofa-home-templatecrash-20261031]
+    paths:
+      - '.github/workflows/duoface-qa137-user-log17-forensics.yml'
+      - 'sideplay/audit/qa137-real-log17-20261031/analyze_log17_gofa_home_crashes.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa137-user-log17-forensics
+  cancel-in-progress: false
+jobs:
+  pinned-real-user-log:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read exact uploaded Log17 and three CarPlayTemplateUIHost IPS files
+        shell: bash
+        run: |
+          set -euo pipefail
+          P=488a2b5f416ca7ff91bc7c0c7d04379e5ad8344b
+          git cat-file -e "$P^{commit}"
+          git show "$P:sideplay/log/DuoFaceAudit 17.txt" > "$RUNNER_TEMP/log17.txt"
+          for n in 0 1 2; do
+            case "$n" in
+              0) nm='Crash-0-CarPlayTemplateUIHost-2026-10-31-092358.ips' ;;
+              1) nm='Crash-1-CarPlayTemplateUIHost-2026-10-31-092440.ips' ;;
+              2) nm='Crash-2-CarPlayTemplateUIHost-2026-10-31-092437.ips' ;;
+            esac
+            git show "$P:sideplay/log/$nm" > "$RUNNER_TEMP/$nm"
+          done
+          sha256sum "$RUNNER_TEMP/log17.txt" "$RUNNER_TEMP"/Crash-*-CarPlayTemplateUIHost-2026-10-31*.ips
+      - name: Parse GOFA geometry, iOS16 native Home API and three actual crash stacks
+        shell: bash
+        run: |
+          set -euo pipefail
+          SCRIPT=sideplay/audit/qa137-real-log17-20261031/analyze_log17_gofa_home_crashes.py
+          python3 -m py_compile "$SCRIPT"
+          python3 "$SCRIPT" --log "$RUNNER_TEMP/log17.txt" \
+            --crash "$RUNNER_TEMP"/Crash-*-CarPlayTemplateUIHost-2026-10-31*.ips \
+            --out "$RUNNER_TEMP/QA137_REAL_LOG17_RESULT.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          o=json.loads((Path(os.environ['RUNNER_TEMP'])/'QA137_REAL_LOG17_RESULT.json').read_text())
+          p=o['log']
+          assert p['gofa']['remote_precommit_mismatch']>0
+          assert p['gofa']['portrait_375x812_precommit']>0
+          assert 'type=' in p['home_137']['method_abi_by_process']['CarPlay']['_newApplicationLibrary']
+          assert len(o['crashes'])==3
+          assert all(x['procName']=='CarPlayTemplateUIHost' and x['exception']=='SIGABRT' for x in o['crashes'])
+          assert all('setShortCutButtons:' in str(x['backtrace_top_symbols']) for x in o['crashes'])
+          print('REAL_QA137_LOG17_AND_THREE_APPLE_UI_HOST_CRASH_STACKS_VERIFIED')
+          PY
+      - name: Save sanitized actual log findings to source project
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=audit/duoface-qa137-log17-gofa-home-templatecrash-20261031
+          REL=sideplay/audit/qa137-real-log17-20261031
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$REL"
+            cp "$RUNNER_TEMP/QA137_REAL_LOG17_RESULT.json" "$T/$REL/QA137_REAL_LOG17_RESULT.json"
+            printf 'RUN_ID=%s\nUPLOAD_COMMIT=488a2b5f416ca7ff91bc7c0c7d04379e5ad8344b\nINPUT=ACTUAL_QA137_LOG17_AND_THREE_IPS\nHOME_VISIBLE=false\nGOFA_FIXED=false\nDUOFACE_APP_CRASH_PROVEN=false\n' "$GITHUB_RUN_ID" > "$T/$REL/CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$REL"
+            if git -C "$T" diff --cached --quiet; then git worktree remove --force "$T"; exit 0; fi
+            git -C "$T" commit -m 'audit(qa137): preserve real Log17 Home GOFA and Apple UI host crash findings [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$T"
+              echo REAL_LOG17_FORENSICS_DURABLY_ARCHIVED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
