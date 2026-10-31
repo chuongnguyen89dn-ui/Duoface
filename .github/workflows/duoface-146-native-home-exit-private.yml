@@ -13,6 +13,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
       - 'sideplay/duoface-native-scene-host/DFNativePrepOnce152.h'
       - 'sideplay/duoface-native-scene-host/DF152NativeWorkspacePrepare.h'
+      - 'sideplay/duoface-native-scene-host/DF153PhoneEviction.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa153_phone_foreground_eviction.py'
       - 'sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c'
       - 'sideplay/duoface-native-scene-host/tests/test_qa152_workspace_prepare.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa151_workspace_owner_capture.py'
@@ -61,6 +63,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa150_workspace_preflight.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"
           "$RUNNER_TEMP/workspace152"
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
