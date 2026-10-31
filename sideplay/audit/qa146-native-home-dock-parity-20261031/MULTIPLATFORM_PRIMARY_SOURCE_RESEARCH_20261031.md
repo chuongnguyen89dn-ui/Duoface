@@ -1,5 +1,30 @@
 # 2026-10-31 — Deep cross-platform primary-source research: real CarPlay ownership, Dock/Home, orientation and latency
 
+## NEW CROSS-CHECK: real iPhone X iOS16.7.16 APIs DISAGREE with the public CarSurf diagnostic example
+
+In addition to original binaries and public GitHub code, we re-parsed the **actual physical Log22** from immutable main commit ce436ddb04e62d1762531a97ad74e21d3354a34d; independent read-only GitHub Actions [run 41186940154](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186940154), output sideplay/audit/qa146-native-home-dock-parity-20261031/runs/41186940154/PHYSICAL_LOG22_IOS16_NATIVE_DASHBOARD_ABI.json. Measured exact Objective-C type encodings in DuoFaceHomeLaunch142.log at the user's **iOS16.7.16**:
+
+| Actual device ABI | Observed |
+| --- | --- |
+| DBDashboardHomeViewController iconManager:launchIconForIconView: | PRESENT v32@0:8@16@24 |
+| DBWorkspace initWithOwner: | PRESENT @24@0:8@16 |
+| DBWorkspace requestStateChange: | PRESENT v24@0:8@16 |
+| DBWorkspace state | PRESENT @16@0:8 |
+| DBApplicationController +sharedInstance | **absent** in logged process/time |
+| DBApplicationController -applicationWithBundleIdentifier: | **absent** in logged process/time |
+| DBWorkspaceState -activeBundleIdentifier | **absent** in logged process/time |
+
+This is a crucial negative control against superficial "copy the public CarSurf approach": its optional diagnostic CSCarLaunch.m **assumes exactly the last three accessors**, which were *not available in that logged iOS16 process/time*. Therefore we **cannot claim** that its diagnostic code is a drop-in solution for this user's hardware. We must investigate how CarPlay's real DBWorkspace is owned and exposed on iOS16.7.16, and identify the correct DashBoard application record + active state, without constructing a fake object. A missing selector in one snapshot may be due to timing, class loading or process identity; it is **not** proof that no version-specific equivalent exists.
+
+Separate physical source: current output is historical QA145-era Log22, not a new live QA146 test. No mutation of iOS state or device was performed.
+
+## PINNED SOURCE-TO-SOURCE CHECK (actual CI, not just reading README)
+
+Read-only [run 41186800542](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186800542) **SUCCESS**. It SHA-checked and read 3 central Gpt-training- ZIP skills, checked out pinned CarSurf 72cd0f8 and CarPlayEnable 696bc72 in isolation, parsed seven exact actual source files (native workspace, scene roles, native recent Dock and DuoFace overlay), and verified original DuoNavi/Native12 activation/deactivation IMP references. Persisted sideplay/audit/qa146-native-home-dock-parity-20261031/runs/41186800542/MULTISOURCE_NATIVE_OWNER_FINGERPRINTS.json plus CI_RESULT.txt in THIS repo. Seven source fingerprints all present; four verified original activation/deactivation records each cite three native Dock/Home/active selectors. **No execution of vendor binaries or third-party code on user's device, no new DEB.**
+
+---
+
+
 **User requirement supersedes QA145/QA146:** No more inferred Home/Dock patches. QA146 shows a third-party app but feels slow, pressing Home destroys the desired navigation context, the open app is not in the real native recent Dock, and other apps rotate incorrectly. The physical user does NOT accept this as correct original DEB behavior. This document is research only, not a QA147 build, Sileo release or device-verified fix.
 
 Target: chuongnguyen89dn-ui/Duoface, branch feature/duoface-qa146-native-home-exit-20261031; actual signed QA146 source 1159f7119d515a5eefe0959ce9aa6701d92a62bb. Last physical exported Log22 is older QA145, uploaded main commit ce436ddb04e62d1762531a97ad74e21d3354a34d; **NO fresh QA146 device log yet**.
