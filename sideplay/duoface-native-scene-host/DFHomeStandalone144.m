@@ -11,7 +11,7 @@
 #import <unistd.h>
 #import <dlfcn.h>
 #import <string.h>
-#import "DFHome140Consent.h"
+#import "DFHome145Consent.h"
 #import "DFEnabledAppsPolicy.h"
 #if defined(DF144_SPRINGBOARD)
 #import "DFSceneHost.h"
@@ -19,7 +19,7 @@
 
 static NSString *const DF144Request=@"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-request.plist";
 static NSString *const DF144Result=@"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-result.plist";
-static NSString *const DF144OptIn=@"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-optin.plist";
+static NSString *const DF144LeasePath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-sb-lease.plist";
 static NSString *const DF144LogPath=@"/var/mobile/Library/Logs/DuoFaceStandalone144.log";
 static const char *const DF144RequestNotify="com.duoface.nativehost.standalone144.request";
 static const char *const DF144StopNotify="com.duoface.nativehost.standalone144.stop";
@@ -36,11 +36,7 @@ static void DF144Log(NSString *tag,NSString *detail) {
  if(d.length)(void)write(fd,d.bytes,d.length);
  close(fd);
 }
-static BOOL DF144ExplicitConsent(void) {
- NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:DF144OptIn];
- return [p isKindOfClass:NSDictionary.class] && [p[@"Version"] isEqual:@1] &&
-       [p[@"StandaloneHomeDirect"] isEqual:@YES] && DFHome140Enabled();
-}
+static BOOL DF144ExplicitConsent(void) { return DFHome145Enabled(); }
 static BOOL DF144Allowed(NSString *bid) {
  return DF144ExplicitConsent() &&
         [bid isKindOfClass:NSString.class] && ![bid isEqualToString:DF144HostApp] &&
@@ -143,9 +139,18 @@ static UIWindow *DF144UniqueNativeContentWindow(CGRect *frame,CGRect *whole,NSSt
  }
  return pairs==1&&(*displayID).length?result:nil;
 }
+static BOOL DF144LiveReceiver(void) {
+ NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:DF144LeasePath];
+ NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+ if(![p isKindOfClass:NSDictionary.class] || ![p[@"Version"] isEqual:@1] ||
+    ![p[@"Role"] isEqualToString:@"SpringBoard-Standalone144"] ||
+    ![p[@"Alive"] isEqual:@YES] || ![p[@"Timestamp"] isKindOfClass:NSNumber.class])return NO;
+ NSTimeInterval age=now-[p[@"Timestamp"] doubleValue];
+ return isfinite(age) && age>=0 && age<=2.0;
+}
 static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  NSString *bundle=DF144Bundle(icon,0);
- if(![icon isKindOfClass:UIView.class] || !DF144Allowed(bundle)) {
+ if(![icon isKindOfClass:UIView.class] || !DF144Allowed(bundle) || !DF144LiveReceiver()) {
    DF144Original(self,cmd,manager,icon);return;
  }
  CGRect content=CGRectZero,screen=CGRectZero;
@@ -216,6 +221,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @property(nonatomic,copy) NSString *carDisplayID;
 @property(nonatomic,strong) id display;
 @property(nonatomic,assign) NSUInteger generation;
+@property(nonatomic,assign) BOOL emittedHosted;
 @end
 @implementation DF144Solo
 - (void)reply:(NSString *)state reason:(NSString *)reason {
@@ -227,6 +233,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 }
 - (void)stop:(NSString *)reason {
  ++self.generation;
+ self.emittedHosted=NO;
  if(self.window)self.window.hidden=YES; // hide external content before scene invalidate
  UIView *view=self.surface;self.surface=nil;
  self.window.rootViewController=nil;self.window=nil;self.root=nil;
@@ -270,7 +277,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  CGRect expectedScreen=CGRectFromString(p[@"ScreenBounds"]);
  if(!DF144ValidRect(content,expectedScreen))return NO;
  if(self.window)[self stop:@"next-home-selection"];
- self.bundle=p[@"BundleID"];self.request=p[@"RequestID"];
+ self.bundle=p[@"BundleID"];self.request=p[@"RequestID"];self.emittedHosted=NO;
  self.carDisplayID=p[@"CarDisplayID"];self.display=display;
  NSUInteger generation=++self.generation;
  @try {
@@ -330,7 +337,8 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  if(![host isLiveSceneForHostedView:self.surface] ||
     ![[host bundleIDForHostedView:self.surface] isEqualToString:self.bundle])return;
  NSNumber *pid=[host verifiedPIDForHostedView:self.surface];
- if(!pid)return; // no fake rendering/real app process claim
+ if(!pid || self.emittedHosted)return; // no fake render/PID or duplicate ACK
+ self.emittedHosted=YES;
  [self reply:@"scene-hosted-render-and-touch-unverified"
        reason:[NSString stringWithFormat:@"verifiedPID=%@",pid]];
 }
@@ -347,6 +355,27 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @end
 static DF144Solo *DF144Owner;
 static NSString *DF144LastRequest;
+static void DF144LeaseHeartbeat(void) {
+ if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
+ BOOL usable=NSClassFromString(@"FBSDisplayConfiguration")!=nil &&
+             NSClassFromString(@"UIRootSceneWindow")!=nil &&
+             NSClassFromString(@"SBAppViewController")!=nil;
+ NSDictionary *record=@{@"Version":@1,@"Role":@"SpringBoard-Standalone144",
+      @"Alive":@(usable),@"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+ if(![record writeToFile:DF144LeasePath atomically:YES])
+   DF144Log(@"standalone-receiver-lease-write-failed",@"");
+ if(DF144Owner && DF144Owner.window) {
+   if(!DFHome145Enabled() || !DF144Owner.window.screen ||
+      DF144Owner.window.screen==UIScreen.mainScreen ||
+      ![DF144Owner currentCarDisplayWithID:DF144Owner.carDisplayID])
+       [DF144Owner stop:@"owner-revoked-consent-or-external-display"];
+   else if(DF144Owner.emittedHosted && DF144Owner.surface &&
+          ![[DFSceneHost sharedHost] isLiveSceneForHostedView:DF144Owner.surface])
+       [DF144Owner stop:@"previous-live-scene-no-longer-hosted"];
+ }
+ dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.7*NSEC_PER_SEC)),
+                dispatch_get_main_queue(),^{DF144LeaseHeartbeat();});
+}
 static void DF144Consume(void) {
  NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:DF144Request];
  if(!DF144ValidRequest(p,NSDate.date.timeIntervalSince1970) ||
@@ -374,6 +403,7 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
     ^(__unused int t){DF144Consume();});
   notify_register_dispatch(DF144StopNotify,&stopToken,dispatch_get_main_queue(),
     ^(__unused int t){[DF144Owner stop:@"native-Home-exit"];});
+  DF144LeaseHeartbeat();
   DF144Log(@"independent-standalone-receiver-registered",
     @"default-off no-DuoFace-CPTemplate no-chrome no-Sileo");
  });
