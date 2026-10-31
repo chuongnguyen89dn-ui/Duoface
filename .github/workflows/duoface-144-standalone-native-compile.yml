@@ -22,6 +22,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Run direct standalone Home architecture and regression tests
         run: |
           set -euo pipefail
