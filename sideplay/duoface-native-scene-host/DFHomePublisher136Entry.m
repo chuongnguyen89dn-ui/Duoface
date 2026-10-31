@@ -8,6 +8,7 @@
 #import <fcntl.h>
 #import <unistd.h>
 #import <string.h>
+#import <stdlib.h>
 #import "DFHomePublisher136Config.h"
 #import "DFEnabledAppsPolicy.h"
 extern NSInteger DFHome136ReconcileVerifiedLibrary(id library);
@@ -38,6 +39,28 @@ static id DFHome136GetLibrary(id source) {
       id value=((id(*)(id,SEL))objc_msgSend)(source,selector);
       if(library && [value isKindOfClass:library])return value;
    } @catch(__unused NSException *e) {continue;}
+ }
+ // When no verified getter exists, inspect object-typed own ivars only.
+ // This does not change UIKit/CarPlay state or allocate an FBS library.
+ for(Class cursor=object_getClass(source);cursor;cursor=class_getSuperclass(cursor)) {
+   unsigned int count=0;
+   Ivar *ivars=class_copyIvarList(cursor,&count);
+   if(!ivars)continue;
+   for(unsigned int n=0;n<count;n++) {
+      const char *kind=ivar_getTypeEncoding(ivars[n]);
+      const char *name=ivar_getName(ivars[n]);
+      if(!kind || kind[0]!='@' || !name)continue;
+      NSString *key=[NSString stringWithUTF8String:name];
+      if(![key.localizedLowercaseString containsString:@"library"])continue;
+      @try {
+        id value=object_getIvar(source,ivars[n]);
+        if(library && [value isKindOfClass:library]){
+          free(ivars);
+          return value;
+        }
+      } @catch(__unused NSException *ex) {}
+   }
+   free(ivars);
  }
  return nil;
 }
