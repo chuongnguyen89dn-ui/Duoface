@@ -1,0 +1,149 @@
+{
+  "evidence_scope": "Static exact selected original DEB methods + source assertions only",
+  "original_imm_report_sha256": "6a88546a7fb4277522ee08975b40830183b4a8a7f4b89c4188bb403ce49d7b18",
+  "original_references": {
+    "duonavi": {
+      "start": {
+        "imp": "0x2c5d88",
+        "xrefs": [
+          "pending",
+          "setPending:",
+          "prepareHomeScreenForBridge:"
+        ]
+      },
+      "activation": {
+        "imp": "0x2c70cc",
+        "xrefs": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ]
+      },
+      "deactivation": {
+        "imp": "0x2c7140",
+        "xrefs": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ]
+      },
+      "dock": {
+        "imp": "0x2c72c8",
+        "xrefs": [
+          "appDockVC",
+          "appHistory",
+          "_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:",
+          "_refreshAppDock"
+        ]
+      },
+      "home": {
+        "imp": "0x2c73d0",
+        "xrefs": [
+          "homeButton",
+          "setDisplayState:"
+        ]
+      },
+      "official": {
+        "imp": "0x2c6158",
+        "xrefs": [
+          "_foregroundActiveScene",
+          "workspace",
+          "requestStateChange:",
+          "deactivateApplication:"
+        ]
+      },
+      "request": {
+        "imp": "0x2c686c",
+        "xrefs": [
+          "writeToFile:atomically:",
+          "postNotificationName:object:userInfo:"
+        ]
+      },
+      "state": {
+        "imp": "0x2c6f88",
+        "xrefs": [
+          "bridgeDidActivate:",
+          "bridgeDidDeactivate"
+        ]
+      }
+    },
+    "native12_derived": {
+      "start": {
+        "imp": "0x2a3478",
+        "xrefs": [
+          "pending",
+          "setPending:",
+          "prepareHomeScreenForBridge:"
+        ]
+      },
+      "activation": {
+        "imp": "0x2a4738",
+        "xrefs": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ]
+      },
+      "deactivation": {
+        "imp": "0x2a47ac",
+        "xrefs": [
+          "setActivated:",
+          "setAppDockActiveBundleID:",
+          "setHomeButtonInApp:"
+        ]
+      },
+      "dock": {
+        "imp": "0x2a4934",
+        "xrefs": [
+          "appDockVC",
+          "appHistory",
+          "_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:",
+          "_refreshAppDock"
+        ]
+      },
+      "home": {
+        "imp": "0x2a4a3c",
+        "xrefs": [
+          "homeButton",
+          "setDisplayState:"
+        ]
+      },
+      "official": {
+        "imp": "0x2a37f0",
+        "xrefs": [
+          "_foregroundActiveScene",
+          "workspace",
+          "requestStateChange:",
+          "deactivateApplication:"
+        ]
+      },
+      "request": {
+        "imp": "0x2a3f04",
+        "xrefs": [
+          "writeToFile:atomically:",
+          "postNotificationName:object:userInfo:"
+        ]
+      },
+      "state": {
+        "imp": "0x2a45f4",
+        "xrefs": [
+          "bridgeDidActivate:",
+          "bridgeDidDeactivate"
+        ]
+      }
+    },
+    "first_party_current_source": {
+      "direct_selected_app_native_callback_consumed": true,
+      "only_external_overlay_broker_not_native_app_activation": true,
+      "no_real_app_history_or_dock_refresh_in_standalone_broker": true,
+      "home_only_standalone_stop_with_original_forward": true,
+      "native_host_watches_scene_every_seconds": 0.35,
+      "youtube_only_relay_and_gofa_only_relay_in_nativehost_build": true,
+      "vendor_carbridge_not_shipped": true,
+      "firstparty_equivalent_not_complete": true
+    }
+  },
+  "not_confirmed": "User QA146 real scene PID/event latency, live iOS16 original selector branches, vendor CarBridge proprietary implementation, actual native Dock state",
+  "critical_correction": "Original DuoNavi also writes a state plist and posts a notification; claims that use of file+notification alone explains QA146 slowness are NOT justified.",
+  "next_gate": "Instrument native app activation and native Dock/previous context, then compare physical first touch/video frame; do not publish QA147 from these static checks."
+}
