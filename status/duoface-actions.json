@@ -1,31 +1,31 @@
 {
-  "checked_at_utc": "2026-10-31T15:46:44.482255+00:00",
+  "checked_at_utc": "2026-10-31T20:03:27.553384+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 3991,
+  "total_actions_runs": 4019,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 2,
-      "success": 1,
+      "recent_runs": 3,
+      "success": 2,
       "failure": 0,
       "other": 1
     },
+    "QA147 native Home exit - signed integrated PRIVATE, before physical QA": {
+      "recent_runs": 41,
+      "success": 12,
+      "failure": 10,
+      "other": 19
+    },
     "QA147 launch mount and ACK scoped regressions": {
-      "recent_runs": 24,
-      "success": 17,
-      "failure": 7,
+      "recent_runs": 35,
+      "success": 20,
+      "failure": 15,
       "other": 0
     },
-    "QA147 native Home exit - signed integrated PRIVATE, before physical QA": {
-      "recent_runs": 27,
-      "success": 9,
-      "failure": 6,
-      "other": 12
-    },
     "QA147 complete-route static evidence, no DEB": {
-      "recent_runs": 15,
-      "success": 9,
-      "failure": 6,
+      "recent_runs": 17,
+      "success": 10,
+      "failure": 7,
       "other": 0
     },
     "DuoNavi Observer standalone passive rootless signed QA": {
@@ -39,117 +39,295 @@
       "success": 2,
       "failure": 0,
       "other": 0
-    },
-    "QA146 original DuoNavi DuoDash native Dock and app process contract verification": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 actual DuoNavi vs DuoDash REPACK deep bridge ABI READ ONLY": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 verify signed real DEB embeds first-party CarBridge-equivalent NO DEPLOY": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 embedded CarBridge-equivalent missing native lifecycle regression audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 deep original integrated AppBridge vs fake CarBridge NO BUILD": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 verify actual iOS16.7.16 Dashboard ABI vs public source READONLY": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 multisource true CarPlay workspace Dock scene forensics READONLY": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 original navigation Dock orientation method xrefs READ ONLY": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "QA146 verify public Sileo and persist current DuoFace handoff": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 native Home button restores standalone owner - regression only": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA146 native Home exit - signed integrated PRIVATE, before physical QA": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA145 inspect user real Log22 standalone Home/Back": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA145 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "QA144 standalone Home - signed integrated PRIVATE staging ONLY (no Sileo)": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "DuoFace QA144 standalone direct Home - native compile and static NO SILEO gate": {
-      "recent_runs": 6,
-      "success": 1,
-      "failure": 3,
-      "other": 2
-    },
-    "QA144 forbid CarPlay Home launch through DuoFace split UI": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    ".github/workflows/duoface-144-integrated-private-staging.yml": {
-      "recent_runs": 1,
-      "success": 0,
-      "failure": 1,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 41237066963,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 98,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41237066963",
+      "created_at": "2026-10-31T20:03:16Z",
+      "head_sha": "fdade8c70c0f9f7601107c1cd0624597e843e326"
+    },
+    {
+      "id": 41236376760,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 42,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236376760",
+      "created_at": "2026-10-31T19:54:20Z",
+      "head_sha": "6e4dba0a03b20d787ed70760b7b1d5bbbcbc71ee"
+    },
+    {
+      "id": 41236372423,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 41,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236372423",
+      "created_at": "2026-10-31T19:54:17Z",
+      "head_sha": "e642c533f4d3926c611e44e96395406517aff75b"
+    },
+    {
+      "id": 41236315623,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 35,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236315623",
+      "created_at": "2026-10-31T19:53:31Z",
+      "head_sha": "26140c7d748e7f0e9ddb00556155a581da28c416"
+    },
+    {
+      "id": 41236312736,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 40,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236312736",
+      "created_at": "2026-10-31T19:53:28Z",
+      "head_sha": "affd1956cf7cc0ac36f5028c31a261ae9d6cf391"
+    },
+    {
+      "id": 41236242522,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 34,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236242522",
+      "created_at": "2026-10-31T19:52:34Z",
+      "head_sha": "889a1b1e19bb9e79d59b78b4da04c9b95caf23ef"
+    },
+    {
+      "id": 41236242515,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 39,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236242515",
+      "created_at": "2026-10-31T19:52:34Z",
+      "head_sha": "889a1b1e19bb9e79d59b78b4da04c9b95caf23ef"
+    },
+    {
+      "id": 41236210911,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 33,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236210911",
+      "created_at": "2026-10-31T19:52:09Z",
+      "head_sha": "66fdd1ac11f9063080a059728af5529ff1308dd1"
+    },
+    {
+      "id": 41236210862,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 38,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236210862",
+      "created_at": "2026-10-31T19:52:09Z",
+      "head_sha": "66fdd1ac11f9063080a059728af5529ff1308dd1"
+    },
+    {
+      "id": 41236173999,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 37,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236173999",
+      "created_at": "2026-10-31T19:51:42Z",
+      "head_sha": "899ecb3ec87ca7e42b1eb19af297dd4c3914501f"
+    },
+    {
+      "id": 41236173996,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 32,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236173996",
+      "created_at": "2026-10-31T19:51:42Z",
+      "head_sha": "899ecb3ec87ca7e42b1eb19af297dd4c3914501f"
+    },
+    {
+      "id": 41236169953,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 31,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236169953",
+      "created_at": "2026-10-31T19:51:39Z",
+      "head_sha": "4b0aff9dbfec7d3a5cb0ef6712486916a4a8284c"
+    },
+    {
+      "id": 41236169912,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 36,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236169912",
+      "created_at": "2026-10-31T19:51:38Z",
+      "head_sha": "4b0aff9dbfec7d3a5cb0ef6712486916a4a8284c"
+    },
+    {
+      "id": 41236147677,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 35,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236147677",
+      "created_at": "2026-10-31T19:51:20Z",
+      "head_sha": "9a264db96f7993e0a2a9f6f3a4af38d15cec2ea6"
+    },
+    {
+      "id": 41236147675,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 30,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236147675",
+      "created_at": "2026-10-31T19:51:20Z",
+      "head_sha": "9a264db96f7993e0a2a9f6f3a4af38d15cec2ea6"
+    },
+    {
+      "id": 41236142178,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 29,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236142178",
+      "created_at": "2026-10-31T19:51:16Z",
+      "head_sha": "eaf10bd472307455771cef9900d393b8af9422e6"
+    },
+    {
+      "id": 41236142110,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 34,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236142110",
+      "created_at": "2026-10-31T19:51:15Z",
+      "head_sha": "eaf10bd472307455771cef9900d393b8af9422e6"
+    },
+    {
+      "id": 41236135653,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 33,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236135653",
+      "created_at": "2026-10-31T19:51:10Z",
+      "head_sha": "2a02ffadaf53355239ee974792f9f440001e0e60"
+    },
+    {
+      "id": 41236135639,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 28,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41236135639",
+      "created_at": "2026-10-31T19:51:10Z",
+      "head_sha": "2a02ffadaf53355239ee974792f9f440001e0e60"
+    },
+    {
+      "id": 41235256020,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 32,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41235256020",
+      "created_at": "2026-10-31T19:39:38Z",
+      "head_sha": "1de989b1b137d978c495cc53fbee6ae97e5f7a8e"
+    },
+    {
+      "id": 41235255967,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 27,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41235255967",
+      "created_at": "2026-10-31T19:39:38Z",
+      "head_sha": "1de989b1b137d978c495cc53fbee6ae97e5f7a8e"
+    },
+    {
+      "id": 41235235227,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 31,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41235235227",
+      "created_at": "2026-10-31T19:39:20Z",
+      "head_sha": "dc12b0cc833e2a28bc0bf2f09c030e2a74a928c3"
+    },
+    {
+      "id": 41235235213,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41235235213",
+      "created_at": "2026-10-31T19:39:20Z",
+      "head_sha": "dc12b0cc833e2a28bc0bf2f09c030e2a74a928c3"
+    },
+    {
+      "id": 41216635707,
+      "name": "QA147 complete-route static evidence, no DEB",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216635707",
+      "created_at": "2026-10-31T15:48:55Z",
+      "head_sha": "d1b950790695d48f03a22a3cb646003572435bd9"
+    },
+    {
+      "id": 41216616845,
+      "name": "QA147 complete-route static evidence, no DEB",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216616845",
+      "created_at": "2026-10-31T15:48:41Z",
+      "head_sha": "2b9d5454f7638e3371c0bd3ea0b096eb864d02ab"
+    },
+    {
+      "id": 41216554297,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 30,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216554297",
+      "created_at": "2026-10-31T15:47:53Z",
+      "head_sha": "c7844358ca28845877f39525825a01ca190a92e8"
+    },
+    {
+      "id": 41216478996,
+      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
+      "run_number": 29,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216478996",
+      "created_at": "2026-10-31T15:46:55Z",
+      "head_sha": "ecba74effb7848cfe7deae86a57b87d12f2588fe"
+    },
+    {
+      "id": 41216470683,
+      "name": "QA147 launch mount and ACK scoped regressions",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216470683",
+      "created_at": "2026-10-31T15:46:48Z",
+      "head_sha": "9706752b159f8398fd2d0b6c6a19f5a585ba3d1c"
+    },
+    {
       "id": 41216451533,
       "name": "DuoFace Actions status snapshot",
       "run_number": 97,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216451533",
       "created_at": "2026-10-31T15:46:33Z",
       "head_sha": "a067fbc931ce9ddf98f918bdfbd3a222eb662bb3"
@@ -163,286 +341,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216201038",
       "created_at": "2026-10-31T15:43:24Z",
       "head_sha": "24e5126a38c7f9f23bb161d9971cebec73453b0c"
-    },
-    {
-      "id": 41216200946,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 28,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41216200946",
-      "created_at": "2026-10-31T15:43:24Z",
-      "head_sha": "24e5126a38c7f9f23bb161d9971cebec73453b0c"
-    },
-    {
-      "id": 41215018619,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 15,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41215018619",
-      "created_at": "2026-10-31T15:28:34Z",
-      "head_sha": "515704451d21a0f5a6a65c72ecdd21043bceeef8"
-    },
-    {
-      "id": 41214998384,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 14,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214998384",
-      "created_at": "2026-10-31T15:28:18Z",
-      "head_sha": "196eaa2c3feeb295cd92a1503b8a733d33bfa204"
-    },
-    {
-      "id": 41214955481,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 27,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214955481",
-      "created_at": "2026-10-31T15:27:43Z",
-      "head_sha": "ba6c8b786f36266ef45b84894750525c711125f8"
-    },
-    {
-      "id": 41214947768,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 23,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214947768",
-      "created_at": "2026-10-31T15:27:37Z",
-      "head_sha": "f534492cfb1ea81ec99ac7034bf4290400942f7e"
-    },
-    {
-      "id": 41214883758,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 26,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214883758",
-      "created_at": "2026-10-31T15:26:46Z",
-      "head_sha": "80a27e62cc80b1b79d2c98905306ba38740f3322"
-    },
-    {
-      "id": 41214883700,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214883700",
-      "created_at": "2026-10-31T15:26:46Z",
-      "head_sha": "80a27e62cc80b1b79d2c98905306ba38740f3322"
-    },
-    {
-      "id": 41214067398,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 13,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214067398",
-      "created_at": "2026-10-31T15:16:34Z",
-      "head_sha": "be3b5526c565890ad0c0f8c1f43e6feec2be6778"
-    },
-    {
-      "id": 41214050252,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41214050252",
-      "created_at": "2026-10-31T15:16:21Z",
-      "head_sha": "8d8c40c4b1e8d8df210a963b543e08d3f69ad87d"
-    },
-    {
-      "id": 41213982305,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 25,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213982305",
-      "created_at": "2026-10-31T15:15:30Z",
-      "head_sha": "e714f4fcbdeda35530753c4ded66ff9873736c88"
-    },
-    {
-      "id": 41213973275,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213973275",
-      "created_at": "2026-10-31T15:15:23Z",
-      "head_sha": "f55e559436b6c07ce9fa8cb4839270790d42d877"
-    },
-    {
-      "id": 41213903219,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 24,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213903219",
-      "created_at": "2026-10-31T15:14:30Z",
-      "head_sha": "c6df3da4e69fe699ead716854e398dbac97f435a"
-    },
-    {
-      "id": 41213903192,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213903192",
-      "created_at": "2026-10-31T15:14:30Z",
-      "head_sha": "c6df3da4e69fe699ead716854e398dbac97f435a"
-    },
-    {
-      "id": 41213896161,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213896161",
-      "created_at": "2026-10-31T15:14:25Z",
-      "head_sha": "60abdc153457cd7cd8e8d7328eb5150690e10ec1"
-    },
-    {
-      "id": 41213896159,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 23,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213896159",
-      "created_at": "2026-10-31T15:14:25Z",
-      "head_sha": "60abdc153457cd7cd8e8d7328eb5150690e10ec1"
-    },
-    {
-      "id": 41213847732,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213847732",
-      "created_at": "2026-10-31T15:13:48Z",
-      "head_sha": "3d58d6f6ecb161c7551437169de406e0c20fdc2a"
-    },
-    {
-      "id": 41213847652,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213847652",
-      "created_at": "2026-10-31T15:13:48Z",
-      "head_sha": "3d58d6f6ecb161c7551437169de406e0c20fdc2a"
-    },
-    {
-      "id": 41213017649,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41213017649",
-      "created_at": "2026-10-31T15:03:41Z",
-      "head_sha": "1ec7c144d8665ce4ace2f083bcd1a8a52939f153"
-    },
-    {
-      "id": 41212995664,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212995664",
-      "created_at": "2026-10-31T15:03:26Z",
-      "head_sha": "dc9c549e77c6a9856ffc90ce8645b291b7887880"
-    },
-    {
-      "id": 41212898487,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212898487",
-      "created_at": "2026-10-31T15:02:15Z",
-      "head_sha": "7c7229fa49fb63bad31e0fb823fb2f412c444c48"
-    },
-    {
-      "id": 41212885990,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212885990",
-      "created_at": "2026-10-31T15:02:06Z",
-      "head_sha": "0c75bb216e034426dd55f701104915c8c79c95d7"
-    },
-    {
-      "id": 41212829735,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212829735",
-      "created_at": "2026-10-31T15:01:26Z",
-      "head_sha": "ef6053b084673e82abacbc3adedd6530448b4d83"
-    },
-    {
-      "id": 41212829707,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41212829707",
-      "created_at": "2026-10-31T15:01:26Z",
-      "head_sha": "ef6053b084673e82abacbc3adedd6530448b4d83"
-    },
-    {
-      "id": 41206742815,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206742815",
-      "created_at": "2026-10-31T13:42:00Z",
-      "head_sha": "349d114f0186785557e4f52d416293b044edc0cb"
-    },
-    {
-      "id": 41206726614,
-      "name": "QA147 complete-route static evidence, no DEB",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206726614",
-      "created_at": "2026-10-31T13:41:46Z",
-      "head_sha": "dcbfcbe08844787ae44fd028a9012684efeadf2b"
-    },
-    {
-      "id": 41206670597,
-      "name": "QA147 launch mount and ACK scoped regressions",
-      "run_number": 15,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206670597",
-      "created_at": "2026-10-31T13:41:02Z",
-      "head_sha": "97835028aa51fd9bbf586cb36ec25ddb27d48eaa"
-    },
-    {
-      "id": 41206670586,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206670586",
-      "created_at": "2026-10-31T13:41:02Z",
-      "head_sha": "97835028aa51fd9bbf586cb36ec25ddb27d48eaa"
-    },
-    {
-      "id": 41206624902,
-      "name": "QA147 native Home exit - signed integrated PRIVATE, before physical QA",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41206624902",
-      "created_at": "2026-10-31T13:40:25Z",
-      "head_sha": "60c1515ba51843b7306e5edad34042326e38a177"
     }
   ]
 }
