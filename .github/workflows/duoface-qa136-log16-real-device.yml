@@ -1,0 +1,80 @@
+name: DuoFace QA136 actual Log16 vs native Home
+on:
+  push:
+    branches: [feature/duoface-qa136-ios16-native-home-publisher-20261031]
+    paths:
+      - '.github/workflows/duoface-qa136-log16-real-device.yml'
+      - 'sideplay/audit/carplay-home-icons-20261031/analyze_qa136_uploaded_log16.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa136-log16-real-device
+  cancel-in-progress: false
+jobs:
+  audit-real-log:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Retrieve pinned real user-uploaded Log16
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e '31166d15e3606e571bc34b023e59f76613d4953c^{commit}'
+          git show '31166d15e3606e571bc34b023e59f76613d4953c:sideplay/log/DuoFaceAudit 16.txt' > "$RUNNER_TEMP/DuoFaceAudit16.txt"
+          test -s "$RUNNER_TEMP/DuoFaceAudit16.txt"
+          wc -lc "$RUNNER_TEMP/DuoFaceAudit16.txt"
+          sha256sum "$RUNNER_TEMP/DuoFaceAudit16.txt"
+      - name: Compare user Log16 and original DuoNavi Native12 Home evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=sideplay/audit/carplay-home-icons-20261031/analyze_qa136_uploaded_log16.py
+          python3 -m py_compile "$SRC"
+          python3 "$SRC" --log "$RUNNER_TEMP/DuoFaceAudit16.txt" \
+            --entry sideplay/duoface-native-scene-host/DFHomePublisher136Entry.m \
+            --original sideplay/audit/carplay-home-icons-20261030/original-deb-evidence/ORIGINAL_HOME_SEMANTIC_SELECTORS.json \
+            --out "$RUNNER_TEMP/QA136_LOG16_RESULT.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"QA136_LOG16_RESULT.json").read_text())
+          assert r["bytes"]>100000 and r["line_count"]>1000
+          assert r["qa136_source_gaps"]["only_CarPlay_process"]
+          assert all(v["registers_DashBoard_or_CARApplication"] for v in r["original_semantic_home_calls"].values())
+          print("REAL_USER_LOG16_AND_ORIGINAL_HOME_ABI_COMPARISON_VERIFIED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA136-REAL-LOG16-HOME-AUDIT
+          path: /tmp/QA136_LOG16_RESULT.json
+          if-no-files-found: warn
+      - name: Save real device Log16 summary to DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa136-ios16-native-home-publisher-20261031
+          REL=sideplay/audit/carplay-home-icons-20261031
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$REL"
+            cp "$RUNNER_TEMP/QA136_LOG16_RESULT.json" "$T/$REL/QA136_LOG16_RESULT.json"
+            printf 'RUN_ID=%s\nLOG_COMMIT=31166d15e3606e571bc34b023e59f76613d4953c\nTYPE=REAL_USER_LOG16_STATIC_REPLAY\nDEVICE_HOME_ICON_PASS=false\n' "$GITHUB_RUN_ID" > "$T/$REL/QA136_LOG16_CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$REL"
+            if git -C "$T" diff --cached --quiet; then git worktree remove --force "$T"; exit 0; fi
+            git -C "$T" commit -m 'audit(qa136): persist user Log16 Home analysis [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$T"
+              echo QA136_LOG16_REAL_UPLOAD_REPORT_ARCHIVED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
