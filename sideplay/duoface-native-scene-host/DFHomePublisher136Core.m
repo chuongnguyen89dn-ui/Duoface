@@ -8,6 +8,7 @@
 #import <string.h>
 #import "DFCarPlayHomeCatalogPolicy.h"
 #import "DFHomePublisher136Config.h"
+extern void DF137ObserveExistingAppInfo(id info, NSString *stage);
 
 static BOOL DF136Exact(id object,SEL sel,const char *expected) {
  if(!object)return NO;
@@ -106,12 +107,18 @@ NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
  NSMutableArray *infos=[NSMutableArray array];
  for(NSString *bundle in allowed) {
     if([bundle hasPrefix:@"com.apple."])continue;
-    if(((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle))continue;
+    id already=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
+    if(already){DF137ObserveExistingAppInfo(already,@"already-present");continue;}
     id proxy=DF136InstalledProxy(bundle);
     if(!proxy)continue;
     ((void(*)(id,SEL,id,id))objc_msgSend)(library,add,proxy,nil);
     id info=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
-    if(info){DF136PromoteNewInfo(info);[infos addObject:info];}
+    if(info){
+      DF137ObserveExistingAppInfo(info,@"new-before-promotion");
+      DF136PromoteNewInfo(info);
+      DF137ObserveExistingAppInfo(info,@"new-after-promotion");
+      [infos addObject:info];
+    }
  }
  if(infos.count && DF136Exact(library,notify,"v24@0:8@16"))
     ((void(*)(id,SEL,id))objc_msgSend)(library,notify,infos);
