@@ -109,6 +109,7 @@ static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
 }
 
 typedef void (*DF144Hook)(Class,SEL,IMP,IMP*);
+#import "DF151WorkspaceOwnerCapture.h"
 static UIWindow *DF144UniqueNativeContentWindow(CGRect *frame,CGRect *whole,NSString **displayID) {
  NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSetWithArray:UIApplication.sharedApplication.windows];
  for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
@@ -191,6 +192,7 @@ static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  // Read-only class/selector ABI inventory on the actual CarPlay process.
  // The old DEB's native workspace transition is NOT invoked speculatively.
  DF150ProbeWorkspaceForRequest(rid,bundle,display,NO);
+ DF151WorkspaceSnapshot(rid,bundle,display,self);
  DF144Log(@"standalone-requested-not-yet-ready",[NSString stringWithFormat:
       @"bid=%@ uuid=%@ content=%@",bundle,rid,NSStringFromCGRect(content)]);
 }
@@ -219,6 +221,8 @@ static void DF144Install(int tryNo) {
 __attribute__((constructor))static void DF144StartCarPlay(void) {
  if(![NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"] ||
     NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
+ // Install at startup; DBWorkspace initWithOwner: may precede the first tap.
+ DF151StartCapture();
  dispatch_async(dispatch_get_main_queue(),^{DF147Start();DF144Install(0);});
 }
 #endif
