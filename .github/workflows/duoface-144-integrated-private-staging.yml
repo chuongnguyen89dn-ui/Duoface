@@ -95,15 +95,7 @@ jobs:
             cp "$QA144_PRIVATE_OUTPUT" "$OUT/$ART"
             ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
             cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
-            printf 'BUILD=success
-SIGNED=true
-SOURCE_SHA=%s
-RUN_ID=%s
-SILEO_PUBLISHED=false
-DEVICE_DIRECT_HOME_TESTED=false
-STANDALONE_OWNER_FOREGROUND_VERIFIED=false
-DO_NOT_INSTALL_REPEATEDLY=true
-' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nDEVICE_DIRECT_HOME_TESTED=false\nSTANDALONE_OWNER_FOREGROUND_VERIFIED=false\nDO_NOT_INSTALL_REPEATEDLY=true\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
             git -C "$DIR" config user.name 'github-actions[bot]'
             git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
