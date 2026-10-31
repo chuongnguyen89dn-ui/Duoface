@@ -53,6 +53,7 @@ static id DF144Get(id object,const char *getter) {
  @try{return ((id (*)(id,SEL))objc_msgSend)(object,sel);}
  @catch(__unused NSException *e){return nil;}
 }
+#if defined(DF144_CARPLAY)
 static NSString *DF144Bundle(id object,int depth) {
  if(!object || depth>=3)return nil;
  const char *const name[]={"bundleIdentifier","bundleID","applicationIdentifier","displayIdentifier",NULL};
@@ -67,6 +68,7 @@ static NSString *DF144Bundle(id object,int depth) {
  }
  return nil;
 }
+#endif
 static BOOL DF144ValidRect(CGRect r,CGRect whole) {
  return isfinite(r.origin.x)&&isfinite(r.origin.y)&&isfinite(r.size.width)&&
         isfinite(r.size.height)&&whole.size.width>=300&&whole.size.height>=145&&
