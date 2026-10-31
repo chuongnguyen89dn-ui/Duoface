@@ -1,5 +1,31 @@
 # QA146 rejected as an interaction architecture — user physical feedback 2026-10-31
 
+## Fresh original ARM64 crosswalk after user rejected QA146 (CONFIRMED STATIC EVIDENCE)
+
+Independent GitHub Actions read-only [run 41186440398](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41186440398), job `124494211869`, **SUCCESS**. The workflow downloaded the actual central skill ZIPs 01/02/05, unpacked and read their `SKILL.md`, SHA256-validated original DuoNavi 1.0.4 and Native12-derived reference, and DuoDash repack, then decoded the actual *methods and same-function selector xrefs* (without reproducing proprietary code). Source `scan_original_navigation_imp_crosswalk.py`; immutable output `sideplay/audit/qa146-native-home-dock-parity-20261031/runs/41186440398/ORIGINAL_NAV_DOCK_ORIENTATION_IMPS.json` and receipt `CI_RESULT.txt`, archived in this project branch at commit `abdff164fd9acd6e7ca1c37424518d442acdd476`.
+
+**New high-confidence structural finding, beyond old generic selector strings:**
+
+| Original method; actual IMP | **same function** selector xrefs (not just dylib-wide strings) | QA146 parity gap |
+|---|---|---|
+| DuoNavi `CBBridgeManagerDashboard -bridgeDidActivate:` @ `0x2c70cc` | `setActivated:` → `setAppDockActiveBundleID:` → `setHomeButtonInApp:` | QA146's `DF144Solo begin:` sets its own UIWindow but never synchronizes real app Dock active bundle or Home-in-app display state |
+| DuoNavi `-bridgeDidDeactivate` @ `0x2c7140` | **same three selectors**, decoded in its own deactivation method | QA146 stops its own scene via Darwin notify but does not restore original Dock/app/Home navigation state |
+| DuoNavi `-setHomeButtonInApp:` @ `0x2c73d0` | references `homeButton` and `setDisplayState:` | Native Home control state explicitly managed by original bridge, not simply `homeButtonUp:` with window delete |
+| DuoNavi `-prepareHomeScreenForBridge:` @ `0x2c5f3c` | `showingApp`, `closeOfficialTopApp:` | Original has a Home-screen transition/preparation before bridge; QA146 consumes selected tap then overlays without equivalent modeled transition |
+| DuoNavi `CBBridgeManager -runningBridgedApplications` @ `0x2a32b4` | `currentApp`, `appViews`, `allApplicationProcesses`, `applicationWithBundleIdentifier:` | Original tracks active/previous bridged apps; QA146 only stores one `DF144Owner.bundle` and has no native recent-app identity update |
+| DuoNavi `CBBridgedUIAppView -updateSceneSettingsFrame` @ `0xad368` | `setContentReferenceSize:withInterfaceOrientation:`, `setContentReferenceSize:withContentOrientation:andContainerOrientation:`, `sceneHandle`, `sceneIfExists` | Original has scene-settings/orientation coordination, not merely a generic external UIWindow frame |
+| Native12-derived `-bridgeDidActivate:` @ `0x2a4738`, `-bridgeDidDeactivate` @ `0x2a47ac` | **both repeat `setActivated:`, `setAppDockActiveBundleID:`, `setHomeButtonInApp:`** | Independent corroboration in derived reference; do not misrepresent Native12 as pristine vendor original |
+| Native12-derived `-updateSceneSettingsFrame` @ `0xad5bc` | same two `setContentReferenceSize` orientation selectors | Second source supports explicit scene orientation dimension contract |
+
+The scanned original contains **18 matched DuoNavi methods** and **17 Native12-derived methods**, including `startBridging:` / `stopBridging` and separate split managers. The fresh scanner's legacy `MachO.classes()` cannot resolve the *repacked* DuoDash's dyld-fixed class pointer (`ValueError: cannot map Mach-O address 0x100000000db0d0`), correctly recorded as **unknown/not absent**. Earlier DuoDash separately verified concrete native method IMPs `onHostRequest:` vs `onHostRequestSplit:`; no false claim of fresh decoded Dock paths from that repack.
+
+**Consequence:** There is now concrete original-machine-code evidence that **app active status + Dock active icon + Home-button display-state are coupled to bridge activation/deactivation**. Current QA146 is a side-layer host missing those transitions. This explains the architectural mismatch, but **does not establish exact runtime branch/latency on iPhone or directly authorize reusing vendor/private license code**. Next independent implementation must represent that ownership state with measured live iOS16.7.16 APIs, not copy original IMP code and not fake a Dock icon by painting UI.
+
+**Explicit gate:** do not publish an additional speculative Sileo QA147 for mere Home-icon or orientation toggles. Require (1) verified legitimate native Dock controller/model owner on the user's iOS build; (2) independent pending→active→deactivated state machine; (3) verifiable previous-screen/back policy; (4) app-scene orientation readback and user event responsiveness. Current QA146 remains behavior-rejected and unchanged.
+
+---
+
+
 **Project** `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-qa146-native-home-exit-20261031`. **Current public QA146 remains a real signed, SHA-verified Sileo package, but the user's physical test rejects its semantics.** Do not mark "fixed" from compilation, signed package, Pages verifier, or successful rendering of one selected app. **No new Sileo package, source fix, or physical verification is claimed by this audit.**
 
 ## Latest user acceptance criteria — supersede former simplifying assumptions
