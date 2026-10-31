@@ -1,0 +1,3998 @@
+{
+  "classification": "sha-locked original DuoNavi vs separate DuoDash REPACK",
+  "original_vendor_code_executed": false,
+  "source_or_license_copied": false,
+  "native_device_runtime_verified": false,
+  "images": {
+    "duonavi_original": {
+      "label": "duonavi_original",
+      "package_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+      "macho_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+      "repack_warning": null,
+      "classes_total": 47,
+      "classes_parsed": 47,
+      "tagged_macho_pointer_normalizations": 0,
+      "metadata_source": "first-party Oct27 tagged MachO parser and Objective-C class metadata",
+      "method_count": 113,
+      "focus": {
+        "CBBridgeManager": [
+          {
+            "selector": "-trackBridgedBundleID:",
+            "imp": "0x2a3130",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2a32b4",
+            "bounded_scan_bytes": 388,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "hasPrefix:",
+              "isEqualToString:",
+              "setIcon:",
+              "addObject:",
+              "count"
+            ],
+            "cfstring_tags": [
+              "com.apple.",
+              "[DuoNaviSB] Session tracked bridged app: %@ (Total: %lu)"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-runningBridgedApplications",
+            "imp": "0x2a32b4",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x2a4fc0",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "array",
+              "sharedInstance",
+              "reload",
+              "bridgedApps",
+              "setWithArray:",
+              "dictionary",
+              "currentApp",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "appViews",
+              "count",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "length",
+              "numberWithInteger:",
+              "setObject:forKeyedSubscript:",
+              "numberWithInt:",
+              "respondsToSelector:",
+              "performSelector:",
+              "allApplicationProcesses",
+              "allProcesses",
+              "countByEnumeratingWithState:objects:count:",
+              "isApplicationProcess",
+              "pid",
+              "rbsHandle",
+              "handle",
+              "allKeys",
+              "objectForKeyedSubscript:",
+              "applicationWithBundleIdentifier:",
+              "performSelector:withObject:",
+              "process",
+              "addObjectsFromArray:",
+              "setWithObjects:",
+              "containsObject:",
+              "hasPrefix:",
+              "intValue",
+              "objectForKey:",
+              "displayName",
+              "icon",
+              "isUserApp",
+              "applicationProxyForIdentifier:",
+              "applicationType",
+              "isEqualToString:",
+              "localizedName",
+              "componentsSeparatedByString:",
+              "lastObject",
+              "capitalizedString",
+              "_applicationIconImageForBundleIdentifier:format:scale:",
+              "systemImageNamed:",
+              "setDisplayName:",
+              "setObject:forKey:",
+              "integerValue",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "addObject:"
+            ],
+            "cfstring_tags": [
+              "com.apple.shortcuts.runtime",
+              "com.apple.CompassCalibrationViewService",
+              "com.apple.MailCompositionService",
+              "com.apple.TrustMe",
+              "com.apple.DiagnosticsService",
+              "com.apple.CarPlayWallpaper",
+              "com.apple.purplebuddy",
+              "com.apple.SharingViewService"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-supportsInterfaceOrientation:forBundleID:",
+            "imp": "0x2702c8",
+            "type": "B32@0:8q16@24",
+            "next_objc_method_start": "0x2702d0",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-switchToSplitWithLeft:right:ratio:",
+            "imp": "0x2702d0",
+            "type": "v40@0:8@16@24d32",
+            "next_objc_method_start": "0x2703d8",
+            "bounded_scan_bytes": 264,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "arrayWithObjects:count:",
+              "initWithDisplayConfiguration:",
+              "switchToMultiSplitMode:apps:ratio:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-switchToMultiSplitMode:apps:ratio:",
+            "imp": "0x2703d8",
+            "type": "v40@0:8q16@24d32",
+            "next_objc_method_start": "0x289a7c",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "sharedInstance",
+              "setSplitPreset:",
+              "setSplitMode:",
+              "count",
+              "objectAtIndexedSubscript:",
+              "setSplitApp1:",
+              "setSplitLeftBundleID:",
+              "setSplitApp2:",
+              "setSplitRightBundleID:",
+              "setSplitApp3:",
+              "setSplitApp4:",
+              "initWithDisplayConfiguration:",
+              "setSplitRatio:",
+              "dictionaryWithContentsOfFile:",
+              "dictionary",
+              "numberWithBool:",
+              "setObject:forKeyedSubscript:",
+              "numberWithInteger:",
+              "numberWithInt:",
+              "writeToFile:atomically:",
+              "reload",
+              "setObject:forKey:",
+              "stringWithUTF8String:",
+              "dictionaryWithObjects:forKeys:count:",
+              "length",
+              "getBytes:length:"
+            ],
+            "cfstring_tags": [
+              "splitScreenEnabled",
+              "splitPreset",
+              "splitMode",
+              "splitApp1",
+              "splitLeftBundleID",
+              "splitApp2",
+              "splitRightBundleID",
+              "splitApp3"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-showAppPickerForSlot:",
+            "imp": "0x2a2630",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x2a2760",
+            "bounded_scan_bytes": 304,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "currentApp",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "focusedSlotIndex",
+              "restoreSplitAnimated:",
+              "window",
+              "showAppPickerForSlot:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-showLayoutChooser",
+            "imp": "0x2a2760",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x2a287c",
+            "bounded_scan_bytes": 284,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "currentApp",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "focusedSlotIndex",
+              "restoreSplitAnimated:",
+              "window",
+              "showLayoutChooser"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-showRecentApps",
+            "imp": "0x2a2954",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x2a30c8",
+            "bounded_scan_bytes": 1908,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "currentApp",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "focusedSlotIndex",
+              "restoreSplitAnimated:",
+              "window",
+              "showRecentApps",
+              "initWithBytes:length:encoding:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-sendStateToApp:shouldBridge:",
+            "imp": "0x1f39fc",
+            "type": "v28@0:8@16B24",
+            "next_objc_method_start": "0x21fb2c",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "initWithDisplayConfiguration:",
+              "trackBridgedBundleID:",
+              "setIcon:",
+              "stringWithUTF8String:",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "getBytes:length:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-saveBridgeStateToDisk",
+            "imp": "0x21fb2c",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x24c26c",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "stringWithUTF8String:",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "length",
+              "getBytes:length:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-clearBridgeStateOnDisk",
+            "imp": "0x24c26c",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x24c9b0",
+            "bounded_scan_bytes": 1860,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "numberWithBool:",
+              "initWithDisplayConfiguration:",
+              "numberWithInt:",
+              "numberWithDouble:",
+              "dictionaryWithObjects:forKeys:count:",
+              "writeToFile:atomically:",
+              "defaultManager",
+              "setAttributes:ofItemAtPath:error:",
+              "UTF8String",
+              "removeItemAtPath:error:",
+              "syncDashboardPolicySignalToDisk"
+            ],
+            "cfstring_tags": [
+              "AVExternalDeviceScreenDidConnectNotification",
+              "bridgedBundleID",
+              "shouldBridge",
+              "bridgeToken",
+              "fixedKeyboardWidth",
+              "displayWidth",
+              "displayHeight",
+              "orientation"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-receivedAppRequestNotification:",
+            "imp": "0x26bd3c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x26c04c",
+            "bounded_scan_bytes": 784,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "userInfo",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "objectForKeyedSubscript:",
+              "initWithDisplayConfiguration:",
+              "isCurrentlyBridging:",
+              "sendStateToApp:shouldBridge:",
+              "currentApp",
+              "layoutSubviews",
+              "respondsToSelector:",
+              "performSelector:",
+              "layoutSplitViews",
+              "window",
+              "show"
+            ],
+            "cfstring_tags": [
+              "CAPTIVE_PORTAL_HTML",
+              "bundleIdentifier",
+              "AVExternalDeviceScreenDidConnectNotification",
+              "[DuoNaviSB] receivedAppRequestNotification for: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-isUIAppBridging",
+            "imp": "0x26c04c",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0x26c0a8",
+            "bounded_scan_bytes": 92,
+            "selector_xrefs": [
+              "initWithDisplayConfiguration:",
+              "activated",
+              "bufferedBytesCount",
+              "currentApp"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-shouldBridge:",
+            "imp": "0x26c0a8",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0x26c504",
+            "bounded_scan_bytes": 1116,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "bundleIdentifier",
+              "isEqualToString:",
+              "currentApp",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "appViews",
+              "countByEnumeratingWithState:objects:count:",
+              "sharedInstance",
+              "splitApp1",
+              "splitApp2",
+              "splitApp3",
+              "splitApp4",
+              "splitLeftBundleID",
+              "splitRightBundleID"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-receivedStateChangeRequestNotificiation:",
+            "imp": "0x26c584",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x26c78c",
+            "bounded_scan_bytes": 520,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "userInfo",
+              "copy",
+              "count",
+              "setIcon:",
+              "dictionaryWithContentsOfFile:",
+              "initWithDisplayConfiguration:",
+              "requestStateChangeWithDictionary:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-receivedDockTapNotification:",
+            "imp": "0x26c78c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x26c9a4",
+            "bounded_scan_bytes": 536,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "userInfo",
+              "copy",
+              "objectForKeyedSubscript:",
+              "length",
+              "setIcon:",
+              "dictionaryWithContentsOfFile:",
+              "initWithDisplayConfiguration:",
+              "new",
+              "setBundleIdentifier:",
+              "setActivate:",
+              "requestStateChange:"
+            ],
+            "cfstring_tags": [
+              "CAPTIVE_PORTAL_HTML",
+              "bundleIdentifier"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-notifyStateUpdated",
+            "imp": "0x26c9a4",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x26cc34",
+            "bounded_scan_bytes": 656,
+            "selector_xrefs": [
+              "setIcon:",
+              "initWithDisplayConfiguration:",
+              "activated",
+              "bufferedBytesCount",
+              "numberWithBool:",
+              "bundleIdentifier",
+              "dictionaryWithObjects:forKeys:count:",
+              "defaultCenter",
+              "postNotificationName:object:userInfo:",
+              "saveBridgeStateToDisk",
+              "clearBridgeStateOnDisk",
+              "syncDashboardPolicySignalToDisk"
+            ],
+            "cfstring_tags": [
+              "AVExternalDeviceScreenDidConnectNotification",
+              "activated",
+              "CAPTIVE_PORTAL_HTML",
+              "bundleIdentifier",
+              "[DuoNaviSB] Exception in notifyStateUpdated bridge state sync: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-evictAppFromPhoneScreen:completion:",
+            "imp": "0x26cc34",
+            "type": "v32@0:8@16@?24",
+            "next_objc_method_start": "0x26fad0",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "class",
+              "isKindOfClass:",
+              "isEqualToString:",
+              "set",
+              "sharedInstance",
+              "splitApp1",
+              "splitApp2",
+              "splitApp3",
+              "splitApp4",
+              "splitLeftBundleID",
+              "splitRightBundleID",
+              "arrayWithObjects:count:",
+              "countByEnumeratingWithState:objects:count:",
+              "length",
+              "addObject:",
+              "currentApp",
+              "initWithDisplayConfiguration:",
+              "appViews",
+              "bundleIdentifier",
+              "sharedApplication",
+              "_accessibilityFrontMostApplication",
+              "respondsToSelector:",
+              "performSelector:",
+              "sharedInstanceIfExists",
+              "clickedMenuButton",
+              "createRequestWithOptions:",
+              "executeTransitionRequest:",
+              "performSelector:withObject:",
+              "entity",
+              "modifyApplicationContext:",
+              "setCompletionBlock:",
+              "containsObject:",
+              "addCompletionHandler:",
+              "setActivatingEntity:",
+              "initWithBytes:length:encoding:",
+              "dictionaryWithContentsOfFile:",
+              "requestStateChangeWithDictionary:"
+            ],
+            "cfstring_tags": [
+              "AVExternalDeviceScreenDidConnectNotification",
+              "[DuoNaviSB] [EVICT] Phone eviction BYPASSED for bundleID='%@' (Portal screen mirroring or nil)",
+              "[DuoNaviSB] evictAppFromPhoneScreen exception: %@",
+              "[DuoNaviSB] Exception querying phone frontmost app: %@",
+              "\u0004",
+              "CARSessionStatusDidChangeNotification"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-terminateApplicationWithBundleID:",
+            "imp": "0x1efa38",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1f014c",
+            "bounded_scan_bytes": 1812,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "bundleIdentifier",
+              "isEqualToString:",
+              "initWithDisplayConfiguration:",
+              "deactivateCurrentApp",
+              "currentApp",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "removeAppWithBundleIdentifier:",
+              "sendStateToApp:shouldBridge:",
+              "sharedInstance",
+              "respondsToSelector:",
+              "performSelector:",
+              "allApplicationProcesses",
+              "applicationWithBundleIdentifier:",
+              "performSelector:withObject:",
+              "pid",
+              "allProcesses",
+              "countByEnumeratingWithState:objects:count:",
+              "rbsHandle",
+              "handle",
+              "process"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "[DuoNaviSB] terminateApplicationWithBundleID: %@",
+              "[DuoNaviSB] Killing process %d for %@",
+              "[DuoNaviSB] Exception while terminating %@: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-restartApplicationWithBundleID:",
+            "imp": "0x1f014c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1f0738",
+            "bounded_scan_bytes": 1516,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "currentApp",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "restartAppWithBundleIdentifier:",
+              "bundleIdentifier",
+              "isEqualToString:",
+              "sendStateToApp:shouldBridge:",
+              "appView",
+              "dismiss",
+              "stop",
+              "sharedInstance",
+              "respondsToSelector:",
+              "performSelector:",
+              "allApplicationProcesses",
+              "allProcesses",
+              "countByEnumeratingWithState:objects:count:",
+              "pid",
+              "window",
+              "rootViewController",
+              "startInParentViewController:",
+              "start"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "[DuoNaviSB] restartApplicationWithBundleID: %@",
+              "[DuoNaviSB] Restart single app: Killing PID %d for %@",
+              "[CBVoiceSessionManager] Transport closed (code=%ld, state=%ld)"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-terminateAllBridgedApplications",
+            "imp": "0x1f0738",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x1f12b8",
+            "bounded_scan_bytes": 2944,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "set",
+              "currentApp",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "appViews",
+              "countByEnumeratingWithState:objects:count:",
+              "bundleIdentifier",
+              "length",
+              "addObject:",
+              "isEqualToString:",
+              "runningBridgedApplications",
+              "objectForKeyedSubscript:",
+              "intValue",
+              "containsObject:",
+              "sendStateToApp:shouldBridge:",
+              "sharedInstance",
+              "reload",
+              "performSelector:",
+              "bridgedApps",
+              "applicationWithBundleIdentifier:",
+              "performSelector:withObject:",
+              "pid",
+              "respondsToSelector:",
+              "process",
+              "count",
+              "objectAtIndexedSubscript:",
+              "restartSlot:",
+              "restartApplicationWithBundleID:"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "CAPTIVE_PORTAL_HTML",
+              "bundleIdentifier",
+              "pid",
+              "[DuoNaviSB] Close All: Killing background PID %d for %@",
+              "[DuoNaviSB] Close All (Fallback): Killing background PID %d for %@",
+              "[DuoNaviSB] Warning: Exception killing background process %@: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-collectActiveAndSessionAppBundleIDs",
+            "imp": "0x1f12b8",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1f1a10",
+            "bounded_scan_bytes": 1880,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "set",
+              "currentApp",
+              "class",
+              "isKindOfClass:",
+              "initWithDisplayConfiguration:",
+              "appViews",
+              "count",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "length",
+              "addObject:",
+              "unionSet:",
+              "runningBridgedApplications",
+              "countByEnumeratingWithState:objects:count:",
+              "objectForKeyedSubscript:",
+              "hasPrefix:",
+              "isEqualToString:"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "CAPTIVE_PORTAL_HTML",
+              "bundleIdentifier",
+              "pid",
+              "com.apple."
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-killProcessesForBundleIdentifiers:",
+            "imp": "0x1f1a10",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1f291c",
+            "bounded_scan_bytes": 3852,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "count",
+              "sharedInstance",
+              "performSelector:",
+              "respondsToSelector:",
+              "countByEnumeratingWithState:objects:count:",
+              "length",
+              "hasPrefix:",
+              "isEqualToString:",
+              "initWithDisplayConfiguration:",
+              "sendStateToApp:shouldBridge:",
+              "allApplicationProcesses",
+              "allProcesses",
+              "applicationWithBundleIdentifier:",
+              "performSelector:withObject:",
+              "pid",
+              "process",
+              "bundleIdentifier",
+              "rbsHandle",
+              "handle",
+              "removeAllObjects",
+              "setIcon:",
+              "initWithBytes:length:encoding:"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "CAPTIVE_PORTAL_HTML",
+              "com.apple."
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-effectiveAutoLaunchBundleID",
+            "imp": "0x1c06d0",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1c0858",
+            "bounded_scan_bytes": 392,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "setIcon:",
+              "stringWithContentsOfFile:encoding:error:",
+              "sharedInstance",
+              "initWithDisplayConfiguration:",
+              "autoLaunchOnConnect",
+              "autoLaunchBundleID",
+              "isEqualToString:"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "/var/tmp/carbridge_autoresume_bid",
+              "LAST_ACTIVE"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-requestStateChangeWithDictionary:",
+            "imp": "0x15b308",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x15b578",
+            "bounded_scan_bytes": 624,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "objectForKeyedSubscript:",
+              "boolValue",
+              "initWithDisplayConfiguration:",
+              "handleScreenDidDisconnect:",
+              "doubleValue",
+              "setIcon:",
+              "carPlayUsableBounds",
+              "initWithDictionary:",
+              "requestStateChange:"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "isCarPlayDisconnect",
+              "activate",
+              "appFrameX",
+              "appFrameY",
+              "appFrameW",
+              "appFrameH"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-requestStateChange:",
+            "imp": "0x15b578",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x173e04",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "initWithDisplayConfiguration:",
+              "activate",
+              "bufferedBytesCount",
+              "bundleIdentifier",
+              "setIcon:",
+              "sharedInstance",
+              "isEqualToString:",
+              "isDisplayValid",
+              "isVisible",
+              "view",
+              "window",
+              "defaultManager",
+              "removeItemAtPath:error:",
+              "deactivateCurrentApp",
+              "loadNewAppFromCurrentRequest:",
+              "stringWithUTF8String:",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "length",
+              "getBytes:length:"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "/var/tmp/carbridge_autoresume_bid"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-loadNewAppFromCurrentRequest:",
+            "imp": "0x173e04",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1a6450",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-deactivateCurrentApp",
+            "imp": "0x1bec84",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x1bf148",
+            "bounded_scan_bytes": 1220,
+            "selector_xrefs": [
+              "initWithDisplayConfiguration:",
+              "clearBridgeStateOnDisk",
+              "bufferedBytesCount",
+              "isEqualToString:",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "appViews",
+              "count",
+              "countByEnumeratingWithState:objects:count:",
+              "bundleIdentifier",
+              "sendStateToApp:shouldBridge:",
+              "stop",
+              "view",
+              "removeFromSuperview",
+              "destroyWindows",
+              "notifyStateUpdated",
+              "sharedInstance",
+              "respondsToSelector:",
+              "isActive",
+              "cancelSession",
+              "performSelector:"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "[DuoNaviSB] [DISCONNECT_TRACE] Deactivating SplitApp (DuoNavi) with %lu appViews",
+              "[DuoNaviSB] [DISCONNECT_TRACE] -> Sending shouldBridge:NO to child app: %@",
+              "[DuoNaviSB] [DISCONNECT_TRACE] -> Sending shouldBridge:NO to single app: %@",
+              "[DuoNaviSB] [DISCONNECT_TRACE] Stopping and removing _currentApp (%@)...",
+              "[DuoNaviSB] [DISCONNECT_TRACE] Destroying CBWindow...",
+              "[DuoNaviSB] [DISCONNECT_TRACE] deactivateCurrentApp FINISHED."
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-dismiss:",
+            "imp": "0x1bf148",
+            "type": "v24@0:8@?16",
+            "next_objc_method_start": "0x1bf1e8",
+            "bounded_scan_bytes": 160,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "defaultManager",
+              "removeItemAtPath:error:",
+              "initWithDisplayConfiguration:",
+              "deactivateCurrentApp"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "/var/tmp/carbridge_autoresume_bid"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-terminate",
+            "imp": "0x1bf1e8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x1bf25c",
+            "bounded_scan_bytes": 116,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "defaultManager",
+              "removeItemAtPath:error:",
+              "initWithDisplayConfiguration:",
+              "deactivateCurrentApp"
+            ],
+            "cfstring_tags": [
+              "[CBVoiceSessionManager] Failed resuming audio capture for follow-up: %@",
+              "/var/tmp/carbridge_autoresume_bid"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-appForBundleIdentifier:frame:",
+            "imp": "0x1bf25c",
+            "type": "@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24",
+            "next_objc_method_start": "0x1bf37c",
+            "bounded_scan_bytes": 288,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "isEqualToString:",
+              "setIcon:",
+              "initWithDisplayConfiguration:",
+              "initWithBundleIdentifier:frame:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-window",
+            "imp": "0x1bf37c",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1bf384",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setWindow:",
+            "imp": "0x1bf384",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1bf390",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-currentApp",
+            "imp": "0x1bf390",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1bf398",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setCurrentApp:",
+            "imp": "0x1bf398",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1bf3a4",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-activated",
+            "imp": "0x1bf3cc",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0x1bf3d4",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setActivated:",
+            "imp": "0x1bf3d4",
+            "type": "v20@0:8B16",
+            "next_objc_method_start": "0x1bf3dc",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-appFrame",
+            "imp": "0x1bf3dc",
+            "type": "{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8",
+            "next_objc_method_start": "0x1bf3e8",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setAppFrame:",
+            "imp": "0x1bf3e8",
+            "type": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+            "next_objc_method_start": "0x1bf3fc",
+            "bounded_scan_bytes": 20,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CBBridgeManagerDashboard": [
+          {
+            "selector": "-startBridging:",
+            "imp": "0x2c5cd0",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c5ce0",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "startBridging:withCompletion:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-startBridging:withCompletion:",
+            "imp": "0x2c5ce0",
+            "type": "v32@0:8@16@?24",
+            "next_objc_method_start": "0x2c5d44",
+            "bounded_scan_bytes": 100,
+            "selector_xrefs": [
+              "setPendingCompletion:",
+              "prepareAndRequestActivation:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-stopBridging",
+            "imp": "0x2c5d44",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x2c5d54",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "stopBridgingWithCompletion:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-stopBridgingWithCompletion:",
+            "imp": "0x2c5d54",
+            "type": "v24@0:8@?16",
+            "next_objc_method_start": "0x2c5d88",
+            "bounded_scan_bytes": 52,
+            "selector_xrefs": [
+              "setPendingCompletion:",
+              "requestDismiss"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-prepareAndRequestActivation:",
+            "imp": "0x2c5d88",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c5f3c",
+            "bounded_scan_bytes": 436,
+            "selector_xrefs": [
+              "pending",
+              "setPending:",
+              "prepareHomeScreenForBridge:",
+              "setPendingCompletion:",
+              "requestActivation:"
+            ],
+            "cfstring_tags": [
+              "[DuoNaviDB] Watchdog reset: pending was stuck for 2.5s"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-prepareHomeScreenForBridge:",
+            "imp": "0x2c5f3c",
+            "type": "v24@0:8@?16",
+            "next_objc_method_start": "0x2c6158",
+            "bounded_scan_bytes": 540,
+            "selector_xrefs": [
+              "dashboard",
+              "showingApp",
+              "respondsToSelector:",
+              "closeOfficialTopApp:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-closeOfficialTopApp:",
+            "imp": "0x2c6158",
+            "type": "v24@0:8@?16",
+            "next_objc_method_start": "0x2c6438",
+            "bounded_scan_bytes": 736,
+            "selector_xrefs": [
+              "setIcon:",
+              "dashboard",
+              "_foregroundActiveScene",
+              "respondsToSelector:",
+              "_activeBundleIdentifierForScene:",
+              "length",
+              "carApp",
+              "sharedApplicationLibrary",
+              "applicationInfoForBundleIdentifier:",
+              "workspace",
+              "requestStateChange:",
+              "new",
+              "deactivateApplication:",
+              "setCompletionHandler:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-requestActivation:",
+            "imp": "0x2c6438",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c669c",
+            "bounded_scan_bytes": 612,
+            "selector_xrefs": [
+              "pending",
+              "getAppFrame",
+              "setIcon:",
+              "numberWithBool:",
+              "numberWithDouble:",
+              "dictionaryWithObjects:forKeys:count:",
+              "requestStateChange:"
+            ],
+            "cfstring_tags": [
+              "[DuoNaviDB] requestActivation called for bundleID=%@ (pending=%d)",
+              "source",
+              "CBBridgeManagerCarPlay:requestActivation",
+              "activate",
+              "bundleIdentifier",
+              "appFrameX",
+              "appFrameY",
+              "appFrameW"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-requestDismiss",
+            "imp": "0x2c669c",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x2c686c",
+            "bounded_scan_bytes": 464,
+            "selector_xrefs": [
+              "pending",
+              "setPending:",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "requestStateChange:",
+              "setPendingCompletion:"
+            ],
+            "cfstring_tags": [
+              "[DuoNaviDB] requestDismiss called (current pending=%d)",
+              "source",
+              "CBBridgeManagerCarPlay:requestDismiss",
+              "activate"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-requestStateChange:",
+            "imp": "0x2c686c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c6d80",
+            "bounded_scan_bytes": 1300,
+            "selector_xrefs": [
+              "defaultCenter",
+              "postNotificationName:object:userInfo:",
+              "writeToFile:atomically:",
+              "defaultManager",
+              "numberWithInt:",
+              "dictionaryWithObjects:forKeys:count:",
+              "setAttributes:ofItemAtPath:error:",
+              "UTF8String"
+            ],
+            "cfstring_tags": [
+              "[DuoNaviDB] Warning: Failed to write request plist (req=%d, tmp=%d)",
+              "[DuoNaviDB] Failed to save request plist: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-handleSBStateChange:",
+            "imp": "0x2c6d80",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c6f88",
+            "bounded_scan_bytes": 520,
+            "selector_xrefs": [
+              "userInfo",
+              "copy",
+              "count",
+              "setIcon:",
+              "dictionaryWithContentsOfFile:",
+              "handleStateDict:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-handleStateDict:",
+            "imp": "0x2c6f88",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c70cc",
+            "bounded_scan_bytes": 324,
+            "selector_xrefs": [
+              "setPending:",
+              "objectForKeyedSubscript:",
+              "boolValue",
+              "bridgeDidActivate:",
+              "bridgeDidDeactivate",
+              "pendingCompletion",
+              "copy",
+              "setPendingCompletion:"
+            ],
+            "cfstring_tags": [
+              "activated",
+              "bundleIdentifier"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-bridgeDidActivate:",
+            "imp": "0x2c70cc",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c7140",
+            "bounded_scan_bytes": 116,
+            "selector_xrefs": [
+              "setActivated:",
+              "setAppDockActiveBundleID:",
+              "setHomeButtonInApp:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-bridgeDidDeactivate",
+            "imp": "0x2c7140",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x2c7190",
+            "bounded_scan_bytes": 80,
+            "selector_xrefs": [
+              "setActivated:",
+              "setAppDockActiveBundleID:",
+              "setHomeButtonInApp:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-handleDockIconTap:",
+            "imp": "0x2c7190",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c72c8",
+            "bounded_scan_bytes": 312,
+            "selector_xrefs": [
+              "activated",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "requestStateChange:",
+              "startBridging:"
+            ],
+            "cfstring_tags": [
+              "bundleIdentifier",
+              "activate"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setAppDockActiveBundleID:",
+            "imp": "0x2c72c8",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x2c73d0",
+            "bounded_scan_bytes": 264,
+            "selector_xrefs": [
+              "appDockVC",
+              "appHistory",
+              "respondsToSelector:",
+              "_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:",
+              "_refreshAppDock"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setHomeButtonInApp:",
+            "imp": "0x2c73d0",
+            "type": "v20@0:8B16",
+            "next_objc_method_start": "0x2c75b8",
+            "bounded_scan_bytes": 488,
+            "selector_xrefs": [
+              "setIcon:",
+              "dashboard",
+              "bufferedBytesCount",
+              "statusBarViewController",
+              "respondsToSelector:",
+              "rootVC",
+              "performSelector:",
+              "homeButton",
+              "setDisplayState:"
+            ],
+            "cfstring_tags": [
+              "[DuoNaviDB] setHomeButtonInApp exception: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-getAppFrame",
+            "imp": "0x2c896c",
+            "type": "{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8",
+            "next_objc_method_start": "0x2c8bbc",
+            "bounded_scan_bytes": 592,
+            "selector_xrefs": [
+              "updateCarPlayMetrics",
+              "setIcon:",
+              "stringWithContentsOfFile:encoding:error:",
+              "bufferedBytesCount",
+              "length"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-getDockDimension",
+            "imp": "0x2c8bbc",
+            "type": "d16@0:8",
+            "next_objc_method_start": "0x2c8d5c",
+            "bounded_scan_bytes": 416,
+            "selector_xrefs": [
+              "appDockVC",
+              "isViewLoaded",
+              "view",
+              "frame",
+              "stringWithContentsOfFile:encoding:error:",
+              "length"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-getDockWidth",
+            "imp": "0x2c8d5c",
+            "type": "d16@0:8",
+            "next_objc_method_start": "0x2c8d68",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-getDockEdge",
+            "imp": "0x2c8d68",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x2c8e5c",
+            "bounded_scan_bytes": 244,
+            "selector_xrefs": [
+              "stringWithContentsOfFile:encoding:error:",
+              "length",
+              "whitespaceAndNewlineCharacterSet",
+              "stringByTrimmingCharactersInSet:"
+            ],
+            "cfstring_tags": [
+              "left"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-activated",
+            "imp": "0x2c8e5c",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0x2c8e64",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setActivated:",
+            "imp": "0x2c8e64",
+            "type": "v20@0:8B16",
+            "next_objc_method_start": "0x2c8e6c",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "+isOfficialApp:",
+            "imp": "0x2a62c8",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0x2a64cc",
+            "bounded_scan_bytes": 516,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "setIcon:",
+              "isBridgedApp:",
+              "isEqualToString:",
+              "carApp",
+              "sharedApplicationLibrary",
+              "applicationInfoForBundleIdentifier:",
+              "respondsToSelector:",
+              "CBFake"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "+isBridgedApp:",
+            "imp": "0x2a64cc",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0x2a6634",
+            "bounded_scan_bytes": 360,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "isEqualToString:",
+              "setIcon:",
+              "sharedInstance",
+              "bridgedApps",
+              "containsObject:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "+shouldInterceptLaunchForApp:",
+            "imp": "0x2c5ab8",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0x2c5c74",
+            "bounded_scan_bytes": 444,
+            "selector_xrefs": [
+              "length",
+              "isEqualToString:",
+              "sharedInstance",
+              "bridgedApps",
+              "containsObject:",
+              "isDashboardPolicySignalActive"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "+bridgedApps",
+            "imp": "0x2c5c74",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x2c5cd0",
+            "bounded_scan_bytes": 92,
+            "selector_xrefs": [
+              "sharedInstance",
+              "bridgedApps"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CBBridgedSplitApp": [
+          {
+            "selector": "-initWithBundleIdentifier:frame:",
+            "imp": "0x109bb8",
+            "type": "@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24",
+            "next_objc_method_start": "0x109bc8",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "initWithDisplayConfiguration:",
+              "initWithBundleIdentifier:frame:showSplash:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-initWithBundleIdentifier:frame:showSplash:",
+            "imp": "0x109bc8",
+            "type": "@60@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24B56",
+            "next_objc_method_start": "0x10b4c0",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setIcon:",
+              "initWithDisplayConfiguration:",
+              "initWithBundleIdentifier:frame:",
+              "bufferedBytesCount",
+              "sharedInstance",
+              "reload",
+              "splitPreset",
+              "splitMode",
+              "splitRatio",
+              "array",
+              "initWithFrame:",
+              "setSplitApp:",
+              "setAutoresizingMask:",
+              "setClipsToBounds:",
+              "colorWithRed:green:blue:alpha:",
+              "setBackgroundColor:",
+              "setView:",
+              "carPlayUsableBounds",
+              "splitApp1",
+              "splitLeftBundleID",
+              "splitApp2",
+              "splitRightBundleID",
+              "splitApp3",
+              "splitApp4",
+              "arrayWithObjects:count:",
+              "count",
+              "objectAtIndexedSubscript:",
+              "CGRectValue",
+              "initWithFrame:isVertical:",
+              "setAlpha:",
+              "setHidden:",
+              "setScreen:",
+              "view",
+              "multitaskingPill",
+              "addSubview:",
+              "addObject:",
+              "setOnPanChanged:",
+              "setOnActivity:",
+              "layer",
+              "setCornerRadius:",
+              "setCornerCurve:",
+              "respondsToSelector:",
+              "setBorderWidth:",
+              "CGColor",
+              "setBorderColor:",
+              "setMasksToBounds:",
+              "initWithBundleIdentifier:",
+              "bounds",
+              "setFrame:",
+              "initWithSlotIndex:",
+              "setOnTap:",
+              "setShowsExpandButton:",
+              "setCompactMode:",
+              "bringSubviewToFront:",
+              "setOnPillTapped:",
+              "setOnPillLongPressed:",
+              "setOnExpandTapped:",
+              "setOnRestoreTapped:",
+              "length",
+              "configureDividerButtons"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-handleDividerPan:isVertical:state:",
+            "imp": "0x10b4c0",
+            "type": "v44@0:8{CGPoint=dd}16B32q36",
+            "next_objc_method_start": "0x10bad8",
+            "bounded_scan_bytes": 1560,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "carPlayUsableBounds",
+              "view",
+              "bounds",
+              "initWithDisplayConfiguration:",
+              "layoutSplitViews",
+              "sharedInstance",
+              "setSplitRatio:",
+              "dictionaryWithContentsOfFile:",
+              "dictionary",
+              "numberWithDouble:",
+              "setObject:forKeyedSubscript:",
+              "writeToFile:atomically:",
+              "countByEnumeratingWithState:objects:count:",
+              "refreshSceneLayout",
+              "saveBridgeStateToDisk",
+              "bundleIdentifier",
+              "sendStateToApp:shouldBridge:"
+            ],
+            "cfstring_tags": [
+              "splitRatio"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-layoutSplitViews",
+            "imp": "0x10bad8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x10ce70",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "carPlayUsableBounds",
+              "view",
+              "bounds",
+              "initWithDisplayConfiguration:",
+              "isDismissing",
+              "count",
+              "objectAtIndexedSubscript:",
+              "setHidden:",
+              "setAlpha:",
+              "setUserInteractionEnabled:",
+              "setAudioOnlyBackgroundMode:",
+              "setFrame:",
+              "setBounds:",
+              "layer",
+              "setCornerRadius:",
+              "setCornerCurve:",
+              "respondsToSelector:",
+              "setBorderWidth:",
+              "colorWithRed:green:blue:alpha:",
+              "CGColor",
+              "setBorderColor:",
+              "setMasksToBounds:",
+              "bringSubviewToFront:",
+              "bundleIdentifier",
+              "length",
+              "refreshSceneLayout",
+              "setNeedsLayout",
+              "isHidden",
+              "setFocusedMode:",
+              "setCompactMode:",
+              "countByEnumeratingWithState:objects:count:",
+              "array",
+              "CGRectValue",
+              "updateLayout",
+              "setShowsExpandButton:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-restoreSplitAnimated:",
+            "imp": "0x10d40c",
+            "type": "v20@0:8B16",
+            "next_objc_method_start": "0x10daf8",
+            "bounded_scan_bytes": 1772,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "countByEnumeratingWithState:objects:count:",
+              "setHidden:",
+              "setUserInteractionEnabled:",
+              "setIcon:",
+              "sharedInstance",
+              "initWithDisplayConfiguration:",
+              "saveBridgeStateToDisk",
+              "bundleIdentifier",
+              "length",
+              "sendStateToApp:shouldBridge:",
+              "animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:",
+              "layoutSplitViews",
+              "noteUserActivity",
+              "refreshSceneLayout"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-handleDividerSwapPressed:",
+            "imp": "0x11061c",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x1107b0",
+            "bounded_scan_bytes": 404,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "swapSlot:withSlot:",
+              "count",
+              "initWithDisplayConfiguration:",
+              "appViews"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-evictAppFromPhoneScreen:",
+            "imp": "0x110f70",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x111090",
+            "bounded_scan_bytes": 288,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "class",
+              "isKindOfClass:",
+              "length",
+              "initWithDisplayConfiguration:",
+              "delegate",
+              "sharedInstanceIfExists",
+              "sharedInstance",
+              "evictAppFromPhoneScreen:completion:",
+              "respondsToSelector:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-replaceAppInSlot:withBundleIdentifier:",
+            "imp": "0x111090",
+            "type": "v32@0:8q16@24",
+            "next_objc_method_start": "0x1117d4",
+            "bounded_scan_bytes": 1860,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "count",
+              "setIcon:",
+              "class",
+              "isKindOfClass:",
+              "length",
+              "initWithDisplayConfiguration:",
+              "evictAppFromPhoneScreen:",
+              "countByEnumeratingWithState:objects:count:",
+              "setHidden:",
+              "setAlpha:",
+              "setUserInteractionEnabled:",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "isEqualToString:",
+              "copy",
+              "dismiss",
+              "removeFromSuperview",
+              "sharedInstance",
+              "sendStateToApp:shouldBridge:",
+              "initWithBundleIdentifier:",
+              "bounds",
+              "setFrame:",
+              "setAutoresizingMask:",
+              "insertSubview:atIndex:",
+              "setObject:atIndexedSubscript:",
+              "bringSubviewToFront:",
+              "persistSlotOrder",
+              "saveBridgeStateToDisk",
+              "sharedInstanceIfExists",
+              "window",
+              "rootViewController",
+              "startInParentViewController:",
+              "layoutSplitViews",
+              "startBlinkingSession"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-restartSlot:",
+            "imp": "0x1117d4",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x1120a8",
+            "bounded_scan_bytes": 2260,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "count",
+              "countByEnumeratingWithState:objects:count:",
+              "setHidden:",
+              "setAlpha:",
+              "setUserInteractionEnabled:",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "copy",
+              "length",
+              "dismiss",
+              "removeFromSuperview",
+              "setIcon:",
+              "sharedInstance",
+              "initWithDisplayConfiguration:",
+              "sendStateToApp:shouldBridge:",
+              "respondsToSelector:",
+              "performSelector:",
+              "allApplicationProcesses",
+              "allProcesses",
+              "isEqualToString:",
+              "pid",
+              "initWithBundleIdentifier:",
+              "bounds",
+              "setFrame:",
+              "setAutoresizingMask:",
+              "insertSubview:atIndex:",
+              "setObject:atIndexedSubscript:",
+              "bringSubviewToFront:",
+              "sharedInstanceIfExists",
+              "window",
+              "rootViewController",
+              "startInParentViewController:",
+              "layoutSplitViews",
+              "startBlinkingSession"
+            ],
+            "cfstring_tags": [
+              "/Library/Application Support/DuoNavi/duonavi-logo.png",
+              "[DuoNaviSB] Restarting slot %ld for app: %@",
+              "[DuoNaviSB] Restart: Killing PID %d for %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-restartAppWithBundleIdentifier:",
+            "imp": "0x1120a8",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1121e0",
+            "bounded_scan_bytes": 312,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "count",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "isEqualToString:",
+              "initWithDisplayConfiguration:",
+              "restartSlot:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-removeAppWithBundleIdentifier:",
+            "imp": "0x1121e0",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x112318",
+            "bounded_scan_bytes": 312,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "length",
+              "count",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "isEqualToString:",
+              "initWithDisplayConfiguration:",
+              "closeSlot:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-closeSlot:",
+            "imp": "0x112318",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x1128a8",
+            "bounded_scan_bytes": 1424,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "count",
+              "countByEnumeratingWithState:objects:count:",
+              "setHidden:",
+              "setAlpha:",
+              "setUserInteractionEnabled:",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "copy",
+              "dismiss",
+              "removeFromSuperview",
+              "setIcon:",
+              "length",
+              "sharedInstance",
+              "initWithDisplayConfiguration:",
+              "sendStateToApp:shouldBridge:",
+              "initWithBundleIdentifier:",
+              "bounds",
+              "setFrame:",
+              "setAutoresizingMask:",
+              "insertSubview:atIndex:",
+              "setObject:atIndexedSubscript:",
+              "bringSubviewToFront:",
+              "persistSlotOrder",
+              "saveBridgeStateToDisk",
+              "layoutSplitViews"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-closeAllSlots",
+            "imp": "0x1128a8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x112c9c",
+            "bounded_scan_bytes": 1012,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "count",
+              "objectAtIndexedSubscript:",
+              "bundleIdentifier",
+              "copy",
+              "dismiss",
+              "removeFromSuperview",
+              "length",
+              "sharedInstance",
+              "initWithDisplayConfiguration:",
+              "sendStateToApp:shouldBridge:",
+              "initWithBundleIdentifier:",
+              "bounds",
+              "setFrame:",
+              "setHidden:",
+              "setAutoresizingMask:",
+              "insertSubview:atIndex:",
+              "setObject:atIndexedSubscript:",
+              "bringSubviewToFront:",
+              "setIcon:",
+              "persistSlotOrder",
+              "saveBridgeStateToDisk",
+              "layoutSplitViews"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-start",
+            "imp": "0x1132fc",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x11330c",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "startInParentViewController:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-startInParentViewController:",
+            "imp": "0x11330c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1136dc",
+            "bounded_scan_bytes": 976,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "count",
+              "setIcon:",
+              "sharedInstanceIfExists",
+              "window",
+              "rootViewController",
+              "countByEnumeratingWithState:objects:count:",
+              "bundleIdentifier",
+              "length",
+              "initWithDisplayConfiguration:",
+              "frame",
+              "startInParentViewController:",
+              "layoutSplitViews",
+              "view",
+              "bounds",
+              "setFrame:",
+              "layer",
+              "setZPosition:",
+              "bringSubviewToFront:",
+              "startLoadingAnimation",
+              "setHidden:",
+              "setAlpha:",
+              "startBlinkingSession"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-stop",
+            "imp": "0x1136dc",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x113b68",
+            "bounded_scan_bytes": 1164,
+            "selector_xrefs": [
+              "initWithDisplayConfiguration:",
+              "stopBlinkingSession",
+              "bufferedBytesCount",
+              "removeFromSuperview",
+              "countByEnumeratingWithState:objects:count:",
+              "dismiss",
+              "removeAllObjects",
+              "view"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-startBlinkingSession",
+            "imp": "0x113c98",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x1276ec",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setIcon:",
+              "initWithDisplayConfiguration:",
+              "isMainThread",
+              "isDismissing",
+              "bufferedBytesCount",
+              "invalidate",
+              "countByEnumeratingWithState:objects:count:",
+              "startBlinking",
+              "startContainerBorderBlinking:",
+              "layer",
+              "removeAllAnimations",
+              "setHidden:",
+              "animateWithDuration:animations:",
+              "timerWithTimeInterval:repeats:block:",
+              "mainRunLoop",
+              "addTimer:forMode:",
+              "stringWithUTF8String:",
+              "numberWithBool:",
+              "dictionaryWithObjects:forKeys:count:",
+              "length",
+              "getBytes:length:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-stopBlinkingSession",
+            "imp": "0x1276ec",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x127c20",
+            "bounded_scan_bytes": 1332,
+            "selector_xrefs": [
+              "setIcon:",
+              "initWithDisplayConfiguration:",
+              "isMainThread",
+              "bufferedBytesCount",
+              "invalidate",
+              "countByEnumeratingWithState:objects:count:",
+              "stopBlinking",
+              "stopContainerBorderBlinking:",
+              "animateWithDuration:animations:completion:",
+              "stopBlinkingSession",
+              "setAlpha:",
+              "setHidden:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-startContainerBorderBlinking:",
+            "imp": "0x127c20",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x127e6c",
+            "bounded_scan_bytes": 588,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "layer",
+              "initWithDisplayConfiguration:",
+              "removeAnimationForKey:",
+              "setIcon:",
+              "animationWithKeyPath:",
+              "colorWithRed:green:blue:alpha:",
+              "CGColor",
+              "setFromValue:",
+              "setToValue:",
+              "setDuration:",
+              "setAutoreverses:",
+              "setRepeatCount:",
+              "functionWithName:",
+              "setTimingFunction:",
+              "addAnimation:forKey:"
+            ],
+            "cfstring_tags": [
+              "/Library/Application Support/DuoNavi/duonavi-logo.png",
+              "borderPulse",
+              "borderColor"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-stopContainerBorderBlinking:",
+            "imp": "0x127e6c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x127f74",
+            "bounded_scan_bytes": 264,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "layer",
+              "initWithDisplayConfiguration:",
+              "removeAnimationForKey:",
+              "setIcon:",
+              "colorWithRed:green:blue:alpha:",
+              "CGColor",
+              "setBorderColor:"
+            ],
+            "cfstring_tags": [
+              "/Library/Application Support/DuoNavi/duonavi-logo.png",
+              "borderPulse"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-appViews",
+            "imp": "0x127f98",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x127fa8",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setAppViews:",
+            "imp": "0x127fa8",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x127fbc",
+            "bounded_scan_bytes": 20,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-splitPreset",
+            "imp": "0x12804c",
+            "type": "q16@0:8",
+            "next_objc_method_start": "0x12805c",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setSplitPreset:",
+            "imp": "0x12805c",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x12806c",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-splitRatio",
+            "imp": "0x12806c",
+            "type": "d16@0:8",
+            "next_objc_method_start": "0x12807c",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setSplitRatio:",
+            "imp": "0x12807c",
+            "type": "v24@0:8d16",
+            "next_objc_method_start": "0x12808c",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CBBridgedUIAppView": [
+          {
+            "selector": "-setAppScale:",
+            "imp": "0xac318",
+            "type": "v24@0:8d16",
+            "next_objc_method_start": "0xac334",
+            "bounded_scan_bytes": 28,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "updateLayout"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setAudioOnlyBackgroundMode:",
+            "imp": "0xac334",
+            "type": "v20@0:8B16",
+            "next_objc_method_start": "0xac3cc",
+            "bounded_scan_bytes": 152,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "setAlpha:",
+              "setUserInteractionEnabled:",
+              "updateLayout",
+              "refreshSceneLayout"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-layoutSubviews",
+            "imp": "0xac3cc",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0xac448",
+            "bounded_scan_bytes": 124,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "layoutSubviews",
+              "updateLayout"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0xac5a0",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0xac788",
+            "bounded_scan_bytes": 488,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "touchesBegan:withEvent:",
+              "sharedInstance",
+              "currentApp",
+              "noteUserActivity",
+              "respondsToSelector:",
+              "window",
+              "isKeyWindow",
+              "makeKeyWindow"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-updateLayout",
+            "imp": "0xac7cc",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0xad368",
+            "bounded_scan_bytes": 2972,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "bounds",
+              "calculateNativeSizeForSlotRect:",
+              "setTransform:",
+              "setFrame:",
+              "view",
+              "setAutoresizingMask:",
+              "class",
+              "valueForKey:",
+              "setContentReferenceSize:withInterfaceOrientation:",
+              "respondsToSelector:",
+              "setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "setHomeGrabberDisplayMode:",
+              "setCenter:",
+              "layer",
+              "setCornerRadius:",
+              "setCornerCurve:",
+              "setClipsToBounds:",
+              "initWithFormat:arguments:",
+              "date",
+              "stringWithFormat:",
+              "defaultManager",
+              "attributesOfItemAtPath:error:",
+              "fileSize",
+              "writeToFile:atomically:encoding:error:",
+              "UTF8String",
+              "fileHandleForWritingAtPath:",
+              "data",
+              "createFileAtPath:contents:attributes:",
+              "seekToEndOfFile",
+              "dataUsingEncoding:",
+              "writeData:",
+              "closeFile",
+              "stringByDeletingLastPathComponent",
+              "stringByAppendingPathComponent:"
+            ],
+            "cfstring_tags": [
+              "maps",
+              "_deviceAppViewController",
+              "[CBBridgedUIAppView] Warning: _deviceAppViewController KVC failed: %@",
+              "%@",
+              "[%@] %@\n",
+              "duonavi.log",
+              "[DuoNavi] Warning: Failed writing to log file: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-updateSceneSettingsFrame",
+            "imp": "0xad368",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0xadc24",
+            "bounded_scan_bytes": 2236,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "bounds",
+              "carPlayUsableBounds",
+              "calculateNativeSizeForSlotRect:",
+              "valueForKey:",
+              "setContentReferenceSize:withInterfaceOrientation:",
+              "respondsToSelector:",
+              "setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "sceneHandle",
+              "performSelector:",
+              "numberWithBool:",
+              "bundleIdentifier",
+              "class",
+              "sceneIfExists",
+              "scene",
+              "updateSettingsWithBlock:",
+              "setFrame:",
+              "setForeground:",
+              "setOccluded:",
+              "setUnderLock:",
+              "setCanShowWhileLocked:",
+              "setDeactivationReasons:",
+              "setIdleModeEnabled:"
+            ],
+            "cfstring_tags": [
+              "maps",
+              "_deviceAppViewController",
+              "[DuoNavi] updateSettingsWithBlock error: %@",
+              "[DuoNavi] updateSceneSettingsFrame: scene not yet ready: %@",
+              "[CBBridgedUIAppView] Warning: Exception resolving sceneHandle: %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-updateSceneFrame",
+            "imp": "0xadc24",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0xadc30",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-refreshSceneLayout",
+            "imp": "0xadc30",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0xadd08",
+            "bounded_scan_bytes": 216,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "updateLayout",
+              "updateSceneSettingsFrame",
+              "setIcon:",
+              "view",
+              "setNeedsLayout",
+              "layoutIfNeeded"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-startInParentViewController:",
+            "imp": "0xadd08",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0xaede8",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "invalidated",
+              "hosting",
+              "setHosting:",
+              "setIcon:",
+              "sharedInstanceIfExists",
+              "window",
+              "rootViewController",
+              "sharedInstance",
+              "bundleIdentifier",
+              "applicationWithBundleIdentifier:",
+              "initWithApplicationForMainDisplay:",
+              "instancesRespondToSelector:",
+              "UUID",
+              "UUIDString",
+              "initWithIdentifier:andApplicationSceneEntity:",
+              "numberWithBool:",
+              "class",
+              "isKindOfClass:",
+              "addChildViewController:",
+              "setIgnoresOcclusions:",
+              "respondsToSelector:",
+              "setAutomatesLifecycle:",
+              "bounds",
+              "calculateNativeSizeForSlotRect:",
+              "carPlayUsableBounds",
+              "view",
+              "setRequestedMode:",
+              "initWithFrame:",
+              "blackColor",
+              "setBackgroundColor:",
+              "setOpaque:",
+              "setTransform:",
+              "setFrame:",
+              "setAutoresizingMask:",
+              "addSubview:",
+              "setHomeGrabberDisplayMode:",
+              "setContentReferenceSize:withInterfaceOrientation:",
+              "setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "sceneHandle",
+              "performSelector:",
+              "sceneIfExists",
+              "scene",
+              "didMoveToParentViewController:",
+              "updateLayout",
+              "numberWithDouble:",
+              "arrayWithObjects:count:",
+              "countByEnumeratingWithState:objects:count:",
+              "doubleValue"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-start",
+            "imp": "0xaede8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0xaedf8",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "startInParentViewController:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-dismiss",
+            "imp": "0xaedf8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0xaefb4",
+            "bounded_scan_bytes": 444,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "setInvalidated:",
+              "setHosting:",
+              "setIcon:",
+              "beginAppearanceTransition:animated:",
+              "respondsToSelector:",
+              "endAppearanceTransition",
+              "setRequestedMode:",
+              "view",
+              "removeFromSuperview",
+              "willMoveToParentViewController:",
+              "removeFromParentViewController",
+              "invalidate"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-hostedScene",
+            "imp": "0xaefb4",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0xaf250",
+            "bounded_scan_bytes": 668,
+            "selector_xrefs": [
+              "setIcon:",
+              "bufferedBytesCount",
+              "scene",
+              "respondsToSelector:",
+              "performSelector:",
+              "sceneHandle",
+              "sceneIfExists",
+              "class"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-openURLInScene:",
+            "imp": "0xaf250",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0xaf4d8",
+            "bounded_scan_bytes": 648,
+            "selector_xrefs": [
+              "bufferedBytesCount",
+              "hostedScene",
+              "bundleIdentifier",
+              "initWithURL:",
+              "instancesRespondToSelector:",
+              "respondsToSelector:",
+              "sendActions:",
+              "setIcon:",
+              "setWithObject:"
+            ],
+            "cfstring_tags": [
+              "maps",
+              "[DuoNaviSB] openURLInScene: Found hostedScene (%@) for %@, sending URL: %@",
+              "[DuoNaviSB] openURLInScene: hostedScene is nil for %@",
+              "[DuoNaviSB] openURLInScene: Successfully dispatched UIOpenURLAction to scene for %@"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-appViewController",
+            "imp": "0xaf56c",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0xaf57c",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setAppViewController:",
+            "imp": "0xaf57c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0xaf590",
+            "bounded_scan_bytes": 20,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-wrapperView",
+            "imp": "0xaf590",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0xaf5a0",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setWrapperView:",
+            "imp": "0xaf5a0",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0xaf5b4",
+            "bounded_scan_bytes": 20,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-appScale",
+            "imp": "0xaf5b4",
+            "type": "d16@0:8",
+            "next_objc_method_start": "0xaf5c4",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-hosting",
+            "imp": "0xaf5c4",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0xaf5d4",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setHosting:",
+            "imp": "0xaf5d4",
+            "type": "v20@0:8B16",
+            "next_objc_method_start": "0xaf5e4",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-audioOnlyBackgroundMode",
+            "imp": "0xaf604",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0xaf614",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setIcon:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ]
+      },
+      "filters": {
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist": {
+          "Bundles": [
+            "com.apple.CarPlayApp",
+            "com.apple.CarPlay",
+            "com.apple.dashboard",
+            "com.apple.springboard",
+            "com.apple.SpringBoard",
+            "com.google.ios.youtube",
+            "com.google.ios.youtubemusic",
+            "com.netflix.Netflix",
+            "org.videolan.vlc-ios",
+            "com.apple.mobilesafari",
+            "tv.twitch",
+            "com.zhiliaoapp.musically",
+            "com.google.Maps",
+            "com.waze.iphone",
+            "com.spotify.client",
+            "com.apple.Preferences",
+            "com.apple.mobilenotes",
+            "com.apple.mobilephone",
+            "com.apple.Music",
+            "com.google.chrome.ios",
+            "com.apple.BarcodeScanner",
+            "com.apple.PrintKit.Print-Center",
+            "com.duonavi.duonaviui"
+          ]
+        }
+      },
+      "all_class_names_relevant": [
+        "CBBridgeManager",
+        "CBBridgeManagerDashboard",
+        "CBBridgeRequest",
+        "CBBridgedApp",
+        "CBBridgedPortalApp",
+        "CBBridgedPortalAppView",
+        "CBBridgedSplitApp",
+        "CBBridgedUIApp",
+        "CBBridgedUIAppView"
+      ]
+    },
+    "duodash_113_fullscreen427_REPACK_NOT_STOCK": {
+      "label": "duodash_113_fullscreen427_REPACK_NOT_STOCK",
+      "package_sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+      "macho_sha256": "b41dd7f892bfd3722e95a40f764a989886078b4a30943c1f0b50d47b6e248a47",
+      "repack_warning": "DuoDash is NOT confirmed stock",
+      "classes_total": 40,
+      "classes_parsed": 40,
+      "tagged_macho_pointer_normalizations": 99408,
+      "metadata_source": "first-party Oct27 tagged MachO parser and Objective-C class metadata",
+      "method_count": 100,
+      "focus": {
+        "CNABAppPickerController": [
+          {
+            "selector": "-viewDidLayoutSubviews",
+            "imp": "0x547a4",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x54954",
+            "bounded_scan_bytes": 432,
+            "selector_xrefs": [
+              "setStroke",
+              "viewDidLayoutSubviews"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-loadApps",
+            "imp": "0x54954",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x54e60",
+            "bounded_scan_bytes": 1292,
+            "selector_xrefs": [
+              "setStroke",
+              "allApplications"
+            ],
+            "cfstring_tags": [
+              "picker.section.my_apps",
+              "my_apps",
+              "picker.section.system_apps",
+              "system_apps"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-sectionApps",
+            "imp": "0x560dc",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x560ec",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setSectionApps:",
+            "imp": "0x560ec",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x56100",
+            "bounded_scan_bytes": 20,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CNABBubbleView": [
+          {
+            "selector": "-initWithFrame:",
+            "imp": "0x3f8e4",
+            "type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+            "next_objc_method_start": "0x3fad4",
+            "bounded_scan_bytes": 496,
+            "selector_xrefs": [
+              "setStroke",
+              "compare:",
+              "initWithFrame:"
+            ],
+            "cfstring_tags": [
+              "--"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-startBlink",
+            "imp": "0x3fb88",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x3fca8",
+            "bounded_scan_bytes": 288,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-stopBlink",
+            "imp": "0x3fca8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x3fd08",
+            "bounded_scan_bytes": 96,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-startSpeedReadout",
+            "imp": "0x3fdb8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x3fed8",
+            "bounded_scan_bytes": 288,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-stopSpeedReadout",
+            "imp": "0x3fed8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x3ff0c",
+            "bounded_scan_bytes": 52,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0x40404",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x40550",
+            "bounded_scan_bytes": 332,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesMoved:withEvent:",
+            "imp": "0x40550",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x406f8",
+            "bounded_scan_bytes": 424,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-cnabFinishTouch",
+            "imp": "0x406f8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x407ec",
+            "bounded_scan_bytes": 244,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesEnded:withEvent:",
+            "imp": "0x407ec",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x407f0",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesCancelled:withEvent:",
+            "imp": "0x407f0",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x407f4",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          }
+        ],
+        "CNABCarPlayObserver": [
+          {
+            "selector": "-onHostState:",
+            "imp": "0x73a4",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0xf968",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setStroke",
+              "appHistory",
+              "_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:",
+              "setActiveBundleIdentifier:animated:",
+              "_refreshAppDock",
+              "setActiveBundleIdentifier:",
+              "view"
+            ],
+            "cfstring_tags": [
+              "activated",
+              "bundleIdentifier",
+              "__spike__",
+              "com.sensetechlab.duodash",
+              "/var/tmp/duodash_ab_nodockcover",
+              "DBAppDockButton",
+              "CARAppDockButton"
+            ],
+            "method_body_decode": true
+          }
+        ],
+        "CNABDividerView": [
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0x25968",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25b60",
+            "bounded_scan_bytes": 504,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesMoved:withEvent:",
+            "imp": "0x25b60",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25ce4",
+            "bounded_scan_bytes": 388,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-cnabFinishTouch",
+            "imp": "0x25ce4",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x25e3c",
+            "bounded_scan_bytes": 344,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesEnded:withEvent:",
+            "imp": "0x25e3c",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25e40",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesCancelled:withEvent:",
+            "imp": "0x25e40",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25e44",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          }
+        ],
+        "CNABEmptyPaneView": [
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0x1352c",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x13540",
+            "bounded_scan_bytes": 20,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesMoved:withEvent:",
+            "imp": "0x13540",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x13544",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesEnded:withEvent:",
+            "imp": "0x13544",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x135d8",
+            "bounded_scan_bytes": 148,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesCancelled:withEvent:",
+            "imp": "0x135d8",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x135e8",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CNABHandleView": [
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0x254d4",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25598",
+            "bounded_scan_bytes": 196,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesMoved:withEvent:",
+            "imp": "0x25598",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x2559c",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesEnded:withEvent:",
+            "imp": "0x2559c",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x255a4",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesCancelled:withEvent:",
+            "imp": "0x255a4",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x255ac",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          }
+        ],
+        "CNABHostUIAppResponder": [
+          {
+            "selector": "-onUIAppRequest:",
+            "imp": "0x1cef8",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x1f4ac",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setStroke",
+              "updateSettingsWithBlock:",
+              "compare:",
+              "setFrame:",
+              "reason",
+              "settings",
+              "mutableSettings",
+              "frame",
+              "settingsDiff",
+              "mutableCopyWithZone:",
+              "diffFromSettings:toSettings:",
+              "setSettingsDiff:",
+              "_updateFrameAndTransform"
+            ],
+            "cfstring_tags": [
+              "bundleIdentifier",
+              "/var/tmp/duodash_ab_noscenegeom",
+              "foreground status",
+              "nonnil",
+              "/var/tmp/duodash_ab_nopresupdate"
+            ],
+            "method_body_decode": true
+          }
+        ],
+        "CNABLayoutConfirm": [
+          {
+            "selector": "-prevLayout",
+            "imp": "0x27928",
+            "type": "q16@0:8",
+            "next_objc_method_start": "0x27930",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setPrevLayout:",
+            "imp": "0x27930",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x27938",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          }
+        ],
+        "CNABLayoutIconView": [
+          {
+            "selector": "-initWithFrame:",
+            "imp": "0x26b04",
+            "type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+            "next_objc_method_start": "0x26b90",
+            "bounded_scan_bytes": 140,
+            "selector_xrefs": [
+              "setStroke",
+              "compare:",
+              "initWithFrame:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setLayoutId:",
+            "imp": "0x26b90",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x26ba0",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-layoutId",
+            "imp": "0x270cc",
+            "type": "q16@0:8",
+            "next_objc_method_start": "0x270dc",
+            "bounded_scan_bytes": 16,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CNABNavData": [
+          {
+            "selector": "-applyExpiry",
+            "imp": "0x3ea00",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0x3ea78",
+            "bounded_scan_bytes": 120,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setObserver:",
+            "imp": "0x3ed4c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x3ee9c",
+            "bounded_scan_bytes": 336,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-start",
+            "imp": "0x3ef38",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x3ef90",
+            "bounded_scan_bytes": 88,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-observer",
+            "imp": "0x3ef90",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x3efa8",
+            "bounded_scan_bytes": 24,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CNABPickerCell": [
+          {
+            "selector": "-cnabMoveTapped",
+            "imp": "0x53fdc",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x5403c",
+            "bounded_scan_bytes": 96,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-layoutSubviews",
+            "imp": "0x5403c",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x5425c",
+            "bounded_scan_bytes": 544,
+            "selector_xrefs": [
+              "setStroke",
+              "layoutSubviews"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CNABScrollView": [
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0x2673c",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x26844",
+            "bounded_scan_bytes": 264,
+            "selector_xrefs": [
+              "setStroke",
+              "touchesBegan:withEvent:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesEnded:withEvent:",
+            "imp": "0x26844",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x268d4",
+            "bounded_scan_bytes": 144,
+            "selector_xrefs": [
+              "setStroke",
+              "touchesEnded:withEvent:"
+            ],
+            "cfstring_tags": [
+              "ended"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesCancelled:withEvent:",
+            "imp": "0x268d4",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x26964",
+            "bounded_scan_bytes": 144,
+            "selector_xrefs": [
+              "setStroke",
+              "touchesCancelled:withEvent:"
+            ],
+            "cfstring_tags": [
+              "cancelled"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-touchesShouldCancelInContentView:",
+            "imp": "0x26964",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0x2696c",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-layoutSubviews",
+            "imp": "0x2696c",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x26ae4",
+            "bounded_scan_bytes": 376,
+            "selector_xrefs": [
+              "setStroke",
+              "layoutSubviews"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CNABSpringBoardObserver": [
+          {
+            "selector": "-onHostRequest:",
+            "imp": "0xf968",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0xfd90",
+            "bounded_scan_bytes": 1064,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [
+              "bundleIdentifier",
+              "?",
+              "activate",
+              "__spike__"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-onHostRequestSplit:",
+            "imp": "0xfd90",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x10348",
+            "bounded_scan_bytes": 1464,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [
+              "bundleIdL",
+              "bundleIdR",
+              "bundleIdC",
+              "activate",
+              "skipEvict",
+              "/var/tmp/duodash_ab_reapdelay"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-hostSplitL:right:skipEvict:",
+            "imp": "0x10348",
+            "type": "v36@0:8@16@24B32",
+            "next_objc_method_start": "0x10430",
+            "bounded_scan_bytes": 232,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-hostSlots:skipEvict:",
+            "imp": "0x10430",
+            "type": "v28@0:8@16B24",
+            "next_objc_method_start": "0x114a4",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [
+              "/var/tmp/duodash_ab_nopanepad",
+              "/var/tmp/duodash_ab_panepad",
+              "/var/tmp/duodash_ab_nopaneround",
+              "/var/tmp/duodash_ab_layout",
+              "/var/tmp/duodash_ab_panefracs",
+              ",",
+              "appbridge_split_frac_a",
+              "appbridge_split_frac_b"
+            ],
+            "method_body_decode": true
+          }
+        ],
+        "CNABSwallowView": [
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0x25804",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25808",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesMoved:withEvent:",
+            "imp": "0x25808",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x2580c",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesEnded:withEvent:",
+            "imp": "0x2580c",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25810",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesCancelled:withEvent:",
+            "imp": "0x25810",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x25814",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          }
+        ],
+        "CNABTileControl": [
+          {
+            "selector": "-beginTrackingWithTouch:withEvent:",
+            "imp": "0x270fc",
+            "type": "B32@0:8@16@24",
+            "next_objc_method_start": "0x271c8",
+            "bounded_scan_bytes": 204,
+            "selector_xrefs": [
+              "setStroke",
+              "beginTrackingWithTouch:withEvent:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-endTrackingWithTouch:withEvent:",
+            "imp": "0x272fc",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x27634",
+            "bounded_scan_bytes": 824,
+            "selector_xrefs": [
+              "setStroke",
+              "endTrackingWithTouch:withEvent:"
+            ],
+            "cfstring_tags": [
+              "/var/tmp/duodash_ab_picker_noswiperecover"
+            ],
+            "method_body_decode": true
+          }
+        ],
+        "CNABUIApp": [
+          {
+            "selector": "-setBridgeState:width:height:orientation:",
+            "imp": "0x1f514",
+            "type": "v44@0:8B16d20d28q36",
+            "next_objc_method_start": "0x1f6dc",
+            "bounded_scan_bytes": 456,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-relayoutAllWindows",
+            "imp": "0x1f6dc",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x1fbac",
+            "bounded_scan_bytes": 1232,
+            "selector_xrefs": [
+              "setStroke",
+              "windows",
+              "_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:",
+              "activeInstance",
+              "updateLayoutToCurrentInterfaceOrientation"
+            ],
+            "cfstring_tags": [
+              "/var/tmp/duodash_ab_force_relayout",
+              "content"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-bridgeFrame",
+            "imp": "0x1fbbc",
+            "type": "{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8",
+            "next_objc_method_start": "0x1fbc8",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setBridgeFrame:",
+            "imp": "0x1fbc8",
+            "type": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+            "next_objc_method_start": "0x1fbd4",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-hostOrientation",
+            "imp": "0x1fbd4",
+            "type": "q16@0:8",
+            "next_objc_method_start": "0x1fbdc",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setHostOrientation:",
+            "imp": "0x1fbdc",
+            "type": "v24@0:8q16",
+            "next_objc_method_start": "0x1fbe4",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-isSplit",
+            "imp": "0x1fbe4",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0x1fbec",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-setIsSplit:",
+            "imp": "0x1fbec",
+            "type": "v20@0:8B16",
+            "next_objc_method_start": "0x20c5c",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setStroke",
+              "_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:",
+              "windows"
+            ],
+            "cfstring_tags": [
+              "%@|%@|%.1fx%.1f|%.1fx%.1f|%.1fx%.1f",
+              "/var/tmp",
+              "duodash_ab_nofontnorm",
+              "duodash_",
+              "carnav_"
+            ],
+            "method_body_decode": true
+          }
+        ],
+        "CNABUIAppObserver": [
+          {
+            "selector": "-onState:",
+            "imp": "0x20cdc",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x20fec",
+            "bounded_scan_bytes": 784,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [
+              "shouldBridge",
+              "displayWidth",
+              "displayHeight",
+              "orientation",
+              "isSplit",
+              "%d|%.1fx%.1f|%ld|%d",
+              "bridged_font_floor"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-onBackground:",
+            "imp": "0x2120c",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x250c4",
+            "bounded_scan_bytes": 4096,
+            "selector_xrefs": [
+              "setStroke",
+              "bounds",
+              "compare:",
+              "setFrame:",
+              "_setRotatableViewOrientation:duration:force:",
+              "_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:",
+              "supportedInterfaceOrientations",
+              "__supportedInterfaceOrientations",
+              "presentViewController:animated:completion:",
+              "nativeBounds",
+              "dismissViewControllerAnimated:completion:",
+              "statusBarOrientation",
+              "interfaceOrientation",
+              "orientation",
+              "_referenceBounds",
+              "defaultSizeForInterfaceOrientation:",
+              "keyboardSizeForInterfaceOrientation:",
+              "sizeForInterfaceOrientation:",
+              "keyboardWidthForScreen:withOrientation:",
+              "getWidthForOrientation:",
+              "keyboardWidth",
+              "keyboardScreenReferenceSize",
+              "didMoveToWindow",
+              "sendEvent:",
+              "localizedStringForKey:value:table:",
+              "mainScreen"
+            ],
+            "cfstring_tags": [
+              "duodash_ab_bg_teardown",
+              "duodash_ab_nostatetimeout",
+              "com.google.Maps",
+              "com.waze.iphone",
+              "currentCarPlayExternalDevice",
+              "duodash_ab_cptrip",
+              "duodash_ab_kbcentre_single",
+              "/var/tmp/duodash_ab_kbwidth_off"
+            ],
+            "method_body_decode": true
+          }
+        ],
+        "CNABUIRootView": [
+          {
+            "selector": "-touchesBegan:withEvent:",
+            "imp": "0x49c54",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x49c58",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesMoved:withEvent:",
+            "imp": "0x49c58",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x49c5c",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesEnded:withEvent:",
+            "imp": "0x49c5c",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x49c60",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-touchesCancelled:withEvent:",
+            "imp": "0x49c60",
+            "type": "v32@0:8@16@24",
+            "next_objc_method_start": "0x49c64",
+            "bounded_scan_bytes": 4,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          }
+        ],
+        "CNABUIRow": [
+          {
+            "selector": "+switchRow:on:toggle:",
+            "imp": "0x49a0c",
+            "type": "@40@0:8@16@?24@?32",
+            "next_objc_method_start": "0x49ab4",
+            "bounded_scan_bytes": 168,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "CNABUIScrollView": [
+          {
+            "selector": "-touchesShouldCancelInContentView:",
+            "imp": "0x49ce4",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0x49cec",
+            "bounded_scan_bytes": 8,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-layoutSubviews",
+            "imp": "0x49cec",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x49e64",
+            "bounded_scan_bytes": 376,
+            "selector_xrefs": [
+              "setStroke",
+              "layoutSubviews"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ],
+        "DDz1": [
+          {
+            "selector": "-carPlayDisplaySize",
+            "imp": "0x13610",
+            "type": "{CGSize=dd}16@0:8",
+            "next_objc_method_start": "0x1366c",
+            "bounded_scan_bytes": 92,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-teardownWindow",
+            "imp": "0x13c9c",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x13da4",
+            "bounded_scan_bytes": 264,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-showSplashOverSplit",
+            "imp": "0x13da4",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x13e38",
+            "bounded_scan_bytes": 148,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-splitHostView",
+            "imp": "0x14150",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x141c4",
+            "bounded_scan_bytes": 116,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-dockModeHostViewCreatingIfNeeded",
+            "imp": "0x141c4",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x14328",
+            "bounded_scan_bytes": 356,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-removeDockModePanel",
+            "imp": "0x14328",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x143bc",
+            "bounded_scan_bytes": 148,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-setAppContentFrame:",
+            "imp": "0x143bc",
+            "type": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+            "next_objc_method_start": "0x144c4",
+            "bounded_scan_bytes": 264,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-showWithHostView:",
+            "imp": "0x14984",
+            "type": "B24@0:8@16",
+            "next_objc_method_start": "0x14aa0",
+            "bounded_scan_bytes": 284,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-layoutGutterStripMatInHost:",
+            "imp": "0x14aa0",
+            "type": "v24@0:8@16",
+            "next_objc_method_start": "0x15240",
+            "bounded_scan_bytes": 1952,
+            "selector_xrefs": [
+              "setStroke",
+              "compare:",
+              "componentsSeparatedByCharactersInSet:",
+              "setTitle:forState:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-showSplitLeft:right:nativeL:nativeR:leftBid:rightBid:",
+            "imp": "0x15240",
+            "type": "B80@0:8@16@24{CGSize=dd}32{CGSize=dd}48@64@72",
+            "next_objc_method_start": "0x1543c",
+            "bounded_scan_bytes": 508,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-showLayoutPanes:natives:bids:",
+            "imp": "0x1543c",
+            "type": "B40@0:8@16@24@32",
+            "next_objc_method_start": "0x156c0",
+            "bounded_scan_bytes": 644,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-canSwapPositions:with:",
+            "imp": "0x156c0",
+            "type": "B32@0:8q16q24",
+            "next_objc_method_start": "0x158c8",
+            "bounded_scan_bytes": 520,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-swapPanesAtPositions:with:animated:",
+            "imp": "0x15904",
+            "type": "B36@0:8q16q24B32",
+            "next_objc_method_start": "0x161d8",
+            "bounded_scan_bytes": 2260,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [
+              "/var/tmp/duodash_ab_norehostinplace"
+            ],
+            "method_body_decode": true
+          }
+        ],
+        "DDz2": [
+          {
+            "selector": "-resetHostingState",
+            "imp": "0x1aab8",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x1ab70",
+            "bounded_scan_bytes": 184,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-hostedBundleId",
+            "imp": "0x1ab70",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1ab7c",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-hostedBundleId2",
+            "imp": "0x1ab7c",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1ab88",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-hostedBundleId3",
+            "imp": "0x1ab88",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1ab94",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-hostedSlotCount",
+            "imp": "0x1ab94",
+            "type": "q16@0:8",
+            "next_objc_method_start": "0x1aba0",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-hostedSlotBids",
+            "imp": "0x1aba0",
+            "type": "@16@0:8",
+            "next_objc_method_start": "0x1ac3c",
+            "bounded_scan_bytes": 156,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-hostedOrientation",
+            "imp": "0x1ac3c",
+            "type": "q16@0:8",
+            "next_objc_method_start": "0x1ac48",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-probeSceneForSlot:",
+            "imp": "0x1ac48",
+            "type": "@24@0:8q16",
+            "next_objc_method_start": "0x1ad28",
+            "bounded_scan_bytes": 224,
+            "selector_xrefs": [
+              "sceneHandle",
+              "scene"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-isSplitHosting",
+            "imp": "0x1ad28",
+            "type": "B16@0:8",
+            "next_objc_method_start": "0x1ad34",
+            "bounded_scan_bytes": 12,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": false
+          },
+          {
+            "selector": "-hostBundleId:renderSize:",
+            "imp": "0x1b1c4",
+            "type": "@40@0:8@16{CGSize=dd}24",
+            "next_objc_method_start": "0x1b5e0",
+            "bounded_scan_bytes": 1052,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [
+              "/var/tmp/duodash_ab_rscale",
+              "/var/tmp/duodash_ab_canvas",
+              "portrait",
+              "/var/tmp/duodash_ab_evict_skipfrontmost",
+              "/var/tmp/duodash_ab_noevict"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-cnabPostAppSideHandshake:gen:",
+            "imp": "0x1b5e0",
+            "type": "v32@0:8@16Q24",
+            "next_objc_method_start": "0x1b7a0",
+            "bounded_scan_bytes": 448,
+            "selector_xrefs": [],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-cnabBuildSceneHostForBid:displaySize:",
+            "imp": "0x1b7a0",
+            "type": "@40@0:8@16{CGSize=dd}24",
+            "next_objc_method_start": "0x1bad0",
+            "bounded_scan_bytes": 816,
+            "selector_xrefs": [
+              "setStroke",
+              "sharedInstance",
+              "applicationWithBundleIdentifier:",
+              "initWithApplicationForMainDisplay:",
+              "initWithIdentifier:andApplicationSceneEntity:",
+              "setIgnoresOcclusions:",
+              "setAutomatesLifecycle:",
+              "view",
+              "setRequestedMode:",
+              "setHomeGrabberDisplayMode:"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-spikeHostLeft:right:renderSizeL:renderSizeR:skipEvict:",
+            "imp": "0x1be84",
+            "type": "@68@0:8@16@24{CGSize=dd}32{CGSize=dd}48B64",
+            "next_objc_method_start": "0x1c020",
+            "bounded_scan_bytes": 412,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-spikeHostSlots:natives:skipEvict:",
+            "imp": "0x1c020",
+            "type": "@36@0:8@16@24B32",
+            "next_objc_method_start": "0x1c5d4",
+            "bounded_scan_bytes": 1460,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [
+              "/var/tmp/duodash_ab_split_evict",
+              " ",
+              "(empty/placeholder)",
+              "%@slot%ld=%@ (native %@)"
+            ],
+            "method_body_decode": true
+          },
+          {
+            "selector": "-dismiss",
+            "imp": "0x1c5d4",
+            "type": "v16@0:8",
+            "next_objc_method_start": "0x1c668",
+            "bounded_scan_bytes": 148,
+            "selector_xrefs": [
+              "setStroke"
+            ],
+            "cfstring_tags": [],
+            "method_body_decode": true
+          }
+        ]
+      },
+      "filters": {
+        "var/jb/usr/lib/TweakInject/DuoDash.plist": {
+          "Bundles": [
+            "com.apple.springboard",
+            "com.apple.Preferences",
+            "com.apple.CarPlayApp",
+            "com.apple.UIKit"
+          ],
+          "Mode": "Any",
+          "Executables": [
+            "mediaserverd"
+          ]
+        },
+        "var/jb/usr/lib/TweakInject/DuoDashUnifiedFullscreen.plist": {
+          "Bundles": [
+            "com.apple.CarPlay"
+          ]
+        }
+      },
+      "all_class_names_relevant": [
+        "CNABAppPickerController",
+        "CNABBubbleView",
+        "CNABCarPlayObserver",
+        "CNABDividerView",
+        "CNABEmptyPaneView",
+        "CNABFontMark",
+        "CNABGpsSpeed",
+        "CNABHandleView",
+        "CNABHostUIAppResponder",
+        "CNABLayoutConfirm",
+        "CNABLayoutIconView",
+        "CNABNavData",
+        "CNABPickerCell",
+        "CNABScrollView",
+        "CNABSpringBoardObserver",
+        "CNABSwallowView",
+        "CNABTileControl",
+        "CNABUIApp",
+        "CNABUIAppObserver",
+        "CNABUIListController",
+        "CNABUIRootView",
+        "CNABUIRow",
+        "CNABUIRowControl",
+        "CNABUIScrollView",
+        "CNABUISection",
+        "DDz1",
+        "DDz2",
+        "DDz3",
+        "DDz4"
+      ]
+    }
+  }
+}
