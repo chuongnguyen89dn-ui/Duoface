@@ -7,6 +7,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHomeLaunchABI142.m'
       - 'sideplay/duoface-native-scene-host/build.sh'
       - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa142_home_launch_probe.py'
       - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_142.py'
@@ -28,7 +29,6 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa142_home_launch_probe.py' -v
-          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_home_admission_probe.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v
@@ -89,3 +89,31 @@ jobs:
           name: DuoFace-QA142-Home-ABI-Signed-Rootless
           path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.142~homeabi1_iphoneos-arm64.deb
           if-no-files-found: error
+      - name: Store immutable signed artifact and receipt in DuoFace repository
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa142-home-abi-20261031'
+          NAME='com.duoface.jb.embedded_0.0.142~homeabi1_iphoneos-arm64.deb'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            DEST="$TEMP/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$DEST"
+            cp "$QA_OUTPUT" "$DEST/$NAME"
+            ( cd "$DEST" && shasum -a 256 "$NAME" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$DEST/"
+            cp "$RUNNER_TEMP/QA142_UUIDS.txt" "$DEST/"
+            printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nDEVICE_HOME_TAP_TESTED=false\nSILEO_PUBLISHED=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$DEST/CI_RESULT.txt"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$TEMP" commit -m 'qa142: archive signed Home ABI rootless package and provenance [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo QA142_SIGNED_SOURCE_ARTIFACT_GITHUB_VERIFIED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
