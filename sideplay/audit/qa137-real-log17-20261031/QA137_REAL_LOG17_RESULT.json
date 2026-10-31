@@ -1,0 +1,184 @@
+{
+  "replay": "pinned GitHub main upload commit 488a2b5f416ca7ff91bc7c0c7d04379e5ad8344b",
+  "log": {
+    "input": "user QA137 manual export Log17 (not CI physical device)",
+    "sha256": "590fc06720366d8a6f679b14008b084235ef05404af26deabc5040e4fc8c5b47",
+    "bytes": 6133947,
+    "line_count": 23885,
+    "export_header": [
+      "DuoFace CarPlay / media scene diagnostic (manual export)",
+      "Date: 2026-10-31 02:25:31 +0000",
+      "iOS: 16.7.16",
+      "App: com.duoface.native.scenehost"
+    ],
+    "home_137": {
+      "by_process": {
+        "SpringBoard": 432,
+        "CarPlay": 336,
+        "unknown": 2
+      },
+      "info_classes": {
+        "DBApplicationInfo": 24
+      },
+      "counts": {
+        "fbs_info_observations": 24,
+        "fbs_db_info_observations": 24,
+        "fbs_missing_getter_observations": 72
+      },
+      "method_abi_by_process": {
+        "SpringBoard": {
+          "+[DashBoard _newApplicationLibrary]": "class-absent",
+          "+[CARApplication _newApplicationLibrary]": "class-absent",
+          "-[CARApplication _newApplicationLibrary]": "class-absent",
+          "+[CARApplication _allInstalledApplications]": "class-absent",
+          "+[CARApplication _allInstalledApplicationsByBundleIdentifier]": "class-absent",
+          "-[_CARDashboardHomeViewController _setupIconModel]": "class-absent",
+          "-[_CARDashboardHomeViewController viewDidAppear:]": "class-absent",
+          "-[_CARDashboardHomeViewController iconManager:launchIcon:]": "class-absent",
+          "-[_CARDashboardHomeViewController iconManager:launchIconForIconView:]": "class-absent",
+          "+[DBApplicationController sharedInstance]": "class-absent",
+          "-[DBApplicationController applicationWithBundleIdentifier:]": "class-absent",
+          "-[DBWorkspace initWithOwner:]": "class-absent",
+          "-[FBSApplicationLibrary allInstalledApplications]": "type=@16@0:8 image=FrontBoardServices",
+          "-[FBSApplicationLibrary applicationInfoForBundleIdentifier:]": "type=@24@0:8@16 image=FrontBoardServices",
+          "-[FBSApplicationLibrary _notifyDidAddApplications:]": "type=v24@0:8@16 image=FrontBoardServices",
+          "-[DBApplicationInfo carPlayDeclaration]": "class-absent",
+          "-[DBApplicationInfo isCarPlaySupported]": "class-absent",
+          "-[DBApplicationInfo canDisplayOnCarScreen]": "class-absent",
+          "-[DBApplicationInfo launchAsCarApplication]": "class-absent",
+          "-[CARApplicationInfo canDisplayOnCarScreen]": "class-absent",
+          "+[CRCarPlayAppDeclaration declarationForAppProxy:]": "type=@24@0:8@16 image=CarKit",
+          "-[CRCarPlayAppPolicyEvaluator effectivePolicyForAppDeclaration:]": "type=@24@0:8@16 image=CarKit",
+          "-[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]": "type=@40@0:8@16#24#32 image=SocialSafariSpringBoard.dylib",
+          "-[LSBundleProxy entitlementValueForKey:ofClass:]": "type=@32@0:8@16#24 image=CoreServices",
+          "-[FBSApplicationInfo entitlementValuesForKeys:]": "method-absent",
+          "-[LSBundleInfoCachedValues boolForKey:]": "type=B24@0:8@16 image=DFFirstPartyAdmission.dylib"
+        },
+        "CarPlay": {
+          "+[DashBoard _newApplicationLibrary]": "type=@16@0:8 image=DashBoard",
+          "+[CARApplication _newApplicationLibrary]": "class-absent",
+          "-[CARApplication _newApplicationLibrary]": "class-absent",
+          "+[CARApplication _allInstalledApplications]": "class-absent",
+          "+[CARApplication _allInstalledApplicationsByBundleIdentifier]": "class-absent",
+          "-[_CARDashboardHomeViewController _setupIconModel]": "class-absent",
+          "-[_CARDashboardHomeViewController viewDidAppear:]": "class-absent",
+          "-[_CARDashboardHomeViewController iconManager:launchIcon:]": "class-absent",
+          "-[_CARDashboardHomeViewController iconManager:launchIconForIconView:]": "class-absent",
+          "+[DBApplicationController sharedInstance]": "class-absent",
+          "-[DBApplicationController applicationWithBundleIdentifier:]": "class-absent",
+          "-[DBWorkspace initWithOwner:]": "type=@24@0:8@16 image=DashBoard",
+          "-[FBSApplicationLibrary allInstalledApplications]": "type=@16@0:8 image=FrontBoardServices",
+          "-[FBSApplicationLibrary applicationInfoForBundleIdentifier:]": "type=@24@0:8@16 image=FrontBoardServices",
+          "-[FBSApplicationLibrary _notifyDidAddApplications:]": "type=v24@0:8@16 image=FrontBoardServices",
+          "-[DBApplicationInfo carPlayDeclaration]": "type=@16@0:8 image=DashBoard",
+          "-[DBApplicationInfo isCarPlaySupported]": "method-absent",
+          "-[DBApplicationInfo canDisplayOnCarScreen]": "method-absent",
+          "-[DBApplicationInfo launchAsCarApplication]": "method-absent",
+          "-[CARApplicationInfo canDisplayOnCarScreen]": "class-absent",
+          "+[CRCarPlayAppDeclaration declarationForAppProxy:]": "type=@24@0:8@16 image=CarKit",
+          "-[CRCarPlayAppPolicyEvaluator effectivePolicyForAppDeclaration:]": "type=@24@0:8@16 image=CarKit",
+          "-[LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:]": "type=@40@0:8@16#24#32 image=DFFirstPartyAdmission.dylib",
+          "-[LSBundleProxy entitlementValueForKey:ofClass:]": "type=@32@0:8@16#24 image=DFFirstPartyAdmission.dylib",
+          "-[FBSApplicationInfo entitlementValuesForKeys:]": "method-absent",
+          "-[LSBundleInfoCachedValues boolForKey:]": "type=B24@0:8@16 image=CoreServices"
+        }
+      }
+    },
+    "home_136": {
+      "positive_six": 3,
+      "subsequent_zero": 59,
+      "fbs_library_found": 62,
+      "not_exposed": 0
+    },
+    "gofa": {
+      "scene_event_lines": 771,
+      "remote_precommit_frame_reads": 52,
+      "remote_precommit_mismatch": 52,
+      "remote_precommit_match": 0,
+      "portrait_375x812_precommit": 19,
+      "logical_target_example_793x685": 24,
+      "native12_three_arg_child_setter_dispatches": 52,
+      "remote_size_update_requests": 52,
+      "foreground_observations": 19,
+      "after_write_size_ack_present": false
+    },
+    "duoface_startup": {
+      "app_launched": 31,
+      "template_role_issued": 70,
+      "phone_scene_connected": 14,
+      "background_boundary": 49,
+      "native_car_scene_active": 0
+    },
+    "limits": [
+      "pre-update scene-frame-readback is NOT an after-write ACK or proof rendered map",
+      "CarPlayTemplateUIHost crash ≠ proven DuoFace NativeHost crash",
+      "Home FBS record ≠ user-visible Apple Home icon or launch",
+      "Raw export includes older accumulated traces; no session/time in every line"
+    ]
+  },
+  "crashes": [
+    {
+      "filename": "Crash-0-CarPlayTemplateUIHost-2026-10-31-092358.ips",
+      "sha256": "77eb80eb8dba9358755dd083e4a31cade65375378cde64eb7acf99fa3d34964b",
+      "procName": "CarPlayTemplateUIHost",
+      "captureTime": "2026-10-31 09:23:53.6671 +0700",
+      "procLaunch": "2026-10-31 09:21:00.1616 +0700",
+      "exception": "SIGABRT",
+      "exceptionType": "EXC_CRASH",
+      "backtrace_top_symbols": [
+        "__exceptionPreprocess",
+        "objc_exception_throw",
+        "-[__NSCFString characterAtIndex:].cold.1",
+        "-[__NSPlaceholderArray initWithCapacity:].cold.1",
+        "-[__NSPlaceholderArray initWithObjects:count:]",
+        "+[NSArray arrayWithObjects:count:]",
+        "-[CPSDashboardGuidanceViewController setShortCutButtons:]",
+        "__57-[CPSTemplateInstance hostSetShortcutButtons:completion:]_block_invoke",
+        "_dispatch_call_block_and_release"
+      ],
+      "DuoFaceNativeHost_crash_proven": false
+    },
+    {
+      "filename": "Crash-1-CarPlayTemplateUIHost-2026-10-31-092440.ips",
+      "sha256": "d1232dafecefd71ef28ccc5bb12821af99387bc3aa0228d44d890c83f40340e2",
+      "procName": "CarPlayTemplateUIHost",
+      "captureTime": "2026-10-31 09:24:31.1286 +0700",
+      "procLaunch": "2026-10-31 09:24:30.1902 +0700",
+      "exception": "SIGABRT",
+      "exceptionType": "EXC_CRASH",
+      "backtrace_top_symbols": [
+        "__exceptionPreprocess",
+        "objc_exception_throw",
+        "-[__NSCFString characterAtIndex:].cold.1",
+        "-[__NSPlaceholderArray initWithCapacity:].cold.1",
+        "-[__NSPlaceholderArray initWithObjects:count:]",
+        "+[NSArray arrayWithObjects:count:]",
+        "-[CPSDashboardGuidanceViewController setShortCutButtons:]",
+        "__57-[CPSTemplateInstance hostSetShortcutButtons:completion:]_block_invoke",
+        "_dispatch_call_block_and_release"
+      ],
+      "DuoFaceNativeHost_crash_proven": false
+    },
+    {
+      "filename": "Crash-2-CarPlayTemplateUIHost-2026-10-31-092437.ips",
+      "sha256": "5b50ee893101f4c366c2437146fea5e131e52ba44df78643ccfb9ff65a59a6e3",
+      "procName": "CarPlayTemplateUIHost",
+      "captureTime": "2026-10-31 09:24:30.1408 +0700",
+      "procLaunch": "2026-10-31 09:24:29.1652 +0700",
+      "exception": "SIGABRT",
+      "exceptionType": "EXC_CRASH",
+      "backtrace_top_symbols": [
+        "__exceptionPreprocess",
+        "objc_exception_throw",
+        "-[__NSCFString characterAtIndex:].cold.1",
+        "-[__NSPlaceholderArray initWithCapacity:].cold.1",
+        "-[__NSPlaceholderArray initWithObjects:count:]",
+        "+[NSArray arrayWithObjects:count:]",
+        "-[CPSDashboardGuidanceViewController setShortCutButtons:]",
+        "__57-[CPSTemplateInstance hostSetShortcutButtons:completion:]_block_invoke",
+        "_dispatch_call_block_and_release"
+      ],
+      "DuoFaceNativeHost_crash_proven": false
+    }
+  ]
+}
