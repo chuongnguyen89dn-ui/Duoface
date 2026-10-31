@@ -1,0 +1,32 @@
+name: QA147 complete-route static evidence, no DEB
+on:
+  push:
+    branches:
+      - feature/duoface-qa146-native-home-exit-20261031
+    paths:
+      - 'sideplay/audit/qa147-full-route-evidence-20261031/**'
+      - '.github/workflows/duoface-qa147-full-route-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-existing-pinned-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Read source only
+        uses: actions/checkout@v4
+      - name: Verify source, original audit receipts and physical Log23 findings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/audit/qa147-full-route-evidence-20261031/verify_full_route_evidence.py
+          python3 sideplay/audit/qa147-full-route-evidence-20261031/verify_full_route_evidence.py --repo . > full-route-verification.json
+          python3 -m json.tool full-route-verification.json >/dev/null
+          grep -F '17_STATIC_ASSERTIONS_PASS_NOT_RUNTIME_PARITY' full-route-verification.json
+      - name: Upload evidence (not a functional release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa147-full-route-static-evidence
+          path: full-route-verification.json
+          retention-days: 30
