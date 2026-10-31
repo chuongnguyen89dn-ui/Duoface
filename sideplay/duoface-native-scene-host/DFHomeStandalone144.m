@@ -40,6 +40,7 @@ static void DF144Log(NSString *tag,NSString *detail) {
  if(d.length)(void)write(fd,d.bytes,d.length);
  close(fd);
 }
+#import "DFWorkspaceABIProbe150.h"
 static BOOL DF144ExplicitConsent(void) { return DFHome145Enabled(); }
 static BOOL DF144Allowed(NSString *bid) {
  return DF144ExplicitConsent() &&
@@ -187,6 +188,9 @@ static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  // standalone scene attempts to attach. No fabricated CarPlay app activation.
  // No success is asserted until receiver verifies the actual hosted scene.
  DF144LastHomeRequest=NSDate.date.timeIntervalSince1970;
+ // Read-only class/selector ABI inventory on the actual CarPlay process.
+ // The old DEB's native workspace transition is NOT invoked speculatively.
+ DF150ProbeWorkspaceForRequest(rid,bundle,display,NO);
  DF144Log(@"standalone-requested-not-yet-ready",[NSString stringWithFormat:
       @"bid=%@ uuid=%@ content=%@",bundle,rid,NSStringFromCGRect(content)]);
 }
@@ -230,6 +234,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @property(nonatomic,assign) NSUInteger generation;
 @property(nonatomic,assign) BOOL emittedHosted;
 @property(nonatomic,assign) BOOL emittedManager;
+@property(nonatomic,assign) BOOL emittedTerminal;
 @end
 @implementation DF144Solo
 // Only the real, process-owned SBApplication object and matching live scene
@@ -270,12 +275,22 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  }
 }
 - (void)reply:(NSString *)state reason:(NSString *)reason verifiedPID:(NSNumber *)verifiedPID {
+ if(self.emittedTerminal) {
+   DF144Log(@"qa150-terminal-result-already-written",
+       [NSString stringWithFormat:@"req=%@ suppressed=%@",self.request,state]);
+   return;
+ }
+ BOOL terminal=[state isEqualToString:@"failed"] || [state isEqualToString:@"stopped"];
  NSNumber *pid=verifiedPID?: (self.surface?[[DFSceneHost sharedHost] verifiedPIDForHostedView:self.surface]:nil);
  NSDictionary *ack=@{@"Version":@2,@"RequestID":self.request?:@"",
    @"CarDisplayID":self.carDisplayID?:@"",@"VerifiedPID":pid?:@0,
    @"BundleID":self.bundle?:@"",@"Outcome":state?:@"unresolved",
    @"Reason":reason?:@"",@"Timestamp":@(NSDate.date.timeIntervalSince1970)};
- if([ack writeToFile:DF144Result atomically:YES])notify_post(DF144ResultNotify);
+ BOOL saved=[ack writeToFile:DF144Result atomically:YES];
+ if(saved) {
+   if(terminal)self.emittedTerminal=YES;
+   notify_post(DF144ResultNotify);
+ } else DF144Log(@"qa150-result-write-failed",self.request);
  DF144Log(state,[NSString stringWithFormat:@"bid=%@ req=%@ %@",self.bundle,self.request,reason?:@""]);
 }
 - (void)reply:(NSString *)state reason:(NSString *)reason {
@@ -329,7 +344,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  if(!DF144ValidRect(content,expectedScreen))return NO;
  if(self.window)[self stop:@"next-home-selection"];
  self.bundle=p[@"BundleID"];self.request=p[@"RequestID"];
- self.emittedHosted=NO;self.emittedManager=NO;
+ self.emittedHosted=NO;self.emittedManager=NO;self.emittedTerminal=NO;
  self.carDisplayID=p[@"CarDisplayID"];self.display=display;
  NSUInteger generation=++self.generation;
  @try {
@@ -500,6 +515,30 @@ static void DF144LeaseHeartbeat(void) {
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.7*NSEC_PER_SEC)),
                 dispatch_get_main_queue(),^{DF144LeaseHeartbeat();});
 }
+// Exactly one truthful terminal response for a fresh, permitted request even
+// when the SB receiver refuses before it has installed a standalone owner.
+// Preserve an already emitted synchronous failed/stopped result.
+static void DF150ReplyRejected(NSDictionary *p) {
+ NSDictionary *existing=[NSDictionary dictionaryWithContentsOfFile:DF144Result];
+ NSString *outcome=existing[@"Outcome"];
+ if([existing[@"RequestID"] isEqual:p[@"RequestID"]] &&
+    [existing[@"BundleID"] isEqual:p[@"BundleID"]] &&
+    [existing[@"CarDisplayID"] isEqual:p[@"CarDisplayID"]] &&
+    ([outcome isEqualToString:@"failed"] || [outcome isEqualToString:@"stopped"])) {
+   DF144Log(@"qa150-preflight-terminal-preserved",p[@"RequestID"]);
+   return;
+ }
+ NSDictionary *terminal=@{@"Version":@2,@"RequestID":p[@"RequestID"],
+    @"BundleID":p[@"BundleID"],@"CarDisplayID":p[@"CarDisplayID"],
+    @"Outcome":@"failed",@"VerifiedPID":@0,
+    @"Reason":@"receiver-preflight-rejected-no-scene-owner",
+    @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+ if([terminal writeToFile:DF144Result atomically:YES]) {
+   notify_post(DF144ResultNotify);
+   DF144Log(@"qa150-preflight-rejected-terminal",
+     [NSString stringWithFormat:@"req=%@ bid=%@",p[@"RequestID"],p[@"BundleID"]]);
+ } else DF144Log(@"qa150-preflight-write-failed",p[@"RequestID"]);
+}
 static void DF144Consume(void) {
  NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:DF144Request];
  if(!DF144ValidRequest(p,NSDate.date.timeIntervalSince1970) ||
@@ -508,8 +547,11 @@ static void DF144Consume(void) {
  if([uuid isEqualToString:DF144LastRequest])return;
  DF144LastRequest=[uuid copy];
  [[NSFileManager defaultManager] removeItemAtPath:DF144Request error:nil];
- if(![DF144Owner begin:p])
-  DF144Log(@"no-valid-standalone-owner",[NSString stringWithFormat:@"bid=%@",p[@"BundleID"]]);
+ DF150ProbeWorkspaceForRequest(uuid,p[@"BundleID"],p[@"CarDisplayID"],YES);
+ if(![DF144Owner begin:p]) {
+  DF144Log(@"no-valid-standalone-owner",[NSString stringWithFormat:@"req=%@ bid=%@",uuid,p[@"BundleID"]]);
+  DF150ReplyRejected(p);
+ }
 }
 __attribute__((constructor))static void DF144StartSpringBoard(void) {
  if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"] ||
