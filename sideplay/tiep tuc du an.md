@@ -1,3 +1,11 @@
+# 2026-10-31 QA145 Sileo build failure and correction
+
+- Public Sileo publisher run 41183491842 failed at APT generation. Actual job 124485555561 verified the QA145 signed DEB SHA, then asserted Info.plist short version 0.1.145. The signed archive actually has CFBundleVersion 145 and CFBundleShortVersionString 0.1.143; exit 1 from Python assertion. This is metadata mismatch, not QA145 compiler failure.
+- Fixed the assertion against the actual signed file in chuongnguyen89dn-ui/carplaydsp .github/workflows/build.yml, commit 184ac689728a72a0e59527511637fd90f9e779bb. Kept signed SHA and all other packages unchanged. Retry run 41183829135 started; validation run 41183829149 also started. No public release confirmed yet.
+- Next: inspect retry completion, public Pages, the only selected integrated Package entry and signed download checksum. Do not claim device validation until parked iPhone test. Source must later align short-version metadata during a separately signed build.
+
+---
+
 # 2026-10-31 — USER CORRECTS QA145 VALIDATION GATE: MUST PUBLISH TO SILEO TO RUN ONE REAL DEVICE TEST
 
 - Follow-up verified via GitHub API after publisher commit: YAML validation [41183491358](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41183491358) **completed SUCCESS**. Publisher [41183491842](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41183491842) job `124485555561` **IN_PROGRESS** at `Install Theos and iOS SDK` (not yet released, don't ask user to refresh Sileo until Pages and binary hash live verifier complete). Hand-off commit update only; no new code or DEB.
