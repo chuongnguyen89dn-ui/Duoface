@@ -1,3 +1,11 @@
+# 2026-10-31 — QA147 ACK CONTROL FLOW REVIEW c1dbe8ab
+
+Đã đọc trực tiếp source QA147 tại `02893d86` và ghi báo cáo kiểm tra mã vào `sideplay/audit/qa147-focused-startup-boundary-20261031/ACK_CONTROL_FLOW_REVIEW.md` ở commit `c1dbe8ab86ed30f6f9a70f2c303aefc800f06e30`. Có cơ sở code: `DFHomeStandalone144.m` viết `pending-scene` sau `addSubview` mà không recheck terminal, `sceneReady:` thoát khi PID nil mà không retry, timeout chỉ fail khi scene không live; `DFNativeDockSync147.h` cần hosted ACK+PID đúng identity mới cập nhật native Dock/Home. Log23 có 16 scene-handle, zero hosted ACK và zero Dock-active. Đây là **rủi ro state ordering và thiếu retry đã xác minh trong source**, CHƯA chứng minh đã diễn ra trên xe; aspect swap/8 bogus attach là nhánh riêng chưa xác định callsite.
+
+Trạng thái: investigation only, không sửa runtime/test/build/Sileo. Repo `chuongnguyen89dn-ui/Duoface`, nhánh `feature/duoface-qa146-native-home-exit-20261031`; source vẫn ở 02893d86 (trước 1 commit báo cáo); không đổi `main` hay `carplaydsp`. Bước cụ thể: thêm instrumentation request/generation trên mount, PID guard, ACK và native Dock ABI; kiểm thử đồng bộ ready/fail + PID đến trễ; sau đó mới xác định sửa lifecycle, không force orientation hay giả Dock. ZIP skill `skills/02-ios-deb-ipa-carplay.zip` đã tìm thấy trên Gpt-training- nhưng phiên này chưa giải nén/đọc ZIP; đã đọc hướng dẫn `DEB_IPA_SKILL.md` tương ứng. Giữ toàn bộ hồ sơ cũ bên dưới.
+
+---
+
 # 2026-10-31 — USER SCOPE: ONLY RELEVANT STARTUP / ASPECT / ACK BOUNDARIES
 
 USER_DECISION: “Tiếp tục truy xét chỉ những j liên quan tới vấn đề đó”. Focus on reported slow/failing app open, wrong/mobile orientation, missing native Dock active app and Home destination. QA147 remains rejected. No production source change, new DEB/Sileo release or new device acceptance.
