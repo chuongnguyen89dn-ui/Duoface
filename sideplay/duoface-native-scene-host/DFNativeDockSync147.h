@@ -123,7 +123,7 @@ static void DF147NativeActiveChanged(id object,SEL sel,id bundle,BOOL animated) 
  DF147NativeActiveOriginal(object,sel,bundle,animated);
  if(NSThread.isMainThread && !DF147Applying && DF147Life.active && object==DF147Dock && ![bundle isEqual:DF147Bundle]) {
   DF147Reset(@"native-app-switch");
-  notify_post(DF144StopNotify); // Hide our standalone surface; preserve new native app.
+  notify_post(DF148NativeSwitchStopNotify); // Hide ours; preserve the NEW native Dock app.
  }
 }
 static void DF147InstallNativeSwitchHook(void) {
@@ -141,7 +141,7 @@ static void DF147Watch(void) {
   id home=nil,dock=DF147FindDock(DF147Session,&home);
   if(!DF144ExplicitConsent() || !dock) {
    DF147Reset(@"disconnect-or-consent-revoked");
-   notify_post(DF144StopNotify);
+   notify_post(DF148OwnerRevokeStopNotify);
   } else if(DF147Life.pending && NSDate.date.timeIntervalSince1970-DF147RequestedAt>10.0) {
    // Keep watchdog expiry separate from a REAL DBRootStatusBar Home press.
    // Never attribute the timeout to user navigation in device logs.
