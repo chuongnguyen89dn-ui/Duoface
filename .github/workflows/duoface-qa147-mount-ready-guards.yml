@@ -8,6 +8,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
       - 'sideplay/duoface-native-scene-host/tests/test_qa147_mount_ack_reentrancy.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa148_real_pid_and_stop_identity.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeDockSync147.h'
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,6 +25,7 @@ jobs:
           set -euo pipefail
           python3 -m py_compile sideplay/duoface-native-scene-host/tests/test_qa147_mount_ack_reentrancy.py
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa146_native_home_exit.py' -v
           echo 'QA147_MOUNT_ACK_GUARD_STATIC_ONLY_PASS'
