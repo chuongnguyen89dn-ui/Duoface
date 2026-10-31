@@ -1,0 +1,23 @@
+{
+  "source": "a50c5c8a9eccdd5ab7770678deca599df75364e2",
+  "archive": "ca2a4d73952c4ac5eed36b043e1b2f7e5b315d5c",
+  "run": 41166735107,
+  "sha256": "a838c67badee14425955ac8affc196e84ea7b712272bef5b3ce1dcde6155128d",
+  "metadata": "Package: com.duoface.jb.embedded\nVersion: 0.0.140~guardedhome1\nArchitecture: iphoneos-arm64\n",
+  "new140_home_and_fresh_consent_markers": true,
+  "withdrawn138_receiver_absent": true,
+  "passive140_gofa_filter_verified": true,
+  "youtube_filter_unchanged": true,
+  "real_home_icon_tap_verified": false,
+  "gofa_fix_verified": false,
+  "runtime_test_excerpt": [
+    "2026-10-31T04:00:49.9976760Z 2026-10-31 04:00:49.997 home140-forwarding[1281:6408] QA138 negative control reproduces native2-to-hook3 recursive growth; harness cap=10 calls=186",
+    "2026-10-31T04:00:49.9982710Z 2026-10-31 04:00:49.997 home140-forwarding[1281:6408] QA140 same forwarding path bounded: depth=2 calls=3",
+    "2026-10-31T04:00:49.9983530Z 2026-10-31 04:00:49.997 home140-forwarding[1281:6408] QA140_FORWARDING_REENTRY_EXCEPTION_TLS_NATIVE_DISABLED_POLICY_AND_FACTORY_PASS",
+    "2026-10-31T04:00:50.4051840Z 2026-10-31 04:00:50.404 home140-consent[1286:6425] QA140_FRESH_CONSENT_DEFAULT_OFF_PARENT_AND_KILL_SWITCH_PASS",
+    "2026-10-31T04:03:17.5132620Z HEAD is now at a50c5c8a qa140: preserve passing forwarding guard; correct consent test macro and bound negative control"
+  ],
+  "publisher_commit": "3e8917036c4c016e88a9c876035fbdfc0b5223b4",
+  "publisher_run": 41167024531,
+  "publication_status": "IN_PROGRESS_NOT_VERIFIED"
+}
