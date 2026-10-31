@@ -54,7 +54,7 @@
  NSDictionary *next=[notification.userInfo copy];
  dispatch_async(dispatch_get_main_queue(),^{
   // Never apply a stale or forged host lease after the user disabled the app.
-  if(!DF155EnabledPilotApp(self.bundle)) {
+  if(!DF155PilotAppID(self.bundle)) {
     if(self.state)[self restore:@"allowlist-revoked"];
     return;
   }
@@ -93,7 +93,7 @@
 }
 - (void)reconcile {
  if(!NSThread.isMainThread || self.applying)return;
- if(!DF155EnabledPilotApp(self.bundle)) {
+ if(!DF155PilotAppID(self.bundle)) {
    if(self.state)[self restore:@"allowlist-revoked"];
    return;
  }
