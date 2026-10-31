@@ -1,0 +1,60 @@
+name: DuoFace QA143 public Sileo verified handoff
+on:
+  push:
+    branches: [feature/duoface-qa142-home-abi-20261031]
+    paths: ['.github/workflows/duoface-qa143-public-handoff.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  commit_verified_public_handoff:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check exact source and all release receipts
+        run: |
+          set -euo pipefail
+          test -s sideplay/audit/qa143-home-bridge-signed-20261031/QA143_PUBLIC_SILEO_VERIFICATION.md
+          grep -Fq '41177913481' sideplay/audit/qa143-home-bridge-signed-20261031/QA143_PUBLIC_SILEO_VERIFICATION.md
+          grep -Fq 'db9019a708c4905602d00ed500878c01f208b26655e42ee079dacf30d925c39c' sideplay/jb-embedded-appbridge/evidence/runs/41177472190/SHA256SUMS.txt
+      - name: Add new public verified checkpoint into existing handoff, preserving old history
+        run: |
+          set -euo pipefail
+          B=feature/duoface-qa142-home-abi-20261031
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$B"
+            ROOT="$(mktemp -d)"
+            git worktree add --detach "$ROOT" FETCH_HEAD
+            P="$ROOT/sideplay/tiep tuc du an.md"
+            test -s "$P"
+            if grep -Fq '# 2026-10-31 QA143 PUBLIC SILEO RELEASE VERIFIED' "$P"; then
+              git worktree remove --force "$ROOT"
+              echo QA143_PUBLIC_HANDOFF_ALREADY_SAVED
+              exit 0
+            fi
+            {
+              printf '# 2026-10-31 QA143 PUBLIC SILEO RELEASE VERIFIED\n\n'
+              printf '%s\n' '- User asked for real clickable ordinary iPhone apps on CarPlay Home. First-party QA143 click->actual DuoFace native icon->foreground CPTemplate->SpringBoard existing real DFSceneHost host implementation signed; actual on-device app-open/touch still NOT tested.'
+              printf '%s\n' '- Built/SIGNED macOS Actions run 41177472190 PASS, source 7e9cb8df5c02903557f53f47447d977ba7a84aef, immutable DEB archive e475878b2fe93dde2e62f66f5f8c2d1217798618; package 0.0.143~homebridge1 SHA256 db9019a708c4905602d00ed500878c01f208b26655e42ee079dacf30d925c39c.'
+              printf '%s\n' '- Sileo publisher carplaydsp main 1a91d54ab1c790eb970cf32e36696e5249668f6c, validator 41177913539 PASS; real public Pages build/deploy/live Packages and binary hash verification run 41177913481 ALL FIVE JOBS PASS (verify-duoface-integrated-pages job 124469967464). Public https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.143~homebridge1_iphoneos-arm64.deb ; QA142 binary retained as rollback.'
+              printf '%s\n' '- Detailed source provenance, exact public CDN check and physical QA: sideplay/audit/qa143-home-bridge-signed-20261031/QA143_PUBLIC_SILEO_VERIFICATION.md.'
+              printf '%s\n\n' '- Next at parked iPhone X iOS16.7.16: refresh Sileo, install QA143, respring, have real DuoFace icon visible on SAME CarPlay Home page as consented app icon; tap app and export current DuoFaceHomeLaunch143.log via DuoFace iPhone diagnostics. Need actual selected app sceneReady and touch/GOFA/Home/Dock observations; no assumed physical fix.'
+              printf '\n---\n\n'
+              cat "$P"
+            } > "$P.tmp"
+            mv "$P.tmp" "$P"
+            git -C "$ROOT" config user.name 'github-actions[bot]'
+            git -C "$ROOT" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$ROOT" add 'sideplay/tiep tuc du an.md'
+            git -C "$ROOT" commit -m 'handoff(qa143): confirm Sileo live public CDN SHA [skip ci]'
+            if git -C "$ROOT" push origin "HEAD:refs/heads/$B"; then
+              git worktree remove --force "$ROOT"
+              echo QA143_PUBLIC_SILEO_RELEASE_HANDOFF_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$ROOT"
+          done
+          exit 1
