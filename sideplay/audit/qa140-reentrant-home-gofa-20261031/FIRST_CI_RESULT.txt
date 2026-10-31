@@ -1,0 +1,9 @@
+RUN=41166612310
+JOB=124435447669
+SOURCE=d2ca83b0ba9d8e52594f47a995119ec60ea8db95
+2026-10-31T03:59:14.4121130Z 2026-10-31 03:59:14.410 home140-forwarding[1520:7352] QA138 negative control reproduces native2-to-hook3 recursive growth; harness cap=32 calls=393210
+2026-10-31T03:59:14.4222420Z 2026-10-31 03:59:14.411 home140-forwarding[1520:7352] QA140 same forwarding path bounded: depth=2 calls=3
+2026-10-31T03:59:14.4323140Z 2026-10-31 03:59:14.412 home140-forwarding[1520:7352] QA140_FORWARDING_REENTRY_EXCEPTION_TLS_NATIVE_DISABLED_POLICY_AND_FACTORY_PASS
+2026-10-31T03:59:15.0675430Z sideplay/duoface-native-scene-host/tests/home140_consent_runtime.m:7:25: error: too many arguments provided to function-like macro invocation
+2026-10-31T03:59:15.1033260Z sideplay/duoface-native-scene-host/tests/home140_consent_runtime.m:11:25: error: too many arguments provided to function-like macro invocation
+2026-10-31T03:59:15.1041000Z sideplay/duoface-native-scene-host/tests/home140_consent_runtime.m:13:25: error: too many arguments provided to function-like macro invocation

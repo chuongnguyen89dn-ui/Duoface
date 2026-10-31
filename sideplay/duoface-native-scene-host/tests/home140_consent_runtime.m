@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "../DFHome140Consent.h"
-#define CHECK(x) do {if(!(x)){NSLog(@"FAIL %d %s",__LINE__,#x);return 1;}}while(0)
+#define CHECK(...) do {if(!(__VA_ARGS__)){NSLog(@"FAIL %d %s",__LINE__,#__VA_ARGS__);return 1;}}while(0)
 int main(void) {@autoreleasepool {
  NSString *path=[NSTemporaryDirectory() stringByAppendingPathComponent:NSUUID.UUID.UUIDString];
  CHECK(!DFHome140EnabledAt(path,YES,NO)); // old136ON alone cannot reactivate140

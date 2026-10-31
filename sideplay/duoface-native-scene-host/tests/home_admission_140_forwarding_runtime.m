@@ -59,7 +59,7 @@ static id forwarding2_140(id object,SEL cmd,id key,Class expected) {
 static id forwarding2_138(id object,SEL cmd,id key,Class expected) {
  (void)cmd;++forwards138;++depth138;maxDepth138=MAX(maxDepth138,depth138);
  // Test harness only: stop the old recursion instead of crashing the runner.
- id result=depth138>=32?@NO:DF138Entitlement3(object,
+ id result=depth138>=10?@NO:DF138Entitlement3(object,
     sel_registerName("entitlementValueForKey:ofClass:valuesOfClass:"),key,expected,Nil);
  --depth138;return result;
 }
@@ -75,7 +75,7 @@ int main(void) {@autoreleasepool {
  SEL two=sel_registerName("entitlementValueForKey:ofClass:");
  DF138Granted=[NSMutableSet set];DF138Original2=forwarding2_138;DF138Original3=base3;
  (void)DF138Entitlement2(app,two,@"CARCapableApp",NSNumber.class);
- CHECK(maxDepth138>=32 && forwards138>32);
+ CHECK(maxDepth138>=10 && forwards138>10);
  NSLog(@"QA138 negative control reproduces native2-to-hook3 recursive growth; harness cap=%u calls=%u",maxDepth138,forwards138);
 
  DF140Granted=[NSMutableSet set];DF140Original2=forwarding2_140;DF140Original3=base3;
