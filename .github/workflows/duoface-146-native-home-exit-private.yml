@@ -10,6 +10,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHome145Consent.h'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
+      - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa151_workspace_owner_capture.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa150_workspace_preflight.py'
       - 'sideplay/duoface-native-scene-host/DFNativeDockSync147.h'
       - 'sideplay/duoface-native-scene-host/DFManagerLifecycle149.h'
@@ -53,6 +55,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa149_manager_live_scene.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa150_workspace_preflight.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
