@@ -47,6 +47,37 @@ static NSArray *DF136InstalledIDs(void) {
  }
  return IDs.array;
 }
+// Only a newly created THIRD-PARTY application info may be promoted.
+// Existing native objects, including GOFA and all Apple CarPlay apps, must
+// remain exactly as returned by the original OS library.
+static void DF136PromoteNewInfo(id info) {
+ if(!info)return;
+ Class db=objc_getClass("DBApplicationInfo");
+ if(!db || ![info isKindOfClass:db])return;
+ SEL is=sel_registerName("isCarPlaySupported");
+ SEL set=sel_registerName("setCarPlaySupported:");
+ SEL launch=sel_registerName("setLaunchAsCarApplication:");
+ Method getter=class_getInstanceMethod(db,is);
+ Method setter=class_getInstanceMethod(db,set);
+ if(!getter || !setter || method_getNumberOfArguments(getter)!=2 ||
+    method_getNumberOfArguments(setter)!=3)return;
+ char ret[8]={0},arg[8]={0},out[8]={0};
+ method_getReturnType(getter,ret,sizeof(ret));
+ method_getArgumentType(setter,2,arg,sizeof(arg));
+ method_getReturnType(setter,out,sizeof(out));
+ if((ret[0]!='B' && ret[0]!='c') ||
+    (arg[0]!='B' && arg[0]!='c') || out[0]!='v')return;
+ if(((BOOL(*)(id,SEL))objc_msgSend)(info,is))return;
+ ((void(*)(id,SEL,BOOL))objc_msgSend)(info,set,YES);
+ Method launchMethod=class_getInstanceMethod(db,launch);
+ if(launchMethod && method_getNumberOfArguments(launchMethod)==3) {
+   char a[8]={0},r[8]={0};
+   method_getArgumentType(launchMethod,2,a,sizeof(a));
+   method_getReturnType(launchMethod,r,sizeof(r));
+   if(r[0]=='v' && (a[0]=='B'||a[0]=='c'))
+      ((void(*)(id,SEL,BOOL))objc_msgSend)(info,launch,YES);
+ }
+}
 // Returns count of verified new FBS records, or -1 for unavailable native ABI.
 NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
  if(!DFHome136Enabled() ||
@@ -80,7 +111,7 @@ NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
     if(!proxy)continue;
     ((void(*)(id,SEL,id,id))objc_msgSend)(library,add,proxy,nil);
     id info=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
-    if(info)[infos addObject:info];
+    if(info){DF136PromoteNewInfo(info);[infos addObject:info];}
  }
  if(infos.count && DF136Exact(library,notify,"v24@0:8@16"))
     ((void(*)(id,SEL,id))objc_msgSend)(library,notify,infos);
