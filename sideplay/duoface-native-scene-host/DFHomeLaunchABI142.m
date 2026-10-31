@@ -41,7 +41,7 @@ static void DF142Method(const char *cls, const char *sel, BOOL meta) {
   // A present literal alone is not proof of a runnable class or correct ABI.
   int capacity=objc_getClassList(NULL,0);
   if(capacity>0 && capacity<20000) {
-    Class *classes=calloc((size_t)capacity,sizeof(Class));
+    Class __unsafe_unretained *classes=(Class __unsafe_unretained *)calloc((size_t)capacity,sizeof(Class));
     if(classes) {
       int n=objc_getClassList(classes,capacity);
       unsigned count=0;
