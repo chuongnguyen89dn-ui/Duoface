@@ -1,0 +1,84 @@
+{
+  "binary_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+  "mode": "read_only_static",
+  "facts": [
+    {
+      "pc": "0xae228",
+      "meaning": "set occlusion flag"
+    },
+    {
+      "pc": "0xae254",
+      "meaning": "set lifecycle flag"
+    },
+    {
+      "pc": "0xae2d8",
+      "meaning": "get native host view"
+    },
+    {
+      "pc": "0xae310",
+      "meaning": "request mode2 if supported"
+    },
+    {
+      "pc": "0xae408",
+      "meaning": "set native host view transform"
+    },
+    {
+      "pc": "0xae414",
+      "meaning": "read wrapper bounds"
+    },
+    {
+      "pc": "0xae424",
+      "meaning": "set native host view frame from wrapper bounds"
+    },
+    {
+      "pc": "0xae44c",
+      "meaning": "add native host view into wrapper"
+    },
+    {
+      "pc": "0xae464",
+      "meaning": "add wrapper into bridge surface"
+    },
+    {
+      "pc": "0xae61c",
+      "meaning": "child reference-size setter2"
+    },
+    {
+      "pc": "0xae658",
+      "meaning": "child reference-size setter3"
+    },
+    {
+      "pc": "0xae690",
+      "meaning": "main reference-size setter"
+    },
+    {
+      "pc": "0xae9c8",
+      "meaning": "finish parent containment"
+    },
+    {
+      "pc": "0xb2834",
+      "meaning": "window.show resizes window hierarchy after hosted start on known manager path"
+    },
+    {
+      "pc": "0xae30c",
+      "meaning": "original guarded request uses mode2"
+    },
+    {
+      "pc": "0xae420",
+      "meaning": "frame setter receiver is the previously fetched host view"
+    },
+    {
+      "pc": "0xae448",
+      "meaning": "same native host view is then mounted in wrapper"
+    },
+    {
+      "pc": "0xae458",
+      "meaning": "wrapper is mounted into the surface"
+    },
+    {
+      "classref": "0x3aab48",
+      "meaning": "Original root controller uses UIViewController, as does current standalone; no missing custom rotation override proven."
+    }
+  ],
+  "note": "Reference-size setters occur AFTER the original mount operations in this path; do not invent a before-mount setter order.",
+  "runtime_equivalence_proven": false
+}

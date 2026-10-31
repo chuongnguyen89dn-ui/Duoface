@@ -1,3 +1,19 @@
+# 2026-10-31 — USER SCOPE: ONLY RELEVANT STARTUP / ASPECT / ACK BOUNDARIES
+
+USER_DECISION: “Tiếp tục truy xét chỉ những j liên quan tới vấn đề đó”. Focus on reported slow/failing app open, wrong/mobile orientation, missing native Dock active app and Home destination. QA147 remains rejected. No production source change, new DEB/Sileo release or new device acceptance.
+
+Read `sideplay/audit/qa147-focused-startup-boundary-20261031/FOCUSED_FINDINGS.md`, pinned `FOCUSED_LOG23_EVIDENCE.json`, `RELEVANT_ORIGINAL_ORDER.json` and2reproduction scripts.
+
+NEW CONFIRMED LOG EVIDENCE: of26QA147 requests,24first-host resizes match requested aspect;2are transposed. YouTube request07D0259B-BF77-4072-8105-02E96679C3CF requests595x331.333 but host resize/mode2/ready remain331.333x595, commits target663x1190 at~0.527s, records viewport commit~0.529s and receives app-reflow-measuredACK~1.105s (orientation/client/server1,split0,mismatch0). No standalone-ready or Dock-active. Thus wrong host aspect propagated through commit/app-side response, not merely a precommit frame sample; pixels/touch still unverified. Facebook F1ADEC5E-3D54-436F-8261-784AE56424E3 is the second swapped request and fails attach. Only1/8attach failures is swapped, so transpose is NOT sufficient explanation for all failures.
+
+All8bogus-reference-size failures loghost-created->viewportresize->failure->teardown with no completedmode-2-requested/ready/geometry-before-reference-setters checkpoint. This narrows startup range; mode2event is logged AFTER multiplecalls, so absence does NOT prove mode setter uncalled. Resize can be reentrant inaddSubview. Exact throwing operation remains UNKNOWN. NoactualPID/individualready-rejection logs inLog23.
+
+19relevant original operation facts verified: flags->getnativeview->mode2ae310->nativeviewframeae424->mountae44c/ae464->reference settersae61c/ae658/ae690->containmentae9c8. IMPORTANT: original reference setters are AFTERmount, not before. Originalwindow.show resizes hierarchy after hosted start (b2834); current owner setscontainer beforeattach and noequivalent explicitpost-startContentRectsettle. OriginalrootVC alsoUIViewController, so no invented missingcustomrootrotationoverride. Sameoriginalhash44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15.
+
+Next work remains only3boundaries: per-operation startup exception marker; authoritativeContentRect/rootWindow/rootview/surface readback before/aftermount+commit; individualsceneReady/ABI/PIDguard evidence and manager-vs-sceneACK separation. Preserveownership/generation checks, preventstalepending afterterminal launch. Do not fix orientation by forcinglandscape or doublingrender size again. Writer that transposes surfacebounds, preciseexceptioncall and preciseACKguard are still unmeasured. Base sourcehead3d5046614dc82c1ff04a04c175ff146cd607c3ef unchanged; fullprevioushandoff preserved below.
+
+---
+
 # 2026-10-31 — MANAGER ACCEPTANCE / ROOT WINDOW ROUTE (71 NEW CHECKPOINTS)
 
 CONFIRMED continuation investigation. QA147 remains rejected by Log23; no production patch, new DEB/Sileo release or physical-device success at this checkpoint.

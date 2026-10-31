@@ -1,0 +1,399 @@
+{
+  "log_sha256": "c327274898d8d7285259d4bdbfc04b623a81e3cb6263ccda7ccf948d9cca267d",
+  "scope": "QA147 startup failure, aspect swap and ACK boundary only",
+  "requests": 26,
+  "failed_attach_requests": [
+    {
+      "request_id": "F1ADEC5E-3D54-436F-8261-784AE56424E3",
+      "bundle": "com.facebook.Facebook",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        331.3333333333333,
+        595.0
+      ],
+      "first_host_size_swapped": true,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.24300003051757812,
+      "timeline": [
+        {
+          "after_seconds": 0.07910799980163574,
+          "event": "resize",
+          "detail": "{331.33333333333331, 595}"
+        },
+        {
+          "after_seconds": 0.22348999977111816,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    },
+    {
+      "request_id": "339833EA-ADB5-41F0-9812-88A7CD4A3856",
+      "bundle": "com.facebook.Facebook",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size_swapped": false,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.3339998722076416,
+      "timeline": [
+        {
+          "after_seconds": 0.13717889785766602,
+          "event": "resize",
+          "detail": "{595, 331.33333333333331}"
+        },
+        {
+          "after_seconds": 0.30028700828552246,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    },
+    {
+      "request_id": "A7BEDF4D-855E-4633-811A-B674AE8C9FD6",
+      "bundle": "com.facebook.Facebook",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size_swapped": false,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.09500002861022949,
+      "timeline": [
+        {
+          "after_seconds": 0.043977975845336914,
+          "event": "resize",
+          "detail": "{595, 331.33333333333331}"
+        },
+        {
+          "after_seconds": 0.07982683181762695,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    },
+    {
+      "request_id": "1387D3FC-98E7-4EE6-9C0E-A5D28DEC2641",
+      "bundle": "com.facebook.Facebook",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size_swapped": false,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.07800006866455078,
+      "timeline": [
+        {
+          "after_seconds": 0.02878594398498535,
+          "event": "resize",
+          "detail": "{595, 331.33333333333331}"
+        },
+        {
+          "after_seconds": 0.058190107345581055,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    },
+    {
+      "request_id": "412F8676-7881-44B6-BFBB-2143F01FB402",
+      "bundle": "com.openai.chat",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size_swapped": false,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.0710000991821289,
+      "timeline": [
+        {
+          "after_seconds": 0.032296180725097656,
+          "event": "resize",
+          "detail": "{595, 331.33333333333331}"
+        },
+        {
+          "after_seconds": 0.059870004653930664,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    },
+    {
+      "request_id": "3C42BFC6-8A28-425F-A07C-B4C22449DFA1",
+      "bundle": "com.openai.chat",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size_swapped": false,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.07299995422363281,
+      "timeline": [
+        {
+          "after_seconds": 0.033164024353027344,
+          "event": "resize",
+          "detail": "{595, 331.33333333333331}"
+        },
+        {
+          "after_seconds": 0.06032109260559082,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    },
+    {
+      "request_id": "B11298A6-100A-4BE4-9A39-01CBDCC22AC1",
+      "bundle": "com.openai.chat",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size_swapped": false,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.057000160217285156,
+      "timeline": [
+        {
+          "after_seconds": 0.019896984100341797,
+          "event": "resize",
+          "detail": "{595, 331.33333333333331}"
+        },
+        {
+          "after_seconds": 0.043359994888305664,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    },
+    {
+      "request_id": "E5A19EB3-17B1-4C24-873E-B13D7033A248",
+      "bundle": "com.google.gemini",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size_swapped": false,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.08299994468688965,
+      "timeline": [
+        {
+          "after_seconds": 0.045449018478393555,
+          "event": "resize",
+          "detail": "{595, 331.33333333333331}"
+        },
+        {
+          "after_seconds": 0.0675048828125,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    }
+  ],
+  "swapped_first_host_geometry": [
+    {
+      "request_id": "07D0259B-BF77-4072-8105-02E96679C3CF",
+      "bundle": "com.google.ios.youtube",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        331.3333333333333,
+        595.0
+      ],
+      "first_host_size_swapped": true,
+      "failure": null,
+      "lifetime_seconds": 6.687000036239624,
+      "timeline": [
+        {
+          "after_seconds": 0.05420184135437012,
+          "event": "resize",
+          "detail": "{331.33333333333331, 595}"
+        },
+        {
+          "after_seconds": 0.21442890167236328,
+          "event": "mode-2-requested",
+          "detail": "{{0, 0}, {331.33333333333331, 595}}"
+        },
+        {
+          "after_seconds": 0.21759796142578125,
+          "event": "resize",
+          "detail": "{331.33333333333331, 595}"
+        },
+        {
+          "after_seconds": 0.21824383735656738,
+          "event": "scene-handle-observed-render-unverified",
+          "detail": "{{0, 0}, {331.33333333333331, 595}}"
+        },
+        {
+          "after_seconds": 0.5189979076385498,
+          "event": "geometry-before-reference-setters",
+          "detail": "{331.33333333333331, 595}"
+        },
+        {
+          "after_seconds": 0.5210649967193604,
+          "event": "original-native12-scene-size-dispatch",
+          "detail": "child2=0 child3=1 main2=0"
+        },
+        {
+          "after_seconds": 0.5267980098724365,
+          "event": "native12-scene-settings-live-contract-requested",
+          "detail": "{{0, 0}, {663, 1190}}"
+        },
+        {
+          "after_seconds": 0.52923583984375,
+          "event": "media-reference-committed-after-stable-viewport",
+          "detail": "{331.33333333333331, 595}"
+        },
+        {
+          "after_seconds": 1.104733943939209,
+          "event": "youtube-app-handshake-ack",
+          "detail": "phase=app-reflow-measured windows=1 normalSeen=1 internalSeen=1 layoutRefreshed=1 sceneOrientation=1 clientOrientation=1 serverOrientation=1 split=0 mismatch=0 geometry=no-controller-mismatch virtualization={"
+        }
+      ]
+    },
+    {
+      "request_id": "F1ADEC5E-3D54-436F-8261-784AE56424E3",
+      "bundle": "com.facebook.Facebook",
+      "requested_size": [
+        595.0,
+        331.3333333333333
+      ],
+      "first_host_size": [
+        331.3333333333333,
+        595.0
+      ],
+      "first_host_size_swapped": true,
+      "failure": "Scene attach exception: bogus reference size",
+      "lifetime_seconds": 0.24300003051757812,
+      "timeline": [
+        {
+          "after_seconds": 0.07910799980163574,
+          "event": "resize",
+          "detail": "{331.33333333333331, 595}"
+        },
+        {
+          "after_seconds": 0.22348999977111816,
+          "event": "scene-failed",
+          "detail": "Scene attach exception: bogus reference size"
+        }
+      ]
+    }
+  ],
+  "critical_youtube_case": {
+    "request_id": "07D0259B-BF77-4072-8105-02E96679C3CF",
+    "bundle": "com.google.ios.youtube",
+    "requested_size": [
+      595.0,
+      331.3333333333333
+    ],
+    "first_host_size": [
+      331.3333333333333,
+      595.0
+    ],
+    "first_host_size_swapped": true,
+    "failure": null,
+    "lifetime_seconds": 6.687000036239624,
+    "timeline": [
+      {
+        "after_seconds": 0.05420184135437012,
+        "event": "resize",
+        "detail": "{331.33333333333331, 595}"
+      },
+      {
+        "after_seconds": 0.21442890167236328,
+        "event": "mode-2-requested",
+        "detail": "{{0, 0}, {331.33333333333331, 595}}"
+      },
+      {
+        "after_seconds": 0.21759796142578125,
+        "event": "resize",
+        "detail": "{331.33333333333331, 595}"
+      },
+      {
+        "after_seconds": 0.21824383735656738,
+        "event": "scene-handle-observed-render-unverified",
+        "detail": "{{0, 0}, {331.33333333333331, 595}}"
+      },
+      {
+        "after_seconds": 0.5189979076385498,
+        "event": "geometry-before-reference-setters",
+        "detail": "{331.33333333333331, 595}"
+      },
+      {
+        "after_seconds": 0.5210649967193604,
+        "event": "original-native12-scene-size-dispatch",
+        "detail": "child2=0 child3=1 main2=0"
+      },
+      {
+        "after_seconds": 0.5267980098724365,
+        "event": "native12-scene-settings-live-contract-requested",
+        "detail": "{{0, 0}, {663, 1190}}"
+      },
+      {
+        "after_seconds": 0.52923583984375,
+        "event": "media-reference-committed-after-stable-viewport",
+        "detail": "{331.33333333333331, 595}"
+      },
+      {
+        "after_seconds": 1.104733943939209,
+        "event": "youtube-app-handshake-ack",
+        "detail": "phase=app-reflow-measured windows=1 normalSeen=1 internalSeen=1 layoutRefreshed=1 sceneOrientation=1 clientOrientation=1 serverOrientation=1 split=0 mismatch=0 geometry=no-controller-mismatch virtualization={"
+      }
+    ]
+  },
+  "native_stage_counts": {
+    "qa147-native-dock-result-consumer-installed": 1,
+    "native-home-hook-installed": 1,
+    "standalone-requested-not-yet-ready": 26,
+    "pending-scene": 26,
+    "stopped": 26,
+    "failed": 8
+  },
+  "measured_throwing_operation": null,
+  "measured_rejected_ready_predicate": null,
+  "measured_verified_pid": null,
+  "conclusions": [
+    "All8 attach failures logged resize before failure and no completed mode2 startup checkpoint or geometry setter checkpoint.",
+    "Two requests first observed host dimensions transposed relative to requested content size.",
+    "CriticalYouTube case committed portrait-shaped target663x1190 and received app-reflow ACK despite landscape595x331 requested region.",
+    "No successful standalone-ready outcome or nativeDock activation in this session."
+  ],
+  "limits": [
+    "Scene events carry bundle and UTC, not requestID; association uses non-overlapping request windows and exactly one matching host-created per request.",
+    "mode-2-requested event is logged after several calls: absent event does NOT prove setRequestedMode was never called.",
+    "Resize can occur reentrantly inside addSubview; ordering does not identify the native exception throw site.",
+    "No final pixel or touch verification, actual root-window readback, PID measurement or exact ACK guard result."
+  ]
+}
