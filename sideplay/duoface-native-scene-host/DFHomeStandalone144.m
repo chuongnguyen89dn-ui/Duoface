@@ -18,6 +18,8 @@
 #import "DFEnabledAppsPolicy.h"
 #if defined(DF144_SPRINGBOARD)
 #import "DFSceneHost.h"
+#import "DF154AppStateProtocol.h"
+#import "DFHostedMapRenderSize.h"
 #endif
 
 static NSString *const DF144Request=@"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-request.plist";
@@ -262,8 +264,48 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @property(nonatomic,assign) BOOL emittedHosted;
 @property(nonatomic,assign) BOOL emittedManager;
 @property(nonatomic,assign) BOOL emittedTerminal;
+@property(nonatomic,copy) NSString *generalOwner;
+@property(nonatomic,copy) NSString *generalScene;
+- (void)publishGeneralAppState:(BOOL)active;
 @end
 @implementation DF144Solo
+// A genuine externally hosted FBScene is the ONLY authority for the app-side
+// per-scene lease. Generic app receiver is never used by YT/GOFA or native apps.
+- (void)publishGeneralAppState:(BOOL)active {
+ if(!self.bundle.length ||
+    [self.bundle isEqualToString:@"com.google.ios.youtube"] ||
+    [self.bundle isEqualToString:@"com.lumi.GOFA"])return;
+ NSString *sceneID=self.generalScene;
+ CGSize size=CGSizeZero;
+ if(active) {
+   if(!self.emittedManager || !self.surface || !self.window ||
+      self.window.hidden ||
+      ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface] ||
+      ![[[DFSceneHost sharedHost] bundleIDForHostedView:self.surface]
+        isEqualToString:self.bundle])return;
+   id remoteScene=DF144Get(self.surface,"scene");
+   NSString *actual=DF144Get(remoteScene,"identifier");
+   if(!DF154String(actual))return;
+   if(self.generalScene && ![self.generalScene isEqual:actual])
+     [self publishGeneralAppState:NO];
+   if(!self.generalOwner)self.generalOwner=NSUUID.UUID.UUIDString;
+   self.generalScene=actual;sceneID=actual;
+   size=DFHostedLogicalSizeForBundle(self.surface.bounds.size,self.bundle);
+ }
+ if(!DF154String(self.generalOwner) || !DF154String(sceneID) ||
+    !DF154String(self.request))return;
+ NSDictionary *state=@{@"version":@1,@"bundleIdentifier":self.bundle,
+    @"requestID":self.request,@"owner":self.generalOwner,
+    @"sceneIdentifier":sceneID,@"issuedAt":@(NSDate.date.timeIntervalSince1970),
+    @"active":@(active),@"width":@(size.width),@"height":@(size.height)};
+ DF154Post(state);
+ if(!active) {
+   DF144Log(@"qa154-general-app-restore",
+     [NSString stringWithFormat:@"req=%@ bid=%@ scene=%@",
+       self.request,self.bundle,sceneID]);
+   self.generalOwner=nil;self.generalScene=nil;
+ }
+}
 // Only the real, process-owned SBApplication object and matching live scene
 // can authorize this alternative processState.pid ABI on iOS16. Do not use
 // generic UIApplication's pid, cached process lists or a fabricated value.
@@ -324,6 +366,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  [self reply:state reason:reason verifiedPID:nil];
 }
 - (void)stop:(NSString *)reason {
+ [self publishGeneralAppState:NO];
  ++self.generation;
  self.emittedHosted=NO;
  self.emittedManager=NO;
@@ -372,6 +415,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  if(self.window)[self stop:@"next-home-selection"];
  self.bundle=p[@"BundleID"];self.request=p[@"RequestID"];
  self.emittedHosted=NO;self.emittedManager=NO;self.emittedTerminal=NO;
+ self.generalOwner=nil;self.generalScene=nil;
  self.carDisplayID=p[@"CarDisplayID"];self.display=display;
  NSUInteger generation=++self.generation;
  @try {
@@ -470,6 +514,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
  // Native Dock state may follow this owner receipt; PID remains an observation.
  if(!self.emittedManager) {
    self.emittedManager=YES;
+   [self publishGeneralAppState:YES];
    DF144Log(@"qa149-manager-live-scene-owned",
       [NSString stringWithFormat:@"req=%@ bid=%@ generation=%lu window=%@",
         rid,self.bundle,(unsigned long)generation,NSStringFromCGRect(self.window.bounds)]);
@@ -539,6 +584,8 @@ static void DF144LeaseHeartbeat(void) {
    else if(DF144Owner.emittedManager && DF144Owner.surface &&
           ![[DFSceneHost sharedHost] isLiveSceneForHostedView:DF144Owner.surface])
        [DF144Owner stop:@"manager-live-scene-revoked"];
+   else if(DF144Owner.emittedManager && DF144Owner.surface)
+       [DF144Owner publishGeneralAppState:YES]; // renew short app-side lease
  }
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.7*NSEC_PER_SEC)),
                 dispatch_get_main_queue(),^{DF144LeaseHeartbeat();});
