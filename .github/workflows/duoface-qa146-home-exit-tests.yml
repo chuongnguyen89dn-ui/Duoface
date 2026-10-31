@@ -1,0 +1,25 @@
+name: QA146 native Home button restores standalone owner - regression only
+on:
+  push:
+    branches: [feature/duoface-qa144-standalone-carplay-home-20261031]
+    paths:
+      - '.github/workflows/duoface-qa146-home-exit-tests.yml'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa146_home_exit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run exact QA146 Home/Back original-event and solo-scene regression
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_qa146_home_exit.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_native_owner_contract.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_qa145_controlled_home.py -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p test_qa144_no_split_home_redirect.py -v
+          echo QA146_READONLY_HOME_EXIT_CONTRACT_TESTS_PASS_NO_DEVICE_PROOF
