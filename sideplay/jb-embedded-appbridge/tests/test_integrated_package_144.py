@@ -7,9 +7,9 @@ NATIVE=(ROOT/"duoface-native-scene-host/build.sh").read_text()
 BRIDGE=(ROOT/"duoface-native-scene-host/DFHomeStandalone144.m").read_text()
 class Q144PackageContract(unittest.TestCase):
  def test_new_unique_candidate_both_versions(self):
-  self.assertIn('VERSION="0.0.144~standalone-probe1"',PACK)
-  self.assertIn("0.1.144~standalone-probe1",PACK)
-  self.assertIn("0.1.144~standalone-probe1",NATIVE)
+  self.assertIn('VERSION="0.0.145~standalone-controlled1"',PACK)
+  self.assertIn("0.1.145~standalone-controlled1",PACK)
+  self.assertIn("0.1.145~standalone-controlled1",NATIVE)
   self.assertNotIn("0.1.143~homebridge1",NATIVE)
  def test_broker_is_native_and_springboard_not_split(self):
   self.assertIn("DF144_CARPLAY=1",NATIVE)
@@ -18,7 +18,8 @@ class Q144PackageContract(unittest.TestCase):
   for old in ("DFHomeLaunch143.m","DFHomeRequestReceiver143.m","DFHomeSceneBridge143.m"):
    self.assertNotIn(old,NATIVE)
  def test_explicit_default_off_and_no_success_shortcut(self):
-  self.assertIn('p[@"StandaloneHomeDirect"] isEqual:@YES',BRIDGE)
+  self.assertIn("DFHome145Enabled()",BRIDGE)
+  self.assertIn("DF144LiveReceiver()",BRIDGE)
   self.assertIn("scene-hosted-render-and-touch-unverified",BRIDGE)
   self.assertIn("pending-scene",BRIDGE)
   self.assertIn("DFSceneHostDidBecomeReadyNotification",BRIDGE)
