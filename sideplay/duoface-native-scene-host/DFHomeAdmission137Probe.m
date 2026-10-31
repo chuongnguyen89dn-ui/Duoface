@@ -3,6 +3,7 @@
 // Does NOT hook LaunchServices, spoof entitlements, patch a system plist,
 // change the Dashboard icon model, activate an app, or touch GOFA.
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <dispatch/dispatch.h>
