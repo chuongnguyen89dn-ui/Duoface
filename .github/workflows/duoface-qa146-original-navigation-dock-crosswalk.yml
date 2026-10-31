@@ -1,0 +1,97 @@
+name: QA146 original navigation Dock orientation method xrefs READ ONLY
+on:
+  push:
+    branches: [feature/duoface-qa146-native-home-exit-20261031]
+    paths:
+      - '.github/workflows/duoface-qa146-original-navigation-dock-crosswalk.yml'
+      - 'sideplay/audit/qa146-native-home-dock-parity-20261031/scan_original_navigation_imp_crosswalk.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa146-original-nav-readonly
+  cancel-in-progress: false
+jobs:
+  inspect-originals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read and hash-check three central GitHub skills; prepare read-only parser
+        shell: bash
+        run: |
+          set -euo pipefail
+          for row in \
+            '01-github-continuity.zip 80efec9a6cbbb49135eabeafb339bf13f74ff6ddef9706659871b30a2c020d7e' \
+            '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' \
+            '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            read -r name sha <<< "$row"
+            curl -fLsS --retry 4 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$name" -o "$RUNNER_TEMP/$name"
+            printf '%s  %s\n' "$sha" "$RUNNER_TEMP/$name" | sha256sum -c -
+            unzip -t "$RUNNER_TEMP/$name" >/dev/null
+            unzip -p "$RUNNER_TEMP/$name" SKILL.md | head -35
+          done
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/parser"
+          git fetch --no-tags origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile sideplay/audit/qa146-native-home-dock-parity-20261031/scan_original_navigation_imp_crosswalk.py
+      - name: Retrieve three immutable verified original/derived DEBs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/originals"
+          cp dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb "$RUNNER_TEMP/originals/duonavi.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' -o "$RUNNER_TEMP/originals/native12_derived.deb"
+          curl -fLsS --retry 4 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb' -o "$RUNNER_TEMP/originals/duodash_repack.deb"
+          printf '%s  %s\n' \
+            f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd "$RUNNER_TEMP/originals/duonavi.deb" \
+            2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad "$RUNNER_TEMP/originals/native12_derived.deb" \
+            ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465 "$RUNNER_TEMP/originals/duodash_repack.deb" | sha256sum -c -
+      - name: Decode exact original Home Dock app scene orientation method IMPs
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/qa146-nav-original"
+          mkdir -p "$OUT"
+          PYTHONPATH="$RUNNER_TEMP/parser:sideplay/audit/carplay-home-icons-20261030" \
+            python3 sideplay/audit/qa146-native-home-dock-parity-20261031/scan_original_navigation_imp_crosswalk.py \
+            --duonavi "$RUNNER_TEMP/originals/duonavi.deb" \
+            --native12_derived "$RUNNER_TEMP/originals/native12_derived.deb" \
+            --duodash_repack "$RUNNER_TEMP/originals/duodash_repack.deb" \
+            --out "$OUT/ORIGINAL_NAV_DOCK_ORIENTATION_IMPS.json"
+          test -s "$OUT/ORIGINAL_NAV_DOCK_ORIENTATION_IMPS.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA146-sha-pinned-original-navigation-dock-orientation-static-xrefs
+          path: ${{ runner.temp }}/qa146-nav-original/ORIGINAL_NAV_DOCK_ORIENTATION_IMPS.json
+          if-no-files-found: error
+      - name: Persist read-only evidence in DuoFace repo; never vendor binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          B=feature/duoface-qa146-native-home-exit-20261031
+          P="sideplay/audit/qa146-native-home-dock-parity-20261031/runs/$GITHUB_RUN_ID"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$B"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$P"
+            cp "$RUNNER_TEMP/qa146-nav-original/ORIGINAL_NAV_DOCK_ORIENTATION_IMPS.json" "$T/$P/"
+            printf 'RUN=%s\nSOURCE_COMMIT=%s\nORIGINALS_HASH_VERIFIED=true\nORIGINAL_VENDOR_METHODS_READONLY=true\nNO_VENDOR_BINARY_COPIED=true\nNO_SILEO_DEPLOY=true\nNO_RUNTIME_PARITY_PROOF=true\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > "$T/$P/CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$P"
+            git -C "$T" commit -m 'audit(qa146): immutable original navigation/Dock/scene method IMP xrefs [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$B"; then
+              git worktree remove --force "$T"
+              git fetch --no-tags origin "$B"
+              git cat-file -e "FETCH_HEAD:$P/ORIGINAL_NAV_DOCK_ORIENTATION_IMPS.json"
+              echo QA146_ORIGINAL_NAV_DOCK_STATIC_AUDIT_SAVED
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
