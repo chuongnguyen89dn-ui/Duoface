@@ -22,3 +22,12 @@ The sample starts with the existing observer process startup. Connect CarPlay pr
 Workflow `.github/workflows/duoface-native-dock-passive-abi-compile.yml` only compiles an object using the iPhoneOS SDK and stores evidence in `sideplay/duonavi-observer/evidence/native-dock-abi/<run>/`. It does not build/sign a DEB or publish/install anything. Existing `0.0.1~passive1` packages remain historical; they do not contain this extension. Before distribution use a new version and inspect the package. Test original and DuoFace separately; do not install active commercial and independent bridge hooks concurrently without an inventory.
 
 Runtime API references: https://developer.apple.com/documentation/objectivec/objc_copyclasslist(_:) , https://developer.apple.com/documentation/objectivec/class_copymethodlist(_:_:) , https://developer.apple.com/documentation/objectivec/class_copyivarlist(_:_:) . Read copied metadata lists and free them; superclass ownership must be distinguished from declared methods.
+
+
+## Build 0.0.2~dockabi1 — native Dock capture
+
+New distinct version; old passive1 package is preserved. Native Dock sampling now waits for an external display and records 24 samples during approximately 72 seconds of connection. The existing lifecycle observer stays active. Build with `bash sideplay/duonavi-observer/build.sh`; signed workflow `.github/workflows/duoface-duonavi-observer-standalone-signed.yml` saves the exact DEB and per-run inspection receipts. This is a diagnostic observer, not a DuoFace fix.
+
+Install/update **DuoNavi Observer (Read Only)** via Sileo once available. Respring once so the observer loads into CarPlay, then connect CarPlay. During the first 60 seconds: open a selected unsupported app from Home, use Home, reopen using Dock if present, and repeat with another app. On iPhone open **DuoNavi Observer**, press **Xuất log**; preserve the current bridge identity (QA146 or original DuoNavi) with the capture. For a separate original comparison, disable the active DuoFace bridge first using the existing separate-session procedure. The observer does not enable, disable, replace or install any commercial bridge. Do not run both active bridges together. No Filza required.
+
+This step only establishes declaring-class metadata and public scene containment. Native private receiver identity, selector call arguments, app-side ACK and touch latency remain unproven.

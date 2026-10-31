@@ -11,11 +11,11 @@ static NSString *const dnMarkers=@"/var/mobile/Library/Logs/DuoNaviObserver-mark
 @implementation DNView
 - (void)viewDidLoad {
  [super viewDidLoad];
- self.title=@"DuoNavi Observer";self.view.backgroundColor=UIColor.systemGroupedBackgroundColor;
+ self.title=@"Observer 0.0.2 · Dock ABI";self.view.backgroundColor=UIColor.systemGroupedBackgroundColor;
  UIStackView *stack=[UIStackView new];stack.axis=UILayoutConstraintAxisVertical;
  stack.spacing=13;stack.translatesAutoresizingMaskIntoConstraints=NO;
  UILabel *info=[UILabel new];info.font=[UIFont systemFontOfSize:15];info.numberOfLines=0;
- info.text=@"Bộ ghi log chỉ đọc. Đậu xe trước khi thử. Đánh dấu trước khi khóa iPhone, trước khi bấm Home CarPlay và trước khi ngắt dây.";
+ info.text=@"Bộ ghi log Dock/Home chỉ đọc. Sau khi kết nối CarPlay, thử mở app và Home trong 60 giây đầu. Sau đó chọn Xuất log.";
  self.status=info;[stack addArrangedSubview:info];
  NSArray *names=@[@"1. Play YouTube khi màn sáng",@"2. Chuẩn bị khóa iPhone",
     @"3. Sau khi mở khóa",@"4. Chuẩn bị về Home CarPlay",

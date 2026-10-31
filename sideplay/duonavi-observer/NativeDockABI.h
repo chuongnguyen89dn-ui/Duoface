@@ -78,6 +78,10 @@ static void DNDockSceneTree(NSUInteger sample) {
 static void DNNativeDockSample(void) {
  if(![NSThread isMainThread] ||
     ![@[@"CarPlay",@"CarPlayApp"] containsObject:dnProcess] || dnDockSamples>=24)return;
+ // Wait for an actual external display; do not spend the capture budget before connection.
+ BOOL external=NO;
+ for(UIScreen *screen in UIScreen.screens)if(screen!=UIScreen.mainScreen)external=YES;
+ if(!external)return;
  NSUInteger sample=++dnDockSamples;
  unsigned int count=0,owners=0;
  Class *classes=objc_copyClassList(&count);
