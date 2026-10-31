@@ -33,3 +33,11 @@ Independently cross-checked iOS SpringBoard interface declarations in [battsafep
 - No QA153 physical device test on user's iPhone X iOS16.7.16; exact runtime method encoding and native phone Home response have NOT been observed. **May fail closed**, leaving the phone foreground app untouched; this is intentional until the exact receiver is verified.
 - `SBMainWorkspace` alternate native phone eviction route and completion handler have not been implemented because live receiver/ABI is unknown. General app-side state contract, native Home previous-page semantics, full-root CarPlay window pass-through and touch/orientation bugs not proven fixed. Avoid inventing Home/Dock success, replacing Apple’s native app route or copying vendor license behavior.
 - Next work: physical trace same RequestID across QA150/151/152/153, real scene receipt and native Dock/Home, then implement and test missing `SBMainWorkspace` variant, app-side state and symmetric restoration. Only publish once vehicle acceptance confirms launch, input, orientation, Home, Dock, reconnect and old split regression.
+
+## Final CI evidence (2026-10-31)
+
+- Private build run 41214955481, job 124577539330, source commit ba6c8b786f36266ef45b84894750525c711125f8: completed SUCCESS (compile, tests, sign, package and archive).
+- Signed package: sideplay/jb-embedded-appbridge/evidence/runs/41214955481/com.duoface.jb.embedded_0.0.147~native-dock-sync1_iphoneos-arm64.deb. Size 1177256 bytes; Git blob 4112ba010a4e196ec78909a19a56557daa9be0af; SHA256 7f609a78159a506e58c82c5813b436f2b82daec9f55a8c3a3cb912ae8c88d44e.
+- Repository archive commit c3750831f06b265e6c0291c6818ed5ec262ba975: nontruncated tree shows DEB, CI_RESULT.txt, SHA256SUMS.txt, PACKAGING_PROVENANCE.json. Both SHA256SUMS and provenance match this digest.
+- Actions private ZIP artifact 13047444666; ZIP checksum sha256:d72a35c0b34117d05a629d66b201f7ec4ec7354aa3bba92326579d538ecaa546 is separate from the signed package checksum.
+- Read-back CI_RESULT: BUILD=success, SIGNED=true, SILEO_PUBLISHED=false, DEVICE_DIRECT_HOME_TESTED=false, STANDALONE_OWNER_FOREGROUND_VERIFIED=false. No user device test or public Sileo release.
