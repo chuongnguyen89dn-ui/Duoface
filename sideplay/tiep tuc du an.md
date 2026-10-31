@@ -1,3 +1,12 @@
+# 2026-10-31 — SIGNED OBSERVER 0.0.2 DEB VERIFIED; SILEO PUBLISH IN PROGRESS
+
+- CONFIRMED signed [build 41193656856](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41193656856), job 124515378081 SUCCESS; source 6bd36209dcfcd89277f8be798261c6a232eb052a, persisted artifact head 9168f7f7e5ed4da5cb294c239d71e4154799fff7. Package `sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.2~dockabi1_iphoneos-arm64.deb`, SHA256 `bcf33a88d9f46b5a5fc240b493788338bec84b6fa83c688077fcef96f989eb99  sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.2~dockabi1_iphoneos-arm64.deb
+`. Actual rootless files, package/version/architecture, no conflicts/replaces/breaks, app no-container entitlement and compiled native_dock_class_abi marker checked. CI_RESULT and SHA256SUMS read back in `sideplay/duonavi-observer/evidence/signed-dockabi/41193656856/`. Source tests 4/4 and existing passive contract passed; DEB built and signed, NOT installed/tested on iPhone.
+- SILEO IN PROGRESS: existing distribution repo `chuongnguyen89dn-ui/carplaydsp` main `.github/workflows/build.yml` observer metadata ONLY advanced to exact immutable signed file/SHA, commit `1e544e9980faf162e57239ca945a4bcf8374cfd1`. Replaced 8 observer-version mentions and 4 checksum mentions plus 1 immutable source URL; latest integrated QA146 selection guard retained. No active distribution job at precheck. Publication must be verified by build/deploy/public observer verifier, not by metadata write alone.
+- User installation after live verification: refresh source https://chuongnguyen89dn-ui.github.io/carplaydsp/ in Sileo; update **DuoNavi Observer (Read Only)** to 0.0.2~dockabi1. Respring to load it, connect CarPlay, during first 60 seconds open selected app, Home, reopen/switch, then open phone observer and **Xuất log**. Separate original vs QA146 sessions; do not co-inject active bridges. This is read-only metadata/public tree, NOT app-side ACK/call-argument trace or fix.
+
+---
+
 # 2026-10-31 — CONTINUATION 79df03d: PASSIVE NATIVE DOCK ABI CAPTURE IMPLEMENTED, IPHONEOS COMPILE VERIFIED
 
 - **USER_DECISION:** Continue from `79df03de4cd0f06934e8ad587fe59af8b796f23b`, same repository `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-qa146-native-home-exit-20261031`. Preserve QA146 production package, native Dock, .90 orientation and .92 divider. Research gate remains receiver/ABI evidence before native activation implementation.
