@@ -9,6 +9,9 @@
 #import <math.h>
 #import <fcntl.h>
 #import <unistd.h>
+#import <signal.h>
+#import <errno.h>
+#import <limits.h>
 #import <dlfcn.h>
 #import <string.h>
 #import "DFHome145Consent.h"
@@ -23,6 +26,7 @@ static NSString *const DF144LeasePath=@"/var/mobile/Library/Preferences/com.duof
 static NSString *const DF144LogPath=@"/var/mobile/Library/Logs/DuoFaceStandalone144.log";
 static const char *const DF144RequestNotify="com.duoface.nativehost.standalone144.request";
 static const char *const DF144StopNotify="com.duoface.nativehost.standalone144.stop";
+static const char *const DF148WatchdogStopNotify="com.duoface.nativehost.standalone144.stop.pending-watchdog";
 static const char *const DF144ResultNotify="com.duoface.nativehost.standalone144.result";
 static NSString *const DF144HostApp=@"com.duoface.native.scenehost";
 static void DF144Log(NSString *tag,NSString *detail) {
@@ -225,14 +229,54 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @property(nonatomic,assign) BOOL emittedHosted;
 @end
 @implementation DF144Solo
-- (void)reply:(NSString *)state reason:(NSString *)reason {
- NSNumber *pid=self.surface?[[DFSceneHost sharedHost] verifiedPIDForHostedView:self.surface]:nil;
+// Only the real, process-owned SBApplication object and matching live scene
+// can authorize this alternative processState.pid ABI on iOS16. Do not use
+// generic UIApplication's pid, cached process lists or a fabricated value.
+- (NSNumber *)verifiedProcessStatePIDForView:(UIView *)view {
+ DFSceneHost *host=[DFSceneHost sharedHost];
+ if(!view || !self.bundle.length || ![host isLiveSceneForHostedView:view] ||
+    ![[host bundleIDForHostedView:view] isEqualToString:self.bundle])return nil;
+ id registry=DF144Get(NSClassFromString(@"SBApplicationController"),"sharedInstance");
+ SEL lookup=sel_registerName("applicationWithBundleIdentifier:");
+ Method appLookup=registry?class_getInstanceMethod(object_getClass(registry),lookup):NULL;
+ if(!appLookup || strcmp(method_getTypeEncoding(appLookup),"@24@0:8@16"))return nil;
+ @try {
+   id app=((id(*)(id,SEL,id))objc_msgSend)(registry,lookup,self.bundle);
+   if(![DF144Get(app,"bundleIdentifier") isEqualToString:self.bundle])return nil;
+   id process=DF144Get(app,"processState");
+   SEL getter=sel_registerName("pid");
+   Method m=process?class_getInstanceMethod(object_getClass(process),getter):NULL;
+   if(!m || method_getNumberOfArguments(m)!=2)return nil;
+   char ret[16]={0};
+   method_getReturnType(m,ret,sizeof(ret));
+   long long candidate=0;
+   if(ret[0]=='i' || ret[0]=='I')
+      candidate=((int(*)(id,SEL))objc_msgSend)(process,getter);
+   else if(ret[0]=='q' || ret[0]=='Q')
+      candidate=((long long(*)(id,SEL))objc_msgSend)(process,getter);
+   else return nil;
+   if(candidate<=1 || candidate>INT_MAX || candidate==getpid())return nil;
+   errno=0;
+   if(kill((pid_t)candidate,0)!=0 && errno!=EPERM)return nil;
+   DF144Log(@"qa148-real-processstate-pid",
+       [NSString stringWithFormat:@"req=%@ bid=%@ pid=%lld",self.request,self.bundle,candidate]);
+   return @((pid_t)candidate);
+ } @catch(NSException *e) {
+   DF144Log(@"qa148-processstate-abi-exception",e.name);
+   return nil;
+ }
+}
+- (void)reply:(NSString *)state reason:(NSString *)reason verifiedPID:(NSNumber *)verifiedPID {
+ NSNumber *pid=verifiedPID?: (self.surface?[[DFSceneHost sharedHost] verifiedPIDForHostedView:self.surface]:nil);
  NSDictionary *ack=@{@"Version":@2,@"RequestID":self.request?:@"",
    @"CarDisplayID":self.carDisplayID?:@"",@"VerifiedPID":pid?:@0,
    @"BundleID":self.bundle?:@"",@"Outcome":state?:@"unresolved",
    @"Reason":reason?:@"",@"Timestamp":@(NSDate.date.timeIntervalSince1970)};
  if([ack writeToFile:DF144Result atomically:YES])notify_post(DF144ResultNotify);
  DF144Log(state,[NSString stringWithFormat:@"bid=%@ req=%@ %@",self.bundle,self.request,reason?:@""]);
+}
+- (void)reply:(NSString *)state reason:(NSString *)reason {
+ [self reply:state reason:reason verifiedPID:nil];
 }
 - (void)stop:(NSString *)reason {
  ++self.generation;
@@ -375,12 +419,13 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
    DF144Log(@"qa147-ready-bundle-mismatch",rid);return;
  }
  NSNumber *pid=[host verifiedPIDForHostedView:v];
+ if(!pid)pid=[self verifiedProcessStatePIDForView:v];
  if(pid) {
    self.emittedHosted=YES;
    DF144Log(@"qa147-ready-verified-pid",
        [NSString stringWithFormat:@"req=%@ attempt=%lu pid=%@",rid,(unsigned long)attempt,pid]);
    [self reply:@"scene-hosted-render-and-touch-unverified"
-       reason:[NSString stringWithFormat:@"verifiedPID=%@",pid]];
+       reason:[NSString stringWithFormat:@"verifiedPID=%@",pid] verifiedPID:pid];
    return;
  }
  // Scene liveness and process identity are different clocks. Retry only the
@@ -461,11 +506,14 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
      selector:@selector(sceneFailed:) name:DFSceneHostDidFailNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:DF144Owner
      selector:@selector(physicalDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
-  static int requestToken=-1,stopToken=-1;
+  static int requestToken=-1,stopToken=-1,watchdogToken=-1;
   notify_register_dispatch(DF144RequestNotify,&requestToken,dispatch_get_main_queue(),
     ^(__unused int t){DF144Consume();});
   notify_register_dispatch(DF144StopNotify,&stopToken,dispatch_get_main_queue(),
     ^(__unused int t){[DF144Owner stop:@"native-Home-exit"];});
+  // A CarPlay pending-watchdog expiry is NOT a physical Home press.
+  notify_register_dispatch(DF148WatchdogStopNotify,&watchdogToken,dispatch_get_main_queue(),
+    ^(__unused int t){[DF144Owner stop:@"native-pending-watchdog-expiry"];});
   DF144LeaseHeartbeat();
   DF144Log(@"independent-standalone-receiver-registered",
     @"default-off no-DuoFace-CPTemplate no-chrome no-Sileo");
