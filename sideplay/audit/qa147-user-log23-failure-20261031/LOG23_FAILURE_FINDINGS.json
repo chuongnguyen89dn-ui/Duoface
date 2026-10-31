@@ -1,0 +1,375 @@
+{
+  "main_upload": "a067fbc931ce9ddf98f918bdfbd3a222eb662bb3",
+  "path": "sideplay/log/DuoFaceAudit 23.txt",
+  "blob": "18f4a8432d124b1acb96df2b49d7b826a1951b89",
+  "bytes": 6998737,
+  "sha256": "c327274898d8d7285259d4bdbfc04b623a81e3cb6263ccda7ccf948d9cca267d",
+  "qa147_consumer_start_utc": 1793445863.881,
+  "stage_counts": {
+    "qa147-native-dock-result-consumer-installed": 1,
+    "native-home-hook-installed": 1,
+    "standalone-requested-not-yet-ready": 26,
+    "pending-scene": 26,
+    "stopped": 26,
+    "failed": 8
+  },
+  "scene_event_counts": {
+    "host-created": 26,
+    "media-viewport-ui-only": 28,
+    "resize": 42,
+    "mode-2-requested": 18,
+    "scene-attached": 16,
+    "scene-foreground-observed-only": 20,
+    "orientation-early-owned-registered": 31,
+    "scene-handle-observed-render-unverified": 16,
+    "geometry-before-reference-setters": 15,
+    "original-native12-scene-size-dispatch": 15,
+    "youtube-remote-orientation-observed": 5,
+    "scene-frame-readback": 15,
+    "native12-scene-settings-live-contract-requested": 15,
+    "media-reference-committed-after-stable-viewport": 15,
+    "native-app-geometry-reference-only-no-nil-frontboard-transition": 15,
+    "youtube-app-handshake-ack": 7,
+    "invalidate-done": 26,
+    "close-no-private-settings-restore": 26,
+    "scene-failed": 8
+  },
+  "request_to_pending_seconds": {
+    "n": 18,
+    "min": 0.07399988174438477,
+    "median": 0.1335000991821289,
+    "max": 0.26599979400634766
+  },
+  "stops_between_9_5_and_11_5_seconds": 8,
+  "null_identity_pending_count": 8,
+  "requests": [
+    {
+      "request_id": "10F497AC-BA87-4219-9B15-02C18D8661C8",
+      "bundle": "com.google.ios.youtube",
+      "request_time": 1793445903.63,
+      "stop_after_seconds": 10.498999834060669,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.26599979400634766,
+      "scene_observed_after_seconds": 0.6167359352111816
+    },
+    {
+      "request_id": "A2D7CA8C-9247-4471-A9FA-0E7D43018C25",
+      "bundle": "com.google.ios.youtube",
+      "request_time": 1793445917.114,
+      "stop_after_seconds": 10.666999816894531,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.12599992752075195,
+      "scene_observed_after_seconds": 0.11551880836486816
+    },
+    {
+      "request_id": "BA1F31B2-48DB-4706-93D5-1539F01D3E42",
+      "bundle": "com.facebook.Facebook",
+      "request_time": 1793445929.096,
+      "stop_after_seconds": 10.059000015258789,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.1100001335144043,
+      "scene_observed_after_seconds": 0.46314215660095215
+    },
+    {
+      "request_id": "FE703E6A-8020-4FB7-9853-21C8BAAA5138",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "request_time": 1793445941.254,
+      "stop_after_seconds": 10.417999982833862,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.08000016212463379,
+      "scene_observed_after_seconds": 0.43979501724243164
+    },
+    {
+      "request_id": "2D3DB75A-D5CE-47E9-826F-E138451F5068",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "request_time": 1793445952.1,
+      "stop_after_seconds": 1.7450001239776611,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.1420001983642578,
+      "scene_observed_after_seconds": 0.13225197792053223
+    },
+    {
+      "request_id": "647F102F-0D1A-4344-AFAC-94D7D14D8C20",
+      "bundle": "com.facebook.Facebook",
+      "request_time": 1793445956.324,
+      "stop_after_seconds": 6.278000116348267,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.13400006294250488,
+      "scene_observed_after_seconds": 0.1280050277709961
+    },
+    {
+      "request_id": "39B7D228-F296-40D9-96F0-40BA8ADD1C80",
+      "bundle": "com.google.ios.youtube",
+      "request_time": 1793445965.497,
+      "stop_after_seconds": 5.337000131607056,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.18499994277954102,
+      "scene_observed_after_seconds": 0.17386698722839355
+    },
+    {
+      "request_id": "F907A770-A8BB-40FD-A629-882AD74D4863",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "request_time": 1793445975.11,
+      "stop_after_seconds": 10.847000122070312,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.25,
+      "scene_observed_after_seconds": 0.6049540042877197
+    },
+    {
+      "request_id": "07D0259B-BF77-4072-8105-02E96679C3CF",
+      "bundle": "com.google.ios.youtube",
+      "request_time": 1793446006.397,
+      "stop_after_seconds": 6.687000036239624,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.2239999771118164,
+      "scene_observed_after_seconds": 0.21824383735656738
+    },
+    {
+      "request_id": "F1ADEC5E-3D54-436F-8261-784AE56424E3",
+      "bundle": "com.facebook.Facebook",
+      "request_time": 1793446016.964,
+      "stop_after_seconds": 0.24300003051757812,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.facebook.Facebook req=F1ADEC5E-3D54-436F-8261-784AE56424E3 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "339833EA-ADB5-41F0-9812-88A7CD4A3856",
+      "bundle": "com.facebook.Facebook",
+      "request_time": 1793446027.825,
+      "stop_after_seconds": 0.3339998722076416,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.facebook.Facebook req=339833EA-ADB5-41F0-9812-88A7CD4A3856 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "A7BEDF4D-855E-4633-811A-B674AE8C9FD6",
+      "bundle": "com.facebook.Facebook",
+      "request_time": 1793446028.223,
+      "stop_after_seconds": 0.09500002861022949,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.facebook.Facebook req=A7BEDF4D-855E-4633-811A-B674AE8C9FD6 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "1387D3FC-98E7-4EE6-9C0E-A5D28DEC2641",
+      "bundle": "com.facebook.Facebook",
+      "request_time": 1793446028.79,
+      "stop_after_seconds": 0.07800006866455078,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.facebook.Facebook req=1387D3FC-98E7-4EE6-9C0E-A5D28DEC2641 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "69A41FCA-9208-44B4-98C0-51330F11B16B",
+      "bundle": "com.google.ios.youtube",
+      "request_time": 1793446032.38,
+      "stop_after_seconds": 8.325999975204468,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.13899993896484375,
+      "scene_observed_after_seconds": 0.13370180130004883
+    },
+    {
+      "request_id": "AFD3314D-3B32-4CA1-A6E7-269B03632E5F",
+      "bundle": "com.facebook.Facebook",
+      "request_time": 1793446044.234,
+      "stop_after_seconds": 8.282000064849854,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.08899998664855957,
+      "scene_observed_after_seconds": 0.08550000190734863
+    },
+    {
+      "request_id": "8CE548B0-C94A-4995-855B-1492458F3557",
+      "bundle": "com.openai.chat",
+      "request_time": 1793446056.658,
+      "stop_after_seconds": 2.427999973297119,
+      "stop_reason": "next-home-selection",
+      "pending_after_seconds": 0.1640000343322754,
+      "scene_observed_after_seconds": 0.5153779983520508
+    },
+    {
+      "request_id": "412F8676-7881-44B6-BFBB-2143F01FB402",
+      "bundle": "com.openai.chat",
+      "request_time": 1793446059.07,
+      "stop_after_seconds": 0.0710000991821289,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.openai.chat req=412F8676-7881-44B6-BFBB-2143F01FB402 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "3C42BFC6-8A28-425F-A07C-B4C22449DFA1",
+      "bundle": "com.openai.chat",
+      "request_time": 1793446059.51,
+      "stop_after_seconds": 0.07299995422363281,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.openai.chat req=3C42BFC6-8A28-425F-A07C-B4C22449DFA1 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "B11298A6-100A-4BE4-9A39-01CBDCC22AC1",
+      "bundle": "com.openai.chat",
+      "request_time": 1793446059.883,
+      "stop_after_seconds": 0.057000160217285156,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.openai.chat req=B11298A6-100A-4BE4-9A39-01CBDCC22AC1 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "D4009FCA-21CF-4FE2-9FB7-135A78E33DAD",
+      "bundle": "com.google.gemini",
+      "request_time": 1793446060.608,
+      "stop_after_seconds": 0.4309999942779541,
+      "stop_reason": "next-home-selection",
+      "pending_after_seconds": 0.07399988174438477
+    },
+    {
+      "request_id": "E5A19EB3-17B1-4C24-873E-B13D7033A248",
+      "bundle": "com.google.gemini",
+      "request_time": 1793446061.013,
+      "stop_after_seconds": 0.08299994468688965,
+      "stop_reason": "remote-host-failed",
+      "failure": "bid=com.google.gemini req=E5A19EB3-17B1-4C24-873E-B13D7033A248 Scene attach exception: bogus reference size"
+    },
+    {
+      "request_id": "00F5851A-DED4-49F9-918B-BF3DA49972D9",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "request_time": 1793446061.748,
+      "stop_after_seconds": 0.47500014305114746,
+      "stop_reason": "next-home-selection",
+      "pending_after_seconds": 0.13300013542175293
+    },
+    {
+      "request_id": "EE132476-D3B0-4D36-83F1-C7D4DABBF740",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "request_time": 1793446062.197,
+      "stop_after_seconds": 0.37800002098083496,
+      "stop_reason": "next-home-selection",
+      "pending_after_seconds": 0.08699989318847656,
+      "scene_observed_after_seconds": 0.08083796501159668
+    },
+    {
+      "request_id": "8F7C49DE-6E5D-4940-A518-0DA6426EB3AE",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "request_time": 1793446062.558,
+      "stop_after_seconds": 10.09500002861023,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.07999992370605469,
+      "scene_observed_after_seconds": 0.07246899604797363
+    },
+    {
+      "request_id": "70358A22-9ADD-49FE-A477-F7BB3D337924",
+      "bundle": "com.openai.chat",
+      "request_time": 1793446077.136,
+      "stop_after_seconds": 10.166000127792358,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.1700000762939453,
+      "scene_observed_after_seconds": 0.522179126739502
+    },
+    {
+      "request_id": "25B437C4-4CD0-4D73-BFEA-952D92CC3FF8",
+      "bundle": "com.google.gemini",
+      "request_time": 1793446089.479,
+      "stop_after_seconds": 10.286999940872192,
+      "stop_reason": "native-Home-exit",
+      "pending_after_seconds": 0.07599997520446777,
+      "scene_observed_after_seconds": 0.4281158447265625
+    }
+  ],
+  "geometry_precommit_readbacks": [
+    {
+      "time": 1793445904.552892,
+      "event": "scene-frame-readback",
+      "bundle": "com.google.ios.youtube",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793445917.538373,
+      "event": "scene-frame-readback",
+      "bundle": "com.google.ios.youtube",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793445929.869835,
+      "event": "scene-frame-readback",
+      "bundle": "com.facebook.Facebook",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793445941.99936,
+      "event": "scene-frame-readback",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793445952.537273,
+      "event": "scene-frame-readback",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793445956.757402,
+      "event": "scene-frame-readback",
+      "bundle": "com.facebook.Facebook",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793445965.98462,
+      "event": "scene-frame-readback",
+      "bundle": "com.google.ios.youtube",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793445976.185926,
+      "event": "scene-frame-readback",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793446006.920237,
+      "event": "scene-frame-readback",
+      "bundle": "com.google.ios.youtube",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {663, 1190}} same=0"
+    },
+    {
+      "time": 1793446032.817882,
+      "event": "scene-frame-readback",
+      "bundle": "com.google.ios.youtube",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793446044.623954,
+      "event": "scene-frame-readback",
+      "bundle": "com.facebook.Facebook",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793446057.477511,
+      "event": "scene-frame-readback",
+      "bundle": "com.openai.chat",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793446062.935939,
+      "event": "scene-frame-readback",
+      "bundle": "com.ss.iphone.ugc.Ame",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793446077.964584,
+      "event": "scene-frame-readback",
+      "bundle": "com.openai.chat",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    },
+    {
+      "time": 1793446090.209824,
+      "event": "scene-frame-readback",
+      "bundle": "com.google.gemini",
+      "detail": "actual={{0, 0}, {375, 812}} target={{0, 0}, {1190, 663}} same=0"
+    }
+  ],
+  "ready_notification_path_failed_to_produce_solo_ack": true,
+  "exact_failed_ready_predicate_measured": false,
+  "real_pixel_or_first_touch_latency_measured": false,
+  "hardware_behavior_accepted": false,
+  "new_release_justified_from_this_analysis_alone": false,
+  "limits": [
+    "No branch-specific logging inside sceneReady/PID verification; exact early-return predicate unknown.",
+    "Near10s stop is consistent with QA147 pending timeout, but identical native-Home-exit reason is also used by real Home; not all stops attributable.",
+    "Request-to-pending measures IPC/window attachment only, not first rendered frame/touch.",
+    "scene-frame-readback is before settings commit, not evidence that later app frame stayed unchanged.",
+    "Old exporter/deeptrace build0.0.90 text is a constant and does not disprove QA147 CarPlay consumer loading."
+  ]
+}
