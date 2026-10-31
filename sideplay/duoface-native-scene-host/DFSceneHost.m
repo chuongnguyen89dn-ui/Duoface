@@ -348,32 +348,19 @@ static NSInteger DFObservedSceneForeground(id scene) {
     UIViewController *parent = [self findParentController];
     if (!parent) { [self failed:DFSceneError(110, @"Không tìm thấy UIViewController chủ ô ứng dụng")]; return; }
     self.parentController = parent;
-    NSString *startStage=@"parent-add-child";
     @try {
         self.started = YES;
         [parent addChildViewController:self.appController];
-        startStage=@"host-view-get";
         UIView *appView = self.appController.view;
         appView.clipsToBounds = YES;
-        startStage=@"mount-app-view";
-        DFSceneLog(@"attach-operation-before-mount",self.bundleID,
-          [NSString stringWithFormat:@"surface=%@ appView=%@ window=%@",
-           NSStringFromCGRect(self.bounds),NSStringFromCGRect(appView.bounds),
-           NSStringFromCGRect(self.window.bounds)]);
         [self addSubview:appView];
-        DFSceneLog(@"attach-operation-after-mount",self.bundleID,
-          [NSString stringWithFormat:@"surface=%@ appView=%@ window=%@",
-           NSStringFromCGRect(self.bounds),NSStringFromCGRect(appView.bounds),
-           NSStringFromCGRect(self.window.bounds)]);
         // UIKit containment is committed only after the native scene host has
         // selected Live. Native12 original start @0xae538 requests mode 2 and
         // only later completes didMoveToParentViewController: @0xaebf0.
         // This changes no geometry, UI, focus, dock or media orientation.
         // Native12 original start IMP 0xadf30, guarded call at 0xae450.
-        startStage=@"host-lifecycle-flags";
         DFHostBool(self.appController, @"setIgnoresOcclusions:", YES);
         DFHostBool(self.appController, @"setAutomatesLifecycle:", NO);
-        startStage=@"layout-scene";
         [self layoutScene];
         // Defer initial remote scene frame until the real mode-2 owner
         // attaches; video layout still uses the original logical scale.
@@ -389,26 +376,18 @@ static NSInteger DFObservedSceneForeground(id scene) {
             if(surface.scene && surface.scene!=current)return nil;
             return current;
         });
-        startStage=@"begin-appearance";
         [self.appController beginAppearanceTransition:YES animated:NO];
         // Install guarded hook before requesting Live; never force a
         // nonowned process to portrait. Ownership registers on first poll.
-        startStage=@"install-orientation-policy";
         (void)DFSceneOrientationPolicyInstall();
-        startStage=@"request-mode-2";
         DFHostInt(self.appController, @"setRequestedMode:", 2);
-        startStage=@"did-move-to-parent";
         [self.appController didMoveToParentViewController:parent];
-        startStage=@"end-appearance";
         [self.appController endAppearanceTransition];
         DFSceneLog(@"mode-2-requested",self.bundleID,NSStringFromCGRect(self.bounds));
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self
                   selector:@selector(pollScene:) userInfo:nil repeats:YES];
         [self pollScene:self.timer];
     } @catch (NSException *e) {
-        DFSceneLog(@"attach-exception-operation",self.bundleID,
-           [NSString stringWithFormat:@"stage=%@ name=%@ reason=%@ surface=%@",
-             startStage,e.name,e.reason,NSStringFromCGRect(self.bounds)]);
         [self failed:DFSceneError(111, [@"Scene attach exception: " stringByAppendingString:e.reason ?: @"unknown"])];
     }
 }
