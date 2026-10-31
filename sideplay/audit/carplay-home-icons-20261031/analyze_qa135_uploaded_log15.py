@@ -46,6 +46,11 @@ def audit_log(path):
     lines=0; dates=[]; abi=[]; errors=[]; home=[]; version=[]; heads=[]; tails=[]
     current_section="unsectioned"
     hitsets=collections.defaultdict(list)
+    abi_unique=collections.Counter()
+    abi_samples=collections.Counter()
+    actual_processes=collections.Counter()
+    scope_samples=collections.Counter()
+    important_observations=[]
     with path.open("r",encoding="utf-8",errors="replace") as f:
         for n,text in enumerate(f,1):
             lines=n
@@ -55,6 +60,19 @@ def audit_log(path):
             m=SEC.match(text.strip())
             if m:current_section=m.group(1)[:120]
             if DATE.search(text):dates.append((n,DATE.search(text).group(0)))
+            if current_section.startswith("DuoFaceHomeCatalogABI.log"):
+                proc=re.search(r"process=([a-zA-Z0-9_-]+)",text)
+                if proc:actual_processes[proc.group(1)]+=1
+                if " sample generation=" in text and proc:abi_samples[proc.group(1)]+=1
+                method=re.search(r"\\[DuoFaceHomeABI\\] process=([\\w-]+) pid=\\d+ abi ([A-Za-z0-9_]+) (.+)$",text)
+                if method:
+                    abi_unique[(method.group(1),method.group(2),method.group(3))]+=1
+                if "notify-listener=" in text or "sample generation=" in text:
+                    if len(important_observations)<100:
+                        important_observations.append({"line":n,"text":bounded_line(text,320)})
+            if current_section.startswith("DuoFaceNativeSceneJoin.log"):
+                if re.search(r"gofa|native-owner|native-scene|lock|home|AppID|invalid|provenance",text,re.I):
+                    scope_samples[bounded_line(text,95)]+=1
             for tag,rx in (("home_abi",HOME),("home_scope",SCOPED),("error",ERROR),("version",VERSION)):
                 if rx.search(text):
                     groups[tag]+=1;section_groups[(current_section,tag)]+=1
@@ -67,6 +85,13 @@ def audit_log(path):
                 for (a,b),n in section_groups.most_common(70)],
             "date_first":dates[:15],"date_last":dates[-15:],
             "abi_lines":abi,"scope_lines":home,"error_lines":errors,"version_lines":version,
+            "abi_by_process":dict(actual_processes),
+            "abi_sample_count":dict(abi_samples),
+            "abi_unique":[{"process":p,"class":c,"result":v,"count":ct} 
+                for (p,c,v),ct in abi_unique.most_common(100)],
+            "abi_samples":important_observations,
+            "native_scene_top_signals":[{"summary":v,"count":n}
+                for v,n in scope_samples.most_common(50)],
             "first_lines":heads,"last_lines":tails}
 
 def read_ips(path):
