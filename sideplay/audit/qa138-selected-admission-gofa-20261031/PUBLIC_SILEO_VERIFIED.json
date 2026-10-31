@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-10-31T03:11:14Z",
+  "publisher_repository": "chuongnguyen89dn-ui/carplaydsp",
+  "publisher_commit": "a63a7ba11909e13a0721fe7ebdd546a2e08d53f2",
+  "run_id": 41163039562,
+  "conclusion": "success",
+  "jobs": {
+    "build": 124424569852,
+    "deploy": 124425114105,
+    "integrated_public_sha": 124425163266,
+    "observer_public": 124425163309,
+    "qa11_public": 124425163338
+  },
+  "source_sha": "5d9e216af1f6c62b60b130e61976b07fb026f726",
+  "archive": "f85cdeccab252b707743fc80d5a4e8400eda0311",
+  "package": "com.duoface.jb.embedded",
+  "version": "0.0.138~selectedlayout1",
+  "public_url": "https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.jb.embedded_0.0.138~selectedlayout1_iphoneos-arm64.deb",
+  "sha256": "2805b78d2378efa3ed5e2c0351688397e5e6f7b95605e3249b7b5b1511512784",
+  "device_tested": false,
+  "real_home_icon_tap_verified": false,
+  "gofa_physical_fix_verified": false,
+  "log_excerpt": [
+    "2026-10-31T03:10:58.8724784Z DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED",
+    "2026-10-31T03:10:59.1924044Z /home/runner/work/_temp/duoface-public.deb: OK",
+    "2026-10-31T03:10:59.1924861Z DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED",
+    "2026-10-31T03:10:59.3295530Z DUOFACE_092_ROLLBACK_PUBLIC_SHA_UNCHANGED_PASS",
+    "2026-10-31T03:10:59.4965540Z DUOFACE_090_USER_DEVICE_VIDEO_ROLLBACK_UNCHANGED_PASS"
+  ]
+}
