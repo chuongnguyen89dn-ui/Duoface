@@ -1,0 +1,283 @@
+{
+  "input": "REAL_UPLOADED_DUOFACE_AUDIT16_NOT_A_DEVICE_RUN_BY_CI",
+  "commit": "31166d15e3606e571bc34b023e59f76613d4953c",
+  "log_sha256": "71c72597900bf324a6230d2eb522500b9442e09f39f74e6d774f2e9ab3cb549f",
+  "bytes": 5167955,
+  "line_count": 20323,
+  "first_lines": [
+    "DuoFace CarPlay / media scene diagnostic (manual export)",
+    "Date: 2026-10-31 01:41:15 +0000",
+    "iOS: 16.7.16",
+    "App: [app-id]",
+    "This file contains technical diagnostics; share only with a trusted recipient."
+  ],
+  "time_samples": [
+    {
+      "line": 2,
+      "date": "2026-10-31 01:41:15"
+    },
+    {
+      "line": 2,
+      "date": "2026-10-31 01:41:15"
+    }
+  ],
+  "section_names": [
+    "DuoFaceGeometry119-DuoFaceNativeHost.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+    "DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+    "DuoFaceGeometry119-CarPlayApp.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+    "DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+    "DuoFaceGeometry119-Dashboard.jsonl (last 256 KiB; read-only geometry, no physical PASS)",
+    "DuoFaceSceneHost.log (last 256 KiB)",
+    "DuoFaceTouchOwner.log (last 256 KiB)",
+    "DuoFaceDockOwner.log (last 256 KiB)",
+    "DuoFaceHomeCatalogABI.log (last 256 KiB)",
+    "DuoFaceHomePublisher136.log (last 256 KiB)",
+    "DuoFaceNativeSceneJoin.log (last 256 KiB)",
+    "DuoFaceCarPlayOwnerSnapshot.log (last 256 KiB)",
+    "DuoFaceNativeMapPane.log (last 256 KiB)",
+    "DuoFaceDisconnectClose.log (last 256 KiB)",
+    "DuoFaceFatalException.log (last 256 KiB)",
+    "DuoFaceDeepTrace.log.previous (last 2 MiB; timestamped diagnostic build)",
+    "DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build)"
+  ],
+  "has_HomePublisher136_export_section": true,
+  "counts": {
+    "home136_related_lines": 40,
+    "dfhome136_lines": 39,
+    "home136_started": 1,
+    "home136_off": 8,
+    "verified_library_observed": 30,
+    "reconciled_positive": 1,
+    "reconciled_zero": 29
+  },
+  "home136_event_samples": [
+    {
+      "line": 8650,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "=== DuoFaceHomePublisher136.log (last 256 KiB) ==="
+    },
+    {
+      "line": 8651,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 started no-hook no-new-library notify home=0 enabled=0"
+    },
+    {
+      "line": 8652,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8653,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8654,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8655,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8656,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8657,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8658,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8659,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=6 reason=user-Home-toggle"
+    },
+    {
+      "line": 8660,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8661,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 user Home switch OFF or kill switch; no mutation"
+    },
+    {
+      "line": 8662,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=user-Home-toggle"
+    },
+    {
+      "line": 8663,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8664,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8665,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8666,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8667,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8668,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8669,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8670,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8671,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8672,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8673,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8674,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8675,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8676,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8677,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8678,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8679,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8680,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8681,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8682,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8683,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=selected-apps-updated"
+    },
+    {
+      "line": 8684,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8685,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8686,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8687,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8688,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    },
+    {
+      "line": 8689,
+      "section": "DuoFaceHomePublisher136.log (last 256 KiB)",
+      "text": "[DFHome136] pid=88938 verified-library=FBSApplicationLibrary reconcile=0 reason=live-system-home-lookup"
+    }
+  ],
+  "original_semantic_home_calls": {
+    "DuoNavi104": {
+      "exact_shapinned_binary_reference": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+      "registers_DashBoard_or_CARApplication": true,
+      "has_FBS_add_proxy": true,
+      "has_Home_icon_model_callback": true,
+      "has_Home_icon_launch_callback": true,
+      "has_CarPlay_declaration": true,
+      "has_policy_evaluation": true
+    },
+    "Native12Reference": {
+      "exact_shapinned_binary_reference": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "registers_DashBoard_or_CARApplication": true,
+      "has_FBS_add_proxy": true,
+      "has_Home_icon_model_callback": true,
+      "has_Home_icon_launch_callback": true,
+      "has_CarPlay_declaration": true,
+      "has_policy_evaluation": true
+    }
+  },
+  "qa136_source_gaps": {
+    "only_CarPlay_process": true,
+    "searches_only_UiKit_controller_tree": true,
+    "does_not_hook_original_home_owner": true,
+    "cannot_prove_real_Home_icons_from_source": true
+  },
+  "crash_ips_context": "Three uploaded IPS files share October 30 timestamps; never assign them to QA136 without matching physical incident and version.",
+  "interpretation_limits": "No [DFHome136] lines does not distinguish disabled switch, not installed/running, absent exporter, or process mismatch. Original callsite xrefs do not establish that the same class exists in this iOS16 process."
+}
