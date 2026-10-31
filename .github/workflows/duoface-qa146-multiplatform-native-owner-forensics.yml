@@ -1,0 +1,101 @@
+name: QA146 multisource true CarPlay workspace Dock scene forensics READONLY
+on:
+  push:
+    branches: [feature/duoface-qa146-native-home-exit-20261031]
+    paths:
+      - '.github/workflows/duoface-qa146-multiplatform-native-owner-forensics.yml'
+      - 'sideplay/audit/qa146-native-home-dock-parity-20261031/compare_pinned_multisource_native_ownership.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa146-multiplatform-original-no-deploy
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Actually retrieve, verify and read three iOS project ZIP skills
+        shell: bash
+        run: |
+          set -euo pipefail
+          for row in \
+            '01-github-continuity.zip 80efec9a6cbbb49135eabeafb339bf13f74ff6ddef9706659871b30a2c020d7e' \
+            '02-ios-deb-ipa-carplay.zip c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' \
+            '05-research-debug-testing.zip fcb1122412a11664c2c6b8666cbc4f76e86ad20f96e697138d96c6425137dc98'; do
+            read -r name expected <<< "$row"
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$name" -o "$RUNNER_TEMP/$name"
+            printf '%s  %s\n' "$expected" "$RUNNER_TEMP/$name" | sha256sum -c -
+            unzip -t "$RUNNER_TEMP/$name" >/dev/null
+            unzip -p "$RUNNER_TEMP/$name" SKILL.md | head -35
+          done
+      - name: Fetch two public independent codebases by immutable commit SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/refs"
+          for spec in \
+            'carsurf pavunato/carsurf 72cd0f8bf8d0bd1086e78fe7c7be6fff715702f8' \
+            'carplayenable EthanArbuckle/carplay-cast 696bc72bfd0df9bea80a333e7c3307cd410f6156'; do
+            read -r folder repo sha <<< "$spec"
+            git init -q "$RUNNER_TEMP/refs/$folder"
+            git -C "$RUNNER_TEMP/refs/$folder" fetch -q --depth=1 "https://github.com/$repo.git" "$sha"
+            git -C "$RUNNER_TEMP/refs/$folder" checkout -q --detach FETCH_HEAD
+            test "$(git -C "$RUNNER_TEMP/refs/$folder" rev-parse HEAD)" = "$sha"
+            echo "VERIFIED_SOURCE_PIN $repo $sha"
+          done
+      - name: Run exact original IMP vs public native owner architecture comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/qa146-multisource"
+          python3 -m py_compile sideplay/audit/qa146-native-home-dock-parity-20261031/compare_pinned_multisource_native_ownership.py
+          python3 sideplay/audit/qa146-native-home-dock-parity-20261031/compare_pinned_multisource_native_ownership.py \
+            --carsurf "$RUNNER_TEMP/refs/carsurf" \
+            --carplayenable "$RUNNER_TEMP/refs/carplayenable" \
+            --repo . \
+            --original sideplay/audit/qa146-native-home-dock-parity-20261031/runs/41186440398/ORIGINAL_NAV_DOCK_ORIENTATION_IMPS.json \
+            --output "$RUNNER_TEMP/qa146-multisource/MULTISOURCE_NATIVE_OWNER_FINGERPRINTS.json"
+          python3 - "$RUNNER_TEMP/qa146-multisource/MULTISOURCE_NATIVE_OWNER_FINGERPRINTS.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert len(j['source_syntax_fingerprints'])==7
+          assert all(all(e['present'] for e in r['checks'].values()) for r in j['source_syntax_fingerprints'].values())
+          assert j['verified_distinction']['no_current_device_proof']
+          print("QA146_PINNED_MULTISOURCE_NATIVE_DOCK_HOME_SCENE_SOURCE_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA146-public-source-and-real-original-machine-method-ownership-readonly
+          path: ${{ runner.temp }}/qa146-multisource/MULTISOURCE_NATIVE_OWNER_FINGERPRINTS.json
+          if-no-files-found: error
+      - name: Save evidence to DuoFace project branch, never skills or public-source repos
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa146-native-home-exit-20261031
+          REL="sideplay/audit/qa146-native-home-dock-parity-20261031/runs/$GITHUB_RUN_ID"
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            T="$(mktemp -d)"
+            git worktree add --detach "$T" FETCH_HEAD
+            mkdir -p "$T/$REL"
+            cp "$RUNNER_TEMP/qa146-multisource/MULTISOURCE_NATIVE_OWNER_FINGERPRINTS.json" "$T/$REL/"
+            printf 'SOURCE_GIT_SHA=%s\nRUN_ID=%s\nPUBLIC_GITHUB_COMMITS_PINNED=true\nUSER_PROJECT_ORIGINAL_IMPS_VERIFIED=true\nSKILL_ZIPS_HASH_CHECKED_AND_READ=true\nNEW_BUILD=false\nNEW_SILEO_RELEASE=false\nPHYSICAL_DEVICE_TEST=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$T/$REL/CI_RESULT.txt"
+            git -C "$T" config user.name 'github-actions[bot]'
+            git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$T" add "$REL"
+            git -C "$T" commit -m 'audit(qa146): preserve pinned public native workspace comparisons without copies [skip ci]'
+            if git -C "$T" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$T"
+              git fetch --no-tags origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:$REL/MULTISOURCE_NATIVE_OWNER_FINGERPRINTS.json"
+              echo QA146_MULTISOURCE_RESULTS_SAVED_AND_READBACK
+              exit 0
+            fi
+            git worktree remove --force "$T"
+          done
+          exit 1
