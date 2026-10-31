@@ -1,0 +1,150 @@
+{
+  "original_packages": {
+    "duonavi_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+    "duodash_sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+    "duodash_stock_original_proven": false,
+    "qa146_signed_sha256": "1785d5d6bef53337033f5664d5acfc573dabe20892bd629649fab5730b04e078"
+  },
+  "static_method_contracts_verified": {
+    "duonavi_native_dock": {
+      "imp": "0x2c72c8",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [
+        "appDockVC",
+        "appHistory",
+        "_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:",
+        "_refreshAppDock"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duonavi_native_workspace_previous_app": {
+      "imp": "0x2c6158",
+      "type": "v24@0:8@?16",
+      "selector_xrefs": [
+        "_foregroundActiveScene",
+        "_activeBundleIdentifierForScene:",
+        "workspace",
+        "requestStateChange:",
+        "deactivateApplication:"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duonavi_dock_home_activation": {
+      "imp": "0x2c70cc",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [
+        "setActivated:",
+        "setAppDockActiveBundleID:",
+        "setHomeButtonInApp:"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duonavi_dock_home_deactivation": {
+      "imp": "0x2c7140",
+      "type": "v16@0:8",
+      "selector_xrefs": [
+        "setActivated:",
+        "setAppDockActiveBundleID:",
+        "setHomeButtonInApp:"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duodash_native_dock": {
+      "imp": "0x73a4",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [
+        "appHistory",
+        "_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:",
+        "setActiveBundleIdentifier:animated:",
+        "_refreshAppDock"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duodash_carplay_app_state_receiver": {
+      "imp": "0x20cdc",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [],
+      "cfstring_tags": [
+        "shouldBridge",
+        "displayWidth",
+        "displayHeight",
+        "orientation",
+        "isSplit"
+      ],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duodash_carplay_background_orientation": {
+      "imp": "0x2120c",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [
+        "_setRotatableViewOrientation:duration:force:",
+        "_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:",
+        "supportedInterfaceOrientations"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duodash_springboard_host_single": {
+      "imp": "0xf968",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [],
+      "cfstring_tags": [
+        "bundleIdentifier",
+        "activate"
+      ],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duodash_springboard_host_split": {
+      "imp": "0xfd90",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [],
+      "cfstring_tags": [
+        "bundleIdL",
+        "bundleIdR",
+        "bundleIdC",
+        "skipEvict"
+      ],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duodash_scene_request_host_receiver": {
+      "imp": "0x1cef8",
+      "type": "v24@0:8@16",
+      "selector_xrefs": [
+        "updateSettingsWithBlock:",
+        "setFrame:",
+        "settingsDiff",
+        "setSettingsDiff:"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    },
+    "duodash_independent_scene_probe": {
+      "imp": "0x1ac48",
+      "type": "@24@0:8q16",
+      "selector_xrefs": [
+        "sceneHandle",
+        "scene"
+      ],
+      "cfstring_tags": [],
+      "scope": "method-local static xrefs, not a runtime call or branch trace"
+    }
+  },
+  "duodash_original_packaged_filter_any_uikit": true,
+  "duodash_broad_injection_potential_only_not_device_confirmed": true,
+  "qa146_original_signed_per_app_filters_only": [
+    "com.google.ios.youtube",
+    "com.lumi.GOFA"
+  ],
+  "qa146_selected_home_broker_lacks_native_dock_app_history_lifecycle": true,
+  "critical_caveat": "Substrate Mode Any + UIKit Bundle creates broad scope, but binary metadata does not prove specific app processes loaded DuoDash; cannot broaden DuoFace inject without receiver/ABI validation.",
+  "repair_gate": "Exact on-device iOS16.7.16 appDockVC receiver ABI and native last foreground application, real Home/Dashboard behavior, remote app scene state+rotation+input, conflicts with other injected tweaks",
+  "no_source_copied": true,
+  "no_vendor_binary_committed": true,
+  "no_runtime_test": true,
+  "no_new_deb_or_release": true
+}
