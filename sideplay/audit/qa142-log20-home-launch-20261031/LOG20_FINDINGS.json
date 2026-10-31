@@ -1,0 +1,224 @@
+{
+  "input": {
+    "path": "sideplay/log/DuoFaceAudit 20.txt",
+    "upload_commit": "441d7cd22de9def2b5de980f00c32d61d156cd90",
+    "blob": "e87e85b47e9cfa2a85262ddc049278a4d1a02226",
+    "sha256": "d543bbdf619af8d375db82234d12c3c74e984df22c35f98e77e1cde4906d7e80",
+    "bytes": 5034900,
+    "export": "2026-10-31 04:48:01Z"
+  },
+  "user_device_result": {
+    "selected_icons_visible": true,
+    "selected_icon_tap_opens_app": false,
+    "gofa_visual_success_confirmed": false
+  },
+  "declaration_attach_readback_lines": [
+    "[DFHome141] time=1793421921.854 pid=92302 declaration-attached bundle=com.ss.iphone.ugc.Ame route=runtime-object-ivar getterReadback=1",
+    "[DFHome141] time=1793421921.859 pid=92302 declaration-attached bundle=com.openai.chat route=runtime-object-ivar getterReadback=1",
+    "[DFHome141] time=1793421921.865 pid=92302 declaration-attached bundle=com.facebook.Facebook route=runtime-object-ivar getterReadback=1",
+    "[DFHome141] time=1793421921.872 pid=92302 declaration-attached bundle=com.google.gemini route=runtime-object-ivar getterReadback=1",
+    "[DFHome141] time=1793421921.876 pid=92302 declaration-attached bundle=com.google.ios.youtube route=runtime-object-ivar getterReadback=1",
+    "[DFHome141] time=1793421921.881 pid=92302 declaration-attached bundle=com.wynauto.wyn route=runtime-object-ivar getterReadback=1"
+  ],
+  "policy_lines": [
+    "[DFHome141] time=1793421923.066 pid=92302 selected-original-policy bundle=com.google.ios.youtube class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+    "[DFHome141] time=1793421923.067 pid=92302 selected-original-policy bundle=com.facebook.Facebook class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+    "[DFHome141] time=1793421923.070 pid=92302 selected-original-policy bundle=com.ss.iphone.ugc.Ame class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+    "[DFHome141] time=1793421923.071 pid=92302 selected-original-policy bundle=com.wynauto.wyn class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+    "[DFHome141] time=1793421923.082 pid=92302 selected-original-policy bundle=com.google.gemini class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+    "[DFHome141] time=1793421923.083 pid=92302 selected-original-policy bundle=com.openai.chat class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+    "[DFHome141] time=1793421968.776 pid=92302 selected-original-policy bundle=com.ss.iphone.ugc.Ame class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified",
+    "[DFHome141] time=1793421976.304 pid=92302 selected-original-policy bundle=com.facebook.Facebook class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified"
+  ],
+  "policy_log_semantics": "launch/capable/display/phone are ABI-checked setter invocation success; launch=0 is NOT an observed false policy getter or proven cause. phone=1 means setLaunchUsingTemplateUI:NO was invoked.",
+  "gofa_direct_current_acks": [
+    {
+      "issuedAt": "\"1793421937.566483\"",
+      "window": "793, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "793, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "793, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "793, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793421942.815831\"",
+      "window": "1190, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "1190, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "1190, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "1190, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793421948.066672\"",
+      "window": "793, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "793, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "793, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "793, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793422046.175912\"",
+      "window": "595, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "595, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "595, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "595, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793422051.466675\"",
+      "window": "397, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "397, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "397, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "397, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793422055.361923\"",
+      "window": "397, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "397, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "397, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "397, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793422060.422488\"",
+      "window": "703, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "703, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "703, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "703, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793422065.556583\"",
+      "window": "703, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "703, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "703, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "703, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    },
+    {
+      "issuedAt": "\"1793422070.806596\"",
+      "window": "519, 685",
+      "after": [
+        {
+          "class": "GOFA.GofaMapView",
+          "size": "519, 685"
+        },
+        {
+          "class": "MapboxMaps.MapView",
+          "size": "519, 685"
+        },
+        {
+          "class": "MapboxMaps.MetalView",
+          "size": "519, 685"
+        }
+      ],
+      "all_after_match": true,
+      "direct_frame_changes": 0
+    }
+  ],
+  "gofa_direct_acks_count": 9,
+  "gofa_after_mismatches": 0,
+  "limitations": [
+    "No hook records actual Home tap selector or launch request completion; no RBS/FBS launch failure in export.",
+    "Policy callbacks at TikTok/Facebook follow-up times alone do not prove full icon activation path.",
+    "Do not infer missing executable path, URL scheme or native capability from this export.",
+    "Do not claim GOFA visually solved solely from dimension agreement."
+  ]
+}

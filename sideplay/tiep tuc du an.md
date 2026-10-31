@@ -1,3 +1,14 @@
+# LOG20 / USER DEVICE MILESTONE — QA141 SELECTED HOME ICONS NOW VISIBLE, TAP NOT OPENING
+
+- User confirms chosen apps now appear on actual CarPlay Home, but tapping does not open them. This is admission success, NOT launch success. Keep working QA141 roster/GOFA fixes.
+- Actual newmain441d7cd22de9def2b5de980f00c32d61d156cd90 log20 blobe87e85b47e9cfa2a85262ddc049278a4d1a02226 export04:48:01Z. CarPlayPID92302 attaches all6 nil declarations with getterReadback=1; 8 owned CR policy callbacks, including subsequent TikTok/Facebook evaluations.
+- Critical log semantics: launch=0 is setter invocation failure/unavailable ABI, NOT a measured false policy value or proven root cause. capable/display/phone are also setter-success indicators. No exported URL/path/FBS/RBS launch error. Actual tap/launch completion remains uninstrumented.
+- Re-extracted exact original DuoNavi104 Dashboard SHA44fdd4... and independently traced original tap codeVM310a50..311b50. Original methods explicitly contain shouldInterceptLaunchForApp: -> startBridging: and pending/activated/stopBridging. QA141 has declaration+policy only; no selected Home-tap -> first-party scene engine route. Original _CARDashboardHomeViewController absent on current device; do NOT blindly hook obsolete class. Complete a current ABI-verified tap adapter and scene activation, preserve native forwarding, do not invent file paths or treat optional policy setter as sole fix.
+- GOFA9 current direct resize141 ACKs, all samePID92309: wrapper/Mapbox/Metal match window at793/1190/595/397/703/519x685; zero after mismatches. Consolidated trace duplicates these9 (do not count18). Visual GOFA success not user-confirmed. Flexible wrapper layout is consistent with observed resize; Mapbox child remains Auto Layout-owned, not directly frame-written.
+- Full evidence/reproducible original selector scanner: sideplay/audit/qa142-log20-home-launch-20261031/. Read-only analysis checkpoint only; NO QA142 runtime change/DEB published. Latest public remains0.0.141~declmap1.
+
+---
+
 # QA141 PUBLIC SILEO VERIFIED — actual fixes shipped; device validation pending
 
 - Latest source 5fd07d2720fbfd1db5429f224604fab37e575b0a; archive 3414bca0aeb7a0391ea2413ba940674a11081f3c; integrated version 0.0.141~declmap1; exact SHA256 7aa43717a19b2a94ae66e25650f0078185bb9e1e7618c3909844657d567aef19.
