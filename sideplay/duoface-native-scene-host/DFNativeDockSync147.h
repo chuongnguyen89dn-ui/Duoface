@@ -139,8 +139,16 @@ static void DF147Watch(void) {
  DF147InstallNativeSwitchHook();
  if(DF147Life.pending||DF147Life.active) {
   id home=nil,dock=DF147FindDock(DF147Session,&home);
-  if(!DF144ExplicitConsent() || !dock || (DF147Life.pending && NSDate.date.timeIntervalSince1970-DF147RequestedAt>10.0)) {
-   DF147Reset(@"disconnect-consent-or-timeout");notify_post(DF144StopNotify);
+  if(!DF144ExplicitConsent() || !dock) {
+   DF147Reset(@"disconnect-or-consent-revoked");
+   notify_post(DF144StopNotify);
+  } else if(DF147Life.pending && NSDate.date.timeIntervalSince1970-DF147RequestedAt>10.0) {
+   // Keep watchdog expiry separate from a REAL DBRootStatusBar Home press.
+   // Never attribute the timeout to user navigation in device logs.
+   DF144Log(@"qa148-pending-watchdog-expired",
+       [NSString stringWithFormat:@"req=%@ bid=%@",DF147RequestID,DF147Bundle]);
+   DF147Reset(@"pending-watchdog-expired");
+   notify_post(DF148WatchdogStopNotify);
   }
  }
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,NSEC_PER_SEC),dispatch_get_main_queue(),^{DF147Watch();});
