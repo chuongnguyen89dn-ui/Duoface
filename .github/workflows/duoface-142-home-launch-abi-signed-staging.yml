@@ -1,17 +1,6 @@
 name: DuoFace QA142 Native Home ABI safe signed build
+# QA142 source is an immutable public baseline; do not rebuild it after QA143 changes.
 on:
-  push:
-    branches: [feature/duoface-qa142-home-abi-20261031]
-    paths:
-      - '.github/workflows/duoface-142-home-launch-abi-signed-staging.yml'
-      - 'sideplay/duoface-native-scene-host/DFHomeLaunchABI142.m'
-      - 'sideplay/duoface-native-scene-host/build.sh'
-      - 'sideplay/duoface-native-scene-host/control'
-      - 'sideplay/duoface-native-scene-host/Info.plist'
-      - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
-      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
-      - 'sideplay/duoface-native-scene-host/tests/test_qa142_home_launch_probe.py'
-      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_142.py'
   workflow_dispatch:
 permissions:
   contents: write
