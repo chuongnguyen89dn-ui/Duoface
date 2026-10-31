@@ -266,6 +266,8 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 @property(nonatomic,assign) BOOL emittedTerminal;
 @property(nonatomic,copy) NSString *generalOwner;
 @property(nonatomic,copy) NSString *generalScene;
+@property(nonatomic,copy) NSDictionary *lastAppLease;
+- (void)appStateAck:(NSNotification *)notice;
 - (void)publishGeneralAppState:(BOOL)active;
 @end
 @implementation DF144Solo
@@ -300,11 +302,41 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
     @"active":@(active),@"width":@(size.width),@"height":@(size.height)};
  DF154Post(state);
  if(!active) {
+   self.lastAppLease=@{@"requestID":self.request,@"bundleIdentifier":self.bundle,
+      @"owner":self.generalOwner,@"sceneIdentifier":sceneID,
+      @"issuedAt":@(NSDate.date.timeIntervalSince1970)};
    DF144Log(@"qa154-general-app-restore",
      [NSString stringWithFormat:@"req=%@ bid=%@ scene=%@",
        self.request,self.bundle,sceneID]);
    self.generalOwner=nil;self.generalScene=nil;
  }
+}
+// Exact process/app receipt: callback evidence only, not CarPlay pixels/touch.
+- (void)appStateAck:(NSNotification *)notice {
+ NSDictionary *a=notice.userInfo;
+ if(![a isKindOfClass:NSDictionary.class] ||
+    !DF154String(a[@"phase"]) ||
+    ![a[@"issuedAt"] isKindOfClass:NSNumber.class])return;
+ double age=NSDate.date.timeIntervalSince1970-[a[@"issuedAt"] doubleValue];
+ if(!isfinite(age)||age<0||age>3)return;
+ BOOL current=[a[@"requestID"] isEqual:self.request] &&
+  [a[@"bundleIdentifier"] isEqual:self.bundle] &&
+  [a[@"owner"] isEqual:self.generalOwner] &&
+  [a[@"sceneIdentifier"] isEqual:self.generalScene];
+ NSDictionary *old=self.lastAppLease;
+ BOOL stopped=[a[@"phase"] isEqual:@"restored"] && old &&
+  NSDate.date.timeIntervalSince1970-[old[@"issuedAt"] doubleValue]<=3 &&
+  [a[@"requestID"] isEqual:old[@"requestID"]] &&
+  [a[@"bundleIdentifier"] isEqual:old[@"bundleIdentifier"]] &&
+  [a[@"owner"] isEqual:old[@"owner"]] &&
+  [a[@"sceneIdentifier"] isEqual:old[@"sceneIdentifier"]];
+ if(!current && !stopped)return;
+ if(![@[@"lease-accepted",@"scene-unmatched",@"scene-matched",
+        @"window-adjusted",@"restored"] containsObject:a[@"phase"]])return;
+ DF144Log(@"qa155-app-side-ack",[NSString stringWithFormat:
+  @"req=%@ bid=%@ scene=%@ phase=%@ count=%@",
+    a[@"requestID"],a[@"bundleIdentifier"],a[@"sceneIdentifier"],
+    a[@"phase"],a[@"count"]?:@0]);
 }
 // Only the real, process-owned SBApplication object and matching live scene
 // can authorize this alternative processState.pid ABI on iOS16. Do not use
@@ -646,6 +678,10 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
     NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
  dispatch_async(dispatch_get_main_queue(),^{
   DF144Owner=[DF144Solo new];
+  id ackCenter=DF154Center();
+  if(ackCenter)[ackCenter addObserver:DF144Owner selector:@selector(appStateAck:)
+     name:DF155AckNotification object:nil];
+  else DF144Log(@"qa155-ack-transport-unavailable",@"no app receipt");
   [[NSNotificationCenter defaultCenter] addObserver:DF144Owner
      selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:DF144Owner
