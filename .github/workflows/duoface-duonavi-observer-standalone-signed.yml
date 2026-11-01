@@ -22,6 +22,7 @@ jobs:
           set -euo pipefail
           python3 sideplay/duonavi-observer/tests/test_passive.py
           python3 sideplay/duonavi-observer/tests/test_native_dock_capture.py
+          python3 sideplay/duonavi-observer/tests/test_owner_flow.py
           clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duonavi-observer/tests/home_flow_runtime.m -o "$RUNNER_TEMP/homeflow"
           "$RUNNER_TEMP/homeflow"
           plutil -lint sideplay/duonavi-observer/Observer.plist sideplay/duonavi-observer/Info.plist sideplay/duonavi-observer/entitlements.plist
