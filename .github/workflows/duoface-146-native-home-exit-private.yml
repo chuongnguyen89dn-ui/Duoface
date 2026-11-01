@@ -1,4 +1,4 @@
-name: QA159 genuine CarPlay Home native grid - signed PRIVATE before device QA
+name: QA160 scoped initial scene speed and native Home state trace - signed private
 on:
   push:
     branches: [feature/duoface-qa146-native-home-exit-20261031]
@@ -7,6 +7,9 @@ on:
       - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa160_homegrid_latency.py'
       - 'sideplay/duoface-native-scene-host/DFHome145Consent.h'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DFSoloPill157.h'
@@ -65,7 +68,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: qa159-nativehome-private-no-sileo
+  group: qa160-nativehome-private-no-sileo
   cancel-in-progress: true
 jobs:
   stage-only:
@@ -99,6 +102,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa157_solo_owned_pill.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa158_home_only.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa159_native_home.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa160_homegrid_latency.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_bridged_content_window.py' -v
@@ -143,65 +147,65 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.159~nativehome1_iphoneos-arm64.deb'
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.160~homegridprobe1_iphoneos-arm64.deb'
           test -s "$HOST"
-          grep -Fq '<key>CFBundleVersion</key><string>159</string>' sideplay/duoface-native-scene-host/Info.plist
-          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.159~nativehome1'
-          mkdir -p "$RUNNER_TEMP/qa159-host"
-          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa159-host"
-          ldid -e "$RUNNER_TEMP/qa159-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
-          ldid -e "$RUNNER_TEMP/qa159-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null
-          ! strings -a "$RUNNER_TEMP/qa159-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'selected-tap-redirect-to-existing-duoface-icon'
+          grep -Fq '<key>CFBundleVersion</key><string>160</string>' sideplay/duoface-native-scene-host/Info.plist
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.160~homegridprobe1'
+          mkdir -p "$RUNNER_TEMP/qa160-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa160-host"
+          ldid -e "$RUNNER_TEMP/qa160-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
+          ldid -e "$RUNNER_TEMP/qa160-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null
+          ! strings -a "$RUNNER_TEMP/qa160-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'selected-tap-redirect-to-existing-duoface-icon'
           echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
       - name: Assemble signed independent merged QA147 private candidate, NOT public APT
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
-          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.159~nativehome1_iphoneos-arm64.deb'
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.160~homegridprobe1_iphoneos-arm64.deb'
           test -s "$OUT"
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.159~nativehome1'
-          mkdir -p "$RUNNER_TEMP/qa159-merged"
-          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa159-merged"
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.160~homegridprobe1'
+          mkdir -p "$RUNNER_TEMP/qa160-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa160-merged"
           for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator DF155GeneralAppStateRelay; do
-            ldid -e "$RUNNER_TEMP/qa159-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
+            ldid -e "$RUNNER_TEMP/qa160-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
           done
-          test -s "$RUNNER_TEMP/qa159-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
-          strings -a "$RUNNER_TEMP/qa159-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'
-          strings -a "$RUNNER_TEMP/qa159-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'
+          test -s "$RUNNER_TEMP/qa160-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
+          strings -a "$RUNNER_TEMP/qa160-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'
+          strings -a "$RUNNER_TEMP/qa160-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'
           test "$(dpkg-deb -c "$OUT" | head -1 | awk '{print $1, $2}')" = "drwxr-xr-x root/root"
-          echo "QA159_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"
+          echo "QA160_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"
           shasum -a 256 "$OUT"
-          echo 'QA159_SIGNED_OFFLINE_NO_DEVICE_PROOF_NO_SILEO_RELEASE'
+          echo 'QA160_SIGNED_OFFLINE_HOME_GRID_UNVERIFIED_NO_SILEO_RELEASE'
       - uses: actions/upload-artifact@v4
         with:
-          name: QA159-private-owned-solo-signed-UNPUBLISHED
-          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.159~nativehome1_iphoneos-arm64.deb
+          name: QA160-private-owned-solo-signed-UNPUBLISHED
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.160~homegridprobe1_iphoneos-arm64.deb
           if-no-files-found: error
       - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
         run: |
           set -euo pipefail
           BRANCH='feature/duoface-qa146-native-home-exit-20261031'
-          ART='com.duoface.jb.embedded_0.0.159~nativehome1_iphoneos-arm64.deb'
+          ART='com.duoface.jb.embedded_0.0.160~homegridprobe1_iphoneos-arm64.deb'
           for n in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
             DIR="$(mktemp -d)"
             git worktree add --detach "$DIR" FETCH_HEAD
             OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
             mkdir -p "$OUT"
-            cp "$QA159_PRIVATE_OUTPUT" "$OUT/$ART"
+            cp "$QA160_PRIVATE_OUTPUT" "$OUT/$ART"
             ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
             cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
             printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nDEVICE_DIRECT_HOME_TESTED=false\nSTANDALONE_OWNER_FOREGROUND_VERIFIED=false\nDO_NOT_INSTALL_REPEATEDLY=true\nHOME_STANDALONE_OPTIN_DEFAULT_OFF=true\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
             git -C "$DIR" config user.name 'github-actions[bot]'
             git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
-            git -C "$DIR" commit -m 'qa159: archive signed UNPUBLISHED native Home candidate (hardware unverified) [skip ci]'
+            git -C "$DIR" commit -m 'qa160: archive signed UNPUBLISHED native Home candidate (hardware unverified) [skip ci]'
             if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
               git worktree remove --force "$DIR"
               git fetch origin "$BRANCH"
               git cat-file -e "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/SHA256SUMS.txt"
-              echo QA159_PRIVATE_SIGNED_ARTIFACT_SAVED_NO_SILEO
+              echo QA160_PRIVATE_SIGNED_ARTIFACT_SAVED_NO_SILEO
               exit 0
             fi
             git worktree remove --force "$DIR"
