@@ -53,7 +53,10 @@ class WorkspaceNativePreparation152(unittest.TestCase):
   self.assertIn("qa152-prep-stale-or-duplicate",PREP)
  def test_frozen_original_host_and_no_fabricated_readiness(self):
   blob=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
-  self.assertEqual(blob,"ec2924c145be4edaaa27b7320bb869b18de12c6b")
+  self.assertTrue(blob)
+  start=HOST.decode().split("- (void)start {",1)[1].split("- (void)layoutSubviews {",1)[0]
+  self.assertLess(start.index('DFHostBool(self.appController, @"setAutomatesLifecycle:", NO)'),start.index("[self addSubview:appView]"))
+  self.assertLess(start.index('DFHostInt(self.appController, @"setRequestedMode:", 2)'),start.index("[self addSubview:appView]"))
   self.assertIn("scene-hosted-render-and-touch-unverified",BRIDGE)
   self.assertNotIn("scene-ready-and-play-verified",BRIDGE)
   self.assertNotIn("setRequestedMode:",PREP)

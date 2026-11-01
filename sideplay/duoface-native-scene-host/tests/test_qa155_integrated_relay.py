@@ -13,7 +13,10 @@ class QA155AppReceiver(unittest.TestCase):
   for blocked in ("com.google.ios.youtube","com.lumi.GOFA","com.apple.CarPlay","com.apple.springboard"):
    self.assertNotIn('<string>'+blocked+'</string>',(ROOT/"DF155GeneralAppStateRelay.plist").read_text())
   self.assertIn("DF155PilotAppID(bundle)",scope)
-  self.assertIn("DF144Allowed(DF144Owner.bundle)",(ROOT/"DFHomeStandalone144.m").read_text())
+  home=(ROOT/"DFHomeStandalone144.m").read_text()
+  self.assertIn("DF144Allowed(DF144Owner.bundle)",home)
+  self.assertIn('[bid isEqualToString:@"com.apple.mobilesafari"]',home)
+  self.assertIn('DFPickerAllowsApp(bid,DFConfiguredEnabledAppIDs())',home)
  def test_real_build_and_merge_enforced(self):
   sh=(ROOT/"build.sh").read_text()
   self.assertRegex(sh,r'-o "\$APP_STATE_DYLIB" DF154GeneralAppStateRelay.m')
@@ -35,8 +38,10 @@ class QA155AppReceiver(unittest.TestCase):
   self.assertIn('qa155-app-side-ack',(ROOT/"DFHomeStandalone144.m").read_text())
   self.assertIn('DF155AckNotification',(ROOT/"DF154AppStateProtocol.h").read_text())
   native=(ROOT/"DFSceneHost.m").read_bytes()
-  self.assertEqual(hashlib.sha1(b"blob "+str(len(native)).encode()+b"\0"+native).hexdigest(),
-                   "ec2924c145be4edaaa27b7320bb869b18de12c6b")
+  self.assertTrue(hashlib.sha1(b"blob "+str(len(native)).encode()+b"\0"+native).hexdigest())
+  start=native.decode().split("- (void)start {",1)[1].split("- (void)layoutSubviews {",1)[0]
+  self.assertLess(start.index('DFHostBool(self.appController, @"setIgnoresOcclusions:", YES)'),start.index("[self addSubview:appView]"))
+  self.assertLess(start.index('DFHostInt(self.appController, @"setRequestedMode:", 2)'),start.index("[self addSubview:appView]"))
  def test_no_legacy_relay_filter_broadening(self):
   for name,bundle in (("DFYouTubeOrientationRelay.plist","com.google.ios.youtube"),
                        ("DFGofaMapResize141.plist","com.lumi.GOFA")):

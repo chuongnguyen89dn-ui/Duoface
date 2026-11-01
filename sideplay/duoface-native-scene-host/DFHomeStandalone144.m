@@ -47,8 +47,11 @@ static BOOL DF144ExplicitConsent(void) { return DFHome145Enabled(); }
 static BOOL DF144Allowed(NSString *bid) {
  return DF144ExplicitConsent() &&
         [bid isKindOfClass:NSString.class] && ![bid isEqualToString:DF144HostApp] &&
-        DFIsRecommendedAppID(bid) &&
-        DFPickerAllowsApp(bid,DFConfiguredEnabledAppIDs());
+        DFPickerAllowsApp(bid,DFConfiguredEnabledAppIDs()) &&
+        // Explicit Safari already qualifies as a user-facing eligible app.
+        // Native Apple CarPlay apps and unselected bundles still forward.
+        (DFIsRecommendedAppID(bid) ||
+         [bid isEqualToString:@"com.apple.mobilesafari"]);
 }
 static id DF144Get(id object,const char *getter) {
  if(!object)return nil;

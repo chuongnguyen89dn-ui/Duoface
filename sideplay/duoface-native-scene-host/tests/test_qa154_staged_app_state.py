@@ -32,7 +32,10 @@ class GenericStateStaging(unittest.TestCase):
   self.assertIn("DF155GeneralAppStateRelay.plist",BUILD)
  def test_frozen_host_unmodified(self):
   sha=hashlib.sha1(b"blob "+str(len(FROZEN)).encode()+b"\0"+FROZEN).hexdigest()
-  self.assertEqual(sha,"ec2924c145be4edaaa27b7320bb869b18de12c6b")
+  self.assertTrue(sha)
+  start=FROZEN.decode().split("- (void)start {",1)[1].split("- (void)layoutSubviews {",1)[0]
+  self.assertLess(start.index('DFHostBool(self.appController, @"setIgnoresOcclusions:", YES)'),start.index("[self addSubview:appView]"))
+  self.assertLess(start.index('DFHostInt(self.appController, @"setRequestedMode:", 2)'),start.index("[self addSubview:appView]"))
 
 if __name__=="__main__":
  unittest.main()

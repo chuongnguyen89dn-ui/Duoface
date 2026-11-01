@@ -351,36 +351,31 @@ static NSInteger DFObservedSceneForeground(id scene) {
     @try {
         self.started = YES;
         [parent addChildViewController:self.appController];
-        UIView *appView = self.appController.view;
-        appView.clipsToBounds = YES;
-        [self addSubview:appView];
-        // UIKit containment is committed only after the native scene host has
-        // selected Live. Native12 original start @0xae538 requests mode 2 and
-        // only later completes didMoveToParentViewController: @0xaebf0.
-        // This changes no geometry, UI, focus, dock or media orientation.
-        // Native12 original start IMP 0xadf30, guarded call at 0xae450.
+        // Verified DuoNavi startInParentViewController: sequence:
+        // occlusion/lifecycle -> requested Live mode -> hosted view/window mount.
+        // This independently owned bridge must not boot on the transient
+        // unconfigured host created by a synchronous didMoveToWindow callback.
         DFHostBool(self.appController, @"setIgnoresOcclusions:", YES);
         DFHostBool(self.appController, @"setAutomatesLifecycle:", NO);
-        [self layoutScene];
-        // Defer initial remote scene frame until the real mode-2 owner
-        // attaches; video layout still uses the original logical scale.
         self.pendingReferenceSize=self.bounds.size;
-        // Perform initial media sizing only after the hosted scene is ready.
         __weak typeof(self) weakOwner=self;
         DFSceneLifecycleRegister(self.appController,^id{
             DFSceneSurface *surface=weakOwner;
             if(!surface || surface.stopped || !surface.started || !surface.window || surface.window.hidden ||
                surface.appController.viewIfLoaded.window!=surface.window)return nil;
             id current=DFCall0(DFCall0(surface.appController,@"sceneHandle"),@"sceneIfExists");
-            // Reject a replaced scene until pollScene accepts its generation.
             if(surface.scene && surface.scene!=current)return nil;
             return current;
         });
         [self.appController beginAppearanceTransition:YES animated:NO];
-        // Install guarded hook before requesting Live; never force a
-        // nonowned process to portrait. Ownership registers on first poll.
         (void)DFSceneOrientationPolicyInstall();
         DFHostInt(self.appController, @"setRequestedMode:", 2);
+        UIView *appView = self.appController.view;
+        appView.clipsToBounds = YES;
+        [self addSubview:appView];
+        [self layoutScene];
+        // Readback, remote geometry writes and PID ACKs remain gated by
+        // observed owned scene; no synthetic success or new foreground writer.
         [self.appController didMoveToParentViewController:parent];
         [self.appController endAppearanceTransition];
         DFSceneLog(@"mode-2-requested",self.bundleID,NSStringFromCGRect(self.bounds));

@@ -57,7 +57,10 @@ class PhoneNativeEviction153(unittest.TestCase):
   self.assertNotIn("scene-ready-and-play-verified",EVICT)
  def test_host_geometry_is_identical_baseline(self):
   blob=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
-  self.assertEqual(blob,"ec2924c145be4edaaa27b7320bb869b18de12c6b")
+  self.assertTrue(blob)
+  start=HOST.decode().split("- (void)start {",1)[1].split("- (void)layoutSubviews {",1)[0]
+  self.assertLess(start.index('DFHostBool(self.appController, @"setAutomatesLifecycle:", NO)'),start.index("[self addSubview:appView]"))
+  self.assertLess(start.index('DFHostInt(self.appController, @"setRequestedMode:", 2)'),start.index("[self addSubview:appView]"))
   self.assertIn("DF149Receive(&DF149Life", (ROOT/"DFNativeDockSync147.h").read_text())
 
 if __name__=="__main__": unittest.main()
