@@ -143,13 +143,13 @@ jobs:
           bash sideplay/duoface-native-scene-host/build.sh
           HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.158~homeonly1_iphoneos-arm64.deb'
           test -s "$HOST"
-          grep -Fq '<key>CFBundleVersion</key><string>157</string>' sideplay/duoface-native-scene-host/Info.plist
+          grep -Fq '<key>CFBundleVersion</key><string>158</string>' sideplay/duoface-native-scene-host/Info.plist
           test "$(dpkg-deb -f "$HOST" Version)" = '0.1.158~homeonly1'
-          mkdir -p "$RUNNER_TEMP/qa157-host"
-          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa157-host"
-          ldid -e "$RUNNER_TEMP/qa157-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
-          ldid -e "$RUNNER_TEMP/qa157-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null
-          ! strings -a "$RUNNER_TEMP/qa157-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'selected-tap-redirect-to-existing-duoface-icon'
+          mkdir -p "$RUNNER_TEMP/qa158-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa158-host"
+          ldid -e "$RUNNER_TEMP/qa158-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
+          ldid -e "$RUNNER_TEMP/qa158-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null
+          ! strings -a "$RUNNER_TEMP/qa158-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'selected-tap-redirect-to-existing-duoface-icon'
           echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
       - name: Assemble signed independent merged QA147 private candidate, NOT public APT
         run: |
@@ -159,14 +159,14 @@ jobs:
           test -s "$OUT"
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
           test "$(dpkg-deb -f "$OUT" Version)" = '0.0.158~homeonly1'
-          mkdir -p "$RUNNER_TEMP/qa157-merged"
-          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa157-merged"
+          mkdir -p "$RUNNER_TEMP/qa158-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa158-merged"
           for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator DF155GeneralAppStateRelay; do
-            ldid -e "$RUNNER_TEMP/qa157-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
+            ldid -e "$RUNNER_TEMP/qa158-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
           done
-          test -s "$RUNNER_TEMP/qa157-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
-          strings -a "$RUNNER_TEMP/qa157-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'
-          strings -a "$RUNNER_TEMP/qa157-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'
+          test -s "$RUNNER_TEMP/qa158-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
+          strings -a "$RUNNER_TEMP/qa158-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'
+          strings -a "$RUNNER_TEMP/qa158-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'
           test "$(dpkg-deb -c "$OUT" | head -1 | awk '{print $1, $2}')" = "drwxr-xr-x root/root"
           echo "QA158_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"
           shasum -a 256 "$OUT"
@@ -194,7 +194,7 @@ jobs:
             git -C "$DIR" config user.name 'github-actions[bot]'
             git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
-            git -C "$DIR" commit -m 'qa157: archive signed UNPUBLISHED SOLO-picker candidate (hardware unverified) [skip ci]'
+            git -C "$DIR" commit -m 'qa158: archive signed UNPUBLISHED Home-only candidate (hardware unverified) [skip ci]'
             if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
               git worktree remove --force "$DIR"
               git fetch origin "$BRANCH"
