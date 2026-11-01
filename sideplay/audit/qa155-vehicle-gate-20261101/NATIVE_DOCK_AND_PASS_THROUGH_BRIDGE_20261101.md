@@ -1,3 +1,7 @@
+## 2026-11-01 Signed 156 / publisher checkpoint
+
+Source-derived bridge transaction and root/content touch policy were compiled, regression tested and signed. GitHub Actions 41258644147 regression SUCCESS, 41258644090 macOS native signed SUCCESS. Binary com.duoface.jb.embedded_0.0.156~nativebridge1_iphoneos-arm64.deb, 1,189,036 bytes, Git blob 7cfdb81049d3344b288e5bf71b1a9b4e799a1f45, SHA256 9af1868794948317f1c9f1ebd15bb33b091c9132d99c815614287656b806e193. SHA/provenance/CI proof under sideplay/jb-embedded-appbridge/evidence/runs/41258644090; source code commit 32f3d96f37691ba03d87ddfc419a0678aade4023; package archive branch ref 7b94716cce58f712ba064051f055d959f20023aa. No car test. Publisher old carplaydsp main SHA 8d03baff44f608da5fa17bef260366efff0badd0, workflow exact 14-app filter and old QA155/147 binary rollback validation; build Pages run 41258932740 and YAML validator run 41258932806 pending at checkpoint. Must inspect green jobs BEFORE saying users can install on original Sileo source.
+
 # Native Home/AppDock broker + external root/content touch geometry — 2026-11-01
 
 ## User goal and source provenance
