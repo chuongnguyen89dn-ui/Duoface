@@ -21,6 +21,7 @@ class NativeCarPlayHome159(unittest.TestCase):
   self.assertIn("hostViewForBundleID:self.bundle error:&err",begin)
   self.assertIn("setSplitMode:NO forHostedView:v",begin)
   self.assertNotIn("DF157RegisterSoloPickerReceiver();",SOLO)
+  self.assertNotIn('#import "DFSoloPickerCarPlay157.h"',SOLO)
   self.assertIn("- (BOOL)df157ReturnHomeToPicker {return NO;}",PILL)
  def test_statusbar_native_apple_home_callback_unmodified(self):
   self.assertIn('DF157NativeHomeCallbackObserved();',HOME)

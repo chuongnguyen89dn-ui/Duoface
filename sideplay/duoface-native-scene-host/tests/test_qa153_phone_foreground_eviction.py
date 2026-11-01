@@ -50,10 +50,10 @@ class PhoneNativeEviction153(unittest.TestCase):
   self.assertIn('0.12*NSEC_PER_SEC',EVICT)
   self.assertIn('qa153-phone-old-completion-rejected',EVICT)
   self.assertIn('qa153-phone-home-exception',EVICT)
-  # QA157: actual Home revokes app lease, then retains only source-owned chooser
-  # if a live SOLO bridge was verified; otherwise follows original stop path.
+  # QA159 physical Log26: Home must revoke phone prep and tear down
+  # independently owned scene; NO DuoFace picker may obscure native Home.
   self.assertIn('DF153PhoneRevoke();',SOLO)
-  self.assertIn('if(![DF144Owner df157ReturnHomeToPicker])',SOLO)
+  self.assertNotIn('if(![DF144Owner df157ReturnHomeToPicker])',SOLO)
   self.assertIn('[DF144Owner stop:@"native-Home-exit"]',SOLO)
   self.assertIn('DF144LeaseHeartbeat',SOLO)
   self.assertIn('DF153PhoneRevoke();[DF144Owner stop:@"native-app-switch"];',SOLO)

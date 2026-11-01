@@ -14,7 +14,7 @@ HOME=(R/"DFCarPlayOwnerObserver.h").read_text()
 class SoloOwnedMenu157(unittest.TestCase):
  def test_real_original_observation_yields_one_scene_owner(self):
   self.assertIn('#import "DFSoloPill157.h"',SOLO)
-  self.assertIn('#import "DFSoloPickerCarPlay157.h"',SOLO)
+  self.assertNotIn('#import "DFSoloPickerCarPlay157.h"',SOLO)
   self.assertEqual(SOLO.count("[[DFSceneHost sharedHost] hostViewForBundleID:self.bundle error:&err]"),1)
   self.assertNotIn("[self df157InstallSoloMenuWithUsableRect:usable]",SOLO)
   self.assertNotIn("self.soloPill.hidden=NO",SOLO)

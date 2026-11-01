@@ -16,18 +16,16 @@ class HomeOnly158(unittest.TestCase):
   self.assertIn("picker.view.hidden=YES;",builder)
   self.assertNotIn("self.soloPill.hidden=NO",SOLO)
   self.assertIn("setSplitMode:NO forHostedView:v",SOLO)
- def test_home_route_not_gated_by_dying_remote_scene(self):
+ def test_home_returns_apple_native_app_grid_not_first_party_picker(self):
   body=PICKER.split("- (BOOL)df157ReturnHomeToPicker {",1)[1].split("- (void)appPickerDidCancel:",1)[0]
-  gate=body.split(" BOOL outgoingSceneLive=",1)[0]
-  self.assertIn("!self.emittedManager",gate)
-  self.assertIn("self.window.rootViewController!=self.root",gate)
-  self.assertIn("![self currentCarDisplayWithID:self.carDisplayID]",gate)
-  self.assertNotIn("isLiveSceneForHostedView:",gate)
+  self.assertIn("return NO;",body)
   self.assertNotIn("self.homeChooser=YES;",body)
   self.assertNotIn("self.soloPicker.view.hidden=NO;",body)
-  self.assertIn("return NO;",body)
   self.assertIn('notify_post("com.duoface.nativehost.standalone144.stop")',HOME)
   self.assertIn("DFOwnerDBHomeOriginal(object,sel,event);",HOME)
+  stop=SOLO.split("notify_register_dispatch(DF144StopNotify,&stopToken",1)[1].split("notify_register_dispatch(DF148WatchdogStopNotify",1)[0]
+  self.assertIn('[DF144Owner stop:@"native-Home-exit"]',stop)
+  self.assertNotIn("df157ReturnHomeToPicker",stop)
  def test_only_home_chooser_selects_next_app_and_preserves_native_owner(self):
   b=PICKER.split("didSelectBundleID:(NSString *)bundle displayName:",1)[1].split("- (void)appPickerDidRequestLayout:",1)[0]
   self.assertIn("!self.homeChooser",b)  # deactivated legacy delegate

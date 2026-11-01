@@ -33,8 +33,10 @@ static const char *const DF148WatchdogStopNotify="com.duoface.nativehost.standal
 static const char *const DF148NativeSwitchStopNotify="com.duoface.nativehost.standalone144.stop.native-switch";
 static const char *const DF148OwnerRevokeStopNotify="com.duoface.nativehost.standalone144.stop.owner-revoke";
 static const char *const DF144ResultNotify="com.duoface.nativehost.standalone144.result";
+#if defined(DF144_SPRINGBOARD)
 static NSString *const DF144PickerRequest=@"/var/mobile/Library/Preferences/com.duoface.nativehost.solo-picker-request.plist";
 static const char *const DF144PickerNotify="com.duoface.nativehost.solo-picker.request";
+#endif
 static NSString *const DF144HostApp=@"com.duoface.native.scenehost";
 static void DF144Log(NSString *tag,NSString *detail) {
  NSString *line=[NSString stringWithFormat:@"[DFStandalone144] time=%.3f process=%@ stage=%@ %@\n",
@@ -255,7 +257,7 @@ void DF157NativeHomeCallbackObserved(void) {
     DF147Reset(@"native-home-stop");
  }
 }
-#import "DFSoloPickerCarPlay157.h"
+// QA159: no first-party picker broker in native CarPlay; genuine icon grid owns Home.
 static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  NSString *bid=DF144Bundle(icon,0);
  if(![icon isKindOfClass:UIView.class] ||
