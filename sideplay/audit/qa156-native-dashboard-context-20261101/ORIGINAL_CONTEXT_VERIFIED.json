@@ -1,0 +1,40 @@
+{
+  "original_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+  "selectors": {
+    "0x3a9cc0": "_currentDashboard",
+    "0x3a9cc8": "dashboard",
+    "0x3aa0a8": "showingApp",
+    "0x3aa0b8": "_foregroundActiveScene",
+    "0x3aa0c0": "_activeBundleIdentifierForScene:",
+    "0x3aa0c8": "workspace",
+    "0x3aa050": "sharedApplicationLibrary",
+    "0x3a8360": "applicationInfoForBundleIdentifier:",
+    "0x3aa0d0": "deactivateApplication:",
+    "0x3aa0d8": "setCompletionHandler:",
+    "0x3a9b58": "requestStateChange:",
+    "0x3aa100": "setAppDockActiveBundleID:",
+    "0x3aa108": "setHomeButtonInApp:"
+  },
+  "fallback": "currentDashboard",
+  "bounded_objc_dispatch_sites": {
+    "0x141580": "dashboard getter",
+    "0x2c6070": "showingApp",
+    "0x2c61c8": "foreground scene",
+    "0x2c6204": "scene bundle",
+    "0x2c6294": "application lookup",
+    "0x2c62d4": "workspace",
+    "0x2c6358": "deactivateApplication",
+    "0x2c6388": "completion",
+    "0x2c6398": "requestStateChange",
+    "0x2c7170": "clear Dock bundle",
+    "0x2c718c": "outside-app Home",
+    "0x2c7518": "Home display state"
+  },
+  "terminal_arguments": {
+    "Dock_bundle": "nil",
+    "Home_inApp": false,
+    "Home_displayState": "inApp XOR1 =1 when outside app"
+  },
+  "limits": "Pinned static call-site evidence; not runtime Apple dispatch or physical navigation proof.",
+  "result": "PASS"
+}
