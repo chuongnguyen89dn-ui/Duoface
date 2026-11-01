@@ -87,7 +87,7 @@ def markdown(data,original_symbols):
           f"- Direct call branches to exact address: **{len(f['direct_callers'])}**",
           "- Direct callers: "+(", ".join("`"+x["address"]+"`" for x in f["direct_callers"][:35]) or "none found"),
           "- Reverse callers up to four hops: "+(", ".join("`"+x["owner"]+"`" for x in f["callers_up_to_four_hops"][:50]) or "none from direct B/BL")])
-        out.append("","First instructions at exported address:")
+        out.extend(["","First instructions at exported address:"])
         out.append("```text")
         out.extend(" ".join(ins) for ins in f["first_65_instructions"][:28])
         out.append("```")
