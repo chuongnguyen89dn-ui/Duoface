@@ -241,6 +241,20 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
  });
  return YES;
 }
+// This symbol is called from DFCarPlayDockOwner.m's real statusbar hook.
+// The two .m files are separate translation units linked in ONE signed dylib.
+void DF157NativeHomeCallbackObserved(void) {
+ DF144NativeHomeHandled=YES;
+ if(DF147Life.active && DF147Captured &&
+    DF147RequestID.length && DF147Session.length && DF147Bundle.length) {
+    DF144ChooserSession=[DF147Session copy];
+    DF144Log(@"solo-native-home-own-bridge",
+      [NSString stringWithFormat:@"req=%@ bundle=%@",DF147RequestID,DF147Bundle]);
+    // Real original DuoNavi stops/dismisses its owned bridge in the Home
+    // callback, before returning to Apple's original Home handler.
+    DF147Reset(@"native-home-stop");
+ }
+}
 #import "DFSoloPickerCarPlay157.h"
 static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  NSString *bid=DF144Bundle(icon,0);
