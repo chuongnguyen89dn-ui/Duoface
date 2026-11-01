@@ -263,9 +263,8 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     self.visualOpacity=[p objectForKey:@"opacity"] ? [p doubleForKey:@"opacity"]:0.93;
     self.visualOpacity=fmax(0.5,fmin(1.0,self.visualOpacity));
     self.displayLimit=[p objectForKey:@"showLimit"] ? [p boolForKey:@"showLimit"]:YES;
-    self.selectedSource=[p integerForKey:@"source"];
-    if(self.selectedSource!=0 && self.selectedSource!=2 &&
-       self.selectedSource!=3 && self.selectedSource!=4)self.selectedSource=0;
+    // QA162 source gate: only GOFA is connected. Never label GOFA as Waze/VietMap.
+    self.selectedSource=4;
     [self refreshStyle];
 }
 - (void)saveSettings {
@@ -340,7 +339,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
             case 3:label=@"Mờ −";break;
             case 4:label=@"Mờ +";break;
             case 5:label=self.displayLimit?@"Biển: Có":@"Biển: Không";break;
-            case 6:label=[NSString stringWithFormat:@"Nguồn: %@",[self sourceTitle]];break;
+            case 6:label=@"Nguồn: GOFA";break;
             case 7:label=@"Đặt lại";break;
             case 8:label=@"Đóng";break;
             default:break;
@@ -355,8 +354,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
         case 3:self.visualOpacity=fmax(0.5,self.visualOpacity-0.1);break;
         case 4:self.visualOpacity=fmin(1.0,self.visualOpacity+0.1);break;
         case 5:self.displayLimit=!self.displayLimit;break;
-        case 6:self.selectedSource=self.selectedSource==0?2:
-             self.selectedSource==2?3:self.selectedSource==3?4:0;break;
+        case 6:self.selectedSource=4;break; // Other source adapters are not connected.
         case 7:{
             NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
             [p removeObjectForKey:@"positionX"];
