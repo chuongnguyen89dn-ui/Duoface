@@ -1,0 +1,596 @@
+{
+  "source": "full original ARM64 disassembly + Apple otool -Iv",
+  "static_only": true,
+  "direct_instructions": 16711,
+  "import_lines": [
+    "0x000000000004361c   138 _MSHookFunction",
+    "0x0000000000043628   139 _MSHookMessageEx",
+    "0x0000000000043898   304 _dlsym",
+    "0x0000000000043a3c   356 _objc_msgSend",
+    "0x0000000000043a48   357 _objc_msgSendSuper2",
+    "0x0000000000043d24   418 _swift_dynamicCast",
+    "0x000000000005c3a0   138 _MSHookFunction",
+    "0x000000000005c3a8   139 _MSHookMessageEx",
+    "0x000000000005c620   304 _dlsym",
+    "0x000000000005c7c0   356 _objc_msgSend",
+    "0x000000000005c7c8   356 _objc_msgSend",
+    "0x000000000005c7d0   357 _objc_msgSendSuper2",
+    "0x000000000005c9b8   418 _swift_dynamicCast"
+  ],
+  "identified_direct_call_sites": [
+    {
+      "at": "0xab58",
+      "function": "0xa988",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000000ab58\tb4e20094\tbl\t#0x43628"
+    },
+    {
+      "at": "0xda80",
+      "function": "0xa988",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000000da80\tefd70094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0xe7a0",
+      "function": "0xa988",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000000e7a0\ta7d40094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0xe7e0",
+      "function": "0xa988",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000000e7e0\t97d40094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0xe8d8",
+      "function": "0xa988",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000000e8d8\t59d40094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0xe8f4",
+      "function": "0xa988",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000000e8f4\t52d40094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x17c98",
+      "function": "0x17ac4",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "0000000000017c98\t64ae0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x1a988",
+      "function": "0x1a8e8",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000001a988\t2da40094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x278a8",
+      "function": "0x27840",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "00000000000278a8\tfc6f0094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x2f83c",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002f83c\t7b4f0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2f85c",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002f85c\t734f0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2f9ec",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002f9ec\t0f4f0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2fa14",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002fa14\t054f0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2fa3c",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002fa3c\tfb4e0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2fae4",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002fae4\td14e0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2fb00",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002fb00\tca4e0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2fb20",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002fb20\tc24e0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2fb40",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002fb40\tba4e0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x2fb60",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000002fb60\tb24e0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x30178",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "0000000000030178\t2c4d0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x30210",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "0000000000030210\t064d0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x3022c",
+      "function": "0x2f798",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000003022c\tff4c0094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x3028c",
+      "function": "0x2f798",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "000000000003028c\te44c0094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x303d8",
+      "function": "0x2f798",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "00000000000303d8\t914c0094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x30710",
+      "function": "0x2f798",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "0000000000030710\tc34b0094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x30840",
+      "function": "0x2f798",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "0000000000030840\t774b0094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x3086c",
+      "function": "0x2f798",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "000000000003086c\t6c4b0094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x308e4",
+      "function": "0x2f798",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "00000000000308e4\t4e4b0094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x311f4",
+      "function": "0x30f40",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "00000000000311f4\t0d490094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x31d30",
+      "function": "0x31cbc",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "0000000000031d30\t43470094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x32428",
+      "function": "0x32288",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "0000000000032428\t85450094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x34b60",
+      "function": "0x34ab0",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "0000000000034b60\tb73b0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x34b7c",
+      "function": "0x34ab0",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "0000000000034b7c\tb03b0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x369e8",
+      "function": "0x368f4",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "00000000000369e8\t15340094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3716c",
+      "function": "0x36f64",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "000000000003716c\t2f310094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x371b0",
+      "function": "0x36f64",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "00000000000371b0\t1e310094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x37354",
+      "function": "0x3728c",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "0000000000037354\tb5300094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x373cc",
+      "function": "0x3728c",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "00000000000373cc\t97300094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x37488",
+      "function": "0x3728c",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "0000000000037488\t68300094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x37a8c",
+      "function": "0x37a20",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "0000000000037a8c\tec2f0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x37bd0",
+      "function": "0x37b64",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "0000000000037bd0\t9b2f0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x37d48",
+      "function": "0x37ca8",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "0000000000037d48\t3d2f0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x390a4",
+      "function": "0x38f60",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "00000000000390a4\t61290094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x39188",
+      "function": "0x38f60",
+      "target": "0x43628",
+      "import": "_MSHookMessageEx",
+      "instruction": "0000000000039188\t28290094\tbl\t#0x43628"
+    },
+    {
+      "at": "0x393a0",
+      "function": "0x38f60",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "00000000000393a0\t3e290094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x393b4",
+      "function": "0x38f60",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "00000000000393b4\t39290094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x393c8",
+      "function": "0x38f60",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "00000000000393c8\t34290094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x393f0",
+      "function": "0x38f60",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "00000000000393f0\t8b280094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x39408",
+      "function": "0x38f60",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "0000000000039408\t85280094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x39420",
+      "function": "0x38f60",
+      "target": "0x4361c",
+      "import": "_MSHookFunction",
+      "instruction": "0000000000039420\t7f280094\tbl\t#0x4361c"
+    },
+    {
+      "at": "0x3c2e0",
+      "function": "0x3c188",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003c2e0\td71d0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3c308",
+      "function": "0x3c188",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003c308\tcd1d0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3c334",
+      "function": "0x3c188",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003c334\tc21d0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3cc9c",
+      "function": "0x3cb98",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003cc9c\t681b0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3ccc8",
+      "function": "0x3cb98",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003ccc8\t5d1b0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3ccec",
+      "function": "0x3cb98",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003ccec\t541b0094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3e2b4",
+      "function": "0x3e234",
+      "target": "0x43d24",
+      "import": "_swift_dynamicCast",
+      "instruction": "000000000003e2b4\t9c160094\tbl\t#0x43d24"
+    },
+    {
+      "at": "0x3e2e4",
+      "function": "0x3e234",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003e2e4\td6150094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3e340",
+      "function": "0x3e234",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003e340\tbf150094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3e3c0",
+      "function": "0x3e390",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003e3c0\t9f150094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3e448",
+      "function": "0x3e390",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003e448\t7d150094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3e62c",
+      "function": "0x3e390",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003e62c\t04150094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3ea18",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003ea18\t09140094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3eb24",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003eb24\tc6130094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3f0bc",
+      "function": "0x3e940",
+      "target": "0x43d24",
+      "import": "_swift_dynamicCast",
+      "instruction": "000000000003f0bc\t1a130094\tbl\t#0x43d24"
+    },
+    {
+      "at": "0x3f128",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003f128\t45120094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3f18c",
+      "function": "0x3e940",
+      "target": "0x43d24",
+      "import": "_swift_dynamicCast",
+      "instruction": "000000000003f18c\te6120094\tbl\t#0x43d24"
+    },
+    {
+      "at": "0x3f340",
+      "function": "0x3e940",
+      "target": "0x43d24",
+      "import": "_swift_dynamicCast",
+      "instruction": "000000000003f340\t79120094\tbl\t#0x43d24"
+    },
+    {
+      "at": "0x3f394",
+      "function": "0x3e940",
+      "target": "0x43d24",
+      "import": "_swift_dynamicCast",
+      "instruction": "000000000003f394\t64120094\tbl\t#0x43d24"
+    },
+    {
+      "at": "0x3f3f0",
+      "function": "0x3e940",
+      "target": "0x43d24",
+      "import": "_swift_dynamicCast",
+      "instruction": "000000000003f3f0\t4d120094\tbl\t#0x43d24"
+    },
+    {
+      "at": "0x3f410",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003f410\t8b110094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3f420",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003f420\t87110094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3f434",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003f434\t82110094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3f448",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003f448\t7d110094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x3f51c",
+      "function": "0x3e940",
+      "target": "0x43a3c",
+      "import": "_objc_msgSend",
+      "instruction": "000000000003f51c\t48110094\tbl\t#0x43a3c"
+    },
+    {
+      "at": "0x40cd4",
+      "function": "0x40c70",
+      "target": "0x43d24",
+      "import": "_swift_dynamicCast",
+      "instruction": "0000000000040cd4\t140c0094\tbl\t#0x43d24"
+    },
+    {
+      "at": "0x4257c",
+      "function": "0x42560",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "000000000004257c\tc7040094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x42908",
+      "function": "0x428ec",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "0000000000042908\te4030094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x42a00",
+      "function": "0x429e4",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "0000000000042a00\ta6030094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x42a30",
+      "function": "0x42a14",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "0000000000042a30\t9a030094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x43248",
+      "function": "0x4322c",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "0000000000043248\t94010094\tbl\t#0x43898"
+    },
+    {
+      "at": "0x43278",
+      "function": "0x4325c",
+      "target": "0x43898",
+      "import": "_dlsym",
+      "instruction": "0000000000043278\t88010094\tbl\t#0x43898"
+    }
+  ]
+}
