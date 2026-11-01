@@ -18,8 +18,8 @@ class GlobalSpeedHUD163(unittest.TestCase):
         cls.source=(ROOT/"DFGofaSpeedSource162.m").read_text()
 
     def test_only_one_integrated_duoface_package_and_full_compilation(self):
-        self.assertIn('VERSION="0.0.165~nativegofahome1"',PACK)
-        self.assertIn('0.1.165~nativegofahome1',self.build)
+        self.assertIn('VERSION="0.0.166~trafficnavprobe1"',PACK)
+        self.assertIn('0.1.166~trafficnavprobe1',self.build)
         self.assertIn("DFSpeedNativeOverlay163.mm speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm",self.build)
         self.assertIn("DFNative12Chrome.m",self.build)
         self.assertIn("DFGofaSpeedSource162.m",self.build)
