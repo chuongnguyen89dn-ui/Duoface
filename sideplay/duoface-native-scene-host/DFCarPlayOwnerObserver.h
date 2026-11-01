@@ -4,6 +4,7 @@
 #import "DFCarPlayOwnerSelection.h"
 #import <dlfcn.h>
 #import <string.h>
+extern void DF157NativeHomeCallbackObserved(void);
 static void (*DFOwnerDBHomeOriginal)(id,SEL,id);
 static void (*DFOwnerCARHomeOriginal)(id,SEL,id);
 static BOOL DFOwnerHomeHooksReady;
@@ -136,17 +137,13 @@ static void DFOwnerHomeReceived(id receiver) {
     // This callback is the existing verified native statusbar homeButtonUp: ABI
     // (Log22 db=1 ready=1); stop ONLY our separate standalone owner, then keep
     // the old native Home handling and original callback unchanged.
-    DF144NativeHomeHandled=YES;
-    // Only our real signed, scene-owned SOLO app may retain its own App Picker.
-    // Correct ordering follows original: revoke native Dock BEFORE forwarding
-    // Apple's original Home handler, then SpringBoard releases the app scene.
-    BOOL ourSolo=DF147Life.active && DF147Captured && DF147RequestID.length &&
-        DF147Session.length && DF147Bundle.length;
-    if(ourSolo)DF144ChooserSession=[DF147Session copy];
+    // Native Home hook lives in DFCarPlayDockOwner.m, while the SOLO/Dock
+    // manager is in DFHomeStandalone144.m: cross a link-visible C function,
+    // NEVER refer to other translation unit's file-static objects.
+    DF157NativeHomeCallbackObserved();
     int soloStop=notify_post("com.duoface.nativehost.standalone144.stop");
-    if(ourSolo)DF147Reset(@"native-home-stop");
     DFZLog([NSString stringWithFormat:
-       @"qa146-native-home-standalone-stop-notified own=%d status=%d",ourSolo,soloStop]);
+       @"qa146-native-home-standalone-stop-notified status=%d",soloStop]);
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
     NSString *session=pulse[@"Session"];
     id stamp=pulse[@"Timestamp"];
