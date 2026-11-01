@@ -62,8 +62,10 @@ This is **static call-site/selector metadata for original classes**, not visual 
 # macOS/Linux GH Actions runner with capstone==5.0.7 and verified metadata parser
 # Exact commands already executed successfully by runs 41278563346 and 41278627569
 dpkg-deb -x dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb /tmp/duonavi-original
+ORIG="$(find /tmp/duonavi-original -type f -name DuoNaviDashboard.dylib -print -quit)"
+test -n "$ORIG"
 PYTHONPATH=/tmp/parsers python3 sideplay/audit/qa146-native-home-dock-parity-20261031/verify_original_bridge_factory_20261101.py \
-  --binary /tmp/duonavi-original/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib \
+  --binary "$ORIG" \
   --out /tmp/ORIGINAL_DUONAVI_FACTORY_BRIDGE_CLASSREFS_20261101.json
 ```
 
