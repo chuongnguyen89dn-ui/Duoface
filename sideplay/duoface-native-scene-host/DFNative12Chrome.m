@@ -1049,6 +1049,16 @@ static void DFCLog(NSString *text) {
     self.gofaSpeedHUD.floatingDragBounds=cr;
     self.gofaSpeedHUD.ownerWindow=hudWindow;
     [hudRoot.view addSubview:self.gofaSpeedHUD];
+    // Respect saved HUD scale before restoring global fractional position.
+    CGSize actual=self.gofaSpeedHUD.bounds.size;
+    if(!isfinite(actual.width)||!isfinite(actual.height)||
+       actual.width>cr.size.width||actual.height>cr.size.height){
+        [self stop];return NO;
+    }
+    hudWindow.frame=CGRectMake(hudFrame.origin.x,hudFrame.origin.y,
+                               actual.width,actual.height);
+    hudRoot.view.frame=(CGRect){CGPointZero,actual};
+    self.gofaSpeedHUD.frame=(CGRect){CGPointZero,actual};
     [self.gofaSpeedHUD restoreSavedPosition];
     DFCLog(@"qa164-speed8-bubble-window-owned-full-content-no-pane-clamp");
     DFCLog(@"media37-four-physical-scene-windows-restored");
