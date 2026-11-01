@@ -1,0 +1,922 @@
+﻿2026-11-01T03:15:27.2624740Z Current runner version: '2.338.2'
+2026-11-01T03:15:27.2641180Z ##[group]Runner Image Provisioner
+2026-11-01T03:15:27.2641750Z Hosted Compute Agent
+2026-11-01T03:15:27.2642110Z Version: 20261021.618
+2026-11-01T03:15:27.2642530Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-01T03:15:27.2642980Z Build Date: 2026-10-21T00:45:21Z
+2026-11-01T03:15:27.2643400Z Worker ID: {5171719e-19f2-47e8-af0b-fa76b3239d3e}
+2026-11-01T03:15:27.2643860Z Region: westus
+2026-11-01T03:15:27.2644260Z Cloud: MacCloud
+2026-11-01T03:15:27.2644600Z ##[endgroup]
+2026-11-01T03:15:27.2645450Z ##[group]Operating System
+2026-11-01T03:15:27.2645830Z macOS
+2026-11-01T03:15:27.2646140Z 15.8.2
+2026-11-01T03:15:27.2646470Z 24H232
+2026-11-01T03:15:27.2646800Z ##[endgroup]
+2026-11-01T03:15:27.2647170Z ##[group]Runner Image
+2026-11-01T03:15:27.2647530Z Image: macos-15-arm64
+2026-11-01T03:15:27.2647930Z Version: 20261028.0489.1
+2026-11-01T03:15:27.2648790Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20261028.0489/images/macos/macos-15-arm64-Readme.md
+2026-11-01T03:15:27.2649950Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20261028.0489
+2026-11-01T03:15:27.2650910Z ##[endgroup]
+2026-11-01T03:15:27.2651890Z ##[group]GITHUB_TOKEN Permissions
+2026-11-01T03:15:27.2653250Z Contents: write
+2026-11-01T03:15:27.2653780Z Metadata: read
+2026-11-01T03:15:27.2654270Z ##[endgroup]
+2026-11-01T03:15:27.2656090Z Secret source: Actions
+2026-11-01T03:15:27.2656900Z Cache mode: write
+2026-11-01T03:15:27.2657500Z Prepare workflow directory
+2026-11-01T03:15:27.2874120Z Prepare all required actions
+2026-11-01T03:15:27.2909060Z Getting action download info
+2026-11-01T03:15:27.6673680Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-01T03:15:27.9042660Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-01T03:15:28.1058590Z Complete job name: stage-only
+2026-11-01T03:15:28.1663420Z ##[group]Run actions/checkout@v4
+2026-11-01T03:15:28.1663990Z with:
+2026-11-01T03:15:28.1664300Z   fetch-depth: 0
+2026-11-01T03:15:28.1664650Z   repository: chuongnguyen89dn-ui/Duoface
+2026-11-01T03:15:28.1667340Z   token: ***
+2026-11-01T03:15:28.1667650Z   ssh-strict: true
+2026-11-01T03:15:28.1667970Z   ssh-user: git
+2026-11-01T03:15:28.1668290Z   persist-credentials: true
+2026-11-01T03:15:28.1668640Z   clean: true
+2026-11-01T03:15:28.1668970Z   sparse-checkout-cone-mode: true
+2026-11-01T03:15:28.1669360Z   fetch-tags: false
+2026-11-01T03:15:28.1669680Z   show-progress: true
+2026-11-01T03:15:28.1670000Z   lfs: false
+2026-11-01T03:15:28.1670300Z   submodules: false
+2026-11-01T03:15:28.1670630Z   set-safe-directory: true
+2026-11-01T03:15:28.1670990Z   allow-unsafe-pr-checkout: false
+2026-11-01T03:15:28.1671490Z ##[endgroup]
+2026-11-01T03:15:28.5388400Z Syncing repository: chuongnguyen89dn-ui/Duoface
+2026-11-01T03:15:28.5389850Z ##[group]Getting Git version info
+2026-11-01T03:15:28.5390460Z Working directory is '/Users/runner/work/Duoface/Duoface'
+2026-11-01T03:15:28.5391340Z [command]/opt/homebrew/bin/git version
+2026-11-01T03:15:28.5653950Z git version 2.56.0
+2026-11-01T03:15:28.5670600Z ##[endgroup]
+2026-11-01T03:15:28.5678150Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/21f72058-a303-4514-8e5e-b128209584a8/.gitconfig'
+2026-11-01T03:15:28.5684590Z Temporarily overriding HOME='/Users/runner/work/_temp/21f72058-a303-4514-8e5e-b128209584a8' before making global git config changes
+2026-11-01T03:15:28.5685580Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-01T03:15:28.5688040Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/Duoface/Duoface
+2026-11-01T03:15:28.5785900Z Deleting the contents of '/Users/runner/work/Duoface/Duoface'
+2026-11-01T03:15:28.5788320Z ##[group]Initializing the repository
+2026-11-01T03:15:28.5791860Z [command]/opt/homebrew/bin/git init /Users/runner/work/Duoface/Duoface
+2026-11-01T03:15:28.5978020Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-01T03:15:28.5988650Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-01T03:15:28.5995510Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-01T03:15:28.5996370Z hint: call:
+2026-11-01T03:15:28.5996880Z hint:
+2026-11-01T03:15:28.5997450Z hint: 	git config --global init.defaultBranch <name>
+2026-11-01T03:15:28.5998090Z hint:
+2026-11-01T03:15:28.5998650Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-01T03:15:28.5999530Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-01T03:15:28.6000310Z hint:
+2026-11-01T03:15:28.6000780Z hint: 	git branch -m <name>
+2026-11-01T03:15:28.6001450Z hint:
+2026-11-01T03:15:28.6002020Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-01T03:15:28.6002870Z Initialized empty Git repository in /Users/runner/work/Duoface/Duoface/.git/
+2026-11-01T03:15:28.6004550Z [command]/opt/homebrew/bin/git remote add origin https://github.com/chuongnguyen89dn-ui/Duoface
+2026-11-01T03:15:28.6070350Z ##[endgroup]
+2026-11-01T03:15:28.6072240Z ##[group]Disabling automatic garbage collection
+2026-11-01T03:15:28.6072850Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-11-01T03:15:28.6132580Z ##[endgroup]
+2026-11-01T03:15:28.6133170Z ##[group]Setting up auth
+2026-11-01T03:15:28.6137680Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-01T03:15:28.6200130Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-01T03:15:28.7315160Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-01T03:15:28.7377040Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-01T03:15:28.8047420Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-01T03:15:28.8101660Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-01T03:15:28.8777910Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-01T03:15:28.8841060Z ##[endgroup]
+2026-11-01T03:15:28.8841840Z ##[group]Fetching the repository
+2026-11-01T03:15:28.8845550Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-01T03:15:35.3385370Z From https://github.com/chuongnguyen89dn-ui/Duoface
+2026-11-01T03:15:35.3387290Z  * [new branch]        analysis/native12-complete-wiring-20261019 -> origin/analysis/native12-complete-wiring-20261019
+2026-11-01T03:15:35.3389240Z  * [new branch]        audit/duoface-qa137-log17-gofa-home-templatecrash-20261031 -> origin/audit/duoface-qa137-log17-gofa-home-templatecrash-20261031
+2026-11-01T03:15:35.3390910Z  * [new branch]        audit/duonavi-native12-home-roster-20261030 -> origin/audit/duonavi-native12-home-roster-20261030
+2026-11-01T03:15:35.3392150Z  * [new branch]        duoface-carplay-standalone -> origin/duoface-carplay-standalone
+2026-11-01T03:15:35.3393510Z  * [new branch]        feature/duoface-dock-crop-livewindow-20261020 -> origin/feature/duoface-dock-crop-livewindow-20261020
+2026-11-01T03:15:35.3394940Z  * [new branch]        feature/duoface-exact-payload-migration -> origin/feature/duoface-exact-payload-migration
+2026-11-01T03:15:35.3396540Z  * [new branch]        feature/duoface-firstparty-carplay-admission-20261020 -> origin/feature/duoface-firstparty-carplay-admission-20261020
+2026-11-01T03:15:35.3401430Z  * [new branch]        feature/duoface-independent-core -> origin/feature/duoface-independent-core
+2026-11-01T03:15:35.3403020Z  * [new branch]        feature/duoface-jb-embedded-appbridge-20261020 -> origin/feature/duoface-jb-embedded-appbridge-20261020
+2026-11-01T03:15:35.3404760Z  * [new branch]        feature/duoface-native-scene-join-v1-20261020 -> origin/feature/duoface-native-scene-join-v1-20261020
+2026-11-01T03:15:35.3406440Z  * [new branch]        feature/duoface-native12-host-only-bridge-m1 -> origin/feature/duoface-native12-host-only-bridge-m1
+2026-11-01T03:15:35.3408220Z  * [new branch]        feature/duoface-native12-qa7-no-legacy-fallback -> origin/feature/duoface-native12-qa7-no-legacy-fallback
+2026-11-01T03:15:35.3409940Z  * [new branch]        feature/duoface-native12-qa8-late-host-bootstrap -> origin/feature/duoface-native12-qa8-late-host-bootstrap
+2026-11-01T03:15:35.3411800Z  * [new branch]        feature/duoface-native12-root-geometry-qa6 -> origin/feature/duoface-native12-root-geometry-qa6
+2026-11-01T03:15:35.3413400Z  * [new branch]        feature/duoface-native12-ui-on-sideplay-host -> origin/feature/duoface-native12-ui-on-sideplay-host
+2026-11-01T03:15:35.3414900Z  * [new branch]        feature/duoface-original-pair-qa127-20261030 -> origin/feature/duoface-original-pair-qa127-20261030
+2026-11-01T03:15:35.3416190Z  * [new branch]        feature/duoface-qa-control-app-20261020 -> origin/feature/duoface-qa-control-app-20261020
+2026-11-01T03:15:35.3417520Z  * [new branch]        feature/duoface-qa10-picker-divider-source-only -> origin/feature/duoface-qa10-picker-divider-source-only
+2026-11-01T03:15:35.3419060Z  * [new branch]        feature/duoface-qa11-restore-native-dock-split-menu -> origin/feature/duoface-qa11-restore-native-dock-split-menu
+2026-11-01T03:15:35.3420500Z  * [new branch]        feature/duoface-qa126-observer-forensics-20261030 -> origin/feature/duoface-qa126-observer-forensics-20261030
+2026-11-01T03:15:35.3424900Z  * [new branch]        feature/duoface-qa127-evidence-repair-20261030 -> origin/feature/duoface-qa127-evidence-repair-20261030
+2026-11-01T03:15:35.3426660Z  * [new branch]        feature/duoface-qa133-native12-gofa-home-roster-20261030 -> origin/feature/duoface-qa133-native12-gofa-home-roster-20261030
+2026-11-01T03:15:35.3428080Z  * [new branch]        feature/duoface-qa135-home-library-20261030 -> origin/feature/duoface-qa135-home-library-20261030
+2026-11-01T03:15:35.3429580Z  * [new branch]        feature/duoface-qa136-ios16-native-home-publisher-20261031 -> origin/feature/duoface-qa136-ios16-native-home-publisher-20261031
+2026-11-01T03:15:35.3431350Z  * [new branch]        feature/duoface-qa137-home-admission-runtime-abi-20261031 -> origin/feature/duoface-qa137-home-admission-runtime-abi-20261031
+2026-11-01T03:15:35.3433550Z  * [new branch]        feature/duoface-qa138-selected-admission-gofa-layout-20261031 -> origin/feature/duoface-qa138-selected-admission-gofa-layout-20261031
+2026-11-01T03:15:35.3435350Z  * [new branch]        feature/duoface-qa140-reentrant-home-gofa-observer-20261031 -> origin/feature/duoface-qa140-reentrant-home-gofa-observer-20261031
+2026-11-01T03:15:35.3437060Z  * [new branch]        feature/duoface-qa141-declaration-map-layout-20261031 -> origin/feature/duoface-qa141-declaration-map-layout-20261031
+2026-11-01T03:15:35.3438520Z  * [new branch]        feature/duoface-qa142-home-abi-20261031 -> origin/feature/duoface-qa142-home-abi-20261031
+2026-11-01T03:15:35.3440150Z  * [new branch]        feature/duoface-qa144-standalone-carplay-home-20261031 -> origin/feature/duoface-qa144-standalone-carplay-home-20261031
+2026-11-01T03:15:35.3441650Z  * [new branch]        feature/duoface-qa146-native-home-exit-20261031 -> origin/feature/duoface-qa146-native-home-exit-20261031
+2026-11-01T03:15:35.3442980Z  * [new branch]        feature/duoface-qa9-chrome-divider-recovery -> origin/feature/duoface-qa9-chrome-divider-recovery
+2026-11-01T03:15:35.3444300Z  * [new branch]        feature/duoface-sb-admission-probe-20261020 -> origin/feature/duoface-sb-admission-probe-20261020
+2026-11-01T03:15:35.3446020Z  * [new branch]        feature/mytweak-carplayapp-presentation-20261019 -> origin/feature/mytweak-carplayapp-presentation-20261019
+2026-11-01T03:15:35.3447230Z  * [new branch]        feature/mytweak-dashboard-activation-20261019 -> origin/feature/mytweak-dashboard-activation-20261019
+2026-11-01T03:15:35.3448390Z  * [new branch]        feature/mytweak-dashboard-context-20261019 -> origin/feature/mytweak-dashboard-context-20261019
+2026-11-01T03:15:35.3449680Z  * [new branch]        feature/mytweak-dock-runtime-diagnostics-20261019 -> origin/feature/mytweak-dock-runtime-diagnostics-20261019
+2026-11-01T03:15:35.3451020Z  * [new branch]        feature/mytweak-independent-v1a-diagnostic-20261019 -> origin/feature/mytweak-independent-v1a-diagnostic-20261019
+2026-11-01T03:15:35.3452330Z  * [new branch]        feature/mytweak-native-appdock-20261019 -> origin/feature/mytweak-native-appdock-20261019
+2026-11-01T03:15:35.3453720Z  * [new branch]        feature/mytweak-native-dashboard-owner-20261019 -> origin/feature/mytweak-native-dashboard-owner-20261019
+2026-11-01T03:15:35.3455050Z  * [new branch]        feature/mytweak-recovery-safe-20261019 -> origin/feature/mytweak-recovery-safe-20261019
+2026-11-01T03:15:35.3456230Z  * [new branch]        feature/mytweak-v1bc-combined-20261019 -> origin/feature/mytweak-v1bc-combined-20261019
+2026-11-01T03:15:35.3457390Z  * [new branch]        feature/mytweak-workspace-owner-20261019 -> origin/feature/mytweak-workspace-owner-20261019
+2026-11-01T03:15:35.3458630Z  * [new branch]        feature/sideplay-native12-assets-launch -> origin/feature/sideplay-native12-assets-launch
+2026-11-01T03:15:35.3459860Z  * [new branch]        feature/sideplay-native12-gesture-validation -> origin/feature/sideplay-native12-gesture-validation
+2026-11-01T03:15:35.3461290Z  * [new branch]        feature/sideplay-native12-integration-validation -> origin/feature/sideplay-native12-integration-validation
+2026-11-01T03:15:35.3462960Z  * [new branch]        feature/sideplay-normal-carplay-dock -> origin/feature/sideplay-normal-carplay-dock
+2026-11-01T03:15:35.3464080Z  * [new branch]        feature/visual12-duodash-recovery -> origin/feature/visual12-duodash-recovery
+2026-11-01T03:15:35.3465220Z  * [new branch]        fix/duoface-manual-observer-contract-20261030 -> origin/fix/duoface-manual-observer-contract-20261030
+2026-11-01T03:15:35.3466550Z  * [new branch]        fix/duoface-postlock-settings-20261030 -> origin/fix/duoface-postlock-settings-20261030
+2026-11-01T03:15:35.3468120Z  * [new branch]        fix/duoface-qa130-verified-scene-owner-20261030 -> origin/fix/duoface-qa130-verified-scene-owner-20261030
+2026-11-01T03:15:35.3469930Z  * [new branch]        fix/duoface-qa131-iphone-frame-clock-diagnostics-20261030 -> origin/fix/duoface-qa131-iphone-frame-clock-diagnostics-20261030
+2026-11-01T03:15:35.3471640Z  * [new branch]        fix/duoface-qa132-scoped-bks-display-20261030 -> origin/fix/duoface-qa132-scoped-bks-display-20261030
+2026-11-01T03:15:35.3473280Z  * [new branch]        fix/duoface-qa134-gofa-owner-candidate-20261030 -> origin/fix/duoface-qa134-gofa-owner-candidate-20261030
+2026-11-01T03:15:35.3474930Z  * [new branch]        fix/duoface-qa139-black-screen-recovery-20261031 -> origin/fix/duoface-qa139-black-screen-recovery-20261031
+2026-11-01T03:15:35.3476140Z  * [new branch]        main       -> origin/main
+2026-11-01T03:15:35.3477130Z  * [new branch]        research/duoface-tap-appstate-20261030 -> origin/research/duoface-tap-appstate-20261030
+2026-11-01T03:15:35.3478580Z  * [new branch]        research/duonavi104-voice-server-audit-20261021 -> origin/research/duonavi104-voice-server-audit-20261021
+2026-11-01T03:15:35.3481060Z [command]/opt/homebrew/bin/git branch --list --remote origin/feature/duoface-qa146-native-home-exit-20261031
+2026-11-01T03:15:35.3523000Z   origin/feature/duoface-qa146-native-home-exit-20261031
+2026-11-01T03:15:35.3537160Z [command]/opt/homebrew/bin/git rev-parse refs/remotes/origin/feature/duoface-qa146-native-home-exit-20261031
+2026-11-01T03:15:35.3580030Z 89e951b024f7e38311e5487eb679a96f7d9fdfe0
+2026-11-01T03:15:35.3581960Z ##[endgroup]
+2026-11-01T03:15:35.3582650Z ##[group]Determining the checkout info
+2026-11-01T03:15:35.3583380Z ##[endgroup]
+2026-11-01T03:15:35.3586400Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-11-01T03:15:35.3663380Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-01T03:15:35.3729200Z ##[group]Checking out the ref
+2026-11-01T03:15:35.3731970Z [command]/opt/homebrew/bin/git checkout --progress --force -B feature/duoface-qa146-native-home-exit-20261031 refs/remotes/origin/feature/duoface-qa146-native-home-exit-20261031
+2026-11-01T03:15:36.4554110Z Updating files:  77% (3079/3987)
+2026-11-01T03:15:36.4699650Z Updating files:  78% (3110/3987)
+2026-11-01T03:15:36.4876290Z Updating files:  79% (3150/3987)
+2026-11-01T03:15:36.5041870Z Updating files:  80% (3190/3987)
+2026-11-01T03:15:36.5455070Z Updating files:  81% (3230/3987)
+2026-11-01T03:15:36.5986990Z Updating files:  82% (3270/3987)
+2026-11-01T03:15:36.6454290Z Updating files:  83% (3310/3987)
+2026-11-01T03:15:36.6814700Z Updating files:  84% (3350/3987)
+2026-11-01T03:15:36.7249740Z Updating files:  85% (3389/3987)
+2026-11-01T03:15:36.7812610Z Updating files:  86% (3429/3987)
+2026-11-01T03:15:36.8556850Z Updating files:  87% (3469/3987)
+2026-11-01T03:15:36.8887020Z Updating files:  88% (3509/3987)
+2026-11-01T03:15:36.8936410Z Updating files:  89% (3549/3987)
+2026-11-01T03:15:36.8983640Z Updating files:  90% (3589/3987)
+2026-11-01T03:15:36.9022720Z Updating files:  91% (3629/3987)
+2026-11-01T03:15:36.9070860Z Updating files:  92% (3669/3987)
+2026-11-01T03:15:36.9144010Z Updating files:  93% (3708/3987)
+2026-11-01T03:15:36.9197000Z Updating files:  94% (3748/3987)
+2026-11-01T03:15:36.9243780Z Updating files:  95% (3788/3987)
+2026-11-01T03:15:36.9286370Z Updating files:  96% (3828/3987)
+2026-11-01T03:15:36.9335780Z Updating files:  97% (3868/3987)
+2026-11-01T03:15:36.9417070Z Updating files:  98% (3908/3987)
+2026-11-01T03:15:36.9469550Z Updating files:  99% (3948/3987)
+2026-11-01T03:15:36.9469920Z Updating files: 100% (3987/3987)
+2026-11-01T03:15:36.9470190Z Updating files: 100% (3987/3987), done.
+2026-11-01T03:15:36.9555980Z Switched to a new branch 'feature/duoface-qa146-native-home-exit-20261031'
+2026-11-01T03:15:36.9565580Z branch 'feature/duoface-qa146-native-home-exit-20261031' set up to track 'origin/feature/duoface-qa146-native-home-exit-20261031'.
+2026-11-01T03:15:36.9707850Z ##[endgroup]
+2026-11-01T03:15:36.9864980Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-11-01T03:15:36.9939470Z 89e951b024f7e38311e5487eb679a96f7d9fdfe0
+2026-11-01T03:15:37.0234080Z ##[group]Run set -euo pipefail
+2026-11-01T03:15:37.0234510Z [36;1mset -euo pipefail[0m
+2026-11-01T03:15:37.0234980Z [36;1mcc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c -o "$RUNNER_TEMP/mailbox156"[0m
+2026-11-01T03:15:37.0235520Z [36;1m"$RUNNER_TEMP/mailbox156"[0m
+2026-11-01T03:15:37.0236190Z [36;1mclang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m -o "$RUNNER_TEMP/ipc156"[0m
+2026-11-01T03:15:37.0236920Z [36;1m"$RUNNER_TEMP/ipc156"[0m
+2026-11-01T03:15:37.0237360Z [36;1mcc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/dock_lifecycle_147.c -o "$RUNNER_TEMP/dock147"[0m
+2026-11-01T03:15:37.0237820Z [36;1m"$RUNNER_TEMP/dock147"[0m
+2026-11-01T03:15:37.0238400Z [36;1mcc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o "$RUNNER_TEMP/manager149"[0m
+2026-11-01T03:15:37.0238880Z [36;1m"$RUNNER_TEMP/manager149"[0m
+2026-11-01T03:15:37.0239330Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v[0m
+2026-11-01T03:15:37.0240000Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa145_controlled_home.py' -v[0m
+2026-11-01T03:15:37.0241000Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa146_native_home_exit.py' -v[0m
+2026-11-01T03:15:37.0241670Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v[0m
+2026-11-01T03:15:37.0242360Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v[0m
+2026-11-01T03:15:37.0243040Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa149_manager_live_scene.py' -v[0m
+2026-11-01T03:15:37.0243710Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa150_workspace_preflight.py' -v[0m
+2026-11-01T03:15:37.0244410Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v[0m
+2026-11-01T03:15:37.0245090Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v[0m
+2026-11-01T03:15:37.0245790Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v[0m
+2026-11-01T03:15:37.0246470Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v[0m
+2026-11-01T03:15:37.0247110Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v[0m
+2026-11-01T03:15:37.0247760Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_bridged_content_window.py' -v[0m
+2026-11-01T03:15:37.0248470Z [36;1mcc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"[0m
+2026-11-01T03:15:37.0248970Z [36;1m"$RUNNER_TEMP/workspace152"[0m
+2026-11-01T03:15:37.0249390Z [36;1mpython3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v[0m
+2026-11-01T03:15:37.0250020Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v[0m
+2026-11-01T03:15:37.0250650Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v[0m
+2026-11-01T03:15:37.0251320Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v[0m
+2026-11-01T03:15:37.0252540Z [36;1mclang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m -o "$RUNNER_TEMP/home141"[0m
+2026-11-01T03:15:37.0253170Z [36;1m"$RUNNER_TEMP/home141"[0m
+2026-11-01T03:15:37.0253750Z [36;1mclang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/safari_home_roster_runtime.m -o "$RUNNER_TEMP/safari-roster"[0m
+2026-11-01T03:15:37.0254360Z [36;1m"$RUNNER_TEMP/safari-roster"[0m
+2026-11-01T03:15:37.0255090Z [36;1mclang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/native_dashboard_context_runtime.m -o "$RUNNER_TEMP/dashboard-context"[0m
+2026-11-01T03:15:37.0255830Z [36;1m"$RUNNER_TEMP/dashboard-context"[0m
+2026-11-01T03:15:37.0256290Z [36;1mcc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_resize_141.c -o "$RUNNER_TEMP/gofa141"[0m
+2026-11-01T03:15:37.0256730Z [36;1m"$RUNNER_TEMP/gofa141"[0m
+2026-11-01T03:15:37.0299970Z shell: /bin/bash -e {0}
+2026-11-01T03:15:37.0300190Z ##[endgroup]
+2026-11-01T03:15:38.6628260Z DF156_MAILBOX_BOUNDARIES_CORRUPTION_RACE_FAILURE_ISOLATION_PASS
+2026-11-01T03:15:39.8386630Z DF156_REAL_DARWIN_CROSS_PROCESS_STATE_ACK_REVOKE_PASS_MACOS_ONLY
+2026-11-01T03:15:39.9012820Z DOCK147_ASYNC_LIFECYCLE_TRANSITIONS_PASS
+2026-11-01T03:15:39.9716770Z MANAGER149_TRANSACTION_ORDER_AND_LATE_PID_PASS
+2026-11-01T03:15:40.1925190Z test_default_off_and_physical_limits_and_cleanup (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_default_off_and_physical_limits_and_cleanup) ... ok
+2026-11-01T03:15:40.1926440Z test_native_system_dock_region_not_guessed (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_native_system_dock_region_not_guessed) ... ok
+2026-11-01T03:15:40.1927680Z test_old_wrong_icon_substitution_never_compiled (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_old_wrong_icon_substitution_never_compiled) ... ok
+2026-11-01T03:15:40.1929030Z test_qa144_not_qa143_packaging_and_split_retained (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_qa144_not_qa143_packaging_and_split_retained) ... ok
+2026-11-01T03:15:40.1930290Z test_true_one_app_springboard_owner_and_original_home_process (test_qa144_no_split_home_redirect.StandaloneHome144Guard.test_true_one_app_springboard_owner_and_original_home_process) ... ok
+2026-11-01T03:15:40.1930940Z 
+2026-11-01T03:15:40.1931160Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.1931880Z Ran 5 tests in 0.000s
+2026-11-01T03:15:40.1932000Z 
+2026-11-01T03:15:40.1932060Z OK
+2026-11-01T03:15:40.2449260Z test_default_off_and_parent_policy_distinct (test_qa145_controlled_home.Home145OptInRegression.test_default_off_and_parent_policy_distinct) ... ok
+2026-11-01T03:15:40.2450200Z test_manual_diagnostics_does_not_assume_render (test_qa145_controlled_home.Home145OptInRegression.test_manual_diagnostics_does_not_assume_render) ... ok
+2026-11-01T03:15:40.2451210Z test_native_home_forwards_if_no_live_receiver (test_qa145_controlled_home.Home145OptInRegression.test_native_home_forwards_if_no_live_receiver) ... ok
+2026-11-01T03:15:40.2452230Z test_phone_ui_has_separate_consent_and_safe_cancel (test_qa145_controlled_home.Home145OptInRegression.test_phone_ui_has_separate_consent_and_safe_cancel) ... ok
+2026-11-01T03:15:40.2453230Z test_qa145_distinct_signed_artifact_no_old_home_to_split (test_qa145_controlled_home.Home145OptInRegression.test_qa145_distinct_signed_artifact_no_old_home_to_split) ... ok
+2026-11-01T03:15:40.2453820Z 
+2026-11-01T03:15:40.2454010Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.2454340Z Ran 5 tests in 0.000s
+2026-11-01T03:15:40.2454540Z 
+2026-11-01T03:15:40.2454640Z OK
+2026-11-01T03:15:40.2940830Z test_only_independent_owned_surface_is_released (test_qa146_native_home_exit.NativeSoloHomeRelease.test_only_independent_owned_surface_is_released) ... ok
+2026-11-01T03:15:40.2942280Z test_real_native_home_callback_and_original_preserved (test_qa146_native_home_exit.NativeSoloHomeRelease.test_real_native_home_callback_and_original_preserved) ... ok
+2026-11-01T03:15:40.2943380Z test_selected_home_app_callback_and_native_dock_remain (test_qa146_native_home_exit.NativeSoloHomeRelease.test_selected_home_app_callback_and_native_dock_remain) ... ok
+2026-11-01T03:15:40.2944390Z test_stop_is_before_old_duoface_only_pulse_gate (test_qa146_native_home_exit.NativeSoloHomeRelease.test_stop_is_before_old_duoface_only_pulse_gate) ... ok
+2026-11-01T03:15:40.2944860Z 
+2026-11-01T03:15:40.2945040Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.2945390Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.2945490Z 
+2026-11-01T03:15:40.2945590Z OK
+2026-11-01T03:15:40.3432290Z test_ack_only_from_real_host_with_pid_and_generation (test_qa147_mount_ack_reentrancy.NativeStandaloneMountAndAck.test_ack_only_from_real_host_with_pid_and_generation) ... ok
+2026-11-01T03:15:40.3433490Z test_mount_geometry_and_failure_boundary_observable (test_qa147_mount_ack_reentrancy.NativeStandaloneMountAndAck.test_mount_geometry_and_failure_boundary_observable) ... ok
+2026-11-01T03:15:40.3434580Z test_no_fake_native_dock_activation (test_qa147_mount_ack_reentrancy.NativeStandaloneMountAndAck.test_no_fake_native_dock_activation) ... ok
+2026-11-01T03:15:40.3435610Z test_pending_precedes_synchronous_mount_and_is_not_rewritten (test_qa147_mount_ack_reentrancy.NativeStandaloneMountAndAck.test_pending_precedes_synchronous_mount_and_is_not_rewritten) ... ok
+2026-11-01T03:15:40.3436580Z 
+2026-11-01T03:15:40.3436780Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.3437130Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.3437320Z 
+2026-11-01T03:15:40.3437420Z OK
+2026-11-01T03:15:40.4175500Z test_frozen_scene_host_and_app_specific_filters_preserved (test_qa148_real_pid_and_stop_identity.ProcessPIDAndNativeStopGuard.test_frozen_scene_host_and_app_specific_filters_preserved) ... ok
+2026-11-01T03:15:40.4176720Z test_nonhome_reasons_never_reuse_true_home_stop (test_qa148_real_pid_and_stop_identity.ProcessPIDAndNativeStopGuard.test_nonhome_reasons_never_reuse_true_home_stop) ... ok
+2026-11-01T03:15:40.4177950Z test_observation_pid_cannot_be_silently_dropped_from_result (test_qa148_real_pid_and_stop_identity.ProcessPIDAndNativeStopGuard.test_observation_pid_cannot_be_silently_dropped_from_result) ... ok
+2026-11-01T03:15:40.4178990Z test_pid_must_belong_to_exact_live_host_and_bundle (test_qa148_real_pid_and_stop_identity.ProcessPIDAndNativeStopGuard.test_pid_must_belong_to_exact_live_host_and_bundle) ... ok
+2026-11-01T03:15:40.4179610Z 
+2026-11-01T03:15:40.4179800Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.4180170Z Ran 4 tests in 0.024s
+2026-11-01T03:15:40.4180370Z 
+2026-11-01T03:15:40.4180480Z OK
+2026-11-01T03:15:40.4694590Z test_dock_tap_selected_manager_and_original_native_fallback (test_qa149_manager_live_scene.FirstPartyManagerLiveReceipt.test_dock_tap_selected_manager_and_original_native_fallback) ... ok
+2026-11-01T03:15:40.4695790Z test_manager_receipt_only_after_real_host_observation (test_qa149_manager_live_scene.FirstPartyManagerLiveReceipt.test_manager_receipt_only_after_real_host_observation) ... ok
+2026-11-01T03:15:40.4696930Z test_native_dock_receives_manager_and_pid_as_independent_facts (test_qa149_manager_live_scene.FirstPartyManagerLiveReceipt.test_native_dock_receives_manager_and_pid_as_independent_facts) ... ok
+2026-11-01T03:15:40.4698130Z test_no_frozen_host_mutation_or_fake_pid_or_render_claim (test_qa149_manager_live_scene.FirstPartyManagerLiveReceipt.test_no_frozen_host_mutation_or_fake_pid_or_render_claim) ... ok
+2026-11-01T03:15:40.4698720Z 
+2026-11-01T03:15:40.4698910Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.4699200Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.4699370Z 
+2026-11-01T03:15:40.4699500Z OK
+2026-11-01T03:15:40.5228390Z test_frozen_geometry_and_native_dock_not_swapped (test_qa150_workspace_preflight.WorkspaceAndTerminalGate.test_frozen_geometry_and_native_dock_not_swapped) ... ok
+2026-11-01T03:15:40.5230020Z test_no_duplicate_terminal_result_or_overwritten_exception (test_qa150_workspace_preflight.WorkspaceAndTerminalGate.test_no_duplicate_terminal_result_or_overwritten_exception) ... ok
+2026-11-01T03:15:40.5231930Z test_probe_reads_method_types_only_and_does_not_modify_workspace (test_qa150_workspace_preflight.WorkspaceAndTerminalGate.test_probe_reads_method_types_only_and_does_not_modify_workspace) ... ok
+2026-11-01T03:15:40.5233470Z test_two_read_only_process_probes_on_verified_selected_requests (test_qa150_workspace_preflight.WorkspaceAndTerminalGate.test_two_read_only_process_probes_on_verified_selected_requests) ... ok
+2026-11-01T03:15:40.5235120Z 
+2026-11-01T03:15:40.5235350Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.5235900Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.5236270Z 
+2026-11-01T03:15:40.5236420Z OK
+2026-11-01T03:15:40.5761360Z test_captures_only_dashboard_owner_from_original_initializer (test_qa151_workspace_owner_capture.WorkspaceCapture151.test_captures_only_dashboard_owner_from_original_initializer) ... ok
+2026-11-01T03:15:40.5762850Z test_hooks_before_selected_home_tap_and_recovers_image_load (test_qa151_workspace_owner_capture.WorkspaceCapture151.test_hooks_before_selected_home_tap_and_recovers_image_load) ... ok
+2026-11-01T03:15:40.5764180Z test_live_receiver_provenance_snapshot_never_activates_native_workspace (test_qa151_workspace_owner_capture.WorkspaceCapture151.test_live_receiver_provenance_snapshot_never_activates_native_workspace) ... ok
+2026-11-01T03:15:40.5765850Z test_workspace_getter_abi_fails_closed_and_old_host_is_unchanged (test_qa151_workspace_owner_capture.WorkspaceCapture151.test_workspace_getter_abi_fails_closed_and_old_host_is_unchanged) ... ok
+2026-11-01T03:15:40.5766620Z 
+2026-11-01T03:15:40.5766910Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.5767470Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.5767690Z 
+2026-11-01T03:15:40.5767920Z OK
+2026-11-01T03:15:40.6299980Z test_frozen_original_host_and_no_fabricated_readiness (test_qa152_workspace_prepare.WorkspaceNativePreparation152.test_frozen_original_host_and_no_fabricated_readiness) ... ok
+2026-11-01T03:15:40.6301290Z test_native_preparation_precedes_remote_scene_and_retains_original_home (test_qa152_workspace_prepare.WorkspaceNativePreparation152.test_native_preparation_precedes_remote_scene_and_retains_original_home) ... ok
+2026-11-01T03:15:40.6302570Z test_no_unverified_owner_app_or_foreground_deactivation (test_qa152_workspace_prepare.WorkspaceNativePreparation152.test_no_unverified_owner_app_or_foreground_deactivation) ... ok
+2026-11-01T03:15:40.6303790Z test_once_completion_fallback_generation_and_home_revocation (test_qa152_workspace_prepare.WorkspaceNativePreparation152.test_once_completion_fallback_generation_and_home_revocation) ... ok
+2026-11-01T03:15:40.6304440Z 
+2026-11-01T03:15:40.6304560Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.6304950Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.6305130Z 
+2026-11-01T03:15:40.6305390Z OK
+2026-11-01T03:15:40.6859270Z test_bounded_cancel_and_no_synthetic_activation (test_qa153_phone_foreground_eviction.PhoneNativeEviction153.test_bounded_cancel_and_no_synthetic_activation) ... ok
+2026-11-01T03:15:40.6861240Z test_host_geometry_is_identical_baseline (test_qa153_phone_foreground_eviction.PhoneNativeEviction153.test_host_geometry_is_identical_baseline) ... ok
+2026-11-01T03:15:40.6862310Z test_phone_home_only_for_same_current_foreground (test_qa153_phone_foreground_eviction.PhoneNativeEviction153.test_phone_home_only_for_same_current_foreground) ... ok
+2026-11-01T03:15:40.6863430Z test_phone_owns_request_and_gates_before_scene_creation (test_qa153_phone_foreground_eviction.PhoneNativeEviction153.test_phone_owns_request_and_gates_before_scene_creation) ... ok
+2026-11-01T03:15:40.6864080Z 
+2026-11-01T03:15:40.6864210Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.6865110Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.6865490Z 
+2026-11-01T03:15:40.6865690Z OK
+2026-11-01T03:15:40.7418650Z test_frozen_host_unmodified (test_qa154_staged_app_state.GenericStateStaging.test_frozen_host_unmodified) ... ok
+2026-11-01T03:15:40.7419750Z test_qa155_receiver_now_built_with_restricted_filter (test_qa154_staged_app_state.GenericStateStaging.test_qa155_receiver_now_built_with_restricted_filter) ... ok
+2026-11-01T03:15:40.7420970Z test_real_live_scene_and_owned_identity_before_publish (test_qa154_staged_app_state.GenericStateStaging.test_real_live_scene_and_owned_identity_before_publish) ... ok
+2026-11-01T03:15:40.7422160Z test_short_lease_restore_and_no_device_wide_changes (test_qa154_staged_app_state.GenericStateStaging.test_short_lease_restore_and_no_device_wide_changes) ... ok
+2026-11-01T03:15:40.7422840Z 
+2026-11-01T03:15:40.7423050Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.7423530Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.7423830Z 
+2026-11-01T03:15:40.7424040Z OK
+2026-11-01T03:15:40.8171900Z test_exact_bounded_original_and_real_device_app_filter (test_qa155_integrated_relay.QA155AppReceiver.test_exact_bounded_original_and_real_device_app_filter) ... ok
+2026-11-01T03:15:40.8175940Z test_no_legacy_relay_filter_broadening (test_qa155_integrated_relay.QA155AppReceiver.test_no_legacy_relay_filter_broadening) ... ok
+2026-11-01T03:15:40.8179100Z test_owner_revocation_and_noninterference (test_qa155_integrated_relay.QA155AppReceiver.test_owner_revocation_and_noninterference) ... ok
+2026-11-01T03:15:40.8180810Z test_real_build_and_merge_enforced (test_qa155_integrated_relay.QA155AppReceiver.test_real_build_and_merge_enforced) ... ok
+2026-11-01T03:15:40.8181450Z 
+2026-11-01T03:15:40.8181770Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.8182270Z Ran 4 tests in 0.002s
+2026-11-01T03:15:40.8182500Z 
+2026-11-01T03:15:40.8182710Z OK
+2026-11-01T03:15:40.8751270Z test_dock_pass_through_without_stealing_real_app_input (test_bridged_content_window.NativeContentWindow.test_dock_pass_through_without_stealing_real_app_input) ... ok
+2026-11-01T03:15:40.8752470Z test_full_screen_root_and_separate_usable_content (test_bridged_content_window.NativeContentWindow.test_full_screen_root_and_separate_usable_content) ... ok
+2026-11-01T03:15:40.8753600Z test_standalone_state_and_original_pane_preserved (test_bridged_content_window.NativeContentWindow.test_standalone_state_and_original_pane_preserved) ... ok
+2026-11-01T03:15:40.8754080Z 
+2026-11-01T03:15:40.8754260Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.8754700Z Ran 3 tests in 0.000s
+2026-11-01T03:15:40.8754870Z 
+2026-11-01T03:15:40.8754930Z OK
+2026-11-01T03:15:40.9390410Z QA152_NATIVE_WORKSPACE_ONCE_GENERATION_CANCELLATION_PASS
+2026-11-01T03:15:40.9850680Z test_broker_is_native_and_springboard_not_split (test_integrated_package_144.Q144PackageContract.test_broker_is_native_and_springboard_not_split) ... ok
+2026-11-01T03:15:40.9851860Z test_explicit_default_off_and_no_success_shortcut (test_integrated_package_144.Q144PackageContract.test_explicit_default_off_and_no_success_shortcut) ... ok
+2026-11-01T03:15:40.9852860Z test_new_unique_candidate_both_versions (test_integrated_package_144.Q144PackageContract.test_new_unique_candidate_both_versions) ... ok
+2026-11-01T03:15:40.9853740Z test_preserve_regressions_native_maps_gofa_youtube_split (test_integrated_package_144.Q144PackageContract.test_preserve_regressions_native_maps_gofa_youtube_split) ... ok
+2026-11-01T03:15:40.9854330Z 
+2026-11-01T03:15:40.9854580Z ----------------------------------------------------------------------
+2026-11-01T03:15:40.9854900Z Ran 4 tests in 0.000s
+2026-11-01T03:15:40.9855070Z 
+2026-11-01T03:15:40.9855150Z OK
+2026-11-01T03:15:41.0607040Z test_host_geometry_remains_baseline (test_qa141_map_layout.Map141Contract.test_host_geometry_remains_baseline) ... ok
+2026-11-01T03:15:41.0614660Z test_scoped_receiver_and_signed_build (test_qa141_map_layout.Map141Contract.test_scoped_receiver_and_signed_build) ... ok
+2026-11-01T03:15:41.0615150Z 
+2026-11-01T03:15:41.0615340Z ----------------------------------------------------------------------
+2026-11-01T03:15:41.0615640Z Ran 2 tests in 0.022s
+2026-11-01T03:15:41.0615770Z 
+2026-11-01T03:15:41.0615890Z OK
+2026-11-01T03:15:41.1190500Z test_bounded_lock_and_valid_native_carplay_owner (test_scoped_bks_132.BKSOriginalFirst.test_bounded_lock_and_valid_native_carplay_owner) ... ok
+2026-11-01T03:15:41.1191710Z test_delayed_rechecks_no_unbounded_loops (test_scoped_bks_132.BKSOriginalFirst.test_delayed_rechecks_no_unbounded_loops) ... ok
+2026-11-01T03:15:41.1192820Z test_exact_symbol_and_runtime_provider (test_scoped_bks_132.BKSOriginalFirst.test_exact_symbol_and_runtime_provider) ... ok
+2026-11-01T03:15:41.1200540Z test_home_and_disconnect_restore (test_scoped_bks_132.BKSOriginalFirst.test_home_and_disconnect_restore) ... ok
+2026-11-01T03:15:41.1203030Z test_no_unlock_or_global_brightness (test_scoped_bks_132.BKSOriginalFirst.test_no_unlock_or_global_brightness) ... ok
+2026-11-01T03:15:41.1204030Z test_original_always_first_even_when_owned (test_scoped_bks_132.BKSOriginalFirst.test_original_always_first_even_when_owned) ... ok
+2026-11-01T03:15:41.1204640Z 
+2026-11-01T03:15:41.1204890Z ----------------------------------------------------------------------
+2026-11-01T03:15:41.1205440Z Ran 6 tests in 0.000s
+2026-11-01T03:15:41.1206020Z 
+2026-11-01T03:15:41.1206430Z OK
+2026-11-01T03:15:41.1740460Z test_background_cannot_acquire_native_owner (test_native_owner_contract.NativeOwnerContract.test_background_cannot_acquire_native_owner) ... ok
+2026-11-01T03:15:41.1748340Z test_background_retention_and_all_core_readers_share_validator (test_native_owner_contract.NativeOwnerContract.test_background_retention_and_all_core_readers_share_validator) ... ok
+2026-11-01T03:15:41.1749460Z test_home_forwards_both_originals_once_and_checks_abi (test_native_owner_contract.NativeOwnerContract.test_home_forwards_both_originals_once_and_checks_abi) ... ok
+2026-11-01T03:15:41.1750040Z 
+2026-11-01T03:15:41.1750190Z ----------------------------------------------------------------------
+2026-11-01T03:15:41.1750530Z Ran 3 tests in 0.001s
+2026-11-01T03:15:41.1750650Z 
+2026-11-01T03:15:41.1750710Z OK
+2026-11-01T03:15:41.5030780Z 2026-11-01 03:15:41.502 home141[2321:10646] QA138 negative control reproduces native2-to-hook3 recursive growth; harness cap=10 calls=186
+2026-11-01T03:15:41.5031450Z 2026-11-01 03:15:41.502 home141[2321:10646] QA141 same forwarding path bounded: depth=2 calls=3
+2026-11-01T03:15:41.5032730Z 2026-11-01 03:15:41.503 home141[2321:10646] QA141_FORWARDING_REENTRY_EXCEPTION_TLS_NATIVE_DISABLED_POLICY_AND_FACTORY_PASS
+2026-11-01T03:15:41.8197020Z 2026-11-01 03:15:41.819 safari-roster[2325:10658] Safari test reconcile=1 additions=1 granted={(
+2026-11-01T03:15:41.8197570Z     "com.apple.mobilesafari"
+2026-11-01T03:15:41.8217770Z SAFARI_SELECTED_ADMISSION_REAL_FBS_RECORD_DECLARATION_NOTIFY_NATIVE_PRESERVATION_PASS
+2026-11-01T03:15:41.8218200Z )}
+2026-11-01T03:15:42.8615430Z NATIVE_DASHBOARD_NOT_GRID_WORKSPACE_FOREGROUND_REQUEST_ONCE_CANCEL_AND_HOME_EXIT_POLICY_PASS
+2026-11-01T03:15:42.9288900Z QA141_GOFA_LOG19_DIMENSION_GATES_PASS
+2026-11-01T03:15:42.9348940Z ##[group]Run set -euo pipefail
+2026-11-01T03:15:42.9349300Z [36;1mset -euo pipefail[0m
+2026-11-01T03:15:42.9349660Z [36;1mSDK="$(xcrun --sdk iphoneos --show-sdk-path)"[0m
+2026-11-01T03:15:42.9350080Z [36;1mxcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \[0m
+2026-11-01T03:15:42.9350630Z [36;1m  -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \[0m
+2026-11-01T03:15:42.9350960Z [36;1m  -fsyntax-only \[0m
+2026-11-01T03:15:42.9351260Z [36;1m  sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m[0m
+2026-11-01T03:15:42.9383630Z shell: /bin/bash -e {0}
+2026-11-01T03:15:42.9383850Z ##[endgroup]
+2026-11-01T03:15:44.6663190Z ##[group]Run set -euo pipefail
+2026-11-01T03:15:44.6663460Z [36;1mset -euo pipefail[0m
+2026-11-01T03:15:44.6663820Z [36;1mgit clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"[0m
+2026-11-01T03:15:44.6664210Z [36;1mrm -rf "$RUNNER_TEMP/theos/sdks"[0m
+2026-11-01T03:15:44.6664560Z [36;1mgit clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"[0m
+2026-11-01T03:15:44.6664950Z [36;1mcommand -v ldid >/dev/null || brew install ldid[0m
+2026-11-01T03:15:44.6665330Z [36;1mcommand -v dpkg-deb >/dev/null || brew install dpkg[0m
+2026-11-01T03:15:44.6665660Z [36;1mecho "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"[0m
+2026-11-01T03:15:44.6692930Z shell: /bin/bash -e {0}
+2026-11-01T03:15:44.6693120Z ##[endgroup]
+2026-11-01T03:15:44.7001980Z Cloning into '/Users/runner/work/_temp/theos'...
+2026-11-01T03:15:45.2336220Z Submodule 'vendor/dm.pl' (https://github.com/theos/dm.pl.git) registered for path 'vendor/dm.pl'
+2026-11-01T03:15:45.2367570Z Submodule 'vendor/include' (https://github.com/theos/headers.git) registered for path 'vendor/include'
+2026-11-01T03:15:45.2368810Z Submodule 'vendor/lib' (https://github.com/theos/lib.git) registered for path 'vendor/lib'
+2026-11-01T03:15:45.2369660Z Submodule 'vendor/logos' (https://github.com/theos/logos.git) registered for path 'vendor/logos'
+2026-11-01T03:15:45.2370340Z Submodule 'vendor/nic' (https://github.com/theos/nic.git) registered for path 'vendor/nic'
+2026-11-01T03:15:45.2370870Z Submodule 'vendor/orion' (https://github.com/theos/orion.git) registered for path 'vendor/orion'
+2026-11-01T03:15:45.2372330Z Submodule 'vendor/swift-support' (https://github.com/theos/swift-support.git) registered for path 'vendor/swift-support'
+2026-11-01T03:15:45.2374330Z Submodule 'vendor/templates' (https://github.com/theos/templates.git) registered for path 'vendor/templates'
+2026-11-01T03:15:45.2501310Z Cloning into '/Users/runner/work/_temp/theos/vendor/dm.pl'...
+2026-11-01T03:15:45.6445990Z Cloning into '/Users/runner/work/_temp/theos/vendor/include'...
+2026-11-01T03:15:46.1545770Z Cloning into '/Users/runner/work/_temp/theos/vendor/lib'...
+2026-11-01T03:15:46.6456480Z Cloning into '/Users/runner/work/_temp/theos/vendor/logos'...
+2026-11-01T03:15:47.0907490Z Cloning into '/Users/runner/work/_temp/theos/vendor/nic'...
+2026-11-01T03:15:47.5072980Z Cloning into '/Users/runner/work/_temp/theos/vendor/orion'...
+2026-11-01T03:15:47.9787670Z Cloning into '/Users/runner/work/_temp/theos/vendor/swift-support'...
+2026-11-01T03:15:48.3509160Z Cloning into '/Users/runner/work/_temp/theos/vendor/templates'...
+2026-11-01T03:15:48.8363670Z Submodule path 'vendor/dm.pl': checked out 'd9a3b72e274226dd2823c0a7c1d6d05099f4f51c'
+2026-11-01T03:15:48.9377490Z Submodule path 'vendor/include': checked out '13c1f17176d7efe6871551cd69a75b71ac4eeaf1'
+2026-11-01T03:15:48.9841530Z Submodule path 'vendor/lib': checked out '6f2af307568e6b8c52181d26314b0cd69ffaf188'
+2026-11-01T03:15:49.0151860Z Submodule path 'vendor/logos': checked out '365a4e7028234e90bc2cbc724e5c87607130d3b3'
+2026-11-01T03:15:49.0439980Z Submodule path 'vendor/nic': checked out '4e7adcbeac2e4636b91e2f76341adfe4c4d0ceec'
+2026-11-01T03:15:49.0860220Z Submodule path 'vendor/orion': checked out '762159dc214d5aafa2edfc7554c659fc3c658b5b'
+2026-11-01T03:15:49.0922180Z Submodule 'fishhook' (https://github.com/facebook/fishhook.git) registered for path 'vendor/orion/fishhook'
+2026-11-01T03:15:49.1041530Z Cloning into '/Users/runner/work/_temp/theos/vendor/orion/fishhook'...
+2026-11-01T03:15:49.4992630Z Submodule path 'vendor/orion/fishhook': checked out 'aadc161ac3b80db07a9908851839a17ba63a9eb1'
+2026-11-01T03:15:49.5339370Z Submodule path 'vendor/swift-support': checked out '4cf59ff04cdb2ceb27ea2228753e0497297b6182'
+2026-11-01T03:15:49.5842230Z Submodule path 'vendor/templates': checked out '6c3944e281c4726f1383755d0fbb642840312d28'
+2026-11-01T03:15:49.6009390Z Cloning into '/Users/runner/work/_temp/theos/sdks'...
+2026-11-01T03:16:08.9502220Z Updating files:   6% (3758/56286)
+2026-11-01T03:16:09.0534020Z Updating files:   7% (3941/56286)
+2026-11-01T03:16:09.2523090Z Updating files:   8% (4503/56286)
+2026-11-01T03:16:09.4355890Z Updating files:   9% (5066/56286)
+2026-11-01T03:16:09.5365360Z Updating files:  10% (5629/56286)
+2026-11-01T03:16:09.6342760Z Updating files:  11% (6192/56286)
+2026-11-01T03:16:09.7067020Z Updating files:  12% (6755/56286)
+2026-11-01T03:16:09.8546400Z Updating files:  13% (7318/56286)
+2026-11-01T03:16:09.8863190Z Updating files:  13% (7859/56286)
+2026-11-01T03:16:10.1251190Z Updating files:  14% (7881/56286)
+2026-11-01T03:16:10.3326640Z Updating files:  15% (8443/56286)
+2026-11-01T03:16:10.5055830Z Updating files:  16% (9006/56286)
+2026-11-01T03:16:10.6644390Z Updating files:  17% (9569/56286)
+2026-11-01T03:16:10.8265360Z Updating files:  18% (10132/56286)
+2026-11-01T03:16:10.8559310Z Updating files:  19% (10695/56286)
+2026-11-01T03:16:10.9812260Z Updating files:  19% (10786/56286)
+2026-11-01T03:16:11.1813770Z Updating files:  20% (11258/56286)
+2026-11-01T03:16:11.4850020Z Updating files:  21% (11821/56286)
+2026-11-01T03:16:11.6137660Z Updating files:  22% (12383/56286)
+2026-11-01T03:16:11.7362810Z Updating files:  23% (12946/56286)
+2026-11-01T03:16:11.8533360Z Updating files:  24% (13509/56286)
+2026-11-01T03:16:11.9121890Z Updating files:  24% (13927/56286)
+2026-11-01T03:16:12.0785510Z Updating files:  25% (14072/56286)
+2026-11-01T03:16:12.1674740Z Updating files:  26% (14635/56286)
+2026-11-01T03:16:12.2277700Z Updating files:  27% (15198/56286)
+2026-11-01T03:16:12.3971180Z Updating files:  28% (15761/56286)
+2026-11-01T03:16:12.6302930Z Updating files:  29% (16323/56286)
+2026-11-01T03:16:12.8054970Z Updating files:  30% (16886/56286)
+2026-11-01T03:16:12.8548460Z Updating files:  31% (17449/56286)
+2026-11-01T03:16:12.9675490Z Updating files:  31% (17516/56286)
+2026-11-01T03:16:13.0970030Z Updating files:  32% (18012/56286)
+2026-11-01T03:16:13.2244030Z Updating files:  33% (18575/56286)
+2026-11-01T03:16:13.3803030Z Updating files:  34% (19138/56286)
+2026-11-01T03:16:13.4956170Z Updating files:  35% (19701/56286)
+2026-11-01T03:16:13.6800040Z Updating files:  36% (20263/56286)
+2026-11-01T03:16:13.7846150Z Updating files:  37% (20826/56286)
+2026-11-01T03:16:13.8550990Z Updating files:  38% (21389/56286)
+2026-11-01T03:16:13.9202600Z Updating files:  38% (21777/56286)
+2026-11-01T03:16:14.0641020Z Updating files:  39% (21952/56286)
+2026-11-01T03:16:14.1664260Z Updating files:  40% (22515/56286)
+2026-11-01T03:16:14.2393780Z Updating files:  41% (23078/56286)
+2026-11-01T03:16:14.3426200Z Updating files:  42% (23641/56286)
+2026-11-01T03:16:14.4070500Z Updating files:  43% (24203/56286)
+2026-11-01T03:16:14.4641150Z Updating files:  44% (24766/56286)
+2026-11-01T03:16:14.5252720Z Updating files:  45% (25329/56286)
+2026-11-01T03:16:14.6651330Z Updating files:  46% (25892/56286)
+2026-11-01T03:16:14.7866260Z Updating files:  47% (26455/56286)
+2026-11-01T03:16:14.8556280Z Updating files:  48% (27018/56286)
+2026-11-01T03:16:14.8962550Z Updating files:  48% (27381/56286)
+2026-11-01T03:16:15.0082770Z Updating files:  49% (27581/56286)
+2026-11-01T03:16:15.0728640Z Updating files:  50% (28143/56286)
+2026-11-01T03:16:15.1392470Z Updating files:  51% (28706/56286)
+2026-11-01T03:16:15.2220390Z Updating files:  52% (29269/56286)
+2026-11-01T03:16:15.3056640Z Updating files:  53% (29832/56286)
+2026-11-01T03:16:15.3558070Z Updating files:  54% (30395/56286)
+2026-11-01T03:16:15.5095480Z Updating files:  55% (30958/56286)
+2026-11-01T03:16:15.6141040Z Updating files:  56% (31521/56286)
+2026-11-01T03:16:15.6943630Z Updating files:  57% (32084/56286)
+2026-11-01T03:16:15.8841820Z Updating files:  58% (32646/56286)
+2026-11-01T03:16:15.9376370Z Updating files:  58% (33089/56286)
+2026-11-01T03:16:16.1490400Z Updating files:  59% (33209/56286)
+2026-11-01T03:16:16.3327160Z Updating files:  60% (33772/56286)
+2026-11-01T03:16:16.3977000Z Updating files:  61% (34335/56286)
+2026-11-01T03:16:16.5284150Z Updating files:  62% (34898/56286)
+2026-11-01T03:16:16.7635810Z Updating files:  63% (35461/56286)
+2026-11-01T03:16:16.8576230Z Updating files:  64% (36024/56286)
+2026-11-01T03:16:16.8898890Z Updating files:  64% (36287/56286)
+2026-11-01T03:16:17.0751200Z Updating files:  65% (36586/56286)
+2026-11-01T03:16:17.2122010Z Updating files:  66% (37149/56286)
+2026-11-01T03:16:17.3853050Z Updating files:  67% (37712/56286)
+2026-11-01T03:16:17.4432240Z Updating files:  68% (38275/56286)
+2026-11-01T03:16:17.6253560Z Updating files:  69% (38838/56286)
+2026-11-01T03:16:17.7344930Z Updating files:  70% (39401/56286)
+2026-11-01T03:16:17.8570750Z Updating files:  71% (39964/56286)
+2026-11-01T03:16:17.8969620Z Updating files:  71% (40342/56286)
+2026-11-01T03:16:18.0779030Z Updating files:  72% (40526/56286)
+2026-11-01T03:16:18.2309500Z Updating files:  73% (41089/56286)
+2026-11-01T03:16:18.3673850Z Updating files:  74% (41652/56286)
+2026-11-01T03:16:18.4328430Z Updating files:  75% (42215/56286)
+2026-11-01T03:16:18.5209750Z Updating files:  76% (42778/56286)
+2026-11-01T03:16:18.6938740Z Updating files:  77% (43341/56286)
+2026-11-01T03:16:18.7924930Z Updating files:  78% (43904/56286)
+2026-11-01T03:16:18.8582150Z Updating files:  79% (44466/56286)
+2026-11-01T03:16:18.9016030Z Updating files:  79% (44651/56286)
+2026-11-01T03:16:18.9901070Z Updating files:  80% (45029/56286)
+2026-11-01T03:16:19.1156740Z Updating files:  81% (45592/56286)
+2026-11-01T03:16:19.1796100Z Updating files:  82% (46155/56286)
+2026-11-01T03:16:19.2507320Z Updating files:  83% (46718/56286)
+2026-11-01T03:16:19.3234410Z Updating files:  84% (47281/56286)
+2026-11-01T03:16:19.4023290Z Updating files:  85% (47844/56286)
+2026-11-01T03:16:19.5001570Z Updating files:  86% (48406/56286)
+2026-11-01T03:16:19.6345290Z Updating files:  87% (48969/56286)
+2026-11-01T03:16:19.8053720Z Updating files:  88% (49532/56286)
+2026-11-01T03:16:19.8589710Z Updating files:  89% (50095/56286)
+2026-11-01T03:16:19.9815360Z Updating files:  89% (50244/56286)
+2026-11-01T03:16:20.0345640Z Updating files:  90% (50658/56286)
+2026-11-01T03:16:20.0997010Z Updating files:  91% (51221/56286)
+2026-11-01T03:16:20.3127570Z Updating files:  92% (51784/56286)
+2026-11-01T03:16:20.5125360Z Updating files:  93% (52346/56286)
+2026-11-01T03:16:20.6057700Z Updating files:  94% (52909/56286)
+2026-11-01T03:16:20.6723180Z Updating files:  95% (53472/56286)
+2026-11-01T03:16:20.8254270Z Updating files:  96% (54035/56286)
+2026-11-01T03:16:20.8588650Z Updating files:  97% (54598/56286)
+2026-11-01T03:16:20.9714570Z Updating files:  97% (54716/56286)
+2026-11-01T03:16:21.0334400Z Updating files:  98% (55161/56286)
+2026-11-01T03:16:21.1337040Z Updating files:  99% (55724/56286)
+2026-11-01T03:16:21.1338250Z Updating files: 100% (56286/56286)
+2026-11-01T03:16:21.1338700Z Updating files: 100% (56286/56286), done.
+2026-11-01T03:16:22.8038060Z [32m==>[0m [1mDownloading bottle manifests[0m
+2026-11-01T03:16:22.8088410Z ✔︎ Bottle Manifest ldid (2.1.5_2)
+2026-11-01T03:16:22.8641480Z [34m==>[0m [1mWould install 1 formula:[0m
+2026-11-01T03:16:22.8642630Z ldid 2.1.5_2
+2026-11-01T03:16:22.8643440Z [34m==>[0m [1mWould install 1 dependency for ldid:[0m
+2026-11-01T03:16:22.8644040Z libplist 2.8.0
+2026-11-01T03:16:22.8740220Z [32m==>[0m [1mFetching downloads for: [32mldid[39m[0m
+2026-11-01T03:16:23.1428460Z ✔︎ Bottle Manifest libplist (2.8.0)
+2026-11-01T03:16:24.3210890Z ✔︎ Bottle libplist (2.8.0)
+2026-11-01T03:16:24.3311490Z ✔︎ Bottle ldid (2.1.5_2)
+2026-11-01T03:16:24.3357100Z [32m==>[0m [1mInstalling ldid dependency: [32mlibplist[39m (2.8.0)[0m
+2026-11-01T03:16:24.3402620Z [34m==>[0m [1mPouring libplist--2.8.0.arm64_sequoia.bottle.tar.gz[0m
+2026-11-01T03:16:25.5059440Z 🍺  /opt/homebrew/Cellar/libplist/2.8.0: 33 files, 659.1KB
+2026-11-01T03:16:25.5061450Z [32m==>[0m [1mInstalling [32mldid[39m[0m
+2026-11-01T03:16:25.5063680Z [34m==>[0m [1mPouring ldid--2.1.5_2.arm64_sequoia.bottle.tar.gz[0m
+2026-11-01T03:16:26.4400470Z 🍺  /opt/homebrew/Cellar/ldid/2.1.5_2: 6 files, 274.7KB
+2026-11-01T03:16:27.1793990Z [32m==>[0m [1mDownloading bottle manifests[0m
+2026-11-01T03:16:27.1846010Z ✔︎ Bottle Manifest dpkg (1.23.11)
+2026-11-01T03:16:27.2250860Z [34m==>[0m [1mWould install 1 formula:[0m
+2026-11-01T03:16:27.2251570Z dpkg 1.23.11
+2026-11-01T03:16:27.2254120Z [34m==>[0m [1mWould install 2 dependencies for dpkg:[0m
+2026-11-01T03:16:27.2254490Z gpatch  2.8.1
+2026-11-01T03:16:27.2254740Z libmd   1.3.0
+2026-11-01T03:16:27.2394530Z [32m==>[0m [1mFetching downloads for: [32mdpkg[39m[0m
+2026-11-01T03:16:27.4265270Z ✔︎ Bottle Manifest gpatch (2.8.1)
+2026-11-01T03:16:27.4481770Z ✔︎ Bottle Manifest libmd (1.3.0)
+2026-11-01T03:16:28.6357640Z ✔︎ Bottle gpatch (2.8.1)
+2026-11-01T03:16:28.6959640Z ✔︎ Bottle libmd (1.3.0)
+2026-11-01T03:16:28.7511580Z ✔︎ Bottle dpkg (1.23.11)
+2026-11-01T03:16:28.7700140Z [32m==>[0m [1mInstalling dependencies for dpkg:[0m [32mgpatch[39m and [32mlibmd[39m[0m
+2026-11-01T03:16:28.7701060Z [32m==>[0m [1mInstalling dpkg dependency: [32mgpatch[39m (2.8.1)[0m
+2026-11-01T03:16:28.7716090Z [34m==>[0m [1mPouring gpatch--2.8.1.arm64_sequoia.bottle.tar.gz[0m
+2026-11-01T03:16:29.4369410Z 🍺  /opt/homebrew/Cellar/gpatch/2.8.1: 12 files, 417.8KB
+2026-11-01T03:16:29.4373450Z [32m==>[0m [1mInstalling dpkg dependency: [32mlibmd[39m (1.3.0)[0m
+2026-11-01T03:16:29.4415460Z [34m==>[0m [1mPouring libmd--1.3.0.arm64_sequoia.bottle.tar.gz[0m
+2026-11-01T03:16:30.5878660Z 🍺  /opt/homebrew/Cellar/libmd/1.3.0: 138 files, 1.1MB
+2026-11-01T03:16:30.5881170Z [32m==>[0m [1mInstalling [32mdpkg[39m[0m
+2026-11-01T03:16:30.5883750Z [34m==>[0m [1mPouring dpkg--1.23.11.arm64_sequoia.bottle.tar.gz[0m
+2026-11-01T03:16:31.8842360Z 🍺  /opt/homebrew/Cellar/dpkg/1.23.11: 615 files, 11.7MB
+2026-11-01T03:16:31.8846020Z [32m==>[0m [1mCaveats[0m
+2026-11-01T03:16:31.8846500Z [34m==>[0m [1mdpkg[0m
+2026-11-01T03:16:31.8847400Z This installation of dpkg is not configured to install software, so
+2026-11-01T03:16:31.8848800Z commands such as `dpkg -i`, `dpkg --configure` will fail.
+2026-11-01T03:16:31.9008410Z ##[group]Run set -euo pipefail
+2026-11-01T03:16:31.9008790Z [36;1mset -euo pipefail[0m
+2026-11-01T03:16:31.9009140Z [36;1m( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )[0m
+2026-11-01T03:16:31.9009680Z [36;1m( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )[0m
+2026-11-01T03:16:31.9010200Z [36;1m( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )[0m
+2026-11-01T03:16:32.0073770Z shell: /bin/bash -e {0}
+2026-11-01T03:16:32.0074020Z env:
+2026-11-01T03:16:32.0074270Z   THEOS: /Users/runner/work/_temp/theos
+2026-11-01T03:16:32.0074540Z ##[endgroup]
+2026-11-01T03:16:36.4123750Z [0;36m==> [1;39mCleaning…[m
+2026-11-01T03:16:36.5194040Z [0;36m==> [1;36mNotice:[m Build may be slow as Theos isn’t using all available CPU cores on this computer. Consider upgrading GNU Make: https://theos.dev/docs/parallel-building
+2026-11-01T03:16:36.6788860Z [1;31m> [1;3;39mMaking all for tweak DFV1APreflight…[m
+2026-11-01T03:16:38.0624310Z [0;31m==> [1;39mPreprocessing V1ATweak.x…[m
+2026-11-01T03:16:38.1797890Z [0;32m==> [1;39mCompiling V1ATweak.x (arm64)…[m
+2026-11-01T03:16:40.5093250Z [0;32m==> [1;39mCompiling MTPreflight.m (arm64)…[m
+2026-11-01T03:16:40.6243840Z [0;32m==> [1;39mCompiling MTTrialLog.m (arm64)…[m
+2026-11-01T03:16:40.6673590Z [0;32m==> [1;39mCompiling MTBridgeCoordinator.m (arm64)…[m
+2026-11-01T03:16:40.7502360Z [0;32m==> [1;39mCompiling MTBridgeRootViewController.m (arm64)…[m
+2026-11-01T03:16:40.8349040Z [0;32m==> [1;39mCompiling MTSplitContainerViewController.m (arm64)…[m
+2026-11-01T03:16:40.9108420Z [0;32m==> [1;39mCompiling MTAppSlotViewController.m (arm64)…[m
+2026-11-01T03:16:40.9885850Z [0;32m==> [1;39mCompiling MTAppPickerViewController.m (arm64)…[m
+2026-11-01T03:16:41.0587150Z [0;32m==> [1;39mCompiling MTAppLibrary.m (arm64)…[m
+2026-11-01T03:16:41.1025930Z [0;32m==> [1;39mCompiling MTAppLauncher.m (arm64)…[m
+2026-11-01T03:16:41.1512780Z [0;32m==> [1;39mCompiling MTSceneHost.m (arm64)…[m
+2026-11-01T03:16:41.2638740Z [0;33m==> [1;39mLinking tweak DFV1APreflight (arm64)…[m
+2026-11-01T03:16:41.2887220Z ld: warning: -multiply_defined is obsolete
+2026-11-01T03:16:41.3918180Z [0;34m==> [1;39mGenerating debug symbols for DFV1APreflight…[m
+2026-11-01T03:16:41.4896720Z [0;34m==> [1;39mStripping DFV1APreflight (arm64)…[m
+2026-11-01T03:16:41.8128020Z [0;31m==> [1;39mPreprocessing V1ATweak.x…[m
+2026-11-01T03:16:41.8559340Z [0;32m==> [1;39mCompiling V1ATweak.x (arm64e)…[m
+2026-11-01T03:16:43.4356550Z [0;32m==> [1;39mCompiling MTPreflight.m (arm64e)…[m
+2026-11-01T03:16:43.5459930Z [0;32m==> [1;39mCompiling MTTrialLog.m (arm64e)…[m
+2026-11-01T03:16:43.5968170Z [0;32m==> [1;39mCompiling MTBridgeCoordinator.m (arm64e)…[m
+2026-11-01T03:16:43.6890980Z [0;32m==> [1;39mCompiling MTBridgeRootViewController.m (arm64e)…[m
+2026-11-01T03:16:43.7746740Z [0;32m==> [1;39mCompiling MTSplitContainerViewController.m (arm64e)…[m
+2026-11-01T03:16:43.8557500Z [0;32m==> [1;39mCompiling MTAppSlotViewController.m (arm64e)…[m
+2026-11-01T03:16:43.9413600Z [0;32m==> [1;39mCompiling MTAppPickerViewController.m (arm64e)…[m
+2026-11-01T03:16:44.0190590Z [0;32m==> [1;39mCompiling MTAppLibrary.m (arm64e)…[m
+2026-11-01T03:16:44.0682040Z [0;32m==> [1;39mCompiling MTAppLauncher.m (arm64e)…[m
+2026-11-01T03:16:44.1216550Z [0;32m==> [1;39mCompiling MTSceneHost.m (arm64e)…[m
+2026-11-01T03:16:44.2423330Z [0;33m==> [1;39mLinking tweak DFV1APreflight (arm64e)…[m
+2026-11-01T03:16:44.2573160Z ld: warning: -multiply_defined is obsolete
+2026-11-01T03:16:44.3450910Z [0;34m==> [1;39mGenerating debug symbols for DFV1APreflight…[m
+2026-11-01T03:16:44.3648860Z [0;34m==> [1;39mStripping DFV1APreflight (arm64e)…[m
+2026-11-01T03:16:44.3705920Z [0;34m==> [1;39mMerging tweak DFV1APreflight…[m
+2026-11-01T03:16:44.3767740Z [0;34m==> [1;39mSigning DFV1APreflight…[m
+2026-11-01T03:16:44.5409860Z [1;31m> [1;3;39mMaking stage for tweak DFV1APreflight…[m
+2026-11-01T03:16:45.4336050Z dm.pl: building package `com.duoface.mytweak.v1a.preflight:iphoneos-arm64' in `./packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb'
+2026-11-01T03:16:45.9598160Z [0;36m==> [1;39mCleaning…[m
+2026-11-01T03:16:46.0611410Z [0;36m==> [1;36mNotice:[m Build may be slow as Theos isn’t using all available CPU cores on this computer. Consider upgrading GNU Make: https://theos.dev/docs/parallel-building
+2026-11-01T03:16:46.1817400Z [1;31m> [1;3;39mMaking all for tweak DFNativeDashboardBridgeQA…[m
+2026-11-01T03:16:47.1774360Z [0;31m==> [1;39mPreprocessing Tweak.x…[m
+2026-11-01T03:16:47.2317680Z [0;32m==> [1;39mCompiling Tweak.x (arm64)…[m
+2026-11-01T03:16:48.0095050Z [0;32m==> [1;39mCompiling DFCPNativeBridgeQA.m (arm64)…[m
+2026-11-01T03:16:48.7688480Z [0;32m==> [1;39mCompiling DFNativeSidebarTrial.m (arm64)…[m
+2026-11-01T03:16:48.9068720Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPBridgeContract.m (arm64)…[m
+2026-11-01T03:16:49.0033730Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPCommandRelay.m (arm64)…[m
+2026-11-01T03:16:49.1084400Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPRemoteLayer.m (arm64)…[m
+2026-11-01T03:16:49.2110460Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPNativeChromeLayout.m (arm64)…[m
+2026-11-01T03:16:49.2683820Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPDashboardOwner.m (arm64)…[m
+2026-11-01T03:16:49.3808910Z [0;33m==> [1;39mLinking tweak DFNativeDashboardBridgeQA (arm64)…[m
+2026-11-01T03:16:49.3971720Z ld: warning: -multiply_defined is obsolete
+2026-11-01T03:16:49.5024960Z [0;34m==> [1;39mGenerating debug symbols for DFNativeDashboardBridgeQA…[m
+2026-11-01T03:16:49.5200560Z [0;34m==> [1;39mStripping DFNativeDashboardBridgeQA (arm64)…[m
+2026-11-01T03:16:49.8787660Z [0;31m==> [1;39mPreprocessing Tweak.x…[m
+2026-11-01T03:16:49.9275100Z [0;32m==> [1;39mCompiling Tweak.x (arm64e)…[m
+2026-11-01T03:16:50.7211100Z [0;32m==> [1;39mCompiling DFCPNativeBridgeQA.m (arm64e)…[m
+2026-11-01T03:16:51.4453810Z [0;32m==> [1;39mCompiling DFNativeSidebarTrial.m (arm64e)…[m
+2026-11-01T03:16:51.5387300Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPBridgeContract.m (arm64e)…[m
+2026-11-01T03:16:51.6189280Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPCommandRelay.m (arm64e)…[m
+2026-11-01T03:16:51.7046440Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPRemoteLayer.m (arm64e)…[m
+2026-11-01T03:16:51.7989260Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPNativeChromeLayout.m (arm64e)…[m
+2026-11-01T03:16:51.8523580Z [0;32m==> [1;39mCompiling ../mytweak-independent-v1a/prototype/MTCPDashboardOwner.m (arm64e)…[m
+2026-11-01T03:16:51.9648200Z [0;33m==> [1;39mLinking tweak DFNativeDashboardBridgeQA (arm64e)…[m
+2026-11-01T03:16:51.9799170Z ld: warning: -multiply_defined is obsolete
+2026-11-01T03:16:52.0642250Z [0;34m==> [1;39mGenerating debug symbols for DFNativeDashboardBridgeQA…[m
+2026-11-01T03:16:52.0824490Z [0;34m==> [1;39mStripping DFNativeDashboardBridgeQA (arm64e)…[m
+2026-11-01T03:16:52.0886900Z [0;34m==> [1;39mMerging tweak DFNativeDashboardBridgeQA…[m
+2026-11-01T03:16:52.1181790Z [0;34m==> [1;39mSigning DFNativeDashboardBridgeQA…[m
+2026-11-01T03:16:52.2933240Z [1;31m> [1;3;39mMaking stage for tweak DFNativeDashboardBridgeQA…[m
+2026-11-01T03:16:53.1098260Z dm.pl: building package `com.duoface.carplay.nativebridgeqa:iphoneos-arm64' in `./packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb'
+2026-11-01T03:16:53.5952770Z [0;36m==> [1;39mCleaning…[m
+2026-11-01T03:16:53.6804990Z [0;36m==> [1;36mNotice:[m Build may be slow as Theos isn’t using all available CPU cores on this computer. Consider upgrading GNU Make: https://theos.dev/docs/parallel-building
+2026-11-01T03:16:53.8879080Z [1;31m> [1;3;39mMaking all for tweak DFFirstPartyAdmission…[m
+2026-11-01T03:16:55.0911330Z [0;32m==> [1;39mCompiling DFFirstPartyAdmission.m (arm64)…[m
+2026-11-01T03:16:55.9709300Z [0;32m==> [1;39mCompiling DFFirstPartySpringBoard.m (arm64)…[m
+2026-11-01T03:16:56.0310050Z [0;33m==> [1;39mLinking tweak DFFirstPartyAdmission (arm64)…[m
+2026-11-01T03:16:56.0469400Z ld: warning: -multiply_defined is obsolete
+2026-11-01T03:16:56.1139290Z [0;34m==> [1;39mGenerating debug symbols for DFFirstPartyAdmission…[m
+2026-11-01T03:16:56.1255360Z [0;34m==> [1;39mStripping DFFirstPartyAdmission (arm64)…[m
+2026-11-01T03:16:56.4513740Z [0;32m==> [1;39mCompiling DFFirstPartyAdmission.m (arm64e)…[m
+2026-11-01T03:16:57.2710690Z [0;32m==> [1;39mCompiling DFFirstPartySpringBoard.m (arm64e)…[m
+2026-11-01T03:16:57.3263550Z [0;33m==> [1;39mLinking tweak DFFirstPartyAdmission (arm64e)…[m
+2026-11-01T03:16:57.3404230Z ld: warning: -multiply_defined is obsolete
+2026-11-01T03:16:57.4014580Z [0;34m==> [1;39mGenerating debug symbols for DFFirstPartyAdmission…[m
+2026-11-01T03:16:57.4118040Z [0;34m==> [1;39mStripping DFFirstPartyAdmission (arm64e)…[m
+2026-11-01T03:16:57.4169300Z [0;34m==> [1;39mMerging tweak DFFirstPartyAdmission…[m
+2026-11-01T03:16:57.4218530Z [0;34m==> [1;39mSigning DFFirstPartyAdmission…[m
+2026-11-01T03:16:57.5848240Z [1;31m> [1;3;39mMaking stage for tweak DFFirstPartyAdmission…[m
+2026-11-01T03:16:58.3505290Z dm.pl: building package `com.duoface.carplay.firstpartyadmission:iphoneos-arm64' in `./packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb'
+2026-11-01T03:16:58.4164180Z ##[group]Run set -euo pipefail
+2026-11-01T03:16:58.4164460Z [36;1mset -euo pipefail[0m
+2026-11-01T03:16:58.4164700Z [36;1mbash sideplay/duoface-native-scene-host/build.sh[0m
+2026-11-01T03:16:58.4165300Z [36;1mHOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.156~nativebridge4_iphoneos-arm64.deb'[0m
+2026-11-01T03:16:58.4165820Z [36;1mtest -s "$HOST"[0m
+2026-11-01T03:16:58.4166210Z [36;1mgrep -Fq '<key>CFBundleVersion</key><string>156</string>' sideplay/duoface-native-scene-host/Info.plist[0m
+2026-11-01T03:16:58.4166700Z [36;1mtest "$(dpkg-deb -f "$HOST" Version)" = '0.1.156~nativebridge4'[0m
+2026-11-01T03:16:58.4167020Z [36;1mmkdir -p "$RUNNER_TEMP/qa147-host"[0m
+2026-11-01T03:16:58.4167290Z [36;1mdpkg-deb -x "$HOST" "$RUNNER_TEMP/qa147-host"[0m
+2026-11-01T03:16:58.4167780Z [36;1mldid -e "$RUNNER_TEMP/qa147-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null[0m
+2026-11-01T03:16:58.4168520Z [36;1mldid -e "$RUNNER_TEMP/qa147-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null[0m
+2026-11-01T03:16:58.4169420Z [36;1m! strings -a "$RUNNER_TEMP/qa147-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'selected-tap-redirect-to-existing-duoface-icon'[0m
+2026-11-01T03:16:58.4170160Z [36;1mecho "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"[0m
+2026-11-01T03:16:58.4204320Z shell: /bin/bash -e {0}
+2026-11-01T03:16:58.4204480Z env:
+2026-11-01T03:16:58.4204630Z   THEOS: /Users/runner/work/_temp/theos
+2026-11-01T03:16:58.4204830Z ##[endgroup]
+2026-11-01T03:18:26.7075460Z <?xml version="1.0" encoding="UTF-8"?>
+2026-11-01T03:18:26.7078320Z <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+2026-11-01T03:18:26.7079960Z <plist version="1.0">
+2026-11-01T03:18:26.7080750Z <dict>
+2026-11-01T03:18:26.7081680Z 	<key>com.apple.ibtool.document.errors</key>
+2026-11-01T03:18:26.7082390Z 	<dict/>
+2026-11-01T03:18:26.7083970Z 	<key>com.apple.ibtool.document.notices</key>
+2026-11-01T03:18:26.7085560Z 	<dict/>
+2026-11-01T03:18:26.7102330Z 	<key>com.apple.ibtool.document.warnings</key>
+2026-11-01T03:18:26.7103140Z 	<dict/>
+2026-11-01T03:18:26.7132200Z </dict>
+2026-11-01T03:18:26.7133190Z </plist>
+2026-11-01T03:18:26.8516320Z /var/folders/y3/p6x0rn5562l5qyxy7x6jqrsc0000gn/T/tmp.EPVHZj1qRJ/var/jb/Applications/DuoFaceNativeHost.app/Info.plist: OK
+2026-11-01T03:18:26.9188990Z dpkg-deb: building package 'com.duoface.carplay.nativescenehost' in '/Users/runner/work/Duoface/Duoface/sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.156~nativebridge4_iphoneos-arm64.deb'.
+2026-11-01T03:18:27.8220880Z BUILT=/Users/runner/work/Duoface/Duoface/sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.156~nativebridge4_iphoneos-arm64.deb
+2026-11-01T03:18:28.1846180Z ##[group]Run set -euo pipefail
+2026-11-01T03:18:28.1846680Z [36;1mset -euo pipefail[0m
+2026-11-01T03:18:28.1847410Z [36;1mpython3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"[0m
+2026-11-01T03:18:28.1848380Z [36;1mOUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb'[0m
+2026-11-01T03:18:28.1848890Z [36;1mtest -s "$OUT"[0m
+2026-11-01T03:18:28.1849350Z [36;1mtest "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'[0m
+2026-11-01T03:18:28.1849790Z [36;1mtest "$(dpkg-deb -f "$OUT" Version)" = '0.0.156~nativebridge4'[0m
+2026-11-01T03:18:28.1850250Z [36;1mmkdir -p "$RUNNER_TEMP/qa147-merged"[0m
+2026-11-01T03:18:28.1850590Z [36;1mdpkg-deb -x "$OUT" "$RUNNER_TEMP/qa147-merged"[0m
+2026-11-01T03:18:28.1851550Z [36;1mfor mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator DF155GeneralAppStateRelay; do[0m
+2026-11-01T03:18:28.1852500Z [36;1m  ldid -e "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null[0m
+2026-11-01T03:18:28.1852970Z [36;1mdone[0m
+2026-11-01T03:18:28.1853510Z [36;1mtest -s "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"[0m
+2026-11-01T03:18:28.1854760Z [36;1mstrings -a "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'[0m
+2026-11-01T03:18:28.1855710Z [36;1mstrings -a "$RUNNER_TEMP/qa147-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'[0m
+2026-11-01T03:18:28.1856520Z [36;1mtest "$(dpkg-deb -c "$OUT" | head -1 | awk '{print $1, $2}')" = "drwxr-xr-x root/root"[0m
+2026-11-01T03:18:28.1856990Z [36;1mecho "QA147_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"[0m
+2026-11-01T03:18:28.1857420Z [36;1mshasum -a 256 "$OUT"[0m
+2026-11-01T03:18:28.1857780Z [36;1mecho 'QA147_SIGNED_OFFLINE_NO_DEVICE_PROOF_NO_SILEO_RELEASE'[0m
+2026-11-01T03:18:28.4192480Z shell: /bin/bash -e {0}
+2026-11-01T03:18:28.4193050Z env:
+2026-11-01T03:18:28.4193740Z   THEOS: /Users/runner/work/_temp/theos
+2026-11-01T03:18:28.4194820Z   NATIVEHOST_SHA: 2ac7b66c0fee8a103fdb60373b38625a46e2e01a8a648b02aa3e3dc0f09a52f5
+2026-11-01T03:18:28.4195970Z ##[endgroup]
+2026-11-01T03:18:30.1036570Z DUOFACE_JB_EMBEDDED_CANDIDATE_BUILT /Users/runner/work/Duoface/Duoface/sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb bcc54fecaf918afb77dda561a2ec1645a781ff5b56021e208f93482983c77642 38
+2026-11-01T03:18:30.3136730Z [DF154AppState] bundle=%@ restore=%@ windows=%lu
+2026-11-01T03:18:30.3137510Z [DF154AppState] bundle=%@ owner=%@ scene=%@ adjusted=%lu size=%@
+2026-11-01T03:18:30.3138030Z [DF154AppState] bundle=%@ transport-unavailable; no UIKit changes
+2026-11-01T03:18:30.3138740Z [DF154AppState] bundle=%@ registered=exact-owned-scene-only enabled=%d
+2026-11-01T03:18:30.3327960Z qa147-native-dock-active
+2026-11-01T03:18:30.3932700Z tar: stdout: write error: Broken pipe
+2026-11-01T03:18:30.3938010Z dpkg-deb: error: tar subprocess failed with exit status 2
+2026-11-01T03:18:30.4186530Z bcc54fecaf918afb77dda561a2ec1645a781ff5b56021e208f93482983c77642  sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb
+2026-11-01T03:18:30.4193950Z QA147_SIGNED_OFFLINE_NO_DEVICE_PROOF_NO_SILEO_RELEASE
+2026-11-01T03:18:30.4342410Z ##[group]Run actions/upload-artifact@v4
+2026-11-01T03:18:30.4343720Z with:
+2026-11-01T03:18:30.4344370Z   name: QA147-private-standalone-signed-UNPUBLISHED
+2026-11-01T03:18:30.4345850Z   path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb
+2026-11-01T03:18:30.4347170Z   if-no-files-found: error
+2026-11-01T03:18:30.4347910Z   compression-level: 6
+2026-11-01T03:18:30.4348620Z   overwrite: false
+2026-11-01T03:18:30.4349180Z   include-hidden-files: false
+2026-11-01T03:18:30.4349880Z env:
+2026-11-01T03:18:30.4350490Z   THEOS: /Users/runner/work/_temp/theos
+2026-11-01T03:18:30.4351640Z   NATIVEHOST_SHA: 2ac7b66c0fee8a103fdb60373b38625a46e2e01a8a648b02aa3e3dc0f09a52f5
+2026-11-01T03:18:30.4353420Z   QA147_PRIVATE_OUTPUT: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb
+2026-11-01T03:18:30.4354890Z ##[endgroup]
+2026-11-01T03:18:30.9230050Z (node:9047) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-01T03:18:30.9230670Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-01T03:18:30.9303830Z With the provided path, there will be 1 file uploaded
+2026-11-01T03:18:30.9307060Z Artifact name is valid!
+2026-11-01T03:18:30.9307660Z Root directory input is valid!
+2026-11-01T03:18:31.3590520Z Beginning upload of artifact content to blob storage
+2026-11-01T03:18:31.4335440Z (node:9047) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-01T03:18:32.1397250Z Uploaded bytes 1194432
+2026-11-01T03:18:32.2174520Z Finished uploading artifact content to blob storage!
+2026-11-01T03:18:32.2175310Z SHA256 digest of uploaded artifact zip is ad992c502db1540447bcc9fdc068e85d9a5528e63a51db5fbccf258cf1b1d7dd
+2026-11-01T03:18:32.2175860Z Finalizing artifact upload
+2026-11-01T03:18:32.6962340Z Artifact QA147-private-standalone-signed-UNPUBLISHED.zip successfully finalized. Artifact ID 13067859721
+2026-11-01T03:18:32.6963370Z Artifact QA147-private-standalone-signed-UNPUBLISHED has been successfully uploaded! Final size is 1194432 bytes. Artifact ID is 13067859721
+2026-11-01T03:18:32.6975470Z Artifact download URL: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41268432149/artifacts/13067859721
+2026-11-01T03:18:32.7108340Z ##[group]Run set -euo pipefail
+2026-11-01T03:18:32.7108820Z [36;1mset -euo pipefail[0m
+2026-11-01T03:18:32.7109250Z [36;1mBRANCH='feature/duoface-qa146-native-home-exit-20261031'[0m
+2026-11-01T03:18:32.7109770Z [36;1mART='com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb'[0m
+2026-11-01T03:18:32.7110140Z [36;1mfor n in 1 2 3 4; do[0m
+2026-11-01T03:18:32.7110410Z [36;1m  git fetch --no-tags origin "$BRANCH"[0m
+2026-11-01T03:18:32.7110700Z [36;1m  DIR="$(mktemp -d)"[0m
+2026-11-01T03:18:32.7111040Z [36;1m  git worktree add --detach "$DIR" FETCH_HEAD[0m
+2026-11-01T03:18:32.7111470Z [36;1m  OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"[0m
+2026-11-01T03:18:32.7111880Z [36;1m  mkdir -p "$OUT"[0m
+2026-11-01T03:18:32.7112140Z [36;1m  cp "$QA147_PRIVATE_OUTPUT" "$OUT/$ART"[0m
+2026-11-01T03:18:32.7112750Z [36;1m  ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )[0m
+2026-11-01T03:18:32.7113340Z [36;1m  cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"[0m
+2026-11-01T03:18:32.7114480Z [36;1m  printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nDEVICE_DIRECT_HOME_TESTED=false\nSTANDALONE_OWNER_FOREGROUND_VERIFIED=false\nDO_NOT_INSTALL_REPEATEDLY=true\nHOME_STANDALONE_OPTIN_DEFAULT_OFF=true\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"[0m
+2026-11-01T03:18:32.7115710Z [36;1m  git -C "$DIR" config user.name 'github-actions[bot]'[0m
+2026-11-01T03:18:32.7116230Z [36;1m  git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'[0m
+2026-11-01T03:18:32.7116810Z [36;1m  git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"[0m
+2026-11-01T03:18:32.7117590Z [36;1m  git -C "$DIR" commit -m 'qa147: archive signed UNPUBLISHED standalone single-app candidate (hardware unverified) [skip ci]'[0m
+2026-11-01T03:18:32.7118190Z [36;1m  if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then[0m
+2026-11-01T03:18:32.7118510Z [36;1m    git worktree remove --force "$DIR"[0m
+2026-11-01T03:18:32.7118760Z [36;1m    git fetch origin "$BRANCH"[0m
+2026-11-01T03:18:32.7119200Z [36;1m    git cat-file -e "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/SHA256SUMS.txt"[0m
+2026-11-01T03:18:32.7119760Z [36;1m    echo QA147_PRIVATE_SIGNED_ARTIFACT_SAVED_NO_SILEO[0m
+2026-11-01T03:18:32.7120020Z [36;1m    exit 0[0m
+2026-11-01T03:18:32.7120240Z [36;1m  fi[0m
+2026-11-01T03:18:32.7120480Z [36;1m  git worktree remove --force "$DIR"[0m
+2026-11-01T03:18:32.7120790Z [36;1mdone[0m
+2026-11-01T03:18:32.7120940Z [36;1mexit 1[0m
+2026-11-01T03:18:32.7196350Z shell: /bin/bash -e {0}
+2026-11-01T03:18:32.7196660Z env:
+2026-11-01T03:18:32.7196940Z   THEOS: /Users/runner/work/_temp/theos
+2026-11-01T03:18:32.7197300Z   NATIVEHOST_SHA: 2ac7b66c0fee8a103fdb60373b38625a46e2e01a8a648b02aa3e3dc0f09a52f5
+2026-11-01T03:18:32.7198070Z   QA147_PRIVATE_OUTPUT: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb
+2026-11-01T03:18:32.7198680Z ##[endgroup]
+2026-11-01T03:18:33.4459610Z From https://github.com/chuongnguyen89dn-ui/Duoface
+2026-11-01T03:18:33.4460230Z  * branch              feature/duoface-qa146-native-home-exit-20261031 -> FETCH_HEAD
+2026-11-01T03:18:33.4460970Z    89e951b0..e47bbbfe  feature/duoface-qa146-native-home-exit-20261031 -> origin/feature/duoface-qa146-native-home-exit-20261031
+2026-11-01T03:18:33.4672120Z Preparing worktree (detached HEAD e47bbbfe)
+2026-11-01T03:18:34.6656170Z Updating files:  42% (1705/3991)
+2026-11-01T03:18:34.7912490Z Updating files:  43% (1717/3991)
+2026-11-01T03:18:34.7996310Z Updating files:  44% (1757/3991)
+2026-11-01T03:18:34.8053150Z Updating files:  45% (1796/3991)
+2026-11-01T03:18:34.8141200Z Updating files:  46% (1836/3991)
+2026-11-01T03:18:34.8412560Z Updating files:  47% (1876/3991)
+2026-11-01T03:18:34.8740020Z Updating files:  48% (1916/3991)
+2026-11-01T03:18:34.8939940Z Updating files:  49% (1956/3991)
+2026-11-01T03:18:34.9157440Z Updating files:  50% (1996/3991)
+2026-11-01T03:18:34.9369680Z Updating files:  51% (2036/3991)
+2026-11-01T03:18:34.9703780Z Updating files:  52% (2076/3991)
+2026-11-01T03:18:35.0291000Z Updating files:  53% (2116/3991)
+2026-11-01T03:18:35.0851370Z Updating files:  54% (2156/3991)
+2026-11-01T03:18:35.1332810Z Updating files:  55% (2196/3991)
+2026-11-01T03:18:35.1588370Z Updating files:  56% (2235/3991)
+2026-11-01T03:18:35.2037100Z Updating files:  57% (2275/3991)
+2026-11-01T03:18:35.2302490Z Updating files:  58% (2315/3991)
+2026-11-01T03:18:35.2550380Z Updating files:  59% (2355/3991)
+2026-11-01T03:18:35.2864690Z Updating files:  60% (2395/3991)
+2026-11-01T03:18:35.3088820Z Updating files:  61% (2435/3991)
+2026-11-01T03:18:35.3396240Z Updating files:  62% (2475/3991)
+2026-11-01T03:18:35.3661450Z Updating files:  63% (2515/3991)
+2026-11-01T03:18:35.3934690Z Updating files:  64% (2555/3991)
+2026-11-01T03:18:35.4221650Z Updating files:  65% (2595/3991)
+2026-11-01T03:18:35.4510530Z Updating files:  66% (2635/3991)
+2026-11-01T03:18:35.4879950Z Updating files:  67% (2674/3991)
+2026-11-01T03:18:35.4911920Z Updating files:  68% (2714/3991)
+2026-11-01T03:18:35.5203140Z Updating files:  68% (2717/3991)
+2026-11-01T03:18:35.5469040Z Updating files:  69% (2754/3991)
+2026-11-01T03:18:35.5801060Z Updating files:  70% (2794/3991)
+2026-11-01T03:18:35.6246350Z Updating files:  71% (2834/3991)
+2026-11-01T03:18:35.6553060Z Updating files:  72% (2874/3991)
+2026-11-01T03:18:35.6824100Z Updating files:  73% (2914/3991)
+2026-11-01T03:18:35.7181470Z Updating files:  74% (2954/3991)
+2026-11-01T03:18:35.7598880Z Updating files:  75% (2994/3991)
+2026-11-01T03:18:35.7942300Z Updating files:  76% (3034/3991)
+2026-11-01T03:18:35.8276310Z Updating files:  77% (3074/3991)
+2026-11-01T03:18:35.8673800Z Updating files:  78% (3113/3991)
+2026-11-01T03:18:35.8947880Z Updating files:  79% (3153/3991)
+2026-11-01T03:18:35.9340650Z Updating files:  80% (3193/3991)
+2026-11-01T03:18:35.9805200Z Updating files:  81% (3233/3991)
+2026-11-01T03:18:36.0827190Z Updating files:  82% (3273/3991)
+2026-11-01T03:18:36.1729620Z Updating files:  83% (3313/3991)
+2026-11-01T03:18:36.2637620Z Updating files:  84% (3353/3991)
+2026-11-01T03:18:36.3920330Z Updating files:  85% (3393/3991)
+2026-11-01T03:18:36.5042720Z Updating files:  86% (3433/3991)
+2026-11-01T03:18:36.6391120Z Updating files:  87% (3473/3991)
+2026-11-01T03:18:36.7269890Z Updating files:  88% (3513/3991)
+2026-11-01T03:18:36.7338620Z Updating files:  89% (3552/3991)
+2026-11-01T03:18:36.7414030Z Updating files:  90% (3592/3991)
+2026-11-01T03:18:36.7469400Z Updating files:  91% (3632/3991)
+2026-11-01T03:18:36.7573310Z Updating files:  92% (3672/3991)
+2026-11-01T03:18:36.7722100Z Updating files:  93% (3712/3991)
+2026-11-01T03:18:36.7818950Z Updating files:  94% (3752/3991)
+2026-11-01T03:18:36.7886080Z Updating files:  95% (3792/3991)
+2026-11-01T03:18:36.7982810Z Updating files:  96% (3832/3991)
+2026-11-01T03:18:36.8067010Z Updating files:  97% (3872/3991)
+2026-11-01T03:18:36.8115010Z Updating files:  98% (3912/3991)
+2026-11-01T03:18:36.8275170Z Updating files:  99% (3952/3991)
+2026-11-01T03:18:36.8275600Z Updating files: 100% (3991/3991)
+2026-11-01T03:18:36.8275830Z Updating files: 100% (3991/3991), done.
+2026-11-01T03:18:36.8347210Z HEAD is now at e47bbbfe audit: preserve bounded original context verifier and candidate readback
+2026-11-01T03:18:36.9117460Z com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb: OK
+2026-11-01T03:18:37.2818610Z [detached HEAD eacacdda] qa147: archive signed UNPUBLISHED standalone single-app candidate (hardware unverified) [skip ci]
+2026-11-01T03:18:37.2820720Z  4 files changed, 135 insertions(+)
+2026-11-01T03:18:37.2821100Z  create mode 100644 sideplay/jb-embedded-appbridge/evidence/runs/41268432149/CI_RESULT.txt
+2026-11-01T03:18:37.2821740Z  create mode 100644 sideplay/jb-embedded-appbridge/evidence/runs/41268432149/PACKAGING_PROVENANCE.json
+2026-11-01T03:18:37.2829090Z  create mode 100644 sideplay/jb-embedded-appbridge/evidence/runs/41268432149/SHA256SUMS.txt
+2026-11-01T03:18:37.2832300Z  create mode 100644 sideplay/jb-embedded-appbridge/evidence/runs/41268432149/com.duoface.jb.embedded_0.0.156~nativebridge4_iphoneos-arm64.deb
+2026-11-01T03:18:39.0335620Z To https://github.com/chuongnguyen89dn-ui/Duoface
+2026-11-01T03:18:39.0336800Z    e47bbbfe..eacacdda  HEAD -> feature/duoface-qa146-native-home-exit-20261031
+2026-11-01T03:18:39.7876750Z From https://github.com/chuongnguyen89dn-ui/Duoface
+2026-11-01T03:18:39.7878220Z  * branch              feature/duoface-qa146-native-home-exit-20261031 -> FETCH_HEAD
+2026-11-01T03:18:39.7975500Z QA147_PRIVATE_SIGNED_ARTIFACT_SAVED_NO_SILEO
+2026-11-01T03:18:39.8309160Z Post job cleanup.
+2026-11-01T03:18:40.1237120Z [command]/opt/homebrew/bin/git version
+2026-11-01T03:18:40.1375470Z git version 2.56.0
+2026-11-01T03:18:40.1399270Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/49131b7f-8f88-4b68-bc9f-a18e2893005a/.gitconfig'
+2026-11-01T03:18:40.1410620Z Temporarily overriding HOME='/Users/runner/work/_temp/49131b7f-8f88-4b68-bc9f-a18e2893005a' before making global git config changes
+2026-11-01T03:18:40.1412190Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-01T03:18:40.1413520Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/Duoface/Duoface
+2026-11-01T03:18:40.1550780Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-01T03:18:40.1687440Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-01T03:18:40.3636830Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-01T03:18:40.3678570Z http.https://github.com/.extraheader
+2026-11-01T03:18:40.3796000Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-01T03:18:40.3875260Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-01T03:18:40.5112840Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-01T03:18:40.5242760Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-01T03:18:40.6654340Z Cleaning up orphan processes
+2026-11-01T03:18:41.7196650Z Terminate orphan process: pid (6781) (ibtoold)
+2026-11-01T03:18:42.3146840Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

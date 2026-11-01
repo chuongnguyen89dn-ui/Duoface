@@ -1,0 +1,121 @@
+{
+  "sha256": "bcc54fecaf918afb77dda561a2ec1645a781ff5b56021e208f93482983c77642",
+  "bytes": 1193968,
+  "version": "0.0.156~nativebridge4",
+  "full_list_extract": true,
+  "root_ownership": true,
+  "actual_context_markers": true,
+  "app_filters": {
+    "DFCarPlayDockOwner.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlay",
+          "com.apple.CarPlayApp",
+          "com.apple.dashboard"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp",
+          "dashboard",
+          "Dashboard"
+        ]
+      }
+    },
+    "DFTouchOwnerProbe.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ],
+        "Executables": [
+          "SpringBoard"
+        ]
+      }
+    },
+    "DF155GeneralAppStateRelay.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.mobilesafari",
+          "org.videolan.vlc-ios",
+          "com.facebook.Facebook",
+          "com.ss.iphone.ugc.Ame",
+          "com.openai.chat",
+          "com.google.gemini",
+          "com.netflix.Netflix",
+          "tv.twitch",
+          "com.google.ios.youtubemusic",
+          "com.google.chrome.ios",
+          "com.spotify.client",
+          "com.google.Maps",
+          "com.waze.iphone",
+          "com.zhiliaoapp.musically"
+        ]
+      }
+    },
+    "DFYouTubeOrientationRelay.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.google.ios.youtube"
+        ]
+      }
+    },
+    "DFFirstPartyAdmission.plist": {
+      "Filter": {
+        "Executables": [
+          "CarPlay",
+          "SpringBoard"
+        ]
+      }
+    },
+    "DFNativeDashboardBridgeQA.plist": {
+      "Filter": {
+        "Executables": [
+          "SpringBoard",
+          "CarPlay",
+          "CarPlayApp"
+        ]
+      }
+    },
+    "DFV1APreflight.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "DFGofaMapResize141.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.lumi.GOFA"
+        ]
+      }
+    },
+    "DFNativeMapPaneCoordinator.plist": {
+      "Filter": {
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp"
+        ]
+      }
+    }
+  },
+  "maintainer_script_sha256": {
+    "postrm": "b3e2e6d2ec27254316a0840ba509bcaf6df1c7a2583b15c948745b3b656d1c04",
+    "postinst": "6d2ff6887cad7125c977d899bda63383d03a21c3059e80306051b0535a9af7c1",
+    "control": "c136102f3a1bd63b0161e1e3fbc341738bd6eeca2f141f4b206f8c7b5eb87dd3"
+  },
+  "embedded_signature_superblob_present": {
+    "DFGofaMapResize141.dylib": true,
+    "DFNativeDashboardBridgeQA.dylib": true,
+    "DF155GeneralAppStateRelay.dylib": true,
+    "DFNativeMapPaneCoordinator.dylib": true,
+    "DFFirstPartyAdmission.dylib": true,
+    "DFTouchOwnerProbe.dylib": true,
+    "DFYouTubeOrientationRelay.dylib": true,
+    "DFCarPlayDockOwner.dylib": true,
+    "DFV1APreflight.dylib": true,
+    "DuoFaceNativeHost": true
+  },
+  "signature_limit": "Static signature presence only; CI also ldid entitlement extraction. No device install or trust validation.",
+  "device_tested": false,
+  "result": "PASS"
+}
