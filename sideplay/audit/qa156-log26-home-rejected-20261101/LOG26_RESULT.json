@@ -1,0 +1,511 @@
+{
+  "input_main_commit": "c82247fac5fbe1029a150ec68a4dbef0a17a93f9",
+  "input_blob": "d376f820d6b4dc88f80b1c269e40257e5c5e4009",
+  "input_sha256": "412a4996507cfc008a740d5902d4b9bd6e3770cfd0a302602313988f55a23645",
+  "bytes": 5465407,
+  "header": [
+    "DuoFace CarPlay / media scene diagnostic (manual export)",
+    "Date: 2026-11-01 03:27:42 +0000",
+    "iOS: 16.7.16",
+    "App: com.duoface.native.scenehost",
+    "This file contains technical diagnostics; share only with a trusted recipient.",
+    "Audit schema: 3; exporter build 0.0.90~nativegetters1; runtime process build is in timestamped traces."
+  ],
+  "session_start_ict": "2026-11-01T10:24:20.893000+07:00",
+  "stage_counts": {
+    "independent-standalone-receiver-registered": 1,
+    "qa151-workspace-owner-hook-installed": 1,
+    "native-dock-selected-bridge-installed": 1,
+    "qa147-native-dock-result-consumer-installed": 1,
+    "native-home-hook-installed": 1,
+    "qa151-dashboard-workspace-captured": 2,
+    "qa150-native-workspace-probe-start": 10,
+    "qa150-native-workspace-abi": 125,
+    "qa150-native-workspace-probe-complete": 10,
+    "native-dashboard-context-verified": 5,
+    "qa151-native-workspace-live-owner": 5,
+    "qa152-native-prep-resume": 5,
+    "standalone-requested-not-yet-ready": 5,
+    "qa153-phone-continue": 5,
+    "pending-scene": 5,
+    "before-standalone-mount": 5,
+    "after-standalone-mount": 5,
+    "qa149-manager-live-scene-owned": 5,
+    "manager-owned-live-scene-pixels-unverified": 5,
+    "qa148-real-processstate-pid": 5,
+    "qa147-ready-verified-pid": 5,
+    "qa149-manager-result-accepted": 5,
+    "scene-hosted-render-and-touch-unverified": 5,
+    "qa147-native-dock-active": 5,
+    "qa155-app-side-ack": 66,
+    "qa154-general-app-restore": 4,
+    "stopped": 5,
+    "qa147-native-dock-restored": 5
+  },
+  "requests": [
+    {
+      "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+      "bundle": "com.facebook.Facebook",
+      "context": {
+        "time": 1793503499.784,
+        "line": 15476,
+        "process": "CarPlay",
+        "stage": "native-dashboard-context-verified",
+        "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+        "bundle": null,
+        "detail": "req=B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808 getter=_currentDashboard anchor=DBDashboardHomeViewController dashboard=DBDashboard workspaceSame=1 externalSame=1 rootRelated=1"
+      },
+      "workspace": {
+        "time": 1793503499.785,
+        "line": 15477,
+        "process": "CarPlay",
+        "stage": "qa151-native-workspace-live-owner",
+        "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+        "bundle": "com.facebook.Facebook",
+        "detail": "req=B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808 bid=com.facebook.Facebook display=statusbar-Car[2-3] captured=1 dashboardOwner=1 workspaceClass=DBWorkspace homeGetter=1 workspaceSame=1 showingAppGetter=1 showingApp=NO stateGetter=1 activeGetter=1 activeBundle=com.apple.CarPlay.dashboard"
+      },
+      "prepare": {
+        "time": 1793503499.785,
+        "line": 15478,
+        "process": "CarPlay",
+        "stage": "qa152-native-prep-resume",
+        "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+        "bundle": null,
+        "detail": "req=B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808 cause=native-chooser-ready"
+      },
+      "launch": {
+        "time": 1793503499.788,
+        "line": 15479,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook uuid=B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "hosted": {
+        "time": 1793503500.279,
+        "line": 15505,
+        "process": "SpringBoard",
+        "stage": "scene-hosted-render-and-touch-unverified",
+        "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook req=B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808 verifiedPID=97624"
+      },
+      "dock_active": {
+        "time": 1793503500.287,
+        "line": 15506,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-active",
+        "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook req=B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808 homeCaptured=1"
+      },
+      "stop": {
+        "time": 1793503512.369,
+        "line": 15528,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook req=B75B04E7-DA7A-4EFA-BC2C-BDD3560DE808 native-Home-exit"
+      },
+      "home_pulse": {
+        "time": 1793503512.338089,
+        "line": 32370
+      },
+      "dock_restore": {
+        "time": 1793503512.395,
+        "line": 15530,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "detail": "native-home-stop"
+      },
+      "ack_phases": {
+        "scene-matched": 20,
+        "restored": 1
+      },
+      "launch_to_hosted_ms": 491.0,
+      "home_to_stop_ms": 30.911,
+      "home_to_dock_ms": 56.911
+    },
+    {
+      "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+      "bundle": "com.apple.mobilesafari",
+      "context": {
+        "time": 1793503515.54,
+        "line": 15544,
+        "process": "CarPlay",
+        "stage": "native-dashboard-context-verified",
+        "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+        "bundle": null,
+        "detail": "req=7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7 getter=_currentDashboard anchor=DBDashboardHomeViewController dashboard=DBDashboard workspaceSame=1 externalSame=1 rootRelated=1"
+      },
+      "workspace": {
+        "time": 1793503515.54,
+        "line": 15545,
+        "process": "CarPlay",
+        "stage": "qa151-native-workspace-live-owner",
+        "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "req=7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7 bid=com.apple.mobilesafari display=statusbar-Car[2-3] captured=1 dashboardOwner=1 workspaceClass=DBWorkspace homeGetter=1 workspaceSame=1 showingAppGetter=1 showingApp=NO stateGetter=1 activeGetter=1 activeBundle=com.apple.CarPlay.dashboard"
+      },
+      "prepare": {
+        "time": 1793503515.54,
+        "line": 15546,
+        "process": "CarPlay",
+        "stage": "qa152-native-prep-resume",
+        "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+        "bundle": null,
+        "detail": "req=7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7 cause=native-chooser-ready"
+      },
+      "launch": {
+        "time": 1793503515.542,
+        "line": 15547,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari uuid=7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "hosted": {
+        "time": 1793503516.039,
+        "line": 15573,
+        "process": "SpringBoard",
+        "stage": "scene-hosted-render-and-touch-unverified",
+        "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari req=7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7 verifiedPID=97629"
+      },
+      "dock_active": {
+        "time": 1793503516.052,
+        "line": 15574,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-active",
+        "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari req=7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7 homeCaptured=1"
+      },
+      "stop": {
+        "time": 1793503532.863,
+        "line": 15602,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari req=7EEA13F9-F3BA-44C6-B8A3-0E02A28782A7 native-Home-exit"
+      },
+      "home_pulse": {
+        "time": 1793503532.810953,
+        "line": 32399
+      },
+      "dock_restore": {
+        "time": 1793503532.941,
+        "line": 15604,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "detail": "native-home-stop"
+      },
+      "ack_phases": {
+        "scene-matched": 26,
+        "restored": 1
+      },
+      "launch_to_hosted_ms": 497.0,
+      "home_to_stop_ms": 52.047,
+      "home_to_dock_ms": 130.047
+    },
+    {
+      "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+      "bundle": "com.facebook.Facebook",
+      "context": {
+        "time": 1793503587.741,
+        "line": 15619,
+        "process": "CarPlay",
+        "stage": "native-dashboard-context-verified",
+        "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+        "bundle": null,
+        "detail": "req=1B58B9CD-4855-44C6-8F33-40C308D396F3 getter=_currentDashboard anchor=DBDashboardHomeViewController dashboard=DBDashboard workspaceSame=1 externalSame=1 rootRelated=1"
+      },
+      "workspace": {
+        "time": 1793503587.742,
+        "line": 15620,
+        "process": "CarPlay",
+        "stage": "qa151-native-workspace-live-owner",
+        "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+        "bundle": "com.facebook.Facebook",
+        "detail": "req=1B58B9CD-4855-44C6-8F33-40C308D396F3 bid=com.facebook.Facebook display=statusbar-Car[2-5] captured=1 dashboardOwner=1 workspaceClass=DBWorkspace homeGetter=1 workspaceSame=1 showingAppGetter=1 showingApp=NO stateGetter=1 activeGetter=1 activeBundle=com.apple.CarPlay.dashboard"
+      },
+      "prepare": {
+        "time": 1793503587.743,
+        "line": 15621,
+        "process": "CarPlay",
+        "stage": "qa152-native-prep-resume",
+        "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+        "bundle": null,
+        "detail": "req=1B58B9CD-4855-44C6-8F33-40C308D396F3 cause=native-chooser-ready"
+      },
+      "launch": {
+        "time": 1793503587.746,
+        "line": 15622,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook uuid=1B58B9CD-4855-44C6-8F33-40C308D396F3 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "hosted": {
+        "time": 1793503587.876,
+        "line": 15647,
+        "process": "SpringBoard",
+        "stage": "scene-hosted-render-and-touch-unverified",
+        "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook req=1B58B9CD-4855-44C6-8F33-40C308D396F3 verifiedPID=97624"
+      },
+      "dock_active": {
+        "time": 1793503587.883,
+        "line": 15649,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-active",
+        "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook req=1B58B9CD-4855-44C6-8F33-40C308D396F3 homeCaptured=1"
+      },
+      "stop": {
+        "time": 1793503593.343,
+        "line": 15662,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "1B58B9CD-4855-44C6-8F33-40C308D396F3",
+        "bundle": "com.facebook.Facebook",
+        "detail": "bid=com.facebook.Facebook req=1B58B9CD-4855-44C6-8F33-40C308D396F3 native-Home-exit"
+      },
+      "home_pulse": {
+        "time": 1793503593.313635,
+        "line": 32426
+      },
+      "dock_restore": {
+        "time": 1793503593.338,
+        "line": 15661,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "detail": "native-home-stop"
+      },
+      "ack_phases": {
+        "scene-matched": 10,
+        "restored": 1
+      },
+      "launch_to_hosted_ms": 130.0,
+      "home_to_stop_ms": 29.365,
+      "home_to_dock_ms": 24.365
+    },
+    {
+      "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+      "bundle": "com.google.ios.youtube",
+      "context": {
+        "time": 1793503595.549,
+        "line": 15677,
+        "process": "CarPlay",
+        "stage": "native-dashboard-context-verified",
+        "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+        "bundle": null,
+        "detail": "req=36BD07F3-BD5A-4F0F-AECF-C648B8B64E87 getter=_currentDashboard anchor=DBDashboardHomeViewController dashboard=DBDashboard workspaceSame=1 externalSame=1 rootRelated=1"
+      },
+      "workspace": {
+        "time": 1793503595.549,
+        "line": 15678,
+        "process": "CarPlay",
+        "stage": "qa151-native-workspace-live-owner",
+        "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+        "bundle": "com.google.ios.youtube",
+        "detail": "req=36BD07F3-BD5A-4F0F-AECF-C648B8B64E87 bid=com.google.ios.youtube display=statusbar-Car[2-5] captured=1 dashboardOwner=1 workspaceClass=DBWorkspace homeGetter=1 workspaceSame=1 showingAppGetter=1 showingApp=NO stateGetter=1 activeGetter=1 activeBundle=com.apple.CarPlay.dashboard"
+      },
+      "prepare": {
+        "time": 1793503595.549,
+        "line": 15679,
+        "process": "CarPlay",
+        "stage": "qa152-native-prep-resume",
+        "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+        "bundle": null,
+        "detail": "req=36BD07F3-BD5A-4F0F-AECF-C648B8B64E87 cause=native-chooser-ready"
+      },
+      "launch": {
+        "time": 1793503595.552,
+        "line": 15680,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+        "bundle": "com.google.ios.youtube",
+        "detail": "bid=com.google.ios.youtube uuid=36BD07F3-BD5A-4F0F-AECF-C648B8B64E87 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "hosted": {
+        "time": 1793503596.088,
+        "line": 15706,
+        "process": "SpringBoard",
+        "stage": "scene-hosted-render-and-touch-unverified",
+        "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+        "bundle": "com.google.ios.youtube",
+        "detail": "bid=com.google.ios.youtube req=36BD07F3-BD5A-4F0F-AECF-C648B8B64E87 verifiedPID=97646"
+      },
+      "dock_active": {
+        "time": 1793503596.096,
+        "line": 15707,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-active",
+        "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+        "bundle": "com.google.ios.youtube",
+        "detail": "bid=com.google.ios.youtube req=36BD07F3-BD5A-4F0F-AECF-C648B8B64E87 homeCaptured=1"
+      },
+      "stop": {
+        "time": 1793503641.979,
+        "line": 15708,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "36BD07F3-BD5A-4F0F-AECF-C648B8B64E87",
+        "bundle": "com.google.ios.youtube",
+        "detail": "bid=com.google.ios.youtube req=36BD07F3-BD5A-4F0F-AECF-C648B8B64E87 native-Home-exit"
+      },
+      "home_pulse": {
+        "time": 1793503641.931438,
+        "line": 32473
+      },
+      "dock_restore": {
+        "time": 1793503642.038,
+        "line": 15709,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "detail": "native-home-stop"
+      },
+      "ack_phases": {},
+      "launch_to_hosted_ms": 536.0,
+      "home_to_stop_ms": 47.562,
+      "home_to_dock_ms": 106.562
+    },
+    {
+      "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+      "bundle": "com.apple.mobilesafari",
+      "context": {
+        "time": 1793503649.381,
+        "line": 15723,
+        "process": "CarPlay",
+        "stage": "native-dashboard-context-verified",
+        "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+        "bundle": null,
+        "detail": "req=4AE78F96-5FD1-4277-9C39-72D81FCFBD1D getter=_currentDashboard anchor=DBDashboardHomeViewController dashboard=DBDashboard workspaceSame=1 externalSame=1 rootRelated=1"
+      },
+      "workspace": {
+        "time": 1793503649.381,
+        "line": 15724,
+        "process": "CarPlay",
+        "stage": "qa151-native-workspace-live-owner",
+        "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "req=4AE78F96-5FD1-4277-9C39-72D81FCFBD1D bid=com.apple.mobilesafari display=statusbar-Car[2-5] captured=1 dashboardOwner=1 workspaceClass=DBWorkspace homeGetter=1 workspaceSame=1 showingAppGetter=1 showingApp=NO stateGetter=1 activeGetter=1 activeBundle=com.apple.CarPlay.dashboard"
+      },
+      "prepare": {
+        "time": 1793503649.382,
+        "line": 15725,
+        "process": "CarPlay",
+        "stage": "qa152-native-prep-resume",
+        "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+        "bundle": null,
+        "detail": "req=4AE78F96-5FD1-4277-9C39-72D81FCFBD1D cause=native-chooser-ready"
+      },
+      "launch": {
+        "time": 1793503649.384,
+        "line": 15726,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari uuid=4AE78F96-5FD1-4277-9C39-72D81FCFBD1D content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "hosted": {
+        "time": 1793503649.544,
+        "line": 15751,
+        "process": "SpringBoard",
+        "stage": "scene-hosted-render-and-touch-unverified",
+        "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari req=4AE78F96-5FD1-4277-9C39-72D81FCFBD1D verifiedPID=97629"
+      },
+      "dock_active": {
+        "time": 1793503649.555,
+        "line": 15753,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-active",
+        "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari req=4AE78F96-5FD1-4277-9C39-72D81FCFBD1D homeCaptured=1"
+      },
+      "stop": {
+        "time": 1793503653.387,
+        "line": 15761,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "4AE78F96-5FD1-4277-9C39-72D81FCFBD1D",
+        "bundle": "com.apple.mobilesafari",
+        "detail": "bid=com.apple.mobilesafari req=4AE78F96-5FD1-4277-9C39-72D81FCFBD1D native-Home-exit"
+      },
+      "home_pulse": {
+        "time": 1793503653.35712,
+        "line": 32498
+      },
+      "dock_restore": {
+        "time": 1793503653.411,
+        "line": 15762,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "detail": "native-home-stop"
+      },
+      "ack_phases": {
+        "scene-matched": 6,
+        "restored": 1
+      },
+      "launch_to_hosted_ms": 160.0,
+      "home_to_stop_ms": 29.88,
+      "home_to_dock_ms": 53.88
+    }
+  ],
+  "home_pulses": 9,
+  "unattributed_home_pulses": [
+    {
+      "time": 1793503538.506271,
+      "line": 32402
+    },
+    {
+      "time": 1793503545.847316,
+      "line": 32403
+    },
+    {
+      "time": 1793503584.689657,
+      "line": 32404
+    },
+    {
+      "time": 1793503647.613903,
+      "line": 32476
+    }
+  ],
+  "native_identity_occurrences": {
+    "com.apple.mobilecal": 0,
+    "com.apple.mobileipod": 0,
+    "com.apple.Music": 0
+  },
+  "limits": [
+    "New production markers prove receiver fix executed; exact installed dpkg version/hash is not exported.",
+    "showingApp=NO is measured BEFORE launch only, not while hosted or at Home callback.",
+    "Stopped/Dock restore confirms cleanup, not Apple callback entry/return or destination.",
+    "No native Calendar/Music identity; anonymous Home cannot be assigned to them.",
+    "Home-button before/after displayState and Dashboard navigation state at Home are absent.",
+    "Hardcoded build0.0.90 is not downgrade proof."
+  ]
+}
