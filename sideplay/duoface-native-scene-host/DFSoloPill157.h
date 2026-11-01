@@ -67,7 +67,7 @@
  if(!self.homeChooser && (!self.surface ||
     ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface]))return;
  if(!self.homeChooser && [bundle isEqual:self.bundle]) { [self appPickerDidCancel:picker];return; }
- NSDictionary *p=@{@"Version":@1,@"RequestID":self.request,
+ NSDictionary *p=@{@"Version":@1,@"SelectionID":NSUUID.UUID.UUIDString,@"RequestID":self.request,
     @"FromBundle":self.bundle,@"BundleID":bundle,
     @"CarDisplayID":self.carDisplayID,
     @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
