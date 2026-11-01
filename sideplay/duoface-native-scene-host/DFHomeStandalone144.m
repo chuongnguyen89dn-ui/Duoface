@@ -15,6 +15,7 @@
 #import <dlfcn.h>
 #import <string.h>
 #import "DFHome145Consent.h"
+#import "speed8/DFNative8SpeedHUDView.h"
 #import "DFEnabledAppsPolicy.h"
 #if defined(DF144_SPRINGBOARD)
 #import "DFSceneHost.h"
@@ -384,6 +385,8 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
 }
 @interface DF144Solo : NSObject <DFAppPickerDelegate>
 @property(nonatomic,strong) UIWindow *window;
+@property(nonatomic,strong) UIWindow *speedWindow;
+@property(nonatomic,strong) DFNative8SpeedHUDView *speedHUD;
 @property(nonatomic,strong) UIViewController *root;
 @property(nonatomic,strong) UIView *surface;
 @property(nonatomic,strong) UIButton *soloPill;
@@ -539,6 +542,9 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  ++self.generation;
  self.emittedHosted=NO;
  self.emittedManager=NO;
+ if(self.speedHUD){ [self.speedHUD stop]; [self.speedHUD removeFromSuperview]; }
+ self.speedWindow.hidden=YES;self.speedWindow.rootViewController=nil;
+ self.speedHUD=nil;self.speedWindow=nil;
  if(self.window)self.window.hidden=YES; // hide external content before scene invalidate
  UIView *view=self.surface;self.surface=nil;
  self.window.rootViewController=nil;self.window=nil;self.root=nil;
@@ -649,6 +655,49 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
        p[@"RequestID"],NSStringFromCGRect(content),NSStringFromCGRect(w.bounds),
        NSStringFromCGRect(root.view.bounds),NSStringFromCGRect(v.bounds)]);
    [contentView addSubview:v];
+   // QA165: a separately owned, bubble-sized HUD window spans external CarPlay
+   // content even in native-Home standalone apps. Never intercept the Dock.
+   if(self.generation==generation && self.window==w && self.surface==v) {
+     @try {
+       Class hudClass=NSClassFromString(@"UIRootSceneWindow");
+       if(hudClass && [hudClass instancesRespondToSelector:winSel]){
+         UIWindow *bubble=((id(*)(id,SEL,id))objc_msgSend)(
+                               [hudClass alloc],winSel,config);
+         CGRect compact=CGRectMake(
+             CGRectGetMaxX(content)-108,CGRectGetMinY(content)+3,104,46);
+         if(bubble && bubble.screen && bubble.screen!=UIScreen.mainScreen &&
+            CGRectContainsRect(content,compact)){
+           bubble.frame=compact;
+           bubble.windowLevel=UIWindowLevelNormal+2.5;
+           bubble.backgroundColor=UIColor.clearColor;bubble.opaque=NO;
+           UIViewController *bubbleRoot=[UIViewController new];
+           bubbleRoot.view=[[UIView alloc] initWithFrame:
+                                 (CGRect){CGPointZero,compact.size}];
+           bubbleRoot.view.backgroundColor=UIColor.clearColor;
+           bubble.rootViewController=bubbleRoot;
+           DFNative8SpeedHUDView *speed=[[DFNative8SpeedHUDView alloc]
+                initWithFrame:bubbleRoot.view.bounds];
+           speed.floatingWindowMode=YES;
+           speed.floatingDragBounds=content;
+           speed.ownerWindow=bubble;
+           [bubbleRoot.view addSubview:speed];
+           CGSize size=speed.bounds.size;
+           bubble.frame=CGRectMake(compact.origin.x,compact.origin.y,
+                                    size.width,size.height);
+           bubbleRoot.view.frame=(CGRect){CGPointZero,size};
+           speed.frame=(CGRect){CGPointZero,size};
+           [speed restoreSavedPosition];
+           self.speedWindow=bubble;self.speedHUD=speed;
+           bubble.hidden=NO;
+           DF144Log(@"qa165-standalone-HUD-attached",
+                      @"bubble-sized owner spans external content");
+         } else DF144Log(@"qa165-standalone-HUD-window-unavailable",
+                            @"screen/geometry gate");
+       }
+     } @catch(NSException *exception) {
+       DF144Log(@"qa165-standalone-HUD-refused",exception.name);
+     }
+   }
    // An attach failure can synchronously call sceneFailed -> stop -> clear owner.
    // Never report a completed mount or create another timeout in that case.
    if(self.generation!=generation || self.surface!=v || self.window!=w ||
@@ -764,6 +813,13 @@ static void DF144LeaseHeartbeat(void) {
              NSClassFromString(@"SBAppViewController")!=nil;
  NSMutableDictionary *record=[@{@"Version":@1,@"Role":@"SpringBoard-Standalone144",
       @"Alive":@(usable),@"Timestamp":@(NSDate.date.timeIntervalSince1970)} mutableCopy];
+ BOOL speedVisible=DF144Owner.speedWindow && !DF144Owner.speedWindow.hidden &&
+                  DF144Owner.speedHUD && DF144Owner.surface && DF144Owner.window &&
+                  !DF144Owner.window.hidden;
+ if(speedVisible){
+    record[@"HUDOwnerVisible"]=@YES;
+    record[@"HUDOwner"]=@"SpringBoard-Standalone144";
+ }
  if(DF144Owner.homeChooser && DF144Owner.window && !DF144Owner.window.hidden &&
     DF144Owner.request.length && DF144Owner.carDisplayID.length) {
    record[@"PickerVisible"]=@YES;
