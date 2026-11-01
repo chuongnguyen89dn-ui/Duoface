@@ -132,6 +132,43 @@ static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
 typedef void (*DF144Hook)(Class,SEL,IMP,IMP*);
 #import "DF151WorkspaceOwnerCapture.h"
 #import "DFNativeDashboardContext.h"
+// QA160 read-only native page identification: controller visibility is NOT pixel
+// proof, and native Home/Apple workspace are never driven or replaced here.
+void DF160NativeHomeTrace(NSString *stage,id receiver) {
+ if(![NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"])return;
+ NSMutableArray<NSString *> *controllers=[NSMutableArray array];
+ NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSetWithArray:UIApplication.sharedApplication.windows];
+ for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
+   if([scene isKindOfClass:UIWindowScene.class])
+     [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
+ for(UIWindow *window in windows) {
+  if(!window.screen || window.screen==UIScreen.mainScreen || window.hidden ||
+     !window.rootViewController)continue;
+  NSMutableArray<UIViewController *> *queue=[NSMutableArray arrayWithObject:window.rootViewController];
+  for(NSUInteger i=0;i<queue.count && i<24;i++) {
+   UIViewController *vc=queue[i];
+   UIView *view=vc.viewIfLoaded;
+   if(view && view.window==window && !view.hidden && view.alpha>0.01)
+     [controllers addObject:NSStringFromClass(vc.class)];
+   for(UIViewController *child in vc.childViewControllers)
+     if(queue.count<24 && ![queue containsObject:child])[queue addObject:child];
+   if(vc.presentedViewController && queue.count<24 &&
+      ![queue containsObject:vc.presentedViewController])
+     [queue addObject:vc.presentedViewController];
+  }
+ }
+ id home=DF144Get(receiver,"homeButton");
+ NSString *button=@"unknown";
+ Method state=home?class_getInstanceMethod(object_getClass(home),sel_registerName("displayState")):NULL;
+ if(state && !strcmp(method_getTypeEncoding(state),"Q16@0:8"))
+  @try{button=[NSString stringWithFormat:@"%lu",(unsigned long)
+             ((NSUInteger(*)(id,SEL))objc_msgSend)(home,sel_registerName("displayState"))];}
+  @catch(__unused NSException *e){}
+ DF144Log(@"qa160-native-home-page-snapshot-not-pixel",
+    [NSString stringWithFormat:@"phase=%@ buttonState=%@ receiver=%@ visible=%@",
+       stage,button,NSStringFromClass([receiver class]),
+       [controllers componentsJoinedByString:@","]]);
+}
 static UIWindow *DF144UniqueNativeContentWindow(CGRect *frame,CGRect *whole,NSString **displayID) {
  NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSetWithArray:UIApplication.sharedApplication.windows];
  for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
@@ -260,9 +297,12 @@ void DF157NativeHomeCallbackObserved(void) {
 // QA159: no first-party picker broker in native CarPlay; genuine icon grid owns Home.
 static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  NSString *bid=DF144Bundle(icon,0);
- if(![icon isKindOfClass:UIView.class] ||
-    !DF144BeginSelectedBridge(bid,self,@"CarPlayHomeStandalone144"))
-   DF144Original(self,cmd,manager,icon);
+ DF144Log(@"qa160-native-grid-icon-pressed",
+      [NSString stringWithFormat:@"bid=%@",bid?:@"unresolved"]);
+ BOOL bridged=[icon isKindOfClass:UIView.class] &&
+              DF144BeginSelectedBridge(bid,self,@"CarPlayHomeStandalone144");
+ DF144Log(bridged?@"qa160-native-icon-bridge-accepted":@"qa160-native-icon-forwarded",bid);
+ if(!bridged)DF144Original(self,cmd,manager,icon);
 }
 static void DF144Install(int tryNo) {
  if(DF144Original || tryNo>15)return;
@@ -593,6 +633,9 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
      [self stop:@"scene-factory-refused"];return NO;
    }
    self.surface=v;
+   // Only this owned SOLO surface polls at 100ms until the FIRST genuine
+   // scene-ready gate; split/YouTube/GOFA timing policies remain unchanged.
+   [[DFSceneHost sharedHost] setFastInitialPolling:YES forHostedView:v];
    // QA159: no first-party app chooser exists in the Home-launched scene.
    // Native Home's icon grid is the ONLY app selection destination.
    v.frame=contentView.bounds;v.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
