@@ -26,7 +26,9 @@ RELEVANT=("bridge","scene","window","app","activate","deactivate","launch","dock
 EXCLUDE=("license","purchase","receipt","trial","storekit","subscription","auth","verify",
          "payment","premium","checksub","resetlicense")
 CLASS_ALLOW=("CBBridgeManagerDashboard","CBBridgeManager","CBBridgedUIAppView",
-             "CBBridgedSplitApp","CNABSpringBoardObserver","CNABUIApp",
+             "CBBridgedSplitApp","CBBridgedPortalApp","CBBridgedPortalAppView",
+             "CBBridgedUIApp","CBBridgedApp","CBWindow",
+             "CNABSpringBoardObserver","CNABUIApp",
              "DDz1","DDz2")
 def sha(p):
  h=hashlib.sha256()
