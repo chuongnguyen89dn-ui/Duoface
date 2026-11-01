@@ -322,6 +322,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
 @property(nonatomic,strong) UIView *surface;
 @property(nonatomic,strong) UIButton *soloPill;
 @property(nonatomic,strong) DFAppPickerVC *soloPicker;
+@property(nonatomic,assign) BOOL homeChooser;
 @property(nonatomic,copy) NSString *bundle;
 @property(nonatomic,copy) NSString *request;
 @property(nonatomic,copy) NSString *carDisplayID;
@@ -465,6 +466,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  [self reply:state reason:reason verifiedPID:nil];
 }
 - (void)stop:(NSString *)reason {
+ self.homeChooser=NO;
  [self.soloPicker setDelegate:nil];
  self.soloPill=nil;self.soloPicker=nil;
  [self publishGeneralAppState:NO];
@@ -517,6 +519,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  if(self.window)[self stop:@"next-home-selection"];
  self.bundle=p[@"BundleID"];self.request=p[@"RequestID"];
  self.emittedHosted=NO;self.emittedManager=NO;self.emittedTerminal=NO;
+ self.homeChooser=NO;
  self.generalOwner=nil;self.generalScene=nil;
  self.carDisplayID=p[@"CarDisplayID"];self.display=display;
  NSUInteger generation=++self.generation;
@@ -690,8 +693,14 @@ static void DF144LeaseHeartbeat(void) {
  BOOL usable=NSClassFromString(@"FBSDisplayConfiguration")!=nil &&
              NSClassFromString(@"UIRootSceneWindow")!=nil &&
              NSClassFromString(@"SBAppViewController")!=nil;
- NSDictionary *record=@{@"Version":@1,@"Role":@"SpringBoard-Standalone144",
-      @"Alive":@(usable),@"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+ NSMutableDictionary *record=[@{@"Version":@1,@"Role":@"SpringBoard-Standalone144",
+      @"Alive":@(usable),@"Timestamp":@(NSDate.date.timeIntervalSince1970)} mutableCopy];
+ if(DF144Owner.homeChooser && DF144Owner.window && !DF144Owner.window.hidden &&
+    DF144Owner.request.length && DF144Owner.carDisplayID.length) {
+   record[@"PickerVisible"]=@YES;
+   record[@"PickerRequestID"]=DF144Owner.request;
+   record[@"CarDisplayID"]=DF144Owner.carDisplayID;
+ }
  if(![record writeToFile:DF144LeasePath atomically:YES])
    DF144Log(@"standalone-receiver-lease-write-failed",@"");
  if(DF144Owner && DF144Owner.window) {
@@ -782,7 +791,11 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
   notify_register_dispatch(DF144RequestNotify,&requestToken,dispatch_get_main_queue(),
     ^(__unused int t){DF144Consume();});
   notify_register_dispatch(DF144StopNotify,&stopToken,dispatch_get_main_queue(),
-    ^(__unused int t){DF153PhoneRevoke();[DF144Owner stop:@"native-Home-exit"];});
+    ^(__unused int t){
+     DF153PhoneRevoke();
+     if(![DF144Owner df157ReturnHomeToPicker])
+       [DF144Owner stop:@"native-Home-exit"];
+   });
   // A CarPlay pending-watchdog expiry is NOT a physical Home press.
   notify_register_dispatch(DF148WatchdogStopNotify,&watchdogToken,dispatch_get_main_queue(),
     ^(__unused int t){DF153PhoneRevoke();[DF144Owner stop:@"native-pending-watchdog-expiry"];});
