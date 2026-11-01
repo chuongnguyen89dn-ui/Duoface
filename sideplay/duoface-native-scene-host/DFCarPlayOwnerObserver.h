@@ -5,6 +5,7 @@
 #import <dlfcn.h>
 #import <string.h>
 extern void DF157NativeHomeCallbackObserved(void);
+extern void DF160NativeHomeTrace(NSString *stage,id receiver);
 static void (*DFOwnerDBHomeOriginal)(id,SEL,id);
 static void (*DFOwnerCARHomeOriginal)(id,SEL,id);
 static BOOL DFOwnerHomeHooksReady;
@@ -161,12 +162,22 @@ static void DFOwnerHomeReceived(id receiver) {
     DFZLog([NSString stringWithFormat:@"native-home-revoke session=%@ saved=%d",session,saved]);
 }
 static void DFOwnerDBHome(id object,SEL sel,id event) {
+    DF160NativeHomeTrace(@"before-Apple-Home",object);
     @try {DFOwnerHomeReceived(object);} @catch(NSException *e){DFZLog(e.name);}
     DFOwnerDBHomeOriginal(object,sel,event);
+    DF160NativeHomeTrace(@"after-Apple-Home",object);
+    __weak id weakReceiver=object;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.20*NSEC_PER_SEC)),
+       dispatch_get_main_queue(),^{id live=weakReceiver;if(live)DF160NativeHomeTrace(@"plus-200ms",live);});
 }
 static void DFOwnerCARHome(id object,SEL sel,id event) {
+    DF160NativeHomeTrace(@"before-Apple-Home",object);
     @try {DFOwnerHomeReceived(object);} @catch(NSException *e){DFZLog(e.name);}
     DFOwnerCARHomeOriginal(object,sel,event);
+    DF160NativeHomeTrace(@"after-Apple-Home",object);
+    __weak id weakReceiver=object;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.20*NSEC_PER_SEC)),
+       dispatch_get_main_queue(),^{id live=weakReceiver;if(live)DF160NativeHomeTrace(@"plus-200ms",live);});
 }
 static BOOL DFOwnerInstallHome(Class cls, IMP replacement, IMP *original) {
     SEL sel=NSSelectorFromString(@"homeButtonUp:");
