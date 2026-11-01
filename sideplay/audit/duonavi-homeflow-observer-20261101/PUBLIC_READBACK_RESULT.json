@@ -1,0 +1,33 @@
+{
+  "site": "https://chuongnguyen89dn-ui.github.io/carplaydsp/",
+  "observer_entry": {
+    "Package": "com.duoface.qa.duonaviobserver",
+    "Version": "0.0.3~homeflow1",
+    "Architecture": "iphoneos-arm64",
+    "Maintainer": "DuoFace Independent",
+    "Depends": "firmware (>= 16.0), ellekit | mobilesubstrate",
+    "Filename": "debs/com.duoface.qa.duonaviobserver_0.0.3~homeflow1_iphoneos-arm64.deb",
+    "Size": "27184",
+    "MD5sum": "b7aee653e0eeec83a9584e3a9134e79a",
+    "SHA1": "7fd1d9715a5b5aed1bab98de49770fe9218e2660",
+    "SHA256": "1dd94e842bb82e5fefc6c0fe7af862d6b15a9169290ea82bf9ac96e31d7c9e64",
+    "Section": "Utilities",
+    "Priority": "optional",
+    "Description": "Observe original DuoNavi and native CarPlay Home call order with typed exact-ABI forwarding, dashboard/workspace/Home/Dock state and visible controllers. Standalone iPhone export. No bridge policy, license or navigation changes. Test one active bridge at a time.",
+    "Name": "DuoNavi Observer (Home Flow)"
+  },
+  "download_checks": {
+    "com.duoface.qa.duonaviobserver_0.0.3~homeflow1_iphoneos-arm64.deb": {
+      "sha256": "1dd94e842bb82e5fefc6c0fe7af862d6b15a9169290ea82bf9ac96e31d7c9e64",
+      "bytes": 27184
+    },
+    "com.duoface.qa.duonaviobserver_0.0.2~dockabi2_iphoneos-arm64.deb": {
+      "sha256": "f3e3e04b74ef76b09f529954e708ae0521f13d139313405f18b1390b28999f40",
+      "bytes": 19436
+    }
+  },
+  "previous_observer2_unchanged": true,
+  "duoface4_index_unchanged": true,
+  "device_capture_verified": false,
+  "result": "PASS"
+}

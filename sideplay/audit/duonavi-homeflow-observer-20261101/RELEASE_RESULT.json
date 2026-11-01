@@ -1,0 +1,56 @@
+{
+  "version": "0.0.3~homeflow1",
+  "package": "com.duoface.qa.duonaviobserver",
+  "source": "c7c1509884b91b1ca22de914a9415b3f7bab37fb",
+  "archive": "83963570928bbd46e68d9f00ba41cb1f1ddfbd8e",
+  "signed_run": 41270562315,
+  "sha256": "1dd94e842bb82e5fefc6c0fe7af862d6b15a9169290ea82bf9ac96e31d7c9e64",
+  "bytes": 27184,
+  "publisher": {
+    "commit_sha": "392f4fd9d74b4a0d2789629df8e116a220f08a16",
+    "content_sha": "66c80117e4ba44b10018356d37e824ee1b50ebf0"
+  },
+  "publisher_handoff": {
+    "commit_sha": "50a5a3baf571b4edc3535c58bb727226ce21cb6b",
+    "content_sha": "b69b3559af34203e2fcd2434d6e57d9873bd7d15"
+  },
+  "publication_run": 41270706587,
+  "public_jobs": [
+    {
+      "id": 124742718212,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 124743215163,
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 124743250267,
+      "name": "verify-qa11-pages",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 124743250283,
+      "name": "verify-duoface-integrated-pages",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 124743250349,
+      "name": "verify-duonavi-observer-pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "public_complete_ict": "2026-11-01T10:53:06+07:00",
+  "original_sileo": "https://chuongnguyen89dn-ui.github.io/carplaydsp/",
+  "archive_full_readback": true,
+  "actual_public_index_and_download_verified": true,
+  "observer2_and_duoface4_preserved": true,
+  "physical_capture_verified": false
+}

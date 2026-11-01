@@ -1,0 +1,80 @@
+﻿2026-11-01T03:52:49.6193307Z Current runner version: '2.338.2'
+2026-11-01T03:52:49.6224344Z ##[group]Runner Image Provisioner
+2026-11-01T03:52:49.6225227Z Hosted Compute Agent
+2026-11-01T03:52:49.6225871Z Version: 20261021.618
+2026-11-01T03:52:49.6226581Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-01T03:52:49.6227316Z Build Date: 2026-10-21T00:45:21Z
+2026-11-01T03:52:49.6228013Z Worker ID: {9a51039f-6dc4-42fc-84a3-f9b65a25735e}
+2026-11-01T03:52:49.6229202Z Region: northcentralus
+2026-11-01T03:52:49.6229891Z Cloud: Azure
+2026-11-01T03:52:49.6230501Z ##[endgroup]
+2026-11-01T03:52:49.6232014Z ##[group]Operating System
+2026-11-01T03:52:49.6232661Z Ubuntu
+2026-11-01T03:52:49.6233294Z 24.04.5
+2026-11-01T03:52:49.6233851Z LTS
+2026-11-01T03:52:49.6234411Z ##[endgroup]
+2026-11-01T03:52:49.6234995Z ##[group]Runner Image
+2026-11-01T03:52:49.6235603Z Image: ubuntu-24.04
+2026-11-01T03:52:49.6236224Z Version: 20261025.353.1
+2026-11-01T03:52:49.6237549Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-01T03:52:49.6239512Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-11-01T03:52:49.6240495Z ##[endgroup]
+2026-11-01T03:52:49.6241812Z ##[group]GITHUB_TOKEN Permissions
+2026-11-01T03:52:49.6243733Z Contents: read
+2026-11-01T03:52:49.6244467Z Metadata: read
+2026-11-01T03:52:49.6245012Z Pages: write
+2026-11-01T03:52:49.6246075Z ##[endgroup]
+2026-11-01T03:52:49.6248229Z Secret source: Actions
+2026-11-01T03:52:49.6249565Z Cache mode: write
+2026-11-01T03:52:49.6250489Z Prepare workflow directory
+2026-11-01T03:52:49.6708981Z Prepare all required actions
+2026-11-01T03:52:49.6862068Z Complete job name: verify-duonavi-observer-pages
+2026-11-01T03:52:50.2639941Z ##[group]Run set -euo pipefail
+2026-11-01T03:52:50.2641092Z [36;1mset -euo pipefail[0m
+2026-11-01T03:52:50.2642065Z [36;1mSITE='https://chuongnguyen89dn-ui.github.io/carplaydsp'[0m
+2026-11-01T03:52:50.2643240Z [36;1mFILE='com.duoface.qa.duonaviobserver_0.0.3~homeflow1_iphoneos-arm64.deb'[0m
+2026-11-01T03:52:50.2644535Z [36;1mSHA='1dd94e842bb82e5fefc6c0fe7af862d6b15a9169290ea82bf9ac96e31d7c9e64'[0m
+2026-11-01T03:52:50.2645603Z [36;1mfor attempt in $(seq 1 24); do[0m
+2026-11-01T03:52:50.2646673Z [36;1m  curl -fLsS --max-time 25 "$SITE/Packages" -o "$RUNNER_TEMP/duonavi-observer-Packages" || true[0m
+2026-11-01T03:52:50.2648134Z [36;1m  if grep -Fqx "SHA256: $SHA" "$RUNNER_TEMP/duonavi-observer-Packages" 2>/dev/null; then break; fi[0m
+2026-11-01T03:52:50.2649440Z [36;1m  sleep 10[0m
+2026-11-01T03:52:50.2650054Z [36;1mdone[0m
+2026-11-01T03:52:50.2650898Z [36;1mpython3 - "$RUNNER_TEMP/duonavi-observer-Packages" <<'PY'[0m
+2026-11-01T03:52:50.2651862Z [36;1mfrom pathlib import Path[0m
+2026-11-01T03:52:50.2652683Z [36;1mimport sys[0m
+2026-11-01T03:52:50.2653327Z [36;1mp=Path(sys.argv[1]).read_text()[0m
+2026-11-01T03:52:50.2654091Z [36;1mentries=[][0m
+2026-11-01T03:52:50.2654761Z [36;1mfor block in p.split('\n\n'):[0m
+2026-11-01T03:52:50.2655495Z [36;1m    record={}[0m
+2026-11-01T03:52:50.2656286Z [36;1m    for line in block.splitlines():[0m
+2026-11-01T03:52:50.2657117Z [36;1m        if ': ' in line and not line.startswith(' '):[0m
+2026-11-01T03:52:50.2657957Z [36;1m            k,v=line.split(': ',1);record[k]=v[0m
+2026-11-01T03:52:50.2659008Z [36;1m    if record:entries.append(record)[0m
+2026-11-01T03:52:50.2660073Z [36;1mhits=[x for x in entries if x.get('Package')=='com.duoface.qa.duonaviobserver'][0m
+2026-11-01T03:52:50.2661491Z [36;1massert len(hits)==1,hits[0m
+2026-11-01T03:52:50.2751158Z [36;1mitem=hits[0][0m
+2026-11-01T03:52:50.2751959Z [36;1massert item['Version']=='0.0.3~homeflow1',item[0m
+2026-11-01T03:52:50.2753046Z [36;1massert item['SHA256']=='1dd94e842bb82e5fefc6c0fe7af862d6b15a9169290ea82bf9ac96e31d7c9e64',item[0m
+2026-11-01T03:52:50.2754456Z [36;1massert item['Filename']=='debs/com.duoface.qa.duonaviobserver_0.0.3~homeflow1_iphoneos-arm64.deb',item[0m
+2026-11-01T03:52:50.2755633Z [36;1massert item['Architecture']=='iphoneos-arm64',item[0m
+2026-11-01T03:52:50.2756862Z [36;1mothers=[x for x in entries if x.get('Package')=='com.duoface.jb.embedded'][0m
+2026-11-01T03:52:50.2757961Z [36;1massert len(others)==1 and others[0]['Version']=='0.0.156~nativebridge4',others[0m
+2026-11-01T03:52:50.2759261Z [36;1mprint('DUONAVI_OBSERVER_PUBLIC_SINGLE_INDEX_AND_DUOFACE_QA135_SELECTED')[0m
+2026-11-01T03:52:50.2760093Z [36;1mPY[0m
+2026-11-01T03:52:50.2760858Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/$FILE" -o "$RUNNER_TEMP/duonavi-observer-public.deb"[0m
+2026-11-01T03:52:50.2762163Z [36;1mprintf '%s  %s\n' "$SHA" "$RUNNER_TEMP/duonavi-observer-public.deb" | sha256sum -c -[0m
+2026-11-01T03:52:50.2763491Z [36;1mtest "$(dpkg-deb -f "$RUNNER_TEMP/duonavi-observer-public.deb" Package)" = 'com.duoface.qa.duonaviobserver'[0m
+2026-11-01T03:52:50.2764831Z [36;1mOLD='com.duoface.qa.duonaviobserver_0.0.2~dockabi2_iphoneos-arm64.deb'[0m
+2026-11-01T03:52:50.2765914Z [36;1mcurl -fLsS --retry 4 "$SITE/debs/$OLD" -o "$RUNNER_TEMP/observer2-rollback.deb"[0m
+2026-11-01T03:52:50.2767428Z [36;1mprintf '%s  %s\n' 'f3e3e04b74ef76b09f529954e708ae0521f13d139313405f18b1390b28999f40' "$RUNNER_TEMP/observer2-rollback.deb" | sha256sum -c -[0m
+2026-11-01T03:52:50.2768944Z [36;1mecho DUONAVI_OBSERVER2_ROLLBACK_BYTES_UNCHANGED_PASS[0m
+2026-11-01T03:52:50.2769792Z [36;1mecho DUONAVI_OBSERVER_PUBLIC_SILEO_SIGNED_DEB_VERIFIED[0m
+2026-11-01T03:52:50.3319831Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-01T03:52:50.3320990Z ##[endgroup]
+2026-11-01T03:52:50.5352570Z DUONAVI_OBSERVER_PUBLIC_SINGLE_INDEX_AND_DUOFACE_QA135_SELECTED
+2026-11-01T03:52:50.6729686Z /home/runner/work/_temp/duonavi-observer-public.deb: OK
+2026-11-01T03:52:50.7467999Z /home/runner/work/_temp/observer2-rollback.deb: OK
+2026-11-01T03:52:50.7470401Z DUONAVI_OBSERVER2_ROLLBACK_BYTES_UNCHANGED_PASS
+2026-11-01T03:52:50.7472800Z DUONAVI_OBSERVER_PUBLIC_SILEO_SIGNED_DEB_VERIFIED
+2026-11-01T03:52:50.7657618Z Cleaning up orphan processes
+
