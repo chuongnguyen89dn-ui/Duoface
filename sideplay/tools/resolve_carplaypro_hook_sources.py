@@ -203,9 +203,16 @@ def scan_pointer_refs(macho):
         if sec["section"] in ("__bss","__common"):continue
         for addr in range(sec["addr"],sec["addr"]+sec["size"]-7,8):
             value=macho.pointer(addr)
-            if value in CALLBACKS:
+            if value is None:continue
+            # arm64 original contains authenticated dyld chained fixups;
+            # a low32 match is an *encoded target candidate*, not a fully
+            # relocated runtime pointer.
+            decoded=value & 0xffffffff
+            if value in CALLBACKS or decoded in CALLBACKS:
                 matches.append({"section":sec["section"],"location":hex(addr),
-                                "callback":hex(value)})
+                                "callback":hex(value if value in CALLBACKS else decoded),
+                                "raw_pointer":hex(value),
+                                "pointer_encoding":"direct" if value in CALLBACKS else "chained_low32_candidate"})
     return matches
 
 def inspect_hook_tables(macho):
