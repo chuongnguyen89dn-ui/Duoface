@@ -36,7 +36,8 @@ class NativeSoloHomeRelease(unittest.TestCase):
   self.assertIn('#import "DFCarPlayOwnerObserver.h"',D)
  def test_selected_home_app_callback_and_native_dock_remain(self):
   self.assertIn('iconManager:launchIconForIconView:',B)
-  self.assertIn('DF144Original(self,cmd,manager,icon);return;',B)
+  self.assertIn('DF144Original(self,cmd,manager,icon);',B)
+  self.assertIn('DF144BeginSelectedBridge(bid,self,@"CarPlayHomeStandalone144")',B)
   self.assertIn('DBStatusBarWindow',B)
   self.assertIn('DBNotificationWindow',B)
 if __name__=="__main__":unittest.main()
