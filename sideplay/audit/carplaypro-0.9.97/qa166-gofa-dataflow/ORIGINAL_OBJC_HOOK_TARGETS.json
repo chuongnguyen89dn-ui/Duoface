@@ -1,0 +1,918 @@
+{
+  "provenance": "Original on-disk CarPlayPro Speed 0.9.97 arm64 SpeedAlerts.dylib (static)",
+  "no_runtime_events": true,
+  "no_goFA_field_map": true,
+  "method_hook_calls": 23,
+  "function_hook_calls": 9,
+  "hook_import_calls": [
+    {
+      "callsite": "0xab58",
+      "function": "0xa988",
+      "import": "_MSHookMessageEx",
+      "x2_candidate": {
+        "at": "0x3298c",
+        "origin": [
+          "0xab40",
+          "0xab44"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x713e8",
+        "origin": [
+          "0xab48",
+          "0xab4c"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x17c98",
+      "function": "0x17ac4",
+      "import": "_MSHookMessageEx",
+      "x2_candidate": {
+        "at": "0x348b0",
+        "origin": [
+          "0x17c80",
+          "0x17c84"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71440",
+        "origin": [
+          "0x17c88",
+          "0x17c8c"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x2f81c",
+      "function": "0x2f798",
+      "import": "_NSClassFromString",
+      "x0_candidate": {
+        "at": "0x52e5e",
+        "origin": [
+          "0x2f814",
+          "0x2f818"
+        ],
+        "literal": "UIWindow"
+      },
+      "x2_candidate": {
+        "at": "0x609a8",
+        "origin": [
+          "0x2f800",
+          "0x2f804"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x2f83c",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x52e5e",
+        "origin": [
+          "0x2f814",
+          "0x2f818"
+        ],
+        "literal": "UIWindow"
+      },
+      "x1_candidate": {
+        "at": "0x6aaa0",
+        "origin": [
+          "0x2f824",
+          "0x2f828"
+        ],
+        "indirect": true,
+        "pointer": "0x10000000058b89",
+        "selector": {
+          "at": "0x6aaa0",
+          "ptr": "0x10000000058b89",
+          "name": null
+        }
+      },
+      "x2_candidate": {
+        "at": "0x309b4",
+        "origin": [
+          "0x2f82c",
+          "0x2f830"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x6bb50",
+        "origin": [
+          "0x2f834",
+          "0x2f838"
+        ],
+        "literal": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "UIWindow",
+          "classLookupCall": "0x2f81c"
+        }
+      ]
+    },
+    {
+      "callsite": "0x2f85c",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x52e5e",
+        "origin": [
+          "0x2f814",
+          "0x2f818"
+        ],
+        "literal": "UIWindow"
+      },
+      "x1_candidate": {
+        "at": "0x6ac38",
+        "origin": [
+          "0x2f840",
+          "0x2f844"
+        ],
+        "indirect": true,
+        "pointer": "0x10000000056716",
+        "selector": {
+          "at": "0x6ac38",
+          "ptr": "0x10000000056716",
+          "name": null
+        }
+      },
+      "x2_candidate": {
+        "at": "0x30a7c",
+        "origin": [
+          "0x2f848",
+          "0x2f84c"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x6bb58",
+        "origin": [
+          "0x2f850",
+          "0x2f854"
+        ],
+        "literal": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "UIWindow",
+          "classLookupCall": "0x2f81c"
+        }
+      ]
+    },
+    {
+      "callsite": "0x2f9ec",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x60c28",
+        "origin": [
+          "0x2f9b0",
+          "0x2f9b4"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x38a98",
+        "origin": [
+          "0x2f9d4",
+          "0x2f9d8"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71550",
+        "origin": [
+          "0x2f9dc",
+          "0x2f9e0"
+        ],
+        "literal": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "UIWindow",
+          "classLookupCall": "0x2f81c"
+        }
+      ]
+    },
+    {
+      "callsite": "0x2fa14",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x60c28",
+        "origin": [
+          "0x2f9f0",
+          "0x2f9f4"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x38b00",
+        "origin": [
+          "0x2fa00",
+          "0x2fa04"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71308",
+        "origin": [
+          "0x2fa08",
+          "0x2fa0c"
+        ],
+        "literal": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "UIWindow",
+          "classLookupCall": "0x2f81c"
+        }
+      ]
+    },
+    {
+      "callsite": "0x2fa3c",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x60c68",
+        "origin": [
+          "0x2fa18",
+          "0x2fa1c"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x38b70",
+        "origin": [
+          "0x2fa28",
+          "0x2fa2c"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71310",
+        "origin": [
+          "0x2fa30",
+          "0x2fa34"
+        ],
+        "literal": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "UIWindow",
+          "classLookupCall": "0x2f81c"
+        }
+      ]
+    },
+    {
+      "callsite": "0x2fae4",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x632e8",
+        "origin": [
+          "0x2fa88",
+          "0x2fa8c"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x37f28",
+        "origin": [
+          "0x2facc",
+          "0x2fad0"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71528",
+        "origin": [
+          "0x2fad4",
+          "0x2fad8"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x2fb00",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x2_candidate": {
+        "at": "0x37fec",
+        "origin": [
+          "0x2fae8",
+          "0x2faec"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71530",
+        "origin": [
+          "0x2faf0",
+          "0x2faf4"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x2fb20",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x1_candidate": {
+        "at": "0x6b010",
+        "origin": [
+          "0x2fb04",
+          "0x2fb08"
+        ],
+        "indirect": true,
+        "pointer": "0x1000000005720e",
+        "selector": {
+          "at": "0x6b010",
+          "ptr": "0x1000000005720e",
+          "name": null
+        }
+      },
+      "x2_candidate": {
+        "at": "0x3813c",
+        "origin": [
+          "0x2fb0c",
+          "0x2fb10"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71538",
+        "origin": [
+          "0x2fb14",
+          "0x2fb18"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x2fb40",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x1_candidate": {
+        "at": "0x6b018",
+        "origin": [
+          "0x2fb24",
+          "0x2fb28"
+        ],
+        "indirect": true,
+        "pointer": "0x1000000005763b",
+        "selector": {
+          "at": "0x6b018",
+          "ptr": "0x1000000005763b",
+          "name": null
+        }
+      },
+      "x2_candidate": {
+        "at": "0x38190",
+        "origin": [
+          "0x2fb2c",
+          "0x2fb30"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71540",
+        "origin": [
+          "0x2fb34",
+          "0x2fb38"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x2fb60",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x1_candidate": {
+        "at": "0x6b020",
+        "origin": [
+          "0x2fb44",
+          "0x2fb48"
+        ],
+        "indirect": true,
+        "pointer": "0x10000000055cb9",
+        "selector": {
+          "at": "0x6b020",
+          "ptr": "0x10000000055cb9",
+          "name": null
+        }
+      },
+      "x2_candidate": {
+        "at": "0x381e4",
+        "origin": [
+          "0x2fb4c",
+          "0x2fb50"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71548",
+        "origin": [
+          "0x2fb54",
+          "0x2fb58"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x30178",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x2_candidate": {
+        "at": "0x38c18",
+        "origin": [
+          "0x30160",
+          "0x30164"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71558",
+        "origin": [
+          "0x30168",
+          "0x3016c"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x30210",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x60c68",
+        "origin": [
+          "0x301b8",
+          "0x301bc"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x38d6c",
+        "origin": [
+          "0x301f8",
+          "0x301fc"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71318",
+        "origin": [
+          "0x30200",
+          "0x30204"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x3022c",
+      "function": "0x2f798",
+      "import": "_MSHookMessageEx",
+      "x2_candidate": {
+        "at": "0x38de8",
+        "origin": [
+          "0x30214",
+          "0x30218"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71320",
+        "origin": [
+          "0x3021c",
+          "0x30220"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x3028c",
+      "function": "0x2f798",
+      "import": "_MSHookFunction",
+      "x0_candidate": {
+        "at": "0x60ce8",
+        "origin": [
+          "0x3025c",
+          "0x30260"
+        ],
+        "literal": null
+      },
+      "x1_candidate": {
+        "at": "0x3aab0",
+        "origin": [
+          "0x30274",
+          "0x30278"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x715d0",
+        "origin": [
+          "0x3027c",
+          "0x30280"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x303d8",
+      "function": "0x2f798",
+      "import": "_MSHookFunction"
+    },
+    {
+      "callsite": "0x30710",
+      "function": "0x2f798",
+      "import": "_MSHookFunction",
+      "x0_candidate": {
+        "at": "0x635e8",
+        "origin": [
+          "0x306cc",
+          "0x306d0"
+        ],
+        "literal": null
+      },
+      "x1_candidate": {
+        "at": "0x3a904",
+        "origin": [
+          "0x306fc",
+          "0x30700"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x715c8",
+        "origin": [
+          "0x30704",
+          "0x30708"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x30840",
+      "function": "0x2f798",
+      "import": "_MSHookFunction",
+      "x0_candidate": {
+        "at": "0x63708",
+        "origin": [
+          "0x3081c",
+          "0x30820"
+        ],
+        "literal": null
+      },
+      "x1_candidate": {
+        "at": "0x3ad20",
+        "origin": [
+          "0x3082c",
+          "0x30830"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x715e0",
+        "origin": [
+          "0x30834",
+          "0x30838"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x3086c",
+      "function": "0x2f798",
+      "import": "_MSHookFunction",
+      "x0_candidate": {
+        "at": "0x63608",
+        "origin": [
+          "0x3084c",
+          "0x30850"
+        ],
+        "literal": null
+      },
+      "x1_candidate": {
+        "at": "0x40558",
+        "origin": [
+          "0x30858",
+          "0x3085c"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x6baf8",
+        "origin": [
+          "0x30860",
+          "0x30864"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x308e4",
+      "function": "0x2f798",
+      "import": "_MSHookFunction",
+      "x0_candidate": {
+        "at": "0x55051",
+        "origin": [
+          "0x308ac",
+          "0x308b0"
+        ],
+        "literal": "com.carplaypro.navitel.pcm-copy"
+      },
+      "x1_candidate": {
+        "at": "0x40738",
+        "origin": [
+          "0x308d0",
+          "0x308d4"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x6bae8",
+        "origin": [
+          "0x308d8",
+          "0x308dc"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x311f4",
+      "function": "0x30f40",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x64520",
+        "origin": [
+          "0x311a0",
+          "0x311a4"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x3716c",
+      "function": "0x36f64",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x6ba18",
+        "origin": [
+          "0x3711c",
+          "0x37130"
+        ],
+        "indirect": true,
+        "pointer": "0x100000cfeedfacf"
+      },
+      "x2_candidate": {
+        "at": "0x375ec",
+        "origin": [
+          "0x37154",
+          "0x37158"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71500",
+        "origin": [
+          "0x3715c",
+          "0x37160"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x371b0",
+      "function": "0x36f64",
+      "import": "_MSHookMessageEx",
+      "x2_candidate": {
+        "at": "0x37700",
+        "origin": [
+          "0x37198",
+          "0x3719c"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71508",
+        "origin": [
+          "0x371a0",
+          "0x371a4"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x37354",
+      "function": "0x3728c",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x63268",
+        "origin": [
+          "0x3730c",
+          "0x37310"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x37a20",
+        "origin": [
+          "0x3733c",
+          "0x37340"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71510",
+        "origin": [
+          "0x37344",
+          "0x37348"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x373cc",
+      "function": "0x3728c",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x63288",
+        "origin": [
+          "0x37384",
+          "0x37388"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x37b64",
+        "origin": [
+          "0x373b4",
+          "0x373b8"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71518",
+        "origin": [
+          "0x373bc",
+          "0x373c0"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x37488",
+      "function": "0x3728c",
+      "import": "_MSHookMessageEx",
+      "x2_candidate": {
+        "at": "0x37ca8",
+        "origin": [
+          "0x37470",
+          "0x37474"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71520",
+        "origin": [
+          "0x37478",
+          "0x3747c"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x390a4",
+      "function": "0x38f60",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x6b200",
+        "origin": [
+          "0x39084",
+          "0x39088"
+        ],
+        "indirect": true,
+        "pointer": "0x8010000000000181"
+      },
+      "x2_candidate": {
+        "at": "0x39b54",
+        "origin": [
+          "0x39090",
+          "0x39094"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x71598",
+        "origin": [
+          "0x39098",
+          "0x3909c"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x39188",
+      "function": "0x38f60",
+      "import": "_MSHookMessageEx",
+      "x0_candidate": {
+        "at": "0x6b200",
+        "origin": [
+          "0x39168",
+          "0x3916c"
+        ],
+        "indirect": true,
+        "pointer": "0x8010000000000181"
+      },
+      "x2_candidate": {
+        "at": "0x3a08c",
+        "origin": [
+          "0x39174",
+          "0x39178"
+        ],
+        "literal": null
+      },
+      "x3_candidate": {
+        "at": "0x715a0",
+        "origin": [
+          "0x3917c",
+          "0x39180"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x393f0",
+      "function": "0x38f60",
+      "import": "_MSHookFunction",
+      "x1_candidate": {
+        "at": "0x39630",
+        "origin": [
+          "0x393dc",
+          "0x393e0"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x71570",
+        "origin": [
+          "0x393e4",
+          "0x393e8"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x39408",
+      "function": "0x38f60",
+      "import": "_MSHookFunction",
+      "x1_candidate": {
+        "at": "0x39970",
+        "origin": [
+          "0x393f4",
+          "0x393f8"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x71578",
+        "origin": [
+          "0x393fc",
+          "0x39400"
+        ],
+        "literal": null
+      }
+    },
+    {
+      "callsite": "0x39420",
+      "function": "0x38f60",
+      "import": "_MSHookFunction",
+      "x1_candidate": {
+        "at": "0x399b4",
+        "origin": [
+          "0x3940c",
+          "0x39410"
+        ],
+        "literal": null
+      },
+      "x2_candidate": {
+        "at": "0x71580",
+        "origin": [
+          "0x39414",
+          "0x39418"
+        ],
+        "literal": null
+      }
+    }
+  ],
+  "raw_pointer_refs_to_four_callbacks": []
+}
