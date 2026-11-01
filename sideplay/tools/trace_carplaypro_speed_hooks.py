@@ -60,6 +60,9 @@ def main():
         ("GOFA candidate dlsym + MSHookFunction registration",0x392f0,0x39454),
         ("GOFA raw alert callback into SAGofaAlertPayload",0x3cfb4,0x3d080),
         ("GOFA raw speed callback into SAGofaSpeedPayload",0x3d468,0x3d5b0),
+        ("Substrate registration at 0x36f64: identify hooked class/selector",0x36f64,0x37200),
+        ("Substrate registration at 0x3728c: identify hooked class/selector",0x3728c,0x37520),
+        ("AudioQueueStart/Pause/Stop MSHookFunction region, NOT GOFA",0x39390,0x39430),
     ):
         md.append("")
         md.append("### "+title+" `"+hex(lo)+"..`"+hex(hi))
