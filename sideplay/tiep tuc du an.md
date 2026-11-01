@@ -1,3 +1,9 @@
+## 2026-11-01 — nativebridge2 original-source publication started (live result pending)
+
+User asks next; proceed existing Sileo distribution then one actual selected-app device test. Publisher carplaydsp/main .github/workflows/build.yml commit 3a1539847cd585adf28fe3c28cba030e78b91a08, readback blob 93dc009692aa29cccab2d96cc0ab09b43427e84f. Pins exact signed source archive cc3738643c3bff697db206210e25dfdae0f1f871/run41260407074, version 0.0.156~nativebridge2 SHA b64d78e9678cd36f05ab9a5a4512559254b044de61d2bd5f5e22e2da8225eb17. Adds prior nativebridge1 download/hash and public rollback verification, retains QA155/147 and all older archives, 101 physical DEBs but one live integrated APT entry. No new APT source or same-version overwrite.
+
+Local validation PASS: YAML parse, bash -n all30 run steps, Debian version2>1, exact101 archive version set, actual pinned DEB 14-app filter and DarwinIPC marker assertions. Public build/verify runs: 41261185836 Validate Sileo build workflow YAML before deployment; 41261185823 Build and publish Sileo repo. Do not claim live before deploy + public Packages and downloaded hash + rollback verifier succeed. Device remains untested. Next inspect these jobs, fix actual error if any, then update live evidence and give exact Sileo upgrade/one-test instructions.
+
 ## 2026-11-01 — IPC private candidate BUILT, SIGNED, archive re-downloaded and inspected
 
 CONFIRMED source commit 08512742276c6540590d7fb76ba25b69486c8b51; branch feature/duoface-qa146-native-home-exit-20261031. Scoped regression run 41260407157 SUCCESS. Private macOS/iOS16 integrated run 41260407074, job 124712305538 SUCCESS, completed 08:20:35 ICT. Actual two-process Darwin state -> exact identity ACK -> revoke -> restored runtime test PASS on macOS; actual iOS source compile, full signed build and package checks PASS. NOT physical iPhone proof.
