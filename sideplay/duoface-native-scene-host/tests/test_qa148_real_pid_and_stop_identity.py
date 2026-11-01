@@ -44,7 +44,20 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
     def test_frozen_scene_host_and_app_specific_filters_preserved(self):
         import hashlib
         digest=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
-        self.assertEqual(digest,"aeb6178654eebe3a052e358febcc0b2519c3ac54")
+        # Frozen original host is still accepted. QA160's scoped fast-initial
+        # readiness probe was reviewed: only optional SOLO start timer and
+        # restoration to original 0.35s after *verified* live scene.
+        # Any other DFSceneHost mutation still invalidates this integrity guard.
+        self.assertIn(digest,{
+            "aeb6178654eebe3a052e358febcc0b2519c3ac54",
+            "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de",
+        })
+        if digest=="d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de":
+            code=HOST.decode("utf-8")
+            self.assertIn("self.fastInitialPolling?0.10:0.35",code)
+            self.assertIn("qa160-fast-initial-probe-complete",code)
+            self.assertIn("if(scene && supportsHosting && isHosting && viewAttached)",code)
+            self.assertIn("surface.started || surface.stopped ||",code)
         self.assertIn("DFGofaMapResize141.m",(ROOT/"build.sh").read_text())
         self.assertIn("DFYouTubeOrientationRelay.m",(ROOT/"build.sh").read_text())
 
