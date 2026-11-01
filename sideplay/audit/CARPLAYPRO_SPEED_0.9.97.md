@@ -55,7 +55,16 @@ Audit đã ghi nhận **94 file payload + 3 file control**, 115 entry (bao gồm
 
 **Cài đặt có bằng chứng:** bật/tắt, âm báo khởi động, mở nguồn khi CarPlay kết nối và đóng nguồn khi ngắt; **7 kiểu overlay**, size 0.6–1.4; cảnh báo đường và dẫn đường, nền tùy chọn (8 preset), opacity/hex, ngưỡng vượt tốc độ, đổi màu/nhấp nháy, diagnostics export, thử tốc độ/giới hạn/cảnh báo 30 giây. Trường/kiểu/mặc định chi tiết nằm trong `plists-decoded.json`; tham chiếu [bản đồ chức năng](./carplaypro-0.9.97/TECHNICAL_FEATURE_MAP.md) trước khi kết luận một tính năng.
 
-## 4. Quy trình tiếp tục (không quét lại từ đầu)
+## 4. Hệ thống kích hoạt, thời hạn và giấy phép nguồn (kiểm chứng tĩnh 2026-11-01)
+
+**Dữ liệu gốc:** `carplaypro-0.9.97/plists-decoded.json`, đặc biệt `rootfs/var/jb/Applications/CPSActivation.app/License.plist`, `LicenseTools.plist`, `rootfs/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/License.plist`; các section string của `macho/001-CPSActivation-arm64.section-strings.json` và `macho/009-CPSpeedPrefs-arm64.section-strings.json`. Đối với điều khoản mã nguồn bên thứ ba, xem `carplaypro-0.9.97/unpacked/rootfs/var/jb/usr/share/doc/com.carplaypro.speed/{GMapHUD-LICENSE,THIRD-PARTY-NOTICES.txt}`.
+
+- **Có kiểm tra bản quyền/kích hoạt:** giao diện ghi “Nhập key người bán cấp”; các nút `Dùng thử miễn phí 7 ngày`, `Quét QR / chọn ảnh để kích hoạt`, `Nhập key kích hoạt`, `Sao chép mã thiết bị`, `Nhập giấy phép thủ công (dự phòng)`, `Xem trạng thái kích hoạt` và `Respring`. Giao diện hướng dẫn cần Internet một lần và sau kích hoạt có thể dùng offline **trên iPhone này**; trial cần respring có hiệu lực. Đây là các thông điệp trong bản đóng gói, **chưa được kiểm chứng trên thiết bị/server**.
+- **Dấu vết nhánh thời hạn/thiết bị:** strings `trial_expired`, `license_expired`, `key_bound_to_other_device`, `UniqueDeviceID`, `offlineLicense`, `issued_at`, `kind`, `timed`, `expires_at`, `lifetime`, `CPS-OFFLINE-LICENSE-v1`, và lời gọi request qua HTTPS. Cho thấy sản phẩm có thiết kế kiểm tra hạn trial/hạn license và liên kết thiết bị; cả loại thời hạn và lifetime xuất hiện trong dữ liệu nhị phân. **Không đủ kết luận** người bán đang cung cấp gói nào, mức giá, chính sách chuyển máy, hay trạng thái license từng iPhone. Không kiểm thử hoặc can thiệp vào hệ thống cấp phép.
+- **Giấy phép mã nguồn KHÁC giấy phép kích hoạt ứng dụng:** `GMapHUD-LICENSE` ghi **MIT** cho phần mã nguồn GMapHUD được dẫn trong `THIRD-PARTY-NOTICES.txt`, chủ yếu ngữ cảnh quản lý nền/vị trí. **MIT này không đồng nghĩa CarPlayPro Speed toàn bộ là mã nguồn mở/MIT hoặc DEB cho phép sao chép vào DuoFace.** Không tìm thấy ở các metadata hiện có một giấy phép nguồn mở tổng thể của sản phẩm.
+- **Chưa biết/chưa xác thực:** giá bán, thời hạn mua thực tế, có yêu cầu gia hạn thường niên, server kích hoạt còn hoạt động hay không, trial có khởi chạy thành công, hoặc khả năng chuyển license sau khi đổi iPhone. Phải có nguồn chính thức hoặc thử hợp lệ trên thiết bị để xác nhận.
+
+## 5. Quy trình tiếp tục (không quét lại từ đầu)
 
 1. Đọc **file này**, rồi [`TECHNICAL_FEATURE_MAP.md`](./carplaypro-0.9.97/TECHNICAL_FEATURE_MAP.md) và [`summary.json`](./carplaypro-0.9.97/summary.json). Chỉ mở `macho/`, `disassembly/`, `unpacked/` theo hàm/selector cần xác minh.
 2. Kiểm bản DEB gốc còn đúng SHA256 và audit đúng cùng phiên bản; đừng trộn kết quả với gói CarPlayPro khác. Kiểm commit gần nhất để không ghi đè audit của phiên khác.
@@ -63,7 +72,7 @@ Audit đã ghi nhận **94 file payload + 3 file control**, 115 entry (bao gồm
 4. Mọi phát hiện mới phải ghi ở hồ sơ audit này hoặc bản đồ kỹ thuật liên quan, dẫn tên file/slice/offset/SHA/run; không dồn hàng nghìn dòng data vào `tiep tuc du an.md`. Nhật ký dự án chỉ cần **một liên kết** đến đây.
 5. Chỉ đánh dấu chức năng là “hoạt động trên xe” khi có log và test iPhone/CarPlay thực tế, ghi rõ phiên bản cài, thiết bị, các bước lặp lại, kết quả và chứng cứ.
 
-## 5. Giới hạn và quy tắc độc lập
+## 6. Giới hạn và quy tắc độc lập
 
 - **Đã xác minh:** bytes DEB, control/maintainer scripts được đọc không thực thi, toàn bộ file được giữ trong repo, kiểm SHA256 từng file trong CI, các dấu vết Mach-O/ObjC/strings và disassembly tĩnh.
 - **Chưa xác minh:** dữ liệu app nguồn ở runtime; tính đúng của tốc độ/cảnh báo trên xe; lifecycle khi khóa màn/ngắt CarPlay; đầy đủ control flow do dynamic ObjC/obfuscation; hiệu quả thực tế đối với DuoFace.
