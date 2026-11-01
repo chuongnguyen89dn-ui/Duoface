@@ -1,3 +1,11 @@
+## 2026-11-01 — nativebridge2 LIVE VERIFIED on SAME original Sileo (08:31 ICT)
+
+CONFIRMED public version com.duoface.jb.embedded 0.0.156~nativebridge2 on https://chuongnguyen89dn-ui.github.io/carplaydsp/ . Public DEB SHA b64d78e9678cd36f05ab9a5a4512559254b044de61d2bd5f5e22e2da8225eb17 matches signed archive run41260407074/source08512742276c6540590d7fb76ba25b69486c8b51. Publisher commit3a1539847cd585adf28fe3c28cba030e78b91a08. Run41261185823 COMPLETED SUCCESS all5 jobs, YAML/actionlint41261185836 SUCCESS. Actual public Packages + downloaded binary checksum verified; nativebridge1/QA155/QA147 rollback hashes unchanged. 101 archived integrated DEB versions, exactly one live APT entry. No new source, no equal-version overwrite.
+
+Evidence: sideplay/audit/qa155-vehicle-gate-20261101/NATIVEBRIDGE2_ORIGINAL_SILEO_LIVE_20261101.md and NATIVEBRIDGE2_PUBLIC_MARKERS.log. Distribution state supersedes PRIVATE/unpublished/pending entries below; hardware state does NOT change. No device install/CarPlay success claim.
+
+NEXT: user refresh existing Sileo source, upgrade exact nativebridge2, respring, close stale selected test app; retain both existing Home opt-ins. Test Safari direct from native CarPlay Home, lower touch after30s, Home/Dock and second supported app; export “Xuất log / lỗi CarPlay”. Correlate same request/owner/scene and real qa155-app-side-ack phase/restore. Device-side sandbox delivery, actual UIKit identity, bogus reference size and Home/Dock/input parity remain unverified. No more log-only builds without a fresh failed boundary.
+
 ## 2026-11-01 — nativebridge2 original-source publication started (live result pending)
 
 User asks next; proceed existing Sileo distribution then one actual selected-app device test. Publisher carplaydsp/main .github/workflows/build.yml commit 3a1539847cd585adf28fe3c28cba030e78b91a08, readback blob 93dc009692aa29cccab2d96cc0ab09b43427e84f. Pins exact signed source archive cc3738643c3bff697db206210e25dfdae0f1f871/run41260407074, version 0.0.156~nativebridge2 SHA b64d78e9678cd36f05ab9a5a4512559254b044de61d2bd5f5e22e2da8225eb17. Adds prior nativebridge1 download/hash and public rollback verification, retains QA155/147 and all older archives, 101 physical DEBs but one live integrated APT entry. No new APT source or same-version overwrite.
