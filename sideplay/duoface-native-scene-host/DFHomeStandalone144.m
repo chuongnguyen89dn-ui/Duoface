@@ -106,9 +106,18 @@ static BOOL DF144ValidRequest(NSDictionary *p,NSTimeInterval now) {
 static void (*DF144Original)(id,SEL,id,id);
 static void (*DF144OriginalHomeAppear)(id,SEL,BOOL);
 static NSTimeInterval DF144LastHomeRequest;
+static BOOL DF144NativeHomeHandled;
+static NSString *DF144ChooserSession;
 static void DF152RevokeNativePreparation(void);
 static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
  DF144OriginalHomeAppear(owner,sel,animated);
+ // The real native Home callback already requested the chooser/stop.
+ // viewDidAppear is not a second button press.
+ if(DF144NativeHomeHandled) {
+   DF144NativeHomeHandled=NO;
+   DF144Log(@"native-home-appearance-already-handled",@"skip-duplicate-stop");
+   return;
+ }
  // Home/Back must revoke ONLY a prior standalone scene (not a brand-new tap).
  if(DF144LastHomeRequest>0 &&
     NSDate.date.timeIntervalSince1970-DF144LastHomeRequest>0.7) {
@@ -172,6 +181,7 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
 #import "DF152NativeWorkspacePrepare.h"
 static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *origin) {
  if(!DF144Allowed(bundle) || !DF144LiveReceiver())return NO;
+ DF144ChooserSession=nil;DF144NativeHomeHandled=NO;
  CGRect content=CGRectZero,screen=CGRectZero;
  NSString *display=nil;
  if(!DF144UniqueNativeContentWindow(&content,&screen,&display)) {
