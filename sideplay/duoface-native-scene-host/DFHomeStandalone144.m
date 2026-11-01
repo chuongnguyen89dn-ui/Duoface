@@ -18,6 +18,7 @@
 #import "DFEnabledAppsPolicy.h"
 #if defined(DF144_SPRINGBOARD)
 #import "DFSceneHost.h"
+#import "DFAppPickerVC.h"
 #import "DF154AppStateProtocol.h"
 #import "DFHostedMapRenderSize.h"
 #endif
@@ -32,6 +33,8 @@ static const char *const DF148WatchdogStopNotify="com.duoface.nativehost.standal
 static const char *const DF148NativeSwitchStopNotify="com.duoface.nativehost.standalone144.stop.native-switch";
 static const char *const DF148OwnerRevokeStopNotify="com.duoface.nativehost.standalone144.stop.owner-revoke";
 static const char *const DF144ResultNotify="com.duoface.nativehost.standalone144.result";
+static NSString *const DF144PickerRequest=@"/var/mobile/Library/Preferences/com.duoface.nativehost.solo-picker-request.plist";
+static const char *const DF144PickerNotify="com.duoface.nativehost.solo-picker.request";
 static NSString *const DF144HostApp=@"com.duoface.native.scenehost";
 static void DF144Log(NSString *tag,NSString *detail) {
  NSString *line=[NSString stringWithFormat:@"[DFStandalone144] time=%.3f process=%@ stage=%@ %@\n",
@@ -228,6 +231,7 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
  });
  return YES;
 }
+#import "DFSoloPickerCarPlay157.h"
 static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  NSString *bid=DF144Bundle(icon,0);
  if(![icon isKindOfClass:UIView.class] ||
@@ -261,7 +265,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
     NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
  // Install at startup; DBWorkspace initWithOwner: may precede the first tap.
  DF151StartCapture();
- dispatch_async(dispatch_get_main_queue(),^{DF147Start();DF144Install(0);});
+ dispatch_async(dispatch_get_main_queue(),^{DF147Start();DF144Install(0);DF157RegisterSoloPickerReceiver();});
 }
 #endif
 #if defined(DF144_SPRINGBOARD)
@@ -312,10 +316,12 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  owned=cls;
  return owned;
 }
-@interface DF144Solo : NSObject
+@interface DF144Solo : NSObject <DFAppPickerDelegate>
 @property(nonatomic,strong) UIWindow *window;
 @property(nonatomic,strong) UIViewController *root;
 @property(nonatomic,strong) UIView *surface;
+@property(nonatomic,strong) UIButton *soloPill;
+@property(nonatomic,strong) DFAppPickerVC *soloPicker;
 @property(nonatomic,copy) NSString *bundle;
 @property(nonatomic,copy) NSString *request;
 @property(nonatomic,copy) NSString *carDisplayID;
@@ -331,6 +337,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
 - (void)publishGeneralAppState:(BOOL)active;
 @end
 @implementation DF144Solo
+#import "DFSoloPill157.h"
 // A genuine externally hosted FBScene is the ONLY authority for the app-side
 // per-scene lease. Generic app receiver is never used by YT/GOFA or native apps.
 - (void)publishGeneralAppState:(BOOL)active {
@@ -458,6 +465,8 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  [self reply:state reason:reason verifiedPID:nil];
 }
 - (void)stop:(NSString *)reason {
+ [self.soloPicker setDelegate:nil];
+ self.soloPill=nil;self.soloPicker=nil;
  [self publishGeneralAppState:NO];
  ++self.generation;
  self.emittedHosted=NO;
@@ -555,6 +564,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
      [self stop:@"scene-factory-refused"];return NO;
    }
    self.surface=v;
+   [self df157InstallSoloMenuWithUsableRect:usable];
    v.frame=contentView.bounds;v.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
    // Explicit SOLO, never call DFNative12Chrome or its app picker.
    [[DFSceneHost sharedHost] setSplitMode:NO forHostedView:v];
@@ -621,6 +631,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  // Native Dock state may follow this owner receipt; PID remains an observation.
  if(!self.emittedManager) {
    self.emittedManager=YES;
+   self.soloPill.hidden=NO;
    [self publishGeneralAppState:YES];
    DF144Log(@"qa149-manager-live-scene-owned",
       [NSString stringWithFormat:@"req=%@ bid=%@ generation=%lu window=%@",
