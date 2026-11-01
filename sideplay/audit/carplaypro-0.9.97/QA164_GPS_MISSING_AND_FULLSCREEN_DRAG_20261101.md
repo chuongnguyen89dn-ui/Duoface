@@ -42,3 +42,11 @@ Date: 2026-11-01. Project: independent DuoFace. Original CarPlayPro Speed DEB re
 6. Attach exact screenshots/logs and device/CarPlay iOS/software versions in this repo. Stop/rollback on crash, misrouted touch, CarPlay black screen or Dock regression.
 
 **Status:** CAUSAL SOURCE AUDIT + SIGNED BUILD PASS. Public delivery gate pending; hardware test pending; GPS data adapter itself not fixed.
+
+## Public Sileo release verified — 2026-11-01
+
+- Signed QA164 project package SHA: `ce8d49302619301188cf9862a73dcc90c7688ed28851278a4bab001f4d8694ca` (see exact source+archive above).
+- Existing `chuongnguyen89dn-ui/carplaydsp/main` release workflow commit `a7ace08bf40e15ae955fa2d7d91aad09838f095c`, YAML validation run `41305261246` SUCCESS, [Sileo publish+Pages run 41305261209](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41305261209) **COMPLETED SUCCESS**. Build job `124844243086`, deploy `124844785844`, public DuoFace SHA verification `124844830442`, additional independent checks `124844830445` / `124844830501` all SUCCESS.
+- Real public verifier emitted `DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED` and `/home/runner/work/_temp/duoface-public.deb: OK`, `DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED` (2026-11-01 12:13:48 UTC). APT has exactly ONE selected `com.duoface.jb.embedded` QA164 record with matching version/filename/hash, QA163 binary retained unchanged for rollback.
+- First publish run `41304885379` failed due to **CI-only incorrect expected string** `[DuoFaceSpeed8] QA164 native owner attached` in publisher for the unchanged QA163 native-owner module; fixed publisher compare to actual `QA163` at commit `a7ace08bf40e15ae955fa2d7d91aad09838f095c`. No DuoFace binary rebuild or code change was needed for that failure.
+- **No physical iPhone/car test, no verified drag or real GOFA data.** Success is publication and byte-identical package checksum, not a result of hardware validation. Continue the acceptance plan above.
