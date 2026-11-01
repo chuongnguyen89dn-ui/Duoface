@@ -18,8 +18,8 @@ class GlobalSpeedHUD163(unittest.TestCase):
         cls.source=(ROOT/"DFGofaSpeedSource162.m").read_text()
 
     def test_only_one_integrated_duoface_package_and_full_compilation(self):
-        self.assertIn('VERSION="0.0.163~globalspeed8test1"',PACK)
-        self.assertIn('0.1.163~globalspeed8test1',self.build)
+        self.assertIn('VERSION="0.0.164~globaldragtest1"',PACK)
+        self.assertIn('0.1.164~globaldragtest1',self.build)
         self.assertIn("DFSpeedNativeOverlay163.mm speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm",self.build)
         self.assertIn("DFNative12Chrome.m",self.build)
         self.assertIn("DFGofaSpeedSource162.m",self.build)
@@ -27,11 +27,11 @@ class GlobalSpeedHUD163(unittest.TestCase):
         self.assertNotIn("com.carplaypro.speed",self.build)
 
     def test_duoface_native_pane_not_gofa_gated(self):
-        self.assertIn("refreshGlobalSpeedHUD163",self.chrome)
+        self.assertIn("refreshGlobalSpeedHUD164",self.chrome)
         self.assertNotIn("refreshGOFASpeedHUD162",self.chrome)
         self.assertNotIn('[bundle isEqualToString:@"com.lumi.GOFA"]',self.chrome)
-        self.assertIn("for(UIWindow *w in self.appSceneWindows)",self.chrome)
-        self.assertIn("self.focus>=0",self.chrome)
+        self.assertIn("self.speedHUDWindow=hudWindow",self.chrome)
+        self.assertIn("self.gofaSpeedHUD.floatingWindowMode=YES",self.chrome)
         self.assertIn("[self.gofaSpeedHUD removeFromSuperview]",self.chrome)
         self.assertIn("w.screen!=UIScreen.mainScreen",self.chrome)
 
