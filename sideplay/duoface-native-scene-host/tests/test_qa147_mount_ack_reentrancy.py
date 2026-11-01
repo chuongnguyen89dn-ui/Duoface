@@ -15,7 +15,7 @@ class NativeStandaloneMountAndAck(unittest.TestCase):
     def test_pending_precedes_synchronous_mount_and_is_not_rewritten(self):
         body = SOLO.split("- (BOOL)begin:(NSDictionary *)p {", 1)[1].split("- (void)attemptOwnedReadyForView:", 1)[0]
         pending = body.index('[self reply:@"pending-scene"')
-        mount = body.index("[root.view addSubview:v]")
+        mount = body.index("[contentView addSubview:v]")
         self.assertLess(pending, mount, "pending must precede reentrant UIKit mount")
         self.assertEqual(body.count('[self reply:@"pending-scene"'), 1)
         self.assertIn("self.generation!=generation", body[mount:])
@@ -38,7 +38,7 @@ class NativeStandaloneMountAndAck(unittest.TestCase):
         self.assertIn("qa147-ready-pid-unavailable", body)
 
     def test_mount_geometry_and_failure_boundary_observable(self):
-        # Preserve QA141's byte-exact original DFSceneHost.m baseline.
+        # Preserve the verified independently owned scene and its real readiness gates.
         self.assertIn("[self addSubview:appView]", HOST)
         self.assertIn('@"before-standalone-mount"', SOLO)
         self.assertIn('@"after-standalone-mount"', SOLO)
