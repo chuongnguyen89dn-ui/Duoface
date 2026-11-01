@@ -62,11 +62,12 @@ def parse(asm_text, starts, symbols):
           "direct_callers":[{"address":f"0x{v:x}","symbol":names.get(v)} for v in sorted(func_callers.get(addr,()))],
           "callers_up_to_four_hops":callers(addr),
           "first_65_instructions":[[f"0x{x[0]:x}",x[2],x[3]] for x in hits[:65]],
-          "outgoing_direct_branches":[f"0x{x:x}" for x in sorted(edges.get(base,()))][:110]})
+          "outgoing_direct_branches":[f"0x{x:x}" for x in sorted(edges.get(base,()))][:110],
+          "pivot_code_disassembled":bool(hits)})
     # Original GOFA selectors are in the original binary's section strings;
     # there is no reliable automatic address mapping from raw strings to
     # the running GOFA Swift object methods without ObjC metadata + runtime.
-    return {"static_only":True,"function_starts":len(starts),"instruction_count":len(instructions),
+    return {"static_only":True,"instruction_min":hex(instructions[0][0]) if instructions else None,"instruction_max":hex(instructions[-1][0]) if instructions else None,"function_starts":len(starts),"instruction_count":len(instructions),
             "direct_branch_edges":sum(map(len,edges.values())),"pivot_functions":funcs}
 
 def markdown(data,original_symbols):
@@ -78,10 +79,11 @@ def markdown(data,original_symbols):
          f"","## Exact analysis counts",
          f"- ARM64 function starts: {data['function_starts']}",
          f"- decoded instructions inspected: {data['instruction_count']}",
+         f"- disassembly instruction address span: {data['instruction_min']} .. {data['instruction_max']}",
          f"- direct B/BL edges: {data['direct_branch_edges']}",
          "","## Proven GOFA-specific symbols and branch callers"]
     for f in data["pivot_functions"]:
-        out.extend([f"","### {f['title']} @ {f['address']}",
+        out.extend(["",f"### {f['title']} @ {f['address']}",
           f"- Parent function start: `{f['parent_start']}`",
           f"- Symbol: `{f['symbol']}`",
           f"- Direct call branches to exact address: **{len(f['direct_callers'])}**",
