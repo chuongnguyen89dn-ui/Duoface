@@ -1,5 +1,7 @@
 {
   "static_only": true,
+  "instruction_min": "0x8000",
+  "instruction_max": "0x17a18",
   "function_starts": 541,
   "instruction_count": 16007,
   "direct_branch_edges": 1087,
@@ -12,7 +14,8 @@
       "direct_callers": [],
       "callers_up_to_four_hops": [],
       "first_65_instructions": [],
-      "outgoing_direct_branches": []
+      "outgoing_direct_branches": [],
+      "pivot_code_disassembled": false
     },
     {
       "title": "GOFA_speed_Swift_wrapper",
@@ -22,7 +25,8 @@
       "direct_callers": [],
       "callers_up_to_four_hops": [],
       "first_65_instructions": [],
-      "outgoing_direct_branches": []
+      "outgoing_direct_branches": [],
+      "pivot_code_disassembled": false
     },
     {
       "title": "GOFA_alert_export",
@@ -32,7 +36,8 @@
       "direct_callers": [],
       "callers_up_to_four_hops": [],
       "first_65_instructions": [],
-      "outgoing_direct_branches": []
+      "outgoing_direct_branches": [],
+      "pivot_code_disassembled": false
     },
     {
       "title": "GOFA_alert_Swift_wrapper",
@@ -42,7 +47,8 @@
       "direct_callers": [],
       "callers_up_to_four_hops": [],
       "first_65_instructions": [],
-      "outgoing_direct_branches": []
+      "outgoing_direct_branches": [],
+      "pivot_code_disassembled": false
     }
   ],
   "original_goFA_source_tokens": {

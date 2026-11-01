@@ -8,11 +8,12 @@ No vendor license or binary is incorporated into DuoFace.
 ## Exact analysis counts
 - ARM64 function starts: 541
 - decoded instructions inspected: 16007
+- disassembly instruction address span: 0x8000 .. 0x17a18
 - direct B/BL edges: 1087
 
 ## Proven GOFA-specific symbols and branch callers
 
-### {f['title']} @ {f['address']}
+### GOFA_speed_export @ 0x3e38c
 - Parent function start: `0x3e38c`
 - Symbol: `_SAGofaSpeedPayload`
 - Direct call branches to exact address: **0**
@@ -23,7 +24,7 @@ First instructions at exported address:
 ```text
 ```
 
-### {f['title']} @ {f['address']}
+### GOFA_speed_Swift_wrapper @ 0x3e390
 - Parent function start: `0x3e390`
 - Symbol: `_$s11SpeedAlerts04gofaA7PayloadySvSgSVF`
 - Direct call branches to exact address: **0**
@@ -34,7 +35,7 @@ First instructions at exported address:
 ```text
 ```
 
-### {f['title']} @ {f['address']}
+### GOFA_alert_export @ 0x3e93c
 - Parent function start: `0x3e93c`
 - Symbol: `_SAGofaAlertPayload`
 - Direct call branches to exact address: **0**
@@ -45,7 +46,7 @@ First instructions at exported address:
 ```text
 ```
 
-### {f['title']} @ {f['address']}
+### GOFA_alert_Swift_wrapper @ 0x3e940
 - Parent function start: `0x3e940`
 - Symbol: `_$s11SpeedAlerts16gofaAlertPayloadySvSgSVF`
 - Direct call branches to exact address: **0**
