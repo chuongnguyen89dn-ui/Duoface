@@ -1,5 +1,6 @@
 // Functional test of ACTUAL forwarding wrappers on Foundation runtime.
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import <objc/runtime.h>
 #import <dispatch/dispatch.h>
 static NSMutableArray *events;
@@ -13,6 +14,9 @@ static NSDictionary *DNFlowSnapshot(id receiver){
 static void FakeHook(Class cls,SEL sel,IMP imp,IMP *old){*old=method_setImplementation(class_getInstanceMethod(cls,sel),imp);}
 @interface DNTestForward:NSObject
 @property NSUInteger calls,value;
+@property CGRect capturedFrame;
+@property NSInteger capturedSlot;
+@property(strong) id producedObject;
 @property BOOL flag;
 @property(strong) id first,second;
 @property SEL command;
@@ -24,6 +28,8 @@ static void FakeHook(Class cls,SEL sel,IMP imp,IMP *old){*old=method_setImplemen
 - (void)object:(id)a boolean:(BOOL)b;
 - (void)throwing:(id)a;
 - (void)homeButtonUp:(id)a;
+- (id)appForBundleIdentifier:(id)bundle frame:(CGRect)frame;
+- (void)showAppPickerForSlot:(NSInteger)slot;
 @end
 @implementation DNTestForward
 - (void)noArgs{self.calls++;self.command=_cmd;}
@@ -34,6 +40,13 @@ static void FakeHook(Class cls,SEL sel,IMP imp,IMP *old){*old=method_setImplemen
 - (void)object:(id)a boolean:(BOOL)b{self.calls++;self.first=a;self.flag=b;self.command=_cmd;}
 - (void)throwing:(id)a{self.calls++;self.first=a;@throw [NSException exceptionWithName:@"OriginalException" reason:@"must propagate" userInfo:nil];}
 - (void)homeButtonUp:(id)a{self.calls++;self.first=a;self.command=_cmd;}
+- (id)appForBundleIdentifier:(id)bundle frame:(CGRect)frame {
+ self.calls++;self.first=bundle;self.capturedFrame=frame;self.command=_cmd;
+ return self.producedObject;
+}
+- (void)showAppPickerForSlot:(NSInteger)slot {
+ self.calls++;self.capturedSlot=slot;self.command=_cmd;
+}
 @end
 @interface DNTestChild:DNTestForward @end
 @implementation DNTestChild @end
