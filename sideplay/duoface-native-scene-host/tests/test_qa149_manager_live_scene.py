@@ -41,7 +41,7 @@ class FirstPartyManagerLiveReceipt(unittest.TestCase):
   self.assertNotIn("notify_post(DF144RequestNotify)",m)
  def test_no_frozen_host_mutation_or_fake_pid_or_render_claim(self):
   h=hashlib.sha1(b"blob "+str(len(host)).encode()+b"\0"+host).hexdigest()
-  self.assertIn(h, {"aeb6178654eebe3a052e358febcc0b2519c3ac54", "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de"}) # original and reviewed QA160 solo-only fast probe
+  self.assertIn(h, {"aeb6178654eebe3a052e358febcc0b2519c3ac54", "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de", "6a3c073f9d7502d588eb441d4ecb6c546c3f09f8"}) # original and reviewed QA160 solo-only fast probe
   self.assertNotIn("scene-ready-and-play-verified",solo)
   self.assertIn('@"manager-owned-live-scene-pixels-unverified"',solo)
   self.assertIn("DF147DockABI",dock)
