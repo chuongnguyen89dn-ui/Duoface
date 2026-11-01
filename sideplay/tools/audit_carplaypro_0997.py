@@ -48,6 +48,53 @@ def info_strings(data):
     # UTF16LE unicode or ASCII: at least four printable characters.
     for m in re.finditer(rb"(?:[\x20-\x7e]\x00){4,}",data):
         yield m.start(),"utf16le",redacted_line(m.group().decode("utf-16-le","replace"))
+def macho_slices(data):
+    """Enumerate every universal Mach-O architecture; offsets inside slice are relative."""
+    magic=data[:4]
+    if magic not in (b"\xca\xfe\xba\xbe",b"\xbe\xba\xfe\xca",b"\xca\xfe\xba\xbf",b"\xbf\xba\xfe\xca"):
+        return [({"slice_index":0,"arch":"thin","slice_offset":0,"slice_size":len(data)},data)]
+    endian=">" if magic in (b"\xca\xfe\xba\xbe",b"\xca\xfe\xba\xbf") else "<"
+    fat64=magic in (b"\xca\xfe\xba\xbf",b"\xbf\xba\xfe\xca")
+    count=struct.unpack_from(endian+"I",data,4)[0]
+    if count<1 or count>64:raise ValueError("invalid fat Mach-O architecture count")
+    entry_size=32 if fat64 else 20
+    out=[]
+    for i in range(count):
+        at=8+i*entry_size
+        if at+entry_size>len(data):raise ValueError("truncated universal arch table")
+        cpu,sub=struct.unpack_from(endian+"II",data,at)
+        if fat64:off,length,align=struct.unpack_from(endian+"QQI",data,at+8)
+        else:off,length,align=struct.unpack_from(endian+"III",data,at+8)
+        if length<32 or off+length>len(data):raise ValueError("universal slice out of bounds")
+        arch=("arm64e" if cpu==0x100000c and (sub&0xff)==2 else
+              "arm64" if cpu==0x100000c else "cpu"+hex(cpu)+"sub"+hex(sub))
+        out.append(({"slice_index":i,"arch":arch,"cpu":cpu,"subtype":sub,
+                     "slice_offset":off,"slice_size":length,"align_log2":align},data[off:off+length]))
+    return out
+
+def codesign_metadata(data,signature):
+    if not signature:return {"status":"no_signature"}
+    off,size=signature["offset"],signature["size"]
+    if off+size>len(data):return {"status":"out_of_bounds"}
+    blob=data[off:off+size]
+    ret={"status":"present","sha256":hashlib.sha256(blob).hexdigest(),"bytes":len(blob),"slots":[]}
+    if len(blob)<12:return ret
+    magic,length,count=struct.unpack_from(">III",blob,0)
+    ret["magic"]=hex(magic)
+    if magic!=0xfade0cc0 or length>len(blob) or count>200:return ret
+    for i in range(count):
+        typ,entry_offset=struct.unpack_from(">II",blob,12+i*8)
+        if entry_offset+8>len(blob):continue
+        kind,blen=struct.unpack_from(">II",blob,entry_offset)
+        if blen<8 or entry_offset+blen>len(blob):continue
+        content=blob[entry_offset+8:entry_offset+blen]
+        rec={"type":typ,"magic":hex(kind),"bytes":blen,"sha256":hashlib.sha256(content).hexdigest()}
+        if kind==0xfade7171:
+            try:rec["entitlements"]=safe(plistlib.loads(content))
+            except Exception as ex:rec["entitlements_parse_error"]=type(ex).__name__
+        ret["slots"].append(rec)
+    return ret
+
 def macho(data):
     if len(data)<32:return None
     magic=data[:4]
@@ -190,39 +237,49 @@ def main():
                     images.append({"path":scope+"/"+rel,"format":"PNG","width":width,"height":height})
                 if data[:3] in (b"\xff\xd8\xff",):
                     images.append({"path":scope+"/"+rel,"format":"JPEG","dimensions":"unknown"})
-                mi=macho(data)
-                if mi:
-                    ident=f"{len(machos)+1:03d}-{path.name}"
-                    safe_ident=re.sub(r"[^a-zA-Z0-9._-]","_",ident)
-                    mi["path"]=scope+"/"+rel;mi["size"]=len(data);mi["sha256"]=item["sha256"]
-                    syms=mi.pop("symbols",[])
-                    starts=mi.pop("function_starts",[])
-                    js(DEST/"macho"/(safe_ident+".load-commands.json"),mi)
-                    js(DEST/"macho"/(safe_ident+".symbols.json"),syms)
-                    js(DEST/"macho"/(safe_ident+".function-starts.json"),starts)
-                    strings=list(info_strings(data))
-                    with gzip.open(DEST/"macho"/(safe_ident+".strings.txt.gz"),"wt",encoding="utf-8") as f:
-                        for at,enc,s in strings:f.write(f"{at:08x}\t{enc}\t{s}\n")
-                    secstrings={}
-                    for sec in mi.get("sections",[]):
-                        name=sec["section"]
-                        if name in ("__objc_methname","__objc_classname","__objc_methtype","__objc_propname","__cstring","__swift5_reflstr","__swift5_typeref"):
-                            o,s=sec["offset"],sec["size"]
-                            if o+s<=len(data) and s<=10*1024*1024:
-                                secstrings[name]=[redacted_line(q.decode("utf-8","replace")) for q in data[o:o+s].split(b"\0") if len(q)>=2]
-                    js(DEST/"macho"/(safe_ident+".section-strings.json"),secstrings)
-                    capstones=[]
-                    if mi.get("cputype")==0x100000c:
+                if data[:4] in (b"\xca\xfe\xba\xbe",b"\xbe\xba\xfe\xca",b"\xca\xfe\xba\xbf",b"\xbf\xba\xfe\xca",
+                                b"\xcf\xfa\xed\xfe",b"\xce\xfa\xed\xfe",b"\xfe\xed\xfa\xcf",b"\xfe\xed\xfa\xce"):
+                    universal=macho_slices(data)
+                    for meta,binary in universal:
+                        mi=macho(binary)
+                        if not mi:raise RuntimeError("KNOWN_MACHO_COULD_NOT_BE_PARSED "+rel)
+                        ident=f"{len(machos)+1:03d}-{path.name}-{meta['arch']}"
+                        safe_ident=re.sub(r"[^a-zA-Z0-9._-]","_",ident)
+                        mi["path"]=scope+"/"+rel
+                        mi["slice"]=meta
+                        mi["size"]=len(binary)
+                        mi["sha256"]=hashlib.sha256(binary).hexdigest()
+                        mi["fat_container_sha256"]=item["sha256"]
+                        mi["codesign_analysis"]=codesign_metadata(binary,mi.get("code_signature"))
+                        syms=mi.pop("symbols",[])
+                        starts=mi.pop("function_starts",[])
+                        js(DEST/"macho"/(safe_ident+".load-commands.json"),mi)
+                        js(DEST/"macho"/(safe_ident+".symbols.json"),syms)
+                        js(DEST/"macho"/(safe_ident+".function-starts.json"),starts)
+                        strings=list(info_strings(binary))
+                        with gzip.open(DEST/"macho"/(safe_ident+".strings.txt.gz"),"wt",encoding="utf-8") as f:
+                            for at,enc,value in strings:f.write(f"{at:08x}\t{enc}\t{value}\n")
+                        secstrings={}
                         for sec in mi.get("sections",[]):
-                            if sec["section"]=="__text" and sec["segment"]=="__TEXT":
-                                capstones.append(disasm_arm64(data,sec,DEST/"disassembly"/(safe_ident+".arm64.txt.gz")))
-                    mi_summary={"path":mi["path"],"name":safe_ident,"size":len(data),"sha256":item["sha256"],
-                        "cputype":mi.get("cputype"),"filetype":mi.get("filetype"),"ncmds":mi.get("ncmds"),
-                        "dylibs":mi.get("dylibs"),"symbol_count":len(syms),"function_start_count":len(starts),
-                        "string_count":len(strings),"objc_classes":len(secstrings.get("__objc_classname",[])),
-                        "objc_methods":len(secstrings.get("__objc_methname",[])),"code_signature":mi.get("code_signature"),
-                        "disassembly":capstones}
-                    machos.append(mi_summary)
+                            secname=sec["section"]
+                            if secname in ("__objc_methname","__objc_classname","__objc_methtype","__objc_propname","__cstring","__swift5_reflstr","__swift5_typeref"):
+                                offset,length=sec["offset"],sec["size"]
+                                if offset+length<=len(binary) and length<=10*1024*1024:
+                                    secstrings[secname]=[redacted_line(q.decode("utf-8","replace")) for q in binary[offset:offset+length].split(b"\0") if len(q)>=2]
+                        js(DEST/"macho"/(safe_ident+".section-strings.json"),secstrings)
+                        capstones=[]
+                        if mi.get("cputype")==0x100000c:
+                            for sec in mi.get("sections",[]):
+                                if sec["section"]=="__text" and sec["segment"]=="__TEXT":
+                                    capstones.append(disasm_arm64(binary,sec,DEST/"disassembly"/(safe_ident+".arm64.txt.gz")))
+                        mi_summary={"path":mi["path"],"name":safe_ident,"size":len(binary),"sha256":mi["sha256"],
+                            "arch":meta["arch"],"slice":meta,
+                            "cputype":mi.get("cputype"),"filetype":mi.get("filetype"),"ncmds":mi.get("ncmds"),
+                            "dylibs":mi.get("dylibs"),"symbol_count":len(syms),"function_start_count":len(starts),
+                            "string_count":len(strings),"objc_classes":len(secstrings.get("__objc_classname",[])),
+                            "objc_methods":len(secstrings.get("__objc_methname",[])), "code_signature":mi.get("codesign_analysis"),
+                            "disassembly":capstones}
+                        machos.append(mi_summary)
             else:item.update(type="other")
             bytype[item["type"]]+=1;inv.append(item)
     js(DEST/"inventory.json",inv)
@@ -236,7 +293,7 @@ def main():
       "scanned_utc":datetime.now(timezone.utc).isoformat(),
       "total_files":len(inv),"types":dict(bytype),"root_files":sum(1 for x in inv if x["scope"]=="rootfs" and x["type"]=="file"),
       "control_files":sum(1 for x in inv if x["scope"]=="control" and x["type"]=="file"),
-      "macho_count":len(machos),"plist_count":len(plists),"images_count":len(images),
+      "macho_slice_count":len(machos),"macho_count":len(set(x["path"] for x in machos)),"plist_count":len(plists),"images_count":len(images),
       "maintainer_scripts":script_paths,"tests":{"static_inspection":True,"installation":False,"device_test":False,"scripts_executed":False},
       "limitations":["Static inspection, not reconstruction of original source or runtime behavior.",
                      "Symbols and strings may be obfuscated or stripped; disassembly covers on-disk __TEXT,__text arm64 instructions.",
@@ -245,7 +302,7 @@ def main():
     summary_text=(f"# CarPlayPro Speed 0.9.97 — complete static DEB inventory\n\n"
       f"Original: \`{summary['source_path']}\` on \`Duoface/main\`. SHA256: \`{summary['source_sha256']}\`.\n\n"
       f"Extracted {summary['root_files']} regular payload files and {summary['control_files']} control files; "
-      f"{len(machos)} Mach-O binaries; {len(plists)} decoded plists; {len(images)} identified images.\n\n"
+      f"{len(set(x['path'] for x in machos))} Mach-O binaries / {len(machos)} arm64(+arm64e) architecture slices; {len(plists)} decoded plists; {len(images)} identified images.\n\n"
       "The \`unpacked/\` tree preserves all package payload and Debian control file bytes. "
       "\`inventory.json\` and \`SHA256SUMS.txt\` record every file, mode, symlink and digest. "
       "\`macho/\` holds every recognized binary's load commands, imported dylibs, RPATHs, segments, sections, UUID, "
