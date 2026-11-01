@@ -208,6 +208,20 @@ def scan_pointer_refs(macho):
                                 "callback":hex(value)})
     return matches
 
+def inspect_hook_tables(macho):
+    # At 0x303d8 original assembly reads x1 from 0x5d4f8 + index(0,8,16,24).
+    # Record on-disk chained pointer words; *do not* assume they are runtime
+    # pointers until relocation and trampoline structures are established.
+    out={}
+    for addr in (0x5d4f8,0x5d500,0x5d508,0x5d510,
+                 0x5d410,0x5d418,0x5d420,0x5d428,
+                 0x6b968,0x6b970,0x6b978,0x6b980):
+        raw=macho.pointer(addr)
+        out[hex(addr)]={"encoded":hex(raw) if raw is not None else None,
+                        "low32":hex(raw & 0xffffffff) if raw is not None else None,
+                        "section":macho.section(addr)["section"] if macho.section(addr) else None}
+    return out
+
 def main():
     p=argparse.ArgumentParser()
     for flag in ("thin","load_commands","function_starts","full_disassembly","out"):
@@ -222,7 +236,8 @@ def main():
             "no_runtime_events":True,"no_goFA_field_map":True,
             "method_hook_calls":len([x for x in calls if x["import"]=="_MSHookMessageEx"]),
             "function_hook_calls":len([x for x in calls if x["import"]=="_MSHookFunction"]),
-            "hook_import_calls":calls,"raw_pointer_refs_to_four_callbacks":roots}
+            "hook_import_calls":calls,"raw_pointer_refs_to_four_callbacks":roots,
+            "original_candidate_hook_tables":inspect_hook_tables(macho)}
     a.out.mkdir(parents=True,exist_ok=True)
     (a.out/"ORIGINAL_OBJC_HOOK_TARGETS.json").write_text(json.dumps(result,indent=2)+"\n")
     lines=["# Original CarPlayPro Speed hook targets: source-by-source",
