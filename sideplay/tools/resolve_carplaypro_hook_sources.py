@@ -61,7 +61,18 @@ class ThinMachO:
         if p is None:return None
         # Chained/authenticated pointers may not store plain VM addresses.
         name=self.text(p)
-        return {"at":hex(addr),"ptr":hex(p),"name":name}
+        decoded=p
+        # Original arm64 Mach-O has authenticated chained pointer fixups.
+        # Resolve low bits only if they land in tracked __objc_methname.
+        if name is None:
+            candidate=p & 0xffffffff
+            sec=self.section(candidate)
+            if sec and sec["section"]=="__objc_methname":
+                name=self.text(candidate)
+                decoded=candidate
+        return {"at":hex(addr),"ptr":hex(p),
+                "decoded_name_address":hex(decoded) if name else None,
+                "name":name}
 
 def rows_from_asm(src,starts):
     starts=sorted(set(starts))
@@ -129,7 +140,7 @@ def hooks(rows,macho):
                         if raw:names.append({"className":raw,"classLookupCall":hex(row["addr"])})
             if names:call["nearby_class_lookups"]=names[-8:]
             result.append(call)
-    return result
+    return [x for x in result if x["import"] in ("_MSHookMessageEx","_MSHookFunction")]
 
 def scan_pointer_refs(macho):
     matches=[]
@@ -164,7 +175,7 @@ def main():
            "","**Static binary only**. Exact class/selector pointer resolution may be absent",
            "for chained fixups or Swift fields. Nearby class lookups are not ABI proof.",
            "No private GOFA values nor license data are read or generated.",
-           f"","- Original MSHookMessageEx callsites: {result['method_hook_calls']}",
+           "",f"- Original MSHookMessageEx callsites: {result['method_hook_calls']}",
            f"- Original MSHookFunction callsites: {result['function_hook_calls']}",
            f"- Raw pointer references to exported GOFA callbacks: {len(roots)}",
            "","## Hook registrations with recovered selector and exact callback address"]
