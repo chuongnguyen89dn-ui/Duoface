@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          /tmp/carplaypro-audit-venv/bin/python sideplay/tools/audit_carplaypro_0997.py
+          /tmp/carplaypro-audit-venv/bin/python sideplay/tools/audit_carplaypro_0997.py --replace
           python3 - <<'PY'
           import hashlib,json,pathlib
           base=pathlib.Path("sideplay/audit/carplaypro-0.9.97")
