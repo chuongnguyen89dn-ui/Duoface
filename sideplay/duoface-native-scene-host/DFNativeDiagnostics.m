@@ -49,6 +49,7 @@
       @"/var/mobile/Library/Logs/DuoFaceDockOwner.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeCatalogABI.log",
       @"/var/mobile/Library/Logs/DuoFaceHomePublisher136.log",
+      @"/var/mobile/Library/Logs/DuoFaceTrafficNav166.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission137.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission140.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission141.log",
