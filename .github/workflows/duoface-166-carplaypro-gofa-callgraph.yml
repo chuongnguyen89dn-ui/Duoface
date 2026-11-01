@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-166-carplaypro-gofa-callgraph.yml'
       - 'sideplay/tools/trace_carplaypro_speed_dataflow.py'
+      - 'sideplay/tools/recover_carplaypro_speed_full_arm64.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -28,20 +29,28 @@ jobs:
           PREFIX='sideplay/audit/carplaypro-0.9.97'
           git show "FETCH_HEAD:$PREFIX/disassembly/007-SpeedAlerts.dylib-arm64.arm64.txt.gz" > "$RUNNER_TEMP/qa166-original/asm.gz"
           git show "FETCH_HEAD:$PREFIX/macho/007-SpeedAlerts.dylib-arm64.function-starts.json" > "$RUNNER_TEMP/qa166-original/functions.json"
+          git show "FETCH_HEAD:$PREFIX/macho/007-SpeedAlerts.dylib-arm64.load-commands.json" > "$RUNNER_TEMP/qa166-original/loads.json"
           git show "FETCH_HEAD:$PREFIX/macho/007-SpeedAlerts.dylib-arm64.symbols.json" > "$RUNNER_TEMP/qa166-original/symbols.json"
           git show "FETCH_HEAD:$PREFIX/macho/007-SpeedAlerts.dylib-arm64.section-strings.json" > "$RUNNER_TEMP/qa166-original/sections.json"
           test "$(git hash-object "$RUNNER_TEMP/qa166-original/sections.json")" = b8db68f5314b386dad24835f32f74cdf4086e35e
           ORIGINAL_PATH="$PREFIX/unpacked/rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib"
           git show "FETCH_HEAD:$ORIGINAL_PATH" > "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib"
           test "$(git hash-object "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib")" = f2b7d46e7ace8dfb533e9e9a843eae9616523486
+          lipo -thin arm64 "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib" -output "$RUNNER_TEMP/qa166-original/SpeedAlerts-arm64.dylib"
           echo QA166_ORIGINAL_DEB_EXTRACTED_FILE_BYTES_GIT_BLOB_PINNED_PASS
       - name: Build and check actual branch/callsite graph for original GOFA helpers
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m py_compile sideplay/tools/trace_carplaypro_speed_dataflow.py
+          python3 -m pip install --quiet --user capstone==5.0.6
+          python3 -m py_compile sideplay/tools/trace_carplaypro_speed_dataflow.py sideplay/tools/recover_carplaypro_speed_full_arm64.py
+          python3 sideplay/tools/recover_carplaypro_speed_full_arm64.py \
+             --thin "$RUNNER_TEMP/qa166-original/SpeedAlerts-arm64.dylib" \
+             --load-commands "$RUNNER_TEMP/qa166-original/loads.json" \
+             --function-starts "$RUNNER_TEMP/qa166-original/functions.json" \
+             --out "$RUNNER_TEMP/qa166-results"
           python3 sideplay/tools/trace_carplaypro_speed_dataflow.py \
-             --disasm-gzip "$RUNNER_TEMP/qa166-original/asm.gz" \
+             --disasm-gzip "$RUNNER_TEMP/qa166-results/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz" \
              --function-starts "$RUNNER_TEMP/qa166-original/functions.json" \
              --symbols "$RUNNER_TEMP/qa166-original/symbols.json" \
              --section-strings "$RUNNER_TEMP/qa166-original/sections.json" \
@@ -51,6 +60,8 @@ jobs:
           o=json.load(open(sys.argv[1]))
           assert o['instruction_count']>10000,o['instruction_count']
           assert len(o['pivot_functions'])==4
+          assert all(x['pivot_code_disassembled'] for x in o['pivot_functions']),o['pivot_functions']
+          assert int(o['instruction_max'],16)>0x3e940,o['instruction_max']
           assert o['direct_branch_edges']>1000,o['direct_branch_edges']
           assert o['original_goFA_source_tokens']['GOFA.SpeedBoardModel']
           assert o['original_goFA_source_tokens']['notificationNextBoard']
