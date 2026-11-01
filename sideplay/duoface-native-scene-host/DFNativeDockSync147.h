@@ -145,6 +145,15 @@ static void DF147ConsumeResult(void) {
 }
 static void DF147NativeActiveChanged(id object,SEL sel,id bundle,BOOL animated) {
  DF147NativeActiveOriginal(object,sel,bundle,animated);
+ // An Apple-owned native app must dismiss our SOLO chooser overlay.
+ if(NSThread.isMainThread && !DF147Applying && !DF147Life.active &&
+    DF144ChooserSession.length && [bundle isKindOfClass:NSString.class] &&
+    [bundle length] && ![@[@"com.apple.CarPlay.dashboard",
+                           @"com.apple.dashboard"] containsObject:bundle]) {
+   DF144Log(@"solo-chooser-native-app-switch",bundle);
+   DF144ChooserSession=nil;
+   notify_post(DF148NativeSwitchStopNotify);
+ }
  if(NSThread.isMainThread && !DF147Applying && DF147Life.active && object==DF147Dock && ![bundle isEqual:DF147Bundle]) {
   DF147Reset(@"native-app-switch");
   notify_post(DF148NativeSwitchStopNotify); // Hide ours; preserve the NEW native Dock app.
