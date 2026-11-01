@@ -292,6 +292,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
+@property(nonatomic,strong) UIWindow *speedHUDWindow;
 @property(nonatomic,strong) NSMutableArray<UIView *> *appSceneContainers;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
 @property(nonatomic,strong) NSMutableArray *pendingScenes;
@@ -1035,6 +1036,21 @@ static void DFCLog(NSString *text) {
         [self.appSceneContainers addObject:container];
         [self.appSceneWindows addObject:slotWindow];
     }
+    // QA164: dedicated bubble-SIZED external UIWindow, not a split-app pane.
+    // It follows the full DuoFace content rectangle and cannot steal touches
+    // outside its own current 104x46 HUD footprint.
+    CGRect hudFrame=CGRectMake(CGRectGetMaxX(cr)-107,CGRectGetMinY(cr)+3,104,46);
+    UIViewController *hudRoot=[self emptyRoot:hudFrame];
+    UIWindow *hudWindow=[self makeWindow:hudFrame root:hudRoot level:2.5];
+    if(!hudWindow){ [self stop]; return NO; }
+    self.speedHUDWindow=hudWindow;
+    self.gofaSpeedHUD=[[DFNative8SpeedHUDView alloc] initWithFrame:hudRoot.view.bounds];
+    self.gofaSpeedHUD.floatingWindowMode=YES;
+    self.gofaSpeedHUD.floatingDragBounds=cr;
+    self.gofaSpeedHUD.ownerWindow=hudWindow;
+    [hudRoot.view addSubview:self.gofaSpeedHUD];
+    [self.gofaSpeedHUD restoreSavedPosition];
+    DFCLog(@"qa164-speed8-bubble-window-owned-full-content-no-pane-clamp");
     DFCLog(@"media37-four-physical-scene-windows-restored");
     self.appPickerController=[DFAppPickerVC new];
     self.appPickerController.delegate=self;
@@ -1570,55 +1586,23 @@ static void DFCLog(NSString *text) {
           [UIColor colorWithWhite:1 alpha:.25]).CGColor;
         v.layer.cornerRadius=10;
     }
-    [self refreshGlobalSpeedHUD163];
+    [self refreshGlobalSpeedHUD164];
 }
-- (void)refreshGlobalSpeedHUD163 {
-    // Renderer is independent of GPS source (GOFA); never gate visibility
-    // on the selected app bundle. The Chrome owner is only active inside
-    // an attested DuoFace external display session, never CarPlay Home.
-    // Native CarPlay/other Apple apps have a separate native HUD owner.
-    UIWindow *ownerWindow=nil;
-    if(!self.startupActive && self.appSceneWindows.count==4) {
-        // Prefer the current focused pane; otherwise first real visible pane.
-        // Preserve physical UIWindow ownership (including empty/app picker).
-        if(self.focus>=0){
-            NSInteger physical=[self physicalForVisual:self.focus];
-            if(physical>=0 && physical<4){
-                UIWindow *w=self.appSceneWindows[(NSUInteger)physical];
-                if(w && !w.hidden && w.screen && w.screen!=UIScreen.mainScreen)
-                    ownerWindow=w;
-            }
-        }
-        if(!ownerWindow){
-            for(UIWindow *w in self.appSceneWindows) {
-                if(w && !w.hidden && w.screen && w.screen!=UIScreen.mainScreen) {
-                    ownerWindow=w;
-                    break;
-                }
-            }
-        }
+- (void)refreshGlobalSpeedHUD164 {
+    UIWindow *w=self.speedHUDWindow;
+    DFNative8SpeedHUDView *hud=self.gofaSpeedHUD;
+    if(!w || !hud)return;
+    // This is an independent fixed-gesture-size HUD window (not a pane).
+    // Hide it only during startup or outside the actively owned connection;
+    // UI overlays (menu / picker) remain higher windowLevels.
+    CGRect content=self.contentRect;
+    if(!CGRectEqualToRect(content,hud.floatingDragBounds)) {
+        hud.floatingDragBounds=content;
+        [hud restoreSavedPosition];
     }
-    if(!ownerWindow){
-        [self.gofaSpeedHUD removeFromSuperview];
-        self.gofaSpeedHUD.ownerWindow=nil;
-        return;
-    }
-    UIView *root=ownerWindow.rootViewController.view;
-    if(!root || root.hidden || root.bounds.size.width<110 ||
-       root.bounds.size.height<50) {
-        [self.gofaSpeedHUD removeFromSuperview];
-        self.gofaSpeedHUD.ownerWindow=nil;
-        return;
-    }
-    if(!self.gofaSpeedHUD)
-        self.gofaSpeedHUD=[[DFNative8SpeedHUDView alloc] initWithFrame:
-                           CGRectMake(0,0,104,46)];
-    if(self.gofaSpeedHUD.superview!=root){
-        [self.gofaSpeedHUD removeFromSuperview];
-        self.gofaSpeedHUD.ownerWindow=ownerWindow;
-        [root addSubview:self.gofaSpeedHUD];
-        [self.gofaSpeedHUD restoreSavedPosition];
-    }
+    BOOL valid=!self.startupActive && w.screen &&
+        w.screen!=UIScreen.mainScreen && !CGRectIsEmpty(content);
+    w.hidden=!valid;
 }
 - (void)pillPressed:(UIButton *)sender {
     if(sender.tag<0 || sender.tag>=DFSlotCountForPreset(self.preset))return;
@@ -2390,6 +2374,7 @@ static void DFCLog(NSString *text) {
     [self.gofaSpeedHUD removeFromSuperview];
     self.gofaSpeedHUD.ownerWindow=nil;
     self.gofaSpeedHUD=nil;
+    self.speedHUDWindow=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
     [[DFSceneHost sharedHost] stopAllHosts];
     for(UIWindow *w in self.windows)w.rootViewController=nil;
