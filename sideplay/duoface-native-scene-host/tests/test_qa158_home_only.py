@@ -23,14 +23,14 @@ class HomeOnly158(unittest.TestCase):
   self.assertIn("self.window.rootViewController!=self.root",gate)
   self.assertIn("![self currentCarDisplayWithID:self.carDisplayID]",gate)
   self.assertNotIn("isLiveSceneForHostedView:",gate)
-  self.assertIn("self.homeChooser=YES;",body)
-  self.assertIn("self.soloPicker.view.hidden=NO;",body)
-  self.assertIn('reply:@"stopped" reason:@"native-Home-exit"',body)
+  self.assertNotIn("self.homeChooser=YES;",body)
+  self.assertNotIn("self.soloPicker.view.hidden=NO;",body)
+  self.assertIn("return NO;",body)
   self.assertIn('notify_post("com.duoface.nativehost.standalone144.stop")',HOME)
   self.assertIn("DFOwnerDBHomeOriginal(object,sel,event);",HOME)
  def test_only_home_chooser_selects_next_app_and_preserves_native_owner(self):
   b=PICKER.split("didSelectBundleID:(NSString *)bundle displayName:",1)[1].split("- (void)appPickerDidRequestLayout:",1)[0]
-  self.assertIn("!self.homeChooser",b)
+  self.assertIn("!self.homeChooser",b)  # deactivated legacy delegate
   self.assertIn("DF144PickerRequest atomically:YES",b)
   self.assertIn("notify_post(DF144PickerNotify)",b)
   self.assertIn("DF144BeginSelectedBridge(bundle,home?:dock",BROKER)

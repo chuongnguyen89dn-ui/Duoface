@@ -3,46 +3,9 @@
 // The native Home callback still runs. Only our manager-owned SOLO surface
 // is retired, and its own first-party chooser becomes the visible destination.
 // Native CarPlay Music/Calendar never pass this SpringBoard live-owner gate.
-- (BOOL)df157ReturnHomeToPicker {
- // The outgoing scene may already be invalid when SpringBoard receives
- // the genuine CarPlay Home event. Guard the owned window/display instead.
- if(self.homeChooser || !self.window || self.window.hidden ||
-    !self.emittedManager || !self.surface || !self.soloPicker || !self.root ||
-    !self.request.length || !self.carDisplayID.length || !DFHome145Enabled() ||
-    self.window.rootViewController!=self.root ||
-    !self.window.screen || self.window.screen==UIScreen.mainScreen ||
-    ![self currentCarDisplayWithID:self.carDisplayID])return NO;
- BOOL outgoingSceneLive=[[DFSceneHost sharedHost]
-     isLiveSceneForHostedView:self.surface];
- DF144Log(@"solo-native-home-chooser-owner",
-     [NSString stringWithFormat:@"req=%@ bid=%@ outgoingSceneLive=%d",
-       self.request,self.bundle,outgoingSceneLive]);
- [self publishGeneralAppState:NO];
- ++self.generation;
- UIView *previous=self.surface;
- self.surface=nil;
- [previous removeFromSuperview];
- [[DFSceneHost sharedHost] releaseHostedView:previous];
- self.emittedHosted=NO;self.emittedManager=NO;
- self.homeChooser=YES;
- self.soloPill.hidden=YES;
- self.soloPicker.currentSlotBundleID=nil;
- self.soloPicker.pendingSlotBundleID=nil;
- self.soloPicker.otherSlotBundleIDs=@[];
- [self.soloPicker presentInstalledApps];
- [self.soloPicker refreshInstalledApps];
- self.soloPicker.view.hidden=NO;
- [self.root.view bringSubviewToFront:self.soloPicker.view];
- NSDictionary *lease=@{@"Version":@1,@"Role":@"SpringBoard-Standalone144",
-     @"Alive":@YES,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
-     @"PickerVisible":@YES,@"PickerRequestID":self.request?:@"",
-     @"CarDisplayID":self.carDisplayID?:@""};
- BOOL wrote=[lease writeToFile:DF144LeasePath atomically:YES];
- DF144Log(@"solo-home-return-to-first-party-picker",
-     [NSString stringWithFormat:@"req=%@ lease=%d",self.request,wrote]);
- [self reply:@"stopped" reason:@"native-Home-exit"];
- return YES;
-}
+// QA159: the first-party chooser is intentionally unavailable on Home.
+// The real CarPlay dashboard is the destination; see DF144StopNotify owner.
+- (BOOL)df157ReturnHomeToPicker {return NO;}
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker {
  if(picker!=self.soloPicker)return;
  if(self.homeChooser) {

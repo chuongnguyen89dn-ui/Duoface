@@ -111,7 +111,7 @@ static NSString *DF144ChooserSession;
 static void DF152RevokeNativePreparation(void);
 static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
  DF144OriginalHomeAppear(owner,sel,animated);
- // The real native Home callback already requested the chooser/stop.
+ // The real native Home callback already requested standalone teardown.
  // viewDidAppear is not a second button press.
  if(DF144NativeHomeHandled) {
    DF144NativeHomeHandled=NO;
@@ -247,7 +247,7 @@ void DF157NativeHomeCallbackObserved(void) {
  DF144NativeHomeHandled=YES;
  if(DF147Life.active && DF147Captured &&
     DF147RequestID.length && DF147Session.length && DF147Bundle.length) {
-    DF144ChooserSession=[DF147Session copy];
+    DF144ChooserSession=nil; // QA159: no synthetic picker lease after Home
     DF144Log(@"solo-native-home-own-bridge",
       [NSString stringWithFormat:@"req=%@ bundle=%@",DF147RequestID,DF147Bundle]);
     // Real original DuoNavi stops/dismisses its owned bridge in the Home
@@ -289,7 +289,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
     NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
  // Install at startup; DBWorkspace initWithOwner: may precede the first tap.
  DF151StartCapture();
- dispatch_async(dispatch_get_main_queue(),^{DF147Start();DF144Install(0);DF157RegisterSoloPickerReceiver();});
+ dispatch_async(dispatch_get_main_queue(),^{DF147Start();DF144Install(0); /* no custom picker broker */});
 }
 #endif
 #if defined(DF144_SPRINGBOARD)
@@ -591,7 +591,8 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
      [self stop:@"scene-factory-refused"];return NO;
    }
    self.surface=v;
-   [self df157InstallSoloMenuWithUsableRect:usable];
+   // QA159: no first-party app chooser exists in the Home-launched scene.
+   // Native Home's icon grid is the ONLY app selection destination.
    v.frame=contentView.bounds;v.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
    // Explicit SOLO, never call DFNative12Chrome or its app picker.
    [[DFSceneHost sharedHost] setSplitMode:NO forHostedView:v];
@@ -815,9 +816,12 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
     ^(__unused int t){DF144Consume();});
   notify_register_dispatch(DF144StopNotify,&stopToken,dispatch_get_main_queue(),
     ^(__unused int t){
+     // QA159 physical Log26: QA158's df157ReturnHomeToPicker left a
+     // first-party picker window visibly covering Apple's native CarPlay Home.
+     // Genuine Home must RELEASE the independent surface unconditionally.
      DF153PhoneRevoke();
-     if(![DF144Owner df157ReturnHomeToPicker])
-       [DF144Owner stop:@"native-Home-exit"];
+     DF144Log(@"qa159-native-home-stop-no-chooser",DF144Owner.bundle);
+     [DF144Owner stop:@"native-Home-exit"];
    });
   // A CarPlay pending-watchdog expiry is NOT a physical Home press.
   notify_register_dispatch(DF148WatchdogStopNotify,&watchdogToken,dispatch_get_main_queue(),
