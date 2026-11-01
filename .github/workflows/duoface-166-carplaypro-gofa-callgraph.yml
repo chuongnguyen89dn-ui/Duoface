@@ -42,9 +42,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m pip install --quiet --user capstone==5.0.6
+          python3 -m venv "$RUNNER_TEMP/qa166-venv"
+          "$RUNNER_TEMP/qa166-venv/bin/python" -m pip install --quiet capstone==5.0.6
           python3 -m py_compile sideplay/tools/trace_carplaypro_speed_dataflow.py sideplay/tools/recover_carplaypro_speed_full_arm64.py
-          python3 sideplay/tools/recover_carplaypro_speed_full_arm64.py \
+          "$RUNNER_TEMP/qa166-venv/bin/python" sideplay/tools/recover_carplaypro_speed_full_arm64.py \
              --thin "$RUNNER_TEMP/qa166-original/SpeedAlerts-arm64.dylib" \
              --load-commands "$RUNNER_TEMP/qa166-original/loads.json" \
              --function-starts "$RUNNER_TEMP/qa166-original/functions.json" \
