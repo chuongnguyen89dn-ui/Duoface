@@ -17,18 +17,23 @@
 }
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker {
  if(picker!=self.soloPicker)return;
+ if(self.homeChooser) {
+    DF144Log(@"solo-home-chooser-cancel",@"return-to-native-CarPlay");
+    [self stop:@"solo-home-chooser-cancel"];
+    return;
+ }
  picker.view.hidden=YES;self.soloPill.hidden=NO;
  DF144Log(@"solo-own-pill-app-picker-closed",self.bundle);
 }
 - (void)appPicker:(DFAppPickerVC *)picker
  didSelectBundleID:(NSString *)bundle displayName:(NSString *)name {
  (void)name;
- if(picker!=self.soloPicker || !self.emittedManager ||
+ if(picker!=self.soloPicker || (!self.emittedManager && !self.homeChooser) ||
     !self.request.length || !self.carDisplayID.length ||
-    !self.window || self.window.hidden || !self.surface ||
-    !DF144Allowed(bundle) ||
-    ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface])return;
- if([bundle isEqual:self.bundle]) { [self appPickerDidCancel:picker];return; }
+    !self.window || self.window.hidden || !DF144Allowed(bundle))return;
+ if(!self.homeChooser && (!self.surface ||
+    ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface]))return;
+ if(!self.homeChooser && [bundle isEqual:self.bundle]) { [self appPickerDidCancel:picker];return; }
  NSDictionary *p=@{@"Version":@1,@"RequestID":self.request,
     @"FromBundle":self.bundle,@"BundleID":bundle,
     @"CarDisplayID":self.carDisplayID,
