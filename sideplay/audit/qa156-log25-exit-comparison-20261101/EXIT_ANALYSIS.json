@@ -1,0 +1,540 @@
+{
+  "input_git_blob": "8e452cc8c1abc60cc85edccf557de2e1f86dca95",
+  "input_sha256": "46270f9867ca55c51f26ad8bbcf1a731b2c16fd6fe276442e0c4bb65f7aad9eb",
+  "input_bytes": 5394970,
+  "export_header": [
+    "DuoFace CarPlay / media scene diagnostic (manual export)",
+    "Date: 2026-11-01 02:51:19 +0000",
+    "iOS: 16.7.16",
+    "App: com.duoface.native.scenehost",
+    "This file contains technical diagnostics; share only with a trusted recipient.",
+    "Audit schema: 3; exporter build 0.0.90~nativegetters1; runtime process build is in timestamped traces."
+  ],
+  "session_start_utc": "2026-11-01T02:47:28.270000+00:00",
+  "session_start_ict": "2026-11-01T09:47:28.270000+07:00",
+  "stage_counts": {
+    "independent-standalone-receiver-registered": 1,
+    "qa151-workspace-owner-hook-installed": 1,
+    "native-dock-selected-bridge-installed": 1,
+    "qa147-native-dock-result-consumer-installed": 1,
+    "native-home-hook-installed": 1,
+    "qa151-dashboard-workspace-captured": 2,
+    "qa150-native-workspace-probe-start": 16,
+    "qa150-native-workspace-abi": 200,
+    "qa150-native-workspace-probe-complete": 16,
+    "qa151-native-workspace-live-owner": 8,
+    "qa152-native-prep-resume": 8,
+    "standalone-requested-not-yet-ready": 8,
+    "qa153-phone-continue": 8,
+    "pending-scene": 8,
+    "before-standalone-mount": 8,
+    "after-standalone-mount": 8,
+    "qa149-manager-live-scene-owned": 8,
+    "manager-owned-live-scene-pixels-unverified": 8,
+    "qa148-real-processstate-pid": 8,
+    "qa149-manager-result-accepted": 6,
+    "qa147-ready-verified-pid": 8,
+    "scene-hosted-render-and-touch-unverified": 8,
+    "qa147-native-dock-active": 8,
+    "qa155-app-side-ack": 62,
+    "qa154-general-app-restore": 6,
+    "qa147-native-dock-restored": 8,
+    "stopped": 8
+  },
+  "requests": [
+    {
+      "request": "94937D30-640D-4A0D-AC13-AED7FB32B2DF",
+      "bundle": "com.apple.mobilesafari",
+      "launch": {
+        "time": 1793501268.503,
+        "line": 15442,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "94937D30-640D-4A0D-AC13-AED7FB32B2DF",
+        "bundle": "com.apple.mobilesafari",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.apple.mobilesafari uuid=94937D30-640D-4A0D-AC13-AED7FB32B2DF content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501280.156,
+        "line": 15489,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "94937D30-640D-4A0D-AC13-AED7FB32B2DF",
+        "bundle": "com.apple.mobilesafari",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.apple.mobilesafari req=94937D30-640D-4A0D-AC13-AED7FB32B2DF native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501280.055,
+        "line": 32159
+      },
+      "dock": {
+        "time": 1793501280.14,
+        "line": 15488,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 18,
+      "ack_phases": {
+        "scene-matched": 17,
+        "restored": 1
+      },
+      "restored": [
+        {
+          "time": 1793501280.171,
+          "line": 15490,
+          "process": "SpringBoard",
+          "stage": "qa155-app-side-ack",
+          "request": "94937D30-640D-4A0D-AC13-AED7FB32B2DF",
+          "bundle": "com.apple.mobilesafari",
+          "phase": "restored",
+          "count": 0,
+          "detail": "req=94937D30-640D-4A0D-AC13-AED7FB32B2DF bid=com.apple.mobilesafari scene=sceneID:com.apple.mobilesafari-5891F195-CC3B-43C0-816A-303BC2184825 phase=restored count=0"
+        }
+      ],
+      "home_to_stop_ms": 101.0,
+      "home_to_dock_ms": 85.0
+    },
+    {
+      "request": "B0B1C87C-0A97-4415-94DF-FADD816D7097",
+      "bundle": "com.facebook.Facebook",
+      "launch": {
+        "time": 1793501283.291,
+        "line": 15506,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "B0B1C87C-0A97-4415-94DF-FADD816D7097",
+        "bundle": "com.facebook.Facebook",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.facebook.Facebook uuid=B0B1C87C-0A97-4415-94DF-FADD816D7097 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501296.095,
+        "line": 15549,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "B0B1C87C-0A97-4415-94DF-FADD816D7097",
+        "bundle": "com.facebook.Facebook",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.facebook.Facebook req=B0B1C87C-0A97-4415-94DF-FADD816D7097 native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501296.058086,
+        "line": 32186
+      },
+      "dock": {
+        "time": 1793501296.171,
+        "line": 15550,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 15,
+      "ack_phases": {
+        "scene-matched": 14,
+        "restored": 1
+      },
+      "restored": [
+        {
+          "time": 1793501297.057,
+          "line": 15551,
+          "process": "SpringBoard",
+          "stage": "qa155-app-side-ack",
+          "request": "B0B1C87C-0A97-4415-94DF-FADD816D7097",
+          "bundle": "com.facebook.Facebook",
+          "phase": "restored",
+          "count": 0,
+          "detail": "req=B0B1C87C-0A97-4415-94DF-FADD816D7097 bid=com.facebook.Facebook scene=sceneID:com.facebook.Facebook-default phase=restored count=0"
+        }
+      ],
+      "home_to_stop_ms": 36.914,
+      "home_to_dock_ms": 112.914
+    },
+    {
+      "request": "110774BC-7ED2-4015-81AF-B5DD2153AF43",
+      "bundle": "com.apple.mobilesafari",
+      "launch": {
+        "time": 1793501300.211,
+        "line": 15567,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "110774BC-7ED2-4015-81AF-B5DD2153AF43",
+        "bundle": "com.apple.mobilesafari",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.apple.mobilesafari uuid=110774BC-7ED2-4015-81AF-B5DD2153AF43 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501302.76,
+        "line": 15600,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "110774BC-7ED2-4015-81AF-B5DD2153AF43",
+        "bundle": "com.apple.mobilesafari",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.apple.mobilesafari req=110774BC-7ED2-4015-81AF-B5DD2153AF43 native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501302.726686,
+        "line": 32210
+      },
+      "dock": {
+        "time": 1793501302.832,
+        "line": 15602,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 5,
+      "ack_phases": {
+        "scene-matched": 4,
+        "restored": 1
+      },
+      "restored": [
+        {
+          "time": 1793501302.769,
+          "line": 15601,
+          "process": "SpringBoard",
+          "stage": "qa155-app-side-ack",
+          "request": "110774BC-7ED2-4015-81AF-B5DD2153AF43",
+          "bundle": "com.apple.mobilesafari",
+          "phase": "restored",
+          "count": 0,
+          "detail": "req=110774BC-7ED2-4015-81AF-B5DD2153AF43 bid=com.apple.mobilesafari scene=sceneID:com.apple.mobilesafari-5891F195-CC3B-43C0-816A-303BC2184825 phase=restored count=0"
+        }
+      ],
+      "home_to_stop_ms": 33.314,
+      "home_to_dock_ms": 105.314
+    },
+    {
+      "request": "0BEA6665-8B36-4004-8AD0-F1B62A7DBDC4",
+      "bundle": "com.google.ios.youtube",
+      "launch": {
+        "time": 1793501305.834,
+        "line": 15618,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "0BEA6665-8B36-4004-8AD0-F1B62A7DBDC4",
+        "bundle": "com.google.ios.youtube",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.google.ios.youtube uuid=0BEA6665-8B36-4004-8AD0-F1B62A7DBDC4 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501347.618,
+        "line": 15645,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "0BEA6665-8B36-4004-8AD0-F1B62A7DBDC4",
+        "bundle": "com.google.ios.youtube",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.google.ios.youtube req=0BEA6665-8B36-4004-8AD0-F1B62A7DBDC4 native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501347.570571,
+        "line": 32275
+      },
+      "dock": {
+        "time": 1793501347.725,
+        "line": 15646,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 0,
+      "ack_phases": {},
+      "restored": [],
+      "home_to_stop_ms": 47.429,
+      "home_to_dock_ms": 154.429
+    },
+    {
+      "request": "1E20D6CA-965D-426C-A3D7-2A3A68F738BA",
+      "bundle": "com.apple.mobilesafari",
+      "launch": {
+        "time": 1793501395.687,
+        "line": 15663,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "1E20D6CA-965D-426C-A3D7-2A3A68F738BA",
+        "bundle": "com.apple.mobilesafari",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.apple.mobilesafari uuid=1E20D6CA-965D-426C-A3D7-2A3A68F738BA content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501405.276,
+        "line": 15708,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "1E20D6CA-965D-426C-A3D7-2A3A68F738BA",
+        "bundle": "com.apple.mobilesafari",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.apple.mobilesafari req=1E20D6CA-965D-426C-A3D7-2A3A68F738BA native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501405.227728,
+        "line": 32319
+      },
+      "dock": {
+        "time": 1793501405.357,
+        "line": 15710,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 17,
+      "ack_phases": {
+        "window-adjusted": 3,
+        "scene-matched": 13,
+        "restored": 1
+      },
+      "restored": [
+        {
+          "time": 1793501405.291,
+          "line": 15709,
+          "process": "SpringBoard",
+          "stage": "qa155-app-side-ack",
+          "request": "1E20D6CA-965D-426C-A3D7-2A3A68F738BA",
+          "bundle": "com.apple.mobilesafari",
+          "phase": "restored",
+          "count": 1,
+          "detail": "req=1E20D6CA-965D-426C-A3D7-2A3A68F738BA bid=com.apple.mobilesafari scene=sceneID:com.apple.mobilesafari-5891F195-CC3B-43C0-816A-303BC2184825 phase=restored count=1"
+        }
+      ],
+      "home_to_stop_ms": 48.272,
+      "home_to_dock_ms": 129.272
+    },
+    {
+      "request": "3E91303F-2084-47E2-99A6-1EEC2A57629F",
+      "bundle": "com.google.ios.youtube",
+      "launch": {
+        "time": 1793501408.368,
+        "line": 15726,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "3E91303F-2084-47E2-99A6-1EEC2A57629F",
+        "bundle": "com.google.ios.youtube",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.google.ios.youtube uuid=3E91303F-2084-47E2-99A6-1EEC2A57629F content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501412.178,
+        "line": 15753,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "3E91303F-2084-47E2-99A6-1EEC2A57629F",
+        "bundle": "com.google.ios.youtube",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.google.ios.youtube req=3E91303F-2084-47E2-99A6-1EEC2A57629F native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501412.083004,
+        "line": 32357
+      },
+      "dock": {
+        "time": 1793501412.243,
+        "line": 15754,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 0,
+      "ack_phases": {},
+      "restored": [],
+      "home_to_stop_ms": 94.996,
+      "home_to_dock_ms": 159.996
+    },
+    {
+      "request": "C3CEA069-43A9-4A2A-9E5D-EACB4F5FD32E",
+      "bundle": "com.facebook.Facebook",
+      "launch": {
+        "time": 1793501415.537,
+        "line": 15770,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "C3CEA069-43A9-4A2A-9E5D-EACB4F5FD32E",
+        "bundle": "com.facebook.Facebook",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.facebook.Facebook uuid=C3CEA069-43A9-4A2A-9E5D-EACB4F5FD32E content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501419.716,
+        "line": 15805,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "C3CEA069-43A9-4A2A-9E5D-EACB4F5FD32E",
+        "bundle": "com.facebook.Facebook",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.facebook.Facebook req=C3CEA069-43A9-4A2A-9E5D-EACB4F5FD32E native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501419.704492,
+        "line": 32382
+      },
+      "dock": {
+        "time": 1793501419.753,
+        "line": 15807,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 7,
+      "ack_phases": {
+        "scene-matched": 6,
+        "restored": 1
+      },
+      "restored": [
+        {
+          "time": 1793501419.725,
+          "line": 15806,
+          "process": "SpringBoard",
+          "stage": "qa155-app-side-ack",
+          "request": "C3CEA069-43A9-4A2A-9E5D-EACB4F5FD32E",
+          "bundle": "com.facebook.Facebook",
+          "phase": "restored",
+          "count": 0,
+          "detail": "req=C3CEA069-43A9-4A2A-9E5D-EACB4F5FD32E bid=com.facebook.Facebook scene=sceneID:com.facebook.Facebook-default phase=restored count=0"
+        }
+      ],
+      "home_to_stop_ms": 11.508,
+      "home_to_dock_ms": 48.508
+    },
+    {
+      "request": "4336DC07-7D68-4D3B-A956-A375BC0DFDC8",
+      "bundle": "com.wynauto.wyn",
+      "launch": {
+        "time": 1793501425.057,
+        "line": 15823,
+        "process": "CarPlay",
+        "stage": "standalone-requested-not-yet-ready",
+        "request": "4336DC07-7D68-4D3B-A956-A375BC0DFDC8",
+        "bundle": "com.wynauto.wyn",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.wynauto.wyn uuid=4336DC07-7D68-4D3B-A956-A375BC0DFDC8 content={{45, 0}, {595, 331.33333333333331}}"
+      },
+      "stop": {
+        "time": 1793501448.803,
+        "line": 15852,
+        "process": "SpringBoard",
+        "stage": "stopped",
+        "request": "4336DC07-7D68-4D3B-A956-A375BC0DFDC8",
+        "bundle": "com.wynauto.wyn",
+        "phase": null,
+        "count": null,
+        "detail": "bid=com.wynauto.wyn req=4336DC07-7D68-4D3B-A956-A375BC0DFDC8 native-Home-exit"
+      },
+      "pulse": {
+        "time": 1793501448.759857,
+        "line": 32408
+      },
+      "dock": {
+        "time": 1793501448.896,
+        "line": 15853,
+        "process": "CarPlay",
+        "stage": "qa147-native-dock-restored",
+        "request": null,
+        "bundle": null,
+        "phase": null,
+        "count": null,
+        "detail": "native-home-stop"
+      },
+      "ack_count": 0,
+      "ack_phases": {},
+      "restored": [],
+      "home_to_stop_ms": 43.143,
+      "home_to_dock_ms": 136.143
+    }
+  ],
+  "home_pulses": 17,
+  "unattributed_home_pulses": [
+    {
+      "time": 1793501266.543489,
+      "line": 32108
+    },
+    {
+      "time": 1793501303.864825,
+      "line": 32213
+    },
+    {
+      "time": 1793501351.850704,
+      "line": 32278
+    },
+    {
+      "time": 1793501387.181352,
+      "line": 32284
+    },
+    {
+      "time": 1793501393.28859,
+      "line": 32285
+    },
+    {
+      "time": 1793501406.494226,
+      "line": 32322
+    },
+    {
+      "time": 1793501421.028589,
+      "line": 32385
+    },
+    {
+      "time": 1793501450.365984,
+      "line": 32411
+    },
+    {
+      "time": 1793501466.59117,
+      "line": 32412
+    }
+  ],
+  "native_app_identity_occurrences": {
+    "com.apple.mobilecal": 0,
+    "com.apple.mobileipod": 0,
+    "com.apple.Music": 0
+  },
+  "limits": [
+    "Native Calendar/Music app-specific exit is not captured; anonymous pulses cannot identify them.",
+    "ACK proves app-process callback/scene match, not visible icon or touch.",
+    "Millisecond correlation is observational; Apple original callback entry/return not logged.",
+    "YouTube has its own relay; Wyn is outside the exact14 general receiver scope."
+  ]
+}

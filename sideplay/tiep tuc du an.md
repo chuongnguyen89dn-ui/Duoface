@@ -1,3 +1,15 @@
+## 2026-11-01 — Log25 exit comparison: real app ACK now observed; Calendar/Music identity missing
+
+USER asks compare Calendar/Music exits with non-CarPlay apps. Read actual main Log25 (export09:51:19ICT), main7f69f521a69005e0b9bdcd4531a297f2151e6fb6, blob8e452cc8c1abc60cc85edccf557de2e1f86dca95 /5394970bytes, SHA25646270f9867ca55c51f26ad8bbcf1a731b2c16fd6fe276442e0c4bb65f7aad9eb. Latest receiver session09:47:28.270ICT. Re-read central ZIP01/02/05 and fresh feature source/native original-route audit.
+
+CONFIRMED latest session:8 bridge requests (Safari3/Facebook2/YouTube2/Wyn1),8 native-Home-exit stops+Dock restores.62 general app ACKs (Safari40/Facebook22),5 restored receipts; Safari1E20D6CA has window-adjusted1 then restored1. This is real user's app-process delivery/scene matching evidence, superseding prior zero ACK for this session; not pixels/touch/Home navigation parity. Missing generic ACK for YouTube is separate dedicated path; Wyn is outside exact14 generic filter.
+
+17 timestamped Home pulses;8 match bridge stops and9 unattributed. Home->Dock restore48.508..159.996ms. Native Calendar/Music bundles/classes absent (mobilecal/mobileipod/com.apple.Music all0); old NowPlaying widget snapshots are not current Music exit. Cannot assign those9 Home presses to Calendar/Music or prove native Home page/destination. Exporter/deeptrace build0.0.90 is source-hardcoded, NOT package downgrade proof.
+
+SOURCE GAP / HYPOTHESIS: common native Home hook posts async standalone stop then immediately calls Apple original; later handlers revoke app/scene and restore cached prior Dock/Home displayState. Native app source path has no active standalone cleanup. Potential stale restoration AFTER Apple Home competes with correct native destination; captured/actual Home state values and Apple callback timestamps are not logged, so do not call causality proved or suppress Apple Home (genuine DuoNavi also forwards original). Fresh source blobs pinned in report.
+
+Evidence/reproducer: sideplay/audit/qa156-log25-exit-comparison-20261101/{FINDINGS.md,analyze_log25.py,EXIT_ANALYSIS.json,EXIT_EXCERPTS.txt}. Parser hash+8requests/62ACK/17pulses/9unattributed/nativeIDs0 independently verified. NEXT capture or recover actual Calendar/Music active bundle+native scene/workspace and Home displayState before/after same Home callback, plus saved DF147HomeBefore; establish whether cached reset overwrites Apple's state before behavioral change. No runtime edit/new DEB/Sileo change in this analysis turn; current public nativebridge3 retained.
+
 ## 2026-11-01 — Safari Home exclusion repaired; nativebridge3 LIVE VERIFIED (09:05 ICT), device pending
 
 User's second failure is recorded: selected Safari absent from native CarPlay Home. Found source inconsistency: click launch allowed Safari but LS admission still required non-Apple recommended, and FBS reconciler skipped all Apple IDs. Fixed both with shared DFSelectedHomeAdmission exact selected Safari+third-party policy. Native Maps/declarations/other Apple apps preserved. No IPC/geometry/GOFA/YouTube rewrite.
