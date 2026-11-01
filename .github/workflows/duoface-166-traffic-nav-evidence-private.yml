@@ -22,7 +22,12 @@ jobs:
       - name: Verify original CarPlayPro identifiers against tracked static evidence
         run: |
           set -euo pipefail
-          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa166_traffic_nav_evidence.py' -v
+          # CarPlayPro audit is retained on main, not duplicated onto QA branches.
+          git fetch --depth=1 origin main
+          git show FETCH_HEAD:sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.section-strings.json > "$RUNNER_TEMP/carplaypro-speed-alerts-symbols.json"
+          test "$(git hash-object "$RUNNER_TEMP/carplaypro-speed-alerts-symbols.json")" = b8db68f5314b386dad24835f32f74cdf4086e35e
+          DF166_ORIGINAL_SYMBOL_FILE="$RUNNER_TEMP/carplaypro-speed-alerts-symbols.json" \
+            python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa166_traffic_nav_evidence.py' -v
       - name: Compile iOS 16 arm64 GOFA discovery source without installing or injecting
         run: |
           set -euo pipefail
