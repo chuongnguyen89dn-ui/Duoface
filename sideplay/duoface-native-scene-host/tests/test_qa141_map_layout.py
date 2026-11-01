@@ -18,5 +18,18 @@ class Map141Contract(unittest.TestCase):
   import subprocess
   path='sideplay/duoface-native-scene-host/DFSceneHost.m'
   baseline=subprocess.check_output(['git','show','a25adbfeb1782e39ca96f78b42ce638ccf7ca860:'+path],cwd=ROOT.parents[1])
-  self.assertEqual(baseline,(ROOT/'DFSceneHost.m').read_bytes())
+  current=(ROOT/'DFSceneHost.m').read_bytes()
+  # QA141 geometry outside the independently audited host-startup function
+  # stays byte-for-byte identical. The function itself now follows original
+  # DuoNavi flags -> mode2 -> child mount order.
+  marker1=b"- (void)start {"
+  marker2=b"- (void)layoutSubviews {"
+  def without_start(content):
+   a=content.index(marker1)
+   b=content.index(marker2,a)
+   return content[:a]+content[b:]
+  self.assertEqual(without_start(baseline),without_start(current))
+  startup=current.split(marker1,1)[1].split(marker2,1)[0]
+  self.assertLess(startup.index(b'setIgnoresOcclusions:'),startup.index(b'[self addSubview:appView]'))
+  self.assertLess(startup.index(b'setRequestedMode:'),startup.index(b'[self addSubview:appView]'))
 if __name__=='__main__':unittest.main()
