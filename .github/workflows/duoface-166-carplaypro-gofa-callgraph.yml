@@ -9,6 +9,7 @@ on:
       - 'sideplay/tools/trace_carplaypro_speed_hooks.py'
       - 'sideplay/tools/verify_carplaypro_gofa_registration.py'
       - 'sideplay/tools/resolve_carplaypro_hook_sources.py'
+      - 'sideplay/tools/decode_carplaypro_objc_stubs.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -89,6 +90,18 @@ jobs:
              --function-starts "$RUNNER_TEMP/qa166-original/functions.json" \
              --full-disassembly "$RUNNER_TEMP/qa166-results/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz" \
              --out "$RUNNER_TEMP/qa166-results"
+          "$RUNNER_TEMP/qa166-venv/bin/python" sideplay/tools/decode_carplaypro_objc_stubs.py \
+             --thin "$RUNNER_TEMP/qa166-original/SpeedAlerts-arm64.dylib" \
+             --loads "$RUNNER_TEMP/qa166-original/loads.json" \
+             --out "$RUNNER_TEMP/qa166-results"
+          python3 - "$RUNNER_TEMP/qa166-results/ORIGINAL_OBJC_STUB_SELECTORS.json" <<'PY'
+          import json,sys
+          o=json.load(open(sys.argv[1]))
+          assert o['stub_count']==880,o['stub_count']
+          assert o['resolved_stub_names']>=800,o['resolved_stub_names']
+          assert o['important_selectors']['0x440a0']['selector'],o['important_selectors']['0x440a0']
+          print('QA166_ORIGINAL_GOFA_CALLBACK_REGISTRATION_OBJC_SELECTOR_VERIFIED')
+          PY
           otool -Iv -arch arm64 "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib" > "$RUNNER_TEMP/qa166-results/original-indirect-symbols.txt"
           python3 sideplay/tools/trace_carplaypro_speed_hooks.py \
             --disassembly "$RUNNER_TEMP/qa166-results/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz" \
