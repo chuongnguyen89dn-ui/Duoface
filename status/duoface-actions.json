@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-11-01T14:20:40.572744+00:00",
+  "checked_at_utc": "2026-11-01T19:45:31.118284+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4184,
+  "total_actions_runs": 4208,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -10,10 +10,16 @@
       "failure": 0,
       "other": 1
     },
-    "QA166 Original CarPlayPro GOFA direct callgraph research - static only": {
-      "recent_runs": 2,
+    "QA167 GOFA original notification type-only schema and cross-process proof - single signed private DuoFace DEB": {
+      "recent_runs": 1,
       "success": 1,
-      "failure": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA166 Original CarPlayPro GOFA direct callgraph research - static only": {
+      "recent_runs": 24,
+      "success": 20,
+      "failure": 4,
       "other": 0
     },
     "QA166 independent GOFA traffic-nav diagnostic - single signed private DuoFace DEB": {
@@ -71,49 +77,265 @@
       "other": 13
     },
     "QA147 launch mount and ACK scoped regressions": {
-      "recent_runs": 21,
-      "success": 8,
-      "failure": 13,
+      "recent_runs": 16,
+      "success": 4,
+      "failure": 12,
       "other": 0
     },
     "QA159 genuine CarPlay Home native grid - signed PRIVATE before device QA": {
-      "recent_runs": 15,
-      "success": 1,
-      "failure": 5,
-      "other": 9
-    },
-    "QA158 Home-only independent apps/chooser signed PRIVATE - no device proof": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "QA157 owned SOLO picker - signed integrated PRIVATE, before physical QA": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Read only verify Sileo live observer4 package and APT SHA": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoNavi Observer standalone Home flow rootless signed QA": {
-      "recent_runs": 8,
-      "success": 1,
-      "failure": 4,
-      "other": 3
+      "recent_runs": 11,
+      "success": 0,
+      "failure": 3,
+      "other": 8
     }
   },
   "latest_runs": [
     {
+      "id": 41343319574,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 102,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41343319574",
+      "created_at": "2026-11-01T19:45:20Z",
+      "head_sha": "07cee63f7af8526a792a73ec41e1c950d8c8a752"
+    },
+    {
+      "id": 41322400617,
+      "name": "QA167 GOFA original notification type-only schema and cross-process proof - single signed private DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41322400617",
+      "created_at": "2026-11-01T15:40:19Z",
+      "head_sha": "74c8d112b95e52ba2d291cc22a8b6c960b3e2710"
+    },
+    {
+      "id": 41319538621,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41319538621",
+      "created_at": "2026-11-01T15:06:48Z",
+      "head_sha": "7626e1e76cc2e58904a3d32faa4f31b3f4e2f9cc"
+    },
+    {
+      "id": 41319350505,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41319350505",
+      "created_at": "2026-11-01T15:04:41Z",
+      "head_sha": "d3b840a268e3b369c0cca9b6e8cf7219b001bb84"
+    },
+    {
+      "id": 41319245817,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41319245817",
+      "created_at": "2026-11-01T15:03:26Z",
+      "head_sha": "a7be741f7221564109dd308b337ee34417a5d64f"
+    },
+    {
+      "id": 41319066251,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41319066251",
+      "created_at": "2026-11-01T15:01:19Z",
+      "head_sha": "44d5d00325b566204e202bf2faf46cd33f8407c3"
+    },
+    {
+      "id": 41318975485,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318975485",
+      "created_at": "2026-11-01T15:00:22Z",
+      "head_sha": "423fd97f7689bf4bac3eaf30451bbdee4e92f3fd"
+    },
+    {
+      "id": 41318828559,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318828559",
+      "created_at": "2026-11-01T14:58:34Z",
+      "head_sha": "1b4c7bc76b4e1452815694a58827669feb066228"
+    },
+    {
+      "id": 41318700474,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318700474",
+      "created_at": "2026-11-01T14:57:01Z",
+      "head_sha": "cd566331de3e349227330ff8af4add14c6979e43"
+    },
+    {
+      "id": 41318685048,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318685048",
+      "created_at": "2026-11-01T14:56:49Z",
+      "head_sha": "133ac9616ee5741e6fe23b0fb5d0193e2d192e15"
+    },
+    {
+      "id": 41318588052,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318588052",
+      "created_at": "2026-11-01T14:55:37Z",
+      "head_sha": "caae3425f0923e5d59b84c5ebf06475d4fe3a5cb"
+    },
+    {
+      "id": 41318480995,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318480995",
+      "created_at": "2026-11-01T14:54:18Z",
+      "head_sha": "f582922eecd74f09fa79facd69ad2edfd3884e5b"
+    },
+    {
+      "id": 41318381324,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318381324",
+      "created_at": "2026-11-01T14:53:03Z",
+      "head_sha": "9e0f3659285894e7e44249ad92cfbefc146141ff"
+    },
+    {
+      "id": 41318147569,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318147569",
+      "created_at": "2026-11-01T14:50:09Z",
+      "head_sha": "036d195b4f64c832c0ed963fb10924167cc1e898"
+    },
+    {
+      "id": 41318024286,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41318024286",
+      "created_at": "2026-11-01T14:48:38Z",
+      "head_sha": "e172ff798d8d6d3fa8773aff38e345aab0202784"
+    },
+    {
+      "id": 41317467809,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41317467809",
+      "created_at": "2026-11-01T14:41:51Z",
+      "head_sha": "da33fed043aa7edf996a78825aa4725d355a3dc0"
+    },
+    {
+      "id": 41317355729,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41317355729",
+      "created_at": "2026-11-01T14:40:26Z",
+      "head_sha": "4782e17fcc8efbe306f73783b15ab7546d9b00ed"
+    },
+    {
+      "id": 41317265965,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41317265965",
+      "created_at": "2026-11-01T14:39:19Z",
+      "head_sha": "d822dfb673951a1f68f0eaf15e039aa5ede31a36"
+    },
+    {
+      "id": 41316853597,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41316853597",
+      "created_at": "2026-11-01T14:34:18Z",
+      "head_sha": "28d4d72cbbb82b8ffa4c947fbc4bb6af060db62b"
+    },
+    {
+      "id": 41316644320,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41316644320",
+      "created_at": "2026-11-01T14:31:47Z",
+      "head_sha": "bbda81370d45aea8f44c78906bbe1288df21b17a"
+    },
+    {
+      "id": 41316417353,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41316417353",
+      "created_at": "2026-11-01T14:29:07Z",
+      "head_sha": "89b72dedd8ff48a2a7f02b8c33a8ea6d4965c62d"
+    },
+    {
+      "id": 41316042361,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41316042361",
+      "created_at": "2026-11-01T14:24:34Z",
+      "head_sha": "fef0876ba85fa7b1f06b1308fdaf0f2981551ffd"
+    },
+    {
+      "id": 41315953645,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41315953645",
+      "created_at": "2026-11-01T14:23:27Z",
+      "head_sha": "2b0dfab78ac6a8ea42efcd638622f6fadc828b40"
+    },
+    {
+      "id": 41315725457,
+      "name": "QA166 Original CarPlayPro GOFA direct callgraph research - static only",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41315725457",
+      "created_at": "2026-11-01T14:20:40Z",
+      "head_sha": "4c744ae3f6b812a4d592f8ec0a49df635c9caed6"
+    },
+    {
       "id": 41315708687,
       "name": "DuoFace Actions status snapshot",
       "run_number": 101,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41315708687",
       "created_at": "2026-11-01T14:20:28Z",
       "head_sha": "7a6e003ab7f21e7b51d08dba21d43913bcd3257a"
@@ -167,246 +389,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41312965268",
       "created_at": "2026-11-01T13:47:33Z",
       "head_sha": "926b88bd0b622643a2543f93378fcebb43a6de01"
-    },
-    {
-      "id": 41312959935,
-      "name": "QA166 independent GOFA traffic-nav diagnostic - single signed private DuoFace DEB",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41312959935",
-      "created_at": "2026-11-01T13:47:29Z",
-      "head_sha": "4b584e86c5235053c344e9ec1a25e3524ef199a0"
-    },
-    {
-      "id": 41312952754,
-      "name": "QA166 independent GOFA traffic-nav diagnostic - single signed private DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41312952754",
-      "created_at": "2026-11-01T13:47:23Z",
-      "head_sha": "836f7d302a9c588e6947308a8ce11949ad9cfc63"
-    },
-    {
-      "id": 41312808291,
-      "name": "QA166 independent GOFA traffic-nav diagnostic - single signed private DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41312808291",
-      "created_at": "2026-11-01T13:45:39Z",
-      "head_sha": "3285525be379a9a321ea96f2966a701ac60e3e8e"
-    },
-    {
-      "id": 41312067986,
-      "name": "QA166 GOFA traffic/nav original-source evidence gate (no Sileo)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41312067986",
-      "created_at": "2026-11-01T13:36:18Z",
-      "head_sha": "528c0d9aba0a09e954fae2662ac4d138b34abed3"
-    },
-    {
-      "id": 41311929709,
-      "name": "QA166 GOFA traffic/nav original-source evidence gate (no Sileo)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41311929709",
-      "created_at": "2026-11-01T13:34:39Z",
-      "head_sha": "6115af74d3534a8f3ce6bd0b975bde099dbbf377"
-    },
-    {
-      "id": 41311911046,
-      "name": "QA166 GOFA traffic/nav original-source evidence gate (no Sileo)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41311911046",
-      "created_at": "2026-11-01T13:34:25Z",
-      "head_sha": "e16923c986b1d77cb20f1f9cf40a0b3d4f28bc7a"
-    },
-    {
-      "id": 41311774157,
-      "name": "QA166 GOFA traffic/nav original-source evidence gate (no Sileo)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41311774157",
-      "created_at": "2026-11-01T13:32:45Z",
-      "head_sha": "69d9da3db22a478c26e9e36d490261e84d98b965"
-    },
-    {
-      "id": 41306934372,
-      "name": "QA165 GOFA native GPS callback and standalone CarPlay HUD - signed private",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41306934372",
-      "created_at": "2026-11-01T12:31:55Z",
-      "head_sha": "ffbb1be8f7b89833112fd5cf1cb64919603c25da"
-    },
-    {
-      "id": 41304528724,
-      "name": "QA164 Speed8 bubble window full-content drag and GPS diagnostics - signed private",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41304528724",
-      "created_at": "2026-11-01T12:01:59Z",
-      "head_sha": "bbdf83e3593d44e2dd70a6ae175dbc6dde413855"
-    },
-    {
-      "id": 41304457157,
-      "name": "QA164 Speed8 bubble window full-content drag and GPS diagnostics - signed private",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41304457157",
-      "created_at": "2026-11-01T12:01:08Z",
-      "head_sha": "404cbaab97760b66ec55a6c8815d8aa1040e46ed"
-    },
-    {
-      "id": 41302551181,
-      "name": "QA163 global Speed8 across DuoFace and native CarPlay - signed private",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41302551181",
-      "created_at": "2026-11-01T11:35:21Z",
-      "head_sha": "774364911eb3d9a765890a1d5bfaa08921e7443e"
-    },
-    {
-      "id": 41302475014,
-      "name": "QA163 global Speed8 across DuoFace and native CarPlay - signed private",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41302475014",
-      "created_at": "2026-11-01T11:34:24Z",
-      "head_sha": "b437b7076509e8fbb28c336b3296f935e54b4c7c"
-    },
-    {
-      "id": 41302368178,
-      "name": "QA163 global Speed8 across DuoFace and native CarPlay - signed private",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41302368178",
-      "created_at": "2026-11-01T11:32:58Z",
-      "head_sha": "5ec19f70dbf5bacf34517b67a8e093e48e6c8242"
-    },
-    {
-      "id": 41301450826,
-      "name": "QA162 first SOLO owned-scene reference improvement - signed private",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41301450826",
-      "created_at": "2026-11-01T11:20:23Z",
-      "head_sha": "e2d2be3371e1f0f7864f8d02acfa89bd4e1af5b0"
-    },
-    {
-      "id": 41301375133,
-      "name": "QA162 first SOLO owned-scene reference improvement - signed private",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41301375133",
-      "created_at": "2026-11-01T11:19:26Z",
-      "head_sha": "736bc7466db21b1a2c1b39f7d22e2406947814fc"
-    },
-    {
-      "id": 41300598527,
-      "name": "QA162 first SOLO owned-scene reference improvement - signed private",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41300598527",
-      "created_at": "2026-11-01T11:09:08Z",
-      "head_sha": "171f481b33324d8ebdfd076bf6abc18e20c58242"
-    },
-    {
-      "id": 41300594420,
-      "name": "QA162 first SOLO owned-scene reference improvement - signed private",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41300594420",
-      "created_at": "2026-11-01T11:09:04Z",
-      "head_sha": "e1d8b553e27ec68bc993189b0157d267827d42d0"
-    },
-    {
-      "id": 41300538588,
-      "name": "QA162 first SOLO owned-scene reference improvement - signed private",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41300538588",
-      "created_at": "2026-11-01T11:08:21Z",
-      "head_sha": "02ff2b1a6049718fa80ca134b950fb45c38c20fe"
-    },
-    {
-      "id": 41300421009,
-      "name": "QA162 first SOLO owned-scene reference improvement - signed private",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41300421009",
-      "created_at": "2026-11-01T11:06:49Z",
-      "head_sha": "97b64c7101c5ec3ef435b5f22bbb3bf2d350b782"
-    },
-    {
-      "id": 41292790813,
-      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41292790813",
-      "created_at": "2026-11-01T09:21:31Z",
-      "head_sha": "9efd4f45cac1eb8b1615b078214fdaf57b4463b8"
-    },
-    {
-      "id": 41292775005,
-      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41292775005",
-      "created_at": "2026-11-01T09:21:18Z",
-      "head_sha": "4d1853594182f6bac3222d12619eadeb5cfe3051"
-    },
-    {
-      "id": 41292627439,
-      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41292627439",
-      "created_at": "2026-11-01T09:19:27Z",
-      "head_sha": "e2070d7460022385987c45bab38d1311224fe161"
-    },
-    {
-      "id": 41292589288,
-      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41292589288",
-      "created_at": "2026-11-01T09:18:57Z",
-      "head_sha": "bdecf177c313288fb7e1079d9f4fdc1c6c770ae2"
-    },
-    {
-      "id": 41290740499,
-      "name": "QA161 first SOLO owned-scene reference improvement - signed private",
-      "run_number": 113,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41290740499",
-      "created_at": "2026-11-01T09:53:39Z",
-      "head_sha": "069ae823bb92a24ca0bfc9830237be1136c5b9f5"
     }
   ]
 }
