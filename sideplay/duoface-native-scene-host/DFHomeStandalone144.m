@@ -181,7 +181,6 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
 #import "DF152NativeWorkspacePrepare.h"
 static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *origin) {
  if(!DF144Allowed(bundle) || !DF144LiveReceiver())return NO;
- DF144ChooserSession=nil;DF144NativeHomeHandled=NO;
  CGRect content=CGRectZero,screen=CGRectZero;
  NSString *display=nil;
  if(!DF144UniqueNativeContentWindow(&content,&screen,&display)) {
@@ -199,6 +198,7 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
    DF144Log(@"invalid-request-original-forwarded",bundle);
    return NO;
  }
+ DF144ChooserSession=nil;DF144NativeHomeHandled=NO;
  DF147Prepare(p);
  // Native Apple Home remains active until the first-party transaction owns a
  // valid remote scene. Only a verified official foreground app is deactivated,
