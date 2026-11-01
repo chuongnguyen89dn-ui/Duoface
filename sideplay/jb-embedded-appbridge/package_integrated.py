@@ -10,10 +10,10 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.161~firstframe1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.162~gofaspeed8test1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.161~firstframe1"
+VERSION="0.0.162~gofaspeed8test1"
 # Explicit independent app-side coverage, source-synced with the fixed Substrate filter.
 SUPPORTED_RELAY_BUNDLES=["com.apple.mobilesafari","org.videolan.vlc-ios","com.facebook.Facebook","com.ss.iphone.ugc.Ame","com.openai.chat","com.google.gemini","com.netflix.Netflix","tv.twitch","com.google.ios.youtubemusic","com.google.chrome.ios","com.spotify.client","com.google.Maps","com.waze.iphone","com.zhiliaoapp.musically"]
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
