@@ -1,0 +1,93 @@
+name: CarPlayPro 0.9.97 exhaustive read-only static audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/carplaypro-exhaustive-static-audit.yml'
+      - 'sideplay/tools/audit_carplaypro_0997.py'
+      - 'sideplay/audit/com.carplaypro.speed_0.9.97_iphoneos-arm64.deb'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: carplaypro-0997-audit-main
+  cancel-in-progress: false
+
+jobs:
+  scan-carplaypro:
+    name: Unpack complete DEB and persist full static inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Verify original binary identity and scanner syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=sideplay/audit/com.carplaypro.speed_0.9.97_iphoneos-arm64.deb
+          test -s "$SRC"
+          test "$(git hash-object "$SRC")" = "30f366a8bed8630c88935cac7146c86b875f0851"
+          python3 -m py_compile sideplay/tools/audit_carplaypro_0997.py
+          command -v dpkg-deb && command -v ar && command -v file
+          sha256sum "$SRC"
+      - name: Prepare isolated Capstone disassembler
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv /tmp/carplaypro-audit-venv
+          /tmp/carplaypro-audit-venv/bin/python -m pip install --quiet 'capstone==5.0.6'
+          /tmp/carplaypro-audit-venv/bin/python -c 'from capstone import Cs,CS_ARCH_ARM64; print("CAPSTONE_ARM64_READY")'
+      - name: Full package, binary, metadata and disassembly inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          /tmp/carplaypro-audit-venv/bin/python sideplay/tools/audit_carplaypro_0997.py
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          base=pathlib.Path("sideplay/audit/carplaypro-0.9.97")
+          summ=json.loads((base/"summary.json").read_text())
+          source=pathlib.Path(summ["source_path"])
+          assert hashlib.sha256(source.read_bytes()).hexdigest()==summ["source_sha256"]
+          inv=json.loads((base/"inventory.json").read_text())
+          assert len(inv)==summ["total_files"]
+          assert sum(x["type"]=="file" for x in inv)>=1
+          assert all((base/"unpacked"/e["scope"]/e["path"]).is_file() for e in inv if e["type"]=="file")
+          assert all(hashlib.sha256((base/"unpacked"/e["scope"]/e["path"]).read_bytes()).hexdigest()==e["sha256"] for e in inv if e["type"]=="file")
+          for m in json.loads((base/"macho-summary.json").read_text()):
+              assert (base/"macho"/(m["name"]+".load-commands.json")).is_file()
+              assert (base/"macho"/(m["name"]+".strings.txt.gz")).is_file()
+              assert all(x["status"]=="ok" for x in m["disassembly"]),m
+          print("CARPLAYPRO_ALL_UNPACKED_BYTES_AND_STATIC_REPORT_SHA_VERIFIED")
+          PY
+      - name: Preserve audit output permanently in actual DuoFace GitHub repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- sideplay/audit/carplaypro-0.9.97/
+          if git diff --cached --quiet; then
+            echo CARPLAYPRO_AUDIT_ALREADY_COMMITTED
+          else
+            git commit -m 'audit(carplaypro): preserve verified full DEB extraction, Mach-O, ObjC, symbols and disassembly [skip ci]'
+            git push origin HEAD:main || {
+              git fetch origin main
+              git rebase origin/main
+              git push origin HEAD:main
+            }
+          fi
+          echo CARPLAYPRO_STATIC_AUDIT_PERSISTED_TO_DUOFACE_MAIN
+      - name: Preserve forensic artifacts if GitHub push fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: carplaypro-0997-exhaustive-static-audit
+          path: |
+            sideplay/audit/carplaypro-0.9.97/
+          if-no-files-found: warn
+          retention-days: 30
