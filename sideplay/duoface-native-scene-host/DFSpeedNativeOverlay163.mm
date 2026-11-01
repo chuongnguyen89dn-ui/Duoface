@@ -8,6 +8,8 @@
 
 static NSString *const DF163SessionPath =
     @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
+static NSString *const DF165StandaloneLease =
+    @"/var/mobile/Library/Preferences/com.duoface.nativehost.standalone144-sb-lease.plist";
 
 @interface DFSpeedNativeOverlay163 : NSObject
 @property(nonatomic,strong) DFNative8SpeedHUDView *hud;
@@ -106,6 +108,18 @@ static NSString *const DF163SessionPath =
     // Never cover native CarPlay Home when an attested DuoFace pane owner is
     // visible; otherwise the native CarPlay process draws its own HUD.
     if([self duoFaceOwnsExternalChrome]){ [self detach]; return; }
+    // A native-Home standalone Safari/other selected app is SpringBoard-owned.
+    // Its Speed8 bubble must be attached to that real external UIWindow, not
+    // the lower CarPlayApp native window. A fresh lease prevents doubles.
+    NSDictionary *standalone=[NSDictionary dictionaryWithContentsOfFile:DF165StandaloneLease];
+    NSTimeInterval age=NSDate.date.timeIntervalSince1970-
+                         [standalone[@"Timestamp"] doubleValue];
+    if([standalone[@"HUDOwnerVisible"] boolValue] &&
+       [standalone[@"Role"] isEqualToString:@"SpringBoard-Standalone144"] &&
+       age>=0 && age<2.0){
+        if(self.hud)NSLog(@"[DuoFaceSpeed8] QA165 native HUD suppressed for standalone owner");
+        [self detach];return;
+    }
     UIWindow *candidate=[self visibleExternalOwner];
     if(!candidate){
         if(self.ownerWindow)[self detach];
