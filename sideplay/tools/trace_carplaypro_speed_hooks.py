@@ -57,7 +57,7 @@ def main():
     md.append("## Original GOFA hook install / callback machine-code excerpts")
     md.append("These windows contain the **actual** address/loading sequence for dlsym and MSHookFunction.")
     for title,lo,hi in (
-        ("GOFA candidate dlsym + MSHookFunction registration",0x392f0,0x39454),
+        ("AudioQueue monitoring hooks (NOT GOFA model callbacks)",0x392f0,0x39454),
         ("GOFA raw alert callback into SAGofaAlertPayload",0x3cfb4,0x3d080),
         ("GOFA raw speed callback into SAGofaSpeedPayload",0x3d468,0x3d5b0),
         ("Substrate registration at 0x36f64: identify hooked class/selector",0x36f64,0x37200),
