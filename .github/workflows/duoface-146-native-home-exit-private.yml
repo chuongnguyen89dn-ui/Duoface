@@ -141,7 +141,7 @@ jobs:
           bash sideplay/duoface-native-scene-host/build.sh
           HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.157~solopicker1_iphoneos-arm64.deb'
           test -s "$HOST"
-          grep -Fq '<key>CFBundleVersion</key><string>156</string>' sideplay/duoface-native-scene-host/Info.plist
+          grep -Fq '<key>CFBundleVersion</key><string>157</string>' sideplay/duoface-native-scene-host/Info.plist
           test "$(dpkg-deb -f "$HOST" Version)" = '0.1.157~solopicker1'
           mkdir -p "$RUNNER_TEMP/qa157-host"
           dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa157-host"
