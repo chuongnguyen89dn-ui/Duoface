@@ -147,7 +147,8 @@ static IMP DNFlowMakeWrapper(DNFlowSpec *s) {
  });
  case DNFlowFactoryFrame:return imp_implementationWithBlock(^id(id r,id bundle,CGRect frame){
   uint64_t c=DNFlowEnter(s,r,@{@"argument":DNFlowArgument(bundle),
-     @"frame":NSStringFromCGRect(frame)});BOOL done=NO;
+     @"frame":[NSString stringWithFormat:@"{{%.1f,%.1f},{%.1f,%.1f}}",
+          frame.origin.x,frame.origin.y,frame.size.width,frame.size.height]});BOOL done=NO;
   id host=nil;
   @try{host=((id(*)(id,SEL,id,CGRect))s->original)(r,sel,bundle,frame);done=YES;}
   @finally{
