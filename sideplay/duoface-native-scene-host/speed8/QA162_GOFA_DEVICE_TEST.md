@@ -1,5 +1,9 @@
 # QA162 — GOFA Speed8 in DuoFace: physical test plan and evidence
 
+> **SILEO PUBLICATION VERIFIED, 2026-11-01:** Existing publisher `chuongnguyen89dn-ui/carplaydsp` commit `d13bf1ac9dd1bc0fb24c7eb53abfcc1c7c30e03f`; [run 41301064886](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/41301064886) **COMPLETED/SUCCESS**, `build` job 124831890081 success, `deploy` job 124832707433 success, **`verify-duoface-integrated-pages` job 124832764139 success** with exact public Packages `com.duoface.jb.embedded 0.0.162~gofaspeed8test1` and downloaded public DEB SHA256 `c287de0621bb3f61bcc7c80d264a7c110da8a2208e0a49563c9245d08a86cb71`. The remaining QA11/observer verification jobs also succeeded. **No physical iPhone or moving-car test has been done.** Install/test from the already existing Sileo source, not a new repo. Confirm this version on device before reporting an issue. This note supersedes the earlier pending-publisher status below but preserves it as evidence of phase progression.
+
+
+
 ## Proven build, not a passed device test
 - Current source branch: `feature/duoface-qa162-gofa-speed8-20261101`, signed/source SHA `171f481b33324d8ebdfd076bf6abc18e20c58242`.
 - Integrated package identity: `com.duoface.jb.embedded` version `0.0.162~gofaspeed8test1`, rootless `iphoneos-arm64`.
