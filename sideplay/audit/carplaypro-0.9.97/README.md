@@ -1,5 +1,8 @@
 # CarPlayPro Speed 0.9.97 — complete static DEB inventory
 
+**Tra cứu nhanh / hồ sơ độc lập:** [CARPLAYPRO_SPEED_0.9.97.md](../CARPLAYPRO_SPEED_0.9.97.md). Đây là đầu mối đọc đầu tiên ở các phiên sau; không cần đọc lịch sử DuoFace để lấy thông tin gói.
+
+
 Original: \`sideplay/audit/com.carplaypro.speed_0.9.97_iphoneos-arm64.deb\` on \`Duoface/main\`. SHA256: \`e5b0918b3bc1948420f37a8a9e21365756da46fba44d582a3f2893aee9b4102f\`.
 
 Extracted 94 regular payload files and 3 control files; 5 Mach-O binaries / 10 arm64(+arm64e) architecture slices; 16 decoded plists; 69 identified images.
