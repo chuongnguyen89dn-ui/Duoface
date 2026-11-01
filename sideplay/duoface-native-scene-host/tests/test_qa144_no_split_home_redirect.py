@@ -56,7 +56,7 @@ class StandaloneHome144Guard(unittest.TestCase):
   self.assertIn("scene-hosted-render-and-touch-unverified",BRIDGE)
   self.assertNotIn("scene-ready-and-play-verified",BRIDGE)
  def test_qa144_not_qa143_packaging_and_split_retained(self):
-  self.assertIn("0.1.162~gofaspeed8test1",BUILD)
+  self.assertIn("0.1.163~globalspeed8test1",BUILD)
   self.assertIn('VERSION="0.0.162~gofaspeed8test1"',PACK)
   self.assertIn("DFNative12Chrome.m",BUILD)
   self.assertIn("appPicker:(DFAppPickerVC *)picker",SPLIT)
