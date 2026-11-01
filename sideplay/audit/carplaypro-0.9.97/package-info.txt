@@ -1,0 +1,17 @@
+ new Debian package, version 2.0.
+ size 984804 bytes: control archive=609 bytes.
+     485 bytes,    12 lines      control
+     135 bytes,     5 lines   *  postinst             #!/bin/sh
+     186 bytes,     5 lines   *  postrm               #!/bin/sh
+ Package: com.carplaypro.speed
+ Name: CarPlay Pro Speed
+ Description: Development CarPlay speed overlay with four selectable sources; app-specific data paths remain unverified.
+ Maintainer: CarPlay Pro
+ Author: CarPlay Pro
+ Section: Tweaks
+ Depends: mobilesubstrate, preferenceloader, firmware (>= 15.0)
+ Icon: file:///var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/PackageIcon.png
+ Conflicts: com.carplaypro.navitelprobe
+ Architecture: iphoneos-arm64
+ Version: 0.9.97
+ Installed-Size: 3252

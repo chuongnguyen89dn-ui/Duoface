@@ -1,0 +1,983 @@
+[
+  {
+    "mode": "0o755",
+    "path": "var",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Applications",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Applications/CPSActivation.app",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mime": "PNG image data, 120 x 120, 8-bit/color RGB, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/AppIcon60x60@2x.png",
+    "scope": "rootfs",
+    "sha256": "8b9794f4244c0a9223b858ef7de55efa2835cbb3d7378d498f483ab7dc984364",
+    "size": 20294,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 180 x 180, 8-bit/color RGB, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/AppIcon60x60@3x.png",
+    "scope": "rootfs",
+    "sha256": "018886b3b1ef17def6257e5d056828eaa7fce10809f017863573597636098611",
+    "size": 39911,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Appearance.plist",
+    "scope": "rootfs",
+    "sha256": "844a8f703bd371c69ca72844dd1d6efad19897de3e7de60af21ad53d4da18aef",
+    "size": 1555,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 40 x 40, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Brand.png",
+    "scope": "rootfs",
+    "sha256": "6edf5f11f881df602ce1430e2db97e82c4d52331c3e9504b67753b627027e103",
+    "size": 4464,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 80 x 80, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Brand@2x.png",
+    "scope": "rootfs",
+    "sha256": "d22d144008fa975f4dd79935918f9a182c0853757c6f4a604ff2516e1ca9eb96",
+    "size": 13819,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 120 x 120, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Brand@3x.png",
+    "scope": "rootfs",
+    "sha256": "6b016fee93c141519f34a00b7dcc8ce70ddae944851439a9736edf65785ec53a",
+    "size": 26823,
+    "type": "file"
+  },
+  {
+    "mime": "Mach-O universal binary with 2 architectures: [arm64:\\012- Mach-O 64-bit arm64 executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|PIE>] [\\012- arm64e (caps: 0x2):\\012- Mach-O 64-bit arm64e (caps: PAC00) executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|PIE>]",
+    "mode": "0o755",
+    "path": "var/jb/Applications/CPSActivation.app/CPSActivation",
+    "scope": "rootfs",
+    "sha256": "8b57a9d84b3c1f0bfa3f2b0894cfffa30574cc413d79f964e64401e50c1a3996",
+    "size": 395136,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Diagnostics.plist",
+    "scope": "rootfs",
+    "sha256": "fa686671d82170b859c83c540db97e1084ecf9dff92bfb8c41004d2da1bc2bdb",
+    "size": 644,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Info.plist",
+    "scope": "rootfs",
+    "sha256": "2646d7c52f47d59688cbac074abf93e0db5ffc730526543a090cbd7b2bdfd597",
+    "size": 893,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/License.plist",
+    "scope": "rootfs",
+    "sha256": "4af53a1008b3a3466a4f1ab3bf2726374e634a3bacb15ad12bba0a8effea5584",
+    "size": 1045,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/LicenseTools.plist",
+    "scope": "rootfs",
+    "sha256": "2a461deb785fd1d648966fd3bf4b58ba8cfd0f25926b6c1148b4280116454bb5",
+    "size": 529,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 256 x 256, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/PackageIcon.png",
+    "scope": "rootfs",
+    "sha256": "8e96e5add936c538046ecb7ba463236a5d65842261eacaab174caeb834438a1f",
+    "size": 94929,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Root.plist",
+    "scope": "rootfs",
+    "sha256": "0b06ddd6df9c7f97cd9bd06ecdf6eba9989e44ea1b0ec837fb9aa06a39aba707",
+    "size": 3781,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Source.plist",
+    "scope": "rootfs",
+    "sha256": "5469d347f357bff9f9c409e6c70eea3b55d207bfbb7d6584051a242535db09c1",
+    "size": 922,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Test.plist",
+    "scope": "rootfs",
+    "sha256": "bf0fab823e0034d1dbfe861a12024278aaacba64b79428893fc3a3c4a028a55b",
+    "size": 770,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/Warnings.plist",
+    "scope": "rootfs",
+    "sha256": "37860681bf693f7e428d54b3084f229db9ac1b29120a4cddef59581fc1324913",
+    "size": 792,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 29 x 29, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/icon.png",
+    "scope": "rootfs",
+    "sha256": "5ea9616b3ee785e496c538f9fbcf0288afd0878a77f6d5027d8e32d30755de02",
+    "size": 2672,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 58 x 58, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/icon@2x.png",
+    "scope": "rootfs",
+    "sha256": "427dd83db10cb62630088a2e15bc66e56dffff523a3fde8cfeeb20d1176b7cfc",
+    "size": 8167,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 87 x 87, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Applications/CPSActivation.app/icon@3x.png",
+    "scope": "rootfs",
+    "sha256": "89fa30b02aa9b1f15e13767e2cc43386e24cb3ff8fbab32292bb4ecdbc83f45e",
+    "size": 15871,
+    "type": "file"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Library",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Library/MobileSubstrate",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Library/MobileSubstrate/DynamicLibraries",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mime": "Mach-O universal binary with 2 architectures: [arm64:\\012- Mach-O 64-bit arm64 dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|NO_REEXPORTED_DYLIBS>] [\\012- arm64e (caps: 0x2):\\012- Mach-O 64-bit arm64e (caps: PAC00) dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|NO_REEXPORTED_DYLIBS>]",
+    "mode": "0o755",
+    "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/MediaDeclaration.dylib",
+    "scope": "rootfs",
+    "sha256": "d7949182f3bf6523c4068bbd75f0718ca4e3bcafc12f167267d86f0fc032c97f",
+    "size": 168816,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/MediaDeclaration.plist",
+    "scope": "rootfs",
+    "sha256": "a4e9e95e43b1b1f1306214f5c8c1e1c0ee8f76a9f52bb748715573b243902d34",
+    "size": 86,
+    "type": "file"
+  },
+  {
+    "mime": "Mach-O universal binary with 2 architectures: [arm64:\\012- Mach-O 64-bit arm64 dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|NO_REEXPORTED_DYLIBS>] [\\012- arm64e (caps: 0x2):\\012- Mach-O 64-bit arm64e (caps: PAC00) dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|NO_REEXPORTED_DYLIBS>]",
+    "mode": "0o755",
+    "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SourceLifecycle.dylib",
+    "scope": "rootfs",
+    "sha256": "394aad5d0b8338c85c8b27fa00698a73e5aaeda7b6b9fe5d6b6d64e0ecd09a39",
+    "size": 273440,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SourceLifecycle.plist",
+    "scope": "rootfs",
+    "sha256": "86345479d62d39c2b9fc6f879bbed191913b153deefa1aa486ca1e19c8664304",
+    "size": 93,
+    "type": "file"
+  },
+  {
+    "mime": "Mach-O universal binary with 2 architectures: [arm64:\\012- Mach-O 64-bit arm64 dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|BINDS_TO_WEAK|NO_REEXPORTED_DYLIBS>] [\\012- arm64e (caps: 0x2):\\012- Mach-O 64-bit arm64e (caps: PAC00) dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|BINDS_TO_WEAK|NO_REEXPORTED_DYLIBS>]",
+    "mode": "0o755",
+    "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib",
+    "scope": "rootfs",
+    "sha256": "36e4ceebf02c15b1c8e351a8847509a2a0a91e19c85d9bbd0efac7fea3ffe1cd",
+    "size": 991776,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.plist",
+    "scope": "rootfs",
+    "sha256": "b3e9890f2a4f42fbdcaaa6b280fe71577690d5eaac67ba118e7b2823183345c9",
+    "size": 184,
+    "type": "file"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Library/PreferenceBundles",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mime": "PNG image data, 120 x 120, 8-bit/color RGB, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/AppIcon60x60@2x.png",
+    "scope": "rootfs",
+    "sha256": "8b9794f4244c0a9223b858ef7de55efa2835cbb3d7378d498f483ab7dc984364",
+    "size": 20294,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 180 x 180, 8-bit/color RGB, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/AppIcon60x60@3x.png",
+    "scope": "rootfs",
+    "sha256": "018886b3b1ef17def6257e5d056828eaa7fce10809f017863573597636098611",
+    "size": 39911,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 40 x 40, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/Brand.png",
+    "scope": "rootfs",
+    "sha256": "6edf5f11f881df602ce1430e2db97e82c4d52331c3e9504b67753b627027e103",
+    "size": 4464,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 80 x 80, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/Brand@2x.png",
+    "scope": "rootfs",
+    "sha256": "d22d144008fa975f4dd79935918f9a182c0853757c6f4a604ff2516e1ca9eb96",
+    "size": 13819,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 120 x 120, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/Brand@3x.png",
+    "scope": "rootfs",
+    "sha256": "6b016fee93c141519f34a00b7dcc8ce70ddae944851439a9736edf65785ec53a",
+    "size": 26823,
+    "type": "file"
+  },
+  {
+    "mime": "Mach-O universal binary with 2 architectures: [arm64:\\012- Mach-O 64-bit arm64 dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|NO_REEXPORTED_DYLIBS>] [\\012- arm64e (caps: 0x2):\\012- Mach-O 64-bit arm64e (caps: PAC00) dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|NO_REEXPORTED_DYLIBS>]",
+    "mode": "0o755",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs",
+    "scope": "rootfs",
+    "sha256": "58c14ead069e69e872ccf2cc7936a15ec0f8a58b82534ad9170dcfb22ac8a136",
+    "size": 239184,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/Info.plist",
+    "scope": "rootfs",
+    "sha256": "8b0b1676899cdbf423c1709d7bcbbd227d97fe603812d1c5011e345caca5c491",
+    "size": 380,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/License.plist",
+    "scope": "rootfs",
+    "sha256": "4af53a1008b3a3466a4f1ab3bf2726374e634a3bacb15ad12bba0a8effea5584",
+    "size": 1045,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 256 x 256, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/PackageIcon.png",
+    "scope": "rootfs",
+    "sha256": "8e96e5add936c538046ecb7ba463236a5d65842261eacaab174caeb834438a1f",
+    "size": 94929,
+    "type": "file"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/Root.plist",
+    "scope": "rootfs",
+    "sha256": "0b06ddd6df9c7f97cd9bd06ecdf6eba9989e44ea1b0ec837fb9aa06a39aba707",
+    "size": 3781,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 29 x 29, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/icon.png",
+    "scope": "rootfs",
+    "sha256": "5ea9616b3ee785e496c538f9fbcf0288afd0878a77f6d5027d8e32d30755de02",
+    "size": 2672,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 58 x 58, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/icon@2x.png",
+    "scope": "rootfs",
+    "sha256": "427dd83db10cb62630088a2e15bc66e56dffff523a3fde8cfeeb20d1176b7cfc",
+    "size": 8167,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 87 x 87, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/icon@3x.png",
+    "scope": "rootfs",
+    "sha256": "89fa30b02aa9b1f15e13767e2cc43386e24cb3ff8fbab32292bb4ecdbc83f45e",
+    "size": 15871,
+    "type": "file"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Library/PreferenceLoader",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/Library/PreferenceLoader/Preferences",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mime": "Apple binary property list",
+    "mode": "0o644",
+    "path": "var/jb/Library/PreferenceLoader/Preferences/CarPlayProSpeed.plist",
+    "scope": "rootfs",
+    "sha256": "0b65f9074ee714b77cd0993add56c1fff73a806e32ea935e97c1cc012198b7a4",
+    "size": 198,
+    "type": "file"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/usr",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/usr/share",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/usr/share/com.carplaypro.speed",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/camera_ai.png",
+    "scope": "rootfs",
+    "sha256": "955a7092a2a0cd26a523ffb69265b986d039fc8c4cc1478e3d4ee4471f35097d",
+    "size": 7010,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/children.png",
+    "scope": "rootfs",
+    "sha256": "963dfd3727dc2310b3fd7bb95685e11a63153864193ddf671534364bd96fa61a",
+    "size": 6774,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/dangerous_crossroads.png",
+    "scope": "rootfs",
+    "sha256": "2eb7dab7177ae11814cc1391a19a32cca4728809b267b33c62a40163f48d94c9",
+    "size": 5152,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/dangerous_turn.png",
+    "scope": "rootfs",
+    "sha256": "200e0511a0e5dd231eae76deb9a4c144a4250b9fd7de1fe8edde49a807e40d86",
+    "size": 5817,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/highway_rest_area.png",
+    "scope": "rootfs",
+    "sha256": "18e97458ce9f9a9533825a980dc749d7374676266aeccd777a30814d5537c3e5",
+    "size": 2273,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/khu_dan_cu.png",
+    "scope": "rootfs",
+    "sha256": "d551ae565b8e5be306b049aff1cf084b17e4d502263008a1a4355329ca9a877d",
+    "size": 1587,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/leftAndRightTurnOnly.png",
+    "scope": "rootfs",
+    "sha256": "7cee4944a6a6a8111352b54dad99b8608dfa2158d32f21c1244b520185dff884",
+    "size": 4852,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/leftTurnOnly.png",
+    "scope": "rootfs",
+    "sha256": "4c427f937d452af9727f132cc77ff481230c2104c87e30237cd55627ec8d2089",
+    "size": 4289,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/limit_80.png",
+    "scope": "rootfs",
+    "sha256": "e769049bc5aeae594393a7683b30944c71bedf4d40bd734835c31032a419e6b0",
+    "size": 7576,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noEntry.png",
+    "scope": "rootfs",
+    "sha256": "61d2c1d868e97800c4792e69264b19147ee0db0f8e2def21c0c5a8bbd3d34e1f",
+    "size": 3223,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noEntryNoLeftTurn.png",
+    "scope": "rootfs",
+    "sha256": "23b85825c3c73b55d939119e1b3fe02d2571bf64388c428f2ea4e6a266d71c36",
+    "size": 6277,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noEntryNoRightTurn.png",
+    "scope": "rootfs",
+    "sha256": "9f3047db1342462fe32ee57c6f0c198625a502d168a5ea0305a11b8b8844e929",
+    "size": 6130,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noLeftTurn.png",
+    "scope": "rootfs",
+    "sha256": "23b85825c3c73b55d939119e1b3fe02d2571bf64388c428f2ea4e6a266d71c36",
+    "size": 6277,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noLeftTurnNoRightTurn.png",
+    "scope": "rootfs",
+    "sha256": "00722751e9068a531a58edece777cb9fe6f089349089eaddb6b6261ce7f03468",
+    "size": 6800,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noLeftTurnUTurn.png",
+    "scope": "rootfs",
+    "sha256": "8992a259801ca7f781e67e48b39c2c5b4225400dc587f5c06438eb35444f27ff",
+    "size": 7324,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noRightTurn.png",
+    "scope": "rootfs",
+    "sha256": "9f3047db1342462fe32ee57c6f0c198625a502d168a5ea0305a11b8b8844e929",
+    "size": 6130,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noRightTurnUTurn.png",
+    "scope": "rootfs",
+    "sha256": "bbd7cd050512faffa2f0e039c4c79efc8c6f84bec27d8f85825569ca45e960d8",
+    "size": 7235,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noUTurnLeft.png",
+    "scope": "rootfs",
+    "sha256": "2f693926b90f31a083be99f829f4e3dcba478d8355e683787155a012e547e058",
+    "size": 7131,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/noUTurnRight.png",
+    "scope": "rootfs",
+    "sha256": "2f693926b90f31a083be99f829f4e3dcba478d8355e683787155a012e547e058",
+    "size": 7131,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/no_passing_in.png",
+    "scope": "rootfs",
+    "sha256": "b22a926eefecff2d5ee6df9f955ac22905873ae5dfd5cb54cf46dbb2e98aa562",
+    "size": 5893,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/no_passing_out.png",
+    "scope": "rootfs",
+    "sha256": "44000442c23c89f69548245ac05715e662ff868a01eddc9512ac37944743d017",
+    "size": 6449,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/pedestrian_crossing.png",
+    "scope": "rootfs",
+    "sha256": "4f8b43ebd7fe3248fe0163c4fab1163b2f7497cced6e8d0dffa866fad0688a8d",
+    "size": 6216,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/penalty_camera.png",
+    "scope": "rootfs",
+    "sha256": "c1d8aa774b25f7af589a1ce09a0211a0154ff3c65e8109b7937a756a42617b88",
+    "size": 6776,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/railway.png",
+    "scope": "rootfs",
+    "sha256": "d5eebcb3fc7117a6f52f80ad5d40d3abc32b904bbd2409d455565fa0f6a45061",
+    "size": 5932,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/residential_area_in.png",
+    "scope": "rootfs",
+    "sha256": "d551ae565b8e5be306b049aff1cf084b17e4d502263008a1a4355329ca9a877d",
+    "size": 1587,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/residential_area_out.png",
+    "scope": "rootfs",
+    "sha256": "d9827aaaad5603646196ff306171d92971171a2e549b8ea4cd6e7a2318979174",
+    "size": 1834,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/retrict_unknown.png",
+    "scope": "rootfs",
+    "sha256": "aaf347d1c200e4975d07dc79ff4d207d68f263cd683fa75ea66f587b508f728c",
+    "size": 5557,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/rightTurnOnly.png",
+    "scope": "rootfs",
+    "sha256": "1e305b6359f315a1663b0bb69585d6fcf7e39ecfd972ac4490e7c52a9b327281",
+    "size": 4349,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/slow_down.png",
+    "scope": "rootfs",
+    "sha256": "aaf347d1c200e4975d07dc79ff4d207d68f263cd683fa75ea66f587b508f728c",
+    "size": 5557,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_bump.png",
+    "scope": "rootfs",
+    "sha256": "8ddef830812bdf23922306a2b1f6efe8b2a915c40962fcfdc1552443227a3970",
+    "size": 6579,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_10.png",
+    "scope": "rootfs",
+    "sha256": "d1548163946fcd5bc88dfbe7b8e3a3d065ebb959748f5c92eca2c13b2f0fca5b",
+    "size": 6743,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_100.png",
+    "scope": "rootfs",
+    "sha256": "199db9c23c344df9aca10a8c66b21327987b4090301cd9d230456838f30c7a59",
+    "size": 7325,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_110.png",
+    "scope": "rootfs",
+    "sha256": "fc78bb5802e7487dbb25e1a1624ea753c17be9f102625c264b50128cc59736c8",
+    "size": 6657,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_120.png",
+    "scope": "rootfs",
+    "sha256": "ef25fc6a8a5927e1707b079cccd6361a0dec129239dec325af25497bcb3787de",
+    "size": 7136,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_20.png",
+    "scope": "rootfs",
+    "sha256": "de9812697b062ccdfea4a32528859a0c18576a5149ed562f5eca506b3bce4900",
+    "size": 7287,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_30.png",
+    "scope": "rootfs",
+    "sha256": "42cd348e5943c5a2da6141ac49ce8dff9b90ba6028e4cfc7d83292f67cfbee0e",
+    "size": 7451,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_40.png",
+    "scope": "rootfs",
+    "sha256": "fc78710e2eff6de9b75447edb5581c7bec3dfef3e6e52597570ee7e0ddff643e",
+    "size": 6938,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_50.png",
+    "scope": "rootfs",
+    "sha256": "3af284d138c10f2879ecf3198d3eb3af3b77a90b96788b9a90dd1e07b163f1e8",
+    "size": 7278,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_60.png",
+    "scope": "rootfs",
+    "sha256": "bcf92b98cd87c8ff5b01f7278f28840be34f47bb2323579da0b65eca9bc19a7e",
+    "size": 7553,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_70.png",
+    "scope": "rootfs",
+    "sha256": "49dcc4b1a83c664e4d6c65255cc34f66fee46ddef830aab97b0a20348a0cc306",
+    "size": 6952,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_80.png",
+    "scope": "rootfs",
+    "sha256": "e769049bc5aeae594393a7683b30944c71bedf4d40bd734835c31032a419e6b0",
+    "size": 7576,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_90.png",
+    "scope": "rootfs",
+    "sha256": "d97e1e2d39c9bb540ac40b4bf1fbc64f5cc3eea240bea21cef67a05b30b91174",
+    "size": 7560,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/speed_limit_camera.png",
+    "scope": "rootfs",
+    "sha256": "a2ecdd7bf43b628f8b985ceb398b593bded7f992c18ad1d2003f507d05fc9b68",
+    "size": 7106,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/stop_lane.png",
+    "scope": "rootfs",
+    "sha256": "aaf347d1c200e4975d07dc79ff4d207d68f263cd683fa75ea66f587b508f728c",
+    "size": 5557,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/straightAheadOnly.png",
+    "scope": "rootfs",
+    "sha256": "15b127c8f209b0a1d2d68a3748a51e554ef04b46e78e773976eee9fd42575d72",
+    "size": 4314,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/straightAndLeftTurnOnly.png",
+    "scope": "rootfs",
+    "sha256": "59c0e6249e0d574576f0dd89b9b160cb293fd02e5d3cc2c1c041739adacc9cdb",
+    "size": 4827,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/straightAndRightTurnOnly.png",
+    "scope": "rootfs",
+    "sha256": "d0bab5c868781555a6842fffa98636c41f58c5aec6d1544de6e50d5cc845699b",
+    "size": 4875,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/toll.png",
+    "scope": "rootfs",
+    "sha256": "c567d37081438bf27cfbe00ad7683bf68f15105457894b64a66dac481480f101",
+    "size": 2648,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/toll_etc.png",
+    "scope": "rootfs",
+    "sha256": "0b701d0a79320dd1a68fbb1f673e7bb3f86d38876943db0df0b0aef3f3efbd93",
+    "size": 3090,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/traffic_camera.png",
+    "scope": "rootfs",
+    "sha256": "5fb257db6c2f982e5e72c556623d1feac513eef14dba9ef2cfa50bed25525b8d",
+    "size": 6669,
+    "type": "file"
+  },
+  {
+    "mime": "PNG image data, 192 x 192, 8-bit/color RGBA, non-interlaced",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/signs/tunnel.png",
+    "scope": "rootfs",
+    "sha256": "7d78c8993ca55b501d8209ef95be6a9c0e4f0d9b6090fd78e9312e1d23773892",
+    "size": 3102,
+    "type": "file"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/usr/share/com.carplaypro.speed/startup",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mime": "Unicode text, UTF-8 text",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/startup/ATTRIBUTION.txt",
+    "scope": "rootfs",
+    "sha256": "1d54f5d9e8c2196f64b378ea8073ec7a8abcccd0facf1b3c0dddb4c00f9c0028",
+    "size": 435,
+    "type": "file"
+  },
+  {
+    "mime": "RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 44100 Hz",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/com.carplaypro.speed/startup/sport-start.wav",
+    "scope": "rootfs",
+    "sha256": "9276f7c2f62155887f39208b075f91e97c8874768dce4ad182fe77a1f8e11c0d",
+    "size": 282284,
+    "type": "file"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/usr/share/doc",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mode": "0o755",
+    "path": "var/jb/usr/share/doc/com.carplaypro.speed",
+    "scope": "rootfs",
+    "type": "directory"
+  },
+  {
+    "mime": "ASCII text",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/doc/com.carplaypro.speed/GMapHUD-LICENSE",
+    "scope": "rootfs",
+    "sha256": "6f19116a8dc1bba52db7f8a23ab88b54490b63f0ad2c10ddbbc10390f650e50e",
+    "size": 1077,
+    "type": "file"
+  },
+  {
+    "mime": "ASCII text",
+    "mode": "0o644",
+    "path": "var/jb/usr/share/doc/com.carplaypro.speed/THIRD-PARTY-NOTICES.txt",
+    "scope": "rootfs",
+    "sha256": "d2cd5645e8ec40e07d52a1e87f78be9cefcf877664cf70ed9a1714d7ef3c31fa",
+    "size": 371,
+    "type": "file"
+  },
+  {
+    "mime": "ASCII text",
+    "mode": "0o644",
+    "path": "control",
+    "scope": "control",
+    "sha256": "03d7bbc754a6406596458577d187646cc112fa538ccaaae6c42b16486252e1a4",
+    "size": 485,
+    "type": "file"
+  },
+  {
+    "mime": "POSIX shell script, ASCII text executable",
+    "mode": "0o755",
+    "path": "postinst",
+    "scope": "control",
+    "sha256": "d734c1c987693abd4e2e0b789d921b28d09101bbe1043aa0eb87f4f5309eb25c",
+    "size": 135,
+    "type": "file"
+  },
+  {
+    "mime": "POSIX shell script, ASCII text executable",
+    "mode": "0o755",
+    "path": "postrm",
+    "scope": "control",
+    "sha256": "a0b43b095a8874231949ee6230cf013ef9bc6c13928ec936c9a903d4cc8fb40b",
+    "size": 186,
+    "type": "file"
+  }
+]

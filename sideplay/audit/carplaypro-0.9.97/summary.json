@@ -1,0 +1,42 @@
+{
+  "control_files": 3,
+  "images_count": 69,
+  "limitations": [
+    "Static inspection, not reconstruction of original source or runtime behavior.",
+    "Symbols and strings may be obfuscated or stripped; disassembly covers on-disk __TEXT,__text arm64 instructions.",
+    "No license bypass or patching; sensitive credential-like string values redacted in derived text; original DEB unmodified."
+  ],
+  "macho_count": 5,
+  "maintainer_scripts": [
+    {
+      "executable": true,
+      "path": "postinst",
+      "sha256": "d734c1c987693abd4e2e0b789d921b28d09101bbe1043aa0eb87f4f5309eb25c"
+    },
+    {
+      "executable": true,
+      "path": "postrm",
+      "sha256": "a0b43b095a8874231949ee6230cf013ef9bc6c13928ec936c9a903d4cc8fb40b"
+    }
+  ],
+  "plist_count": 16,
+  "root_files": 94,
+  "scanned_utc": "2026-11-01T09:19:41.198277+00:00",
+  "source_branch": "main",
+  "source_git_blob_sha": "verified separately via GitHub tree",
+  "source_path": "sideplay/audit/com.carplaypro.speed_0.9.97_iphoneos-arm64.deb",
+  "source_repository": "chuongnguyen89dn-ui/Duoface",
+  "source_sha256": "e5b0918b3bc1948420f37a8a9e21365756da46fba44d582a3f2893aee9b4102f",
+  "source_size": 984804,
+  "tests": {
+    "device_test": false,
+    "installation": false,
+    "scripts_executed": false,
+    "static_inspection": true
+  },
+  "total_files": 115,
+  "types": {
+    "directory": 18,
+    "file": 97
+  }
+}

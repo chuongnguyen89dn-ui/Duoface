@@ -1,0 +1,1052 @@
+[
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Kéo bong bóng trên màn CarPlay để đặt vị trí phù hợp.",
+          "label": "Bong bóng"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "style",
+          "label": "Kiểu hiển thị",
+          "validTitles": [
+            "Thẻ gọn",
+            "Tròn",
+            "Thanh ngang",
+            "Viên thuốc",
+            "Vuông bo góc",
+            "Thẻ dọc",
+            "Viên thuốc dọc"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Kích thước (0.6–1.4)"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 1.0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "size",
+          "label": "Kích thước (0.6–1.4)",
+          "max": 1.4,
+          "min": 0.6,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "showRoadAlerts",
+          "label": "Hiện biển cảnh báo"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "showNavigation",
+          "label": "Hiện hướng rẽ và khoảng cách"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": false,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundTransparent",
+          "label": "Nền trong suốt"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "backgroundPreset",
+          "label": "Màu nền",
+          "validTitles": [
+            "Than chì",
+            "Xanh đêm",
+            "Xanh biển",
+            "Xanh rêu",
+            "Đỏ rượu",
+            "Tím",
+            "Trắng ngà",
+            "Màu tự chọn"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Độ đậm nền (%)"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 92,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundOpacity",
+          "label": "Độ đậm nền (%)",
+          "max": 100,
+          "min": 0,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSEditTextCell",
+          "default": "#101820",
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundHex",
+          "label": "Màu tự chọn (#RRGGBB)"
+        }
+      ]
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/Appearance.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Bật ghi trước khi thử. Xuất log ngay sau khi gặp lỗi; hiện chỉ giữ khoảng 4 phút chi tiết gần nhất.",
+          "label": "Chẩn đoán"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": false,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "recordDiagnostics",
+          "label": "Ghi chẩn đoán"
+        },
+        {
+          "action": "exportDiagnostics",
+          "cell": "PSButtonCell",
+          "label": "Xuất log chẩn đoán"
+        }
+      ]
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/Diagnostics.plist"
+  },
+  {
+    "decoded": {
+      "CFBundleDisplayName": "CarPlay Pro Speed",
+      "CFBundleExecutable": "CPSActivation",
+      "CFBundleIconFiles": [
+        "AppIcon60x60"
+      ],
+      "CFBundleIcons": {
+        "CFBundlePrimaryIcon": {
+          "CFBundleIconFiles": [
+            "AppIcon60x60"
+          ],
+          "UIPrerenderedIcon": true
+        }
+      },
+      "CFBundleIdentifier": "com.carplaypro.activation",
+      "CFBundleName": "CPSActivation",
+      "CFBundlePackageType": "APPL",
+      "CFBundleShortVersionString": "0.9.97",
+      "CFBundleURLTypes": [
+        {
+          "CFBundleURLName": "CarPlay Pro Activation",
+          "CFBundleURLSchemes": [
+            "cpspeed-activate"
+          ]
+        }
+      ],
+      "CFBundleVersion": "0.9.97",
+      "LSRequiresIPhoneOS": true,
+      "MinimumOSVersion": "15.0",
+      "NSCameraUsageDescription": "Quét mã QR key CarPlay Pro Speed do người bán gửi.",
+      "UIBackgroundModes": [
+        "audio"
+      ],
+      "UILaunchScreen": {},
+      "UIPrerenderedIcon": true,
+      "UISupportedInterfaceOrientations": [
+        "UIInterfaceOrientationPortrait"
+      ]
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/Info.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Nhập key người bán cấp. Cần Internet một lần; sau khi kích hoạt dùng offline trên iPhone này.",
+          "label": "Kích hoạt giấy phép"
+        },
+        {
+          "action": "startFreeTrial",
+          "cell": "PSButtonCell",
+          "label": "Dùng thử miễn phí 7 ngày"
+        },
+        {
+          "action": "openQRActivation",
+          "cell": "PSButtonCell",
+          "label": "Quét QR / chọn ảnh để kích hoạt"
+        },
+        {
+          "action": "activateShortKey",
+          "cell": "PSButtonCell",
+          "label": "Nhập key kích hoạt"
+        },
+        {
+          "action": "copyDeviceCode",
+          "cell": "PSButtonCell",
+          "label": "Sao chép mã thiết bị"
+        },
+        {
+          "action": "pasteLicense",
+          "cell": "PSButtonCell",
+          "label": "Nhập giấy phép thủ công (dự phòng)"
+        },
+        {
+          "action": "licenseStatus",
+          "cell": "PSButtonCell",
+          "label": "Xem trạng thái kích hoạt"
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Sau khi kích hoạt dùng thử, respring để có hiệu lực."
+        },
+        {
+          "action": "respring",
+          "cell": "PSButtonCell",
+          "label": "Respring"
+        }
+      ],
+      "title": "Giấy phép"
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/License.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Chỉ dùng khi cần hỗ trợ hoặc nhập giấy phép dự phòng.",
+          "label": "Hỗ trợ giấy phép"
+        },
+        {
+          "action": "copyDeviceCode",
+          "cell": "PSButtonCell",
+          "label": "Sao chép mã thiết bị"
+        },
+        {
+          "action": "pasteLicense",
+          "cell": "PSButtonCell",
+          "label": "Nhập giấy phép thủ công (dự phòng)"
+        },
+        {
+          "action": "licenseStatus",
+          "cell": "PSButtonCell",
+          "label": "Xem trạng thái kích hoạt"
+        }
+      ]
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/LicenseTools.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "enabled",
+          "label": "Bật CarPlay Pro Speed"
+        },
+        {
+          "cell": "PSLinkCell",
+          "detail": "CPSpeedLicenseController",
+          "isController": true,
+          "label": "Giấy phép"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "startupSound",
+          "label": "Âm thanh khởi động"
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Năm nguồn có thể chọn. Bộ đọc riêng của từng app vẫn đang được kiểm chứng; chưa có dữ liệu sẽ hiện —.",
+          "label": "Nguồn cảnh báo"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 3,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "source",
+          "label": "App nguồn",
+          "validTitles": [
+            "Vietmap Live",
+            "GOFA",
+            "WYN",
+            "Navitel",
+            "VML V2"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Yêu cầu app nguồn xử lý nền khi nối CarPlay, không tự đưa app lên màn hình điện thoại. Khả năng trả dữ liệu phụ thuộc app. Đóng nguồn khi ngắt vẫn theo công tắc bên dưới.",
+          "label": "Tự động app nguồn"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "launchSourceOnConnect",
+          "label": "Đánh thức nguồn chạy nền khi nối CarPlay"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "closeSourceOnDisconnect",
+          "label": "Đóng app nguồn khi ngắt CarPlay"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Bong bóng"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "style",
+          "label": "Kiểu hiển thị",
+          "validTitles": [
+            "Thẻ gọn",
+            "Tròn",
+            "Thanh ngang",
+            "Viên thuốc",
+            "Vuông bo góc",
+            "Thẻ dọc",
+            "Viên thuốc dọc"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 1.0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "size",
+          "label": "Kích thước (0.6–1.4)",
+          "max": 1.4,
+          "min": 0.6,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "showRoadAlerts",
+          "label": "Hiện biển cảnh báo"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "showNavigation",
+          "label": "Hiện hướng rẽ và khoảng cách"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": false,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundTransparent",
+          "label": "Nền trong suốt"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "backgroundPreset",
+          "label": "Màu nền",
+          "validTitles": [
+            "Than chì",
+            "Xanh đêm",
+            "Xanh biển",
+            "Xanh rêu",
+            "Đỏ rượu",
+            "Tím",
+            "Trắng ngà",
+            "Màu tự chọn"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 92,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundOpacity",
+          "label": "Độ đậm nền (%)",
+          "max": 100,
+          "min": 0,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSEditTextCell",
+          "default": "#101820",
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundHex",
+          "label": "Màu tự chọn (#RRGGBB)"
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Bong bóng chỉ cảnh báo bằng hình ảnh; âm thanh do ứng dụng nguồn phát. Chỉ cảnh báo khi tốc độ và giới hạn còn dữ liệu hợp lệ. Chạy thử 30 giây khi xe đỗ và đã nối CarPlay: 5 giây dưới giới hạn, 20 giây ở tốc độ thử, 5 giây dưới giới hạn.",
+          "label": "Khi vượt tốc độ"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "tolerance",
+          "label": "Ngưỡng vượt (km/h)",
+          "max": 20,
+          "min": 0,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "warningMode",
+          "label": "Cách cảnh báo",
+          "validTitles": [
+            "Đổi màu",
+            "Đổi màu và nhấp nháy"
+          ],
+          "validValues": [
+            0,
+            1
+          ]
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Henry Đạt CarPlay Pro\nGiải trí không giới hạn trên xe của bạn",
+          "label": "Chẩn đoán"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": false,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "recordDiagnostics",
+          "label": "Ghi chẩn đoán"
+        },
+        {
+          "action": "exportDiagnostics",
+          "cell": "PSButtonCell",
+          "label": "Xuất log chẩn đoán"
+        }
+      ],
+      "title": "CarPlay Pro Speed"
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/Root.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Chọn app cung cấp tốc độ và cảnh báo. Mở và thiết lập app nguồn trước lần dùng đầu tiên.",
+          "label": "Nguồn dữ liệu"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 3,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "source",
+          "label": "App nguồn",
+          "validTitles": [
+            "Vietmap Live",
+            "GOFA",
+            "WYN",
+            "Navitel",
+            "VML V2"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "launchSourceOnConnect",
+          "label": "Đánh thức nguồn chạy nền khi nối CarPlay"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "closeSourceOnDisconnect",
+          "label": "Đóng app nguồn khi ngắt CarPlay"
+        }
+      ]
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/Source.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Chỉ thử khi xe đỗ và đã nối CarPlay. Tự dừng sau 30 giây.",
+          "label": "Thử cảnh báo"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Tốc độ thử (km/h)"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 80,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "testSpeed",
+          "label": "Tốc độ thử (km/h)",
+          "max": 160,
+          "min": 0,
+          "showValue": true
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Giới hạn thử (km/h)"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 60,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "testLimit",
+          "label": "Giới hạn thử (km/h)",
+          "max": 120,
+          "min": 10,
+          "showValue": true
+        },
+        {
+          "action": "startWarningTest",
+          "cell": "PSButtonCell",
+          "label": "Bắt đầu thử — 30 giây"
+        },
+        {
+          "action": "stopWarningTest",
+          "cell": "PSButtonCell",
+          "label": "Dừng thử"
+        }
+      ]
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/Test.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Âm thanh do app nguồn phát. Viền đỏ và bong bóng cảnh báo khi dữ liệu tốc độ còn hợp lệ.",
+          "label": "Cảnh báo"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Ngưỡng vượt (km/h)"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "tolerance",
+          "label": "Ngưỡng vượt (km/h)",
+          "max": 20,
+          "min": 0,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "warningMode",
+          "label": "Cách cảnh báo",
+          "validTitles": [
+            "Đổi màu",
+            "Đổi màu và nhấp nháy"
+          ],
+          "validValues": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/Warnings.plist"
+  },
+  {
+    "decoded": {
+      "Filter": {
+        "Executables": [
+          "mediaserverd"
+        ]
+      }
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/MediaDeclaration.plist"
+  },
+  {
+    "decoded": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.springboard"
+        ]
+      }
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SourceLifecycle.plist"
+  },
+  {
+    "decoded": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "vn.vietmap.live",
+          "vn.vietmap.live.v2",
+          "com.lumi.GOFA",
+          "com.wynauto.wyn",
+          "su.navitel"
+        ]
+      }
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.plist"
+  },
+  {
+    "decoded": {
+      "CFBundleExecutable": "CPSpeedPrefs",
+      "CFBundleIconFile": "icon.png",
+      "CFBundleIconFiles": [
+        "icon.png",
+        "AppIcon60x60"
+      ],
+      "CFBundleIdentifier": "com.carplaypro.speed.prefs",
+      "CFBundleName": "CPSpeedPrefs",
+      "CFBundlePackageType": "BNDL",
+      "CFBundleShortVersionString": "0.9.97",
+      "CFBundleVersion": "0.9.97",
+      "NSPrincipalClass": "CPSpeedRootController"
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/Info.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Nhập key người bán cấp. Cần Internet một lần; sau khi kích hoạt dùng offline trên iPhone này.",
+          "label": "Kích hoạt giấy phép"
+        },
+        {
+          "action": "startFreeTrial",
+          "cell": "PSButtonCell",
+          "label": "Dùng thử miễn phí 7 ngày"
+        },
+        {
+          "action": "openQRActivation",
+          "cell": "PSButtonCell",
+          "label": "Quét QR / chọn ảnh để kích hoạt"
+        },
+        {
+          "action": "activateShortKey",
+          "cell": "PSButtonCell",
+          "label": "Nhập key kích hoạt"
+        },
+        {
+          "action": "copyDeviceCode",
+          "cell": "PSButtonCell",
+          "label": "Sao chép mã thiết bị"
+        },
+        {
+          "action": "pasteLicense",
+          "cell": "PSButtonCell",
+          "label": "Nhập giấy phép thủ công (dự phòng)"
+        },
+        {
+          "action": "licenseStatus",
+          "cell": "PSButtonCell",
+          "label": "Xem trạng thái kích hoạt"
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Sau khi kích hoạt dùng thử, respring để có hiệu lực."
+        },
+        {
+          "action": "respring",
+          "cell": "PSButtonCell",
+          "label": "Respring"
+        }
+      ],
+      "title": "Giấy phép"
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/License.plist"
+  },
+  {
+    "decoded": {
+      "items": [
+        {
+          "cell": "PSGroupCell"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "enabled",
+          "label": "Bật CarPlay Pro Speed"
+        },
+        {
+          "cell": "PSLinkCell",
+          "detail": "CPSpeedLicenseController",
+          "isController": true,
+          "label": "Giấy phép"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "startupSound",
+          "label": "Âm thanh khởi động"
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Năm nguồn có thể chọn. Bộ đọc riêng của từng app vẫn đang được kiểm chứng; chưa có dữ liệu sẽ hiện —.",
+          "label": "Nguồn cảnh báo"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 3,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "source",
+          "label": "App nguồn",
+          "validTitles": [
+            "Vietmap Live",
+            "GOFA",
+            "WYN",
+            "Navitel",
+            "VML V2"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Yêu cầu app nguồn xử lý nền khi nối CarPlay, không tự đưa app lên màn hình điện thoại. Khả năng trả dữ liệu phụ thuộc app. Đóng nguồn khi ngắt vẫn theo công tắc bên dưới.",
+          "label": "Tự động app nguồn"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "launchSourceOnConnect",
+          "label": "Đánh thức nguồn chạy nền khi nối CarPlay"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "closeSourceOnDisconnect",
+          "label": "Đóng app nguồn khi ngắt CarPlay"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Bong bóng"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "style",
+          "label": "Kiểu hiển thị",
+          "validTitles": [
+            "Thẻ gọn",
+            "Tròn",
+            "Thanh ngang",
+            "Viên thuốc",
+            "Vuông bo góc",
+            "Thẻ dọc",
+            "Viên thuốc dọc"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 1.0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "size",
+          "label": "Kích thước (0.6–1.4)",
+          "max": 1.4,
+          "min": 0.6,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "showRoadAlerts",
+          "label": "Hiện biển cảnh báo"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": true,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "showNavigation",
+          "label": "Hiện hướng rẽ và khoảng cách"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": false,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundTransparent",
+          "label": "Nền trong suốt"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "backgroundPreset",
+          "label": "Màu nền",
+          "validTitles": [
+            "Than chì",
+            "Xanh đêm",
+            "Xanh biển",
+            "Xanh rêu",
+            "Đỏ rượu",
+            "Tím",
+            "Trắng ngà",
+            "Màu tự chọn"
+          ],
+          "validValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 92,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundOpacity",
+          "label": "Độ đậm nền (%)",
+          "max": 100,
+          "min": 0,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSEditTextCell",
+          "default": "#101820",
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "backgroundHex",
+          "label": "Màu tự chọn (#RRGGBB)"
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Bong bóng chỉ cảnh báo bằng hình ảnh; âm thanh do ứng dụng nguồn phát. Chỉ cảnh báo khi tốc độ và giới hạn còn dữ liệu hợp lệ. Chạy thử 30 giây khi xe đỗ và đã nối CarPlay: 5 giây dưới giới hạn, 20 giây ở tốc độ thử, 5 giây dưới giới hạn.",
+          "label": "Khi vượt tốc độ"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSliderCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "tolerance",
+          "label": "Ngưỡng vượt (km/h)",
+          "max": 20,
+          "min": 0,
+          "showValue": true
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSLinkListCell",
+          "default": 0,
+          "defaults": "com.carplaypro.speed.preferences",
+          "detail": "PSListItemsController",
+          "key": "warningMode",
+          "label": "Cách cảnh báo",
+          "validTitles": [
+            "Đổi màu",
+            "Đổi màu và nhấp nháy"
+          ],
+          "validValues": [
+            0,
+            1
+          ]
+        },
+        {
+          "cell": "PSGroupCell",
+          "footerText": "Henry Đạt CarPlay Pro\nGiải trí không giới hạn trên xe của bạn",
+          "label": "Chẩn đoán"
+        },
+        {
+          "PostNotification": "com.carplaypro.speed.preferences-changed",
+          "cell": "PSSwitchCell",
+          "default": false,
+          "defaults": "com.carplaypro.speed.preferences",
+          "key": "recordDiagnostics",
+          "label": "Ghi chẩn đoán"
+        },
+        {
+          "action": "exportDiagnostics",
+          "cell": "PSButtonCell",
+          "label": "Xuất log chẩn đoán"
+        }
+      ],
+      "title": "CarPlay Pro Speed"
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/Root.plist"
+  },
+  {
+    "decoded": {
+      "entry": {
+        "bundle": "CPSpeedPrefs",
+        "cell": "PSLinkCell",
+        "detail": "CPSpeedRootController",
+        "icon": "icon.png",
+        "isController": true,
+        "label": "CarPlay Pro Speed"
+      }
+    },
+    "format": "binary",
+    "path": "rootfs/var/jb/Library/PreferenceLoader/Preferences/CarPlayProSpeed.plist"
+  }
+]
