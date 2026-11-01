@@ -229,6 +229,42 @@ def inspect_hook_tables(macho):
                         "section":macho.section(addr)["section"] if macho.section(addr) else None}
     return out
 
+def callback_table_neighborhood(macho):
+    # Data-backed original code pointers to alert and speed callback were
+    # recovered by masking chained-fixup low32, not by executing vendor code.
+    items=[]
+    for addr in range(0x5d570,0x5d5f8,8):
+        val=macho.pointer(addr)
+        items.append({"address":hex(addr),"raw":hex(val) if val is not None else None,
+                      "low32":hex(val & 0xffffffff) if val is not None else None,
+                      "mapped_section":macho.section(addr)["section"] if macho.section(addr) else None})
+    return items
+
+def callback_table_static_references(rows):
+    # Find literal address materializations into __DATA_CONST,__const within
+    # +/- 0x30 of the actual callback block's on-disk address.
+    target_low=0x5d570;target_high=0x5d600
+    byfunc=collections.defaultdict(list)
+    for row in rows:byfunc[row["start"]].append(row)
+    matches=[]
+    for fn,ins in byfunc.items():
+        for k,row in enumerate(ins):
+            if row["op"]!="adrp" or not (base:=PAGE.match(row["arg"])):
+                continue
+            reg=int(base[1]);page=int(base[2],16)
+            if page not in (0x5d000,0x5c000):continue
+            for j in range(k+1,min(k+16,len(ins))):
+                rr=ins[j]
+                if rr["addr"]-row["addr"]>60:break
+                x=ADDI.match(rr["arg"]) if rr["op"]=="add" else LDR.match(rr["arg"]) if rr["op"]=="ldr" else None
+                if not x or int(x[2])!=reg:continue
+                at=page+int(x[3],16)
+                if target_low<=at<target_high:
+                    matches.append({"function":hex(fn) if fn is not None else None,
+                                    "address":hex(rr["addr"]),"data_address":hex(at),
+                                    "kind":rr["op"],"adrp":row["line"],"use":rr["line"]})
+    return matches
+
 def main():
     p=argparse.ArgumentParser()
     for flag in ("thin","load_commands","function_starts","full_disassembly","out"):
@@ -244,7 +280,9 @@ def main():
             "method_hook_calls":len([x for x in calls if x["import"]=="_MSHookMessageEx"]),
             "function_hook_calls":len([x for x in calls if x["import"]=="_MSHookFunction"]),
             "hook_import_calls":calls,"raw_pointer_refs_to_four_callbacks":roots,
-            "original_candidate_hook_tables":inspect_hook_tables(macho)}
+            "original_candidate_hook_tables":inspect_hook_tables(macho),
+            "original_callback_pointer_neighborhood":callback_table_neighborhood(macho),
+            "original_callback_data_xrefs":callback_table_static_references(ins)}
     a.out.mkdir(parents=True,exist_ok=True)
     (a.out/"ORIGINAL_OBJC_HOOK_TARGETS.json").write_text(json.dumps(result,indent=2)+"\n")
     lines=["# Original CarPlayPro Speed hook targets: source-by-source",
