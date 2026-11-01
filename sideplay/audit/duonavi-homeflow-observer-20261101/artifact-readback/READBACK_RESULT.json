@@ -1,0 +1,26 @@
+{
+  "sha256": "1dd94e842bb82e5fefc6c0fe7af862d6b15a9169290ea82bf9ac96e31d7c9e64",
+  "bytes": 27184,
+  "version": "0.0.3~homeflow1",
+  "full_list_extract": true,
+  "root_ownership": true,
+  "scoped_filter": {
+    "Filter": {
+      "Executables": [
+        "SpringBoard",
+        "CarPlay",
+        "CarPlayApp"
+      ],
+      "Bundles": [
+        "com.apple.springboard",
+        "com.apple.CarPlay",
+        "com.apple.CarPlayApp"
+      ]
+    }
+  },
+  "new_tracer_and_exporter_markers": true,
+  "embedded_signature_presence": true,
+  "signature_limit": "Static superblob presence; CI ldid entitlement extraction also passed. No device hook/capture proof.",
+  "device_tested": false,
+  "result": "PASS"
+}
