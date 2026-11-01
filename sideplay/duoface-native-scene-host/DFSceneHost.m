@@ -132,6 +132,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @property(nonatomic) BOOL layingOutScene;
 @property(nonatomic) BOOL committingSceneGeometry;
 @property(nonatomic) NSUInteger tries;
+@property(nonatomic) BOOL fastInitialPolling;
 @property(nonatomic) NSUInteger sceneGeneration;
 @property(nonatomic,weak) id policySceneHandle;
 @property(nonatomic,weak) id policyDeviceController;
@@ -379,7 +380,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
         [self.appController didMoveToParentViewController:parent];
         [self.appController endAppearanceTransition];
         DFSceneLog(@"mode-2-requested",self.bundleID,NSStringFromCGRect(self.bounds));
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:(self.fastInitialPolling?0.10:0.35) target:self
                   selector:@selector(pollScene:) userInfo:nil repeats:YES];
         [self pollScene:self.timer];
     } @catch (NSException *e) {
@@ -715,6 +716,14 @@ static NSInteger DFObservedSceneForeground(id scene) {
                 [self registerOwnedOrientationForDeviceController:nil];
                 [self layoutScene];
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
+                 // Revert to the previous low-rate heartbeat after the first true ready.
+                 // Scene liveness and ownership gates remain unchanged.
+                 if(self.fastInitialPolling && self.timer && self.timer.timeInterval<0.34) {
+                     [self.timer invalidate];
+                     self.timer=[NSTimer scheduledTimerWithTimeInterval:0.35 target:self
+                                  selector:@selector(pollScene:) userInfo:nil repeats:YES];
+                     DFSceneLog(@"qa160-fast-initial-probe-complete",self.bundleID,@"0.10s-to-0.35s");
+                 }
                 // Record actual scene-ready usage once per observed hosting generation.
                 // No changes to the immutable .92 logo Chrome code or UI scene slots.
                 if(self.bundleID.length && !DFRecordReadyAppHabit(self.bundleID))
@@ -896,6 +905,13 @@ static NSInteger DFObservedSceneForeground(id scene) {
         if (error) *error=DFSceneError(106,e.reason);
         return nil;
     }
+}
+- (void)setFastInitialPolling:(BOOL)fast forHostedView:(UIView *)view {
+    if(!NSThread.isMainThread || !view)return;
+    DFSceneSurface *surface=(DFSceneSurface *)view;
+    if(![surface isKindOfClass:DFSceneSurface.class] || surface.started || surface.stopped ||
+       surface.window || self.live[surface.bundleID]!=surface)return;
+    surface.fastInitialPolling=fast;
 }
 - (NSString *)bundleIDForHostedView:(UIView *)view {
     if (![view isKindOfClass:DFSceneSurface.class])return nil;
