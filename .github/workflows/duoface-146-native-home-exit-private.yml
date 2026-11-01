@@ -9,6 +9,10 @@ on:
       - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
       - 'sideplay/duoface-native-scene-host/DFHome145Consent.h'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DFSoloPill157.h'
+      - 'sideplay/duoface-native-scene-host/DFSoloPickerCarPlay157.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa157_solo_owned_pill.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa153_phone_foreground_eviction.py'
       - 'sideplay/duoface-native-scene-host/DFNativeDashboardContext.h'
       - 'sideplay/duoface-native-scene-host/DFNativeHomeExitPolicy.h'
       - 'sideplay/duoface-native-scene-host/tests/native_dashboard_context_runtime.m'
@@ -90,6 +94,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa157_solo_owned_pill.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_bridged_content_window.py' -v
