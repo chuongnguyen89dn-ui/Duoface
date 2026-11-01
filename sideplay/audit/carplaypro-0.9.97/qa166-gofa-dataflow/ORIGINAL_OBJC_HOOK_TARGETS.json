@@ -1220,5 +1220,67 @@
       }
     }
   ],
-  "raw_pointer_refs_to_four_callbacks": []
+  "raw_pointer_refs_to_four_callbacks": [],
+  "original_candidate_hook_tables": {
+    "0x5d4f8": {
+      "encoded": "0x100000000405b8",
+      "low32": "0x405b8",
+      "section": "__const"
+    },
+    "0x5d500": {
+      "encoded": "0x10000000040618",
+      "low32": "0x40618",
+      "section": "__const"
+    },
+    "0x5d508": {
+      "encoded": "0x10000000040678",
+      "low32": "0x40678",
+      "section": "__const"
+    },
+    "0x5d510": {
+      "encoded": "0x300000000406d8",
+      "low32": "0x406d8",
+      "section": "__const"
+    },
+    "0x5d410": {
+      "encoded": "0x0",
+      "low32": "0x0",
+      "section": "__const"
+    },
+    "0x5d418": {
+      "encoded": "0x21",
+      "low32": "0x21",
+      "section": "__const"
+    },
+    "0x5d420": {
+      "encoded": "0x10000000051538",
+      "low32": "0x51538",
+      "section": "__const"
+    },
+    "0x5d428": {
+      "encoded": "0x300000000594d8",
+      "low32": "0x594d8",
+      "section": "__const"
+    },
+    "0x6b968": {
+      "encoded": "0x0",
+      "low32": "0x0",
+      "section": "__swift56_hooks"
+    },
+    "0x6b970": {
+      "encoded": "0x0",
+      "low32": "0x0",
+      "section": "__swift56_hooks"
+    },
+    "0x6b978": {
+      "encoded": "0x0",
+      "low32": "0x0",
+      "section": "__swift56_hooks"
+    },
+    "0x6b980": {
+      "encoded": "0x0",
+      "low32": "0x0",
+      "section": "__swift56_hooks"
+    }
+  }
 }
