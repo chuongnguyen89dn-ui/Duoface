@@ -127,7 +127,7 @@ def candidate_selector_from_mov(ins,index,macho):
     for k in range(index-1,max(-1,index-8),-1):
         row=ins[k]
         if row["op"]!="mov":continue
-        found=re.fullmatch(r"x1, x(\\d+)",row["arg"])
+        found=re.fullmatch(r"x1, x(\d+)",row["arg"])
         if not found:continue
         origin=int(found[1])
         if origin==0:
