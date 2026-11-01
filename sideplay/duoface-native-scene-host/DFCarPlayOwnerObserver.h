@@ -146,7 +146,7 @@ static void DFOwnerHomeReceived(id receiver) {
     int soloStop=notify_post("com.duoface.nativehost.standalone144.stop");
     if(ourSolo)DF147Reset(@"native-home-stop");
     DFZLog([NSString stringWithFormat:
-       @"qa157-native-home-stop-chooser-notified own=%d status=%d",ourSolo,soloStop]);
+       @"qa146-native-home-standalone-stop-notified own=%d status=%d",ourSolo,soloStop]);
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
     NSString *session=pulse[@"Session"];
     id stamp=pulse[@"Timestamp"];
