@@ -8,10 +8,16 @@ import argparse, bisect, collections, gzip, json, re
 from pathlib import Path
 
 PIVOTS={
-    "GOFA_speed_export":254860,
-    "GOFA_speed_Swift_wrapper":254864,
-    "GOFA_alert_export":256316,
-    "GOFA_alert_Swift_wrapper":256320,
+    "GOFA_speed_callback":0x3d468,
+    "GOFA_alert_callback":0x3cfb4,
+    "GOFA_speed_export":0x3e38c,
+    "GOFA_speed_Swift_wrapper":0x3e390,
+    "GOFA_alert_export":0x3e93c,
+    "GOFA_alert_Swift_wrapper":0x3e940,
+    "Original_Swift_hook_table_wrapper_0":0x405b8,
+    "Original_Swift_hook_table_wrapper_1":0x40618,
+    "Original_Swift_hook_table_wrapper_2":0x40678,
+    "Original_Swift_hook_table_wrapper_3":0x406d8,
 }
 INSN=re.compile(r"^([0-9a-fA-F]{16})\s+[0-9a-fA-F]{8}\s+([a-z.]+)\s*(.*)$")
 BRANCH=re.compile(r"^#0x([0-9a-fA-F]+)\b")
