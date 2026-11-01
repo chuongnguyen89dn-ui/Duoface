@@ -79,3 +79,21 @@ Audit đã ghi nhận **94 file payload + 3 file control**, 115 entry (bao gồm
 - **Không triển khai lại** licensing, activation, khóa bản quyền hoặc sao chép mã/nhị phân độc quyền sang DuoFace độc lập. Khi học kiến trúc, chỉ dùng hành vi có bằng chứng làm yêu cầu để tự triển khai mã riêng.
 
 **Mốc cập nhật hồ sơ:** 2026-11-01 (Asia/Ho_Chi_Minh), dựa trên dữ liệu và CI đã xác minh ở các nguồn liên kết; không có build mới hay Sileo release nào được thực hiện trong lần lập hồ sơ này.
+
+## 7. Có tách lớp giấy phép ra khỏi tính năng không? — phân tích kiến trúc, không sửa DEB
+
+**Kết luận ở mức static:** không có căn cứ để coi licensing là một `CPSActivation.app` độc lập có thể tháo bỏ mà phần HUD/nguồn dữ liệu vẫn hoạt động. Dấu vết xác thực giấy phép được nhúng **trong cả hai dylib chức năng**, chứ không chỉ tại app kích hoạt/Preferences.
+
+| Binary thực tế | Evidence trích đúng slice arm64 |
+|---|---|
+| `macho/001-CPSActivation-arm64.{section-strings,symbols}.json` | UI/QR/key/trial, `offlineLicense`, `UniqueDeviceID`, `expires_at`, import `_SecKeyVerifySignature` |
+| `macho/009-CPSpeedPrefs-arm64.{section-strings,symbols}.json` | Kích hoạt từ Settings, license offline và import `_SecKeyVerifySignature` |
+| `macho/005-SourceLifecycle.dylib-arm64.{section-strings,symbols}.json` | Tweak hook SpringBoard/quản lý app nguồn có `offlineLicense`, `licenseClockHighWater`, `UniqueDeviceID`, `expires_at`, import `_SecKeyCreateWithData`, `_SecKeyVerifySignature`, `_kSecKeyAlgorithmECDSASignatureMessageX962SHA256` |
+| `macho/007-SpeedAlerts.dylib-arm64.{section-strings,symbols}.json` | Tweak lấy dữ liệu/vẽ HUD có `licenseValid`, `offlineLicense`, `licenseClockHighWater`, `UniqueDeviceID`, `expires_at`, và cùng các import xác thực chữ ký ECDSA |
+| `macho/003-MediaDeclaration.dylib-arm64.section-strings.json` | Không thấy các token license tương đương trong section strings đã kiểm; **không có nghĩa không phụ thuộc gián tiếp** vào thành phần khác |
+
+**Điều đã biết:** ít nhất 4/5 Mach-O có dấu vết license; riêng `SourceLifecycle` và `SpeedAlerts` chứa dấu vết license trong phần xử lý chức năng thực tế. `SecKeyVerifySignature` là symbol import trong những file trên; `licenseValid` là chuỗi trong `SpeedAlerts`. Cần kiểm chứng data flow/control flow và runtime để biết ràng buộc được thực thi ở điểm nào, ra sao và ảnh hưởng đến từng tính năng. **Không khẳng định đã chứng minh một nhánh chặn license hay bản tháo license chạy được.** Không thử xóa app, sửa dylib, can thiệp vào kích hoạt hoặc giấy phép bên thứ ba.
+
+**So với DuoNavi:** có một điểm chung về mặt rủi ro kỹ thuật: lớp bản quyền có thể nằm trong nhiều thành phần nhị phân, không chỉ màn hình nhập key. Chưa có đối chiếu call graph license giữa cả hai DEB để khẳng định chúng dùng cùng một kiến trúc/gate. Đối với DuoFace độc lập, lựa chọn an toàn là **tái triển khai riêng các chức năng HUD/cảnh báo/lifecycle từ mô tả hành vi và API được phép**, không lấy nguyên binary proprietary rồi loại bỏ license. Nếu cần nghiên cứu sâu, chỉ phân tích call graph đọc-only, lưu chứng cứ theo slice/offset và không giả định kết quả runtime.
+
+**Thời điểm xác nhận:** 2026-11-01; đối chiếu tệp JSON static đã được giữ trên `Duoface/main` từ run `41292790813`; không có sửa source, build DEB, device test hoặc phát hành Sileo trong lần rà soát này.
