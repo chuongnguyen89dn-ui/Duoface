@@ -1,3 +1,13 @@
+## Log24 upload triage — confirmed ALL four uploaded files (2026-11-01)
+
+In response to “Thì những log mới đó còn j?”, re-read actual latest `main/sideplay/log` and uploader commit `2a5d39d8f3de874d42192894868caa61941e25b1` (2026-10-31 23:58 UTC = 2026-11-01 06:58 ICT). **Exactly four new path entries** in the commit:
+1. `DuoFaceAudit 24.txt` — **new** unique 5,083,061-byte device log, blob `1f21a2095bdcd735e3c24fa7df0ef122d58cb629`, exported 06:56:59 ICT. Detailed analysis in `sideplay/audit/qa155-vehicle-gate-20261101/QA155_LOG24_SAFARI_VLC_VERDICT_20261101.md`.
+2. `Crash-0-SpringBoard.diskwrites_resource-2026-10-31-175140 2.ips` — **exact duplicate** (blob `a0f53ba8c5ed44bdbc8d40fd4d83e9d6fe52e067`) of same original filename without ` 2`.
+3. `Crash-1-CarPlay-2026-10-31-101825 2.ips` — **exact duplicate** (blob `e0a4648657ffa02f8933a21f839a3b7faaec1976`) of no-` 2` original.
+4. `Crash-2-CarPlay-2026-10-31-101814 2.ips` — **exact duplicate** (blob `60e2069ff3ec6597ab755b91fde5f6799123ba78`) of no-` 2` original.
+
+Hence the last upload brought **one actual new log** and **three copied reports, not three newly occurring crashes**. In the latest session window: 11 launch requests, 7 owned scenes, 7 `qa147-native-dock-active` events (no screen parity proof), 4 attach exceptions (YouTube twice, ChatGPT and Gemini), 0 exact Safari/VLC bundle IDs, 0 QA155 app-side ACK. Safari source policy contradiction confirmed from signed QA155. **Do not ask user to upload the already-existing Log24 again.** Another export is only needed if the VLC test occurred after 06:56:59 ICT or the existing export failed to capture the selection; do not assert which without evidence.
+
 ## QA155 — PHẢN HỒI THỬ THIẾT BỊ / LOG24: SAFARI BỊ CHẶN Ở MÃ, CHƯA CÓ LOG VLC — 2026-11-01
 
 **USER:** “Đưa safari lên carplay ko đc. Đã test vlc. Check log đi.” Đây là phản hồi mới sau khi QA155 phát hành nguồn Sileo cũ. Safari **FAIL do người dùng báo**, VLC **đã thử nhưng chưa có kết quả thành/bại cụ thể**.
