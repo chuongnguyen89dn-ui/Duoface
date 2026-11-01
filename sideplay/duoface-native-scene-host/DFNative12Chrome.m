@@ -8,6 +8,7 @@
 #import "DFNative12MenuHeader.h"
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
+#import "speed8/DFNative8SpeedHUDView.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerVC.h"
 #import "DFSlotWorkspacePolicy.h"
@@ -290,6 +291,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
+@property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
 @property(nonatomic,strong) NSMutableArray<UIView *> *appSceneContainers;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
 @property(nonatomic,strong) NSMutableArray *pendingScenes;
@@ -1568,6 +1570,44 @@ static void DFCLog(NSString *text) {
           [UIColor colorWithWhite:1 alpha:.25]).CGColor;
         v.layer.cornerRadius=10;
     }
+    [self refreshGOFASpeedHUD162];
+}
+- (void)refreshGOFASpeedHUD162 {
+    // The speed bubble belongs to a verified, visible GOFA pane only.
+    // Never create another external UIWindow or cover the native Dock/Home.
+    UIWindow *ownerWindow=nil;
+    if(!self.startupActive && self.appSceneWindows.count==4 &&
+       self.hostedScenes.count==4 && self.sceneHandleReady.count==4){
+        DFSceneHost *host=[DFSceneHost sharedHost];
+        for(NSUInteger i=0;i<4;i++){
+            if(![self.sceneHandleReady[i] boolValue])continue;
+            id view=self.hostedScenes[i];
+            UIWindow *window=self.appSceneWindows[i];
+            if(![view isKindOfClass:UIView.class] || !window || window.hidden)continue;
+            NSString *bundle=[host bundleIDForHostedView:(UIView *)view];
+            if([bundle isEqualToString:@"com.lumi.GOFA"] &&
+               !window.rootViewController.view.hidden){
+                ownerWindow=window;
+                break;
+            }
+        }
+    }
+    if(!ownerWindow){
+        [self.gofaSpeedHUD removeFromSuperview];
+        self.gofaSpeedHUD.ownerWindow=nil;
+        return;
+    }
+    UIView *root=ownerWindow.rootViewController.view;
+    if(!root || root.bounds.size.width<110 || root.bounds.size.height<50)return;
+    if(!self.gofaSpeedHUD)
+        self.gofaSpeedHUD=[[DFNative8SpeedHUDView alloc] initWithFrame:
+                           CGRectMake(0,0,104,46)];
+    if(self.gofaSpeedHUD.superview!=root){
+        [self.gofaSpeedHUD removeFromSuperview];
+        self.gofaSpeedHUD.ownerWindow=ownerWindow;
+        [root addSubview:self.gofaSpeedHUD];
+        [self.gofaSpeedHUD restoreSavedPosition];
+    }
 }
 - (void)pillPressed:(UIButton *)sender {
     if(sender.tag<0 || sender.tag>=DFSlotCountForPreset(self.preset))return;
@@ -2336,6 +2376,9 @@ static void DFCLog(NSString *text) {
     // divider/menu controls drawn over CarPlay Home during that delay.
     [self.dividerLogo.layer removeAnimationForKey:@"dfNative12GripPulse"];
     [self hideAllExternalWindowsImmediately];
+    [self.gofaSpeedHUD removeFromSuperview];
+    self.gofaSpeedHUD.ownerWindow=nil;
+    self.gofaSpeedHUD=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
     [[DFSceneHost sharedHost] stopAllHosts];
     for(UIWindow *w in self.windows)w.rootViewController=nil;
