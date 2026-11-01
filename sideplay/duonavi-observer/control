@@ -1,9 +1,9 @@
 Package: com.duoface.qa.duonaviobserver
-Name: DuoNavi Observer (Home Flow)
-Version: 0.0.3~homeflow1
+Name: DuoNavi Observer (Bridge Owner Readback)
+Version: 0.0.4~ownerflow1
 Architecture: iphoneos-arm64
 Section: Utilities
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), ellekit | mobilesubstrate
-Description: Observe original DuoNavi and native CarPlay Home call order with typed exact-ABI forwarding, dashboard/workspace/Home/Dock state and visible controllers. Standalone iPhone export. No bridge policy, license or navigation changes. Test one active bridge at a time.
+Description: Observe actual original bridge factory return class, manager-owned app/window, picker slot, native Home and Dock with exact-ABI forwarding. Standalone iPhone export; never changes bridge policy, license or navigation. Test only one active bridge.
