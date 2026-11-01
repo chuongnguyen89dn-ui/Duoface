@@ -17,8 +17,8 @@ class Speed8FullContent164(unittest.TestCase):
         cls.build=(ROOT/"build.sh").read_text()
 
     def test_one_integrated_duoface_package(self):
-        self.assertIn('VERSION="0.0.165~nativegofahome1"',PACK)
-        self.assertIn("0.1.165~nativegofahome1",self.build)
+        self.assertIn('VERSION="0.0.166~trafficnavprobe1"',PACK)
+        self.assertIn("0.1.166~trafficnavprobe1",self.build)
         self.assertIn("speed8/DFNative8SpeedHUDView.mm",self.build)
         self.assertIn("DFSpeedNativeOverlay163.mm",self.build)
         self.assertNotIn("com.carplaypro.speed",self.build)
