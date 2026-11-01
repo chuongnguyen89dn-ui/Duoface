@@ -1,3 +1,18 @@
+# Current diagnostic candidate: 0.0.4~ownerflow1 — genuine original bridge owner/class/picker proof
+
+**Scope: instrumentation only, not DuoFace product fix.** Adds three exact-ABI observational forwarding hooks to the existing observer: `CBBridgeManager.appForBundleIdentifier:frame:` captures the real returned host **class/identity** while preserving original CGRect, bundle and returned object; `CBBridgeManager.showAppPickerForSlot:` captures actual signed picker slot invocation; `CBBridgeManager.deactivateCurrentApp` captures teardown boundaries. SpringBoard manager snapshots additionally record dynamically ABI-gated `currentApp` + `window` getters, bundle identities and optional `rootWindow` getter and visibility. If any getter ABI is absent, reports `manager-getter-abi-missing` or `rootWindowGetter=false`; **does not** guess or dereference any private ivar or execute any license-related code. No user content, tokens, screenshots, or key presses are captured. Same selective original CarPlay/SpringBoard filter, same package ID, **new version**, no silent replacement of 0.0.3 artifact.
+
+Evidence pin: genuine original DuoNavi 1.0.4 `DuoNaviDashboard.dylib` SHA256 `44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15`; verified selector ABI `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24` for the factory and `v24@0:8q16` for picker. Static original factory has three branches to `CBBridgedPortalApp`, `CBBridgedSplitApp`, `CBBridgedUIApp`, and **both SplitApp and ordinary UIApp have pill UI**. So **never** classify current host based on 3-dot appearance or `isSplit=false` alone. This diagnostic records actual instantiated class only when the factory really executes.
+
+**On-device evidence procedure when signed and published via existing Sileo source**:
+1. Do not load original DuoNavi and active DuoFace at once. Select legally owned original DuoNavi on iPhone X rootless iOS16.7.16, install/update the separate **DuoNavi Observer** with Sileo only, and respring. No Filza.
+2. While parked, use original DuoNavi on CarPlay to launch **one** unsupported app (e.g. YouTube), open the *original* 3-dot menu and select app picker; then use the actual CarPlay Home. Repeat with a second unsupported app; test native Music/Calendar separately.
+3. In observer iPhone app tap the correct **Kết quả: về trang chọn app** or **Kết quả: về Home CarPlay** marker for each actual outcome (the default log does not know the pixel-level destination). Export TXT through share; upload/commit that log to `sideplay/log` in the DuoFace project repo. Include scene/owner observation, `factory-return` host type, `showAppPickerForSlot:` actual entry and `bridge_owner` snapshot. Physical observations are **unverified until that log is received**.
+
+Previous observer3 export is historical and does not contain these new fields; no inferences from the new source may be attributed to the previous device log. GitHub Mac build/unit tests are not equivalent to on-car validation. Signed observer packages must remain in the same DuoFace project repo; Sileo publisher remains the preexisting `carplaydsp` only and must never be recreated.
+
+---
+
 # Current install candidate: 0.0.3~homeflow1 — original Home call-flow measurement
 
 Updates existing DuoNavi Observer package/app in SAME existing Sileo source. Old metadata sampler cannot answer actual Home dispatch. This version uses exact-ABI observational hooks; it is not a no-hook sampler. Every wrapper forwards original receiver/selector/arguments once, propagates original exceptions, passes completion blocks unchanged and never invokes them. No vendor/license code or payload.
