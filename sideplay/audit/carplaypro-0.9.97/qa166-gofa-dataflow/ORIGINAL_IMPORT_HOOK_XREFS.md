@@ -106,7 +106,7 @@ which GOFA method was hooked or which traffic data fields are available.
 ## Original GOFA hook install / callback machine-code excerpts
 These windows contain the **actual** address/loading sequence for dlsym and MSHookFunction.
 
-### GOFA candidate dlsym + MSHookFunction registration `0x392f0..`0x39454
+### AudioQueue monitoring hooks (NOT GOFA model callbacks) `0x392f0..`0x39454
 ```text
 00000000000392f0	350100f0	adrp	x21, #0x60000
 00000000000392f4	b5a22e91	add	x21, x21, #0xba8
