@@ -31,6 +31,7 @@
 @property(nonatomic,assign) CGFloat visualOpacity;
 @property(nonatomic,assign) BOOL displayLimit;
 @property(nonatomic,assign) NSInteger selectedSource;
+@property(nonatomic,assign) CGPoint floatingCompactCenter;
 - (void)pan:(UIPanGestureRecognizer *)recognizer;
 - (void)restoreSavedPosition;
 - (void)tick:(NSTimer *)timer;
@@ -45,6 +46,8 @@
 - (void)savePosition;
 - (CGPoint)dfDisplayCenter;
 - (void)dfSetDisplayCenter:(CGPoint)center;
+- (void)dfExpandFloatingSettings;
+- (void)dfCollapseFloatingSettings;
 @end
 
 static CGRect DFAllowedArea(UIView *view);
@@ -320,6 +323,11 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     self.bounds=(CGRect){CGPointZero,size};
     self.alpha=self.visualOpacity;
     [self setNeedsLayout];
+    if(self.floatingWindowMode && self.ownerWindow && self.settingsPanel) {
+        CGSize windowSize=self.ownerWindow.bounds.size;
+        self.frame=CGRectMake((windowSize.width-size.width)*0.5,0,size.width,size.height);
+        return;
+    }
     if(self.floatingWindowMode && self.ownerWindow) {
         UIWindow *w=self.ownerWindow;
         CGRect frame=w.frame;
@@ -340,14 +348,46 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
         default:return @"Auto";
     }
 }
+- (void)dfExpandFloatingSettings {
+    if(!self.floatingWindowMode || !self.ownerWindow)return;
+    CGRect area=DFAllowedArea(self);
+    if(CGRectIsEmpty(area))return;
+    self.floatingCompactCenter=[self dfDisplayCenter];
+    CGSize size=CGSizeMake(MIN(320,area.size.width),MIN(221,area.size.height));
+    CGPoint center=DFClampCenter(self.floatingCompactCenter,area,size);
+    UIWindow *w=self.ownerWindow;
+    w.frame=CGRectMake(center.x-size.width*0.5,center.y-size.height*0.5,
+                       size.width,size.height);
+    w.rootViewController.view.frame=(CGRect){CGPointZero,size};
+    self.frame=CGRectMake((size.width-self.bounds.size.width)*0.5,0,
+                          self.bounds.size.width,self.bounds.size.height);
+}
+- (void)dfCollapseFloatingSettings {
+    if(!self.floatingWindowMode || !self.ownerWindow)return;
+    CGSize size=self.bounds.size;
+    CGRect area=DFAllowedArea(self);
+    CGPoint center=DFClampCenter(self.floatingCompactCenter,area,size);
+    UIWindow *w=self.ownerWindow;
+    w.frame=CGRectMake(center.x-size.width*0.5,center.y-size.height*0.5,
+                       size.width,size.height);
+    w.rootViewController.view.frame=(CGRect){CGPointZero,size};
+    self.frame=(CGRect){CGPointZero,size};
+}
 - (void)showSettings:(UILongPressGestureRecognizer *)recognizer {
     if(recognizer.state!=UIGestureRecognizerStateBegan || !self.superview)return;
-    if(self.settingsPanel){[self.settingsPanel removeFromSuperview];self.settingsPanel=nil;return;}
+    if(self.settingsPanel){
+        [self.settingsPanel removeFromSuperview];self.settingsPanel=nil;
+        [self dfCollapseFloatingSettings];
+        return;
+    }
     [self.dismissTarget removeFromSuperview];self.dismissTarget=nil;
+    [self dfExpandFloatingSettings];
     CGRect b=self.superview.bounds;
     const CGFloat w=fmin(320,MAX(220,b.size.width-12));
-    UIView *panel=[[UIView alloc] initWithFrame:CGRectMake((b.size.width-w)/2,
-                             (b.size.height-169)/2,w,169)];
+    UIView *panel=[[UIView alloc] initWithFrame:CGRectMake(
+        (b.size.width-w)/2,
+        self.floatingWindowMode ? MAX(48.0,b.size.height-169.0) : (b.size.height-169)/2,
+        w,169)];
     panel.backgroundColor=[UIColor colorWithWhite:0.08 alpha:0.97];
     panel.layer.cornerRadius=13;
     panel.layer.borderWidth=1;
@@ -411,7 +451,8 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
             [self restoreSavedPosition];
             break;
         }
-        case 8:[self.settingsPanel removeFromSuperview];self.settingsPanel=nil;return;
+        case 8:[self.settingsPanel removeFromSuperview];self.settingsPanel=nil;
+            [self dfCollapseFloatingSettings];return;
         default:return;
     }
     [self saveSettings];
