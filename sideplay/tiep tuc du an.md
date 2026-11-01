@@ -1,3 +1,9 @@
+## 2026-11-01 — USER CLARIFICATION: wrong Home navigation destination, return to app chooser
+
+USER explicitly corrects focus: unsupported/bridged app -> press Home -> jumps directly to CarPlay Home, INSTEAD OF returning to the app-selection page. Calendar/Music are user's reference for the expected exit. Required behavior is return to the app chooser/context, not merely hide standalone scene, receive restored ACK or repaint Dock. Retain user's distinct labels “Home CarPlay” vs “trang chọn app”; do not silently collapse both into “Home” or infer a specific Dashboard controller without observing it.
+
+This is USER-REPORTED behavior/acceptance, not a newly measured native Calendar/Music trace. Log25's8 stopped responses and Dock restores do NOT establish the required destination; prior analysis of49–160ms cleanup is secondary and cannot substitute for a navigation fix. Correct next investigation must identify the prior chooser/navigation owner and actual destination on native exit vs standalone exit. Preserve original Apple Home forwarding unless original-route evidence justifies the precise manager/navigation integration. No guessed callback suppression or claim that Dock restore alone fixes it. Current public nativebridge3 remains rejected for this navigation requirement; no runtime/build/release change in this clarification turn.
+
 ## 2026-11-01 — Log25 exit comparison: real app ACK now observed; Calendar/Music identity missing
 
 USER asks compare Calendar/Music exits with non-CarPlay apps. Read actual main Log25 (export09:51:19ICT), main7f69f521a69005e0b9bdcd4531a297f2151e6fb6, blob8e452cc8c1abc60cc85edccf557de2e1f86dca95 /5394970bytes, SHA25646270f9867ca55c51f26ad8bbcf1a731b2c16fd6fe276442e0c4bb65f7aad9eb. Latest receiver session09:47:28.270ICT. Re-read central ZIP01/02/05 and fresh feature source/native original-route audit.
