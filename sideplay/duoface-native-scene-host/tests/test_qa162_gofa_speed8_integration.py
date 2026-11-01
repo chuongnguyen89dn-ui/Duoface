@@ -20,8 +20,8 @@ class QA162GofaSpeed8(unittest.TestCase):
 
     def test_single_package_identity_and_version(self):
         self.assertIn('NAME="com.duoface.jb.embedded"',self.pack)
-        self.assertIn('VERSION="0.0.162~gofaspeed8test1"',self.pack)
-        self.assertIn("0.1.162~gofaspeed8test1",self.build)
+        self.assertIn('VERSION="0.0.163~globalspeed8test1"',self.pack)
+        self.assertIn("0.1.163~globalspeed8test1",self.build)
         self.assertIn("DFGofaSpeedSource162.dylib",self.build)
         self.assertIn("speed8/DFNative8SpeedHUDView.mm",self.build)
         self.assertIn("speed8/DFSpeedTransport.mm",self.build)
@@ -38,9 +38,9 @@ class QA162GofaSpeed8(unittest.TestCase):
             self.assertNotIn(forbidden,self.publisher)
 
     def test_verified_scene_owner_and_tap_boundary(self):
-        self.assertIn("refreshGOFASpeedHUD162",self.chrome)
-        self.assertIn('[bundle isEqualToString:@"com.lumi.GOFA"]',self.chrome)
-        self.assertIn("self.sceneHandleReady[i]",self.chrome)
+        self.assertIn("refreshGlobalSpeedHUD163",self.chrome)
+        self.assertNotIn('[bundle isEqualToString:@"com.lumi.GOFA"]',self.chrome)
+        self.assertIn("self.appSceneWindows.count==4",self.chrome)
         self.assertIn("[self.gofaSpeedHUD removeFromSuperview]",self.chrome)
         self.assertIn("self.gofaSpeedHUD.ownerWindow=nil",self.chrome)
         self.assertIn("DFSpeedHUDReadBest(&sample)",self.speed)
