@@ -41,8 +41,20 @@
 }
 - (void)checkAuthorization:(NSTimer *)timer {
     (void)timer;
-    if (![CLLocationManager locationServicesEnabled]) return;
+    BOOL services=[CLLocationManager locationServicesEnabled];
     CLAuthorizationStatus status=self.manager.authorizationStatus;
+    static NSInteger previousStatus=-999;
+    static NSTimeInterval lastDiagnostic=0;
+    NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+    if(previousStatus!=status || now-lastDiagnostic>=30.0) {
+        NSLog(@"[DuoFaceSpeed8] GOFA GPS source status auth=%ld services=%d active=%d",
+              (long)status,services,self.started);
+        previousStatus=status;lastDiagnostic=now;
+    }
+    if(!services) {
+        if(self.started){ [self.manager stopUpdatingLocation];self.started=NO; }
+        return;
+    }
     BOOL allowed=(status==kCLAuthorizationStatusAuthorizedAlways ||
                   status==kCLAuthorizationStatusAuthorizedWhenInUse);
     if(allowed && !self.started) {
@@ -64,14 +76,34 @@
     CLLocation *location=locations.lastObject;
     if(!location) return;
     NSTimeInterval age=-location.timestamp.timeIntervalSinceNow;
-    if(!isfinite(age) || age < -2.0 || age > 8.0 ||
-       !isfinite(location.speed) || location.speed < 0.0 ||
-       !isfinite(location.horizontalAccuracy) ||
-       location.horizontalAccuracy < 0.0 || location.horizontalAccuracy > 100.0) return;
+    BOOL fresh=(isfinite(age) && age>=-2.0 && age<=8.0);
+    BOOL speedValid=(isfinite(location.speed) && location.speed>=0.0);
+    BOOL accurate=(isfinite(location.horizontalAccuracy) &&
+                   location.horizontalAccuracy>=0.0 &&
+                   location.horizontalAccuracy<=100.0);
+    if(!fresh || !speedValid || !accurate) {
+        static NSTimeInterval lastInvalid=0;
+        NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+        if(now-lastInvalid>=30.0) {
+            NSLog(@"[DuoFaceSpeed8] GOFA GPS sample REJECTED fresh=%d speedValid=%d accuracyValid=%d",
+                  fresh,speedValid,accurate);
+            lastInvalid=now;
+        }
+        return;
+    }
     double kmh=location.speed*3.6;
     if(!isfinite(kmh) || kmh>400.0) return;
     NSInteger rounded=(NSInteger)lround(kmh);
-    if(DFSpeedHUDPublish(DFSpeedAppSourceGOFA,rounded,YES,0,NO)) {
+    BOOL posted=DFSpeedHUDPublish(DFSpeedAppSourceGOFA,rounded,YES,0,NO);
+    if(!posted) {
+        static NSTimeInterval lastPublishError=0;
+        NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+        if(now-lastPublishError>=30.0) {
+            NSLog(@"[DuoFaceSpeed8] GOFA GPS IPC publication FAILED");
+            lastPublishError=now;
+        }
+    }
+    if(posted) {
         static NSTimeInterval lastLog=0;
         NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
         if(now-lastLog>=30.0) {
