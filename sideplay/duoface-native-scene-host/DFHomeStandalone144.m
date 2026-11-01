@@ -818,7 +818,7 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
     ^(__unused int t){DF144Consume();});
   notify_register_dispatch(DF144StopNotify,&stopToken,dispatch_get_main_queue(),
     ^(__unused int t){
-     // QA159 physical Log26: QA158's df157ReturnHomeToPicker left a
+     // QA159 physical Log26: QA158's custom chooser left a
      // first-party picker window visibly covering Apple's native CarPlay Home.
      // Genuine Home must RELEASE the independent surface unconditionally.
      DF153PhoneRevoke();
