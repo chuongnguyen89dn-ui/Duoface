@@ -1,0 +1,600 @@
+{
+  "build_versions": [
+    {
+      "minos_raw": 983040,
+      "platform": 2,
+      "sdk_raw": 1180160,
+      "tools": 1
+    }
+  ],
+  "code_signature": {
+    "offset": 179312,
+    "sha256": "61f9fc54b8abce22912387ed7c2fce8e2d89b0b15540c09e8658083cdc128e18",
+    "size": 2816
+  },
+  "codesign_analysis": {
+    "bytes": 2816,
+    "magic": "0xfade0cc0",
+    "sha256": "61f9fc54b8abce22912387ed7c2fce8e2d89b0b15540c09e8658083cdc128e18",
+    "slots": [
+      {
+        "bytes": 1040,
+        "magic": "0xfade0c02",
+        "sha256": "d6539f891cdad8a2cc02a987bbcb53122a06c720ddbc6c1458a6a80fd9b5ce02",
+        "type": 0
+      },
+      {
+        "bytes": 148,
+        "magic": "0xfade0c01",
+        "sha256": "1db29b96f6eb597a04ad988c9d1ee414c6d2f57b098bee7db1ec0d90e605330b",
+        "type": 2
+      },
+      {
+        "bytes": 1592,
+        "magic": "0xfade0c02",
+        "sha256": "72720b4334e3eefd3c23f24d3b193f2dd403c6100c7238ecd767667b802adc5f",
+        "type": 4096
+      }
+    ],
+    "status": "present"
+  },
+  "cpusubtype": 0,
+  "cputype": 16777228,
+  "dylibs": [
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libobjc.A.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Security.framework/Security"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/PhotosUI.framework/PhotosUI"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreImage.framework/CoreImage"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libSystem.B.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+    }
+  ],
+  "endian": "<",
+  "fat_container_sha256": "8b57a9d84b3c1f0bfa3f2b0894cfffa30574cc413d79f964e64401e50c1a3996",
+  "filetype": 2,
+  "flags": 2097285,
+  "function_starts_record": {
+    "offset": 169824,
+    "size": 304
+  },
+  "kind": "macho64",
+  "load_commands": [
+    {
+      "cmd": "0x19",
+      "index": 0,
+      "offset": 32,
+      "size": 72
+    },
+    {
+      "cmd": "0x19",
+      "index": 1,
+      "offset": 104,
+      "size": 1032
+    },
+    {
+      "cmd": "0x19",
+      "index": 2,
+      "offset": 1136,
+      "size": 792
+    },
+    {
+      "cmd": "0x19",
+      "index": 3,
+      "offset": 1928,
+      "size": 712
+    },
+    {
+      "cmd": "0x19",
+      "index": 4,
+      "offset": 2640,
+      "size": 72
+    },
+    {
+      "cmd": "0x80000034",
+      "index": 5,
+      "offset": 2712,
+      "size": 16
+    },
+    {
+      "cmd": "0x80000033",
+      "index": 6,
+      "offset": 2728,
+      "size": 16
+    },
+    {
+      "cmd": "0x2",
+      "index": 7,
+      "offset": 2744,
+      "size": 24
+    },
+    {
+      "cmd": "0xb",
+      "index": 8,
+      "offset": 2768,
+      "size": 80
+    },
+    {
+      "cmd": "0xe",
+      "index": 9,
+      "offset": 2848,
+      "size": 32
+    },
+    {
+      "cmd": "0x1b",
+      "index": 10,
+      "offset": 2880,
+      "size": 24
+    },
+    {
+      "cmd": "0x32",
+      "index": 11,
+      "offset": 2904,
+      "size": 32
+    },
+    {
+      "cmd": "0x2a",
+      "index": 12,
+      "offset": 2936,
+      "size": 16
+    },
+    {
+      "cmd": "0x80000028",
+      "index": 13,
+      "offset": 2952,
+      "size": 24
+    },
+    {
+      "cmd": "0x2c",
+      "index": 14,
+      "offset": 2976,
+      "size": 24
+    },
+    {
+      "cmd": "0xc",
+      "index": 15,
+      "name": "/usr/lib/libobjc.A.dylib",
+      "offset": 3000,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 16,
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation",
+      "offset": 3056,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 17,
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+      "offset": 3144,
+      "size": 96
+    },
+    {
+      "cmd": "0xc",
+      "index": 18,
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit",
+      "offset": 3240,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 19,
+      "name": "/System/Library/Frameworks/Security.framework/Security",
+      "offset": 3320,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 20,
+      "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation",
+      "offset": 3400,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 21,
+      "name": "/System/Library/Frameworks/PhotosUI.framework/PhotosUI",
+      "offset": 3488,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 22,
+      "name": "/System/Library/Frameworks/CoreImage.framework/CoreImage",
+      "offset": 3568,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 23,
+      "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences",
+      "offset": 3656,
+      "size": 96
+    },
+    {
+      "cmd": "0xc",
+      "index": 24,
+      "name": "/usr/lib/libSystem.B.dylib",
+      "offset": 3752,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 25,
+      "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio",
+      "offset": 3808,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 26,
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+      "offset": 3888,
+      "size": 88
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 27,
+      "offset": 3976,
+      "rpath": "/var/jb/Library/Frameworks",
+      "size": 40
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 28,
+      "offset": 4016,
+      "rpath": "/var/jb/usr/lib",
+      "size": 32
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 29,
+      "offset": 4048,
+      "rpath": "@loader_path/.jbroot/Library/Frameworks",
+      "size": 56
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 30,
+      "offset": 4104,
+      "rpath": "@loader_path/.jbroot/usr/lib",
+      "size": 48
+    },
+    {
+      "cmd": "0x26",
+      "index": 31,
+      "offset": 4152,
+      "size": 16
+    },
+    {
+      "cmd": "0x29",
+      "index": 32,
+      "offset": 4168,
+      "size": 16
+    },
+    {
+      "cmd": "0x1d",
+      "index": 33,
+      "offset": 4184,
+      "size": 16
+    }
+  ],
+  "ncmds": 34,
+  "path": "rootfs/var/jb/Applications/CPSActivation.app/CPSActivation",
+  "rpaths": [
+    "/var/jb/Library/Frameworks",
+    "/var/jb/usr/lib",
+    "@loader_path/.jbroot/Library/Frameworks",
+    "@loader_path/.jbroot/usr/lib"
+  ],
+  "sections": [
+    {
+      "addr": 4295000064,
+      "offset": 32768,
+      "section": "__text",
+      "segment": "__TEXT",
+      "size": 48364
+    },
+    {
+      "addr": 4295048428,
+      "offset": 81132,
+      "section": "__stubs",
+      "segment": "__TEXT",
+      "size": 660
+    },
+    {
+      "addr": 4295049088,
+      "offset": 81792,
+      "section": "__objc_stubs",
+      "segment": "__TEXT",
+      "size": 12160
+    },
+    {
+      "addr": 4295061248,
+      "offset": 93952,
+      "section": "__objc_methlist",
+      "segment": "__TEXT",
+      "size": 1924
+    },
+    {
+      "addr": 4295063184,
+      "offset": 95888,
+      "section": "__const",
+      "segment": "__TEXT",
+      "size": 304
+    },
+    {
+      "addr": 4295063488,
+      "offset": 96192,
+      "section": "__gcc_except_tab",
+      "segment": "__TEXT",
+      "size": 104
+    },
+    {
+      "addr": 4295063592,
+      "offset": 96296,
+      "section": "__ustring",
+      "segment": "__TEXT",
+      "size": 11472
+    },
+    {
+      "addr": 4295075064,
+      "offset": 107768,
+      "section": "__cstring",
+      "segment": "__TEXT",
+      "size": 2371
+    },
+    {
+      "addr": 4295077435,
+      "offset": 110139,
+      "section": "__objc_classname",
+      "segment": "__TEXT",
+      "size": 393
+    },
+    {
+      "addr": 4295077828,
+      "offset": 110532,
+      "section": "__objc_methname",
+      "segment": "__TEXT",
+      "size": 12678
+    },
+    {
+      "addr": 4295090506,
+      "offset": 123210,
+      "section": "__objc_methtype",
+      "segment": "__TEXT",
+      "size": 4430
+    },
+    {
+      "addr": 4295094936,
+      "offset": 127640,
+      "section": "__unwind_info",
+      "segment": "__TEXT",
+      "size": 704
+    },
+    {
+      "addr": 4295098368,
+      "offset": 131072,
+      "section": "__got",
+      "segment": "__DATA_CONST",
+      "size": 760
+    },
+    {
+      "addr": 4295099128,
+      "offset": 131832,
+      "section": "__const",
+      "segment": "__DATA_CONST",
+      "size": 1040
+    },
+    {
+      "addr": 4295100168,
+      "offset": 132872,
+      "section": "__cfstring",
+      "segment": "__DATA_CONST",
+      "size": 8256
+    },
+    {
+      "addr": 4295108424,
+      "offset": 141128,
+      "section": "__objc_classlist",
+      "segment": "__DATA_CONST",
+      "size": 80
+    },
+    {
+      "addr": 4295108504,
+      "offset": 141208,
+      "section": "__objc_protolist",
+      "segment": "__DATA_CONST",
+      "size": 64
+    },
+    {
+      "addr": 4295108568,
+      "offset": 141272,
+      "section": "__objc_imageinfo",
+      "segment": "__DATA_CONST",
+      "size": 8
+    },
+    {
+      "addr": 4295108576,
+      "offset": 141280,
+      "section": "__objc_arraydata",
+      "segment": "__DATA_CONST",
+      "size": 432
+    },
+    {
+      "addr": 4295109008,
+      "offset": 141712,
+      "section": "__objc_arrayobj",
+      "segment": "__DATA_CONST",
+      "size": 408
+    },
+    {
+      "addr": 4295109416,
+      "offset": 142120,
+      "section": "__objc_intobj",
+      "segment": "__DATA_CONST",
+      "size": 96
+    },
+    {
+      "addr": 4295114752,
+      "offset": 147456,
+      "section": "__objc_const",
+      "segment": "__DATA",
+      "size": 7744
+    },
+    {
+      "addr": 4295122496,
+      "offset": 155200,
+      "section": "__objc_selrefs",
+      "segment": "__DATA",
+      "size": 3448
+    },
+    {
+      "addr": 4295125944,
+      "offset": 158648,
+      "section": "__objc_classrefs",
+      "segment": "__DATA",
+      "size": 616
+    },
+    {
+      "addr": 4295126560,
+      "offset": 159264,
+      "section": "__objc_superrefs",
+      "segment": "__DATA",
+      "size": 64
+    },
+    {
+      "addr": 4295126624,
+      "offset": 159328,
+      "section": "__objc_ivar",
+      "segment": "__DATA",
+      "size": 116
+    },
+    {
+      "addr": 4295126744,
+      "offset": 159448,
+      "section": "__objc_data",
+      "segment": "__DATA",
+      "size": 800
+    },
+    {
+      "addr": 4295127544,
+      "offset": 160248,
+      "section": "__data",
+      "segment": "__DATA",
+      "size": 768
+    },
+    {
+      "addr": 4295128312,
+      "offset": 0,
+      "section": "__bss",
+      "segment": "__DATA",
+      "size": 64
+    }
+  ],
+  "segments": [
+    {
+      "fileoff": 0,
+      "filesize": 0,
+      "name": "__PAGEZERO",
+      "nsects": 0,
+      "vmaddr": 0,
+      "vmsize": 4294967296
+    },
+    {
+      "fileoff": 0,
+      "filesize": 131072,
+      "name": "__TEXT",
+      "nsects": 12,
+      "vmaddr": 4294967296,
+      "vmsize": 131072
+    },
+    {
+      "fileoff": 131072,
+      "filesize": 16384,
+      "name": "__DATA_CONST",
+      "nsects": 9,
+      "vmaddr": 4295098368,
+      "vmsize": 16384
+    },
+    {
+      "fileoff": 147456,
+      "filesize": 16384,
+      "name": "__DATA",
+      "nsects": 8,
+      "vmaddr": 4295114752,
+      "vmsize": 16384
+    },
+    {
+      "fileoff": 163840,
+      "filesize": 18288,
+      "name": "__LINKEDIT",
+      "nsects": 0,
+      "vmaddr": 4295131136,
+      "vmsize": 32768
+    }
+  ],
+  "sha256": "f4d2d1b3de989531a97f0173c64d134c7aeba3059fd7b4819515b82e675d5d0c",
+  "size": 182128,
+  "sizeofcmds": 4168,
+  "slice": {
+    "align_log2": 14,
+    "arch": "arm64",
+    "cpu": 16777228,
+    "slice_index": 0,
+    "slice_offset": 16384,
+    "slice_size": 182128,
+    "subtype": 0
+  },
+  "symtab": {
+    "nsyms": 203,
+    "stroff": 173976,
+    "strsize": 5336,
+    "symoff": 170128
+  },
+  "uuid": [
+    "4292d82a58bc3ee59ec008a68e57b8f7"
+  ]
+}

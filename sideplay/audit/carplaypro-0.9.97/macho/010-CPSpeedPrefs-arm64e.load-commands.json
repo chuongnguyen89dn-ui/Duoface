@@ -1,0 +1,541 @@
+{
+  "build_versions": [
+    {
+      "minos_raw": 983040,
+      "platform": 2,
+      "sdk_raw": 1180160,
+      "tools": 1
+    }
+  ],
+  "code_signature": {
+    "offset": 106224,
+    "sha256": "208c2cd76665159968d44ba2a0367c2d84a8fc5a1544bbd10f81ab5109019571",
+    "size": 1888
+  },
+  "codesign_analysis": {
+    "bytes": 1888,
+    "magic": "0xfade0cc0",
+    "sha256": "208c2cd76665159968d44ba2a0367c2d84a8fc5a1544bbd10f81ab5109019571",
+    "slots": [
+      {
+        "bytes": 679,
+        "magic": "0xfade0c02",
+        "sha256": "52bc7ff4791ef4afafb5be9141cd89b7512dd8aaef6629465be509435a331639",
+        "type": 0
+      },
+      {
+        "bytes": 148,
+        "magic": "0xfade0c01",
+        "sha256": "b8a352573ca1a84af9875ade576939ce591188f0b3cd8e45116e29b40c189d4c",
+        "type": 2
+      },
+      {
+        "bytes": 1015,
+        "magic": "0xfade0c02",
+        "sha256": "619868e681ff6d6c8388bf1bda27d6bee0665a4c97eab74f0e0b4129e87df548",
+        "type": 4096
+      }
+    ],
+    "status": "present"
+  },
+  "cpusubtype": 2147483650,
+  "cputype": 16777228,
+  "dylibs": [
+    {
+      "command": "0xd",
+      "name": "/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libobjc.A.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Security.framework/Security"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libSystem.B.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+    }
+  ],
+  "endian": "<",
+  "fat_container_sha256": "58c14ead069e69e872ccf2cc7936a15ec0f8a58b82534ad9170dcfb22ac8a136",
+  "filetype": 6,
+  "flags": 1048709,
+  "function_starts_record": {
+    "offset": 101368,
+    "size": 104
+  },
+  "kind": "macho64",
+  "load_commands": [
+    {
+      "cmd": "0x19",
+      "index": 0,
+      "offset": 32,
+      "size": 952
+    },
+    {
+      "cmd": "0x19",
+      "index": 1,
+      "offset": 984,
+      "size": 872
+    },
+    {
+      "cmd": "0x19",
+      "index": 2,
+      "offset": 1856,
+      "size": 712
+    },
+    {
+      "cmd": "0x19",
+      "index": 3,
+      "offset": 2568,
+      "size": 72
+    },
+    {
+      "cmd": "0xd",
+      "index": 4,
+      "name": "/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs",
+      "offset": 2640,
+      "size": 96
+    },
+    {
+      "cmd": "0x80000034",
+      "index": 5,
+      "offset": 2736,
+      "size": 16
+    },
+    {
+      "cmd": "0x80000033",
+      "index": 6,
+      "offset": 2752,
+      "size": 16
+    },
+    {
+      "cmd": "0x2",
+      "index": 7,
+      "offset": 2768,
+      "size": 24
+    },
+    {
+      "cmd": "0xb",
+      "index": 8,
+      "offset": 2792,
+      "size": 80
+    },
+    {
+      "cmd": "0x1b",
+      "index": 9,
+      "offset": 2872,
+      "size": 24
+    },
+    {
+      "cmd": "0x32",
+      "index": 10,
+      "offset": 2896,
+      "size": 32
+    },
+    {
+      "cmd": "0x2a",
+      "index": 11,
+      "offset": 2928,
+      "size": 16
+    },
+    {
+      "cmd": "0x2c",
+      "index": 12,
+      "offset": 2944,
+      "size": 24
+    },
+    {
+      "cmd": "0xc",
+      "index": 13,
+      "name": "/usr/lib/libobjc.A.dylib",
+      "offset": 2968,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 14,
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation",
+      "offset": 3024,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 15,
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+      "offset": 3112,
+      "size": 96
+    },
+    {
+      "cmd": "0xc",
+      "index": 16,
+      "name": "/System/Library/Frameworks/Security.framework/Security",
+      "offset": 3208,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 17,
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit",
+      "offset": 3288,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 18,
+      "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences",
+      "offset": 3368,
+      "size": 96
+    },
+    {
+      "cmd": "0xc",
+      "index": 19,
+      "name": "/usr/lib/libSystem.B.dylib",
+      "offset": 3464,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 20,
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+      "offset": 3520,
+      "size": 88
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 21,
+      "offset": 3608,
+      "rpath": "/var/jb/Library/Frameworks",
+      "size": 40
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 22,
+      "offset": 3648,
+      "rpath": "/var/jb/usr/lib",
+      "size": 32
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 23,
+      "offset": 3680,
+      "rpath": "@loader_path/.jbroot/Library/Frameworks",
+      "size": 56
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 24,
+      "offset": 3736,
+      "rpath": "@loader_path/.jbroot/usr/lib",
+      "size": 48
+    },
+    {
+      "cmd": "0x26",
+      "index": 25,
+      "offset": 3784,
+      "size": 16
+    },
+    {
+      "cmd": "0x29",
+      "index": 26,
+      "offset": 3800,
+      "size": 16
+    },
+    {
+      "cmd": "0x1d",
+      "index": 27,
+      "offset": 3816,
+      "size": 16
+    }
+  ],
+  "ncmds": 28,
+  "path": "rootfs/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs",
+  "rpaths": [
+    "/var/jb/Library/Frameworks",
+    "/var/jb/usr/lib",
+    "@loader_path/.jbroot/Library/Frameworks",
+    "@loader_path/.jbroot/usr/lib"
+  ],
+  "sections": [
+    {
+      "addr": 16384,
+      "offset": 16384,
+      "section": "__text",
+      "segment": "__TEXT",
+      "size": 17768
+    },
+    {
+      "addr": 34152,
+      "offset": 34152,
+      "section": "__auth_stubs",
+      "segment": "__TEXT",
+      "size": 672
+    },
+    {
+      "addr": 34848,
+      "offset": 34848,
+      "section": "__objc_stubs",
+      "segment": "__TEXT",
+      "size": 4992
+    },
+    {
+      "addr": 39840,
+      "offset": 39840,
+      "section": "__objc_methlist",
+      "segment": "__TEXT",
+      "size": 508
+    },
+    {
+      "addr": 40352,
+      "offset": 40352,
+      "section": "__const",
+      "segment": "__TEXT",
+      "size": 97
+    },
+    {
+      "addr": 40450,
+      "offset": 40450,
+      "section": "__ustring",
+      "segment": "__TEXT",
+      "size": 6292
+    },
+    {
+      "addr": 46742,
+      "offset": 46742,
+      "section": "__cstring",
+      "segment": "__TEXT",
+      "size": 1432
+    },
+    {
+      "addr": 48174,
+      "offset": 48174,
+      "section": "__objc_classname",
+      "segment": "__TEXT",
+      "size": 150
+    },
+    {
+      "addr": 48324,
+      "offset": 48324,
+      "section": "__objc_methname",
+      "segment": "__TEXT",
+      "size": 4818
+    },
+    {
+      "addr": 53142,
+      "offset": 53142,
+      "section": "__objc_methtype",
+      "segment": "__TEXT",
+      "size": 1775
+    },
+    {
+      "addr": 54920,
+      "offset": 54920,
+      "section": "__unwind_info",
+      "segment": "__TEXT",
+      "size": 288
+    },
+    {
+      "addr": 65536,
+      "offset": 65536,
+      "section": "__auth_got",
+      "segment": "__DATA_CONST",
+      "size": 344
+    },
+    {
+      "addr": 65880,
+      "offset": 65880,
+      "section": "__got",
+      "segment": "__DATA_CONST",
+      "size": 128
+    },
+    {
+      "addr": 66008,
+      "offset": 66008,
+      "section": "__const",
+      "segment": "__DATA_CONST",
+      "size": 592
+    },
+    {
+      "addr": 66600,
+      "offset": 66600,
+      "section": "__cfstring",
+      "segment": "__DATA_CONST",
+      "size": 4416
+    },
+    {
+      "addr": 71016,
+      "offset": 71016,
+      "section": "__objc_classlist",
+      "segment": "__DATA_CONST",
+      "size": 24
+    },
+    {
+      "addr": 71040,
+      "offset": 71040,
+      "section": "__objc_protolist",
+      "segment": "__DATA_CONST",
+      "size": 32
+    },
+    {
+      "addr": 71072,
+      "offset": 71072,
+      "section": "__objc_imageinfo",
+      "segment": "__DATA_CONST",
+      "size": 8
+    },
+    {
+      "addr": 71080,
+      "offset": 71080,
+      "section": "__objc_intobj",
+      "segment": "__DATA_CONST",
+      "size": 48
+    },
+    {
+      "addr": 71128,
+      "offset": 71128,
+      "section": "__objc_arraydata",
+      "segment": "__DATA_CONST",
+      "size": 32
+    },
+    {
+      "addr": 71160,
+      "offset": 71160,
+      "section": "__objc_arrayobj",
+      "segment": "__DATA_CONST",
+      "size": 48
+    },
+    {
+      "addr": 81920,
+      "offset": 81920,
+      "section": "__objc_const",
+      "segment": "__DATA",
+      "size": 2272
+    },
+    {
+      "addr": 84192,
+      "offset": 84192,
+      "section": "__objc_selrefs",
+      "segment": "__DATA",
+      "size": 1416
+    },
+    {
+      "addr": 85608,
+      "offset": 85608,
+      "section": "__objc_classrefs",
+      "segment": "__DATA",
+      "size": 280
+    },
+    {
+      "addr": 85888,
+      "offset": 85888,
+      "section": "__objc_superrefs",
+      "segment": "__DATA",
+      "size": 16
+    },
+    {
+      "addr": 85904,
+      "offset": 85904,
+      "section": "__objc_ivar",
+      "segment": "__DATA",
+      "size": 24
+    },
+    {
+      "addr": 85928,
+      "offset": 85928,
+      "section": "__objc_data",
+      "segment": "__DATA",
+      "size": 240
+    },
+    {
+      "addr": 86168,
+      "offset": 86168,
+      "section": "__data",
+      "segment": "__DATA",
+      "size": 384
+    },
+    {
+      "addr": 86552,
+      "offset": 0,
+      "section": "__bss",
+      "segment": "__DATA",
+      "size": 24
+    }
+  ],
+  "segments": [
+    {
+      "fileoff": 0,
+      "filesize": 65536,
+      "name": "__TEXT",
+      "nsects": 11,
+      "vmaddr": 0,
+      "vmsize": 65536
+    },
+    {
+      "fileoff": 65536,
+      "filesize": 16384,
+      "name": "__DATA_CONST",
+      "nsects": 10,
+      "vmaddr": 65536,
+      "vmsize": 16384
+    },
+    {
+      "fileoff": 81920,
+      "filesize": 16384,
+      "name": "__DATA",
+      "nsects": 8,
+      "vmaddr": 81920,
+      "vmsize": 16384
+    },
+    {
+      "fileoff": 98304,
+      "filesize": 9808,
+      "name": "__LINKEDIT",
+      "nsects": 0,
+      "vmaddr": 98304,
+      "vmsize": 16384
+    }
+  ],
+  "sha256": "6c2279b2680c3d73b39a55cee76f4605a59ce946bea14568ec0881a4731b3506",
+  "size": 108112,
+  "sizeofcmds": 3800,
+  "slice": {
+    "align_log2": 14,
+    "arch": "arm64e",
+    "cpu": 16777228,
+    "slice_index": 1,
+    "slice_offset": 131072,
+    "slice_size": 108112,
+    "subtype": 2147483650
+  },
+  "symtab": {
+    "nsyms": 109,
+    "stroff": 103624,
+    "strsize": 2592,
+    "symoff": 101472
+  },
+  "uuid": [
+    "8071b2ac970835da97e980ad23a8a004"
+  ]
+}

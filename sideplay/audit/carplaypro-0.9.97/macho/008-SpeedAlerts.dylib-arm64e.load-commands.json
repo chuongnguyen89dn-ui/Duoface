@@ -1,0 +1,788 @@
+{
+  "build_versions": [
+    {
+      "minos_raw": 983040,
+      "platform": 2,
+      "sdk_raw": 1180160,
+      "tools": 1
+    }
+  ],
+  "code_signature": {
+    "offset": 477232,
+    "sha256": "aae83b0488f41394bd062b5d87b8b6a81dc5699c51645fcfc6365ef5204abb5f",
+    "size": 6640
+  },
+  "codesign_analysis": {
+    "bytes": 6640,
+    "magic": "0xfade0cc0",
+    "sha256": "aae83b0488f41394bd062b5d87b8b6a81dc5699c51645fcfc6365ef5204abb5f",
+    "slots": [
+      {
+        "bytes": 2504,
+        "magic": "0xfade0c02",
+        "sha256": "e696432d29eb73fff65fbbe350660546b40dbdc9c006dbc0624b5e147567952f",
+        "type": 0
+      },
+      {
+        "bytes": 152,
+        "magic": "0xfade0c01",
+        "sha256": "fccbeef05f768d601ed15b6fa751c9d37e6b8a0a3f91a7c4ff1a8937bd2f9a49",
+        "type": 2
+      },
+      {
+        "bytes": 3932,
+        "magic": "0xfade0c02",
+        "sha256": "33c2cad0ae39d2ce82167897b643df3700d80bd8a8c23a876848686e9797886f",
+        "type": 4096
+      }
+    ],
+    "status": "present"
+  },
+  "cpusubtype": 2147483650,
+  "cputype": 16777228,
+  "dylibs": [
+    {
+      "command": "0xd",
+      "name": "@rpath/SpeedAlerts.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libobjc.A.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Security.framework/Security"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/QuartzCore.framework/QuartzCore"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CarPlay.framework/CarPlay"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libc++.1.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libSystem.B.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/swift/libswiftCore.dylib"
+    },
+    {
+      "command": "0x80000018",
+      "name": "/usr/lib/swift/libswiftCoreFoundation.dylib"
+    },
+    {
+      "command": "0x80000018",
+      "name": "/usr/lib/swift/libswiftDarwin.dylib"
+    },
+    {
+      "command": "0x80000018",
+      "name": "/usr/lib/swift/libswiftDispatch.dylib"
+    },
+    {
+      "command": "0x80000018",
+      "name": "/usr/lib/swift/libswiftObjectiveC.dylib"
+    },
+    {
+      "command": "0x80000018",
+      "name": "/usr/lib/swift/libswiftXPC.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/swift/libswiftFoundation.dylib"
+    }
+  ],
+  "endian": "<",
+  "fat_container_sha256": "36e4ceebf02c15b1c8e351a8847509a2a0a91e19c85d9bbd0efac7fea3ffe1cd",
+  "filetype": 6,
+  "flags": 1114245,
+  "function_starts_record": {
+    "offset": 455376,
+    "size": 744
+  },
+  "kind": "macho64",
+  "load_commands": [
+    {
+      "cmd": "0x19",
+      "index": 0,
+      "offset": 32,
+      "size": 1352
+    },
+    {
+      "cmd": "0x19",
+      "index": 1,
+      "offset": 1384,
+      "size": 1112
+    },
+    {
+      "cmd": "0x19",
+      "index": 2,
+      "offset": 2496,
+      "size": 952
+    },
+    {
+      "cmd": "0x19",
+      "index": 3,
+      "offset": 3448,
+      "size": 72
+    },
+    {
+      "cmd": "0xd",
+      "index": 4,
+      "name": "@rpath/SpeedAlerts.dylib",
+      "offset": 3520,
+      "size": 56
+    },
+    {
+      "cmd": "0x80000034",
+      "index": 5,
+      "offset": 3576,
+      "size": 16
+    },
+    {
+      "cmd": "0x80000033",
+      "index": 6,
+      "offset": 3592,
+      "size": 16
+    },
+    {
+      "cmd": "0x2",
+      "index": 7,
+      "offset": 3608,
+      "size": 24
+    },
+    {
+      "cmd": "0xb",
+      "index": 8,
+      "offset": 3632,
+      "size": 80
+    },
+    {
+      "cmd": "0x1b",
+      "index": 9,
+      "offset": 3712,
+      "size": 24
+    },
+    {
+      "cmd": "0x32",
+      "index": 10,
+      "offset": 3736,
+      "size": 32
+    },
+    {
+      "cmd": "0x2a",
+      "index": 11,
+      "offset": 3768,
+      "size": 16
+    },
+    {
+      "cmd": "0x2c",
+      "index": 12,
+      "offset": 3784,
+      "size": 24
+    },
+    {
+      "cmd": "0xc",
+      "index": 13,
+      "name": "/usr/lib/libobjc.A.dylib",
+      "offset": 3808,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 14,
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation",
+      "offset": 3864,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 15,
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+      "offset": 3952,
+      "size": 96
+    },
+    {
+      "cmd": "0xc",
+      "index": 16,
+      "name": "/System/Library/Frameworks/Security.framework/Security",
+      "offset": 4048,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 17,
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit",
+      "offset": 4128,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 18,
+      "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation",
+      "offset": 4208,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 19,
+      "name": "/System/Library/Frameworks/QuartzCore.framework/QuartzCore",
+      "offset": 4296,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 20,
+      "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation",
+      "offset": 4384,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 21,
+      "name": "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox",
+      "offset": 4472,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 22,
+      "name": "/System/Library/Frameworks/CarPlay.framework/CarPlay",
+      "offset": 4560,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 23,
+      "name": "/usr/lib/libc++.1.dylib",
+      "offset": 4640,
+      "size": 48
+    },
+    {
+      "cmd": "0xc",
+      "index": 24,
+      "name": "/usr/lib/libSystem.B.dylib",
+      "offset": 4688,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 25,
+      "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio",
+      "offset": 4744,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 26,
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+      "offset": 4824,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 27,
+      "name": "/usr/lib/swift/libswiftCore.dylib",
+      "offset": 4912,
+      "size": 64
+    },
+    {
+      "cmd": "0x80000018",
+      "index": 28,
+      "name": "/usr/lib/swift/libswiftCoreFoundation.dylib",
+      "offset": 4976,
+      "size": 72
+    },
+    {
+      "cmd": "0x80000018",
+      "index": 29,
+      "name": "/usr/lib/swift/libswiftDarwin.dylib",
+      "offset": 5048,
+      "size": 64
+    },
+    {
+      "cmd": "0x80000018",
+      "index": 30,
+      "name": "/usr/lib/swift/libswiftDispatch.dylib",
+      "offset": 5112,
+      "size": 64
+    },
+    {
+      "cmd": "0x80000018",
+      "index": 31,
+      "name": "/usr/lib/swift/libswiftObjectiveC.dylib",
+      "offset": 5176,
+      "size": 64
+    },
+    {
+      "cmd": "0x80000018",
+      "index": 32,
+      "name": "/usr/lib/swift/libswiftXPC.dylib",
+      "offset": 5240,
+      "size": 64
+    },
+    {
+      "cmd": "0xc",
+      "index": 33,
+      "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate",
+      "offset": 5304,
+      "size": 72
+    },
+    {
+      "cmd": "0xc",
+      "index": 34,
+      "name": "/usr/lib/swift/libswiftFoundation.dylib",
+      "offset": 5376,
+      "size": 64
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 35,
+      "offset": 5440,
+      "rpath": "/usr/lib/swift",
+      "size": 32
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 36,
+      "offset": 5472,
+      "rpath": "/usr/lib/libswift/stable",
+      "size": 40
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 37,
+      "offset": 5512,
+      "rpath": "/var/jb/Library/Frameworks",
+      "size": 40
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 38,
+      "offset": 5552,
+      "rpath": "/var/jb/usr/lib",
+      "size": 32
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 39,
+      "offset": 5584,
+      "rpath": "@loader_path/.jbroot/Library/Frameworks",
+      "size": 56
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 40,
+      "offset": 5640,
+      "rpath": "@loader_path/.jbroot/usr/lib",
+      "size": 48
+    },
+    {
+      "cmd": "0x26",
+      "index": 41,
+      "offset": 5688,
+      "size": 16
+    },
+    {
+      "cmd": "0x29",
+      "index": 42,
+      "offset": 5704,
+      "size": 16
+    },
+    {
+      "cmd": "0x1d",
+      "index": 43,
+      "offset": 5720,
+      "size": 16
+    }
+  ],
+  "ncmds": 44,
+  "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib",
+  "rpaths": [
+    "/usr/lib/swift",
+    "/usr/lib/libswift/stable",
+    "/var/jb/Library/Frameworks",
+    "/var/jb/usr/lib",
+    "@loader_path/.jbroot/Library/Frameworks",
+    "@loader_path/.jbroot/usr/lib"
+  ],
+  "sections": [
+    {
+      "addr": 16384,
+      "offset": 16384,
+      "section": "__text",
+      "segment": "__TEXT",
+      "size": 247288
+    },
+    {
+      "addr": 263672,
+      "offset": 263672,
+      "section": "__auth_stubs",
+      "segment": "__TEXT",
+      "size": 3920
+    },
+    {
+      "addr": 267616,
+      "offset": 267616,
+      "section": "__objc_stubs",
+      "segment": "__TEXT",
+      "size": 17600
+    },
+    {
+      "addr": 285216,
+      "offset": 285216,
+      "section": "__init_offsets",
+      "segment": "__TEXT",
+      "size": 8
+    },
+    {
+      "addr": 285224,
+      "offset": 285224,
+      "section": "__objc_methlist",
+      "segment": "__TEXT",
+      "size": 3112
+    },
+    {
+      "addr": 288336,
+      "offset": 288336,
+      "section": "__gcc_except_tab",
+      "segment": "__TEXT",
+      "size": 32680
+    },
+    {
+      "addr": 321024,
+      "offset": 321024,
+      "section": "__const",
+      "segment": "__TEXT",
+      "size": 1296
+    },
+    {
+      "addr": 322320,
+      "offset": 322320,
+      "section": "__cstring",
+      "segment": "__TEXT",
+      "size": 17622
+    },
+    {
+      "addr": 339942,
+      "offset": 339942,
+      "section": "__objc_methname",
+      "segment": "__TEXT",
+      "size": 15259
+    },
+    {
+      "addr": 355201,
+      "offset": 355201,
+      "section": "__objc_classname",
+      "segment": "__TEXT",
+      "size": 172
+    },
+    {
+      "addr": 355373,
+      "offset": 355373,
+      "section": "__objc_methtype",
+      "segment": "__TEXT",
+      "size": 1894
+    },
+    {
+      "addr": 357268,
+      "offset": 357268,
+      "section": "__ustring",
+      "segment": "__TEXT",
+      "size": 1734
+    },
+    {
+      "addr": 359002,
+      "offset": 359002,
+      "section": "__swift5_typeref",
+      "segment": "__TEXT",
+      "size": 200
+    },
+    {
+      "addr": 359204,
+      "offset": 359204,
+      "section": "__swift5_capture",
+      "segment": "__TEXT",
+      "size": 32
+    },
+    {
+      "addr": 359236,
+      "offset": 359236,
+      "section": "__unwind_info",
+      "segment": "__TEXT",
+      "size": 2488
+    },
+    {
+      "addr": 361728,
+      "offset": 361728,
+      "section": "__eh_frame",
+      "segment": "__TEXT",
+      "size": 472
+    },
+    {
+      "addr": 376832,
+      "offset": 376832,
+      "section": "__auth_got",
+      "segment": "__DATA_CONST",
+      "size": 1976
+    },
+    {
+      "addr": 378808,
+      "offset": 378808,
+      "section": "__got",
+      "segment": "__DATA_CONST",
+      "size": 608
+    },
+    {
+      "addr": 379416,
+      "offset": 379416,
+      "section": "__auth_ptr",
+      "segment": "__DATA_CONST",
+      "size": 72
+    },
+    {
+      "addr": 379488,
+      "offset": 379488,
+      "section": "__const",
+      "segment": "__DATA_CONST",
+      "size": 3352
+    },
+    {
+      "addr": 382840,
+      "offset": 382840,
+      "section": "__cfstring",
+      "segment": "__DATA_CONST",
+      "size": 25120
+    },
+    {
+      "addr": 407960,
+      "offset": 407960,
+      "section": "__objc_classlist",
+      "segment": "__DATA_CONST",
+      "size": 56
+    },
+    {
+      "addr": 408016,
+      "offset": 408016,
+      "section": "__objc_protolist",
+      "segment": "__DATA_CONST",
+      "size": 16
+    },
+    {
+      "addr": 408032,
+      "offset": 408032,
+      "section": "__objc_imageinfo",
+      "segment": "__DATA_CONST",
+      "size": 8
+    },
+    {
+      "addr": 408040,
+      "offset": 408040,
+      "section": "__objc_arraydata",
+      "segment": "__DATA_CONST",
+      "size": 1856
+    },
+    {
+      "addr": 409896,
+      "offset": 409896,
+      "section": "__objc_arrayobj",
+      "segment": "__DATA_CONST",
+      "size": 1152
+    },
+    {
+      "addr": 411048,
+      "offset": 411048,
+      "section": "__objc_intobj",
+      "segment": "__DATA_CONST",
+      "size": 288
+    },
+    {
+      "addr": 411336,
+      "offset": 411336,
+      "section": "__objc_doubleobj",
+      "segment": "__DATA_CONST",
+      "size": 544
+    },
+    {
+      "addr": 411880,
+      "offset": 411880,
+      "section": "__objc_dictobj",
+      "segment": "__DATA_CONST",
+      "size": 160
+    },
+    {
+      "addr": 425984,
+      "offset": 425984,
+      "section": "__objc_const",
+      "segment": "__DATA",
+      "size": 7648
+    },
+    {
+      "addr": 433632,
+      "offset": 433632,
+      "section": "__objc_selrefs",
+      "segment": "__DATA",
+      "size": 4704
+    },
+    {
+      "addr": 438336,
+      "offset": 438336,
+      "section": "__objc_classrefs",
+      "segment": "__DATA",
+      "size": 544
+    },
+    {
+      "addr": 438880,
+      "offset": 438880,
+      "section": "__objc_superrefs",
+      "segment": "__DATA",
+      "size": 40
+    },
+    {
+      "addr": 438920,
+      "offset": 438920,
+      "section": "__objc_ivar",
+      "segment": "__DATA",
+      "size": 424
+    },
+    {
+      "addr": 439344,
+      "offset": 439344,
+      "section": "__objc_data",
+      "segment": "__DATA",
+      "size": 560
+    },
+    {
+      "addr": 439904,
+      "offset": 439904,
+      "section": "__data",
+      "segment": "__DATA",
+      "size": 369
+    },
+    {
+      "addr": 440280,
+      "offset": 440280,
+      "section": "__s_async_hook",
+      "segment": "__DATA",
+      "size": 400
+    },
+    {
+      "addr": 440680,
+      "offset": 440680,
+      "section": "__swift56_hooks",
+      "segment": "__DATA",
+      "size": 176
+    },
+    {
+      "addr": 440856,
+      "offset": 0,
+      "section": "__bss",
+      "segment": "__DATA",
+      "size": 23688
+    },
+    {
+      "addr": 464544,
+      "offset": 0,
+      "section": "__common",
+      "segment": "__DATA",
+      "size": 8
+    }
+  ],
+  "segments": [
+    {
+      "fileoff": 0,
+      "filesize": 376832,
+      "name": "__TEXT",
+      "nsects": 16,
+      "vmaddr": 0,
+      "vmsize": 376832
+    },
+    {
+      "fileoff": 376832,
+      "filesize": 49152,
+      "name": "__DATA_CONST",
+      "nsects": 13,
+      "vmaddr": 376832,
+      "vmsize": 49152
+    },
+    {
+      "fileoff": 425984,
+      "filesize": 16384,
+      "name": "__DATA",
+      "nsects": 11,
+      "vmaddr": 425984,
+      "vmsize": 49152
+    },
+    {
+      "fileoff": 442368,
+      "filesize": 41504,
+      "name": "__LINKEDIT",
+      "nsects": 0,
+      "vmaddr": 475136,
+      "vmsize": 49152
+    }
+  ],
+  "sha256": "97533dcbc6851d7750e533f0e04d6a01ce5ba337da3e7e2a10d17f1a4d65e7c5",
+  "size": 483872,
+  "sizeofcmds": 5704,
+  "slice": {
+    "align_log2": 14,
+    "arch": "arm64e",
+    "cpu": 16777228,
+    "slice_index": 1,
+    "slice_offset": 507904,
+    "slice_size": 483872,
+    "subtype": 2147483650
+  },
+  "symtab": {
+    "nsyms": 437,
+    "stroff": 465384,
+    "strsize": 11840,
+    "symoff": 456120
+  },
+  "uuid": [
+    "8cae709381f630d8a19965c8fd6e10bb"
+  ]
+}

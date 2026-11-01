@@ -1,0 +1,456 @@
+{
+  "build_versions": [
+    {
+      "minos_raw": 983040,
+      "platform": 2,
+      "sdk_raw": 1180160,
+      "tools": 1
+    }
+  ],
+  "code_signature": {
+    "offset": 69056,
+    "sha256": "98bc683a439d61c26586ec5ce2011b6827489ed515e015b17bb7d2a81f366460",
+    "size": 1456
+  },
+  "codesign_analysis": {
+    "bytes": 1456,
+    "magic": "0xfade0cc0",
+    "sha256": "98bc683a439d61c26586ec5ce2011b6827489ed515e015b17bb7d2a81f366460",
+    "slots": [
+      {
+        "bytes": 509,
+        "magic": "0xfade0c02",
+        "sha256": "11072b64e30a9ed7744d1125c3ce2c9ef6ce02985db554236bb390c40b6c8570",
+        "type": 0
+      },
+      {
+        "bytes": 156,
+        "magic": "0xfade0c01",
+        "sha256": "ad0e6233ed65b7643a7665801108729da7e55a4c3764ffaaf2cb218134c84111",
+        "type": 2
+      },
+      {
+        "bytes": 737,
+        "magic": "0xfade0c02",
+        "sha256": "23e90d083d58768b6983385679f04ee51fefe3ea6cd6d6b6f87e20f29eb376f6",
+        "type": 4096
+      }
+    ],
+    "status": "present"
+  },
+  "cpusubtype": 0,
+  "cputype": 16777228,
+  "dylibs": [
+    {
+      "command": "0xd",
+      "name": "@rpath/MediaDeclaration.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libobjc.A.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libc++.1.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libSystem.B.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+    }
+  ],
+  "endian": "<",
+  "fat_container_sha256": "d7949182f3bf6523c4068bbd75f0718ca4e3bcafc12f167267d86f0fc032c97f",
+  "filetype": 6,
+  "flags": 1048709,
+  "function_starts_record": {
+    "offset": 66872,
+    "size": 24
+  },
+  "kind": "macho64",
+  "load_commands": [
+    {
+      "cmd": "0x19",
+      "index": 0,
+      "offset": 32,
+      "size": 792
+    },
+    {
+      "cmd": "0x19",
+      "index": 1,
+      "offset": 824,
+      "size": 632
+    },
+    {
+      "cmd": "0x19",
+      "index": 2,
+      "offset": 1456,
+      "size": 392
+    },
+    {
+      "cmd": "0x19",
+      "index": 3,
+      "offset": 1848,
+      "size": 72
+    },
+    {
+      "cmd": "0xd",
+      "index": 4,
+      "name": "@rpath/MediaDeclaration.dylib",
+      "offset": 1920,
+      "size": 56
+    },
+    {
+      "cmd": "0x80000034",
+      "index": 5,
+      "offset": 1976,
+      "size": 16
+    },
+    {
+      "cmd": "0x80000033",
+      "index": 6,
+      "offset": 1992,
+      "size": 16
+    },
+    {
+      "cmd": "0x2",
+      "index": 7,
+      "offset": 2008,
+      "size": 24
+    },
+    {
+      "cmd": "0xb",
+      "index": 8,
+      "offset": 2032,
+      "size": 80
+    },
+    {
+      "cmd": "0x1b",
+      "index": 9,
+      "offset": 2112,
+      "size": 24
+    },
+    {
+      "cmd": "0x32",
+      "index": 10,
+      "offset": 2136,
+      "size": 32
+    },
+    {
+      "cmd": "0x2a",
+      "index": 11,
+      "offset": 2168,
+      "size": 16
+    },
+    {
+      "cmd": "0x2c",
+      "index": 12,
+      "offset": 2184,
+      "size": 24
+    },
+    {
+      "cmd": "0xc",
+      "index": 13,
+      "name": "/usr/lib/libobjc.A.dylib",
+      "offset": 2208,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 14,
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation",
+      "offset": 2264,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 15,
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+      "offset": 2352,
+      "size": 96
+    },
+    {
+      "cmd": "0xc",
+      "index": 16,
+      "name": "/usr/lib/libc++.1.dylib",
+      "offset": 2448,
+      "size": 48
+    },
+    {
+      "cmd": "0xc",
+      "index": 17,
+      "name": "/usr/lib/libSystem.B.dylib",
+      "offset": 2496,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 18,
+      "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate",
+      "offset": 2552,
+      "size": 72
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 19,
+      "offset": 2624,
+      "rpath": "/var/jb/Library/Frameworks",
+      "size": 40
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 20,
+      "offset": 2664,
+      "rpath": "/var/jb/usr/lib",
+      "size": 32
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 21,
+      "offset": 2696,
+      "rpath": "@loader_path/.jbroot/Library/Frameworks",
+      "size": 56
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 22,
+      "offset": 2752,
+      "rpath": "@loader_path/.jbroot/usr/lib",
+      "size": 48
+    },
+    {
+      "cmd": "0x26",
+      "index": 23,
+      "offset": 2800,
+      "size": 16
+    },
+    {
+      "cmd": "0x29",
+      "index": 24,
+      "offset": 2816,
+      "size": 16
+    },
+    {
+      "cmd": "0x1d",
+      "index": 25,
+      "offset": 2832,
+      "size": 16
+    }
+  ],
+  "ncmds": 26,
+  "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/MediaDeclaration.dylib",
+  "rpaths": [
+    "/var/jb/Library/Frameworks",
+    "/var/jb/usr/lib",
+    "@loader_path/.jbroot/Library/Frameworks",
+    "@loader_path/.jbroot/usr/lib"
+  ],
+  "sections": [
+    {
+      "addr": 16384,
+      "offset": 16384,
+      "section": "__text",
+      "segment": "__TEXT",
+      "size": 4428
+    },
+    {
+      "addr": 20812,
+      "offset": 20812,
+      "section": "__stubs",
+      "segment": "__TEXT",
+      "size": 432
+    },
+    {
+      "addr": 21248,
+      "offset": 21248,
+      "section": "__objc_stubs",
+      "segment": "__TEXT",
+      "size": 512
+    },
+    {
+      "addr": 21760,
+      "offset": 21760,
+      "section": "__init_offsets",
+      "segment": "__TEXT",
+      "size": 4
+    },
+    {
+      "addr": 21764,
+      "offset": 21764,
+      "section": "__gcc_except_tab",
+      "segment": "__TEXT",
+      "size": 372
+    },
+    {
+      "addr": 22144,
+      "offset": 22144,
+      "section": "__const",
+      "segment": "__TEXT",
+      "size": 32
+    },
+    {
+      "addr": 22176,
+      "offset": 22176,
+      "section": "__cstring",
+      "segment": "__TEXT",
+      "size": 600
+    },
+    {
+      "addr": 22776,
+      "offset": 22776,
+      "section": "__objc_methname",
+      "segment": "__TEXT",
+      "size": 292
+    },
+    {
+      "addr": 23068,
+      "offset": 23068,
+      "section": "__unwind_info",
+      "segment": "__TEXT",
+      "size": 232
+    },
+    {
+      "addr": 32768,
+      "offset": 32768,
+      "section": "__got",
+      "segment": "__DATA_CONST",
+      "size": 328
+    },
+    {
+      "addr": 33096,
+      "offset": 33096,
+      "section": "__const",
+      "segment": "__DATA_CONST",
+      "size": 128
+    },
+    {
+      "addr": 33224,
+      "offset": 33224,
+      "section": "__cfstring",
+      "segment": "__DATA_CONST",
+      "size": 352
+    },
+    {
+      "addr": 33576,
+      "offset": 33576,
+      "section": "__objc_imageinfo",
+      "segment": "__DATA_CONST",
+      "size": 8
+    },
+    {
+      "addr": 33584,
+      "offset": 33584,
+      "section": "__objc_intobj",
+      "segment": "__DATA_CONST",
+      "size": 72
+    },
+    {
+      "addr": 33656,
+      "offset": 33656,
+      "section": "__objc_arraydata",
+      "segment": "__DATA_CONST",
+      "size": 48
+    },
+    {
+      "addr": 33704,
+      "offset": 33704,
+      "section": "__objc_arrayobj",
+      "segment": "__DATA_CONST",
+      "size": 72
+    },
+    {
+      "addr": 49152,
+      "offset": 49152,
+      "section": "__objc_selrefs",
+      "segment": "__DATA",
+      "size": 128
+    },
+    {
+      "addr": 49280,
+      "offset": 49280,
+      "section": "__objc_classrefs",
+      "segment": "__DATA",
+      "size": 32
+    },
+    {
+      "addr": 49312,
+      "offset": 49312,
+      "section": "__data",
+      "segment": "__DATA",
+      "size": 4
+    },
+    {
+      "addr": 49320,
+      "offset": 0,
+      "section": "__bss",
+      "segment": "__DATA",
+      "size": 22424
+    }
+  ],
+  "segments": [
+    {
+      "fileoff": 0,
+      "filesize": 32768,
+      "name": "__TEXT",
+      "nsects": 9,
+      "vmaddr": 0,
+      "vmsize": 32768
+    },
+    {
+      "fileoff": 32768,
+      "filesize": 16384,
+      "name": "__DATA_CONST",
+      "nsects": 7,
+      "vmaddr": 32768,
+      "vmsize": 16384
+    },
+    {
+      "fileoff": 49152,
+      "filesize": 16384,
+      "name": "__DATA",
+      "nsects": 4,
+      "vmaddr": 49152,
+      "vmsize": 32768
+    },
+    {
+      "fileoff": 65536,
+      "filesize": 4976,
+      "name": "__LINKEDIT",
+      "nsects": 0,
+      "vmaddr": 81920,
+      "vmsize": 16384
+    }
+  ],
+  "sha256": "cbf57adf9f526e728a4fbe0ab2973f46fd3921d8799e2fe7ff055d894b1972b8",
+  "size": 70512,
+  "sizeofcmds": 2816,
+  "slice": {
+    "align_log2": 14,
+    "arch": "arm64",
+    "cpu": 16777228,
+    "slice_index": 0,
+    "slice_offset": 16384,
+    "slice_size": 70512,
+    "subtype": 0
+  },
+  "symtab": {
+    "nsyms": 49,
+    "stroff": 67992,
+    "strsize": 1056,
+    "symoff": 66896
+  },
+  "uuid": [
+    "30cfcb08c0b7306daf4dcd30f9e4d370"
+  ]
+}

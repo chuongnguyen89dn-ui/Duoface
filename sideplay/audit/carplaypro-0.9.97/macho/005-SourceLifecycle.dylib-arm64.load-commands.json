@@ -1,0 +1,577 @@
+{
+  "build_versions": [
+    {
+      "minos_raw": 983040,
+      "platform": 2,
+      "sdk_raw": 1180160,
+      "tools": 1
+    }
+  ],
+  "code_signature": {
+    "offset": 123792,
+    "sha256": "4a656df13613e5b53647a84fe56833864790ea49e95b5041a0a6cb5031ca32a4",
+    "size": 2176
+  },
+  "codesign_analysis": {
+    "bytes": 2176,
+    "magic": "0xfade0cc0",
+    "sha256": "4a656df13613e5b53647a84fe56833864790ea49e95b5041a0a6cb5031ca32a4",
+    "slots": [
+      {
+        "bytes": 788,
+        "magic": "0xfade0c02",
+        "sha256": "9e18305c808a605a95ea47474b7d6871c431c78877543b12f7586333fb899114",
+        "type": 0
+      },
+      {
+        "bytes": 156,
+        "magic": "0xfade0c01",
+        "sha256": "aada050831104e3fb69f14b142cb12a7b418313c7e9da4c3293c64cca6e23004",
+        "type": 2
+      },
+      {
+        "bytes": 1184,
+        "magic": "0xfade0c02",
+        "sha256": "553c31d5544835c948397ab01986d4d0680921fed3167cd1d53367fe40c03ab7",
+        "type": 4096
+      }
+    ],
+    "status": "present"
+  },
+  "cpusubtype": 0,
+  "cputype": 16777228,
+  "dylibs": [
+    {
+      "command": "0xd",
+      "name": "@rpath/SourceLifecycle.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libobjc.A.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/Security.framework/Security"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libc++.1.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/usr/lib/libSystem.B.dylib"
+    },
+    {
+      "command": "0xc",
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+    },
+    {
+      "command": "0xc",
+      "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+    }
+  ],
+  "endian": "<",
+  "fat_container_sha256": "394aad5d0b8338c85c8b27fa00698a73e5aaeda7b6b9fe5d6b6d64e0ecd09a39",
+  "filetype": 6,
+  "flags": 1048709,
+  "function_starts_record": {
+    "offset": 118096,
+    "size": 168
+  },
+  "kind": "macho64",
+  "load_commands": [
+    {
+      "cmd": "0x19",
+      "index": 0,
+      "offset": 32,
+      "size": 1032
+    },
+    {
+      "cmd": "0x19",
+      "index": 1,
+      "offset": 1064,
+      "size": 872
+    },
+    {
+      "cmd": "0x19",
+      "index": 2,
+      "offset": 1936,
+      "size": 792
+    },
+    {
+      "cmd": "0x19",
+      "index": 3,
+      "offset": 2728,
+      "size": 72
+    },
+    {
+      "cmd": "0xd",
+      "index": 4,
+      "name": "@rpath/SourceLifecycle.dylib",
+      "offset": 2800,
+      "size": 56
+    },
+    {
+      "cmd": "0x80000034",
+      "index": 5,
+      "offset": 2856,
+      "size": 16
+    },
+    {
+      "cmd": "0x80000033",
+      "index": 6,
+      "offset": 2872,
+      "size": 16
+    },
+    {
+      "cmd": "0x2",
+      "index": 7,
+      "offset": 2888,
+      "size": 24
+    },
+    {
+      "cmd": "0xb",
+      "index": 8,
+      "offset": 2912,
+      "size": 80
+    },
+    {
+      "cmd": "0x1b",
+      "index": 9,
+      "offset": 2992,
+      "size": 24
+    },
+    {
+      "cmd": "0x32",
+      "index": 10,
+      "offset": 3016,
+      "size": 32
+    },
+    {
+      "cmd": "0x2a",
+      "index": 11,
+      "offset": 3048,
+      "size": 16
+    },
+    {
+      "cmd": "0x2c",
+      "index": 12,
+      "offset": 3064,
+      "size": 24
+    },
+    {
+      "cmd": "0xc",
+      "index": 13,
+      "name": "/usr/lib/libobjc.A.dylib",
+      "offset": 3088,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 14,
+      "name": "/System/Library/Frameworks/Foundation.framework/Foundation",
+      "offset": 3144,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 15,
+      "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+      "offset": 3232,
+      "size": 96
+    },
+    {
+      "cmd": "0xc",
+      "index": 16,
+      "name": "/System/Library/Frameworks/Security.framework/Security",
+      "offset": 3328,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 17,
+      "name": "/System/Library/Frameworks/UIKit.framework/UIKit",
+      "offset": 3408,
+      "size": 80
+    },
+    {
+      "cmd": "0xc",
+      "index": 18,
+      "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation",
+      "offset": 3488,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 19,
+      "name": "/usr/lib/libc++.1.dylib",
+      "offset": 3576,
+      "size": 48
+    },
+    {
+      "cmd": "0xc",
+      "index": 20,
+      "name": "/usr/lib/libSystem.B.dylib",
+      "offset": 3624,
+      "size": 56
+    },
+    {
+      "cmd": "0xc",
+      "index": 21,
+      "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",
+      "offset": 3680,
+      "size": 88
+    },
+    {
+      "cmd": "0xc",
+      "index": 22,
+      "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate",
+      "offset": 3768,
+      "size": 72
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 23,
+      "offset": 3840,
+      "rpath": "/var/jb/Library/Frameworks",
+      "size": 40
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 24,
+      "offset": 3880,
+      "rpath": "/var/jb/usr/lib",
+      "size": 32
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 25,
+      "offset": 3912,
+      "rpath": "@loader_path/.jbroot/Library/Frameworks",
+      "size": 56
+    },
+    {
+      "cmd": "0x8000001c",
+      "index": 26,
+      "offset": 3968,
+      "rpath": "@loader_path/.jbroot/usr/lib",
+      "size": 48
+    },
+    {
+      "cmd": "0x26",
+      "index": 27,
+      "offset": 4016,
+      "size": 16
+    },
+    {
+      "cmd": "0x29",
+      "index": 28,
+      "offset": 4032,
+      "size": 16
+    },
+    {
+      "cmd": "0x1d",
+      "index": 29,
+      "offset": 4048,
+      "size": 16
+    }
+  ],
+  "ncmds": 30,
+  "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SourceLifecycle.dylib",
+  "rpaths": [
+    "/var/jb/Library/Frameworks",
+    "/var/jb/usr/lib",
+    "@loader_path/.jbroot/Library/Frameworks",
+    "@loader_path/.jbroot/usr/lib"
+  ],
+  "sections": [
+    {
+      "addr": 16384,
+      "offset": 16384,
+      "section": "__text",
+      "segment": "__TEXT",
+      "size": 34296
+    },
+    {
+      "addr": 50680,
+      "offset": 50680,
+      "section": "__stubs",
+      "segment": "__TEXT",
+      "size": 816
+    },
+    {
+      "addr": 51520,
+      "offset": 51520,
+      "section": "__objc_stubs",
+      "segment": "__TEXT",
+      "size": 4992
+    },
+    {
+      "addr": 56512,
+      "offset": 56512,
+      "section": "__init_offsets",
+      "segment": "__TEXT",
+      "size": 4
+    },
+    {
+      "addr": 56520,
+      "offset": 56520,
+      "section": "__objc_methlist",
+      "segment": "__TEXT",
+      "size": 880
+    },
+    {
+      "addr": 57400,
+      "offset": 57400,
+      "section": "__gcc_except_tab",
+      "segment": "__TEXT",
+      "size": 4692
+    },
+    {
+      "addr": 62096,
+      "offset": 62096,
+      "section": "__const",
+      "segment": "__TEXT",
+      "size": 128
+    },
+    {
+      "addr": 62224,
+      "offset": 62224,
+      "section": "__cstring",
+      "segment": "__TEXT",
+      "size": 4200
+    },
+    {
+      "addr": 66424,
+      "offset": 66424,
+      "section": "__objc_methname",
+      "segment": "__TEXT",
+      "size": 3500
+    },
+    {
+      "addr": 69924,
+      "offset": 69924,
+      "section": "__objc_classname",
+      "segment": "__TEXT",
+      "size": 74
+    },
+    {
+      "addr": 69998,
+      "offset": 69998,
+      "section": "__objc_methtype",
+      "segment": "__TEXT",
+      "size": 376
+    },
+    {
+      "addr": 70376,
+      "offset": 70376,
+      "section": "__unwind_info",
+      "segment": "__TEXT",
+      "size": 736
+    },
+    {
+      "addr": 81920,
+      "offset": 81920,
+      "section": "__got",
+      "segment": "__DATA_CONST",
+      "size": 664
+    },
+    {
+      "addr": 82584,
+      "offset": 82584,
+      "section": "__const",
+      "segment": "__DATA_CONST",
+      "size": 544
+    },
+    {
+      "addr": 83128,
+      "offset": 83128,
+      "section": "__cfstring",
+      "segment": "__DATA_CONST",
+      "size": 5280
+    },
+    {
+      "addr": 88408,
+      "offset": 88408,
+      "section": "__objc_classlist",
+      "segment": "__DATA_CONST",
+      "size": 24
+    },
+    {
+      "addr": 88432,
+      "offset": 88432,
+      "section": "__objc_protolist",
+      "segment": "__DATA_CONST",
+      "size": 8
+    },
+    {
+      "addr": 88440,
+      "offset": 88440,
+      "section": "__objc_imageinfo",
+      "segment": "__DATA_CONST",
+      "size": 8
+    },
+    {
+      "addr": 88448,
+      "offset": 88448,
+      "section": "__objc_arraydata",
+      "segment": "__DATA_CONST",
+      "size": 464
+    },
+    {
+      "addr": 88912,
+      "offset": 88912,
+      "section": "__objc_arrayobj",
+      "segment": "__DATA_CONST",
+      "size": 456
+    },
+    {
+      "addr": 89368,
+      "offset": 89368,
+      "section": "__objc_intobj",
+      "segment": "__DATA_CONST",
+      "size": 144
+    },
+    {
+      "addr": 89512,
+      "offset": 89512,
+      "section": "__objc_dictobj",
+      "segment": "__DATA_CONST",
+      "size": 120
+    },
+    {
+      "addr": 98304,
+      "offset": 98304,
+      "section": "__objc_const",
+      "segment": "__DATA",
+      "size": 1832
+    },
+    {
+      "addr": 100136,
+      "offset": 100136,
+      "section": "__objc_selrefs",
+      "segment": "__DATA",
+      "size": 1328
+    },
+    {
+      "addr": 101464,
+      "offset": 101464,
+      "section": "__objc_protorefs",
+      "segment": "__DATA",
+      "size": 8
+    },
+    {
+      "addr": 101472,
+      "offset": 101472,
+      "section": "__objc_classrefs",
+      "segment": "__DATA",
+      "size": 248
+    },
+    {
+      "addr": 101720,
+      "offset": 101720,
+      "section": "__objc_superrefs",
+      "segment": "__DATA",
+      "size": 16
+    },
+    {
+      "addr": 101736,
+      "offset": 101736,
+      "section": "__objc_ivar",
+      "segment": "__DATA",
+      "size": 112
+    },
+    {
+      "addr": 101848,
+      "offset": 101848,
+      "section": "__objc_data",
+      "segment": "__DATA",
+      "size": 240
+    },
+    {
+      "addr": 102088,
+      "offset": 102088,
+      "section": "__data",
+      "segment": "__DATA",
+      "size": 104
+    },
+    {
+      "addr": 102192,
+      "offset": 0,
+      "section": "__bss",
+      "segment": "__DATA",
+      "size": 22576
+    }
+  ],
+  "segments": [
+    {
+      "fileoff": 0,
+      "filesize": 81920,
+      "name": "__TEXT",
+      "nsects": 12,
+      "vmaddr": 0,
+      "vmsize": 81920
+    },
+    {
+      "fileoff": 81920,
+      "filesize": 16384,
+      "name": "__DATA_CONST",
+      "nsects": 10,
+      "vmaddr": 81920,
+      "vmsize": 16384
+    },
+    {
+      "fileoff": 98304,
+      "filesize": 16384,
+      "name": "__DATA",
+      "nsects": 9,
+      "vmaddr": 98304,
+      "vmsize": 32768
+    },
+    {
+      "fileoff": 114688,
+      "filesize": 11280,
+      "name": "__LINKEDIT",
+      "nsects": 0,
+      "vmaddr": 131072,
+      "vmsize": 16384
+    }
+  ],
+  "sha256": "339dcf865f40459fdde5836fc7b225692e24209b8de1c6fda42aa059120ce668",
+  "size": 125968,
+  "sizeofcmds": 4032,
+  "slice": {
+    "align_log2": 14,
+    "arch": "arm64",
+    "cpu": 16777228,
+    "slice_index": 0,
+    "slice_offset": 16384,
+    "slice_size": 125968,
+    "subtype": 0
+  },
+  "symtab": {
+    "nsyms": 128,
+    "stroff": 120920,
+    "strsize": 2872,
+    "symoff": 118264
+  },
+  "uuid": [
+    "f6e2284b189e319fa794db5ec131eba9"
+  ]
+}

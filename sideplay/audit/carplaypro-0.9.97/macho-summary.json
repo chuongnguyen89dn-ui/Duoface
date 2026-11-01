@@ -1,87 +1,1088 @@
 [
   {
-    "code_signature": null,
-    "cputype": null,
-    "disassembly": [],
-    "dylibs": null,
-    "filetype": null,
-    "function_start_count": 0,
-    "name": "001-CPSActivation",
-    "ncmds": null,
-    "objc_classes": 0,
-    "objc_methods": 0,
+    "arch": "arm64",
+    "code_signature": {
+      "bytes": 2816,
+      "magic": "0xfade0cc0",
+      "sha256": "61f9fc54b8abce22912387ed7c2fce8e2d89b0b15540c09e8658083cdc128e18",
+      "slots": [
+        {
+          "bytes": 1040,
+          "magic": "0xfade0c02",
+          "sha256": "d6539f891cdad8a2cc02a987bbcb53122a06c720ddbc6c1458a6a80fd9b5ce02",
+          "type": 0
+        },
+        {
+          "bytes": 148,
+          "magic": "0xfade0c01",
+          "sha256": "1db29b96f6eb597a04ad988c9d1ee414c6d2f57b098bee7db1ec0d90e605330b",
+          "type": 2
+        },
+        {
+          "bytes": 1592,
+          "magic": "0xfade0c02",
+          "sha256": "72720b4334e3eefd3c23f24d3b193f2dd403c6100c7238ecd767667b802adc5f",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 12091,
+        "output": "disassembly/001-CPSActivation-arm64.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/PhotosUI.framework/PhotosUI"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreImage.framework/CoreImage"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      }
+    ],
+    "filetype": 2,
+    "function_start_count": 217,
+    "name": "001-CPSActivation-arm64",
+    "ncmds": 34,
+    "objc_classes": 18,
+    "objc_methods": 584,
     "path": "rootfs/var/jb/Applications/CPSActivation.app/CPSActivation",
-    "sha256": "8b57a9d84b3c1f0bfa3f2b0894cfffa30574cc413d79f964e64401e50c1a3996",
-    "size": 395136,
-    "string_count": 3680,
-    "symbol_count": 0
+    "sha256": "f4d2d1b3de989531a97f0173c64d134c7aeba3059fd7b4819515b82e675d5d0c",
+    "size": 182128,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64",
+      "cpu": 16777228,
+      "slice_index": 0,
+      "slice_offset": 16384,
+      "slice_size": 182128,
+      "subtype": 0
+    },
+    "string_count": 1833,
+    "symbol_count": 203
   },
   {
-    "code_signature": null,
-    "cputype": null,
-    "disassembly": [],
-    "dylibs": null,
-    "filetype": null,
-    "function_start_count": 0,
-    "name": "002-MediaDeclaration.dylib",
-    "ncmds": null,
+    "arch": "arm64e",
+    "code_signature": {
+      "bytes": 2816,
+      "magic": "0xfade0cc0",
+      "sha256": "d6121a75ed61c9956b22e9948bd94f6c1353a915057c56db5f55bfa239535f23",
+      "slots": [
+        {
+          "bytes": 1040,
+          "magic": "0xfade0c02",
+          "sha256": "6dac6f6476238347cd20df8c20b4be85bd147265e75de7a6bd460d78af9f81d9",
+          "type": 0
+        },
+        {
+          "bytes": 148,
+          "magic": "0xfade0c01",
+          "sha256": "1db29b96f6eb597a04ad988c9d1ee414c6d2f57b098bee7db1ec0d90e605330b",
+          "type": 2
+        },
+        {
+          "bytes": 1592,
+          "magic": "0xfade0c02",
+          "sha256": "1e3c973dfed8824e6f3f074a9dd86b57169c19435eaff41b54145affd9a01123",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 12743,
+        "output": "disassembly/002-CPSActivation-arm64e.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/PhotosUI.framework/PhotosUI"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreImage.framework/CoreImage"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      }
+    ],
+    "filetype": 2,
+    "function_start_count": 217,
+    "name": "002-CPSActivation-arm64e",
+    "ncmds": 34,
+    "objc_classes": 18,
+    "objc_methods": 584,
+    "path": "rootfs/var/jb/Applications/CPSActivation.app/CPSActivation",
+    "sha256": "62b8c218717e241a5d5077b305c29415e04662ad445c87e5c10cd9a274300480",
+    "size": 182144,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64e",
+      "cpu": 16777228,
+      "slice_index": 1,
+      "slice_offset": 212992,
+      "slice_size": 182144,
+      "subtype": 2147483650
+    },
+    "string_count": 1847,
+    "symbol_count": 203
+  },
+  {
+    "arch": "arm64",
+    "code_signature": {
+      "bytes": 1456,
+      "magic": "0xfade0cc0",
+      "sha256": "98bc683a439d61c26586ec5ce2011b6827489ed515e015b17bb7d2a81f366460",
+      "slots": [
+        {
+          "bytes": 509,
+          "magic": "0xfade0c02",
+          "sha256": "11072b64e30a9ed7744d1125c3ce2c9ef6ce02985db554236bb390c40b6c8570",
+          "type": 0
+        },
+        {
+          "bytes": 156,
+          "magic": "0xfade0c01",
+          "sha256": "ad0e6233ed65b7643a7665801108729da7e55a4c3764ffaaf2cb218134c84111",
+          "type": 2
+        },
+        {
+          "bytes": 737,
+          "magic": "0xfade0c02",
+          "sha256": "23e90d083d58768b6983385679f04ee51fefe3ea6cd6d6b6f87e20f29eb376f6",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 1107,
+        "output": "disassembly/003-MediaDeclaration.dylib-arm64.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/MediaDeclaration.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libc++.1.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 12,
+    "name": "003-MediaDeclaration.dylib-arm64",
+    "ncmds": 26,
     "objc_classes": 0,
-    "objc_methods": 0,
+    "objc_methods": 16,
     "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/MediaDeclaration.dylib",
-    "sha256": "d7949182f3bf6523c4068bbd75f0718ca4e3bcafc12f167267d86f0fc032c97f",
-    "size": 168816,
-    "string_count": 380,
-    "symbol_count": 0
+    "sha256": "cbf57adf9f526e728a4fbe0ab2973f46fd3921d8799e2fe7ff055d894b1972b8",
+    "size": 70512,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64",
+      "cpu": 16777228,
+      "slice_index": 0,
+      "slice_offset": 16384,
+      "slice_size": 70512,
+      "subtype": 0
+    },
+    "string_count": 186,
+    "symbol_count": 49
   },
   {
-    "code_signature": null,
-    "cputype": null,
-    "disassembly": [],
-    "dylibs": null,
-    "filetype": null,
-    "function_start_count": 0,
-    "name": "003-SourceLifecycle.dylib",
-    "ncmds": null,
+    "arch": "arm64e",
+    "code_signature": {
+      "bytes": 1456,
+      "magic": "0xfade0cc0",
+      "sha256": "83436138d2bb00697b677ec4586aec9f03d1595a8acba08da67c5c7dd4edf44a",
+      "slots": [
+        {
+          "bytes": 509,
+          "magic": "0xfade0c02",
+          "sha256": "176c6cb3361135f1a97c95a0ef80649bf38f227ef1892237b6ac9069239bc57e",
+          "type": 0
+        },
+        {
+          "bytes": 156,
+          "magic": "0xfade0c01",
+          "sha256": "ad0e6233ed65b7643a7665801108729da7e55a4c3764ffaaf2cb218134c84111",
+          "type": 2
+        },
+        {
+          "bytes": 737,
+          "magic": "0xfade0c02",
+          "sha256": "459a25a700c0f262ff80355d80b1b8dd48a3343b255709199fa91e701eabea05",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 1138,
+        "output": "disassembly/004-MediaDeclaration.dylib-arm64e.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/MediaDeclaration.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libc++.1.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 12,
+    "name": "004-MediaDeclaration.dylib-arm64e",
+    "ncmds": 26,
     "objc_classes": 0,
-    "objc_methods": 0,
+    "objc_methods": 16,
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/MediaDeclaration.dylib",
+    "sha256": "630d96b368dcc628af9f1a0897733a045545b42918e1f21273035040dd1d0b0a",
+    "size": 70512,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64e",
+      "cpu": 16777228,
+      "slice_index": 1,
+      "slice_offset": 98304,
+      "slice_size": 70512,
+      "subtype": 2147483650
+    },
+    "string_count": 194,
+    "symbol_count": 49
+  },
+  {
+    "arch": "arm64",
+    "code_signature": {
+      "bytes": 2176,
+      "magic": "0xfade0cc0",
+      "sha256": "4a656df13613e5b53647a84fe56833864790ea49e95b5041a0a6cb5031ca32a4",
+      "slots": [
+        {
+          "bytes": 788,
+          "magic": "0xfade0c02",
+          "sha256": "9e18305c808a605a95ea47474b7d6871c431c78877543b12f7586333fb899114",
+          "type": 0
+        },
+        {
+          "bytes": 156,
+          "magic": "0xfade0c01",
+          "sha256": "aada050831104e3fb69f14b142cb12a7b418313c7e9da4c3293c64cca6e23004",
+          "type": 2
+        },
+        {
+          "bytes": 1184,
+          "magic": "0xfade0c02",
+          "sha256": "553c31d5544835c948397ab01986d4d0680921fed3167cd1d53367fe40c03ab7",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 8574,
+        "output": "disassembly/005-SourceLifecycle.dylib-arm64.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/SourceLifecycle.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libc++.1.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 121,
+    "name": "005-SourceLifecycle.dylib-arm64",
+    "ncmds": 30,
+    "objc_classes": 6,
+    "objc_methods": 217,
     "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SourceLifecycle.dylib",
-    "sha256": "394aad5d0b8338c85c8b27fa00698a73e5aaeda7b6b9fe5d6b6d64e0ecd09a39",
-    "size": 273440,
-    "string_count": 1531,
-    "symbol_count": 0
+    "sha256": "339dcf865f40459fdde5836fc7b225692e24209b8de1c6fda42aa059120ce668",
+    "size": 125968,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64",
+      "cpu": 16777228,
+      "slice_index": 0,
+      "slice_offset": 16384,
+      "slice_size": 125968,
+      "subtype": 0
+    },
+    "string_count": 764,
+    "symbol_count": 128
   },
   {
-    "code_signature": null,
-    "cputype": null,
-    "disassembly": [],
-    "dylibs": null,
-    "filetype": null,
-    "function_start_count": 0,
-    "name": "004-SpeedAlerts.dylib",
-    "ncmds": null,
-    "objc_classes": 0,
-    "objc_methods": 0,
+    "arch": "arm64e",
+    "code_signature": {
+      "bytes": 2176,
+      "magic": "0xfade0cc0",
+      "sha256": "c00d196d2f76f49af63ee932be0f2d13b7eefe06862937d51335a2744d6bb1e5",
+      "slots": [
+        {
+          "bytes": 788,
+          "magic": "0xfade0c02",
+          "sha256": "e4ae3bce4d3cae74cee559c59410c76b962a96f493cd4fa4db275ee9510cb599",
+          "type": 0
+        },
+        {
+          "bytes": 156,
+          "magic": "0xfade0c01",
+          "sha256": "aada050831104e3fb69f14b142cb12a7b418313c7e9da4c3293c64cca6e23004",
+          "type": 2
+        },
+        {
+          "bytes": 1184,
+          "magic": "0xfade0c02",
+          "sha256": "5fb4ebf2c010fb2e31ffb9dbe9ab478ee648663c38e77cec3372d55b037a2cf6",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 8783,
+        "output": "disassembly/006-SourceLifecycle.dylib-arm64e.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/SourceLifecycle.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libc++.1.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 121,
+    "name": "006-SourceLifecycle.dylib-arm64e",
+    "ncmds": 30,
+    "objc_classes": 6,
+    "objc_methods": 217,
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SourceLifecycle.dylib",
+    "sha256": "d14e4c3fb5bf6c499e79ef1906b8905a10ba742b40f5a1ac7ab8dd3b23c4ceac",
+    "size": 125984,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64e",
+      "cpu": 16777228,
+      "slice_index": 1,
+      "slice_offset": 147456,
+      "slice_size": 125984,
+      "subtype": 2147483650
+    },
+    "string_count": 767,
+    "symbol_count": 128
+  },
+  {
+    "arch": "arm64",
+    "code_signature": {
+      "bytes": 6640,
+      "magic": "0xfade0cc0",
+      "sha256": "ca3f42f03cc2f6c2d3ef50e8cd420428dac803593abb34f296936da8d491a076",
+      "slots": [
+        {
+          "bytes": 2504,
+          "magic": "0xfade0c02",
+          "sha256": "08d03b129ec9787851f698f601b966a178f238faba006b4cc4adc696330f3115",
+          "type": 0
+        },
+        {
+          "bytes": 152,
+          "magic": "0xfade0c01",
+          "sha256": "fccbeef05f768d601ed15b6fa751c9d37e6b8a0a3f91a7c4ff1a8937bd2f9a49",
+          "type": 2
+        },
+        {
+          "bytes": 3932,
+          "magic": "0xfade0c02",
+          "sha256": "caf8aead30f2c9d0974a78541af92979b8d21927584e6f16ec31a1740c260227",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 16007,
+        "output": "disassembly/007-SpeedAlerts.dylib-arm64.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/SpeedAlerts.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/QuartzCore.framework/QuartzCore"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CarPlay.framework/CarPlay"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libc++.1.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/swift/libswiftCore.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftCoreFoundation.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftDarwin.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftDispatch.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftObjectiveC.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftXPC.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/swift/libswiftFoundation.dylib"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 541,
+    "name": "007-SpeedAlerts.dylib-arm64",
+    "ncmds": 44,
+    "objc_classes": 12,
+    "objc_methods": 836,
     "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib",
-    "sha256": "36e4ceebf02c15b1c8e351a8847509a2a0a91e19c85d9bbd0efac7fea3ffe1cd",
-    "size": 991776,
-    "string_count": 5773,
-    "symbol_count": 0
+    "sha256": "1b60e7712a043967a8c1a253960bede0209265fccfc1db515e4bf3fafa01d91b",
+    "size": 483888,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64",
+      "cpu": 16777228,
+      "slice_index": 0,
+      "slice_offset": 16384,
+      "slice_size": 483888,
+      "subtype": 0
+    },
+    "string_count": 2880,
+    "symbol_count": 437
   },
   {
-    "code_signature": null,
-    "cputype": null,
-    "disassembly": [],
-    "dylibs": null,
-    "filetype": null,
-    "function_start_count": 0,
-    "name": "005-CPSpeedPrefs",
-    "ncmds": null,
-    "objc_classes": 0,
-    "objc_methods": 0,
+    "arch": "arm64e",
+    "code_signature": {
+      "bytes": 6640,
+      "magic": "0xfade0cc0",
+      "sha256": "aae83b0488f41394bd062b5d87b8b6a81dc5699c51645fcfc6365ef5204abb5f",
+      "slots": [
+        {
+          "bytes": 2504,
+          "magic": "0xfade0c02",
+          "sha256": "e696432d29eb73fff65fbbe350660546b40dbdc9c006dbc0624b5e147567952f",
+          "type": 0
+        },
+        {
+          "bytes": 152,
+          "magic": "0xfade0c01",
+          "sha256": "fccbeef05f768d601ed15b6fa751c9d37e6b8a0a3f91a7c4ff1a8937bd2f9a49",
+          "type": 2
+        },
+        {
+          "bytes": 3932,
+          "magic": "0xfade0c02",
+          "sha256": "33c2cad0ae39d2ce82167897b643df3700d80bd8a8c23a876848686e9797886f",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 16068,
+        "output": "disassembly/008-SpeedAlerts.dylib-arm64e.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/SpeedAlerts.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/QuartzCore.framework/QuartzCore"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFoundation.framework/AVFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CarPlay.framework/CarPlay"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libc++.1.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/AVFAudio.framework/AVFAudio"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/swift/libswiftCore.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftCoreFoundation.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftDarwin.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftDispatch.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftObjectiveC.dylib"
+      },
+      {
+        "command": "0x80000018",
+        "name": "/usr/lib/swift/libswiftXPC.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/swift/libswiftFoundation.dylib"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 542,
+    "name": "008-SpeedAlerts.dylib-arm64e",
+    "ncmds": 44,
+    "objc_classes": 12,
+    "objc_methods": 836,
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib",
+    "sha256": "97533dcbc6851d7750e533f0e04d6a01ce5ba337da3e7e2a10d17f1a4d65e7c5",
+    "size": 483872,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64e",
+      "cpu": 16777228,
+      "slice_index": 1,
+      "slice_offset": 507904,
+      "slice_size": 483872,
+      "subtype": 2147483650
+    },
+    "string_count": 2893,
+    "symbol_count": 437
+  },
+  {
+    "arch": "arm64",
+    "code_signature": {
+      "bytes": 1888,
+      "magic": "0xfade0cc0",
+      "sha256": "870625749bb9aeac22a4e3d158caa622f7194623deba3bbb4693c4ceaf6d9740",
+      "slots": [
+        {
+          "bytes": 679,
+          "magic": "0xfade0c02",
+          "sha256": "32d31b849c5809784f884340279decb4a35fe0f7e2c1be39d99e802ebbfc642a",
+          "type": 0
+        },
+        {
+          "bytes": 148,
+          "magic": "0xfade0c01",
+          "sha256": "b8a352573ca1a84af9875ade576939ce591188f0b3cd8e45116e29b40c189d4c",
+          "type": 2
+        },
+        {
+          "bytes": 1015,
+          "magic": "0xfade0c02",
+          "sha256": "540e9c2c676171d131de5ef3d00c1d2c7c4bd77c8fa18bb0b4a78570189ee4e6",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 4209,
+        "output": "disassembly/009-CPSpeedPrefs-arm64.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 66,
+    "name": "009-CPSpeedPrefs-arm64",
+    "ncmds": 28,
+    "objc_classes": 7,
+    "objc_methods": 227,
     "path": "rootfs/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs",
-    "sha256": "58c14ead069e69e872ccf2cc7936a15ec0f8a58b82534ad9170dcfb22ac8a136",
-    "size": 239184,
-    "string_count": 1824,
-    "symbol_count": 0
+    "sha256": "19add5a881fa2682a8541d593009ce3e342035abf2daf54f8d7fe1f6fdb91055",
+    "size": 108112,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64",
+      "cpu": 16777228,
+      "slice_index": 0,
+      "slice_offset": 16384,
+      "slice_size": 108112,
+      "subtype": 0
+    },
+    "string_count": 913,
+    "symbol_count": 109
+  },
+  {
+    "arch": "arm64e",
+    "code_signature": {
+      "bytes": 1888,
+      "magic": "0xfade0cc0",
+      "sha256": "208c2cd76665159968d44ba2a0367c2d84a8fc5a1544bbd10f81ab5109019571",
+      "slots": [
+        {
+          "bytes": 679,
+          "magic": "0xfade0c02",
+          "sha256": "52bc7ff4791ef4afafb5be9141cd89b7512dd8aaef6629465be509435a331639",
+          "type": 0
+        },
+        {
+          "bytes": 148,
+          "magic": "0xfade0c01",
+          "sha256": "b8a352573ca1a84af9875ade576939ce591188f0b3cd8e45116e29b40c189d4c",
+          "type": 2
+        },
+        {
+          "bytes": 1015,
+          "magic": "0xfade0c02",
+          "sha256": "619868e681ff6d6c8388bf1bda27d6bee0665a4c97eab74f0e0b4129e87df548",
+          "type": 4096
+        }
+      ],
+      "status": "present"
+    },
+    "cputype": 16777228,
+    "disassembly": [
+      {
+        "instructions": 4442,
+        "output": "disassembly/010-CPSpeedPrefs-arm64e.arm64.txt.gz",
+        "status": "ok"
+      }
+    ],
+    "dylibs": [
+      {
+        "command": "0xd",
+        "name": "/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Security.framework/Security"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/PrivateFrameworks/Preferences.framework/Preferences"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      }
+    ],
+    "filetype": 6,
+    "function_start_count": 66,
+    "name": "010-CPSpeedPrefs-arm64e",
+    "ncmds": 28,
+    "objc_classes": 7,
+    "objc_methods": 227,
+    "path": "rootfs/var/jb/Library/PreferenceBundles/CPSpeedPrefs.bundle/CPSpeedPrefs",
+    "sha256": "6c2279b2680c3d73b39a55cee76f4605a59ce946bea14568ec0881a4731b3506",
+    "size": 108112,
+    "slice": {
+      "align_log2": 14,
+      "arch": "arm64e",
+      "cpu": 16777228,
+      "slice_index": 1,
+      "slice_offset": 131072,
+      "slice_size": 108112,
+      "subtype": 2147483650
+    },
+    "string_count": 911,
+    "symbol_count": 109
   }
 ]
