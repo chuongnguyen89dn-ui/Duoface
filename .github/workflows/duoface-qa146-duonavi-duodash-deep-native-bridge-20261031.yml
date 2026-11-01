@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-qa146-duonavi-duodash-deep-native-bridge-20261031.yml'
       - 'sideplay/audit/qa146-native-home-dock-parity-20261031/scan_duonavi_duodash_native_bridge_deep_20261031.py'
+      - 'sideplay/audit/qa146-native-home-dock-parity-20261031/verify_original_bridge_factory_20261101.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -78,10 +79,30 @@ jobs:
           print("DEEP_DUONAVI_DUODASH_REPACK_NATIVE_APP_SCENE_ABI_SUCCESS",
                 a["method_count"],b["method_count"])
           PY
+      - name: Verify genuine original single-app factory classrefs without executing vendor
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/original-factory"
+          dpkg-deb -x "$RUNNER_TEMP/debs/duonavi.deb" "$RUNNER_TEMP/original-factory"
+          ORIG="$(find "$RUNNER_TEMP/original-factory" -type f -name DuoNaviDashboard.dylib -print -quit)"
+          test -n "$ORIG"
+          PYTHONPATH="$RUNNER_TEMP/parsers" python3 sideplay/audit/qa146-native-home-dock-parity-20261031/verify_original_bridge_factory_20261101.py \
+            --binary "$ORIG" \
+            --out "$RUNNER_TEMP/reports/ORIGINAL_DUONAVI_FACTORY_BRIDGE_CLASSREFS_20261101.json"
+          python3 - "$RUNNER_TEMP/reports/ORIGINAL_DUONAVI_FACTORY_BRIDGE_CLASSREFS_20261101.json" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1]))
+          assert a["actual_metadata_imp_verified"] and a["decoded_instructions"]==72
+          assert a["runtime_branch_or_concrete_app_class_verified"] is False
+          print("DUONAVI_ORIGINAL_SINGLE_FACTORY_BINARY_SCOPE_VERIFIED")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: DuoFace-QA146-both-real-DEBs-original-DuoNavi-and-DuoDash-REPACK
-          path: ${{ runner.temp }}/reports/DUONAVI_DUODASH_REPACK_NATIVE_APPBRIDGE_METHOD_CROSSWALK.json
+          path: |
+            ${{ runner.temp }}/reports/DUONAVI_DUODASH_REPACK_NATIVE_APPBRIDGE_METHOD_CROSSWALK.json
+            ${{ runner.temp }}/reports/ORIGINAL_DUONAVI_FACTORY_BRIDGE_CLASSREFS_20261101.json
           if-no-files-found: error
       - name: Save sanitized evidence to DuoFace branch, then read it back
         shell: bash
@@ -95,6 +116,7 @@ jobs:
             git worktree add --detach "$T" FETCH_HEAD
             mkdir -p "$T/$REL"
             cp "$RUNNER_TEMP/reports/DUONAVI_DUODASH_REPACK_NATIVE_APPBRIDGE_METHOD_CROSSWALK.json" "$T/$REL/"
+            cp "$RUNNER_TEMP/reports/ORIGINAL_DUONAVI_FACTORY_BRIDGE_CLASSREFS_20261101.json" "$T/$REL/"
             printf 'RUN=%s\nCHECKOUT=%s\nSKILLS_SHA_CHECKED_AND_READ=true\nDUONAVI_ORIGINAL_SHA_CHECKED=true\nDUODASH_IS_REPACK_NOT_STOCK=true\nDUODASH_TAGGED_OBJC_FIXUPS_HANDLED=true\nNO_LICENSE_SOURCE_EXTRACTED=true\nNO_VENDOR_CODE_COPIED=true\nNO_DEVICE_TEST_OR_SILEO=true\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > "$T/$REL/CI_RESULT.txt"
             git -C "$T" config user.name 'github-actions[bot]'
             git -C "$T" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -104,6 +126,7 @@ jobs:
               git worktree remove --force "$T"
               git fetch --no-tags origin "$BRANCH"
               git cat-file -e "FETCH_HEAD:$REL/DUONAVI_DUODASH_REPACK_NATIVE_APPBRIDGE_METHOD_CROSSWALK.json"
+              git cat-file -e "FETCH_HEAD:$REL/ORIGINAL_DUONAVI_FACTORY_BRIDGE_CLASSREFS_20261101.json"
               echo EXACT_DUONAVI_DUODASH_REPACK_DEEP_RESULTS_SAVED_AND_READBACK
               exit 0
             fi
