@@ -1,0 +1,22 @@
+{
+  "static_only": true,
+  "verified_dlsym_names": {
+    "0x54cf4": "AudioQueueStart",
+    "0x54d04": "AudioQueuePause",
+    "0x54d14": "AudioQueueStop"
+  },
+  "audio_hook_registration_call_sites": [
+    "0x393f0",
+    "0x39408",
+    "0x39420"
+  ],
+  "hook_call_kind": "MSHookFunction with AudioQueueStart/Pause/Stop",
+  "goFA_callback_addresses": {
+    "gofa_alert_callback": "0x3cfb4",
+    "gofa_speed_callback": "0x3d468",
+    "gofa_alert_export": "0x3e93c",
+    "gofa_speed_export": "0x3e38c"
+  },
+  "direct_adrp_add_or_adr_callback_literal_xrefs": [],
+  "limitations": "Does not decode Swift object layouts or prove runtime GOFA alert delivery."
+}
