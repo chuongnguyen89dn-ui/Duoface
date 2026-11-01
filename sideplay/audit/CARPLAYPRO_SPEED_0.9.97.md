@@ -126,3 +126,22 @@ Audit đã ghi nhận **94 file payload + 3 file control**, 115 entry (bao gồm
 **Trạng thái thực thi:** phát hiện code Speed8 và `build.sh` có thật trên nhánh GitHub; **chưa sửa source để gắn Speed8, chưa build DEB hoặc kiểm thử iPhone/CarPlay, chưa Sileo**. Nhánh thử standalone `feature/carplaypro-speed-cleanroom-hud-20261101` đã tạo ở mốc cũ nhưng **bị bỏ khỏi kế hoạch**, không cần xóa hoặc triển khai nhánh đó. Nhánh QA159/current actual implementation cần xác minh khi bắt đầu chỉnh code. Lỗi DuoFace Home→Dashboard/độ trễ vẫn tạm hoãn theo yêu cầu trước.
 
 **Điểm tiếp nối:** (1) xác minh nhánh/commit có build DuoFace QA mới nhất và source thực tế của HUD8; (2) kiểm bằng chứng đầu ra GPS/speed-limit của nguồn hiện hữu và quyền sử dụng; (3) gắn đúng module vào scene owner được xác thực, tránh intercept chạm/Dock/Home, có flags mặc định an toàn; (4) unit/static test + compile theo workflow DuoFace hiện có, build đúng package tích hợp, xác minh bằng `dpkg-deb -c/-I` và SHA256; (5) chỉ sau đó mới đưa lên nguồn Sileo DuoFace hiện có và test iPhone/xe, lưu log thật. **Không tạo bản cài riêng cho CarPlayPro Speed.**
+
+
+## 10. Kết luận khả thi sau khi kiểm tra code thực tế (2026-11-01)
+
+**User request:** xác minh rõ có thể mang chức năng HUD tốc độ/cảnh báo của bản tham chiếu vào DuoFace không trước khi thực hiện; vẫn chỉ **một DuoFace DEB**, không dựng sản phẩm/tweak Speed tách riêng.
+
+**Kết luận kỹ thuật:** **CÓ thể tích hợp HUD/logic tốc độ ở mức mã độc lập vào DuoFace**, do phần lớn UI + protocol đã có sẵn trong mã nguồn do DuoFace phát triển; **CHƯA có cơ sở xác nhận đầy đủ 5 bộ nguồn/cảnh báo giao thông bản thương mại hoặc runtime CarPlay đã chạy**. Đây không phải thao tác copy `SpeedAlerts.dylib` rồi bỏ license: nhị phân có license embedded và không thể coi là module được tự do tách ra.
+
+**Evidence inspected, exact branch** `feature/duoface-jb-embedded-appbridge-20261020`:
+- `sideplay/duoface-native-scene-host/speed8/DFNative8SpeedHUDView.mm` (Git blob `5b01eacc477f849170020e6b949b354e25f7b240`): implementation of `UIView` HUD, current speed, speed limit, movable bubble, settings, `DFSpeedHUDReadBest` sample reader and explicit external `ownerWindow`. Top-of-file says “Not yet enabled/mounted in current integrated package.”
+- `sideplay/duoface-native-scene-host/speed8/DFSpeedProtocol.hpp`: versioned source/speed/limit sample, staleness guard, no fake limits, choose coherent provider; **4 source enums GoogleMaps/Waze/VietMap/GOFA**, not the 5 sources of CarPlayPro.
+- `sideplay/duoface-native-scene-host/speed8/DFSpeedTransport.h`: declares `DFSpeedHUDPublish` and `DFSpeedHUDReadBest`. Implementations/producers **have not yet been verified** in the current active build, so header alone does not prove live speed.
+- `sideplay/duoface-native-scene-host/build.sh` (blob `766be72e2ae0971807491b390e3213bf2fa00cad`): does **not** include `speed8/DFNative8SpeedHUDView.mm` in clang sources.
+- `sideplay/jb-embedded-appbridge/package_integrated.py`: merges existing DuoFace module DEBs into one integrated package but has no explicit Speed8 integration. Its older `0.0.125~lockabi1` package naming **is NOT confirmed current QA159**.
+- Central `Gpt-training-/skills/02-ios-deb-ipa-carplay.zip` `SKILL.md` was read; current GitHub `main` at evaluation `d58e0a6d3faee6b078eaef2b005d2a4e73b38fcf`. GitHub Actions in-progress check returned none; that does not establish device availability.
+
+**Feasible first usable feature:** integrate the existing DuoFace Speed8 view and speed data transport into the verified *current* DuoFace CarPlay scene owner, guarded behind opt-in and correct external window; display live GPS km/h and threshold when legitimate provider available; preserve Dock, Home, split/touch and avoid stale values. **Need** confirm actual producer implementation and test geometry/permissions. **Full parity still blocked/unproven:** acquiring source-specific speed limits, camera/road alerts and navigation for all five proprietary providers, especially WYN/Navitel/VML V2; actual device tests. No vendor license bypass or vendor dylib reuse.
+
+**Verification status:** research + source inspection only; **no edit to DuoFace runtime code, no build, no Sileo**, no validated iPhone/vehicle runtime yet. Exact next action is locate verified QA production branch and sample producer code, integrate existing Speed8 in a minimal opt-in patch, compile and verify under the existing single-package pipeline, then device-test.
