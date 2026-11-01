@@ -7,6 +7,7 @@ on:
       - 'sideplay/tools/trace_carplaypro_speed_dataflow.py'
       - 'sideplay/tools/recover_carplaypro_speed_full_arm64.py'
       - 'sideplay/tools/trace_carplaypro_speed_hooks.py'
+      - 'sideplay/tools/verify_carplaypro_gofa_registration.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -76,6 +77,11 @@ jobs:
           # This is a static decompilation-style metadata dump, never dylib execution.
           otool -oV -arch arm64 "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib" > "$RUNNER_TEMP/qa166-results/original-objc-methods.txt"
           gzip -9 "$RUNNER_TEMP/qa166-results/original-objc-methods.txt"
+          python3 sideplay/tools/verify_carplaypro_gofa_registration.py \
+            --thin "$RUNNER_TEMP/qa166-original/SpeedAlerts-arm64.dylib" \
+            --load-commands "$RUNNER_TEMP/qa166-original/loads.json" \
+            --disassembly "$RUNNER_TEMP/qa166-results/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz" \
+            --out "$RUNNER_TEMP/qa166-results"
           otool -Iv -arch arm64 "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib" > "$RUNNER_TEMP/qa166-results/original-indirect-symbols.txt"
           python3 sideplay/tools/trace_carplaypro_speed_hooks.py \
             --disassembly "$RUNNER_TEMP/qa166-results/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz" \
