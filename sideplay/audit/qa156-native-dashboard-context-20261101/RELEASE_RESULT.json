@@ -1,0 +1,47 @@
+{
+  "version": "0.0.156~nativebridge4",
+  "source_commit": "89e951b024f7e38311e5487eb679a96f7d9fdfe0",
+  "signed_run": 41268432149,
+  "archive_commit": "eacacdda9702250698fe02e8954b2d07a7a12eb3",
+  "sha256": "bcc54fecaf918afb77dda561a2ec1645a781ff5b56021e208f93482983c77642",
+  "bytes": 1193968,
+  "publisher_commit": "7e4a27d1af2244d0567226a8e8aed468c8fb95a5",
+  "publisher_doc_commit": "64769b5a8516c8d17213a7a50faaab3aa31a10d8",
+  "public_run": {
+    "id": 41268753865,
+    "status": "completed",
+    "conclusion": "success",
+    "updated_at": "2026-11-01T03:23:28Z"
+  },
+  "jobs": [
+    {
+      "id": 124736961745,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 124737554086,
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "id": 124737593676,
+      "name": "verify-duoface-integrated-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 124737593729,
+      "name": "verify-duonavi-observer-pages",
+      "conclusion": "success"
+    },
+    {
+      "id": 124737593742,
+      "name": "verify-qa11-pages",
+      "conclusion": "success"
+    }
+  ],
+  "original_sileo": "https://chuongnguyen89dn-ui.github.io/carplaydsp/",
+  "public_index_and_actual_download_sha_verified": true,
+  "previous_3_2_1_unchanged": true,
+  "physical_navigation_verified": false
+}
