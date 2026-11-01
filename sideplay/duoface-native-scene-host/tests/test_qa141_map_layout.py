@@ -28,7 +28,33 @@ class Map141Contract(unittest.TestCase):
    a=content.index(marker1)
    b=content.index(marker2,a)
    return content[:a]+content[b:]
-  self.assertEqual(without_start(baseline),without_start(current))
+  # Preserve exact pre-QA160 audited geometry outside only the named,
+  # source-reviewed SOLO readiness instrumentation additions.
+  additions=[
+   b"@property(nonatomic) BOOL fastInitialPolling;\n",
+   b'''                 // Revert to the previous low-rate heartbeat after the first true ready.
+                 // Scene liveness and ownership gates remain unchanged.
+                 if(self.fastInitialPolling && self.timer && self.timer.timeInterval<0.34) {
+                     [self.timer invalidate];
+                     self.timer=[NSTimer scheduledTimerWithTimeInterval:0.35 target:self
+                                  selector:@selector(pollScene:) userInfo:nil repeats:YES];
+                     DFSceneLog(@"qa160-fast-initial-probe-complete",self.bundleID,@"0.10s-to-0.35s");
+                 }
+''',
+   b'''- (void)setFastInitialPolling:(BOOL)fast forHostedView:(UIView *)view {
+    if(!NSThread.isMainThread || !view)return;
+    DFSceneSurface *surface=(DFSceneSurface *)view;
+    if(![surface isKindOfClass:DFSceneSurface.class] || surface.started || surface.stopped ||
+       surface.window || self.live[surface.bundleID]!=surface)return;
+    surface.fastInitialPolling=fast;
+}
+'''
+  ]
+  normalized=current
+  for addition in additions:
+   self.assertEqual(normalized.count(addition),1,"Only reviewed QA160 additions allowed")
+   normalized=normalized.replace(addition,b"",1)
+  self.assertEqual(without_start(baseline),without_start(normalized))
   startup=current.split(marker1,1)[1].split(marker2,1)[0]
   self.assertLess(startup.index(b'setIgnoresOcclusions:'),startup.index(b'[self addSubview:appView]'))
   self.assertLess(startup.index(b'setRequestedMode:'),startup.index(b'[self addSubview:appView]'))
