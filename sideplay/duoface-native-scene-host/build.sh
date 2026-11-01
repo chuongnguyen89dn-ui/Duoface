@@ -17,7 +17,7 @@ DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dy
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
-  -DDF144_SPRINGBOARD=1 -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m
+  -DDF144_SPRINGBOARD=1 -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm -lc++
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
 # The native Apple AppDock owner lives inside the actual CarPlay UI process.
@@ -50,6 +50,16 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$YT_DYLIB" DFYouTubeOrientationRelay.m DFYouTubeOrientationVirtualization.m
 cp DFYouTubeOrientationRelay.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist"
 ldid -S "$YT_DYLIB"
+# QA162 GOFA-only CoreLocation speed publisher for the existing DuoFace Speed8 HUD.
+# GOFA source is a narrow app-bundle filter. No network calls, no activation,
+# no private field reads, no road-speed-limit fabrication.
+SPEED_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib"
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+  -framework UIKit -framework Foundation -framework CoreLocation -lc++ \
+  -o "$SPEED_DYLIB" DFGofaSpeedSource162.m speed8/DFSpeedTransport.mm
+cp DFGofaSpeedSource162.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.plist"
+ldid -S "$SPEED_DYLIB"
 # GOFA-only map canvas resize in the existing integrated package.
 GOFA_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaMapResize141.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
@@ -99,7 +109,7 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.161~firstframe1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.162~gofaspeed8test1_iphoneos-arm64.deb"
 chmod 0755 "$TMP"
 dpkg-deb --root-owner-group --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
