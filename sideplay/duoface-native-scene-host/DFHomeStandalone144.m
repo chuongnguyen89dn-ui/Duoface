@@ -117,6 +117,7 @@ static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
 
 typedef void (*DF144Hook)(Class,SEL,IMP,IMP*);
 #import "DF151WorkspaceOwnerCapture.h"
+#import "DFNativeDashboardContext.h"
 static UIWindow *DF144UniqueNativeContentWindow(CGRect *frame,CGRect *whole,NSString **displayID) {
  NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSetWithArray:UIApplication.sharedApplication.windows];
  for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
@@ -191,8 +192,10 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
  // and its native Dashboard workspace completion is bounded to 250ms.
  DF144LastHomeRequest=NSDate.date.timeIntervalSince1970;
  DF150ProbeWorkspaceForRequest(rid,bundle,display,NO);
- DF151WorkspaceSnapshot(rid,bundle,display,nativeHome);
- DF152PrepareThenContinue(rid,bundle,display,nativeHome,^{
+ id dashboard=DFResolveNativeDashboard(nativeHome,
+      [origin isEqualToString:@"CarPlayHomeStandalone144"],rid);
+ DF151WorkspaceSnapshot(rid,bundle,display,dashboard);
+ DF152PrepareThenContinue(rid,bundle,display,dashboard,^{
    // A delayed Apple completion must not activate a revoked or replaced app.
    CGRect liveContent=CGRectZero,liveScreen=CGRectZero;
    NSString *liveDisplay=nil;

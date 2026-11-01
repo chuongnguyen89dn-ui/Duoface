@@ -35,7 +35,7 @@ class FirstPartyManagerLiveReceipt(unittest.TestCase):
   for mark in ("_dockButtonPressed:","method_getNumberOfArguments(m)!=3",
      "method_getReturnType(m,r,sizeof(r))","DF144Allowed(bid)",
      "DF144LiveReceiver()","DF147FindDock(session,&home)==receiver",
-     'DF144BeginSelectedBridge(bid,nil,@"CarPlayDockStandalone144")',
+     'DF144BeginSelectedBridge(bid,receiver,@"CarPlayDockStandalone144")',
      "if(!handled)","DF149NativeDockPressedOriginal(receiver,sel,button)"):
    self.assertIn(mark,m)
   self.assertNotIn("notify_post(DF144RequestNotify)",m)

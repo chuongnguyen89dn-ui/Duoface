@@ -1,6 +1,7 @@
 // Independent Dock lifecycle. Receivers/ABI from physical observer 8170d2a.
 // Original semantic evidence: audit qa147 ORIGINAL_DOCK_HOME_ARGUMENTS.json.
 #import "DFDockLifecycle147.h"
+#import "DFNativeHomeExitPolicy.h"
 #import "DFManagerLifecycle149.h"
 static DF147Lifecycle DF147Life;
 static DF149Manager DF149Life;
@@ -55,10 +56,10 @@ static void DF147RestoreDock(NSString *reason) {
     [DF144Get(dock,"activeBundleIdentifier") isEqual:DF147Bundle]) {
   @try {
    DF147Applying=YES;
-   ((void(*)(id,SEL,id,BOOL))objc_msgSend)(dock,sel_registerName("setActiveBundleIdentifier:animated:"),DF147Previous,NO);
+   ((void(*)(id,SEL,id,BOOL))objc_msgSend)(dock,sel_registerName("setActiveBundleIdentifier:animated:"),DFNativeHomeRestoredBundle(reason,DF147Previous),NO);
    ((void(*)(id,SEL))objc_msgSend)(dock,sel_registerName("_refreshAppDock"));
    if(DF147HaveHome && home==DF147Home && DF147ABI(home,"setDisplayState:","v24@0:8Q16"))
-    ((void(*)(id,SEL,NSUInteger))objc_msgSend)(home,sel_registerName("setDisplayState:"),DF147HomeBefore);
+    ((void(*)(id,SEL,NSUInteger))objc_msgSend)(home,sel_registerName("setDisplayState:"),DFNativeHomeRestoredState(reason,DF147HomeBefore));
    DF144Log(@"qa147-native-dock-restored",reason);
   } @catch(NSException *e){DF144Log(@"qa147-native-dock-restore-exception",e.name);}
   @finally{DF147Applying=NO;}
@@ -138,7 +139,8 @@ static void DF147ConsumeResult(void) {
     notify_post(DF148OwnerRevokeStopNotify);
   }
  } else if(action==DF147Restore) {
-  DF147RestoreDock(outcome);DF147Reset(outcome);
+  NSString *terminalReason=[a[@"Reason"] isEqual:@"native-Home-exit"]?@"native-Home-exit":outcome;
+  DF147RestoreDock(terminalReason);DF147Reset(terminalReason);
  } else if(identity&&fresh&&terminal)DF147Reset(outcome);
 }
 static void DF147NativeActiveChanged(id object,SEL sel,id bundle,BOOL animated) {
@@ -167,7 +169,7 @@ static void DF149ObserveDockPressed(id receiver,SEL sel,id button) {
      } else {
        // A Dock controller is not a Dashboard Home workspace owner; native
        // deactivation fails closed, never calls a guessed workspace selector.
-       handled=DF144BeginSelectedBridge(bid,nil,@"CarPlayDockStandalone144");
+       handled=DF144BeginSelectedBridge(bid,receiver,@"CarPlayDockStandalone144");
        if(handled)DF144Log(@"native-dock-bridge-request",bid);
      }
    }

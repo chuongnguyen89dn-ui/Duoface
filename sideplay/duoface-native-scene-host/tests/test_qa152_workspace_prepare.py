@@ -11,8 +11,8 @@ HOST=(R/"DFSceneHost.m").read_bytes()
 class WorkspaceNativePreparation152(unittest.TestCase):
  def test_native_preparation_precedes_remote_scene_and_retains_original_home(self):
   launch=BRIDGE.split("static BOOL DF144BeginSelectedBridge(",1)[1].split("static void DF144Launch(",1)[0]
-  self.assertLess(launch.index("DF147Prepare(p)"),launch.index("DF152PrepareThenContinue(rid,bundle,display,nativeHome,^"))
-  self.assertLess(launch.index("DF152PrepareThenContinue(rid,bundle,display,nativeHome,^"),launch.index("notify_post(DF144RequestNotify)"))
+  self.assertLess(launch.index("DF147Prepare(p)"),launch.index("DF152PrepareThenContinue(rid,bundle,display,dashboard,^"))
+  self.assertLess(launch.index("DF152PrepareThenContinue(rid,bundle,display,dashboard,^"),launch.index("notify_post(DF144RequestNotify)"))
   self.assertIn('[still[@"RequestID"] isEqualToString:rid]',launch)
   self.assertIn('[still[@"BundleID"] isEqualToString:bundle]',launch)
   self.assertIn('[still[@"CarDisplayID"] isEqualToString:display]',launch)
@@ -26,15 +26,15 @@ class WorkspaceNativePreparation152(unittest.TestCase):
  def test_no_unverified_owner_app_or_foreground_deactivation(self):
   for x in ("DF151DashboardWorkspace","DF151DashboardOwner",
     "DF151IsDashboardOwner(owner)","homeWorkspace==workspace",
-    "DF152ShowNativeApp(home,&showing)",
+    "DF152ShowNativeApp(dashboard,&showing)",
     'DF151SafeObjectGetter(workspace,"state"',
     'DF151SafeObjectGetter(state,"activeBundleIdentifier"',
     "[activeBundle isEqualToString:selectedBundle]",
-    'DF152ExactClassMethod(controllerClass,"sharedInstance","@16@0:8")',
+    'DF151SafeObjectGetter(dashboard,"_foregroundActiveScene",&scene)',
     'DF152ExactInstance(workspace,"requestStateChange:","v24@0:8@16")',
     'strcmp(method_getTypeEncoding(deactivate),"v24@0:8@16")',
     'strcmp(callbackType,"v24@0:8@?16")',
-    'DF152ExactInstance(controller,"applicationWithBundleIdentifier:","@24@0:8@16")',
+    'DF152ExactInstance(library,"applicationInfoForBundleIdentifier:","@24@0:8@16")',
     'DF151SafeObjectGetter(officialApp,"bundleIdentifier",&actualBundle)',
     '[actualBundle isEqualToString:activeBundle]'):
    self.assertIn(x,PREP)

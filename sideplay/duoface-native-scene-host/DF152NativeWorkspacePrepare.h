@@ -14,30 +14,8 @@ static BOOL DF152ExactInstance(id obj,const char *method,const char *encoding) {
  Method m=class_getInstanceMethod(object_getClass(obj),sel_registerName(method));
  return m && !strcmp(method_getTypeEncoding(m),encoding);
 }
-static BOOL DF152ExactClassMethod(Class cls,const char *method,const char *encoding) {
- if(!cls)return NO;
- Method m=class_getClassMethod(cls,sel_registerName(method));
- return m && !strcmp(method_getTypeEncoding(m),encoding);
-}
-static BOOL DF152ShowNativeApp(id home,BOOL *value) {
- if(value)*value=NO;
- SEL sel=sel_registerName("showingApp");
- Method m=home?class_getInstanceMethod(object_getClass(home),sel):NULL;
- if(!m)return NO;
- const char *type=method_getTypeEncoding(m);
- @try {
-  if(!strcmp(type,"B16@0:8")) {
-   if(value)*value=((BOOL(*)(id,SEL))objc_msgSend)(home,sel);
-   return YES;
-  }
-  if(!strcmp(type,"c16@0:8")) {
-   if(value)*value=((signed char(*)(id,SEL))objc_msgSend)(home,sel)!=0;
-   return YES;
-  }
- } @catch(NSException *e) {
-  DF144Log(@"qa152-showing-app-exception",e.name);
- }
- return NO;
+static BOOL DF152ShowNativeApp(id dashboard,BOOL *value) {
+ return DF151SafeBoolGetter(dashboard,"showingApp",value);
 }
 static void DF152RevokeNativePreparation(void) {
  DF152Revoke(&DF152Prep);
@@ -63,7 +41,7 @@ static void DF152ResumeNative(uint64_t generation,NSString *rid,
 }
 
 static void DF152PrepareThenContinue(NSString *rid,NSString *selectedBundle,
-                                      NSString *carDisplay,id home,
+                                      NSString *carDisplay,id dashboard,
                                       void (^continuation)(void)) {
  // Only called in CarPlay main-thread after explicit user selection and full
  // request validation; fails open to the older standalone host *without*
@@ -79,15 +57,19 @@ static void DF152PrepareThenContinue(NSString *rid,NSString *selectedBundle,
  id owner=DF151DashboardOwner;
  id homeWorkspace=nil;
  BOOL workspaceMatched=DF151IsDashboardOwner(owner) && workspace &&
-   DF151SafeObjectGetter(home,"workspace",&homeWorkspace) &&
+   DF151SafeObjectGetter(dashboard,"workspace",&homeWorkspace) &&
    homeWorkspace==workspace;
  if(!workspaceMatched) {
    DF152ResumeNative(generation,rid,@"dashboard-workspace-unverified",continuation);
    return;
  }
  BOOL showing=NO;
- if(!DF152ShowNativeApp(home,&showing) || !showing) {
-   DF152ResumeNative(generation,rid,@"no-verified-official-app",continuation);
+ if(!DF152ShowNativeApp(dashboard,&showing)) {
+   DF152ResumeNative(generation,rid,@"native-showing-app-ABI-unverified",continuation);
+   return;
+ }
+ if(!showing) {
+   DF152ResumeNative(generation,rid,@"native-chooser-ready",continuation);
    return;
  }
  id state=nil,activeBundle=nil;
@@ -98,13 +80,22 @@ static void DF152PrepareThenContinue(NSString *rid,NSString *selectedBundle,
    DF152ResumeNative(generation,rid,@"foreground-bundle-unknown-or-target",continuation);
    return;
  }
- Class controllerClass=objc_getClass("DBApplicationController");
+ // The original resolves the FOREGROUND SCENE's bundle, not an arbitrary
+ // active app or the Home grid. Cross-check it against captured workspace state.
+ id scene=nil,sceneBundle=nil;
+ if(!DF151SafeObjectGetter(dashboard,"_foregroundActiveScene",&scene) || !scene ||
+    !DF152ExactInstance(dashboard,"_activeBundleIdentifierForScene:","@24@0:8@16")) {
+   DF152ResumeNative(generation,rid,@"native-foreground-scene-unverified",continuation);return;
+ }
+ @try {sceneBundle=((id(*)(id,SEL,id))objc_msgSend)(dashboard,
+     sel_registerName("_activeBundleIdentifierForScene:"),scene);}
+ @catch(__unused NSException *e){sceneBundle=nil;}
+ if(![sceneBundle isKindOfClass:NSString.class] || ![sceneBundle isEqualToString:activeBundle]) {
+   DF152ResumeNative(generation,rid,@"native-scene-workspace-bundle-mismatch",continuation);return;
+ }
  Class requestClass=objc_getClass("DBMutableWorkspaceStateChangeRequest");
- if(!DF152ExactClassMethod(controllerClass,"sharedInstance","@16@0:8") ||
-    !DF152ExactInstance(workspace,"requestStateChange:","v24@0:8@16") ||
-    !requestClass) {
-   DF152ResumeNative(generation,rid,@"native-workspace-ABI-missing",continuation);
-   return;
+ if(!DF152ExactInstance(workspace,"requestStateChange:","v24@0:8@16") || !requestClass) {
+   DF152ResumeNative(generation,rid,@"native-workspace-ABI-missing",continuation);return;
  }
  Method deactivate=class_getInstanceMethod(requestClass,sel_registerName("deactivateApplication:"));
  Method callback=class_getInstanceMethod(requestClass,sel_registerName("setCompletionHandler:"));
@@ -115,15 +106,15 @@ static void DF152PrepareThenContinue(NSString *rid,NSString *selectedBundle,
    DF152ResumeNative(generation,rid,@"deactivation-completion-ABI-missing",continuation);
    return;
  }
- id controller=nil,officialApp=nil;
+ id library=nil,officialApp=nil;
  @try {
-   controller=((id(*)(id,SEL))objc_msgSend)(controllerClass,sel_registerName("sharedInstance"));
-   if(!DF152ExactInstance(controller,"applicationWithBundleIdentifier:","@24@0:8@16")) {
-     DF152ResumeNative(generation,rid,@"native-app-lookup-ABI-missing",continuation);
-     return;
+   id app=DFNativeCarApplication();
+   if(!DF151SafeObjectGetter(app,"sharedApplicationLibrary",&library) ||
+      !DF152ExactInstance(library,"applicationInfoForBundleIdentifier:","@24@0:8@16")) {
+     DF152ResumeNative(generation,rid,@"native-app-lookup-ABI-missing",continuation);return;
    }
-   officialApp=((id(*)(id,SEL,id))objc_msgSend)(
-      controller,sel_registerName("applicationWithBundleIdentifier:"),activeBundle);
+   officialApp=((id(*)(id,SEL,id))objc_msgSend)(library,
+      sel_registerName("applicationInfoForBundleIdentifier:"),activeBundle);
    id actualBundle=nil;
    if(!DF151SafeObjectGetter(officialApp,"bundleIdentifier",&actualBundle) ||
       ![actualBundle isEqualToString:activeBundle]) {

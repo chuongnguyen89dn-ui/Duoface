@@ -6,6 +6,9 @@ on:
     paths:
       - '.github/workflows/duoface-qa147-mount-ready-guards.yml'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DFNativeDashboardContext.h'
+      - 'sideplay/duoface-native-scene-host/DFNativeHomeExitPolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/native_dashboard_context_runtime.m'
       - 'sideplay/duoface-native-scene-host/DFSelectedHomeAdmission.h'
       - 'sideplay/duoface-native-scene-host/DFHomeAdmission141.m'
       - 'sideplay/duoface-native-scene-host/DFHomePublisher136Core.m'

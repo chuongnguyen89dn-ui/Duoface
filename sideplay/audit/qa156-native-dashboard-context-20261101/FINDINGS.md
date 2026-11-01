@@ -1,0 +1,15 @@
+# Native dashboard context repair — 2026-11-01
+
+The genuine original DuoNaviDashboard.dylib SHA256 is `44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15` (dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb). Read-only arm64 metadata/disassembly; no vendor implementation or license code copied.
+
+Original CBDashboardShared.dashboard at0x141500 obtains actual application's `_currentDashboard`, fallback `currentDashboard`; prepareHomeScreenForBridge: at0x2c6028 queries that dashboard.showingApp. closeOfficialTopApp: at0x2c6184 queries dashboard._foregroundActiveScene, _activeBundleIdentifierForScene:, dashboard.workspace, and actual app.sharedApplicationLibrary.applicationInfoForBundleIdentifier:. It deactivates that official app through native workspace request + completion. Home grid is not this dashboard. Log25 independently shows grid workspace/showingApp/_foregroundActiveScene absent, and all8 requests bypassing prep with dashboard-workspace-unverified.
+
+Original bridgeDidDeactivate at0x2c7140 clears Dock app ID and setsHomeButtonInApp:NO. setHomeButtonInApp: computes displayState1 for NO at0x2c750c then sends at0x2c7518. Original Home hook forwards Apple's original callback after stop; original dismiss is asynchronous. No justification to suppress Home or invent timing delay.
+
+First-party repair resolves actual UIApplication.sharedApplication._currentDashboard/currentDashboard, verifies exact previously captured Dashboard workspace and same non-phone external screen; Home grid also must descend from dashboard root. Reads showingApp with BOOL ABI, cross-checks foreground scene bundle with workspace state, then resolves actual official app from native application library. Unknown context falls through without native mutation. Once/generation/cancellation/250ms fallback retained.
+
+For owned native Home termination only, clear Dock active bundle and set outside-app Home state1 instead of reviving cached previous app state. Existing native new-owner protection and original Home callback retained. Other termination reasons preserve previous restoration behavior.
+
+Runtime harness imports actual production headers and tests old grid mismatch, actual dashboard resolution, fallback getter, wrong workspace/owner, phone-screen refusal, unrelated grid refusal, Dock external anchor, chooser no mutation, official native app deactivation, scene mismatch refusal, callback exactly once, cancellation, and Home/other exit policy. Passing controlled macOS harness does not establish physical CarPlay destination. Native Calendar/Music logs remain absent; user-reported Home CarPlay vs app chooser is still the physical acceptance requirement.
+
+Local scoped workflow regression completed without failed test groups before source submission. Signed iOS CI and public distribution pending. Current public version remains nativebridge3 until verified unique nativebridge4 publication.

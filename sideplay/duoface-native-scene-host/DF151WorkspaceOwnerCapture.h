@@ -36,6 +36,21 @@ static BOOL DF151SafeObjectGetter(id obj,const char *method,id *result) {
   return NO;
  }
 }
+static BOOL DF151SafeBoolGetter(id object,const char *name,BOOL *result) {
+ if(result)*result=NO;
+ Method method=object?class_getInstanceMethod(object_getClass(object),sel_registerName(name)):NULL;
+ const char *type=method?method_getTypeEncoding(method):NULL;
+ if(!type)return NO;
+ @try {
+  if(!strcmp(type,"B16@0:8")) {
+   if(result)*result=((BOOL(*)(id,SEL))objc_msgSend)(object,sel_registerName(name));return YES;
+  }
+  if(!strcmp(type,"c16@0:8")) {
+   if(result)*result=((signed char(*)(id,SEL))objc_msgSend)(object,sel_registerName(name))!=0;return YES;
+  }
+ } @catch(NSException *error){DF144Log(@"qa151-native-getter-exception",error.name);}
+ return NO;
+}
 static id DF151WorkspaceInitWithOwner(id workspace,SEL selector,id owner) {
  id actual=DF151OriginalWorkspaceInit(workspace,selector,owner);
  if(actual && DF151IsDashboardOwner(owner)) {
@@ -85,8 +100,8 @@ static void DF151WorkspaceSnapshot(NSString *requestID,NSString *bundle,
  BOOL captured=workspace && DF151IsDashboardOwner(owner);
  id homeWorkspace=nil;
  BOOL hasHomeGetter=DF151SafeObjectGetter(home,"workspace",&homeWorkspace);
- id showingApp=nil;
- BOOL hasShowingApp=DF151SafeObjectGetter(home,"showingApp",&showingApp);
+ BOOL showingApp=NO;
+ BOOL hasShowingApp=DF151SafeBoolGetter(home,"showingApp",&showingApp);
  id state=nil,activeBundle=nil;
  BOOL hasState=captured && DF151SafeObjectGetter(workspace,"state",&state);
  BOOL hasActive=hasState && DF151SafeObjectGetter(state,"activeBundleIdentifier",&activeBundle);
@@ -97,7 +112,7 @@ static void DF151WorkspaceSnapshot(NSString *requestID,NSString *bundle,
      requestID,bundle,display,captured,DF151IsDashboardOwner(owner),
      workspace?NSStringFromClass([workspace class]):@"missing",
      hasHomeGetter,hasHomeGetter&&homeWorkspace==workspace,hasShowingApp,
-     showingApp?NSStringFromClass([showingApp class]):@"missing",
+     hasShowingApp?(showingApp?@"YES":@"NO"):@"unverified",
      hasState,hasActive,[activeBundle isKindOfClass:NSString.class]?activeBundle:@"unknown"]);
 }
 #endif
