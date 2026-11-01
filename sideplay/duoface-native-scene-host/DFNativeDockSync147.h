@@ -148,17 +148,38 @@ static void DF147NativeActiveChanged(id object,SEL sel,id bundle,BOOL animated) 
   notify_post(DF148NativeSwitchStopNotify); // Hide ours; preserve the NEW native Dock app.
  }
 }
-// Read-only native Dock press observation. The original Apple action ALWAYS
-// executes; this does not substitute an overlay for a real Dock launch.
+// Native DuoNavi reference: selected AppDock press routes back through bridge
+// manager. Independent implementation: same Home request/owner/ACK, exact
+// native Dock owner, enabled user app, external screen, receiver lease.
 static void DF149ObserveDockPressed(id receiver,SEL sel,id button) {
- if(NSThread.isMainThread) {
+ BOOL handled=NO;
+ if(NSThread.isMainThread && DF147DockABI(receiver)) {
    NSString *bid=DF144Bundle(button,0);
+   CGRect area=CGRectZero,screen=CGRectZero;
+   NSString *session=nil;id home=nil;
+   if(DF144Allowed(bid) && DF144LiveReceiver() &&
+      DF144UniqueNativeContentWindow(&area,&screen,&session) &&
+      DF147FindDock(session,&home)==receiver) {
+     if(DF147Life.active && [DF147Bundle isEqualToString:bid] &&
+        [DF147Session isEqualToString:session]) {
+       handled=YES; // do not destroy already live owner
+       DF144Log(@"native-dock-current-bridge",bid);
+     } else {
+       // A Dock controller is not a Dashboard Home workspace owner; native
+       // deactivation fails closed, never calls a guessed workspace selector.
+       handled=DF144BeginSelectedBridge(bid,nil,@"CarPlayDockStandalone144");
+       if(handled)DF144Log(@"native-dock-bridge-request",bid);
+     }
+   }
+ }
+ if(!handled) {
    DF144Log(@"qa149-native-dock-press-original-forwarded",
      [NSString stringWithFormat:@"owner=%@ argument=%@ bundle=%@",
-      NSStringFromClass([receiver class]),NSStringFromClass([button class]),bid?:@"unresolved"]);
+       NSStringFromClass([receiver class]),NSStringFromClass([button class]),
+       DF144Bundle(button,0)?:@"unresolved"]);
+   if(DF149NativeDockPressedOriginal)
+     DF149NativeDockPressedOriginal(receiver,sel,button);
  }
- if(DF149NativeDockPressedOriginal)
-   DF149NativeDockPressedOriginal(receiver,sel,button);
 }
 static void DF149InstallNativeDockPressObserver(void) {
  if(DF149NativeDockPressedOriginal)return;
@@ -172,7 +193,7 @@ static void DF149InstallNativeDockPressObserver(void) {
  if(r[0]!='v'||a[0]!='@')return;
  hook(cls,sel,(IMP)DF149ObserveDockPressed,(IMP*)&DF149NativeDockPressedOriginal);
  if(DF149NativeDockPressedOriginal)
-   DF144Log(@"qa149-native-dock-press-observer-installed",@"passive-forward-only");
+   DF144Log(@"native-dock-selected-bridge-installed",@"nonselected original-forward");
 }
 static void DF147InstallNativeSwitchHook(void) {
  if(DF147NativeActiveOriginal)return;

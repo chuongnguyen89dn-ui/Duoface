@@ -24,7 +24,7 @@ class WorkspaceCapture151(unittest.TestCase):
   start=SOLO.split("__attribute__((constructor))static void DF144StartCarPlay(void)",1)[1].split("#endif",1)[0]
   self.assertLess(start.index("DF151StartCapture()"),start.index("DF144Install(0)"))
   self.assertIn('#import "DF151WorkspaceOwnerCapture.h"',SOLO)
-  launch=SOLO.split("static void DF144Launch(",1)[1].split("static void DF144Install(",1)[0]
+  launch=SOLO.split("static BOOL DF144BeginSelectedBridge(",1)[1].split("static void DF144Launch(",1)[0]
   self.assertLess(launch.index("DF144ValidRequest(p,"),launch.index("DF151WorkspaceSnapshot(rid,bundle,display,self)"))
   self.assertLess(launch.index("DF151WorkspaceSnapshot(rid,bundle,display,self)"),launch.index("notify_post(DF144RequestNotify)"))
  def test_live_receiver_provenance_snapshot_never_activates_native_workspace(self):

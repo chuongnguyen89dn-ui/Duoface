@@ -85,7 +85,7 @@ static BOOL DF144ValidRect(CGRect r,CGRect whole) {
 }
 static BOOL DF144ValidRequest(NSDictionary *p,NSTimeInterval now) {
  if(![p isKindOfClass:NSDictionary.class] || ![p[@"Version"] isEqual:@1] ||
-    ![p[@"Origin"] isEqualToString:@"CarPlayHomeStandalone144"] ||
+    ![@[@"CarPlayHomeStandalone144",@"CarPlayDockStandalone144"] containsObject:p[@"Origin"]] ||
     ![p[@"RequestID"] isKindOfClass:NSString.class] ||
     ![[NSUUID alloc] initWithUUIDString:p[@"RequestID"]] ||
     ![p[@"BundleID"] isKindOfClass:NSString.class] ||
@@ -163,27 +163,24 @@ static BOOL DF144LiveReceiver(void) {
 }
 #import "DFNativeDockSync147.h"
 #import "DF152NativeWorkspacePrepare.h"
-static void DF144Launch(id self,SEL cmd,id manager,id icon) {
- NSString *bundle=DF144Bundle(icon,0);
- if(![icon isKindOfClass:UIView.class] || !DF144Allowed(bundle) || !DF144LiveReceiver()) {
-   DF144Original(self,cmd,manager,icon);return;
- }
+static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *origin) {
+ if(!DF144Allowed(bundle) || !DF144LiveReceiver())return NO;
  CGRect content=CGRectZero,screen=CGRectZero;
  NSString *display=nil;
  if(!DF144UniqueNativeContentWindow(&content,&screen,&display)) {
    DF144Log(@"native-geometry-not-owned-original-forwarded",bundle);
-   DF144Original(self,cmd,manager,icon);return;
+   return NO;
  }
  // A *separate* broker not the ordinary DuoFace icon or split owner.
  NSString *rid=NSUUID.UUID.UUIDString;
- NSDictionary *p=@{@"Version":@1,@"Origin":@"CarPlayHomeStandalone144",
+ NSDictionary *p=@{@"Version":@1,@"Origin":origin,
    @"RequestID":rid,@"BundleID":bundle,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
    @"CarDisplayID":display,@"ContentRect":NSStringFromCGRect(content),
    @"ScreenBounds":NSStringFromCGRect(screen)};
  if(!DF144ValidRequest(p,NSDate.date.timeIntervalSince1970) ||
     ![p writeToFile:DF144Request atomically:YES]) {
    DF144Log(@"invalid-request-original-forwarded",bundle);
-   DF144Original(self,cmd,manager,icon);return;
+   return NO;
  }
  DF147Prepare(p);
  // Native Apple Home remains active until the first-party transaction owns a
@@ -191,8 +188,8 @@ static void DF144Launch(id self,SEL cmd,id manager,id icon) {
  // and its native Dashboard workspace completion is bounded to 250ms.
  DF144LastHomeRequest=NSDate.date.timeIntervalSince1970;
  DF150ProbeWorkspaceForRequest(rid,bundle,display,NO);
- DF151WorkspaceSnapshot(rid,bundle,display,self);
- DF152PrepareThenContinue(rid,bundle,display,self,^{
+ DF151WorkspaceSnapshot(rid,bundle,display,nativeHome);
+ DF152PrepareThenContinue(rid,bundle,display,nativeHome,^{
    // A delayed Apple completion must not activate a revoked or replaced app.
    CGRect liveContent=CGRectZero,liveScreen=CGRectZero;
    NSString *liveDisplay=nil;
@@ -223,6 +220,13 @@ static void DF144Launch(id self,SEL cmd,id manager,id icon) {
       [NSString stringWithFormat:@"bid=%@ uuid=%@ content=%@",
          bundle,rid,NSStringFromCGRect(liveContent)]);
  });
+ return YES;
+}
+static void DF144Launch(id self,SEL cmd,id manager,id icon) {
+ NSString *bid=DF144Bundle(icon,0);
+ if(![icon isKindOfClass:UIView.class] ||
+    !DF144BeginSelectedBridge(bid,self,@"CarPlayHomeStandalone144"))
+   DF144Original(self,cmd,manager,icon);
 }
 static void DF144Install(int tryNo) {
  if(DF144Original || tryNo>15)return;

@@ -30,13 +30,14 @@ class FirstPartyManagerLiveReceipt(unittest.TestCase):
   self.assertIn("notify_post(DF148OwnerRevokeStopNotify);",dock)
   self.assertIn("DF149Revoke(&DF149Life)",dock)
   self.assertIn("pidObserved",fsm)
- def test_dock_tap_observer_is_passive_and_abi_guarded(self):
+ def test_dock_tap_selected_manager_and_original_native_fallback(self):
   m=dock.split("static void DF149ObserveDockPressed",1)[1].split("static void DF147InstallNativeSwitchHook",1)[0]
-  self.assertIn("_dockButtonPressed:",m)
-  self.assertIn("method_getNumberOfArguments(m)!=3",m)
-  self.assertIn("method_getReturnType(m,r,sizeof(r))",m)
-  self.assertIn("DF149NativeDockPressedOriginal(receiver,sel,button)",m)
-  self.assertIn("passive-forward-only",m)
+  for mark in ("_dockButtonPressed:","method_getNumberOfArguments(m)!=3",
+     "method_getReturnType(m,r,sizeof(r))","DF144Allowed(bid)",
+     "DF144LiveReceiver()","DF147FindDock(session,&home)==receiver",
+     'DF144BeginSelectedBridge(bid,nil,@"CarPlayDockStandalone144")',
+     "if(!handled)","DF149NativeDockPressedOriginal(receiver,sel,button)"):
+   self.assertIn(mark,m)
   self.assertNotIn("notify_post(DF144RequestNotify)",m)
  def test_no_frozen_host_mutation_or_fake_pid_or_render_claim(self):
   h=hashlib.sha1(b"blob "+str(len(host)).encode()+b"\0"+host).hexdigest()

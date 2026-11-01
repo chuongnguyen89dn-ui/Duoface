@@ -10,16 +10,17 @@ HOST=(R/"DFSceneHost.m").read_bytes()
 
 class WorkspaceNativePreparation152(unittest.TestCase):
  def test_native_preparation_precedes_remote_scene_and_retains_original_home(self):
-  launch=BRIDGE.split("static void DF144Launch(",1)[1].split("static void DF144Install(",1)[0]
-  self.assertLess(launch.index("DF147Prepare(p)"),launch.index("DF152PrepareThenContinue(rid,bundle,display,self,^"))
-  self.assertLess(launch.index("DF152PrepareThenContinue(rid,bundle,display,self,^"),launch.index("notify_post(DF144RequestNotify)"))
+  launch=BRIDGE.split("static BOOL DF144BeginSelectedBridge(",1)[1].split("static void DF144Launch(",1)[0]
+  self.assertLess(launch.index("DF147Prepare(p)"),launch.index("DF152PrepareThenContinue(rid,bundle,display,nativeHome,^"))
+  self.assertLess(launch.index("DF152PrepareThenContinue(rid,bundle,display,nativeHome,^"),launch.index("notify_post(DF144RequestNotify)"))
   self.assertIn('[still[@"RequestID"] isEqualToString:rid]',launch)
   self.assertIn('[still[@"BundleID"] isEqualToString:bundle]',launch)
   self.assertIn('[still[@"CarDisplayID"] isEqualToString:display]',launch)
   self.assertIn("DF147Life.pending",launch)
   self.assertIn("DF144LiveReceiver()",launch)
   self.assertIn("DF144UniqueNativeContentWindow(",launch)
-  self.assertIn('DF144Original(self,cmd,manager,icon);return;',launch)
+  self.assertIn('DF144Original(self,cmd,manager,icon);',BRIDGE)
+  self.assertIn('DF144BeginSelectedBridge(bid,self,@"CarPlayHomeStandalone144")',BRIDGE)
   self.assertIn("DF152RevokeNativePreparation();",BRIDGE)
   self.assertIn("notify_post(DF144StopNotify)",BRIDGE)
  def test_no_unverified_owner_app_or_foreground_deactivation(self):
