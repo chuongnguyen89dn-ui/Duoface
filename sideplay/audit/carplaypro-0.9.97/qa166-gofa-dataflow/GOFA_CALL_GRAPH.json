@@ -1,0 +1,56 @@
+{
+  "static_only": true,
+  "function_starts": 541,
+  "instruction_count": 16007,
+  "direct_branch_edges": 1087,
+  "pivot_functions": [
+    {
+      "title": "GOFA_speed_export",
+      "address": "0x3e38c",
+      "parent_start": "0x3e38c",
+      "symbol": "_SAGofaSpeedPayload",
+      "direct_callers": [],
+      "callers_up_to_four_hops": [],
+      "first_65_instructions": [],
+      "outgoing_direct_branches": []
+    },
+    {
+      "title": "GOFA_speed_Swift_wrapper",
+      "address": "0x3e390",
+      "parent_start": "0x3e390",
+      "symbol": "_$s11SpeedAlerts04gofaA7PayloadySvSgSVF",
+      "direct_callers": [],
+      "callers_up_to_four_hops": [],
+      "first_65_instructions": [],
+      "outgoing_direct_branches": []
+    },
+    {
+      "title": "GOFA_alert_export",
+      "address": "0x3e93c",
+      "parent_start": "0x3e93c",
+      "symbol": "_SAGofaAlertPayload",
+      "direct_callers": [],
+      "callers_up_to_four_hops": [],
+      "first_65_instructions": [],
+      "outgoing_direct_branches": []
+    },
+    {
+      "title": "GOFA_alert_Swift_wrapper",
+      "address": "0x3e940",
+      "parent_start": "0x3e940",
+      "symbol": "_$s11SpeedAlerts16gofaAlertPayloadySvSgSVF",
+      "direct_callers": [],
+      "callers_up_to_four_hops": [],
+      "first_65_instructions": [],
+      "outgoing_direct_branches": []
+    }
+  ],
+  "original_goFA_source_tokens": {
+    "GOFA.SpeedBoardModel": true,
+    "GOFA.DatapointModel": true,
+    "notificationNextBoard": true,
+    "notificationOtherBoard": true,
+    "currentAllowSpeed": true,
+    "flutterDirection": true
+  }
+}
