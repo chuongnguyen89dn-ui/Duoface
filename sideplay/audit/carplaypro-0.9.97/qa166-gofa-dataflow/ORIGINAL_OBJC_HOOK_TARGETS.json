@@ -15,7 +15,8 @@
           "0xab40",
           "0xab44"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x713e8",
@@ -23,8 +24,16 @@
           "0xab48",
           "0xab4c"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "FlutterMethodChannel",
+          "classLookupCall": "0xaa9c",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x17c98",
@@ -36,7 +45,8 @@
           "0x17c80",
           "0x17c84"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71440",
@@ -44,8 +54,16 @@
           "0x17c88",
           "0x17c8c"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "FlutterMethodChannel",
+          "classLookupCall": "0x17b7c",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x2f83c",
@@ -57,7 +75,8 @@
           "0x2f814",
           "0x2f818"
         ],
-        "literal": "UIWindow"
+        "literal": "UIWindow",
+        "cfstring": null
       },
       "x1_candidate": {
         "at": "0x6aaa0",
@@ -80,7 +99,8 @@
           "0x2f82c",
           "0x2f830"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x6bb50",
@@ -88,12 +108,19 @@
           "0x2f834",
           "0x2f838"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "setRootViewController:",
+        "source": "original_authenticated_objc_selref",
+        "candidate": false
       },
       "nearby_class_lookups": [
         {
           "className": "UIWindow",
-          "classLookupCall": "0x2f81c"
+          "classLookupCall": "0x2f81c",
+          "classLookupKind": "objc_getClass"
         }
       ]
     },
@@ -107,7 +134,8 @@
           "0x2f814",
           "0x2f818"
         ],
-        "literal": "UIWindow"
+        "literal": "UIWindow",
+        "cfstring": null
       },
       "x1_candidate": {
         "at": "0x6ac38",
@@ -130,7 +158,8 @@
           "0x2f848",
           "0x2f84c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x6bb58",
@@ -138,12 +167,19 @@
           "0x2f850",
           "0x2f854"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "setWindowScene:",
+        "source": "original_authenticated_objc_selref",
+        "candidate": false
       },
       "nearby_class_lookups": [
         {
           "className": "UIWindow",
-          "classLookupCall": "0x2f81c"
+          "classLookupCall": "0x2f81c",
+          "classLookupKind": "objc_getClass"
         }
       ]
     },
@@ -157,7 +193,12 @@
           "0x2f9b0",
           "0x2f9b4"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x60c28",
+          "target": "0x5302c",
+          "text": "didBecomeActive"
+        }
       },
       "x2_candidate": {
         "at": "0x38a98",
@@ -165,7 +206,8 @@
           "0x2f9d4",
           "0x2f9d8"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71550",
@@ -173,12 +215,19 @@
           "0x2f9dc",
           "0x2f9e0"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "nearby_class_lookups": [
         {
-          "className": "UIWindow",
-          "classLookupCall": "0x2f81c"
+          "className": "CommonLib.LocationManager",
+          "classLookupCall": "0x2f950",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "_TtC9CommonLib15LocationManager",
+          "classLookupCall": "0x2f964",
+          "classLookupKind": "NSClassFromString"
         }
       ]
     },
@@ -192,7 +241,12 @@
           "0x2f9f0",
           "0x2f9f4"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x60c28",
+          "target": "0x5302c",
+          "text": "didBecomeActive"
+        }
       },
       "x2_candidate": {
         "at": "0x38b00",
@@ -200,7 +254,8 @@
           "0x2fa00",
           "0x2fa04"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71308",
@@ -208,12 +263,19 @@
           "0x2fa08",
           "0x2fa0c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "nearby_class_lookups": [
         {
-          "className": "UIWindow",
-          "classLookupCall": "0x2f81c"
+          "className": "CommonLib.LocationManager",
+          "classLookupCall": "0x2f950",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "_TtC9CommonLib15LocationManager",
+          "classLookupCall": "0x2f964",
+          "classLookupKind": "NSClassFromString"
         }
       ]
     },
@@ -227,7 +289,12 @@
           "0x2fa18",
           "0x2fa1c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x60c68",
+          "target": "0x53057",
+          "text": "willResignActive"
+        }
       },
       "x2_candidate": {
         "at": "0x38b70",
@@ -235,7 +302,8 @@
           "0x2fa28",
           "0x2fa2c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71310",
@@ -243,12 +311,19 @@
           "0x2fa30",
           "0x2fa34"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "nearby_class_lookups": [
         {
-          "className": "UIWindow",
-          "classLookupCall": "0x2f81c"
+          "className": "CommonLib.LocationManager",
+          "classLookupCall": "0x2f950",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "_TtC9CommonLib15LocationManager",
+          "classLookupCall": "0x2f964",
+          "classLookupKind": "NSClassFromString"
         }
       ]
     },
@@ -262,7 +337,12 @@
           "0x2fa88",
           "0x2fa8c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x632e8",
+          "target": "0x54bd9",
+          "text": "CPNavigationSession"
+        }
       },
       "x2_candidate": {
         "at": "0x37f28",
@@ -270,7 +350,8 @@
           "0x2facc",
           "0x2fad0"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71528",
@@ -278,8 +359,16 @@
           "0x2fad4",
           "0x2fad8"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "CPNavigationSession",
+          "classLookupCall": "0x2fa90",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x2fb00",
@@ -291,7 +380,8 @@
           "0x2fae8",
           "0x2faec"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71530",
@@ -299,8 +389,16 @@
           "0x2faf0",
           "0x2faf4"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "CPNavigationSession",
+          "classLookupCall": "0x2fa90",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x2fb20",
@@ -327,7 +425,8 @@
           "0x2fb0c",
           "0x2fb10"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71538",
@@ -335,8 +434,21 @@
           "0x2fb14",
           "0x2fb18"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "cancelTrip",
+        "source": "original_authenticated_objc_selref",
+        "candidate": false
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "CPNavigationSession",
+          "classLookupCall": "0x2fa90",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x2fb40",
@@ -363,7 +475,8 @@
           "0x2fb2c",
           "0x2fb30"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71540",
@@ -371,8 +484,21 @@
           "0x2fb34",
           "0x2fb38"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "finishTrip",
+        "source": "original_authenticated_objc_selref",
+        "candidate": false
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "CPNavigationSession",
+          "classLookupCall": "0x2fa90",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x2fb60",
@@ -399,7 +525,8 @@
           "0x2fb4c",
           "0x2fb50"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71548",
@@ -407,8 +534,21 @@
           "0x2fb54",
           "0x2fb58"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "pauseTripForReason:description:",
+        "source": "original_authenticated_objc_selref",
+        "candidate": false
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "CPNavigationSession",
+          "classLookupCall": "0x2fa90",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x30178",
@@ -420,7 +560,8 @@
           "0x30160",
           "0x30164"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71558",
@@ -428,7 +569,8 @@
           "0x30168",
           "0x3016c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -441,7 +583,12 @@
           "0x301b8",
           "0x301bc"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x60c68",
+          "target": "0x53057",
+          "text": "willResignActive"
+        }
       },
       "x2_candidate": {
         "at": "0x38d6c",
@@ -449,7 +596,8 @@
           "0x301f8",
           "0x301fc"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71318",
@@ -457,8 +605,16 @@
           "0x30200",
           "0x30204"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "_TtC9CommonLib11AudioDevice",
+          "classLookupCall": "0x301a0",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x3022c",
@@ -470,7 +626,8 @@
           "0x30214",
           "0x30218"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71320",
@@ -478,8 +635,16 @@
           "0x3021c",
           "0x30220"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "_TtC9CommonLib11AudioDevice",
+          "classLookupCall": "0x301a0",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x3028c",
@@ -491,7 +656,12 @@
           "0x3025c",
           "0x30260"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x60ce8",
+          "target": "0x530c0",
+          "text": "[CarPlayProSpeedNavitel] %@"
+        }
       },
       "x1_candidate": {
         "at": "0x3aab0",
@@ -499,7 +669,8 @@
           "0x30274",
           "0x30278"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x715d0",
@@ -507,8 +678,16 @@
           "0x3027c",
           "0x30280"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "_TtC9CommonLib11AudioDevice",
+          "classLookupCall": "0x301a0",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x303d8",
@@ -525,7 +704,12 @@
           "0x306cc",
           "0x306d0"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x635e8",
+          "target": "0x550c6",
+          "text": "[CarPlayProSpeedNavitel] eventHook=entryMismatch"
+        }
       },
       "x1_candidate": {
         "at": "0x3a904",
@@ -533,7 +717,8 @@
           "0x306fc",
           "0x30700"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x715c8",
@@ -541,7 +726,8 @@
           "0x30704",
           "0x30708"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -554,7 +740,12 @@
           "0x3081c",
           "0x30820"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x63708",
+          "target": "0x55202",
+          "text": "[CarPlayProSpeedNavitel 0.9.97] producerHook=entryMismatch"
+        }
       },
       "x1_candidate": {
         "at": "0x3ad20",
@@ -562,7 +753,8 @@
           "0x3082c",
           "0x30830"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x715e0",
@@ -570,7 +762,8 @@
           "0x30834",
           "0x30838"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -583,7 +776,12 @@
           "0x3084c",
           "0x30850"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x63608",
+          "target": "0x550f7",
+          "text": "[CarPlayProSpeedNavitel 0.9.97] eventHook=installed alerts=1"
+        }
       },
       "x1_candidate": {
         "at": "0x40558",
@@ -591,7 +789,8 @@
           "0x30858",
           "0x3085c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x6baf8",
@@ -599,7 +798,8 @@
           "0x30860",
           "0x30864"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -612,7 +812,8 @@
           "0x308ac",
           "0x308b0"
         ],
-        "literal": "com.carplaypro.navitel.pcm-copy"
+        "literal": "com.carplaypro.navitel.pcm-copy",
+        "cfstring": null
       },
       "x1_candidate": {
         "at": "0x40738",
@@ -620,7 +821,8 @@
           "0x308d0",
           "0x308d4"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x6bae8",
@@ -628,7 +830,8 @@
           "0x308d8",
           "0x308dc"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -641,7 +844,8 @@
           "0x311a0",
           "0x311a4"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -663,7 +867,8 @@
           "0x37154",
           "0x37158"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71500",
@@ -671,7 +876,8 @@
           "0x3715c",
           "0x37160"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -684,7 +890,8 @@
           "0x37198",
           "0x3719c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71508",
@@ -692,7 +899,8 @@
           "0x371a0",
           "0x371a4"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -705,7 +913,12 @@
           "0x3730c",
           "0x37310"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x63268",
+          "target": "0x54b88",
+          "text": "applicationIdentifier"
+        }
       },
       "x2_candidate": {
         "at": "0x37a20",
@@ -713,7 +926,8 @@
           "0x3733c",
           "0x37340"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71510",
@@ -721,8 +935,31 @@
           "0x37344",
           "0x37348"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "LSApplicationProxy",
+          "classLookupCall": "0x372ac",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "FBSApplicationInfo",
+          "classLookupCall": "0x372bc",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "FBApplicationInfo",
+          "classLookupCall": "0x372cc",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "LSApplicationRecord",
+          "classLookupCall": "0x372dc",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x373cc",
@@ -734,7 +971,12 @@
           "0x37384",
           "0x37388"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": {
+          "cfstring_at": "0x63288",
+          "target": "0x54b9e",
+          "text": "bundleIdentifier"
+        }
       },
       "x2_candidate": {
         "at": "0x37b64",
@@ -742,7 +984,8 @@
           "0x373b4",
           "0x373b8"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71518",
@@ -750,8 +993,31 @@
           "0x373bc",
           "0x373c0"
         ],
-        "literal": null
-      }
+        "literal": null,
+        "cfstring": null
+      },
+      "nearby_class_lookups": [
+        {
+          "className": "LSApplicationProxy",
+          "classLookupCall": "0x372ac",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "FBSApplicationInfo",
+          "classLookupCall": "0x372bc",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "FBApplicationInfo",
+          "classLookupCall": "0x372cc",
+          "classLookupKind": "NSClassFromString"
+        },
+        {
+          "className": "LSApplicationRecord",
+          "classLookupCall": "0x372dc",
+          "classLookupKind": "NSClassFromString"
+        }
+      ]
     },
     {
       "callsite": "0x37488",
@@ -763,7 +1029,8 @@
           "0x37470",
           "0x37474"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71520",
@@ -771,7 +1038,8 @@
           "0x37478",
           "0x3747c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -793,7 +1061,8 @@
           "0x39090",
           "0x39094"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x71598",
@@ -801,7 +1070,8 @@
           "0x39098",
           "0x3909c"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -823,7 +1093,8 @@
           "0x39174",
           "0x39178"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x3_candidate": {
         "at": "0x715a0",
@@ -831,7 +1102,8 @@
           "0x3917c",
           "0x39180"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -844,7 +1116,8 @@
           "0x393dc",
           "0x393e0"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x71570",
@@ -852,7 +1125,8 @@
           "0x393e4",
           "0x393e8"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -865,7 +1139,8 @@
           "0x393f4",
           "0x393f8"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x71578",
@@ -873,7 +1148,8 @@
           "0x393fc",
           "0x39400"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     },
     {
@@ -886,7 +1162,8 @@
           "0x3940c",
           "0x39410"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       },
       "x2_candidate": {
         "at": "0x71580",
@@ -894,7 +1171,8 @@
           "0x39414",
           "0x39418"
         ],
-        "literal": null
+        "literal": null,
+        "cfstring": null
       }
     }
   ],
