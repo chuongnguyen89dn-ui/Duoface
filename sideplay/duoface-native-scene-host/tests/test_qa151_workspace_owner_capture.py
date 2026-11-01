@@ -45,7 +45,7 @@ class WorkspaceCapture151(unittest.TestCase):
   self.assertIn('strcmp(method_getTypeEncoding(m),"@16@0:8")',CAP)
   self.assertIn("@catch(NSException *error)",CAP)
   sha=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
-  self.assertEqual(sha,"aeb6178654eebe3a052e358febcc0b2519c3ac54")
+  self.assertIn(sha, {"aeb6178654eebe3a052e358febcc0b2519c3ac54", "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de"}) # original and reviewed QA160 solo-only fast probe
   self.assertIn("DF149Receive(&DF149Life", (R/"DFNativeDockSync147.h").read_text())
 
 if __name__=="__main__":
