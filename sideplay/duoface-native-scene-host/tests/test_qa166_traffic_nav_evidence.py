@@ -3,12 +3,13 @@ No notification payload, alerts or route correctness is inferred by these checks
 """
 from pathlib import Path
 import unittest
+import os
 
 ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parents[1]
 PROBE=ROOT / "DFGofaTrafficNavProbe166.m"
 EXPORTER=ROOT / "DFNativeDiagnostics.m"
-ORIGINAL=REPO / "sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.section-strings.json"
+ORIGINAL=Path(os.environ["DF166_ORIGINAL_SYMBOL_FILE"]) if "DF166_ORIGINAL_SYMBOL_FILE" in os.environ else (REPO / "sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.section-strings.json")
 import json
 
 class TestTrafficNavEvidence166(unittest.TestCase):
