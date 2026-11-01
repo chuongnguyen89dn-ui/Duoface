@@ -1,0 +1,94 @@
+name: QA166 Original CarPlayPro GOFA direct callgraph research - static only
+on:
+  push:
+    branches: [feature/duoface-qa166-gofa-traffic-nav-evidence-20261101]
+    paths:
+      - '.github/workflows/duoface-166-carplaypro-gofa-callgraph.yml'
+      - 'sideplay/tools/trace_carplaypro_speed_dataflow.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa166-gofa-forensic-source
+  cancel-in-progress: false
+jobs:
+  trace-original:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch original audit and raw SpeedAlerts bytes from immutable GitHub main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          mkdir -p "$RUNNER_TEMP/qa166-original"
+          PREFIX='sideplay/audit/carplaypro-0.9.97'
+          git show "FETCH_HEAD:$PREFIX/disassembly/007-SpeedAlerts.dylib-arm64.arm64.txt.gz" > "$RUNNER_TEMP/qa166-original/asm.gz"
+          git show "FETCH_HEAD:$PREFIX/macho/007-SpeedAlerts.dylib-arm64.function-starts.json" > "$RUNNER_TEMP/qa166-original/functions.json"
+          git show "FETCH_HEAD:$PREFIX/macho/007-SpeedAlerts.dylib-arm64.symbols.json" > "$RUNNER_TEMP/qa166-original/symbols.json"
+          git show "FETCH_HEAD:$PREFIX/macho/007-SpeedAlerts.dylib-arm64.section-strings.json" > "$RUNNER_TEMP/qa166-original/sections.json"
+          test "$(git hash-object "$RUNNER_TEMP/qa166-original/sections.json")" = b8db68f5314b386dad24835f32f74cdf4086e35e
+          ORIGINAL_PATH="$PREFIX/unpacked/rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib"
+          git show "FETCH_HEAD:$ORIGINAL_PATH" > "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib"
+          test "$(git hash-object "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib")" = f2b7d46e7ace8dfb533e9e9a843eae9616523486
+          echo QA166_ORIGINAL_DEB_EXTRACTED_FILE_BYTES_GIT_BLOB_PINNED_PASS
+      - name: Build and check actual branch/callsite graph for original GOFA helpers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/tools/trace_carplaypro_speed_dataflow.py
+          python3 sideplay/tools/trace_carplaypro_speed_dataflow.py \
+             --disasm-gzip "$RUNNER_TEMP/qa166-original/asm.gz" \
+             --function-starts "$RUNNER_TEMP/qa166-original/functions.json" \
+             --symbols "$RUNNER_TEMP/qa166-original/symbols.json" \
+             --section-strings "$RUNNER_TEMP/qa166-original/sections.json" \
+             --out "$RUNNER_TEMP/qa166-results"
+          python3 - "$RUNNER_TEMP/qa166-results/GOFA_CALL_GRAPH.json" <<'PY'
+          import json,sys
+          o=json.load(open(sys.argv[1]))
+          assert o['instruction_count']>10000,o['instruction_count']
+          assert len(o['pivot_functions'])==4
+          assert o['direct_branch_edges']>1000,o['direct_branch_edges']
+          assert o['original_goFA_source_tokens']['GOFA.SpeedBoardModel']
+          assert o['original_goFA_source_tokens']['notificationNextBoard']
+          print('QA166_ORIGINAL_ARM64_GOFA_CALLSITE_GRAPH_STRUCTURAL_PASS')
+          PY
+      - name: Apple ObjC method implementation metadata - independent confirmation
+        shell: bash
+        run: |
+          set -euo pipefail
+          # This is a static decompilation-style metadata dump, never dylib execution.
+          otool -oV -arch arm64 "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib" > "$RUNNER_TEMP/qa166-results/original-objc-methods.txt"
+          gzip -9 "$RUNNER_TEMP/qa166-results/original-objc-methods.txt"
+          zcat "$RUNNER_TEMP/qa166-results/original-objc-methods.txt.gz" 2>/dev/null | head -20 || true
+          echo QA166_ORIGINAL_OBJC_METADATA_EXTRACTED
+      - name: Persist complete read-only reports to correct DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa166-gofa-traffic-nav-evidence-20261101'
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            OUT="$TMP/sideplay/audit/carplaypro-0.9.97/qa166-gofa-dataflow"
+            mkdir -p "$OUT"
+            cp "$RUNNER_TEMP/qa166-results/"* "$OUT/"
+            printf 'RUN_ID=%s\nSOURCE_SHA=%s\nMETHOD=static-only\nGOFA_RUNTIME_VERIFIED=false\nROAD_ALERT_CONNECTED=false\nTURN_CONNECTED=false\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > "$OUT/TRACE_RECEIPT.txt"
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "sideplay/audit/carplaypro-0.9.97/qa166-gofa-dataflow/"
+            git -C "$TMP" commit -m 'audit(qa166): save exact SpeedAlerts GOFA ARM64 direct callers and ObjC method metadata [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+               git worktree remove --force "$TMP"
+               git fetch origin "$BRANCH"
+               git cat-file -e 'FETCH_HEAD:sideplay/audit/carplaypro-0.9.97/qa166-gofa-dataflow/GOFA_CALL_GRAPH.md'
+               echo QA166_GOFA_ORIGINAL_BINARY_FLOW_SAVED_GITHUB
+               exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
