@@ -12,12 +12,12 @@ static BOOL DFHome136Enabled(void){return enabled;}
 static BOOL DFHome140Enabled(void){return enabled;}
 void DF137ObserveExistingAppInfo(id info,NSString *stage){(void)info;(void)stage;}
 @interface TestHomeProcessInfo:NSObject
-+ (id)processInfo;
++ (instancetype)processInfo;
 - (NSString *)processName;
 - (NSOperatingSystemVersion)operatingSystemVersion;
 @end
 @implementation TestHomeProcessInfo
-+ (id)processInfo {static id p; if(!p)p=[self new];return p;}
++ (instancetype)processInfo {static id p; if(!p)p=[self new];return p;}
 - (NSString *)processName{return @"CarPlay";}
 - (NSOperatingSystemVersion)operatingSystemVersion{return (NSOperatingSystemVersion){16,7,16};}
 @end
