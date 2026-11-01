@@ -1,3 +1,11 @@
+## 2026-11-01 — Current Home-launch vs original: native workspace prep BYPASSED in8/8 Log25 requests
+
+User asks current comparison with original DEB for Home app launch. Important additional finding from actual Log25: all8 qa151 snapshots captured real Dashboard owner/DBWorkspace but homeGetter=0/workspaceSame=0; all8 immediately resume qa152 with cause=dashboard-workspace-unverified. Exact pairs15440/15441,15504/15505,15565/15566,15616/15617,15661/15662,15724/15725,15768/15769,15821/15822. Fresh source confirms this branch returns to standalone continuation BEFORE showingApp query/native deactivation. Therefore native preparation exists in source but did NOT run verified native preparation in this session; don't call this original-route parity.
+
+Current positive proof retained:8 manager/scene/host/Dock activations;62 app-side ACKs Safari/Facebook and5 restored receipts; source full-root/separate-content implementation. User-confirmed failure retained: Home returns Home CarPlay instead of app chooser. Original genuine static Home hook also forwards Apple original; do not suppress it. Full scene/Dock/native navigation parity not established. homeGetter=0 is ABI-verification failure, not proof selector absent; showingApp snapshot uses object getter so cannot prove absence of BOOL selector. No percentage-complete claim.
+
+Evidence: sideplay/audit/qa156-log25-exit-comparison-20261101/CURRENT_VS_ORIGINAL_HOME_LAUNCH.md. Original bounded static callgraph vs current actual Log25; no new original-device run. NEXT validate actual native Home receiver -> Dashboard workspace ownership/access route and chooser state before any behavior patch. No runtime/build/Sileo change this turn.
+
 ## 2026-11-01 — USER CLARIFICATION: wrong Home navigation destination, return to app chooser
 
 USER explicitly corrects focus: unsupported/bridged app -> press Home -> jumps directly to CarPlay Home, INSTEAD OF returning to the app-selection page. Calendar/Music are user's reference for the expected exit. Required behavior is return to the app chooser/context, not merely hide standalone scene, receive restored ACK or repaint Dock. Retain user's distinct labels “Home CarPlay” vs “trang chọn app”; do not silently collapse both into “Home” or infer a specific Dashboard controller without observing it.
