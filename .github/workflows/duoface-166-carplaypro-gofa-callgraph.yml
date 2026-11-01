@@ -6,6 +6,7 @@ on:
       - '.github/workflows/duoface-166-carplaypro-gofa-callgraph.yml'
       - 'sideplay/tools/trace_carplaypro_speed_dataflow.py'
       - 'sideplay/tools/recover_carplaypro_speed_full_arm64.py'
+      - 'sideplay/tools/trace_carplaypro_speed_hooks.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -75,6 +76,12 @@ jobs:
           # This is a static decompilation-style metadata dump, never dylib execution.
           otool -oV -arch arm64 "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib" > "$RUNNER_TEMP/qa166-results/original-objc-methods.txt"
           gzip -9 "$RUNNER_TEMP/qa166-results/original-objc-methods.txt"
+          otool -Iv -arch arm64 "$RUNNER_TEMP/qa166-original/SpeedAlerts.dylib" > "$RUNNER_TEMP/qa166-results/original-indirect-symbols.txt"
+          python3 sideplay/tools/trace_carplaypro_speed_hooks.py \
+            --disassembly "$RUNNER_TEMP/qa166-results/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz" \
+            --indirect "$RUNNER_TEMP/qa166-results/original-indirect-symbols.txt" \
+            --function-starts "$RUNNER_TEMP/qa166-original/functions.json" \
+            --out "$RUNNER_TEMP/qa166-results"
           zcat "$RUNNER_TEMP/qa166-results/original-objc-methods.txt.gz" 2>/dev/null | head -20 || true
           echo QA166_ORIGINAL_OBJC_METADATA_EXTRACTED
       - name: Persist complete read-only reports to correct DuoFace branch
