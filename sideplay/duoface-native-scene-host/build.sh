@@ -59,7 +59,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreLocation -lc++ \
   -DDF165_PASSIVE_GOFA_ONLY=1 \
-  -o "$SPEED_DYLIB" DFGofaSpeedSource162.m DFGofaNativeLocationTap165.m speed8/DFSpeedTransport.mm
+  -o "$SPEED_DYLIB" DFGofaSpeedSource162.m DFGofaNativeLocationTap165.m DFGofaTrafficNavProbe166.m speed8/DFSpeedTransport.mm
 cp DFGofaSpeedSource162.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.plist"
 ldid -S "$SPEED_DYLIB"
 # GOFA-only map canvas resize in the existing integrated package.
@@ -111,7 +111,7 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.165~nativegofahome1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.166~trafficnavprobe1_iphoneos-arm64.deb"
 chmod 0755 "$TMP"
 dpkg-deb --root-owner-group --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
