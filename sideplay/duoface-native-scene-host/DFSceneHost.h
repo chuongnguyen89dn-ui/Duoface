@@ -20,6 +20,8 @@ FOUNDATION_EXPORT NSString *const DFSceneHostDidObserveTouchNotification;
 - (BOOL)wasProcessAbsentBeforeHostedView:(UIView *)view;
 - (BOOL)isLiveSceneForHostedView:(UIView *)view;
 // Explicit Chrome split/focus mode; a second pane may be empty.
+// Only the standalone Home-owned app uses a short readiness probe; split panes retain original polling.
+- (void)setFastInitialPolling:(BOOL)fast forHostedView:(UIView *)view;
 - (void)setSplitMode:(BOOL)isSplit forHostedView:(UIView *)view;
 - (void)releaseHostedView:(UIView *)view;
 - (void)stopAllHosts;
