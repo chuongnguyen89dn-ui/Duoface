@@ -1,0 +1,38 @@
+name: QA166 GOFA traffic/nav original-source evidence gate (no Sileo)
+on:
+  push:
+    branches: [feature/duoface-qa166-gofa-traffic-nav-evidence-20261101]
+    paths:
+      - '.github/workflows/duoface-166-traffic-nav-evidence-private.yml'
+      - 'sideplay/duoface-native-scene-host/DFGofaTrafficNavProbe166.m'
+      - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa166_traffic_nav_evidence.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: duoface-qa166-traffic-nav-readonly
+  cancel-in-progress: false
+jobs:
+  evidence-and-syntax:
+    runs-on: macos-15
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original CarPlayPro identifiers against tracked static evidence
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa166_traffic_nav_evidence.py' -v
+      - name: Compile iOS 16 arm64 GOFA discovery source without installing or injecting
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -framework Foundation -framework UIKit \
+            -fsyntax-only sideplay/duoface-native-scene-host/DFGofaTrafficNavProbe166.m
+          echo 'QA166_SOURCE_PROBE_SYNTAX_OK'
+      - name: Record safety boundary
+        run: |
+          echo 'QA166 STATIC/SYNTAX ONLY — NO GOFA EVENT OR TRAFFIC/NAV SAMPLE PROVEN'
+          echo 'NO DEB, NO SILEO, NO HARDWARE IN THIS WORKFLOW'
