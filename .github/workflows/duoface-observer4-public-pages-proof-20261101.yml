@@ -1,0 +1,92 @@
+name: Read only verify Sileo live observer4 package and APT SHA
+on:
+  push:
+    branches: [feature/duoface-qa146-native-home-exit-20261031]
+    paths:
+      - '.github/workflows/duoface-observer4-public-pages-proof-20261101.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duonavi-observer4-pages-proof
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Verify HTTP served Pages Packages stanza AND exact live DEB bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          FILE='com.duoface.qa.duonaviobserver_0.0.4~ownerflow1_iphoneos-arm64.deb'
+          SHA='1e3ad076be86300fecac4dfdf868481dd6e5a2d7950d26ab36ba7dbea265888e'
+          for attempt in $(seq 1 18); do
+            curl -fLsS --retry 2 --max-time 20 "$BASE/Packages" -o "$RUNNER_TEMP/Packages" || true
+            if grep -Fqx "SHA256: $SHA" "$RUNNER_TEMP/Packages" && grep -Fqx 'Version: 0.0.4~ownerflow1' "$RUNNER_TEMP/Packages"; then break; fi
+            sleep 5
+          done
+          python3 - "$RUNNER_TEMP/Packages" "$FILE" "$SHA" <<'PY'
+          import pathlib,sys
+          rows=[]
+          for chunk in pathlib.Path(sys.argv[1]).read_text().split('\n\n'):
+              d={}
+              for line in chunk.splitlines():
+                  if ': ' in line:
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package')=='com.duoface.qa.duonaviobserver':rows.append(d)
+          matches=[r for r in rows if r.get('Version')=='0.0.4~ownerflow1']
+          assert len(matches)==1,matches
+          d=matches[0]
+          assert d.get('Filename')=='debs/'+sys.argv[2],d
+          assert d.get('SHA256')==sys.argv[3],d
+          assert d.get('Architecture')=='iphoneos-arm64',d
+          assert any(r.get('Version')=='0.0.3~homeflow1' for r in rows),rows
+          print('OBSERVER4_PAGES_APT_EXACT_SHA_PRESERVES_OBSERVER3_PASS')
+          PY
+          curl -fLsS --retry 5 --max-time 60 "$BASE/debs/$FILE" -o "$RUNNER_TEMP/observer4.deb"
+          printf '%s  %s\n' "$SHA" "$RUNNER_TEMP/observer4.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/observer4.deb" Package)" = 'com.duoface.qa.duonaviobserver'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/observer4.deb" Version)" = '0.0.4~ownerflow1'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/observer4.deb" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$RUNNER_TEMP/payload"
+          dpkg-deb -x "$RUNNER_TEMP/observer4.deb" "$RUNNER_TEMP/payload"
+          test -s "$RUNNER_TEMP/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib"
+          strings "$RUNNER_TEMP/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'factory-return'
+          OUT="sideplay/audit/duonavi-homeflow-observer-20261101/runs/$GITHUB_RUN_ID"
+          mkdir -p "$OUT"
+          cat > "$OUT/CI_RESULT.txt" <<EOF
+          RUN_ID=$GITHUB_RUN_ID
+          SOURCE_SHA=$GITHUB_SHA
+          PUBLISHER_RUN_ID=41279658866
+          PUBLIC_APT_PACKAGE_MATCH=true
+          PUBLIC_APT_OLD_0_0_3_PRESERVED=true
+          PUBLIC_DEB_SHA256=$SHA
+          LIVE_HTTP_DEB_MATCH=true
+          DEVICE_QA=false
+          EOF
+          sha256sum "$RUNNER_TEMP/Packages" > "$OUT/PACKAGES_HTTP_SHA256.txt"
+          printf '%s  %s\n' "$SHA" "$FILE" > "$OUT/LIVE_DEB_SHA256.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: observer4-external-public-pages-proof
+          path: sideplay/audit/duonavi-homeflow-observer-20261101/runs/
+      - name: Save read-only live HTTP evidence back into correct project repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          REL="sideplay/audit/duonavi-homeflow-observer-20261101/runs/$GITHUB_RUN_ID"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$REL"
+          git commit -m 'evidence: live Sileo observer4 APT stanza and HTTP binary SHA verified [skip ci]'
+          git fetch origin "refs/heads/$GITHUB_REF_NAME:refs/remotes/origin/$GITHUB_REF_NAME"
+          git rebase "origin/$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
+          git fetch origin "$GITHUB_REF_NAME"
+          git cat-file -e "FETCH_HEAD:$REL/CI_RESULT.txt"
+          echo OBSERVER4_LIVE_PAGES_EVIDENCE_SAVED_READBACK
