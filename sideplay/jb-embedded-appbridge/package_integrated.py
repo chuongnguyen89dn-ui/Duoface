@@ -14,6 +14,8 @@ ORDER=[
 ]
 NAME="com.duoface.jb.embedded"
 VERSION="0.0.155~appack1"
+# Explicit independent app-side coverage, source-synced with the fixed Substrate filter.
+SUPPORTED_RELAY_BUNDLES=["com.apple.mobilesafari","org.videolan.vlc-ios","com.facebook.Facebook","com.ss.iphone.ugc.Ame","com.openai.chat","com.google.gemini","com.netflix.Netflix","tv.twitch","com.google.ios.youtubemusic","com.google.chrome.ios","com.spotify.client","com.google.Maps","com.waze.iphone","com.zhiliaoapp.musically"]
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -77,15 +79,15 @@ def build(expected_nativehost_sha256,expected_source_sha):
   with observer.with_suffix(".plist").open("rb") as file:
    if plistlib.load(file)!={"Filter":{"Bundles":["com.lumi.GOFA"]}}:
     raise RuntimeError("GOFA map resize receiver filter broadened")
-  # QA155: assert the app-side receiver was actually merged, not just
+  # Assert the app-side receiver was actually merged, not just
   # syntax-checked. The injection filter is exact: no global UIKit wildcard.
   generic=stage/"var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay"
   if not generic.with_suffix(".dylib").is_file():
    raise RuntimeError("QA155 app-side receiver binary absent from integrated DEB")
   with generic.with_suffix(".plist").open("rb") as file:
    exact_filter=plistlib.load(file)
-  if exact_filter!={"Filter":{"Bundles":["com.apple.mobilesafari","org.videolan.vlc-ios"]}}:
-   raise RuntimeError("QA155 filter expanded, malformed or missing")
+  if exact_filter!={"Filter":{"Bundles":SUPPORTED_RELAY_BUNDLES}}:
+   raise RuntimeError("App-side filter differs from source-pinned explicit supported app set")
   if any(x in seen for x in (
       "var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.dylib",
       "var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.plist")):
@@ -152,7 +154,7 @@ def build(expected_nativehost_sha256,expected_source_sha):
     "real_two_app_scene_tested":False,
     "native_content_receiver_compiled":True,
     "qa155_app_receiver_present_in_merged_payload":True,
-    "qa155_app_receiver_filter":["com.apple.mobilesafari","org.videolan.vlc-ios"],
+    "qa155_app_receiver_filter":SUPPORTED_RELAY_BUNDLES,
     "qa155_app_receiver_requires_runtime_enabled_allowlist":True,
     "qa155_app_receiver_device_accepted":False,
     "native_map_optin_controller_coordinator_compiled":True,

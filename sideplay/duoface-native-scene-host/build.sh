@@ -58,9 +58,10 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$GOFA_DYLIB" DFGofaMapResize141.m
 cp DFGofaMapResize141.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaMapResize141.plist"
 ldid -S "$GOFA_DYLIB"
-# QA155 private app-side receiver. Scope is an explicit, reviewable two-app
-# injection pilot (Safari/VLC); actual enabled state must also be true in
-# DFEnabledAppsPolicy. Never inject system CarPlay/Dock, YouTube or GOFA.
+# First-party app-side scene receiver: explicit fixed list from original
+# category + current real user Log24, not a dangerous global wildcard.
+# Only owning SpringBoard sends consent-validated per-app leases; exclude
+# CarPlay, SpringBoard, YouTube and GOFA independent app helpers.
 APP_STATE_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \

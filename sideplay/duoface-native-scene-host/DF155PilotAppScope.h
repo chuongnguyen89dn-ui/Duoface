@@ -1,16 +1,39 @@
-// QA155 private pilot: fixed package-time process filter AND live user consent.
-// A full arbitrary-app receiver cannot use a wildcard substrate filter safely.
-// Do not silently add Apple CarPlay/Home, Youtube, GOFA or DuoFace processes.
+// Independently supported application-side bridge clients from original
+// DuoNavi static category research plus user's real Log24 bundle IDs.
+// NOT a global wildcard injection: SpringBoard, CarPlay, DuoFace split,
+// YouTube and GOFA retain their own independent scene/input contracts.
+// Sender DF144Allowed validates live consent; app receiver validates real
+// scene ID, request, generation/owner lease and restores exactly its windows.
 #ifndef DF155_PILOT_APP_SCOPE_H
 #define DF155_PILOT_APP_SCOPE_H
 #import "DFEnabledAppsPolicy.h"
 NS_INLINE BOOL DF155PilotAppID(NSString *bundle) {
- return [bundle isEqualToString:@"com.apple.mobilesafari"] ||
-        [bundle isEqualToString:@"org.videolan.vlc-ios"];
+ if(![bundle isKindOfClass:NSString.class] || !bundle.length)return NO;
+ static NSSet<NSString *> *supported;
+ static dispatch_once_t onceToken;
+ dispatch_once(&onceToken,^{
+   supported=[NSSet setWithArray:@[
+    @"com.apple.mobilesafari",
+    @"org.videolan.vlc-ios",
+    @"com.facebook.Facebook",
+    @"com.ss.iphone.ugc.Ame",
+    @"com.openai.chat",
+    @"com.google.gemini",
+    @"com.netflix.Netflix",
+    @"tv.twitch",
+    @"com.google.ios.youtubemusic",
+    @"com.google.chrome.ios",
+    @"com.spotify.client",
+    @"com.google.Maps",
+    @"com.waze.iphone",
+    @"com.zhiliaoapp.musically"
+   ]];
+ });
+ return [supported containsObject:bundle];
 }
 NS_INLINE BOOL DF155EnabledPilotApp(NSString *bundle) {
- // SpringBoard validates current user consent before publishing each lease.
- // The injected application's sandbox cannot reliably read mobile preferences.
+ // App sandboxes may not see mobile prefs, so consent is checked by the
+ // owning SpringBoard sender before each short, request-matched lease.
  return DF155PilotAppID(bundle);
 }
 #endif
