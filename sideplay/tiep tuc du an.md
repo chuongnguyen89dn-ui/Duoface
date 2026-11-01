@@ -1,3 +1,13 @@
+## QA155 — PHẢN HỒI THỬ THIẾT BỊ / LOG24: SAFARI BỊ CHẶN Ở MÃ, CHƯA CÓ LOG VLC — 2026-11-01
+
+**USER:** “Đưa safari lên carplay ko đc. Đã test vlc. Check log đi.” Đây là phản hồi mới sau khi QA155 phát hành nguồn Sileo cũ. Safari **FAIL do người dùng báo**, VLC **đã thử nhưng chưa có kết quả thành/bại cụ thể**.
+
+**ACTUAL NEWEST AVAILABLE RAW LOG:** `main:sideplay/log/DuoFaceAudit 24.txt` @ upload commit `2a5d39d8f3de874d42192894868caa61941e25b1`, blob `1f21a2095bdcd735e3c24fa7df0ef122d58cb629`, 5,083,061 bytes, export `2026-10-31 23:56:59 UTC / 2026-11-01 06:56:59 ICT`. Full raw file decoded/read. No Log25 in inspected GitHub `main/sideplay/log`. Recent window has **11 standalone requests**, **7 manager-owned scene**, **7 native Dock active markers**, **4 Scene attach exception: bogus reference size** (2 YouTube, 1 ChatGPT, 1 Gemini), **0 qa155-app-side-ack**, **0 VLC bundle**, **0 Safari bundle**. Log24 cannot be called a VLC test trace. Exporter static `0.0.90` label is NOT installed version proof.
+
+**CONFIRMED SAFARI SOURCE ROOT:** Signed QA155 `DFHomeStandalone144.m:47-51,163-166` admission requires `DFIsRecommendedAppID`; `DFEnabledAppsPolicy.h:50-54` excludes any `com.apple.` so `com.apple.mobilesafari` is always forwarded to original handler rather than standalone. Yet `DF155GeneralAppStateRelay.plist` includes Safari for injection. Inconsistent sender/receiver admission means Safari cannot use QA155 standalone route even if selected. Signed build commit and current branch file SHA matched. Do NOT label relay transport broken from missing ACK with no VLC pilot request.
+
+**PERMANENT AUDIT:** `sideplay/audit/qa155-vehicle-gate-20261101/QA155_LOG24_SAFARI_VLC_VERDICT_20261101.md` includes exact source locations, per-stage counts, file SHA, sample event and reproducible filter. No code/DEB/Sileo modification. **NEXT:** inspect genuinely new exported device Log25 after VLC selection, correlate exact `org.videolan.vlc-ios` RequestID → callback phases; consider scoped Safari eligibility fix only after verifying launch and original-Home semantics, not a broad Apple allowlist. Keep current QA155 + older rollback intact.
+
 ## QA155 — ĐÃ CHUYỂN VỀ NGUỒN SILEO CŨ, LIVE VERIFIED — 2026-11-01
 
 **USER FINAL DECISION IMPLEMENTED:** Không dùng nguồn mới `/qa155/` nữa. Chỉ dùng Sileo source đã có **`https://chuongnguyen89dn-ui.github.io/carplaydsp/`**. Việc tự ý tạo thêm nguồn Sileo đã được sửa trong chính repository phát hành `chuongnguyen89dn-ui/carplaydsp` (KHÔNG tạo repo nào khác). Nội dung lịch sử trước mốc này về nguồn thử nghiệm riêng chỉ có giá trị lịch sử, không phải hướng cài mới.
