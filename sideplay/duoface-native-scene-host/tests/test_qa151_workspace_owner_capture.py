@@ -45,7 +45,7 @@ class WorkspaceCapture151(unittest.TestCase):
   self.assertIn('strcmp(method_getTypeEncoding(m),"@16@0:8")',CAP)
   self.assertIn("@catch(NSException *error)",CAP)
   sha=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
-  self.assertEqual(sha,"ec2924c145be4edaaa27b7320bb869b18de12c6b")
+  self.assertEqual(sha,"aeb6178654eebe3a052e358febcc0b2519c3ac54")
   self.assertIn("DF149Receive(&DF149Life", (R/"DFNativeDockSync147.h").read_text())
 
 if __name__=="__main__":

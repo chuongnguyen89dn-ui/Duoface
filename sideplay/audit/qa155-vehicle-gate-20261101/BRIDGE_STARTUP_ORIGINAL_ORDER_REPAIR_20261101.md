@@ -1,4 +1,4 @@
-# Native app bridge — original-route source correction after user rejected VLC-only QA155
+**Verified new host source SHA:** `aeb6178654eebe3a052e358febcc0b2519c3ac54`; prior pinned source SHA `ec2924c145be4edaaa27b7320bb869b18de12c6b`. Fast run `41256677277` failed at stale historical SHA test for QA148, not at physical device. QA148/149/150/151 tests now pin the new verified blob; do not remove source-integrity testing.\n\n# Native app bridge — original-route source correction after user rejected VLC-only QA155
 
 **User requirement:** This is the full independent CarPlay app bridge (native Home -> one-app host -> app scene -> native Dock/Home -> restoration), **not a VLC utility**. No copied vendor source or license. Sources inspected: genuine original DuoNavi 1.0.4 SHA256 `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd` and method-local audit `sideplay/audit/original-execution-route-20261031/ROUTE_FINDINGS.md`, original manager/root window `sideplay/audit/original-manager-window-route-20261031/MANAGER_WINDOW_FINDINGS.md`, log23 rejection, Log24 physical symptoms.
 
