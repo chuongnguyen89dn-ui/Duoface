@@ -101,6 +101,10 @@ static BOOL DF147ActivateDock(void) {
   BOOL applied=[DF144Get(dock,"activeBundleIdentifier") isEqual:DF147Bundle];
   DF144Log(applied?@"qa147-native-dock-active":@"qa147-native-dock-readback-mismatch",
    [NSString stringWithFormat:@"bid=%@ req=%@ homeCaptured=%d",DF147Bundle,DF147RequestID,DF147HaveHome]);
+  // Start is the validated selection request timestamp, not a touch-ready claim.
+  DF144Log(@"qa160-request-to-dock-ms",
+   [NSString stringWithFormat:@"req=%@ bid=%@ ms=%.1f touchReady=unknown",
+      DF147RequestID,DF147Bundle,1000.0*(NSDate.date.timeIntervalSince1970-DF147RequestedAt)]);
   return applied;
  } @catch(NSException *e){DF144Log(@"qa147-native-dock-activate-exception",e.name);return NO;}
  @finally{DF147Applying=NO;}
