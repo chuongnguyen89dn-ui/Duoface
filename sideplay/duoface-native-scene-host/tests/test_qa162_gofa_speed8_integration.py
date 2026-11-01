@@ -31,7 +31,7 @@ class QA162GofaSpeed8(unittest.TestCase):
         self.assertEqual(plist,{"Filter":{"Bundles":["com.lumi.GOFA"]}})
         self.assertIn("CLLocationManagerDelegate",self.publisher)
         self.assertIn("DFSpeedHUDPublish(DFSpeedAppSourceGOFA",self.publisher)
-        self.assertIn("age > 8.0",self.publisher)
+        self.assertIn("age<=8.0",self.publisher)
         for forbidden in ("requestAlwaysAuthorization","requestWhenInUseAuthorization",
                           "licenseValid","offlineLicense","CPSActivation",
                           "com.carplaypro.speed"):
