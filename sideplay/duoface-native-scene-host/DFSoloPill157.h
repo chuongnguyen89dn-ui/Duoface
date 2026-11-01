@@ -1,5 +1,38 @@
 // First-party menu for an existing single SpringBoard-owned DF144Solo scene.
 // Included INSIDE @implementation DF144Solo; no extra SBAppViewController.
+// The native Home callback still runs. Only our manager-owned SOLO surface
+// is retired, and its own first-party chooser becomes the visible destination.
+// Native CarPlay Music/Calendar never pass this SpringBoard live-owner gate.
+- (BOOL)df157ReturnHomeToPicker {
+ if(!self.window || self.window.hidden || !self.emittedManager ||
+    !self.surface || !self.soloPicker || !DFHome145Enabled() ||
+    ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface])return NO;
+ [self publishGeneralAppState:NO];
+ ++self.generation;
+ UIView *previous=self.surface;
+ self.surface=nil;
+ [previous removeFromSuperview];
+ [[DFSceneHost sharedHost] releaseHostedView:previous];
+ self.emittedHosted=NO;self.emittedManager=NO;
+ self.homeChooser=YES;
+ self.soloPill.hidden=YES;
+ self.soloPicker.currentSlotBundleID=nil;
+ self.soloPicker.pendingSlotBundleID=nil;
+ self.soloPicker.otherSlotBundleIDs=@[];
+ [self.soloPicker presentInstalledApps];
+ [self.soloPicker refreshInstalledApps];
+ self.soloPicker.view.hidden=NO;
+ [self.root.view bringSubviewToFront:self.soloPicker.view];
+ NSDictionary *lease=@{@"Version":@1,@"Role":@"SpringBoard-Standalone144",
+     @"Alive":@YES,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+     @"PickerVisible":@YES,@"PickerRequestID":self.request?:@"",
+     @"CarDisplayID":self.carDisplayID?:@""};
+ BOOL wrote=[lease writeToFile:DF144LeasePath atomically:YES];
+ DF144Log(@"solo-home-return-to-first-party-picker",
+     [NSString stringWithFormat:@"req=%@ lease=%d",self.request,wrote]);
+ [self reply:@"stopped" reason:@"native-Home-exit"];
+ return YES;
+}
 - (void)df157SoloPillPressed:(UIButton *)sender {
  (void)sender;
  if(!self.window || self.window.hidden || !self.surface || !self.emittedManager ||
