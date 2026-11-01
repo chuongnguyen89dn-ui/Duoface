@@ -1,3 +1,17 @@
+# Current install candidate: 0.0.3~homeflow1 — original Home call-flow measurement
+
+Updates existing DuoNavi Observer package/app in SAME existing Sileo source. Old metadata sampler cannot answer actual Home dispatch. This version uses exact-ABI observational hooks; it is not a no-hook sampler. Every wrapper forwards original receiver/selector/arguments once, propagates original exceptions, passes completion blocks unchanged and never invokes them. No vendor/license code or payload.
+
+Captures native homeButtonUp enter/return; genuine manager start/prepare/request/stop/state/activate/deactivate; real workspace activate/deactivate/request; native Dock active-ID and Home displayState setters. Readbacks: dashboard showingApp/workspace/foreground bundle, actual Home receiver/button identity/state, Dock, external visible controller tree; 50/250/1000ms post-Home snapshots. Not a latency benchmark: observation adds overhead. Unknown ABI is logged/refused. Exact declared owners only avoid inherited duplicate hooks. Retry late-loaded classes every3s, no old72-second call-trace expiry. Logs rotate2MiB plus previous per-process, version/run/PID/UTC/uptime/call ID. No UIKit access in background calls.
+
+1. Original baseline: disable/remove active DuoFace Integrated through Sileo; use original DuoNavi plus observer; respring once. Only ONE active bridge. Observer does not enable, disable, install or license bridges. Logs flag simultaneous DuoNavi/DuoFace module images.
+2. In CarPlay open Music/Calendar then Home; open Safari/unsupported app through original DuoNavi then Home; repeat twice. Optional Observer marker buttons distinguish actual app chooser vs Home CarPlay outcome. Native identities come from real callback snapshots.
+3. Open DuoNavi Observer on iPhone -> Xuat log/share TXT to existing sideplay/log. No Filza. Disable original bridge before a SEPARATE DuoFace comparison session with the same observer.
+
+Check home_flow_hook_ready for native Home and vendor classes, home_flow_call enter/return/after with actual bundles/state. Refused/absent selectors are not execution. Controller visibility is not pixel proof; report actual observed destination. Source/runtime tests and signed iOS build required before Sileo publication.
+
+Historical text follows. Old no-hook/72s wording applies ONLY to old0.0.1/0.0.2 metadata versions:
+
 # DuoNavi Observer — original live-session read-only trace
 
 Distinct independent Sileo rootless package: com.duoface.qa.duonaviobserver, version 0.0.1~passive1, iPhone X iOS16.7.16. Not DuoNavi itself and **contains no DuoNavi vendor payload/license**.

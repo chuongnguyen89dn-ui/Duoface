@@ -11,15 +11,15 @@ static NSString *const dnMarkers=@"/var/mobile/Library/Logs/DuoNaviObserver-mark
 @implementation DNView
 - (void)viewDidLoad {
  [super viewDidLoad];
- self.title=@"Observer 0.0.2 · Dock ABI";self.view.backgroundColor=UIColor.systemGroupedBackgroundColor;
+ self.title=@"Observer 0.0.3 · Home Flow";self.view.backgroundColor=UIColor.systemGroupedBackgroundColor;
  UIStackView *stack=[UIStackView new];stack.axis=UILayoutConstraintAxisVertical;
  stack.spacing=13;stack.translatesAutoresizingMaskIntoConstraints=NO;
  UILabel *info=[UILabel new];info.font=[UIFont systemFontOfSize:15];info.numberOfLines=0;
- info.text=@"Bộ ghi log Dock/Home chỉ đọc. Sau khi kết nối CarPlay, thử mở app và Home trong 60 giây đầu. Sau đó chọn Xuất log.";
+ info.text=@"Đo DuoNavi gốc: chỉ bật một bridge. Thử Nhạc/Lịch → Home, rồi Safari/app ngoài → Home. Bộ quét tự ghi lời gọi và trạng thái trước/sau Home; không giới hạn 60 giây. Sau đó chọn Xuất log.";
  self.status=info;[stack addArrangedSubview:info];
- NSArray *names=@[@"1. Play YouTube khi màn sáng",@"2. Chuẩn bị khóa iPhone",
-    @"3. Sau khi mở khóa",@"4. Chuẩn bị về Home CarPlay",
-    @"5. Chuẩn bị rút dây",@"6. Xuất log"];
+ NSArray *names=@[@"1. Đánh dấu đang chạy DuoNavi gốc",@"2. Nhạc/Lịch: chuẩn bị bấm Home",
+    @"3. Safari/app ngoài: chuẩn bị bấm Home",@"4. Kết quả: về trang chọn app",
+    @"5. Kết quả: về Home CarPlay",@"6. Xuất log"];
  for(NSUInteger i=0;i<names.count;i++){
    UIButton *button=[UIButton buttonWithType:UIButtonTypeSystem];button.tag=i;
    [button setTitle:names[i] forState:UIControlStateNormal];
@@ -42,8 +42,8 @@ static NSString *const dnMarkers=@"/var/mobile/Library/Logs/DuoNaviObserver-mark
 }
 - (void)action:(UIButton *)button{
  if(button.tag==5){[self exportNow:button];return;}
- NSArray *stages=@[@"VIDEO_AWAKE",@"BEFORE_PHONE_LOCK",@"AFTER_PHONE_UNLOCK",
-   @"BEFORE_CARPLAY_HOME",@"BEFORE_UNPLUG"];
+ NSArray *stages=@[@"ORIGINAL_DUONAVI_SESSION",@"NATIVE_REFERENCE_BEFORE_HOME",@"BRIDGED_APP_BEFORE_HOME",
+   @"RESULT_APP_CHOOSER",@"RESULT_CARPLAY_HOME"];
  NSData *data=[NSJSONSerialization dataWithJSONObject:
   @{@"event":@"manual_mark",@"stage":stages[button.tag],
     @"utc":@(NSDate.date.timeIntervalSince1970)}
@@ -57,7 +57,7 @@ static NSString *const dnMarkers=@"/var/mobile/Library/Logs/DuoNaviObserver-mark
 }
 - (void)exportNow:(UIButton *)sender{
  NSMutableString *report=[NSMutableString stringWithFormat:
-   @"DuoNavi Observer PASSIVE export\nTime: %@\niOS: %@\n",NSDate.date.description,UIDevice.currentDevice.systemVersion];
+   @"DuoNavi Observer 0.0.3~homeflow1 HOME FLOW export\nTime: %@\niOS: %@\n",NSDate.date.description,UIDevice.currentDevice.systemVersion];
  NSArray *names=@[@"DuoNaviObserver-SpringBoard.jsonl",
   @"DuoNaviObserver-SpringBoard.jsonl.previous",
   @"DuoNaviObserver-CarPlay.jsonl",@"DuoNaviObserver-CarPlay.jsonl.previous",

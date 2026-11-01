@@ -1,17 +1,19 @@
-// iOS16 independent passive CarPlay observer: reads state, never hooks policy.
+// iOS16 observer: typed forwarding trace; never changes original bridge policy.
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <dispatch/dispatch.h>
 #import <fcntl.h>
 #import <unistd.h>
-static NSString *dnFile,*dnProcess,*dnPreviousABI;
+static NSString *dnFile,*dnProcess,*dnPreviousABI,*dnRun;
 static NSDictionary *dnPreviousState;
 static NSTimeInterval dnLastTime;
 static dispatch_queue_t dnQueue;
 static void DNLog(NSString *event,NSDictionary *fields) {
  if(!dnFile||!dnQueue)return;
  NSMutableDictionary *d=[NSMutableDictionary dictionaryWithDictionary:fields?:@{}];
+ d[@"run"]=dnRun?:@"unavailable";d[@"uptime"]=@(NSProcessInfo.processInfo.systemUptime);
+ d[@"observer_version"]=@"0.0.3~homeflow1";d[@"schema"]=@3;
  d[@"utc"]=@([NSDate.date timeIntervalSince1970]);
  d[@"event"]=event;d[@"process"]=dnProcess?:@"unknown";
  d[@"pid"]=@([NSProcessInfo processInfo].processIdentifier);
@@ -31,6 +33,8 @@ static void DNLog(NSString *event,NSDictionary *fields) {
  });
 }
 #import "NativeDockABI.h"
+#import "HomeFlowTrace.h"
+#import "HomeFlowSnapshot.h"
 static NSDictionary *DNState(void) {
  NSMutableArray *displays=[NSMutableArray array];
  for(UIScreen *s in UIScreen.screens)if(s!=UIScreen.mainScreen)
@@ -71,6 +75,7 @@ static void DNCheckABI(void) {
  }
 }
 static void DNSample(void) {
+ DNHomeFlowInstall();
  DNNativeDockSample();
  NSDictionary *d=DNState();
  NSTimeInterval now=NSDate.date.timeIntervalSince1970;
@@ -80,7 +85,7 @@ static void DNSample(void) {
  if([dnProcess isEqualToString:@"SpringBoard"])DNCheckABI();
 }
 static void DNStart(void) {
- DNLog(@"observer_started",@{@"mode":@"read-only-no-hook"});
+ DNLog(@"observer_started",@{@"mode":@"observational-forwarding-hooks",@"images":DNFlowImages()});
  NSArray *events=@[UIScreenDidConnectNotification,UIScreenDidDisconnectNotification,
   UIApplicationDidBecomeActiveNotification,UIApplicationWillResignActiveNotification,
   UIApplicationDidEnterBackgroundNotification,UIApplicationWillEnterForegroundNotification,
@@ -104,6 +109,7 @@ static void DNStart(void) {
 }
 __attribute__((constructor))static void DNLoad(void) {
  @autoreleasepool {
+  dnRun=NSUUID.UUID.UUIDString;
   dnProcess=NSProcessInfo.processInfo.processName;
   if(![@[@"SpringBoard",@"CarPlay",@"CarPlayApp"] containsObject:dnProcess])return;
   dnFile=[@"/var/mobile/Library/Logs" stringByAppendingPathComponent:

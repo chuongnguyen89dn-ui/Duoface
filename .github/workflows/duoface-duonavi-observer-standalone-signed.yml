@@ -1,4 +1,4 @@
-name: DuoNavi Observer standalone passive rootless signed QA
+name: DuoNavi Observer standalone Home flow rootless signed QA
 on:
   push:
     branches: [feature/duoface-qa146-native-home-exit-20261031]
@@ -17,11 +17,13 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - name: Verify independent no-hook source contract
+      - name: Verify independent forwarding observer and preservation contracts
         run: |
           set -euo pipefail
           python3 sideplay/duonavi-observer/tests/test_passive.py
           python3 sideplay/duonavi-observer/tests/test_native_dock_capture.py
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duonavi-observer/tests/home_flow_runtime.m -o "$RUNNER_TEMP/homeflow"
+          "$RUNNER_TEMP/homeflow"
           plutil -lint sideplay/duonavi-observer/Observer.plist sideplay/duonavi-observer/Info.plist sideplay/duonavi-observer/entitlements.plist
       - name: Install tools
         run: |
@@ -31,19 +33,21 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duonavi-observer/build.sh
-          DEB='sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.2~dockabi2_iphoneos-arm64.deb'
+          DEB='sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.3~homeflow1_iphoneos-arm64.deb'
           test -s "$DEB"
           test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.qa.duonaviobserver'
-          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.2~dockabi2'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.3~homeflow1'
           test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
           ! dpkg-deb -f "$DEB" | grep -E '^(Conflicts|Replaces|Breaks):'
           mkdir -p "$RUNNER_TEMP/observer-unpacked"
-          test "$(dpkg-deb -c "$DEB" | head -1 | awk '{print $1, $2}')" = "drwxr-xr-x root/root"
+          dpkg-deb -c "$DEB" > "$RUNNER_TEMP/observer-full-list.txt"
+          test "$(awk 'NR==1 {print $1, $2}' "$RUNNER_TEMP/observer-full-list.txt")" = "drwxr-xr-x root/root"
           dpkg-deb -x "$DEB" "$RUNNER_TEMP/observer-unpacked"
           test -s "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib"
           test -s "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.plist"
           test -s "$RUNNER_TEMP/observer-unpacked/var/jb/Applications/DuoNaviObserver.app/DNObserverExport"
           strings "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'native_dock_class_abi'
+          strings "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'home_flow_call'
           ldid -e "$RUNNER_TEMP/observer-unpacked/var/jb/Applications/DuoNaviObserver.app/DNObserverExport" | grep -F 'no-container'
           E="sideplay/duonavi-observer/evidence/signed-dockabi/$GITHUB_RUN_ID"
           mkdir -p "$E"
@@ -55,14 +59,14 @@ jobs:
         with:
           name: duonavi-observer-signed
           path: |
-            sideplay/duonavi-observer/packages/*0.0.2~dockabi2*.deb
+            sideplay/duonavi-observer/packages/*0.0.3~homeflow1*.deb
             sideplay/duonavi-observer/evidence/signed-dockabi/
       - name: Commit exactly signed package evidence
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f sideplay/duonavi-observer/packages/*0.0.2~dockabi2*.deb "sideplay/duonavi-observer/evidence/signed-dockabi/$GITHUB_RUN_ID/"
+          git add -f sideplay/duonavi-observer/packages/*0.0.3~homeflow1*.deb "sideplay/duonavi-observer/evidence/signed-dockabi/$GITHUB_RUN_ID/"
           git commit -m "artifacts: signed standalone DuoNavi Observer package [skip ci]"
           git fetch origin "refs/heads/$GITHUB_REF_NAME:refs/remotes/origin/$GITHUB_REF_NAME"
           git rebase "origin/$GITHUB_REF_NAME"

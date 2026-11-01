@@ -11,7 +11,7 @@ assert filters["Executables"] == ["SpringBoard","CarPlay","CarPlayApp"]
 assert info["CFBundleIdentifier"] == "com.duoface.qa.duonaviobserver.app"
 assert ent["com.apple.private.security.no-container"] is True
 assert "Package: com.duoface.qa.duonaviobserver" in control
-assert "Version: 0.0.2~dockabi2" in control
+assert "Version: 0.0.3~homeflow1" in control
 assert not any(t.startswith(("Conflicts:","Replaces:","Breaks:")) for t in control.splitlines())
 for term in ["method_getTypeEncoding","method_getNumberOfArguments",
              "underlock_method_abi_read_only","UISceneDidEnterBackgroundNotification",
@@ -22,10 +22,10 @@ for term in ["MSHookMessageEx","%hook","class_replaceMethod","method_setImplemen
              "method_exchangeImplementations","SBMainWorkspace","setForeground:",
              "killall","sbreload","setBrightness:"]:
     assert term not in src,term
-for term in ["BEFORE_PHONE_LOCK","BEFORE_CARPLAY_HOME","BEFORE_UNPLUG",
+for term in ["NATIVE_REFERENCE_BEFORE_HOME","BRIDGED_APP_BEFORE_HOME","RESULT_APP_CHOOSER","RESULT_CARPLAY_HOME",
              "DuoNaviObserver-SpringBoard.jsonl","DuoNaviObserver-CarPlay.jsonl",
              "UIActivityViewController"]:
     assert term in app,term
 for term in ["NSURLSession","NSURLConnection","MSHookMessageEx","com.duonavi.app"]:
     assert term not in src+app,term
-print("DUONAVI_OBSERVER_READONLY_SOURCE_PASS")
+print("DUONAVI_OBSERVER_FILTER_EXPORT_POLICY_PRESERVED_PASS")
