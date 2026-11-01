@@ -44,7 +44,7 @@ jobs:
           assert d.get('Filename')=='debs/'+sys.argv[2],d
           assert d.get('SHA256')==sys.argv[3],d
           assert d.get('Architecture')=='iphoneos-arm64',d
-          assert any(r.get('Version')=='0.0.3~homeflow1' for r in rows),rows
+          assert len(rows)==1 and rows[0].get('Version')=='0.0.4~ownerflow1',rows
           print('OBSERVER4_PAGES_APT_EXACT_SHA_PRESERVES_OBSERVER3_PASS')
           PY
           curl -fLsS --retry 5 --max-time 60 "$BASE/debs/$FILE" -o "$RUNNER_TEMP/observer4.deb"
@@ -56,6 +56,11 @@ jobs:
           dpkg-deb -x "$RUNNER_TEMP/observer4.deb" "$RUNNER_TEMP/payload"
           test -s "$RUNNER_TEMP/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib"
           strings "$RUNNER_TEMP/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'factory-return'
+          # Old 0.0.3 remains available as an immutable rollback download;
+          # only 0.0.4 may be selected as the latest Sileo APT record.
+          OLD='com.duoface.qa.duonaviobserver_0.0.3~homeflow1_iphoneos-arm64.deb'
+          curl -fLsS --retry 5 --max-time 60 "$BASE/debs/$OLD" -o "$RUNNER_TEMP/observer3-rollback.deb"
+          printf '%s  %s\n' '1dd94e842bb82e5fefc6c0fe7af862d6b15a9169290ea82bf9ac96e31d7c9e64' "$RUNNER_TEMP/observer3-rollback.deb" | sha256sum -c -
           OUT="sideplay/audit/duonavi-homeflow-observer-20261101/runs/$GITHUB_RUN_ID"
           mkdir -p "$OUT"
           cat > "$OUT/CI_RESULT.txt" <<EOF
@@ -63,7 +68,8 @@ jobs:
           SOURCE_SHA=$GITHUB_SHA
           PUBLISHER_RUN_ID=41279658866
           PUBLIC_APT_PACKAGE_MATCH=true
-          PUBLIC_APT_OLD_0_0_3_PRESERVED=true
+          PUBLIC_APT_ONLY_OBSERVER4_VISIBLE=true
+          PUBLIC_OLD_0_0_3_ROLLBACK_HTTP_SHA_MATCH=true
           PUBLIC_DEB_SHA256=$SHA
           LIVE_HTTP_DEB_MATCH=true
           DEVICE_QA=false
