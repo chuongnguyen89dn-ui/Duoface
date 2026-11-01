@@ -34,7 +34,6 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
             -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
-            -framework Foundation -framework UIKit \
             -fsyntax-only sideplay/duoface-native-scene-host/DFGofaTrafficNavProbe166.m
           echo 'QA166_SOURCE_PROBE_SYNTAX_OK'
       - name: Record safety boundary
