@@ -43,11 +43,11 @@
 - (void)refreshSettingsLabels;
 - (NSString *)sourceTitle;
 - (void)savePosition;
+- (CGPoint)dfDisplayCenter;
+- (void)dfSetDisplayCenter:(CGPoint)center;
 @end
 
 static CGRect DFAllowedArea(UIView *view);
-- (CGPoint)dfDisplayCenter;
-- (void)dfSetDisplayCenter:(CGPoint)center;
 static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
 @implementation DFNative8SpeedHUDView
 - (instancetype)initWithFrame:(CGRect)frame {
