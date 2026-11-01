@@ -7,6 +7,9 @@ on:
       - '.github/workflows/duoface-qa147-mount-ready-guards.yml'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DF154AppStateProtocol.h'
+      - 'sideplay/duoface-native-scene-host/DF156DarwinMailbox.h'
+      - 'sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c'
+      - 'sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m'
       - 'sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m'
       - 'sideplay/duoface-native-scene-host/DF155PilotAppScope.h'
       - 'sideplay/duoface-native-scene-host/DF155GeneralAppStateRelay.plist'
@@ -45,6 +48,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c -o "$RUNNER_TEMP/mailbox156"
+          "$RUNNER_TEMP/mailbox156"
           python3 -m py_compile sideplay/duoface-native-scene-host/tests/test_qa147_mount_ack_reentrancy.py
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v

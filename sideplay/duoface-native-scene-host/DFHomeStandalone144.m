@@ -750,10 +750,13 @@ __attribute__((constructor))static void DF144StartSpringBoard(void) {
     NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
  dispatch_async(dispatch_get_main_queue(),^{
   DF144Owner=[DF144Solo new];
-  id ackCenter=DF154Center();
-  if(ackCenter)[ackCenter addObserver:DF144Owner selector:@selector(appStateAck:)
-     name:DF155AckNotification object:nil];
-  else DF144Log(@"qa155-ack-transport-unavailable",@"no app receipt");
+  // Exact same bounded app filter as the shipped receiver, no wildcard listener.
+  for(NSString *bundle in DF155SupportedAppIDs()) {
+    if(!DF156Listen(bundle,YES,^(NSDictionary *state){
+      [DF144Owner appStateAck:[NSNotification notificationWithName:DF155AckNotification
+          object:nil userInfo:state]];
+    }))DF144Log(@"qa155-ack-transport-unavailable",bundle);
+  }
   [[NSNotificationCenter defaultCenter] addObserver:DF144Owner
      selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:DF144Owner

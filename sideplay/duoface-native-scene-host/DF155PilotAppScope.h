@@ -7,12 +7,11 @@
 #ifndef DF155_PILOT_APP_SCOPE_H
 #define DF155_PILOT_APP_SCOPE_H
 #import "DFEnabledAppsPolicy.h"
-NS_INLINE BOOL DF155PilotAppID(NSString *bundle) {
- if(![bundle isKindOfClass:NSString.class] || !bundle.length)return NO;
- static NSSet<NSString *> *supported;
+NS_INLINE NSArray<NSString *> *DF155SupportedAppIDs(void) {
+ static NSArray<NSString *> *supported;
  static dispatch_once_t onceToken;
  dispatch_once(&onceToken,^{
-   supported=[NSSet setWithArray:@[
+   supported=@[
     @"com.apple.mobilesafari",
     @"org.videolan.vlc-ios",
     @"com.facebook.Facebook",
@@ -27,9 +26,13 @@ NS_INLINE BOOL DF155PilotAppID(NSString *bundle) {
     @"com.google.Maps",
     @"com.waze.iphone",
     @"com.zhiliaoapp.musically"
-   ]];
+   ];
  });
- return [supported containsObject:bundle];
+ return supported;
+}
+NS_INLINE BOOL DF155PilotAppID(NSString *bundle) {
+ if(![bundle isKindOfClass:NSString.class] || !bundle.length)return NO;
+ return [DF155SupportedAppIDs() containsObject:bundle];
 }
 NS_INLINE BOOL DF155EnabledPilotApp(NSString *bundle) {
  // App sandboxes may not see mobile prefs, so consent is checked by the

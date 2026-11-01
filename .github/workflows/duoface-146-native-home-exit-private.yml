@@ -10,6 +10,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFHome145Consent.h'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
       - 'sideplay/duoface-native-scene-host/DF154AppStateProtocol.h'
+      - 'sideplay/duoface-native-scene-host/DF156DarwinMailbox.h'
+      - 'sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c'
+      - 'sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m'
       - 'sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m'
       - 'sideplay/duoface-native-scene-host/DF155PilotAppScope.h'
       - 'sideplay/duoface-native-scene-host/DF155GeneralAppStateRelay.plist'
@@ -61,6 +64,10 @@ jobs:
       - name: Verify independent selected Home and preserved scene-host contracts
         run: |
           set -euo pipefail
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c -o "$RUNNER_TEMP/mailbox156"
+          "$RUNNER_TEMP/mailbox156"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m -o "$RUNNER_TEMP/ipc156"
+          "$RUNNER_TEMP/ipc156"
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/dock_lifecycle_147.c -o "$RUNNER_TEMP/dock147"
           "$RUNNER_TEMP/dock147"
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o "$RUNNER_TEMP/manager149"
@@ -115,10 +122,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.156~nativebridge1_iphoneos-arm64.deb'
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.156~nativebridge2_iphoneos-arm64.deb'
           test -s "$HOST"
           grep -Fq '<key>CFBundleVersion</key><string>156</string>' sideplay/duoface-native-scene-host/Info.plist
-          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.156~nativebridge1'
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.156~nativebridge2'
           mkdir -p "$RUNNER_TEMP/qa147-host"
           dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa147-host"
           ldid -e "$RUNNER_TEMP/qa147-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
@@ -129,10 +136,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
-          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge1_iphoneos-arm64.deb'
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge2_iphoneos-arm64.deb'
           test -s "$OUT"
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.156~nativebridge1'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.156~nativebridge2'
           mkdir -p "$RUNNER_TEMP/qa147-merged"
           dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa147-merged"
           for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator DF155GeneralAppStateRelay; do
@@ -148,13 +155,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: QA147-private-standalone-signed-UNPUBLISHED
-          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge1_iphoneos-arm64.deb
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.156~nativebridge2_iphoneos-arm64.deb
           if-no-files-found: error
       - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
         run: |
           set -euo pipefail
           BRANCH='feature/duoface-qa146-native-home-exit-20261031'
-          ART='com.duoface.jb.embedded_0.0.156~nativebridge1_iphoneos-arm64.deb'
+          ART='com.duoface.jb.embedded_0.0.156~nativebridge2_iphoneos-arm64.deb'
           for n in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
             DIR="$(mktemp -d)"

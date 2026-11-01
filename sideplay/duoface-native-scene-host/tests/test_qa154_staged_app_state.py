@@ -20,7 +20,8 @@ class GenericStateStaging(unittest.TestCase):
   self.assertIn("[self publishGeneralAppState:NO];",PUB)
   self.assertIn("DF144Owner publishGeneralAppState:YES",PUB)
  def test_short_lease_restore_and_no_device_wide_changes(self):
-  self.assertIn("NSDistributedNotificationCenter",API)
+  self.assertNotIn("NSDistributedNotificationCenter",API)
+  self.assertIn("DF156DarwinMailbox.h",API)
   self.assertIn("age>3.0",API)
   self.assertIn('window.windowScene!=target',RELAY)
   self.assertIn('window.windowLevel!=UIWindowLevelNormal',RELAY)

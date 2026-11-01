@@ -179,19 +179,17 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
      !DF155PilotAppID(bundle) ||
      NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
   dispatch_async(dispatch_get_main_queue(),^{
-    id center=DF154Center();
-    if(!center) {
-      NSLog(@"[DF154AppState] bundle=%@ transport-unavailable; no UIKit changes",bundle);
-      return;
-    }
     DF154GeneralAppStateRelay *relay=[DF154GeneralAppStateRelay new];
     relay.bundle=bundle;
     relay.originals=[NSMapTable weakToStrongObjectsMapTable];
+    if(!DF156Listen(bundle,NO,^(NSDictionary *state){
+      [relay receive:[NSNotification notificationWithName:DF154StateNotification
+          object:nil userInfo:state]];
+    })) {
+      NSLog(@"[DF154AppState] bundle=%@ transport-unavailable; no UIKit changes",bundle);
+      return;
+    }
     DF154Relay=relay;
-    // The SpringBoard sender validates current user consent. Sandboxed
-    // apps may not read mobile-owned preference files.
-    [center addObserver:relay selector:@selector(receive:)
-                  name:DF154StateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserverForName:
       UISceneDidActivateNotification object:nil queue:NSOperationQueue.mainQueue
       usingBlock:^(__unused NSNotification *n){[relay reconcile];}];
