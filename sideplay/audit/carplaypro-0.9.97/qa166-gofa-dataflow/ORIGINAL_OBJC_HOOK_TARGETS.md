@@ -4,24 +4,23 @@
 for chained fixups or Swift fields. Nearby class lookups are not ABI proof.
 No private GOFA values nor license data are read or generated.
 
-- Original MSHookMessageEx callsites: {result['method_hook_calls']}
+- Original MSHookMessageEx callsites: 23
 - Original MSHookFunction callsites: 9
 - Raw pointer references to exported GOFA callbacks: 0
 
 ## Hook registrations with recovered selector and exact callback address
 - `0xab58` (`0xa988`) _MSHookMessageEx replacementCandidate=`0x3298c`
 - `0x17c98` (`0x17ac4`) _MSHookMessageEx replacementCandidate=`0x348b0`
-- `0x2f81c` (`0x2f798`) _NSClassFromString replacementCandidate=`0x609a8`
-- `0x2f83c` (`0x2f798`) _MSHookMessageEx selector=`None` at `0x6aaa0` replacementCandidate=`0x309b4` candidateClass=`UIWindow`
-- `0x2f85c` (`0x2f798`) _MSHookMessageEx selector=`None` at `0x6ac38` replacementCandidate=`0x30a7c` candidateClass=`UIWindow`
+- `0x2f83c` (`0x2f798`) _MSHookMessageEx selector=`setRootViewController:` at `0x6aaa0` replacementCandidate=`0x309b4` candidateClass=`UIWindow`
+- `0x2f85c` (`0x2f798`) _MSHookMessageEx selector=`setWindowScene:` at `0x6ac38` replacementCandidate=`0x30a7c` candidateClass=`UIWindow`
 - `0x2f9ec` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x38a98` candidateClass=`UIWindow`
 - `0x2fa14` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x38b00` candidateClass=`UIWindow`
 - `0x2fa3c` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x38b70` candidateClass=`UIWindow`
 - `0x2fae4` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x37f28`
 - `0x2fb00` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x37fec`
-- `0x2fb20` (`0x2f798`) _MSHookMessageEx selector=`None` at `0x6b010` replacementCandidate=`0x3813c`
-- `0x2fb40` (`0x2f798`) _MSHookMessageEx selector=`None` at `0x6b018` replacementCandidate=`0x38190`
-- `0x2fb60` (`0x2f798`) _MSHookMessageEx selector=`None` at `0x6b020` replacementCandidate=`0x381e4`
+- `0x2fb20` (`0x2f798`) _MSHookMessageEx selector=`cancelTrip` at `0x6b010` replacementCandidate=`0x3813c`
+- `0x2fb40` (`0x2f798`) _MSHookMessageEx selector=`finishTrip` at `0x6b018` replacementCandidate=`0x38190`
+- `0x2fb60` (`0x2f798`) _MSHookMessageEx selector=`pauseTripForReason:description:` at `0x6b020` replacementCandidate=`0x381e4`
 - `0x30178` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x38c18`
 - `0x30210` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x38d6c`
 - `0x3022c` (`0x2f798`) _MSHookMessageEx replacementCandidate=`0x38de8`

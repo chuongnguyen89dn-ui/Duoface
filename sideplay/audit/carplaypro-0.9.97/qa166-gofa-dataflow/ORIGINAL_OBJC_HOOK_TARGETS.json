@@ -48,27 +48,6 @@
       }
     },
     {
-      "callsite": "0x2f81c",
-      "function": "0x2f798",
-      "import": "_NSClassFromString",
-      "x0_candidate": {
-        "at": "0x52e5e",
-        "origin": [
-          "0x2f814",
-          "0x2f818"
-        ],
-        "literal": "UIWindow"
-      },
-      "x2_candidate": {
-        "at": "0x609a8",
-        "origin": [
-          "0x2f800",
-          "0x2f804"
-        ],
-        "literal": null
-      }
-    },
-    {
       "callsite": "0x2f83c",
       "function": "0x2f798",
       "import": "_MSHookMessageEx",
@@ -91,7 +70,8 @@
         "selector": {
           "at": "0x6aaa0",
           "ptr": "0x10000000058b89",
-          "name": null
+          "decoded_name_address": "0x58b89",
+          "name": "setRootViewController:"
         }
       },
       "x2_candidate": {
@@ -140,7 +120,8 @@
         "selector": {
           "at": "0x6ac38",
           "ptr": "0x10000000056716",
-          "name": null
+          "decoded_name_address": "0x56716",
+          "name": "setWindowScene:"
         }
       },
       "x2_candidate": {
@@ -336,7 +317,8 @@
         "selector": {
           "at": "0x6b010",
           "ptr": "0x1000000005720e",
-          "name": null
+          "decoded_name_address": "0x5720e",
+          "name": "cancelTrip"
         }
       },
       "x2_candidate": {
@@ -371,7 +353,8 @@
         "selector": {
           "at": "0x6b018",
           "ptr": "0x1000000005763b",
-          "name": null
+          "decoded_name_address": "0x5763b",
+          "name": "finishTrip"
         }
       },
       "x2_candidate": {
@@ -406,7 +389,8 @@
         "selector": {
           "at": "0x6b020",
           "ptr": "0x10000000055cb9",
-          "name": null
+          "decoded_name_address": "0x55cb9",
+          "name": "pauseTripForReason:description:"
         }
       },
       "x2_candidate": {
