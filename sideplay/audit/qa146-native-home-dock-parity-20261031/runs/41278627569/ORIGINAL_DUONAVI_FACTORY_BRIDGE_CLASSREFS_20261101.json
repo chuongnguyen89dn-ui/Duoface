@@ -1,0 +1,98 @@
+{
+  "actual_metadata_imp_verified": true,
+  "branch_sites_only": [
+    {
+      "kind": "b.ne",
+      "pc": "0x1bf298",
+      "target": "#0x1bf34c"
+    },
+    {
+      "kind": "cbz",
+      "pc": "0x1bf2b8",
+      "target": "#0x1bf2c8"
+    },
+    {
+      "kind": "b",
+      "pc": "0x1bf2c4",
+      "target": "#0x1bf304"
+    },
+    {
+      "kind": "b.ne",
+      "pc": "0x1bf2d4",
+      "target": "#0x1bf364"
+    },
+    {
+      "kind": "cbz",
+      "pc": "0x1bf2ec",
+      "target": "#0x1bf2fc"
+    },
+    {
+      "kind": "b",
+      "pc": "0x1bf2f8",
+      "target": "#0x1bf304"
+    },
+    {
+      "kind": "b",
+      "pc": "0x1bf348",
+      "target": "#0x3136f0"
+    },
+    {
+      "kind": "b",
+      "pc": "0x1bf360",
+      "target": "#0x1bf29c"
+    },
+    {
+      "kind": "b",
+      "pc": "0x1bf378",
+      "target": "#0x1bf2d8"
+    }
+  ],
+  "class": "CBBridgeManager",
+  "decoded_instructions": 72,
+  "method_end": "0x1bf37c",
+  "method_start": "0x1bf25c",
+  "next": "Correlate original runtime CBBridgeManager.currentApp class+window and isSplit state in observer on real device; class refs alone do not select taken branch.",
+  "original_dylib_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+  "original_license_code_inspected": false,
+  "original_source_copied": false,
+  "pointer_table_references": [
+    {
+      "class_pointer": null,
+      "name": "isEqualToString:",
+      "pc": "0x1bf2a8",
+      "table": "__objc_selrefs",
+      "target": "0x3a81c0"
+    },
+    {
+      "class_pointer": "0x3ab930",
+      "name": "CBBridgedPortalApp",
+      "pc": "0x1bf2c0",
+      "table": "__objc_classrefs",
+      "target": "0x3aad08"
+    },
+    {
+      "class_pointer": "0x3abb60",
+      "name": "CBBridgedSplitApp",
+      "pc": "0x1bf2f4",
+      "table": "__objc_classrefs",
+      "target": "0x3aab30"
+    },
+    {
+      "class_pointer": "0x3ab9d0",
+      "name": "CBBridgedUIApp",
+      "pc": "0x1bf300",
+      "table": "__objc_classrefs",
+      "target": "0x3aace8"
+    },
+    {
+      "class_pointer": null,
+      "name": "initWithBundleIdentifier:frame:",
+      "pc": "0x1bf30c",
+      "table": "__objc_selrefs",
+      "target": "0x3a9460"
+    }
+  ],
+  "runtime_branch_or_concrete_app_class_verified": false,
+  "scope": "one-sha-pinned-original-factory-method-only",
+  "selector": "-appForBundleIdentifier:frame:"
+}
