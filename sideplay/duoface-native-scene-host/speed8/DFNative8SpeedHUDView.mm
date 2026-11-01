@@ -132,6 +132,14 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
     }
     DFSpeedHUDRecord sample={};
     if (!DFSpeedHUDReadBest(&sample)) {
+        // A missing/stale GOFA CoreLocation source must stay unknown.
+        static NSTimeInterval lastMissingLog=0;
+        NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+        if(now-lastMissingLog>=30.0) {
+            NSLog(@"[DuoFaceSpeed8] viewer NO_FRESH_SAMPLE source=GOFA ttl=5s process=%@",
+                  NSProcessInfo.processInfo.processName);
+            lastMissingLog=now;
+        }
         // Visible diagnostic state: no data is not the same as no HUD.
         self.current.text=@"—";
         self.limit.text=@"—";
