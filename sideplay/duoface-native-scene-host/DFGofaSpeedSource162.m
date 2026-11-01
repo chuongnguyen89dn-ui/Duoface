@@ -117,8 +117,11 @@
     NSLog(@"[DuoFaceSpeed8] GOFA GPS source unavailable: %@",error.domain);
 }
 @end
+#if !defined(DF165_PASSIVE_GOFA_ONLY)
 __attribute__((constructor)) static void DFStartGOFASpeed162(void) {
     dispatch_async(dispatch_get_main_queue(), ^{
         [[DFGofaSpeedSource162 shared] start];
     });
 }
+
+#endif // DF165_PASSIVE_GOFA_ONLY: listen only to GOFA's existing GPS callbacks.
