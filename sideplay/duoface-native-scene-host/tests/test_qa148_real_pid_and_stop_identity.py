@@ -51,6 +51,7 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
         self.assertIn(digest,{
             "aeb6178654eebe3a052e358febcc0b2519c3ac54",
             "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de",
+            "6a3c073f9d7502d588eb441d4ecb6c546c3f09f8",
         })
         if digest=="d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de":
             code=HOST.decode("utf-8")
@@ -58,6 +59,19 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
             self.assertIn("qa160-fast-initial-probe-complete",code)
             self.assertIn("if(scene && supportsHosting && isHosting && viewAttached)",code)
             self.assertIn("surface.started || surface.stopped ||",code)
+        if digest=="6a3c073f9d7502d588eb441d4ecb6c546c3f09f8":
+            code=HOST.decode("utf-8")
+            for marker in (
+                "self.fastInitialPolling?0.10:0.35",
+                "qa160-fast-initial-probe-complete",
+                "CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero)",
+                "![self.bundleID isEqual:DFYTBundle]",
+                '![self.bundleID isEqual:@"com.lumi.GOFA"]',
+                "geometryWait=quickSoloInitialGeometry?0.12:0.30",
+                "qa161-solo-first-reference-120ms",
+                "if (!self.scene || observedScene!=self.scene || !hosting || !attached)",
+            ):
+                self.assertIn(marker,code)
         self.assertIn("DFGofaMapResize141.m",(ROOT/"build.sh").read_text())
         self.assertIn("DFYouTubeOrientationRelay.m",(ROOT/"build.sh").read_text())
 
