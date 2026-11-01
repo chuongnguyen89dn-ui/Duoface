@@ -1,3 +1,7 @@
+## 2026-11-01 — Safari roster runtime harness compile correction
+
+Source repair b44836618d9d82f8864d97abec4b391e12cfa508 retained. Private run41263076453 failed BEFORE iOS build, job124720129360: new test-only TestHomeProcessInfo.processInfo returned id, so dot properties processName/operatingSystemVersion were not visible to compiler (4 errors). Existing actual forwarding runtime test including Safari positive PASSED. Corrected mock return to instancetype at9a02572494bfdd1b4d1ef26ca95d6442fc7a2e54; no production logic changed. New private run41263145324 queued, inspect actual Safari full roster test before claiming pass. Public Sileo still nativebridge2. No device proof.
+
 ## 2026-11-01 — USER REJECTS Safari absent from Home again; two source exclusions repaired, build pending
 
 USER: selected Safari still has no CarPlay Home icon (second report). Actual device version/trace not independently read; latest accessible main log remains Audit24 same blob. Found published source0851274 has two contradictory filters: DFHomeAdmission141.DF141Selected requires recommended(non-Apple), while DFHomePublisher136Core rejects every com.apple.*. The click/launch Safari exception did NOT reach icon publication. IPC success/release was insufficient, and previous instructions to test Safari overlooked this prerequisite.
