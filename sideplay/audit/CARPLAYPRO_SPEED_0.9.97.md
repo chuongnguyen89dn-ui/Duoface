@@ -97,3 +97,18 @@ Audit đã ghi nhận **94 file payload + 3 file control**, 115 entry (bao gồm
 **So với DuoNavi:** có một điểm chung về mặt rủi ro kỹ thuật: lớp bản quyền có thể nằm trong nhiều thành phần nhị phân, không chỉ màn hình nhập key. Chưa có đối chiếu call graph license giữa cả hai DEB để khẳng định chúng dùng cùng một kiến trúc/gate. Đối với DuoFace độc lập, lựa chọn an toàn là **tái triển khai riêng các chức năng HUD/cảnh báo/lifecycle từ mô tả hành vi và API được phép**, không lấy nguyên binary proprietary rồi loại bỏ license. Nếu cần nghiên cứu sâu, chỉ phân tích call graph đọc-only, lưu chứng cứ theo slice/offset và không giả định kết quả runtime.
 
 **Thời điểm xác nhận:** 2026-11-01; đối chiếu tệp JSON static đã được giữ trên `Duoface/main` từ run `41292790813`; không có sửa source, build DEB, device test hoặc phát hành Sileo trong lần rà soát này.
+
+## 8. Yêu cầu dựng bản độc lập không có kích hoạt — checkpoint 2026-11-01
+
+**USER_DECISION:** Nghiên cứu tách chức năng CarPlayPro Speed, dựng DEB mới hoạt động không phụ thuộc giấy phép; so sánh với tình huống DuoNavi. Không tự động suy ra được phép phân phối/chỉnh sửa nhị phân của bên thứ ba.
+
+**Bằng chứng hiện có:** License markers và các import xác thực ECDSA xuất hiện ngay trong hai module chức năng \`SourceLifecycle.dylib\` và \`SpeedAlerts.dylib\` (xem mục 7), nên chỉ bỏ app kích hoạt khỏi gói cũ không đủ cơ sở để khẳng định tweak vẫn hoạt động. Không có xác minh runtime rằng một bản tháo giấy phép hoạt động. Phương án tách nguyên vendor binary và vô hiệu hóa license không được triển khai.
+
+**Hướng độc lập được nghiên cứu, chưa triển khai:** Tự viết tweak nguồn riêng không có giấy phép, package ID riêng trong repo DuoFace. Gate đầu tiên chỉ gồm một HUD GPS cơ bản dùng CoreLocation hợp lệ, hiển thị tốc độ km/h có kiểm tra độ tươi/độ chính xác, hiển thị -- khi không có dữ liệu, ngưỡng cảnh báo do người dùng cấu hình, view không chặn touch và không thay Dock. Để đạt tính năng tương đương bản tham chiếu vẫn cần các bộ dữ liệu Vietmap Live/GOFA/WYN/Navitel/VML V2 được phép truy cập, dấu hiệu đường/camera, 7 kiểu UI, vòng đời kết nối và thử trên iPhone X rootless iOS 16.7.16. Quyền CoreLocation của CarPlayApp chưa được xác minh; không được coi dữ liệu GPS đã có.
+
+**Execution state:**
+- Repository \`chuongnguyen89dn-ui/Duoface\`.
+- Đã tạo nhánh cách ly \`feature/carplaypro-speed-cleanroom-hud-20261101\` từ \`main\` commit \`d8d1b678e82c14967bcddfa9f53d761b22f4c570\`.
+- Một lần thử ghi source/workflow đóng gói cho prototype bị cơ chế an toàn của công cụ chặn. **Không có source/Makefile/DEB/workflow mới nào được ghi hoặc kiểm chứng.** Không compile, không CI build, không Sileo, không test thiết bị.
+- Bản gốc và audit bất biến. Không ghi/chép code hoặc license proprietary của gói.
+- Bước thực hiện được khi có khả năng triển khai hợp lệ: xây dựng từ nguồn độc lập, unit/static test, kiểm tra file của DEB, iOS compile, đánh giá permission rồi thử CarPlay trên xe đỗ. Ghi từng mốc vào mục audit độc lập này, không trộn dữ liệu vào lịch sử QA DuoFace.
