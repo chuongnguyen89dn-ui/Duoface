@@ -54,6 +54,28 @@ class Map141Contract(unittest.TestCase):
   for addition in additions:
    self.assertEqual(normalized.count(addition),1,"Only reviewed QA160 additions allowed")
    normalized=normalized.replace(addition,b"",1)
+  # QA161 contains exactly one reviewed SOLO-only first geometry timer
+  # change. Replace that precise span with old frozen bytes before comparing.
+  changed=b'''    // QA161: on the very first scene-ready frame of a single independent
+    // app, the SOLO viewport has no moving divider to debounce. Preserve
+    // the original 300ms wait for split, subsequent resizes, YouTube and GOFA.
+    // Keep the SAME owned live scene/attachment checks in commitSceneGeometry:.
+    BOOL quickSoloInitialGeometry=self.fastInitialPolling &&
+        CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero) &&
+        ![self.bundleID isEqual:DFYTBundle] &&
+        ![self.bundleID isEqual:@"com.lumi.GOFA"];
+    NSTimeInterval geometryWait=quickSoloInitialGeometry?0.12:0.30;
+    if(quickSoloInitialGeometry)
+        DFSceneLog(@"qa161-solo-first-reference-120ms",self.bundleID,
+                   @"scene-ready-only; rendering-and-touch-unverified");
+    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:geometryWait
+        target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
+'''
+  original=b'''    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:0.30
+        target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
+'''
+  self.assertEqual(normalized.count(changed),1,"QA161 timer diff must stay exact")
+  normalized=normalized.replace(changed,original,1)
   self.assertEqual(without_start(baseline),without_start(normalized))
   startup=current.split(marker1,1)[1].split(marker2,1)[0]
   self.assertLess(startup.index(b'setIgnoresOcclusions:'),startup.index(b'[self addSubview:appView]'))
