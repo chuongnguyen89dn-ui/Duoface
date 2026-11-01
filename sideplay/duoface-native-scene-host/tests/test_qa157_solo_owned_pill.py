@@ -17,7 +17,7 @@ class SoloOwnedMenu157(unittest.TestCase):
   self.assertIn('#import "DFSoloPickerCarPlay157.h"',SOLO)
   self.assertEqual(SOLO.count("[[DFSceneHost sharedHost] hostViewForBundleID:self.bundle error:&err]"),1)
   self.assertIn("[self df157InstallSoloMenuWithUsableRect:usable]",SOLO)
-  self.assertIn("self.soloPill.hidden=NO",SOLO)
+  self.assertNotIn("self.soloPill.hidden=NO",SOLO)
   self.assertIn("setSplitMode:NO",SOLO)
   self.assertNotIn("hostViewForBundleID:",PILL)
   self.assertNotIn("UIRootSceneWindow",PILL)

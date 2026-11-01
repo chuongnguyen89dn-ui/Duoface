@@ -4,9 +4,19 @@
 // is retired, and its own first-party chooser becomes the visible destination.
 // Native CarPlay Music/Calendar never pass this SpringBoard live-owner gate.
 - (BOOL)df157ReturnHomeToPicker {
- if(!self.window || self.window.hidden || !self.emittedManager ||
-    !self.surface || !self.soloPicker || !DFHome145Enabled() ||
-    ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface])return NO;
+ // The outgoing scene may already be invalid when SpringBoard receives
+ // the genuine CarPlay Home event. Guard the owned window/display instead.
+ if(self.homeChooser || !self.window || self.window.hidden ||
+    !self.emittedManager || !self.surface || !self.soloPicker || !self.root ||
+    !self.request.length || !self.carDisplayID.length || !DFHome145Enabled() ||
+    self.window.rootViewController!=self.root ||
+    !self.window.screen || self.window.screen==UIScreen.mainScreen ||
+    ![self currentCarDisplayWithID:self.carDisplayID])return NO;
+ BOOL outgoingSceneLive=[[DFSceneHost sharedHost]
+     isLiveSceneForHostedView:self.surface];
+ DF144Log(@"solo-native-home-chooser-owner",
+     [NSString stringWithFormat:@"req=%@ bid=%@ outgoingSceneLive=%d",
+       self.request,self.bundle,outgoingSceneLive]);
  [self publishGeneralAppState:NO];
  ++self.generation;
  UIView *previous=self.surface;
@@ -33,21 +43,6 @@
  [self reply:@"stopped" reason:@"native-Home-exit"];
  return YES;
 }
-- (void)df157SoloPillPressed:(UIButton *)sender {
- (void)sender;
- if(!self.window || self.window.hidden || !self.surface || !self.emittedManager ||
-    !self.soloPicker ||
-    ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface])return;
- self.soloPicker.currentSlotBundleID=self.bundle;
- self.soloPicker.pendingSlotBundleID=nil;
- self.soloPicker.otherSlotBundleIDs=@[];
- [self.soloPicker presentInstalledApps];
- [self.soloPicker refreshInstalledApps];
- self.soloPicker.view.hidden=NO;
- self.soloPill.hidden=YES;
- [self.root.view bringSubviewToFront:self.soloPicker.view];
- DF144Log(@"solo-own-pill-app-picker-open",self.bundle);
-}
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker {
  if(picker!=self.soloPicker)return;
  if(self.homeChooser) {
@@ -61,12 +56,10 @@
 - (void)appPicker:(DFAppPickerVC *)picker
  didSelectBundleID:(NSString *)bundle displayName:(NSString *)name {
  (void)name;
- if(picker!=self.soloPicker || (!self.emittedManager && !self.homeChooser) ||
+ // Only a real native Home-return chooser can select another app.
+ if(picker!=self.soloPicker || !self.homeChooser ||
     !self.request.length || !self.carDisplayID.length ||
     !self.window || self.window.hidden || !DF144Allowed(bundle))return;
- if(!self.homeChooser && (!self.surface ||
-    ![[DFSceneHost sharedHost] isLiveSceneForHostedView:self.surface]))return;
- if(!self.homeChooser && [bundle isEqual:self.bundle]) { [self appPickerDidCancel:picker];return; }
  NSDictionary *p=@{@"Version":@1,@"SelectionID":NSUUID.UUID.UUIDString,@"RequestID":self.request,
     @"FromBundle":self.bundle,@"BundleID":bundle,
     @"CarDisplayID":self.carDisplayID,
@@ -101,21 +94,9 @@
  (void)clockwise;if(picker==self.soloPicker)[picker presentInstalledApps];
 }
 - (void)df157InstallSoloMenuWithUsableRect:(CGRect)usable {
- // Real content rect starts to the RIGHT of native Apple Dock.
- UIButton *pill=[UIButton buttonWithType:UIButtonTypeSystem];
- pill.frame=CGRectMake(CGRectGetMinX(usable)+8,CGRectGetMinY(usable)+4,62,27);
- pill.backgroundColor=[UIColor colorWithWhite:.08 alpha:.86];
- pill.layer.cornerRadius=13.5;
- pill.layer.borderColor=[UIColor colorWithWhite:1 alpha:.28].CGColor;
- pill.layer.borderWidth=.5;
- [pill setTitle:@"•••" forState:UIControlStateNormal];
- [pill setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
- pill.titleLabel.font=[UIFont systemFontOfSize:19 weight:UIFontWeightSemibold];
- pill.accessibilityLabel=@"DuoFace: chọn ứng dụng";
- [pill addTarget:self action:@selector(df157SoloPillPressed:)
-              forControlEvents:UIControlEventTouchUpInside];
- pill.hidden=YES;self.soloPill=pill;
- [self.root.view addSubview:pill];
+ // App chooser belongs to native Home return only, never a redundant
+ // three-dot overlay or a split-mode switch on the running app.
+ self.soloPill=nil;
  DFAppPickerVC *picker=[DFAppPickerVC new];
  picker.delegate=self;
  picker.currentSlotBundleID=self.bundle;
@@ -126,6 +107,6 @@
  [self.root.view addSubview:picker.view];
  [picker didMoveToParentViewController:self.root];
  picker.view.hidden=YES;self.soloPicker=picker;
- DF144Log(@"solo-one-owner-pill-picker-installed",
+ DF144Log(@"solo-one-owner-home-picker-installed",
      @"one-window-one-SBAppViewController-no-global-layout-mutation");
 }

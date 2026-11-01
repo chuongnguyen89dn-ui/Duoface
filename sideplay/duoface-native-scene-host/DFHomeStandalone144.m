@@ -658,7 +658,6 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  // Native Dock state may follow this owner receipt; PID remains an observation.
  if(!self.emittedManager) {
    self.emittedManager=YES;
-   self.soloPill.hidden=NO;
    [self publishGeneralAppState:YES];
    DF144Log(@"qa149-manager-live-scene-owned",
       [NSString stringWithFormat:@"req=%@ bid=%@ generation=%lu window=%@",
