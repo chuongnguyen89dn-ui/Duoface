@@ -13,7 +13,7 @@ static void DNLog(NSString *event,NSDictionary *fields) {
  if(!dnFile||!dnQueue)return;
  NSMutableDictionary *d=[NSMutableDictionary dictionaryWithDictionary:fields?:@{}];
  d[@"run"]=dnRun?:@"unavailable";d[@"uptime"]=@(NSProcessInfo.processInfo.systemUptime);
- d[@"observer_version"]=@"0.0.3~homeflow1";d[@"schema"]=@3;
+ d[@"observer_version"]=@"0.0.4~ownerflow1";d[@"schema"]=@3;
  d[@"utc"]=@([NSDate.date timeIntervalSince1970]);
  d[@"event"]=event;d[@"process"]=dnProcess?:@"unknown";
  d[@"pid"]=@([NSProcessInfo processInfo].processIdentifier);
