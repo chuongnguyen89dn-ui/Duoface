@@ -41,6 +41,45 @@ static NSArray *DNFlowVisibleTree(void) {
   }
  }return nodes;
 }
+// The manager's ACTUAL received instance is supplied by the forwarded SB hook.
+// Do not conjure a singleton, assume private ivar offsets, or turn a method name
+// into evidence that a hosted app/window exists. Exact getter encodings only.
+static NSDictionary *DNFlowBridgeHostReadback(id receiver) {
+ if(!receiver || ![NSStringFromClass(object_getClass(receiver))
+                      isEqualToString:@"CBBridgeManager"])
+   return @{@"status":@"not-original-manager-receiver"};
+ BOOL hasApp=DNFlowExact(receiver,"currentApp","@16@0:8");
+ BOOL hasWindow=DNFlowExact(receiver,"window","@16@0:8");
+ BOOL hasBundle=DNFlowExact(receiver,"bundleIdentifier","@16@0:8");
+ if(!hasApp || !hasWindow)
+   return @{@"status":@"manager-getter-abi-missing",
+            @"currentAppGetter":@(hasApp),@"windowGetter":@(hasWindow),
+            @"bundleGetter":@(hasBundle)};
+ id current=DNFlowGet(receiver,"currentApp");
+ id bridgeWindow=DNFlowGet(receiver,"window");
+ id appBundle=DNFlowGet(current,"bundleIdentifier");
+ id managerBundle=hasBundle?DNFlowGet(receiver,"bundleIdentifier"):nil;
+ // CBWindow's rootWindow getter is optional. Never dereference a guessed ivar.
+ BOOL hasRoot=bridgeWindow&&DNFlowExact(bridgeWindow,"rootWindow","@16@0:8");
+ id root=hasRoot?DNFlowGet(bridgeWindow,"rootWindow"):nil;
+ NSMutableDictionary *result=[@{@"status":@"runtime-manager-getters",
+    @"manager":DNFlowIdentity(receiver),
+    @"managerBundle":DNFlowText(managerBundle),
+    @"currentApp":DNFlowIdentity(current),
+    @"currentAppBundle":DNFlowText(appBundle),
+    @"bridgeWindow":DNFlowIdentity(bridgeWindow),
+    @"rootWindowGetter":@(hasRoot),
+    @"rootWindow":DNFlowIdentity(root),
+    @"activated":DNFlowBoolGet(receiver,"activated")} mutableCopy];
+ if([root isKindOfClass:UIWindow.class]) {
+   UIWindow *win=(UIWindow *)root;
+   result[@"rootWindowHidden"]=@(win.hidden);
+   result[@"rootWindowAlpha"]=@(win.alpha);
+   result[@"rootWindowFrame"]=NSStringFromCGRect(win.frame);
+   result[@"rootWindowScene"]=win.windowScene.session.persistentIdentifier?:@"unavailable";
+ }
+ return result;
+}
 static NSDictionary *DNFlowSnapshot(id receiver) {
  if(!NSThread.isMainThread)return @{@"unavailable":@"not-main-thread"};
  id app=UIApplication.sharedApplication;
@@ -74,5 +113,6 @@ static NSDictionary *DNFlowSnapshot(id receiver) {
   @"receiverDisplayState":receiverState,@"receiverDockBundle":DNFlowText(DNFlowGet(receiver,"activeBundleIdentifier")),
   @"receiverActivated":DNFlowBoolGet(receiver,"activated"),@"receiverPending":DNFlowBoolGet(receiver,"pending"),
   @"visible_native_tree":DNFlowVisibleTree(),@"images":DNFlowImages(),
+  @"bridge_owner":DNFlowBridgeHostReadback(receiver),
   @"limits":@"readback; visible tree is not pixel proof or a named page without reference comparison"};
 }
