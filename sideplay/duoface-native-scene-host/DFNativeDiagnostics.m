@@ -2,6 +2,9 @@
 #import <UIKit/UIKit.h>
 #import <sys/utsname.h>
 #import <math.h>
+#import <notify.h>
+#import <stdint.h>
+#import "DF167GOFAEventProtocol.h"
 
 @implementation DFNativeDiagnostics
 + (NSString *)tailAtPath:(NSString *)path maxBytes:(NSUInteger)limit {
@@ -43,6 +46,27 @@
          NSDate.date.description,UIDevice.currentDevice.systemVersion,
          NSBundle.mainBundle.bundleIdentifier?:@"unknown"];
     [summary appendString:@"Audit schema: 3; exporter build 0.0.90~nativegetters1; runtime process build is in timestamped traces.\n"];
+    // GOFA sandbox may prohibit writing /var/mobile/Library/Logs.
+    // This Darwin notify is a 64-bit data-free fallback for on-phone proof:
+    // event identifier, key COUNT, object category, age, and sequence ONLY.
+    int df167Token=-1;
+    if(notify_register_check(DF167_GOFA_NOTIFY_NAME,&df167Token)==NOTIFY_STATUS_OK) {
+        uint64_t raw=0;
+        int result=notify_get_state(df167Token,&raw);
+        notify_cancel(df167Token);
+        NSTimeInterval uptime=NSProcessInfo.processInfo.systemUptime;
+        DF167GOFAEvent sample={0};
+        BOOL fresh=result==NOTIFY_STATUS_OK && isfinite(uptime) && uptime>=0 &&
+           uptime<=DF167_GOFA_MAX_UPTIME &&
+           DF167GOFADecode(raw,(uint32_t)floor(uptime),900,&sample);
+        if(fresh)
+            [summary appendFormat:@"\\nQA167 GOFA original notification received id=%u userInfoKeys=%u objectKind=%u ageSeconds=%.0f sequence=%u (no values)\\n",
+              sample.event,sample.keys,sample.kind,uptime-sample.uptime,sample.sequence];
+        else
+            [summary appendString:@"\\nQA167 GOFA original notification: NONE VALID/FRESH within 900s; absence is NOT proof GOFA did not publish (source may be inactive, sandbox notify blocked, or user hasn't opened GOFA).\\n"];
+    } else {
+        [summary appendString:@"\\nQA167 GOFA original notification: Darwin transport unavailable (no success claim).\\n"];
+    }
     NSArray<NSString *> *ownLogs=@[
       @"/var/mobile/Library/Logs/DuoFaceSceneHost.log",
       @"/var/mobile/Library/Logs/DuoFaceTouchOwner.log",
