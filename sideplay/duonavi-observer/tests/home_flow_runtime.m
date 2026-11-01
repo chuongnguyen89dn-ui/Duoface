@@ -83,6 +83,17 @@ int main(void){@autoreleasepool{
  CHECK([[events description] containsString:@"after-1000ms"]);
  CHECK([[events description] containsString:@"throw-unwind"]);
  atomic_store(&dnFlowSequence,10000);[o one:marker];CHECK(o.calls==11); // Budget never blocks original.
- puts("HOMEFLOW_ACTUAL_WRAPPERS_EXACT_ONCE_ARGS_BLOCK_IDENTITY_64BIT_THROW_ABI_INHERITANCE_BUDGET_AND_DELAYED_READBACK_PASS");
+ atomic_store(&dnFlowSequence,0);
+ o.producedObject=marker;
+ CHECK(Install(8,"appForBundleIdentifier:frame:",DNFlowFactoryFrame));
+ CGRect frame=CGRectMake(12.5,33,320,180);
+ id produced=[o appForBundleIdentifier:@"com.example.fixture" frame:frame];
+ CHECK(produced==marker && o.calls==12 && CGRectEqualToRect(o.capturedFrame,frame));
+ CHECK(Install(9,"showAppPickerForSlot:",DNFlowSignedSlot));
+ [o showAppPickerForSlot:-2];
+ CHECK(o.calls==13 && o.capturedSlot==-2);
+ CHECK([[events description] containsString:@"factory-return"]);
+ CHECK([[events description] containsString:@"slotIndex"]);
+ puts("OWNERFLOW_FACTORY_FRAME_RETURN_AND_SIGNED_PICKER_SLOT_PASS");
  return 0;
 }}
