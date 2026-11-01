@@ -46,6 +46,8 @@
 @end
 
 static CGRect DFAllowedArea(UIView *view);
+- (CGPoint)dfDisplayCenter;
+- (void)dfSetDisplayCenter:(CGPoint)center;
 static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
 @implementation DFNative8SpeedHUDView
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -156,6 +158,12 @@ static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
 static NSString *const kDFSpeedPosX=@"positionX";
 static NSString *const kDFSpeedPosY=@"positionY";
 static CGRect DFAllowedArea(UIView *view) {
+    if([view isKindOfClass:DFNative8SpeedHUDView.class]) {
+        DFNative8SpeedHUDView *bubble=(DFNative8SpeedHUDView *)view;
+        if(bubble.floatingWindowMode && !CGRectIsEmpty(bubble.floatingDragBounds) &&
+           !CGRectIsNull(bubble.floatingDragBounds))
+            return CGRectInset(bubble.floatingDragBounds,3,3);
+    }
     UIView *parent=view.superview;
     if (!parent) return CGRectZero;
     // Native12 rootWindow owns the full external screen, NOT one app pane.
@@ -163,6 +171,22 @@ static CGRect DFAllowedArea(UIView *view) {
     if(CGRectIsEmpty(area)||!isfinite(area.size.width)||!isfinite(area.size.height))
         return CGRectZero;
     return CGRectInset(area,3,3);
+}
+- (CGPoint)dfDisplayCenter {
+    if(self.floatingWindowMode && self.ownerWindow)
+        return CGPointMake(CGRectGetMidX(self.ownerWindow.frame),
+                           CGRectGetMidY(self.ownerWindow.frame));
+    return self.center;
+}
+- (void)dfSetDisplayCenter:(CGPoint)center {
+    if(self.floatingWindowMode && self.ownerWindow){
+        CGRect frame=self.ownerWindow.frame;
+        frame.origin=CGPointMake(center.x-frame.size.width*0.5,
+                                 center.y-frame.size.height*0.5);
+        self.ownerWindow.frame=frame;
+        return;
+    }
+    self.center=center;
 }
 static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     const CGFloat hx=size.width*0.5, hy=size.height*0.5;
@@ -179,26 +203,31 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
     if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
         // GOFA reference image: default upper-right, adjustable everywhere.
-        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
-                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        [self dfSetDisplayCenter:DFClampCenter(CGPointMake(
+        CGRectGetMaxX(area)-self.bounds.size.width/2,
+        CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size)];
         return;
     }
     double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
     if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
-    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
-              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+    [self dfSetDisplayCenter:DFClampCenter(CGPointMake(
+        CGRectGetMinX(area)+area.size.width*x,
+        CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size)];
 }
 - (void)savePosition {
     CGRect area=DFAllowedArea(self);
     if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
     NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
-    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+    CGPoint center=[self dfDisplayCenter];
+    [prefs setDouble:fmax(0,fmin(1,(center.x-CGRectGetMinX(area))/area.size.width))
              forKey:kDFSpeedPosX];
-    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+    [prefs setDouble:fmax(0,fmin(1,(center.y-CGRectGetMinY(area))/area.size.height))
              forKey:kDFSpeedPosY];
 }
 - (void)showDismissTarget {
-    if (!self.superview || self.dismissTarget) return;
+    // QA164: a bubble-sized external UIWindow cannot host an on-screen X
+    // elsewhere in the CarPlay rect. Never create a ghost hit target.
+    if(self.floatingWindowMode || !self.superview || self.dismissTarget) return;
     UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
     target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
     target.layer.cornerRadius=31;
@@ -223,14 +252,17 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
             break;
         case UIGestureRecognizerStateChanged: {
             CGPoint move=[gesture translationInView:self.superview];
-            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
-            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            CGPoint prior=[self dfDisplayCenter];
+            CGPoint next=CGPointMake(prior.x+move.x,prior.y+move.y);
+            [self dfSetDisplayCenter:DFClampCenter(
+                 next,DFAllowedArea(self),self.bounds.size)];
             [gesture setTranslation:CGPointZero inView:self.superview];
             break;
         }
         case UIGestureRecognizerStateEnded: {
             CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
-            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            BOOL hide= !self.floatingWindowMode && !CGRectIsEmpty(drop) &&
+                CGRectContainsPoint(drop,[self dfDisplayCenter]);
             [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
             if (hide) {
                 // GOFA-like drag to X. Session-only: next CarPlay window
@@ -276,12 +308,21 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
 }
 - (void)refreshStyle {
     const CGSize size=CGSizeMake(104*self.visualScale,46*self.visualScale);
-    CGPoint prior=self.center;
+    CGPoint prior=[self dfDisplayCenter];
     self.bounds=(CGRect){CGPointZero,size};
-    self.center=prior;
     self.alpha=self.visualOpacity;
     [self setNeedsLayout];
-    if(self.superview)self.center=DFClampCenter(self.center,DFAllowedArea(self),size);
+    if(self.floatingWindowMode && self.ownerWindow) {
+        UIWindow *w=self.ownerWindow;
+        CGRect frame=w.frame;
+        frame.size=size;
+        frame.origin=CGPointMake(prior.x-size.width*0.5,prior.y-size.height*0.5);
+        w.frame=frame;
+        w.rootViewController.view.frame=(CGRect){CGPointZero,size};
+        self.frame=(CGRect){CGPointZero,size};
+    } else self.center=prior;
+    if(self.superview)[self dfSetDisplayCenter:DFClampCenter(
+        prior,DFAllowedArea(self),size)];
 }
 - (NSString *)sourceTitle {
     switch(self.selectedSource){
