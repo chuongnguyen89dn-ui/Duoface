@@ -98,7 +98,7 @@ Audit đã ghi nhận **94 file payload + 3 file control**, 115 entry (bao gồm
 
 **Thời điểm xác nhận:** 2026-11-01; đối chiếu tệp JSON static đã được giữ trên `Duoface/main` từ run `41292790813`; không có sửa source, build DEB, device test hoặc phát hành Sileo trong lần rà soát này.
 
-## 8. Yêu cầu dựng bản độc lập không có kích hoạt — checkpoint 2026-11-01
+## 8. Yêu cầu dựng bản độc lập không có kích hoạt — checkpoint 2026-11-01 (ĐÃ BỊ THAY THẾ bởi mục 9)
 
 **USER_DECISION:** Nghiên cứu tách chức năng CarPlayPro Speed, dựng DEB mới hoạt động không phụ thuộc giấy phép; so sánh với tình huống DuoNavi. Không tự động suy ra được phép phân phối/chỉnh sửa nhị phân của bên thứ ba.
 
@@ -112,3 +112,17 @@ Audit đã ghi nhận **94 file payload + 3 file control**, 115 entry (bao gồm
 - Một lần thử ghi source/workflow đóng gói cho prototype bị cơ chế an toàn của công cụ chặn. **Không có source/Makefile/DEB/workflow mới nào được ghi hoặc kiểm chứng.** Không compile, không CI build, không Sileo, không test thiết bị.
 - Bản gốc và audit bất biến. Không ghi/chép code hoặc license proprietary của gói.
 - Bước thực hiện được khi có khả năng triển khai hợp lệ: xây dựng từ nguồn độc lập, unit/static test, kiểm tra file của DEB, iOS compile, đánh giá permission rồi thử CarPlay trên xe đỗ. Ghi từng mốc vào mục audit độc lập này, không trộn dữ liệu vào lịch sử QA DuoFace.
+
+## 9. Điều chỉnh phạm vi: chỉ tích hợp vào DuoFace — USER_DECISION 2026-11-01
+
+**Yêu cầu mới nhất, THAY THẾ mục 8:** Người dùng **KHÔNG yêu cầu một ứng dụng/DEB CarPlayPro Speed độc lập**. Chỉ cần chức năng tốc độ/cảnh báo của nó làm **tính năng tích hợp trực tiếp trong DuoFace hiện hữu**, không có license, trial, QR activation hay phụ thuộc package CarPlayPro. Không tạo Sileo source khác, không xuất một package `com.duoface.speedhud.independent` riêng. Giữ nguyên package ID, cơ chế cập nhật và phát hành Sileo hiện tại của DuoFace. **Không tháo, patch hoặc phân phối vendor binary/licensing của CarPlayPro**; tự viết mã độc lập, chỉ tận dụng yêu cầu chức năng và nguồn/mã có giấy phép phù hợp.
+
+**Phạm vi tính năng mong muốn:** HUD hiện tốc độ thực; cảnh báo ngưỡng/giới hạn tốc độ, thông tin đường/camera và gợi ý điều hướng khi nguồn dữ liệu hợp lệ có cung cấp; nguồn tham khảo của CarPlayPro gồm Vietmap Live, GOFA, WYN, Navitel và VML V2. Các phần phụ thuộc dữ liệu proprietary chưa có đường cấp phép/contract thì để trạng thái `CHƯA CÓ NGUỒN`, không tự dựng dữ liệu. UI có cấu hình trực tiếp trong DuoFace, bám owner CarPlay đã được xác minh, không chặn vùng chạm, không thay App Picker, Dock, bản đồ hay lệnh Home.
+
+**Nguồn code DuoFace đang có, kiểm bằng GitHub:** trên nhánh `feature/duoface-jb-embedded-appbridge-20261020`, thư mục `sideplay/duoface-native-scene-host/speed8/` đã chứa **mã DuoFace tự viết**: `DFNative8SpeedHUDView.h/.mm` (HUD tốc độ, vị trí kéo, tùy chọn hiển thị), `DFSpeedProtocol.hpp` (mẫu speed/limit, TTL và chọn nguồn), `DFSpeedGMapWire.hpp` (hợp đồng dữ liệu tham chiếu MIT). Bản `sideplay/duoface-native-scene-host/build.sh` trên cùng nhánh **chưa liệt kê `speed8/DFNative8SpeedHUDView.mm` trong lệnh biên dịch**, đầu file Speed8 tự ghi `Not yet enabled/mounted in current integrated package`. Đây là **cơ sở reuse chính của DuoFace**, không phải build/feature đã chạy trên xe. Không giả định nhánh cũ này là trạng thái QA159; cần đối chiếu nhánh/commit build DuoFace đang thực sự được phát hành trước khi sửa.
+
+**Quyết định kiến trúc:** mở rộng/reuse thành phần Speed8 của **mã nguồn DuoFace**, nối qua owner/scene và source adapters hiện có của DuoFace, đưa vào **chung DEB DuoFace**. Không tạo service riêng, không chạy CarPlayPro activation/verify. Cần giữ `enabled=false` hoặc ẩn HUD khi chưa có nguồn hợp lệ trong giai đoạn chưa kiểm thử và không gây crash/độ trễ khởi động. Khi compile/đóng gói, xác nhận chỉ một DEB DuoFace đã tích hợp thành phần tương ứng, không phát hành một DEB Speed riêng.
+
+**Trạng thái thực thi:** phát hiện code Speed8 và `build.sh` có thật trên nhánh GitHub; **chưa sửa source để gắn Speed8, chưa build DEB hoặc kiểm thử iPhone/CarPlay, chưa Sileo**. Nhánh thử standalone `feature/carplaypro-speed-cleanroom-hud-20261101` đã tạo ở mốc cũ nhưng **bị bỏ khỏi kế hoạch**, không cần xóa hoặc triển khai nhánh đó. Nhánh QA159/current actual implementation cần xác minh khi bắt đầu chỉnh code. Lỗi DuoFace Home→Dashboard/độ trễ vẫn tạm hoãn theo yêu cầu trước.
+
+**Điểm tiếp nối:** (1) xác minh nhánh/commit có build DuoFace QA mới nhất và source thực tế của HUD8; (2) kiểm bằng chứng đầu ra GPS/speed-limit của nguồn hiện hữu và quyền sử dụng; (3) gắn đúng module vào scene owner được xác thực, tránh intercept chạm/Dock/Home, có flags mặc định an toàn; (4) unit/static test + compile theo workflow DuoFace hiện có, build đúng package tích hợp, xác minh bằng `dpkg-deb -c/-I` và SHA256; (5) chỉ sau đó mới đưa lên nguồn Sileo DuoFace hiện có và test iPhone/xe, lưu log thật. **Không tạo bản cài riêng cho CarPlayPro Speed.**
