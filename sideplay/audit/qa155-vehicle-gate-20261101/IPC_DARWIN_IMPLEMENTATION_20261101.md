@@ -22,3 +22,19 @@ Darwin names are not sender authenticated: any process allowed to write the name
 Next: inspect new private CI runtime test + iOS compile/sign/package run; fix concrete failures; verify archived DEB SHA/provenance. Do not publish nativebridge2 until those checks pass and device rollout is deliberate.
 
 Primary API reference read: https://github.com/apple-oss-distributions/Libnotify/blob/main/notify.h (64-bit state; notifications coalesce), https://github.com/apple-oss-distributions/Libnotify/blob/main/libnotify.c (state access checks), https://developer.apple.com/documentation/darwinnotify/notify_set_state(_:_:).
+
+## Completed verification — 2026-11-01 08:20 ICT
+
+Source commit 08512742276c6540590d7fb76ba25b69486c8b51. Scoped CI 41260407157 SUCCESS; macOS integrated private CI 41260407074, job 124712305538 SUCCESS (completed 01:20:35Z). Actual log markers confirm mailbox negative tests and real two-process Darwin STATE/ACK/REVOKE PASS, not a proposed test. Actual iOS16 compile-check, complete build, ldid readback, merged exact-filter checks and archive upload passed.
+
+Archive commit cc3738643c3bff697db206210e25dfdae0f1f871. DEB at sideplay/jb-embedded-appbridge/evidence/runs/41260407074/com.duoface.jb.embedded_0.0.156~nativebridge2_iphoneos-arm64.deb, 1,192,308 bytes; SHA256 b64d78e9678cd36f05ab9a5a4512559254b044de61d2bd5f5e22e2da8225eb17. CI_RESULT.txt explicitly SIGNED=true, SILEO_PUBLISHED=false, DEVICE_DIRECT_HOME_TESTED=false. SHA256SUMS.txt and PACKAGING_PROVENANCE.json read back and agree. Three changed core source files re-fetched at source commit and exact content matched local.
+
+Independently fetched actual archived binary via git show cc3738643c3bff697db206210e25dfdae0f1f871:<above path> > /tmp/df156-package/candidate.deb. Ran:
+```
+python3 sideplay/audit/qa155-vehicle-gate-20261101/verify_ipc_candidate.py /tmp/df156-package/candidate.deb --expected-sha256 b64d78e9678cd36f05ab9a5a4512559254b044de61d2bd5f5e22e2da8225eb17
+```
+from DuoFace repo root. PASS exact hash/version/architecture, full dpkg listing/extraction, exact14 bundle filter, actual new Darwin IPC marker in SpringBoard host and app relay, embedded Mach-O signature blobs. JSON report IPC_PACKAGE_VERIFIED.json. Embedded signature structure is verified here; actual ldid entitlement readback was performed by macOS CI. CI log has a dpkg/tar Broken pipe caused by existing dpkg-deb -c | head -1 metadata check, which closes output early. Independent complete dpkg listing/extraction finished successfully; no package corruption observed. Preserved the log excerpt as IPC_CI_MARKERS.log.
+
+Scope clarification: NSDistributedNotificationCenter is absent from NEW general app relay binary; SpringBoard host still contains it via pre-existing dedicated DFYouTubeHostState.h, intentionally untouched. Do not report that all project uses were removed or that YouTube's path was validated by this change.
+
+NEXT / physical blocker: signed source+binary transport replacement ready for deliberate rollout, not installed or published. Existing main Sileo remains nativebridge1. Actual iPhone sandbox delivery and app-scene match must be established before functional acceptance. Carry same request/bundle/owner/scene through host publish, app scene-matched/window-adjusted and restored on Home/disconnect; measure orientation/touch/Dock and bogus reference size independently. No remote iPhone or car access exists in this session.

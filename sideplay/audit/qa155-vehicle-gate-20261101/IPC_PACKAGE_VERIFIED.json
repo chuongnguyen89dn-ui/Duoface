@@ -1,0 +1,37 @@
+{
+  "sha256": "b64d78e9678cd36f05ab9a5a4512559254b044de61d2bd5f5e22e2da8225eb17",
+  "bytes": 1192308,
+  "metadata": "Package: com.duoface.jb.embedded\nVersion: 0.0.156~nativebridge2\nArchitecture: iphoneos-arm64",
+  "filter": {
+    "Filter": {
+      "Bundles": [
+        "com.apple.mobilesafari",
+        "org.videolan.vlc-ios",
+        "com.facebook.Facebook",
+        "com.ss.iphone.ugc.Ame",
+        "com.openai.chat",
+        "com.google.gemini",
+        "com.netflix.Netflix",
+        "tv.twitch",
+        "com.google.ios.youtubemusic",
+        "com.google.chrome.ios",
+        "com.spotify.client",
+        "com.google.Maps",
+        "com.waze.iphone",
+        "com.zhiliaoapp.musically"
+      ]
+    }
+  },
+  "binaries": {
+    "DFTouchOwnerProbe.dylib": {
+      "darwin_ipc_marker": true,
+      "embedded_signature": true,
+      "sha256": "3ecbdc0b1ca3988dc64cfcfeb0e1a7861b1902fa15204a80dca49309238b1018"
+    },
+    "DF155GeneralAppStateRelay.dylib": {
+      "darwin_ipc_marker": true,
+      "embedded_signature": true,
+      "sha256": "f6638c7a99ff550c9ad7274abdd935cd3edb0a9fc0f5b5e8b6db460babefc337"
+    }
+  }
+}
