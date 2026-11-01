@@ -218,6 +218,12 @@
         "literal": null,
         "cfstring": null
       },
+      "selector_evidence": {
+        "method": "init",
+        "source": "prior_objc_selref_through_register",
+        "candidate": true,
+        "sourceAddr": "0x6afd0"
+      },
       "nearby_class_lookups": [
         {
           "className": "CommonLib.LocationManager",
@@ -266,6 +272,13 @@
         "literal": null,
         "cfstring": null
       },
+      "selector_evidence": {
+        "method": "didBecomeActive",
+        "source": "preceding_NSSelectorFromString_cfstring",
+        "candidate": true,
+        "sourceAddr": "0x60c28",
+        "callsite": "0x2f9f8"
+      },
       "nearby_class_lookups": [
         {
           "className": "CommonLib.LocationManager",
@@ -313,6 +326,13 @@
         ],
         "literal": null,
         "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "willResignActive",
+        "source": "preceding_NSSelectorFromString_cfstring",
+        "candidate": true,
+        "sourceAddr": "0x60c68",
+        "callsite": "0x2fa20"
       },
       "nearby_class_lookups": [
         {
@@ -878,6 +898,12 @@
         ],
         "literal": null,
         "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "objectForInfoDictionaryKey:",
+        "source": "prior_objc_selref_through_register",
+        "candidate": true,
+        "sourceAddr": "0x6a580"
       }
     },
     {
@@ -901,6 +927,12 @@
         ],
         "literal": null,
         "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "infoDictionary",
+        "source": "prior_objc_selref_through_register",
+        "candidate": true,
+        "sourceAddr": "0x6aff8"
       }
     },
     {
@@ -1072,6 +1104,12 @@
         ],
         "literal": null,
         "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "setActive:withOptions:error:",
+        "source": "prior_objc_selref_through_register",
+        "candidate": true,
+        "sourceAddr": "0x6a738"
       }
     },
     {
@@ -1104,6 +1142,12 @@
         ],
         "literal": null,
         "cfstring": null
+      },
+      "selector_evidence": {
+        "method": "setCategory:mode:options:error:",
+        "source": "prior_objc_selref_through_register",
+        "candidate": true,
+        "sourceAddr": "0x6b028"
       }
     },
     {
