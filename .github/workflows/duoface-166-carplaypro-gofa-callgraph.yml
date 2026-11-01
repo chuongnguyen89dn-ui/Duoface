@@ -10,6 +10,7 @@ on:
       - 'sideplay/tools/verify_carplaypro_gofa_registration.py'
       - 'sideplay/tools/resolve_carplaypro_hook_sources.py'
       - 'sideplay/tools/decode_carplaypro_objc_stubs.py'
+      - 'sideplay/tools/decode_carplaypro_gofa_notifications.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -91,6 +92,10 @@ jobs:
              --full-disassembly "$RUNNER_TEMP/qa166-results/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz" \
              --out "$RUNNER_TEMP/qa166-results"
           "$RUNNER_TEMP/qa166-venv/bin/python" sideplay/tools/decode_carplaypro_objc_stubs.py \
+             --thin "$RUNNER_TEMP/qa166-original/SpeedAlerts-arm64.dylib" \
+             --loads "$RUNNER_TEMP/qa166-original/loads.json" \
+             --out "$RUNNER_TEMP/qa166-results"
+          python3 sideplay/tools/decode_carplaypro_gofa_notifications.py \
              --thin "$RUNNER_TEMP/qa166-original/SpeedAlerts-arm64.dylib" \
              --loads "$RUNNER_TEMP/qa166-original/loads.json" \
              --out "$RUNNER_TEMP/qa166-results"
