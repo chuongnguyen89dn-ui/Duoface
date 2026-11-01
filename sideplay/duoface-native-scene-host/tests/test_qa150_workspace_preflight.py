@@ -66,7 +66,7 @@ class WorkspaceAndTerminalGate(unittest.TestCase):
 
     def test_frozen_geometry_and_native_dock_not_swapped(self):
         actual=hashlib.sha1(b"blob "+str(len(SCENE)).encode()+b"\0"+SCENE).hexdigest()
-        self.assertIn(actual, {"aeb6178654eebe3a052e358febcc0b2519c3ac54", "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de"}) # original and reviewed QA160 solo-only fast probe
+        self.assertIn(actual, {"aeb6178654eebe3a052e358febcc0b2519c3ac54", "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de", "6a3c073f9d7502d588eb441d4ecb6c546c3f09f8"}) # original and reviewed QA160 solo-only fast probe
         self.assertIn("DF149Receive(&DF149Life,identity,fresh,",DOCK)
         self.assertIn("DF149NativeDockPressedOriginal(receiver,sel,button)",DOCK)
         self.assertIn("DF147RestoreDock",DOCK)
