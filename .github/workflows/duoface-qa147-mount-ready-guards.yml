@@ -6,6 +6,10 @@ on:
     paths:
       - '.github/workflows/duoface-qa147-mount-ready-guards.yml'
       - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DFSelectedHomeAdmission.h'
+      - 'sideplay/duoface-native-scene-host/DFHomeAdmission141.m'
+      - 'sideplay/duoface-native-scene-host/DFHomePublisher136Core.m'
+      - 'sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m'
       - 'sideplay/duoface-native-scene-host/DF154AppStateProtocol.h'
       - 'sideplay/duoface-native-scene-host/DF156DarwinMailbox.h'
       - 'sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c'

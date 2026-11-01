@@ -1,0 +1,15 @@
+# Safari selected but absent from native CarPlay Home — source blocker
+
+User reports second failure: Safari selected on phone but no CarPlay icon after nativebridge2 release. Installed device version/settings have not been independently read. Latest accessible main sideplay/log is still DuoFaceAudit24.txt blob1f21a2095bdcd735e3c24fa7df0ef122d58cb629; no new device trace was claimed or substituted.
+
+## Deterministic source defect (published source0851274)
+DFAppEligibility.h and DFPickerAllowsApp accept explicitly selected Safari. DFHomeStandalone144.m already has explicit Safari admission on click. But DFHomeAdmission141.m:DF141Selected requires DFIsRecommendedAppID, which excludes every com.apple.* bundle. DFHomePublisher136Core.m separately skips all com.apple.* in its reconcile loop. Therefore Safari cannot gain selected LS inclusion, its missing DBApplicationInfo declaration, or add/notify entry through this path. Repairing IPC alone did not address icon publication; prior test instructions skipped this boundary. Source finding is conclusive for these filters, not a complete runtime causality claim.
+
+## Repair
+New independent DFSelectedHomeAdmission.h restricts scope to explicitly picker-enabled third-party recommended apps OR exact com.apple.mobilesafari. Both actual DF141Selected and FBS reconciler use it. Other Apple IDs remain excluded from synthetic admission; native Maps and any pre-existing declaration stay untouched; installed-proxy checks, separate Home opt-in, native ABI checks and original callback semantics remain. No change to recommendations/default selection, IPC, scene geometry, GOFA or YouTube.
+
+Tests: extended actual getter2->getter3 runtime harness for selected Safari positive, declaration attachment, disabled Safari and unrelated Apple negatives. New safari_home_roster_runtime.m imports BOTH actual production .m files and actual picker eligibility, with controlled OS/library test objects. It verifies the two old filters reject Safari (negative control), then actual reconcile creates Safari DB record, attaches declaration and notifies1, preserves Maps native object, refuses system/disabled/uninstalled apps, and avoids duplicates. Fake process info supplies iOS16/CarPlay environment only; this is a source integration boundary, NOT a real CarPlay screen.
+
+Local full scoped workflow step EXIT0; YAML/bash syntax PASS. macOS runtime compile/execution and signed private build pending new commit. Version0.0.156~nativebridge3/native0.1.156~nativebridge3 reserved as distinct immutable revision, never overwrite nativebridge1/2. Active workflow push filters now cover the modified admission/core/header/runtime tests (previously not tracked by private workflow path filter).
+
+Next inspect actual runtime test/private build, archive and inspect exact package. Only after green publish through same original Sileo source preserving older immutable DEBs. No repeated toggle/reset or log-only release. Physical acceptance remains Safari visible on native Home, then launch/scene ACK/touch/Home/Dock; user should not be told Safari works before physical proof.

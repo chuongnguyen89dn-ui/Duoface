@@ -116,6 +116,18 @@ int main(void) {@autoreleasepool {
  CHECK(DF141Entitlement2(app,two,@"CARCapableApp",NSDictionary.class)==nil);
  app.bundleIdentifier=@"com.apple.Maps";selection=@[@"com.apple.Maps"];
  CHECK(DF141Entitlement2(app,two,@"CARCapableApp",NSNumber.class)==nil);
+ // Manually selected Safari must enter the actual admission/declaration path.
+ app.bundleIdentifier=@"com.apple.mobilesafari";selection=@[app.bundleIdentifier];
+ CHECK([DF141Entitlement2(app,two,@"CARCapableApp",NSNumber.class) isEqual:@YES]);
+ CHECK([DF141Granted containsObject:app.bundleIdentifier]);
+ DBApplicationInfo *safariInfo=[DBApplicationInfo new];safariInfo.bundleIdentifier=app.bundleIdentifier;
+ CHECK(DFHome141CompleteInfo(safariInfo));
+ CHECK([DF141Bundle(safariInfo.carPlayDeclaration) isEqual:app.bundleIdentifier]);
+ selection=@[];CHECK(!DF141Selected(app.bundleIdentifier));
+ selection=@[@"com.apple.springboard",@"com.apple.mobilemail",@"com.apple.Maps"];
+ CHECK(!DF141Selected(@"com.apple.springboard"));
+ CHECK(!DF141Selected(@"com.apple.mobilemail"));
+ CHECK(!DF141Selected(@"com.apple.Maps"));
  app.bundleIdentifier=@"test.selected";selection=@[@"test.selected"];
 
  throwOnNativeRead=YES;

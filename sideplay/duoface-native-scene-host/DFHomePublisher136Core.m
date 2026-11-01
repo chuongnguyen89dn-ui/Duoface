@@ -7,6 +7,7 @@
 #import <objc/message.h>
 #import <string.h>
 #import "DFCarPlayHomeCatalogPolicy.h"
+#import "DFSelectedHomeAdmission.h"
 #import "DFHomePublisher136Config.h"
 extern void DF137ObserveExistingAppInfo(id info, NSString *stage);
 
@@ -48,7 +49,7 @@ static NSArray *DF136InstalledIDs(void) {
  }
  return IDs.array;
 }
-// Only selected admitted THIRD-PARTY records with a missing declaration may be completed.
+// Only selected admitted user-facing records with a missing declaration may be completed.
 // Existing native declarations, including GOFA and all Apple CarPlay apps, must
 // remain exactly as returned by the original OS library.
 extern BOOL DFHome141CompleteInfo(id info);
@@ -79,7 +80,7 @@ NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
  NSArray *allowed=DFHomeBridgeBundleIDs(installed,selected,@[]);
  NSMutableArray *infos=[NSMutableArray array];
  for(NSString *bundle in allowed) {
-    if([bundle hasPrefix:@"com.apple."])continue;
+    if(!DFSelectedHomeAdmission(bundle,selected))continue;
     id already=((id(*)(id,SEL,id))objc_msgSend)(library,lookup,bundle);
     // Log19 native Maps/GOFA/Waze already have real declarations. Do not
     // change their admission or native launch policy.

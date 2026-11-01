@@ -1,3 +1,11 @@
+## 2026-11-01 — USER REJECTS Safari absent from Home again; two source exclusions repaired, build pending
+
+USER: selected Safari still has no CarPlay Home icon (second report). Actual device version/trace not independently read; latest accessible main log remains Audit24 same blob. Found published source0851274 has two contradictory filters: DFHomeAdmission141.DF141Selected requires recommended(non-Apple), while DFHomePublisher136Core rejects every com.apple.*. The click/launch Safari exception did NOT reach icon publication. IPC success/release was insufficient, and previous instructions to test Safari overlooked this prerequisite.
+
+CONFIRMED code repair: DFSelectedHomeAdmission.h exact manual Safari+selected third-party admission shared by both missing gates. Native Apple declarations, Maps, original callbacks/consent and existing IPC/GOFA/YouTube remain preserved. Added actual source runtime integration covering LS admission -> FBS add -> DB declaration -> notify, with Safari positive/native Maps/disabled/system/uninstalled/duplicate negatives. Full local scoped workflow EXIT0; macOS runtime/signed private CI pending this commit. Unique version0.0.156~nativebridge3; public2 unchanged pending verification. No new source/repo.
+
+Evidence: sideplay/audit/qa155-vehicle-gate-20261101/SAFARI_HOME_EXCLUSION_20261101.md; actual source/runtime tests in same module. Next check new CI runtime test + full compile/sign/package, fix concrete failure, then same original Sileo immutable publication and verify live index/download before user test. Do not ask user to reselect/toggle repeatedly or declare physical icon fixed.
+
 ## 2026-11-01 — nativebridge2 LIVE VERIFIED on SAME original Sileo (08:31 ICT)
 
 CONFIRMED public version com.duoface.jb.embedded 0.0.156~nativebridge2 on https://chuongnguyen89dn-ui.github.io/carplaydsp/ . Public DEB SHA b64d78e9678cd36f05ab9a5a4512559254b044de61d2bd5f5e22e2da8225eb17 matches signed archive run41260407074/source08512742276c6540590d7fb76ba25b69486c8b51. Publisher commit3a1539847cd585adf28fe3c28cba030e78b91a08. Run41261185823 COMPLETED SUCCESS all5 jobs, YAML/actionlint41261185836 SUCCESS. Actual public Packages + downloaded binary checksum verified; nativebridge1/QA155/QA147 rollback hashes unchanged. 101 archived integrated DEB versions, exactly one live APT entry. No new source, no equal-version overwrite.

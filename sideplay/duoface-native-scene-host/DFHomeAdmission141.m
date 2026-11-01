@@ -13,6 +13,7 @@
 #import <string.h>
 #import "DFHome140Consent.h"
 #import "DFEnabledAppsPolicy.h"
+#import "DFSelectedHomeAdmission.h"
 
 typedef void (*DF141Hook)(Class,SEL,IMP,IMP *);
 static id (*DF141Original3)(id,SEL,id,Class,Class);
@@ -47,12 +48,12 @@ static NSString *DF141Bundle(id proxy) {
  return [name isKindOfClass:NSString.class]?name:nil;
 }
 static BOOL DF141Selected(NSString *bundle) {
- return DFHome140Enabled() && DFIsRecommendedAppID(bundle) &&
-        DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs());
+ return DFHome140Enabled() &&
+        DFSelectedHomeAdmission(bundle,DFConfiguredEnabledAppIDs());
 }
 static id DF141Answer(id proxy,id key,Class expected,Class values,id original) {
  // Real native capabilities always win. Do not invent template entitlements,
- // scene manifests, SpringBoard bulk dictionaries or Apple app declarations.
+ // scene manifests, SpringBoard bulk dictionaries or native Apple declarations.
  if(original || (expected && expected!=NSNumber.class) ||
     (values && values!=NSNumber.class) ||
     ![key isKindOfClass:NSString.class] ||
