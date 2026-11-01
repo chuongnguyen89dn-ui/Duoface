@@ -14,8 +14,10 @@ PAGE=re.compile(r"^x(\d+), #0x([0-9a-f]+)$")
 ADDI=re.compile(r"^x(\d+), x(\d+), #0x([0-9a-f]+)$")
 LDR=re.compile(r"^x(\d+), \[x(\d+), #0x([0-9a-f]+)\]$")
 BL=re.compile(r"^#0x([0-9a-f]+)$")
+# These exact import stub addresses are verified by original Apple otool -Iv.
 IMPORTS={"_MSHookMessageEx":0x43628,"_MSHookFunction":0x4361c,
-         "_NSClassFromString":0x43a18}
+         "_objc_getClass":0x43a18,"_NSClassFromString":0x43634,
+         "_NSSelectorFromString":0x43658}
 INTERESTING=("gofa","gofa.","GOFA","board","Board","alert","Alert",
              "notification","flutter","Flutter","Speed","Datapoint",
              "camera","Camera","next","Next","direction","Direction")
@@ -54,6 +56,21 @@ class ThinMachO:
         except UnicodeDecodeError:return None
         if not value or any(ord(c)<32 for c in value):return None
         return value
+    def cfstring(self,addr):
+        sec=self.section(addr)
+        if not sec or sec["section"]!="__cfstring":return None
+        raw=self.raw(addr,32)
+        if not raw:return None
+        target=struct.unpack_from("<Q",raw,16)[0]
+        # Accept chained-fixup low address only when it resolves to cstring.
+        value=self.text(target)
+        if value is None:
+            target=target & 0xffffffff
+            if self.section(target) and self.section(target)["section"]=="__cstring":
+                value=self.text(target)
+        return {"cfstring_at":hex(addr),"target":hex(target),"text":value}
+    def class_or_string(self,addr):
+        return self.text(addr) or (self.cfstring(addr) or {}).get("text")
     def selref(self,addr):
         sec=self.section(addr)
         if not sec or sec["section"]!="__objc_selrefs":return None
@@ -105,6 +122,33 @@ def reg_address(records,upto,reg,window=16):
                     return {"at":hex(int(q[2],16)+imm),"origin":[hex(p["addr"]),hex(x["addr"])],"indirect":True}
     return None
 
+def candidate_selector_from_mov(ins,index,macho):
+    # The evidence below is one linear local window, not inter-block SSA.
+    for k in range(index-1,max(-1,index-8),-1):
+        row=ins[k]
+        if row["op"]!="mov":continue
+        found=re.fullmatch(r"x1, x(\\d+)",row["arg"])
+        if not found:continue
+        origin=int(found[1])
+        if origin==0:
+            for h in range(k-1,max(-1,k-12),-1):
+                if ins[h]["op"]=="bl" and ins[h]["arg"]=="#0x43658":
+                    input_addr=reg_address(ins,h,0,window=8)
+                    if input_addr:
+                        literal=macho.cfstring(int(input_addr["at"],16))
+                        if literal and literal.get("text"):
+                            return {"method":literal["text"],"source":"preceding_NSSelectorFromString_cfstring",
+                                    "candidate":True,"sourceAddr":literal["cfstring_at"],
+                                    "callsite":hex(ins[h]["addr"])}
+        else:
+            v=reg_address(ins,k,origin,window=85)
+            if v and v.get("indirect"):
+                desc=macho.selref(int(v["at"],16))
+                if desc and desc.get("name"):
+                    return {"method":desc["name"],"source":"prior_objc_selref_through_register",
+                            "candidate":True,"sourceAddr":desc["at"]}
+    return None
+
 def hooks(rows,macho):
     result=[];byfunc=collections.defaultdict(list)
     for row in rows:byfunc[row["start"]].append(row)
@@ -127,17 +171,27 @@ def hooks(rows,macho):
                         out["selector"]=macho.selref(at)
                 else:
                     out["literal"]=macho.text(at)
+                    out["cfstring"]=macho.cfstring(at)
                 call[f"x{reg}_candidate"]=out
+            if name=="_MSHookMessageEx":
+                direct=call.get("x1_candidate",{}).get("selector")
+                if direct and direct.get("name"):
+                    call["selector_evidence"]={"method":direct["name"],
+                        "source":"original_authenticated_objc_selref","candidate":False}
+                else:
+                    possible=candidate_selector_from_mov(ins,i,macho)
+                    if possible:call["selector_evidence"]=possible
             # Locate *nearby* class lookup candidates; because register x0 is
             # volatile these are not asserted to be the exact receiver class.
             names=[]
-            for k in range(max(0,i-160),i):
+            for k in range(max(0,i-90),i):
                 row=ins[k]
-                if row["op"]=="bl" and row["arg"]=="#0x43a18":
+                if row["op"]=="bl" and row["arg"] in ("#0x43a18","#0x43634"):
                     r=reg_address(ins,k,0,window=6)
                     if r:
-                        raw=macho.text(int(r["at"],16))
-                        if raw:names.append({"className":raw,"classLookupCall":hex(row["addr"])})
+                        raw=macho.class_or_string(int(r["at"],16))
+                        if raw:names.append({"className":raw,"classLookupCall":hex(row["addr"]),
+                                                "classLookupKind":"objc_getClass" if row["arg"]=="#0x43a18" else "NSClassFromString"})
             if names:call["nearby_class_lookups"]=names[-8:]
             result.append(call)
     return [x for x in result if x["import"] in ("_MSHookMessageEx","_MSHookFunction")]
@@ -181,10 +235,11 @@ def main():
            "","## Hook registrations with recovered selector and exact callback address"]
     for call in calls:
         line=f"- `{call['callsite']}` (`{call['function']}`) {call['import']}"
-        sel=call.get("x1_candidate",{}).get("selector")
+        sel=call.get("selector_evidence")
         if sel:
-            line+=f" selector=`{sel.get('name')}` at `{sel['at']}`"
-        target=call.get("x2_candidate",{})
+            line+=f" selector=`{sel.get('method')}` ({sel['source']})"
+        replacement_reg="x2_candidate" if call["import"]=="_MSHookMessageEx" else "x1_candidate"
+        target=call.get(replacement_reg,{})
         if target and not target.get("indirect"):
             line+=f" replacementCandidate=`{target['at']}`"
         if call.get("nearby_class_lookups"):
