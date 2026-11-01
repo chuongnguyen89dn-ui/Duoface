@@ -53,6 +53,25 @@ def main():
     md.extend(["","## Direct B/BL call sites to these stubs"])
     md.extend("- `"+x["at"]+"` in `"+str(x["function"])+"`: `"+x["import"]+"` -> "+x["target"] for x in rows[:150])
     if not rows:md.append("- No references resolved; confirm Apple otool indirect table format before drawing conclusions.")
+    md.append("")
+    md.append("## Original GOFA hook install / callback machine-code excerpts")
+    md.append("These windows contain the **actual** address/loading sequence for dlsym and MSHookFunction.")
+    for title,lo,hi in (
+        ("GOFA candidate dlsym + MSHookFunction registration",0x392f0,0x39454),
+        ("GOFA raw alert callback into SAGofaAlertPayload",0x3cfb4,0x3d080),
+        ("GOFA raw speed callback into SAGofaSpeedPayload",0x3d468,0x3d5b0),
+    ):
+        md.append("")
+        md.append("### "+title+" `"+hex(lo)+"..`"+hex(hi))
+        md.append("```text")
+        for line in ins.splitlines():
+            try:
+                at=int(line[:16],16)
+            except (ValueError,IndexError):
+                continue
+            if lo<=at<=hi:
+                md.append(line)
+        md.append("```")
     md.extend(["","## Evidence limitations","ObjC dispatch/Swift function pointers may use BLR,",
       "and imported stubs can be wrapped by local trampoline functions. This is",
       "not runtime source-model field evidence and does not authorize made-up",
