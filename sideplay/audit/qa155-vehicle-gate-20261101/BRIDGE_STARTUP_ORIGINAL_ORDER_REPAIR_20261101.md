@@ -1,3 +1,10 @@
+## Signed private evidence added (2026-11-01)
+
+- Fast scope run [41256889221](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41256889221) SUCCESS.
+- Signed private iOS16 rootless integrated build [41256889166](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41256889166) SUCCESS, source `592f8325549a5bad5bf2e38f20972cabff312596`. GitHub readback archived file `sideplay/jb-embedded-appbridge/evidence/runs/41256889166/com.duoface.jb.embedded_0.0.155~appack1_iphoneos-arm64.deb` 1,187,644 bytes, Git blob `bb77476beded9a2e400729a29499e28c7b5c3241`, SHA256 `9c1c40426e620f222488b9fb9e40a737332f03f6866eb5819e69481374e7e521`.
+- `CI_RESULT.txt` and `PACKAGING_PROVENANCE.json` read back and SHA matching. Existing Sileo `0.0.155~appack1` has a DIFFERENT earlier binary SHA, so **do not replace public same-version bytes**. `SILEO_PUBLISHED=false` and `DEVICE_DIRECT_HOME_TESTED=false`; no physical acceptance.
+- Real source changes, previous QA141 geometry baseline outside start preserved via test; original vendor lifecycle and native Dock/Home remain **incomplete**. No claim Safari opens successfully until physical test.
+
 **Verified new host source SHA:** `aeb6178654eebe3a052e358febcc0b2519c3ac54`; prior pinned source SHA `ec2924c145be4edaaa27b7320bb869b18de12c6b`. Fast run `41256677277` failed at stale historical SHA test for QA148, not at physical device. QA148/149/150/151 tests now pin the new verified blob; do not remove source-integrity testing.\n\n# Native app bridge — original-route source correction after user rejected VLC-only QA155
 
 **User requirement:** This is the full independent CarPlay app bridge (native Home -> one-app host -> app scene -> native Dock/Home -> restoration), **not a VLC utility**. No copied vendor source or license. Sources inspected: genuine original DuoNavi 1.0.4 SHA256 `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd` and method-local audit `sideplay/audit/original-execution-route-20261031/ROUTE_FINDINGS.md`, original manager/root window `sideplay/audit/original-manager-window-route-20261031/MANAGER_WINDOW_FINDINGS.md`, log23 rejection, Log24 physical symptoms.
