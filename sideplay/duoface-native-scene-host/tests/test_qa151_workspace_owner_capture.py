@@ -25,8 +25,8 @@ class WorkspaceCapture151(unittest.TestCase):
   self.assertLess(start.index("DF151StartCapture()"),start.index("DF144Install(0)"))
   self.assertIn('#import "DF151WorkspaceOwnerCapture.h"',SOLO)
   launch=SOLO.split("static BOOL DF144BeginSelectedBridge(",1)[1].split("static void DF144Launch(",1)[0]
-  self.assertLess(launch.index("DF144ValidRequest(p,"),launch.index("DF151WorkspaceSnapshot(rid,bundle,display,self)"))
-  self.assertLess(launch.index("DF151WorkspaceSnapshot(rid,bundle,display,self)"),launch.index("notify_post(DF144RequestNotify)"))
+  self.assertLess(launch.index("DF144ValidRequest(p,"),launch.index("DF151WorkspaceSnapshot(rid,bundle,display,nativeHome)"))
+  self.assertLess(launch.index("DF151WorkspaceSnapshot(rid,bundle,display,nativeHome)"),launch.index("notify_post(DF144RequestNotify)"))
  def test_live_receiver_provenance_snapshot_never_activates_native_workspace(self):
   body=CAP.split("static void DF151WorkspaceSnapshot(",1)[1]
   for required in ("captured=workspace && DF151IsDashboardOwner(owner)",
