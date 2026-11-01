@@ -161,6 +161,9 @@ static BOOL DF144LiveReceiver(void) {
  NSTimeInterval age=now-[p[@"Timestamp"] doubleValue];
  return isfinite(age) && age>=0 && age<=2.0;
 }
+// The selected native Dock hook is included before the shared broker body;
+// this prototype preserves real Objective-C/Clang compilation order.
+static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *origin);
 #import "DFNativeDockSync147.h"
 #import "DF152NativeWorkspacePrepare.h"
 static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *origin) {
