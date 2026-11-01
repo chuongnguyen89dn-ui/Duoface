@@ -13,8 +13,8 @@ PIVOTS={
     "GOFA_alert_export":256316,
     "GOFA_alert_Swift_wrapper":256320,
 }
-INSN=re.compile(r"^([0-9a-fA-F]{16})\\s+[0-9a-fA-F]{8}\\s+([a-z.]+)\\s*(.*)$")
-BRANCH=re.compile(r"^#0x([0-9a-fA-F]+)\\b")
+INSN=re.compile(r"^([0-9a-fA-F]{16})\s+[0-9a-fA-F]{8}\s+([a-z.]+)\s*(.*)$")
+BRANCH=re.compile(r"^#0x([0-9a-fA-F]+)\b")
 PRIORITY=("gofa","GOFA","notification","SpeedBoard","Datapoint","camera",
           "route","direction","maneuver","speedlimit","alert","navitel")
 def parse(asm_text, starts, symbols):
