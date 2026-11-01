@@ -63,7 +63,7 @@ jobs:
           import json,sys
           o=json.load(open(sys.argv[1]))
           assert o['instruction_count']>10000,o['instruction_count']
-          assert len(o['pivot_functions'])==4
+          assert len(o['pivot_functions'])==10
           assert all(x['pivot_code_disassembled'] for x in o['pivot_functions']),o['pivot_functions']
           assert int(o['instruction_max'],16)>0x3e940,o['instruction_max']
           assert o['direct_branch_edges']>1000,o['direct_branch_edges']
