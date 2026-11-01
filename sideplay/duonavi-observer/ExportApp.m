@@ -11,11 +11,11 @@ static NSString *const dnMarkers=@"/var/mobile/Library/Logs/DuoNaviObserver-mark
 @implementation DNView
 - (void)viewDidLoad {
  [super viewDidLoad];
- self.title=@"Observer 0.0.3 · Home Flow";self.view.backgroundColor=UIColor.systemGroupedBackgroundColor;
+ self.title=@"Observer 0.0.4 · Bridge Owner";self.view.backgroundColor=UIColor.systemGroupedBackgroundColor;
  UIStackView *stack=[UIStackView new];stack.axis=UILayoutConstraintAxisVertical;
  stack.spacing=13;stack.translatesAutoresizingMaskIntoConstraints=NO;
  UILabel *info=[UILabel new];info.font=[UIFont systemFontOfSize:15];info.numberOfLines=0;
- info.text=@"Đo DuoNavi gốc: chỉ bật một bridge. Thử Nhạc/Lịch → Home, rồi Safari/app ngoài → Home. Bộ quét tự ghi lời gọi và trạng thái trước/sau Home; không giới hạn 60 giây. Sau đó chọn Xuất log.";
+ info.text=@"Đo DuoNavi gốc: chỉ bật một bridge. Thử Nhạc/Lịch → Home, rồi Safari/app ngoài → Home. Bộ quét ghi lớp bridge thực, cửa sổ, picker và Home; không giới hạn 60 giây. Sau đó chọn Xuất log.";
  self.status=info;[stack addArrangedSubview:info];
  NSArray *names=@[@"1. Đánh dấu đang chạy DuoNavi gốc",@"2. Nhạc/Lịch: chuẩn bị bấm Home",
     @"3. Safari/app ngoài: chuẩn bị bấm Home",@"4. Kết quả: về trang chọn app",
@@ -57,7 +57,7 @@ static NSString *const dnMarkers=@"/var/mobile/Library/Logs/DuoNaviObserver-mark
 }
 - (void)exportNow:(UIButton *)sender{
  NSMutableString *report=[NSMutableString stringWithFormat:
-   @"DuoNavi Observer 0.0.3~homeflow1 HOME FLOW export\nTime: %@\niOS: %@\n",NSDate.date.description,UIDevice.currentDevice.systemVersion];
+   @"DuoNavi Observer 0.0.4~ownerflow1 BRIDGE OWNER export\nTime: %@\niOS: %@\n",NSDate.date.description,UIDevice.currentDevice.systemVersion];
  NSArray *names=@[@"DuoNaviObserver-SpringBoard.jsonl",
   @"DuoNaviObserver-SpringBoard.jsonl.previous",
   @"DuoNaviObserver-CarPlay.jsonl",@"DuoNaviObserver-CarPlay.jsonl.previous",
