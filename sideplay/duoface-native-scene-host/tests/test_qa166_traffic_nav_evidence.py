@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parents[1]
 PROBE=ROOT / "DFGofaTrafficNavProbe166.m"
 EXPORTER=ROOT / "DFNativeDiagnostics.m"
-ORIGINAL=REPO / "audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.section-strings.json"
+ORIGINAL=REPO / "sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.section-strings.json"
 import json
 
 class TestTrafficNavEvidence166(unittest.TestCase):
