@@ -23,7 +23,7 @@ class QA161SoloInitialReference(unittest.TestCase):
   self.assertIn("if (!self.scene || observedScene!=self.scene || !hosting || !attached)",host)
  def test_solo_opt_in_only_and_distinct_package(self):
   self.assertIn("setFastInitialPolling:YES forHostedView:",SOLO)
-  self.assertIn("0.1.162~gofaspeed8test1",BUILD)
+  self.assertIn("0.1.163~globalspeed8test1",BUILD)
   self.assertIn('VERSION="0.0.162~gofaspeed8test1"',PACK)
  def test_read_only_home_and_nonmedia_regressions(self):
   self.assertIn("qa160-native-home-page-snapshot-not-pixel",SOLO)
