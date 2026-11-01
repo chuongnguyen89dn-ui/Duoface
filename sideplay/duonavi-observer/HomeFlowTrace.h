@@ -8,7 +8,7 @@
 static NSDictionary *DNFlowSnapshot(id receiver);
 typedef void (*DNFlowHookAPI)(Class,SEL,IMP,IMP *);
 typedef enum { DNFlowVoid,DNFlowObjectArg,DNFlowTwoObjects,DNFlowBool,
- DNFlowUInt,DNFlowObjectBool } DNFlowKind;
+ DNFlowUInt,DNFlowObjectBool,DNFlowSignedSlot,DNFlowFactoryFrame } DNFlowKind;
 typedef struct { const char *className,*selector,*encoding;DNFlowKind kind;
  IMP original,replacement;BOOL installed,refused; } DNFlowSpec;
 // Vendor signatures below read from pinned genuine DuoNavi104 metadata.
@@ -27,6 +27,11 @@ static DNFlowSpec dnFlowSpecs[]={
  {"CBBridgeManagerDashboard","setHomeButtonInApp:","v20@0:8B16",DNFlowBool,0,0,0,0},
  {"CBBridgeManager","requestStateChangeWithDictionary:","v24@0:8@16",DNFlowObjectArg,0,0,0,0},
  {"CBBridgeManager","notifyStateUpdated","v16@0:8",DNFlowVoid,0,0,0,0},
+ // ABI from the SHA-pinned genuine DuoNavi 1.0.4 ObjC method table.
+ // These are observation-only: the original IMP is forwarded exactly once.
+ {"CBBridgeManager","appForBundleIdentifier:frame:","@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24",DNFlowFactoryFrame,0,0,0,0},
+ {"CBBridgeManager","showAppPickerForSlot:","v24@0:8q16",DNFlowSignedSlot,0,0,0,0},
+ {"CBBridgeManager","deactivateCurrentApp","v16@0:8",DNFlowVoid,0,0,0,0},
  {"DBRootStatusBarViewController","homeButtonUp:","v24@0:8@16",DNFlowObjectArg,0,0,0,0},
  {"CARRootStatusBarViewController","homeButtonUp:","v24@0:8@16",DNFlowObjectArg,0,0,0,0},
  {"DBMutableWorkspaceStateChangeRequest","activateApplication:","v24@0:8@16",DNFlowObjectArg,0,0,0,0},
@@ -134,6 +139,23 @@ static IMP DNFlowMakeWrapper(DNFlowSpec *s) {
  case DNFlowObjectBool:return imp_implementationWithBlock(^(id r,id a,BOOL b){
   uint64_t c=DNFlowEnter(s,r,@{@"argument":DNFlowArgument(a),@"animated":@(b)});BOOL done=NO;
   @try{((void(*)(id,SEL,id,BOOL))s->original)(r,sel,a,b);done=YES;}@finally{DNFlowExit(s,r,c,done);}
+ });
+ case DNFlowSignedSlot:return imp_implementationWithBlock(^(id r,NSInteger slot){
+  uint64_t c=DNFlowEnter(s,r,@{@"slotIndex":@(slot)});BOOL done=NO;
+  @try{((void(*)(id,SEL,NSInteger))s->original)(r,sel,slot);done=YES;}
+  @finally{DNFlowExit(s,r,c,done);}
+ });
+ case DNFlowFactoryFrame:return imp_implementationWithBlock(^id(id r,id bundle,CGRect frame){
+  uint64_t c=DNFlowEnter(s,r,@{@"argument":DNFlowArgument(bundle),
+     @"frame":NSStringFromCGRect(frame)});BOOL done=NO;
+  id host=nil;
+  @try{host=((id(*)(id,SEL,id,CGRect))s->original)(r,sel,bundle,frame);done=YES;}
+  @finally{
+   if(done)DNFlowRecord(s,r,c,@"factory-return",
+        @{@"factoryResult":DNFlowIdentity(host)});
+   DNFlowExit(s,r,c,done);
+  }
+  return host;
  });
  }return NULL;
 }
