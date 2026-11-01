@@ -7,8 +7,8 @@ from __future__ import annotations
 import argparse,bisect,gzip,json,re
 from pathlib import Path
 
-PAT=re.compile(r"^([0-9a-fA-F]{16})\\s+[0-9a-fA-F]{8}\\s+(bl|b)\\s+#0x([0-9a-fA-F]+)\\b")
-ROW=re.compile(r"^\\s*(?:0x)?([0-9a-fA-F]{6,16})\\s+\\d+\\s+(_[a-zA-Z0-9_.$]+)\\s*$")
+PAT=re.compile(r"^([0-9a-fA-F]{16})\s+[0-9a-fA-F]{8}\s+(bl|b)\s+#0x([0-9a-fA-F]+)\b")
+ROW=re.compile(r"^\s*(?:0x)?([0-9a-fA-F]{6,16})\s+\d+\s+(_[a-zA-Z0-9_.$]+)\s*$")
 IMPORTANT=("_MSHookFunction","_MSHookMessageEx","_dlsym","_objc_msgSend","_swift_dynamicCast")
 def scan(disassembly:str,indirect:str,starts:list[int])->tuple[list[dict],int]:
     selected={}
