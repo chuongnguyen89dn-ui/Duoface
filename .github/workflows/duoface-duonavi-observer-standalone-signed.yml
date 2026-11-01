@@ -33,10 +33,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duonavi-observer/build.sh
-          DEB='sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.3~homeflow1_iphoneos-arm64.deb'
+          DEB='sideplay/duonavi-observer/packages/com.duoface.qa.duonaviobserver_0.0.4~ownerflow1_iphoneos-arm64.deb'
           test -s "$DEB"
           test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.qa.duonaviobserver'
-          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.3~homeflow1'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.4~ownerflow1'
           test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
           ! dpkg-deb -f "$DEB" | grep -E '^(Conflicts|Replaces|Breaks):'
           mkdir -p "$RUNNER_TEMP/observer-unpacked"
@@ -48,6 +48,8 @@ jobs:
           test -s "$RUNNER_TEMP/observer-unpacked/var/jb/Applications/DuoNaviObserver.app/DNObserverExport"
           strings "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'native_dock_class_abi'
           strings "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'home_flow_call'
+          strings "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'factory-return'
+          strings "$RUNNER_TEMP/observer-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviObserver.dylib" | grep -F 'bridge_owner'
           ldid -e "$RUNNER_TEMP/observer-unpacked/var/jb/Applications/DuoNaviObserver.app/DNObserverExport" | grep -F 'no-container'
           E="sideplay/duonavi-observer/evidence/signed-dockabi/$GITHUB_RUN_ID"
           mkdir -p "$E"
@@ -59,14 +61,14 @@ jobs:
         with:
           name: duonavi-observer-signed
           path: |
-            sideplay/duonavi-observer/packages/*0.0.3~homeflow1*.deb
+            sideplay/duonavi-observer/packages/*0.0.4~ownerflow1*.deb
             sideplay/duonavi-observer/evidence/signed-dockabi/
       - name: Commit exactly signed package evidence
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f sideplay/duonavi-observer/packages/*0.0.3~homeflow1*.deb "sideplay/duonavi-observer/evidence/signed-dockabi/$GITHUB_RUN_ID/"
+          git add -f sideplay/duonavi-observer/packages/*0.0.4~ownerflow1*.deb "sideplay/duonavi-observer/evidence/signed-dockabi/$GITHUB_RUN_ID/"
           git commit -m "artifacts: signed standalone DuoNavi Observer package [skip ci]"
           git fetch origin "refs/heads/$GITHUB_REF_NAME:refs/remotes/origin/$GITHUB_REF_NAME"
           git rebase "origin/$GITHUB_REF_NAME"
