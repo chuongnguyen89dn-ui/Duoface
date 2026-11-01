@@ -60,6 +60,7 @@ def main():
         ("Original multi-hook installer 0x2f798: identify source metadata",0x2f798,0x30910),
         ("Other class/selector hook installer 0x36f64",0x36f64,0x37520),
         ("AudioQueue monitoring hooks (NOT GOFA model callbacks)",0x392f0,0x39454),
+        ("ORIGINAL GOFA alert/speed callback registration block at 0x3ce1c",0x3ce1c,0x3cfb4),
         ("GOFA raw alert callback into SAGofaAlertPayload",0x3cfb4,0x3d080),
         ("GOFA raw speed callback into SAGofaSpeedPayload",0x3d468,0x3d5b0),
         ("Substrate registration at 0x36f64: identify hooked class/selector",0x36f64,0x37200),
