@@ -1570,25 +1570,31 @@ static void DFCLog(NSString *text) {
           [UIColor colorWithWhite:1 alpha:.25]).CGColor;
         v.layer.cornerRadius=10;
     }
-    [self refreshGOFASpeedHUD162];
+    [self refreshGlobalSpeedHUD163];
 }
-- (void)refreshGOFASpeedHUD162 {
-    // The speed bubble belongs to a verified, visible GOFA pane only.
-    // Never create another external UIWindow or cover the native Dock/Home.
+- (void)refreshGlobalSpeedHUD163 {
+    // Renderer is independent of GPS source (GOFA); never gate visibility
+    // on the selected app bundle. The Chrome owner is only active inside
+    // an attested DuoFace external display session, never CarPlay Home.
+    // Native CarPlay/other Apple apps have a separate native HUD owner.
     UIWindow *ownerWindow=nil;
-    if(!self.startupActive && self.appSceneWindows.count==4 &&
-       self.hostedScenes.count==4 && self.sceneHandleReady.count==4){
-        DFSceneHost *host=[DFSceneHost sharedHost];
-        for(NSUInteger i=0;i<4;i++){
-            if(![self.sceneHandleReady[i] boolValue])continue;
-            id view=self.hostedScenes[i];
-            UIWindow *window=self.appSceneWindows[i];
-            if(![view isKindOfClass:UIView.class] || !window || window.hidden)continue;
-            NSString *bundle=[host bundleIDForHostedView:(UIView *)view];
-            if([bundle isEqualToString:@"com.lumi.GOFA"] &&
-               !window.rootViewController.view.hidden){
-                ownerWindow=window;
-                break;
+    if(!self.startupActive && self.appSceneWindows.count==4) {
+        // Prefer the current focused pane; otherwise first real visible pane.
+        // Preserve physical UIWindow ownership (including empty/app picker).
+        if(self.focus>=0){
+            NSInteger physical=[self physicalForVisual:self.focus];
+            if(physical>=0 && physical<4){
+                UIWindow *w=self.appSceneWindows[(NSUInteger)physical];
+                if(w && !w.hidden && w.screen && w.screen!=UIScreen.mainScreen)
+                    ownerWindow=w;
+            }
+        }
+        if(!ownerWindow){
+            for(UIWindow *w in self.appSceneWindows) {
+                if(w && !w.hidden && w.screen && w.screen!=UIScreen.mainScreen) {
+                    ownerWindow=w;
+                    break;
+                }
             }
         }
     }
@@ -1598,7 +1604,12 @@ static void DFCLog(NSString *text) {
         return;
     }
     UIView *root=ownerWindow.rootViewController.view;
-    if(!root || root.bounds.size.width<110 || root.bounds.size.height<50)return;
+    if(!root || root.hidden || root.bounds.size.width<110 ||
+       root.bounds.size.height<50) {
+        [self.gofaSpeedHUD removeFromSuperview];
+        self.gofaSpeedHUD.ownerWindow=nil;
+        return;
+    }
     if(!self.gofaSpeedHUD)
         self.gofaSpeedHUD=[[DFNative8SpeedHUDView alloc] initWithFrame:
                            CGRectMake(0,0,104,46)];
