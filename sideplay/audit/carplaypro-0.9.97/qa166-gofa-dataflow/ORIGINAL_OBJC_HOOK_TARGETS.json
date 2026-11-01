@@ -1220,7 +1220,22 @@
       }
     }
   ],
-  "raw_pointer_refs_to_four_callbacks": [],
+  "raw_pointer_refs_to_four_callbacks": [
+    {
+      "section": "__const",
+      "location": "0x5d5a8",
+      "callback": "0x3cfb4",
+      "raw_pointer": "0x1000000003cfb4",
+      "pointer_encoding": "chained_low32_candidate"
+    },
+    {
+      "section": "__const",
+      "location": "0x5d5c8",
+      "callback": "0x3d468",
+      "raw_pointer": "0x1000000003d468",
+      "pointer_encoding": "chained_low32_candidate"
+    }
+  ],
   "original_candidate_hook_tables": {
     "0x5d4f8": {
       "encoded": "0x100000000405b8",

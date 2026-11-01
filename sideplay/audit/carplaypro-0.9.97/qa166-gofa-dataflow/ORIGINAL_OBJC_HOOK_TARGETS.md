@@ -6,7 +6,7 @@ No private GOFA values nor license data are read or generated.
 
 - Original MSHookMessageEx callsites: 23
 - Original MSHookFunction callsites: 9
-- Raw pointer references to exported GOFA callbacks: 0
+- Raw pointer references to exported GOFA callbacks: 2
 
 ## Hook registrations with recovered selector and exact callback address
 - `0xab58` (`0xa988`) _MSHookMessageEx replacementCandidate=`0x3298c` candidateClass=`FlutterMethodChannel`
