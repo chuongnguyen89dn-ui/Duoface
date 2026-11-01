@@ -14,6 +14,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DF155PilotAppScope.h'
       - 'sideplay/duoface-native-scene-host/DF155GeneralAppStateRelay.plist'
       - 'sideplay/duoface-native-scene-host/tests/test_qa155_integrated_relay.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_bridged_content_window.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa141_map_layout.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa144_no_split_home_redirect.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa145_controlled_home.py'
@@ -75,6 +76,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_bridged_content_window.py' -v
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"
           "$RUNNER_TEMP/workspace152"
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v

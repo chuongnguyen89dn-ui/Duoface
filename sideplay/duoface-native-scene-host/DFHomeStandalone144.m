@@ -259,6 +259,53 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
 }
 #endif
 #if defined(DF144_SPRINGBOARD)
+// CBWindow reference audit: full external rootWindow and independent usable
+// contentView. UIKit must NEVER absorb CarPlay's physical native Dock rail.
+// Dynamic subclass preserves the private UIRootSceneWindow initializer/ABI.
+static char DF144NativeContentRectKey;
+static BOOL DF144OwnedWindowPoint(id window,CGPoint point) {
+ NSValue *value=objc_getAssociatedObject(window,&DF144NativeContentRectKey);
+ return [value isKindOfClass:NSValue.class] &&
+        CGRectContainsPoint([value CGRectValue],point);
+}
+static BOOL DF144OwnedWindowPointInside(id window,SEL cmd,CGPoint point,UIEvent *event) {
+ if(!DF144OwnedWindowPoint(window,point))return NO;
+ struct objc_super sup={window,class_getSuperclass(object_getClass(window))};
+ return ((BOOL(*)(struct objc_super *,SEL,CGPoint,UIEvent *))objc_msgSendSuper)(
+     &sup,cmd,point,event);
+}
+static UIView *DF144OwnedWindowHitTest(id window,SEL cmd,CGPoint point,UIEvent *event) {
+ if(!DF144OwnedWindowPoint(window,point))return nil;
+ struct objc_super sup={window,class_getSuperclass(object_getClass(window))};
+ UIView *hit=((UIView *(*)(struct objc_super *,SEL,CGPoint,UIEvent *))objc_msgSendSuper)(
+     &sup,cmd,point,event);
+ // The blank root is not a valid app touch target, and the native Dock rail
+ // is outside the usable rect. Only a real hosted child may receive input.
+ UIWindow *w=(UIWindow *)window;
+ return hit==w || hit==w.rootViewController.view ? nil:hit;
+}
+static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
+ static Class owned;
+ if(owned)return class_getSuperclass(owned)==rootWindowClass?owned:Nil;
+ if(!rootWindowClass)return Nil;
+ SEL inside=sel_registerName("pointInside:withEvent:");
+ SEL hit=sel_registerName("hitTest:withEvent:");
+ Method insideMethod=class_getInstanceMethod(rootWindowClass,inside);
+ Method hitMethod=class_getInstanceMethod(rootWindowClass,hit);
+ if(!insideMethod || !hitMethod)return Nil;
+ Class cls=objc_allocateClassPair(rootWindowClass,
+                                  "DF144OwnedPassThroughRootSceneWindow",0);
+ if(!cls)return Nil;
+ if(!class_addMethod(cls,inside,(IMP)DF144OwnedWindowPointInside,
+                     method_getTypeEncoding(insideMethod)) ||
+    !class_addMethod(cls,hit,(IMP)DF144OwnedWindowHitTest,
+                     method_getTypeEncoding(hitMethod))) {
+   objc_disposeClassPair(cls);return Nil;
+ }
+ objc_registerClassPair(cls);
+ owned=cls;
+ return owned;
+}
 @interface DF144Solo : NSObject
 @property(nonatomic,strong) UIWindow *window;
 @property(nonatomic,strong) UIViewController *root;
@@ -441,7 +488,8 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
    DF144Log(@"standalone-refuse-duoface-active",p[@"BundleID"]);return NO;
  }
  Class configuration=NSClassFromString(@"FBSDisplayConfiguration");
- Class windowClass=NSClassFromString(@"UIRootSceneWindow");
+ Class windowClass=DF144OwnedPassThroughWindowClass(
+      NSClassFromString(@"UIRootSceneWindow"));
  SEL cfgSel=NSSelectorFromString(@"initWithCADisplay:isMainDisplay:");
  SEL winSel=NSSelectorFromString(@"initWithDisplayConfiguration:");
  id display=[self currentCarDisplayWithID:p[@"CarDisplayID"]];
@@ -467,17 +515,31 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
      [self reply:@"failed" reason:@"external-screen-mismatch"];
      [self stop:@"external-screen-mismatch"];return NO;
    }
-   w.frame=content;
-   if(!CGRectEqualToRect(w.frame,content)){
-     [self reply:@"failed" reason:@"window-frame-not-applied"];
-     [self stop:@"window-frame-not-applied"];return NO;
+   // Original CBWindow root is the entire CAR screen; hosted content is
+   // a separate native usable rect, leaving the Apple Dock hit-testable.
+   w.frame=expectedScreen;
+   if(!CGRectEqualToRect(w.frame,expectedScreen)){
+     [self reply:@"failed" reason:@"root-window-screen-frame-not-applied"];
+     [self stop:@"root-window-screen-frame-not-applied"];return NO;
    }
+   CGRect usable=CGRectOffset(content,-expectedScreen.origin.x,
+                             -expectedScreen.origin.y);
+   if(!CGRectContainsRect(w.bounds,usable) || CGRectIsEmpty(usable)) {
+     [self reply:@"failed" reason:@"native-content-outside-root"];
+     [self stop:@"native-content-outside-root"];return NO;
+   }
+   objc_setAssociatedObject(w,&DF144NativeContentRectKey,
+                           [NSValue valueWithCGRect:usable],OBJC_ASSOCIATION_RETAIN_NONATOMIC);
    w.windowLevel=UIWindowLevelNormal+1;
    w.backgroundColor=UIColor.clearColor;w.opaque=NO;
    UIViewController *root=[UIViewController new];
-   root.view=[[UIView alloc]initWithFrame:(CGRect){CGPointZero,content.size}];
+   root.view=[[UIView alloc]initWithFrame:(CGRect){CGPointZero,expectedScreen.size}];
    root.view.backgroundColor=UIColor.clearColor;
    root.view.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+   UIView *contentView=[[UIView alloc]initWithFrame:usable];
+   contentView.backgroundColor=UIColor.clearColor;
+   contentView.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+   [root.view addSubview:contentView];
    w.rootViewController=root;
    self.window=w;self.root=root;w.hidden=NO;
    NSError *err=nil;
@@ -487,7 +549,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
      [self stop:@"scene-factory-refused"];return NO;
    }
    self.surface=v;
-   v.frame=root.view.bounds;v.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+   v.frame=contentView.bounds;v.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
    // Explicit SOLO, never call DFNative12Chrome or its app picker.
    [[DFSceneHost sharedHost] setSplitMode:NO forHostedView:v];
    // didMoveToWindow -> start -> sceneReady/sceneFailed can synchronously run
@@ -497,7 +559,7 @@ __attribute__((constructor))static void DF144StartCarPlay(void) {
        [NSString stringWithFormat:@"req=%@ content=%@ window=%@ root=%@ surface=%@",
        p[@"RequestID"],NSStringFromCGRect(content),NSStringFromCGRect(w.bounds),
        NSStringFromCGRect(root.view.bounds),NSStringFromCGRect(v.bounds)]);
-   [root.view addSubview:v];
+   [contentView addSubview:v];
    // An attach failure can synchronously call sceneFailed -> stop -> clear owner.
    // Never report a completed mount or create another timeout in that case.
    if(self.generation!=generation || self.surface!=v || self.window!=w ||
