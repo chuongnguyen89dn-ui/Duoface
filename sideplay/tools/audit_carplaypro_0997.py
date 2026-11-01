@@ -125,7 +125,7 @@ def macho(data):
             ret["symbols"].append({"name":name,"value":value,"type":ntype,"section":nsect,"desc":desc})
     ft=ret.get("function_starts_record")
     if ft and ft["offset"]+ft["size"]<=len(data):
-        raw=data[ft["offset"]:ft["offset"]+ft["size"]];v=0,p=0
+        raw=data[ft["offset"]:ft["offset"]+ft["size"]];v=p=0
         while p<len(raw):
             delta=0;shift=0
             while p<len(raw):
