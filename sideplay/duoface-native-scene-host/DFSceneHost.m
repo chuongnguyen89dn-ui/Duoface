@@ -420,7 +420,19 @@ static NSInteger DFObservedSceneForeground(id scene) {
     if (!self.ready) return;
     self.pendingReferenceSize=size;
     [self.geometryCommitTimer invalidate];
-    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:0.30
+    // QA161: on the very first scene-ready frame of a single independent
+    // app, the SOLO viewport has no moving divider to debounce. Preserve
+    // the original 300ms wait for split, subsequent resizes, YouTube and GOFA.
+    // Keep the SAME owned live scene/attachment checks in commitSceneGeometry:.
+    BOOL quickSoloInitialGeometry=self.fastInitialPolling &&
+        CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero) &&
+        ![self.bundleID isEqual:DFYTBundle] &&
+        ![self.bundleID isEqual:@"com.lumi.GOFA"];
+    NSTimeInterval geometryWait=quickSoloInitialGeometry?0.12:0.30;
+    if(quickSoloInitialGeometry)
+        DFSceneLog(@"qa161-solo-first-reference-120ms",self.bundleID,
+                   @"scene-ready-only; rendering-and-touch-unverified");
+    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:geometryWait
         target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
 }
 - (void)commitSceneGeometry:(NSTimer *)timer {
