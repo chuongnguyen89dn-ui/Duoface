@@ -3,6 +3,12 @@
 static void DF157HandleSoloPickerRequest(void) {
  NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:DF144PickerRequest];
  if(![p isKindOfClass:NSDictionary.class])return;
+ static NSString *lastSelection;
+ NSString *selection=p[@"SelectionID"];
+ if(![selection isKindOfClass:NSString.class] ||
+    ![[NSUUID alloc] initWithUUIDString:selection] ||
+    [selection isEqual:lastSelection])return;
+ lastSelection=[selection copy];
  NSNumber *stamp=p[@"Timestamp"];
  NSString *bundle=p[@"BundleID"];
  NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
