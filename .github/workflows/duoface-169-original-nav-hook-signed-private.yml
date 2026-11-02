@@ -1,9 +1,9 @@
 name: QA169 original CarPlayPro DEB-proven native navigation hook - signed private DuoFace DEB
 on:
   push:
-    branches: [feature/duoface-qa169-gofa-carnav-maneuver-20261102]
+    branches: [feature/duoface-qa169-original-speed-deb-fieldflow-20261102]
     paths:
-      - '.github/workflows/duoface-168-native-carplay-maneuver-signed-private.yml'
+      - '.github/workflows/duoface-169-original-nav-hook-signed-private.yml'
       - '.github/workflows/duoface-167-gofa-event-schema-signed-private.yml'
       - 'sideplay/duoface-native-scene-host/DF167GOFAEventProtocol.h'
       - 'sideplay/duoface-native-scene-host/DF168NativeManeuver.h'
@@ -12,7 +12,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFGofaOriginalCarPlayNavHook169.m'
       - 'sideplay/duoface-native-scene-host/tests/test_qa169_original_native_nav.py'
       - 'sideplay/duoface-native-scene-host/tests/native_maneuver_168_runtime.c'
-      - 'sideplay/duoface-native-scene-host/tests/test_qa169_native_maneuver.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa168_native_maneuver.py'
       - 'sideplay/duoface-native-scene-host/tests/gofa_notification_167_runtime.c'
       - 'sideplay/duoface-native-scene-host/tests/test_qa167_gofa_event_schema.py'
       - 'sideplay/duoface-native-scene-host/DFGofaTrafficNavProbe166.m'
@@ -142,7 +142,7 @@ jobs:
           "$RUNNER_TEMP/gofa167"
           cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_maneuver_168_runtime.c -o "$RUNNER_TEMP/nav168"
           "$RUNNER_TEMP/nav168"
-          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa169_native_maneuver.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa168_native_maneuver.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa169_original_native_nav.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa167_gofa_event_schema.py' -v
           clang++ -std=c++17 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/speed8/test_speed_protocol.cpp -o "$RUNNER_TEMP/gofa-speed8-protocol"
@@ -252,7 +252,7 @@ jobs:
       - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
         run: |
           set -euo pipefail
-          BRANCH='feature/duoface-qa169-gofa-carnav-maneuver-20261102'
+          BRANCH='feature/duoface-qa169-original-speed-deb-fieldflow-20261102'
           ART='com.duoface.jb.embedded_0.0.169~originalhooks1_iphoneos-arm64.deb'
           for n in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
