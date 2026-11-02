@@ -44,7 +44,7 @@ class Home145OptInRegression(unittest.TestCase):
   self.assertIn("UNVERIFIED",trace)
   self.assertNotIn("scene-ready-and-play-verified",bridge)
  def test_qa145_distinct_signed_artifact_no_old_home_to_split(self):
-  self.assertIn("0.1.171~gofadiag1",build)
+  self.assertIn("0.1.172~gofadecoder1",build)
   self.assertIn("DFHomeStandalone144.m",build)
   for old in ("DFHomeLaunch143.m","DFHomeSceneBridge143.m","DFHomeRequestReceiver143.m"):
    self.assertNotIn(old,build)
