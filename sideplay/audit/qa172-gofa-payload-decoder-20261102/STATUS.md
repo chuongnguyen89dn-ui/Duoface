@@ -100,3 +100,28 @@
   → one driven GOFA session → export settles (a) value class via the
   v2 evidence kind, (b) `userSpeed` vs `speed` via the shadow NSLog
   values compared with GOFA's own UI.
+
+
+## Update — 2026-11-02 night: Gate G3 private build SUCCESS
+
+- Workflow placed on this branch with the user's PAT (commit
+  `cade0361`); after sweeping the repo's current-version contract
+  pins 171 -> 172 across all tests/ directories, adding the QA172
+  regression test, bumping the packager's host pin and moving the
+  Swift object outside the DEB staging root, run `41442985902`
+  completed **SUCCESS** (job stage-only): contract battery green,
+  Swift decoder compiled and linked into `DFGofaSpeedSource162.dylib`
+  (autolink resolved), integrated DEB assembled, signed and verified
+  (decoder markers asserted in the GOFA dylib).
+- Archive commit `7374df0593a3`:
+  `sideplay/jb-embedded-appbridge/evidence/runs/41442985902/` holds
+  the private DEB `com.duoface.jb.embedded_0.0.172~gofadecoder1_
+  iphoneos-arm64.deb` (1,256,084 bytes) + CI_RESULT + SHA256SUMS.
+  Flags: SIGNED=true, SILEO_PUBLISHED=false, DEVICE_TESTED=false,
+  alerts/turns still NOT CONNECTED (shadow build: decoder observes
+  and reports, publishes nothing to the HUD).
+- Remaining for G3: user installs the private DEB (upgrade over
+  QA171, same package id), one driven GOFA navigation session, then
+  exports the audit log — the new `QA172 decoder shadow:` line
+  settles the payload value kind and which speed fields exist;
+  `userSpeed` vs `speed` value comparison uses the shadow NSLog.
