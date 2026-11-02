@@ -9,6 +9,7 @@
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
 #import "speed8/DFNative8SpeedHUDView.h"
+#import "DFSpeedVisibility169.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerVC.h"
 #import "DFSlotWorkspacePolicy.h"
@@ -293,6 +294,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
 @property(nonatomic,strong) UIWindow *speedHUDWindow;
+@property(nonatomic,strong) UIWindow *speedDismissWindow;
 @property(nonatomic,strong) NSMutableArray<UIView *> *appSceneContainers;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
 @property(nonatomic,strong) NSMutableArray *pendingScenes;
@@ -1049,6 +1051,19 @@ static void DFCLog(NSString *text) {
     self.gofaSpeedHUD.floatingDragBounds=cr;
     self.gofaSpeedHUD.ownerWindow=hudWindow;
     [hudRoot.view addSubview:self.gofaSpeedHUD];
+    // Small separate CarPlay window is the ONLY supported place for the
+    // bottom-center X: bubble window is 104x46 and clips distant content.
+    CGRect xFrame=CGRectMake(CGRectGetMidX(cr)-22,CGRectGetMaxY(cr)-53,44,44);
+    UIViewController *xRoot=[self emptyRoot:xFrame];
+    UILabel *xSymbol=DF169MakeBubbleDismissSymbol();
+    [xRoot.view addSubview:xSymbol];
+    xRoot.view.userInteractionEnabled=NO; // indicator only, never steals Dock
+    UIWindow *xWindow=[self makeWindow:xFrame root:xRoot level:2.6];
+    if(!xWindow){[self stop];return NO;}
+    [self.windows removeObject:xWindow]; // independently hide/show only on drag
+    self.speedDismissWindow=xWindow;
+    self.gofaSpeedHUD.dismissWindow=xWindow;
+    xWindow.hidden=YES;
     // Respect saved HUD scale before restoring global fractional position.
     CGSize actual=self.gofaSpeedHUD.bounds.size;
     if(!isfinite(actual.width)||!isfinite(actual.height)||
@@ -1612,7 +1627,9 @@ static void DFCLog(NSString *text) {
     }
     BOOL valid=!self.startupActive && w.screen &&
         w.screen!=UIScreen.mainScreen && !CGRectIsEmpty(content);
-    w.hidden=!valid;
+    w.hidden=!valid || !DF169SpeedBubbleEnabled();
+    if(!DF169SpeedBubbleEnabled() && self.speedDismissWindow)
+        self.speedDismissWindow.hidden=YES;
 }
 - (void)pillPressed:(UIButton *)sender {
     if(sender.tag<0 || sender.tag>=DFSlotCountForPreset(self.preset))return;
@@ -2381,10 +2398,14 @@ static void DFCLog(NSString *text) {
     // divider/menu controls drawn over CarPlay Home during that delay.
     [self.dividerLogo.layer removeAnimationForKey:@"dfNative12GripPulse"];
     [self hideAllExternalWindowsImmediately];
+    self.speedDismissWindow.hidden=YES;
+    self.speedDismissWindow.rootViewController=nil;
     [self.gofaSpeedHUD removeFromSuperview];
+    self.gofaSpeedHUD.dismissWindow=nil;
     self.gofaSpeedHUD.ownerWindow=nil;
     self.gofaSpeedHUD=nil;
     self.speedHUDWindow=nil;
+    self.speedDismissWindow=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
     [[DFSceneHost sharedHost] stopAllHosts];
     for(UIWindow *w in self.windows)w.rootViewController=nil;
