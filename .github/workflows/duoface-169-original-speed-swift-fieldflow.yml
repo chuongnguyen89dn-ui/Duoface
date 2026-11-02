@@ -1,0 +1,82 @@
+name: QA169 original CarPlayPro Speed GOFA Swift field literal forensic
+on:
+  push:
+    branches: [feature/duoface-qa169-original-speed-deb-fieldflow-20261102]
+    paths:
+      - '.github/workflows/duoface-169-original-speed-swift-fieldflow.yml'
+      - 'sideplay/tools/forensic_carplaypro_gofa_swift_literals.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa169-original-gofa-fieldflow
+  cancel-in-progress: false
+jobs:
+  original-binary-forensics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify original SpeedAlerts.dylib from actual CarPlayPro DEB audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git show origin/main:sideplay/audit/carplaypro-0.9.97/unpacked/rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib > "$RUNNER_TEMP/SpeedAlerts.original.dylib"
+          test "$(git hash-object "$RUNNER_TEMP/SpeedAlerts.original.dylib")" = "f2b7d46e7ace8dfb533e9e9a843eae9616523486"
+          git show origin/main:sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.function-starts.json > "$RUNNER_TEMP/original-starts.json"
+          python3 -m py_compile sideplay/tools/forensic_carplaypro_gofa_swift_literals.py
+      - name: Recover actual original GOFA speed and alert Swift immediate literals
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa169-temp
+          python3 sideplay/tools/forensic_carplaypro_gofa_swift_literals.py \
+            --disassembly sideplay/audit/carplaypro-0.9.97/qa166-gofa-dataflow/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz \
+            --function-starts "$RUNNER_TEMP/original-starts.json" \
+            --out qa169-temp
+          python3 - qa169-temp/GOFA_SWIFT_LITERAL_REGISTER_TRACE.json <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['original_instruction_count']==60552,d['original_instruction_count']
+          assert d['static_only'] is True
+          assert d['functions']['gofa_speed_swift']['start']=='0x3e390'
+          assert d['functions']['gofa_alert_swift']['start']=='0x3e940'
+          assert d['functions']['gofa_alert_swift']['immediate_literals'], 'missing original Swift immediate candidates'
+          print('QA169_ORIGINAL_GOFA_SWIFT_FIELD_LITERAL_FORENSICS_PASS')
+          PY
+          ( cd qa169-temp && sha256sum GOFA_SWIFT_LITERAL_REGISTER_TRACE.* > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt )
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA169-original-CarPlayPro-GOFA-Swift-literals
+          path: qa169-temp/*
+          if-no-files-found: error
+      - name: Archive actual original binary analysis into DuoFace (not Sileo)
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET="feature/duoface-qa169-original-speed-deb-fieldflow-20261102"
+          for attempt in 1 2 3; do
+            git fetch origin "$TARGET"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            OUT="$TEMP/sideplay/audit/carplaypro-0.9.97/qa169-original-gofa-literals"
+            mkdir -p "$OUT"
+            cp qa169-temp/* "$OUT/"
+            printf 'ORIGINAL_DYLIB_GIT_BLOB=f2b7d46e7ace8dfb533e9e9a843eae9616523486\nSOURCE_SHA=%s\nRUN_ID=%s\nSTATIC_ONLY=true\nPROVEN_GOFA_MODEL_FIELD_SCHEMA=false\nSIGNED_DEB_BUILT=false\nSILEO_RELEASED=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/RECEIPT.txt"
+            git -C "$TEMP" config user.name "github-actions[bot]"
+            git -C "$TEMP" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git -C "$TEMP" add sideplay/audit/carplaypro-0.9.97/qa169-original-gofa-literals/
+            git -C "$TEMP" commit -m "forensics(qa169): archive original GOFA Swift register-literal trace [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$TARGET"; then
+              git worktree remove --force "$TEMP"
+              git fetch origin "$TARGET"
+              git cat-file -e "FETCH_HEAD:sideplay/audit/carplaypro-0.9.97/qa169-original-gofa-literals/GOFA_SWIFT_LITERAL_REGISTER_TRACE.json"
+              echo QA169_ORIGINAL_FIELD_LITERAL_TRACE_ARCHIVED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
