@@ -36,3 +36,31 @@
   the probe source). Key name + value class remain runtime-unverified.
 - Decision recorded in `G1_EVIDENCE.md`: fold that question into the
   decoder's shadow-mode diagnostics (Darwin channel), proceed to G2.
+
+## Update — 2026-11-02 night: Gate G2 completed (host side)
+
+- Implemented the decoder core exactly per DESIGN.md:
+  `DFGofaPayloadDecoder172.swift` (pure Swift + Foundation, Mirror
+  based, bounded children 64 / points 32, structural validation only,
+  type names reported never required, both `userSpeed` and `speed`
+  carried), the ObjC bridge header `DFGofaPayloadDecoder172.h`, and
+  `DF172GOFAEvidenceProtocol.h` — the v2 Darwin diagnostics channel
+  that replaces the sandbox-blocked detail log (present/rejected
+  field masks + value kind + bucketed point counts; no values, no
+  coordinates, no key names).
+- Host tests: synthetic stand-in models only. Swift 5.10.1 host
+  build ran **39/39 checks green** (full/missing/wrong-typed/
+  out-of-range/NaN fields, boundary 200/400 vs 201/401, superclass
+  properties, dictionary payload path, alert arrays, per-point
+  rejection, 32-point cap, per-board key selection). The C evidence
+  protocol encode/decode + staleness test also passes (clang-18).
+- Honest residue: the `@objc` bridge section compiles only under
+  macOS/iOS (`#if canImport(ObjectiveC)`); it is type-checked by
+  design review, not yet by a compiler. That verification belongs to
+  the G3 private build (macOS CI), together with wiring
+  `DFGofaBoardSource172` and the version bump to
+  `0.1.172~gofadecoder1` / `0.0.172~gofadecoder1`.
+- Next action: Gate G3 — create the QA172 private build workflow
+  (copy of the QA171 one), wire shadow mode, private build, device
+  session to settle `userSpeed` vs `speed` and capture the value
+  class via the v2 evidence channel.
