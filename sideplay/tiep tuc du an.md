@@ -1,3 +1,8 @@
+## 2026-11-02 — CORRECTION: THE KEYBOARD PHOTO APP IS WAZE, NOT GOFA
+
+- The user corrected the entry directly below: the hosted app in the 22:45 photo is **Waze** (its phone-style search UI hosted full-screen by DuoFace), not GOFA. Muse misidentified it from the photo; the entry below is corrected on this point (including the mic-button fallback, which is Waze's search mic).
+- Everything else in that entry stands unchanged: the app UI spans the full CarPlay width while its keyboard is compressed into the left ~45% at the bottom; no DuoFace geometry machinery manages keyboard windows, and the relays explicitly skip "Keyboard" windows. The QA176 diagnose-first keyboard plan is unaffected. Note for the record: Waze here is rendered through DuoFace scene hosting (full phone UI), not through its native CarPlay template UI.
+
 ## 2026-11-02 — DEVICE PHOTO: HOSTED-APP KEYBOARD RENDERS WITH WRONG GEOMETRY (plan: QA176 keyboard item, diagnose first)
 
 - User photo (22:45 VN, QA175 on device, GOFA hosted full-screen on the car display, search field focused): the app itself fills the full CarPlay width correctly (search bar and category chips span the screen), and the keyboard DOES appear — correcting the earlier same-evening statement that nothing shows: the full QWERTY rows are present but compressed into roughly the left ~45% of the screen width along the bottom, suggestion strip equally narrow, blank space to its right; keys are squeezed too small to type comfortably.
