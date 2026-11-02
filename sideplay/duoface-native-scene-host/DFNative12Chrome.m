@@ -1,6 +1,7 @@
 #import "DFGeometrySnapshot119.h"
 #import "DFDividerDrag.h"
 #import "DFDeepTrace.h"
+#import "DFLogGuard173.h"
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
 #import "DFNative12PresetPreview.h"
@@ -18,6 +19,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
 #import <objc/message.h>
+#import <objc/runtime.h>
 #import <math.h>
 #import <fcntl.h>
 #import <unistd.h>
@@ -97,14 +99,57 @@ static UIImage *DFCArtwork(NSString *name) {
 }
 static void DFCLog(NSString *text) {
     DFDeepTrace(@"chrome",text);
-    NSString *s=[NSString stringWithFormat:@"[DFNative12Chrome] %@\n",text];
+    NSString *s=[NSString stringWithFormat:@"[DFNative12Chrome] %@",text];
     NSLog(@"%@",s);
-    int fd=open("/var/mobile/Library/Logs/DuoFaceTouchOwner.log",
-                O_WRONLY|O_APPEND|O_CREAT,0644);
-    if(fd>=0) {
-        NSData *d=[s dataUsingEncoding:NSUTF8StringEncoding];
-        (void)write(fd,d.bytes,d.length);close(fd);
+    // QA173: capped + de-duplicated append (see DFLogGuard173.h).
+    DFLogWriteCapped173(@"/var/mobile/Library/Logs/DuoFaceTouchOwner.log", s);
+}
+// QA173: root-window touch fall-through for DuoFace's own external
+// windows. The pane root view already returns nil when IT is the hit;
+// this adds the same contract at the window level: when a DuoFace
+// window's hit-test resolves to nothing but its root container view,
+// the touch is released (nil) instead of being swallowed by the
+// window, so windows and scene surfaces beneath can receive it.
+// Scoped by an associated-object mark set in makeWindow; every other
+// window and every real interactive hit is untouched. Kill switch:
+// /var/mobile/Library/Preferences/com.duoface.nativehost.qa173.plist
+// key RootTouchPassThrough (absent = enabled; set 0 + respring = off).
+static BOOL DF173RootTouchPassThroughEnabled(void) {
+    static BOOL cached; static BOOL loaded;
+    if (!loaded) {
+        loaded = YES; cached = YES;
+        NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:
+            @"/var/mobile/Library/Preferences/com.duoface.nativehost.qa173.plist"];
+        id v = prefs[@"RootTouchPassThrough"];
+        if ([v respondsToSelector:@selector(boolValue)]) cached = [v boolValue];
     }
+    return cached;
+}
+static const void *kDF173WindowMarkKey = &kDF173WindowMarkKey;
+static UIView *(*DF173OrigWindowHitTest)(UIWindow *, SEL, CGPoint, UIEvent *);
+static UIView *DF173WindowHitTest(UIWindow *self, SEL _cmd,
+                                  CGPoint point, UIEvent *event) {
+    UIView *hit = DF173OrigWindowHitTest(self, _cmd, point, event);
+    if (hit && DF173RootTouchPassThroughEnabled() &&
+        objc_getAssociatedObject(self, kDF173WindowMarkKey) &&
+        self.rootViewController && hit == self.rootViewController.view) {
+        return nil;
+    }
+    return hit;
+}
+static void DF173InstallWindowPassThrough(void) {
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        Method m = class_getInstanceMethod(UIWindow.class,
+                                           @selector(hitTest:withEvent:));
+        if (m) {
+            DF173OrigWindowHitTest = (void *)method_getImplementation(m);
+            method_setImplementation(m, (IMP)DF173WindowHitTest);
+        }
+        DFCLog([NSString stringWithFormat:
+            @"qa173-root-touch-passthrough installed enabled=%d",
+            DF173RootTouchPassThroughEnabled()]);
+    });
 }
 // Emergency QA118: root touch tracer/wake removed from compiled Chrome.
 
@@ -570,6 +615,10 @@ static void DFCLog(NSString *text) {
         w.backgroundColor=UIColor.clearColor;w.opaque=NO;
         w.windowLevel=UIWindowLevelNormal+level;
         w.rootViewController=root;
+        // QA173: mark as a DuoFace window for the root touch fall-through.
+        DF173InstallWindowPassThrough();
+        objc_setAssociatedObject(w, kDF173WindowMarkKey, @YES,
+                                 OBJC_ASSOCIATION_RETAIN);
         root.view.frame=CGRectMake(0,0,frame.size.width,frame.size.height);
         w.hidden=YES;
         [self.windows addObject:w];
