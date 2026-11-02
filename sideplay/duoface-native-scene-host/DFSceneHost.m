@@ -141,6 +141,8 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @property(nonatomic) CGSize pendingReferenceSize;
 @property(nonatomic) CGSize committedReferenceSize;
 @property(nonatomic,strong) NSTimer *geometryCommitTimer;
+@property(nonatomic) NSUInteger geometryCommitAttempts;
+@property(nonatomic) BOOL observersRegistered175;
 @property(nonatomic) NSTimeInterval lastViewportLogAt;
 @property(nonatomic) NSTimeInterval lastHitLogAt;
 @property(nonatomic) BOOL splitUIVisible;
@@ -164,6 +166,27 @@ static NSInteger DFObservedSceneForeground(id scene) {
 - (void)stop;
 - (void)failed:(NSError *)error;
 @end
+
+// QA175 tunables: trailing-edge geometry debounce and the YouTube
+// host-state republish throttle (periodic path). Both are named so a
+// future QA can retune without hunting literals.
+static const NSTimeInterval kDF175GeometryDebounceSeconds = 0.09;
+static const NSTimeInterval kDF175YTStateThrottleSeconds = 0.30;
+// QA175 kill switch for the relay guard behaviour (smaller republish
+// throttle host-side + no silent-expiry snapshot restore relay-side).
+// /var/mobile/Library/Preferences/com.duoface.nativehost.qa175.plist
+// key YTRelayGuard (absent = enabled; set 0 + respring = QA174 behaviour).
+static BOOL DF175YTRelayGuardEnabled(void) {
+    static BOOL cached; static BOOL loaded;
+    if (!loaded) {
+        loaded = YES; cached = YES;
+        NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:
+            @"/var/mobile/Library/Preferences/com.duoface.nativehost.qa175.plist"];
+        id v = prefs[@"YTRelayGuard"];
+        if ([v respondsToSelector:@selector(boolValue)]) cached = [v boolValue];
+    }
+    return cached;
+}
 
 @implementation DFSceneSurface
 - (void)revokeYouTubeState {
@@ -198,7 +221,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
         [self revokeYouTubeState];
     if(!self.youtubeOwner)self.youtubeOwner=NSUUID.UUID.UUIDString;
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
-    if(now-self.youtubeLastPublish<0.75)return;
+    if(now-self.youtubeLastPublish<(DF175YTRelayGuardEnabled()?kDF175YTStateThrottleSeconds:0.75))return;
     CGSize logical=DFHostedLogicalSizeForBundle(committed,self.bundleID);
     // The actual Native12 Chrome knows SOLO versus split even when the other
     // pane is empty/failed to attach. It provides mode explicitly through
@@ -333,12 +356,6 @@ static NSInteger DFObservedSceneForeground(id scene) {
 }
 - (void)start {
     if (self.started || self.stopped) return;
-    if([self.bundleID isEqual:DFYTBundle]) {
-        [DFYTCenter() addObserver:self selector:@selector(youtubeStateRequested:) name:DFYTRequestName object:nil];
-        [DFYTCenter() addObserver:self selector:@selector(youtubeStateAcknowledged:) name:DFYTAckName object:nil];
-    }
-    if([self.bundleID isEqual:@"com.lumi.GOFA"])
-        [DFYTCenter() addObserver:self selector:@selector(gofaLayoutAcknowledged:) name:@"com.duoface.gofa.layout-ack.v140" object:nil];
     if (!self.window || CGRectIsEmpty(self.bounds)) {
         [self setNeedsLayout];
         return;
@@ -346,6 +363,20 @@ static NSInteger DFObservedSceneForeground(id scene) {
     UIViewController *parent = [self findParentController];
     if (!parent) { [self failed:DFSceneError(110, @"Không tìm thấy UIViewController chủ ô ứng dụng")]; return; }
     self.parentController = parent;
+    // QA175 (T4): observers register only after every early-exit guard
+    // has passed, exactly once per surface. Previously they were added
+    // before the window/bounds guard, so repeated layout-driven start
+    // calls stacked duplicate registrations and handlers fired several
+    // times per event. stop already removes all of them symmetrically.
+    if(!self.observersRegistered175) {
+        self.observersRegistered175=YES;
+        if([self.bundleID isEqual:DFYTBundle]) {
+            [DFYTCenter() addObserver:self selector:@selector(youtubeStateRequested:) name:DFYTRequestName object:nil];
+            [DFYTCenter() addObserver:self selector:@selector(youtubeStateAcknowledged:) name:DFYTAckName object:nil];
+        }
+        if([self.bundleID isEqual:@"com.lumi.GOFA"])
+            [DFYTCenter() addObserver:self selector:@selector(gofaLayoutAcknowledged:) name:@"com.duoface.gofa.layout-ack.v140" object:nil];
+    }
     @try {
         self.started = YES;
         [parent addChildViewController:self.appController];
@@ -413,44 +444,43 @@ static NSInteger DFObservedSceneForeground(id scene) {
         self.lastViewportLogAt=now;
         DFSceneLog(@"media-viewport-ui-only",self.bundleID,NSStringFromCGSize(size));
     }
-    // QA173: the resize line is state-change-only now; identical sizes
-    // during layout storms no longer reach the log at all.
-    if (!CGSizeEqualToSize(size, self.lastLoggedResizeSize)) {
-        self.lastLoggedResizeSize = size;
-        DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
-    }
     if (!self.ready) return;
+    // QA175 (T2): trailing-edge geometry commit. A layout pass now only
+    // records the pending size and (re)arms a short debounce timer; the
+    // remote FBScene commit runs once the size has settled for
+    // kDF175GeometryDebounceSeconds, which is also exactly once after a
+    // divider drag is released. QA173 committed synchronously on every
+    // pass (drag jank + a settings transaction per intermediate size)
+    // and a skipped commit was never retried; commitSceneGeometry: now
+    // re-arms via df175NoteGeometrySkip and pollScene: re-arms while a
+    // pending size stays uncommitted. The resize line is logged once
+    // per settled commit, not per layout pass. This supersedes the
+    // QA161 120ms/300ms split and the QA173 same-pass commit.
     self.pendingReferenceSize=size;
+    [self scheduleGeometryCommit];
+}
+- (void)scheduleGeometryCommit {
+    if (self.stopped) return;
     [self.geometryCommitTimer invalidate];
-    // QA161: on the very first scene-ready frame of a single independent
-    // app, the SOLO viewport has no moving divider to debounce. Preserve
-    // the original 300ms wait for split, subsequent resizes, YouTube and GOFA.
-    // Keep the SAME owned live scene/attachment checks in commitSceneGeometry:.
-    BOOL quickSoloInitialGeometry=self.fastInitialPolling &&
-        CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero) &&
-        ![self.bundleID isEqual:DFYTBundle] &&
-        ![self.bundleID isEqual:@"com.lumi.GOFA"];
-    // QA173: commit the remote scene geometry in the SAME layout pass
-    // instead of deferring 0.30s (0.12s solo) behind a one-shot timer.
-    // A visible frame whose remote input geometry lags behind it is the
-    // leading suspect for hosted-app taps landing nowhere. The commit
-    // keeps its own stale-owner, size-equality and re-entrancy guards.
-    if(quickSoloInitialGeometry)
-        DFSceneLog(@"qa173-solo-first-reference-immediate",self.bundleID,
-                   @"scene-ready-only; rendering-and-touch-unverified");
-    DFSceneLog(@"qa173-geometry-commit-immediate",self.bundleID,
-               NSStringFromCGSize(size));
-    [self commitSceneGeometry:nil];
+    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:kDF175GeometryDebounceSeconds
+        target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
+}
+- (void)df175NoteGeometrySkip {
+    if (self.stopped || self.committingSceneGeometry) return;
+    if (CGSizeEqualToSize(self.pendingReferenceSize,self.committedReferenceSize)) return;
+    if (self.geometryCommitAttempts>=4) return;
+    self.geometryCommitAttempts++;
+    [self scheduleGeometryCommit];
 }
 - (void)commitSceneGeometry:(NSTimer *)timer {
     if (timer && self.geometryCommitTimer!=timer) return;
     self.geometryCommitTimer=nil;
     if (self.stopped || self.committingSceneGeometry || !self.window || !self.appController ||
-        !self.ready) return;
+        !self.ready) { [self df175NoteGeometrySkip]; return; }
     CGSize size=self.pendingReferenceSize;
-    if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
-        !CGSizeEqualToSize(size,self.bounds.size) ||
-        size.width<=0 || size.height<=0) return;
+    if (CGSizeEqualToSize(size,self.committedReferenceSize)) return;
+    if (!CGSizeEqualToSize(size,self.bounds.size) ||
+        size.width<=0 || size.height<=0) { [self df175NoteGeometrySkip]; return; }
     // Guard actual SpringBoard scene ownership before private geometry writes.
     // A reused SBAppViewController can swap sceneHandle after an app restart;
     // the old FBScene must never receive an updateSettingsWithBlock: request.
@@ -463,6 +493,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
             DFSceneLog(@"scene-geometry-stale-owner-skip",self.bundleID,
                 [NSString stringWithFormat:@"sceneSame=%d hosting=%d attached=%d",
                     observedScene!=nil && observedScene==self.scene,hosting,attached]);
+            [self df175NoteGeometrySkip];
             return;
         }
     }
@@ -618,6 +649,11 @@ static NSInteger DFObservedSceneForeground(id scene) {
             }
         }
         if (applied) {
+            self.geometryCommitAttempts=0;
+            if (!CGSizeEqualToSize(size, self.lastLoggedResizeSize)) {
+                self.lastLoggedResizeSize = size;
+                DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
+            }
             self.committedReferenceSize=size;
             self.youtubeLastPublish=0;
             [self publishYouTubeState];
@@ -749,6 +785,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
                     DFSceneLog(@"app-habit-save-failed-nonfatal",self.bundleID,@"no-scene-change");
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
+            if (self.ready &&
+                !CGSizeEqualToSize(self.pendingReferenceSize,self.committedReferenceSize) &&
+                !self.geometryCommitTimer)
+                [self scheduleGeometryCommit];
             [self publishYouTubeState];
             return;
         }
