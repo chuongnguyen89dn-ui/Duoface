@@ -10,16 +10,17 @@ PACK=(ROOT.parents[0]/"jb-embedded-appbridge"/"package_integrated.py").read_text
 class QA161SoloInitialReference(unittest.TestCase):
  def test_reviewed_source_only(self):
   actual=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
-  self.assertEqual(actual,"2686c4531e480831af3db445fe5f3d7e9d7ded5d")  # QA173-reviewed source supersedes the QA161 pin
+  self.assertEqual(actual,"a0f62fa5239e3993ef17a984bcd017eed0b07480")  # QA175-reviewed source supersedes the QA173 pin
   host=HOST.decode("utf-8")
   self.assertIn("quickSoloInitialGeometry=self.fastInitialPolling &&",host)
   self.assertIn("CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero)",host)
   self.assertIn("![self.bundleID isEqual:DFYTBundle]",host)
   self.assertIn('![self.bundleID isEqual:@"com.lumi.GOFA"]',host)
   self.assertNotIn("geometryWait",host)  # QA173: no deferred geometry timer
-  self.assertIn("qa173-solo-first-reference-immediate",host)
-  self.assertIn("qa173-geometry-commit-immediate",host)
-  self.assertIn("[self commitSceneGeometry:nil]",host)
+  self.assertIn("scheduleGeometryCommit",host)
+  self.assertIn("kDF175GeometryDebounceSeconds",host)
+  self.assertNotIn("qa173-geometry-commit-immediate",host)
+  self.assertNotIn("[self commitSceneGeometry:nil]",host)
   self.assertIn("if (self.stopped || self.committingSceneGeometry || !self.window || !self.appController ||",host)
   self.assertIn("!self.ready) return;",host)
   self.assertIn("if (!self.scene || observedScene!=self.scene || !hosting || !attached)",host)
