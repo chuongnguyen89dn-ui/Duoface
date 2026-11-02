@@ -1058,11 +1058,19 @@ static void DFCLog(NSString *text) {
     UIViewController *xRoot=[self emptyRoot:xFrame];
     UILabel *xSymbol=DF169MakeBubbleDismissSymbol();
     [xRoot.view addSubview:xSymbol];
-    xRoot.view.userInteractionEnabled=NO; // indicator only, never steals Dock
+    xRoot.view.backgroundColor=UIColor.clearColor;
+    xRoot.view.opaque=NO; // an "opaque" clear root can composite as a black square
+    xRoot.view.layer.masksToBounds=YES;
+    xRoot.view.layer.cornerRadius=22;
+    xRoot.view.userInteractionEnabled=NO; // visual only, never steals Dock
     UIWindow *xWindow=[self makeWindow:xFrame root:xRoot level:2.6];
     if(!xWindow){[self stop];return NO;}
     [self.windows removeObject:xWindow]; // independently hide/show only on drag
     xWindow.userInteractionEnabled=NO;
+    xWindow.backgroundColor=UIColor.clearColor;
+    xWindow.opaque=NO;
+    xWindow.layer.masksToBounds=YES;
+    xWindow.layer.cornerRadius=22;
     self.speedDismissWindow=xWindow;
     self.gofaSpeedHUD.dismissWindow=xWindow;
     xWindow.hidden=YES;
