@@ -1,3 +1,8 @@
+## 2026-11-02 — CORRECTION 2: KEYBOARD FAULT IS WIDTH + MISSING BOTTOM ROW (not just size)
+
+- The user pointed out what the earlier photo analysis missed: besides being small/compressed, the hosted Waze keyboard has **no bottom row at all — no spacebar and no return/enter key**. The letter rows (QWERTY / ASDF / shift-ZXCV-delete) and the suggestion strip render; the function row that completes the keyboard is missing/clipped below the visible area. The keyboard is therefore not merely small but unusable: spaces cannot be typed and input cannot be confirmed.
+- This corrects the "full QWERTY rows are present" phrasing in the device-photo entry below: the letter rows are present, the bottom row is not. Refined fault statement for the QA176 keyboard item: (1) keyboard width compressed to ~45% (phone-width frame), (2) bottom row (space/enter) cut off — the keyboard's frame/anchoring does not fit the hosted area vertically either. Both point to the same root: the keyboard window keeps phone geometry inside a scene hosted at external-display geometry, and no DuoFace machinery manages it (relays skip "Keyboard" windows). The diagnose-first step must log the keyboard window's frame AND its host/clipping bounds to separate "frame extends past the bottom edge" from "clipped by an ancestor".
+
 ## 2026-11-02 — CORRECTION: THE KEYBOARD PHOTO APP IS WAZE, NOT GOFA
 
 - The user corrected the entry directly below: the hosted app in the 22:45 photo is **Waze** (its phone-style search UI hosted full-screen by DuoFace), not GOFA. Muse misidentified it from the photo; the entry below is corrected on this point (including the mic-button fallback, which is Waze's search mic).
