@@ -45,6 +45,6 @@ class TestBubbleVisibility169(unittest.TestCase):
         build=read("build.sh")
         pkg=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
         self.assertEqual(build.count("DFSpeedVisibility169.m"),4)
-        self.assertIn("0.1.172~gofadecoder1",build)
-        self.assertIn('VERSION="0.0.172~gofadecoder1"',pkg)
+        self.assertIn("0.1.173~touchlog1",build)
+        self.assertIn('VERSION="0.0.173~touchlog1"',pkg)
 if __name__=="__main__":unittest.main()
