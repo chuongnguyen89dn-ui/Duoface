@@ -40,7 +40,7 @@ class Speed8FullContent164(unittest.TestCase):
         self.assertIn("self.ownerWindow.frame=frame",self.hud)
         self.assertIn("CGPoint prior=[self dfDisplayCenter]",self.hud)
         self.assertIn("dfSetDisplayCenter:DFClampCenter",self.hud)
-        self.assertIn("self.floatingWindowMode || !self.superview",self.hud)
+        self.assertIn("if(self.floatingWindowMode)",self.hud)\n        self.assertIn("self.dismissWindow",self.hud)
         self.assertIn("floatingDragBounds",self.header)
         self.assertIn("floatingWindowMode",self.header)
 
