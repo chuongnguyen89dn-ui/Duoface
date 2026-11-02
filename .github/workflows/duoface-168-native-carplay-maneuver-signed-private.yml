@@ -91,7 +91,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: qa167-gofa-eventproof-private-no-sileo
+  group: qa168-native-maneuver-private-no-sileo
   cancel-in-progress: true
 jobs:
   stage-only:
