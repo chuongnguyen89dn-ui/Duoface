@@ -10,9 +10,17 @@ static inline void DFDeepTrace(NSString *area, NSString *event) {
         dispatch_once(&once,^{run=NSUUID.UUID.UUIDString;});
         // Serialize both module writers through a shared Foundation lock.
         @synchronized(NSProcessInfo.processInfo) {
+            // QA173: suppress identical repeats inside 5s (per module
+            // stream) so high-frequency state loops stop flooding disk.
+            static NSString *lastKey; static NSTimeInterval lastStamp;
+            NSString *key=[NSString stringWithFormat:@"%@|%@",area,event];
+            NSTimeInterval nowUptime=NSProcessInfo.processInfo.systemUptime;
+            if(lastKey && [lastKey isEqualToString:key] &&
+               nowUptime-lastStamp<5.0) return;
+            lastKey=[key copy]; lastStamp=nowUptime;
             NSString *path=@"/var/mobile/Library/Logs/DuoFaceDeepTrace.log";
             struct stat st;
-            if(stat(path.fileSystemRepresentation,&st)==0 && st.st_size>2*1024*1024) {
+            if(stat(path.fileSystemRepresentation,&st)==0 && st.st_size>256*1024) {
                 NSString *previous=[path stringByAppendingString:@".previous"];
                 (void)rename(path.fileSystemRepresentation,previous.fileSystemRepresentation);
             }
