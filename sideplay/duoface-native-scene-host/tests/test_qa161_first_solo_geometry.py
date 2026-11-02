@@ -12,8 +12,8 @@ class QA161SoloInitialReference(unittest.TestCase):
   actual=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
   self.assertEqual(actual,"a0f62fa5239e3993ef17a984bcd017eed0b07480")  # QA175-reviewed source supersedes the QA173 pin
   host=HOST.decode("utf-8")
-  self.assertIn("quickSoloInitialGeometry=self.fastInitialPolling &&",host)
-  self.assertIn("CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero)",host)
+  self.assertNotIn("quickSoloInitialGeometry",host)  # QA175: uniform trailing-edge supersedes the QA161 solo split
+  self.assertIn("self.geometryCommitAttempts>=4",host)
   self.assertIn("![self.bundleID isEqual:DFYTBundle]",host)
   self.assertIn('![self.bundleID isEqual:@"com.lumi.GOFA"]',host)
   self.assertNotIn("geometryWait",host)  # QA173: no deferred geometry timer
