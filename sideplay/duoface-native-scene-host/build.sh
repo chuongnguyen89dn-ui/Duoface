@@ -25,7 +25,7 @@ ldid -S "$DYLIB"
 DOCK_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
-  -framework UIKit -framework Foundation -framework CoreGraphics \
+  -framework UIKit -framework Foundation -framework CoreGraphics -framework QuartzCore \
   -DDFCarPlayCaptureLiveOwnerSnapshot=DFIntegratedCarPlayCaptureLiveOwnerSnapshot \
   -DDF144_CARPLAY=1 -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m DFHomeAdmission141.m DFHomeLaunchABI142.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m \
   DFSpeedNativeOverlay163.mm speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
