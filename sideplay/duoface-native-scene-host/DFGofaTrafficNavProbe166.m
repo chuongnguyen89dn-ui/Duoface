@@ -5,6 +5,10 @@
 // notificationSpeedBoard (SpeedAlerts.dylib at 0x3ce1c).
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <CarPlay/CarPlay.h>
+// Independent, public-CarPlay-type route reader: only if original GOFA
+// notifications explicitly carry a CPManeuver, never a guessed Swift model.
+FOUNDATION_EXPORT BOOL DF168PublishNativeCarPlayManeuver(CPManeuver *,CPTravelEstimates *);
 #import <objc/runtime.h>
 #import <notify.h>
 #import <math.h>
@@ -206,6 +210,16 @@ static void DF166ObserveKnownNames(void) {
                      name,klass,(unsigned long)keys]);
             DF167SummarizeNSDictionary(note.userInfo,@"userInfo");
             DF167SummarizeObject(note.object);
+            // QA168: no private GOFA ABI assumptions. If an original event
+            // actually carries a public CPManeuver object, its Apple-provided
+            // distance/instruction may be forwarded; otherwise no turn.
+            id route=note.object;
+            if([route isKindOfClass:NSArray.class])route=[route firstObject];
+            if([route isKindOfClass:CPManeuver.class]) {
+                CPManeuver *maneuver=(CPManeuver *)route;
+                (void)DF168PublishNativeCarPlayManeuver(
+                    maneuver,maneuver.initialTravelEstimates);
+            }
         }];
     }
     DF166Log(@"GOFA original candidate-notification-observers-installed; QA167 types-only");
