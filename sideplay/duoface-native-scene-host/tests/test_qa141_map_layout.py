@@ -59,7 +59,7 @@ class Map141Contract(unittest.TestCase):
   # commits with retry, one-shot surface observers, YouTube
   # state throttle) back to the reviewed QA161 revision.
   import base64 as _b64_175
-  def _d175(s): return _b64_175.b64decode(s).decode()
+  def _d175(s): return _b64_175.b64decode(s)  # bytes: current/baseline are bytes
   for _old,_new in [
       (_d175("c3RhdGljIHZvaWQgREZTY2VuZUxvZyhOU1N0cmluZyAqZXZlbnQsIE5TU3RyaW5nICpidW5kbGVJRCwgTlNTdHJpbmcgKmRldGFpbCkgewogICAgTlNTdHJpbmcgKmxpbmUgPSBbTlNTdHJpbmcgc3RyaW5nV2l0aEZvcm1hdDpAIltEdW9GYWNlU2NlbmVdIGV2ZW50PSVAIGJ1bmRsZT0lQCAlQCIsCiAgICAgICAgICAgICAgICAgICAgICBldmVudCA/OiBAInVua25vd24iLCBidW5kbGVJRCA/OiBAIi0iLCBkZXRhaWwgPzogQCIiXTsKICAgIERGRGVlcFRyYWNlKEAic2NlbmUiLGxpbmUpOwogICAgTlNMb2coQCIlQCIsIGxpbmUpOwogICAgLy8gT25lIHNob3J0IGFwcC1zY29wZWQgZGlhZ25vc3RpYyBmaWxlIGZvciBpUGhvbmUgWCB0ZXN0aW5nOyBubyBzZWNyZXRzLgogICAgLy8gUUExNzM6IGNhcHBlZCArIGRlLWR1cGxpY2F0ZWQgYXBwZW5kIChzZWUgREZMb2dHdWFyZDE3My5oKS4KICAgIERGTG9nV3JpdGVDYXBwZWQxNzMoQCIvdmFyL21vYmlsZS9MaWJyYXJ5L0xvZ3MvRHVvRmFjZVNjZW5lSG9zdC5sb2ciLCBsaW5lKTsKfQo="),_d175("c3RhdGljIHZvaWQgREZTY2VuZUxvZyhOU1N0cmluZyAqZXZlbnQsIE5TU3RyaW5nICpidW5kbGVJRCwgTlNTdHJpbmcgKmRldGFpbCkgewogICAgTlNTdHJpbmcgKmxpbmUgPSBbTlNTdHJpbmcgc3RyaW5nV2l0aEZvcm1hdDpAIltEdW9GYWNlU2NlbmVdIGV2ZW50PSVAIGJ1bmRsZT0lQCAlQCIsCiAgICAgICAgICAgICAgICAgICAgICBldmVudCA/OiBAInVua25vd24iLCBidW5kbGVJRCA/OiBAIi0iLCBkZXRhaWwgPzogQCIiXTsKICAgIERGRGVlcFRyYWNlKEAic2NlbmUiLGxpbmUpOwogICAgTlNMb2coQCIlQCIsIGxpbmUpOwogICAgLy8gT25lIHNob3J0IGFwcC1zY29wZWQgZGlhZ25vc3RpYyBmaWxlIGZvciBpUGhvbmUgWCB0ZXN0aW5nOyBubyBzZWNyZXRzLgogICAgaW50IGZkID0gb3BlbigiL3Zhci9tb2JpbGUvTGlicmFyeS9Mb2dzL0R1b0ZhY2VTY2VuZUhvc3QubG9nIiwKICAgICAgICAgICAgICAgICAgT19XUk9OTFkgfCBPX0FQUEVORCB8IE9fQ1JFQVQsIDA2NDQpOwogICAgaWYgKGZkID49IDApIHsKICAgICAgICBOU0RhdGEgKmRhdGEgPSBbW2xpbmUgc3RyaW5nQnlBcHBlbmRpbmdTdHJpbmc6QCJcbiJdIGRhdGFVc2luZ0VuY29kaW5nOk5TVVRGOFN0cmluZ0VuY29kaW5nXTsKICAgICAgICAodm9pZCl3cml0ZShmZCwgZGF0YS5ieXRlcywgZGF0YS5sZW5ndGgpOwogICAgICAgIGNsb3NlKGZkKTsKICAgIH0KfQo=")),
       (_d175("ICAgIGlmKG5vdy1zZWxmLnlvdXR1YmVMYXN0UHVibGlzaDwoREYxNzVZVFJlbGF5R3VhcmRFbmFibGVkKCk/a0RGMTc1WVRTdGF0ZVRocm90dGxlU2Vjb25kczowLjc1KSlyZXR1cm47Cg=="),_d175("ICAgIGlmKG5vdy1zZWxmLnlvdXR1YmVMYXN0UHVibGlzaDwwLjc1KXJldHVybjsK")),
@@ -79,7 +79,7 @@ class Map141Contract(unittest.TestCase):
       _d175("QHByb3BlcnR5KG5vbmF0b21pYykgQ0dTaXplIGxhc3RMb2dnZWRSZXNpemVTaXplOwo="),
   ]:
       assert current.count(_strip)==1
-      current=current.replace(_strip,"")
+      current=current.replace(_strip,b"")
   # QA161 contains exactly one reviewed SOLO-only first geometry timer
   # change. Replace that precise span with old frozen bytes before comparing.
   changed=b'''    // QA161: on the very first scene-ready frame of a single independent
