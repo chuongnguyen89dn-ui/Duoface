@@ -7,9 +7,9 @@ NATIVE=(ROOT/"duoface-native-scene-host/build.sh").read_text()
 BRIDGE=(ROOT/"duoface-native-scene-host/DFHomeStandalone144.m").read_text()
 class Q144PackageContract(unittest.TestCase):
  def test_new_unique_candidate_both_versions(self):
-  self.assertIn('VERSION="0.0.168~nativecpmaneuver1"',PACK)
-  self.assertIn("0.1.168~nativecpmaneuver1",PACK)
-  self.assertIn("0.1.168~nativecpmaneuver1",NATIVE)
+  self.assertIn('VERSION="0.0.169~originalhooks1"',PACK)
+  self.assertIn("0.1.169~originalhooks1",PACK)
+  self.assertIn("0.1.169~originalhooks1",NATIVE)
   self.assertNotIn("0.1.143~homebridge1",NATIVE)
  def test_broker_is_native_and_springboard_not_split(self):
   self.assertIn("DF144_CARPLAY=1",NATIVE)
