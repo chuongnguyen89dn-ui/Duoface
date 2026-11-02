@@ -7,7 +7,7 @@
 - DEB: 1,259,980 bytes, SHA256 e0123cc18f59cf0e582a27081bd058919b76a8dd64599576b446797fd1393859
 - Control verified from the built DEB: Conflicts/Replaces complete;
   postinst/postrm uicache-only, unchanged.
-- SILEO_PUBLISHED=false (per work order §3 — publish only after user review)
+- SILEO_PUBLISHED=true (2026-11-02, after user approval): carplaydsp publisher commit 116d737f2972, run 41471198974 SUCCESS; public Packages index independently verified: exactly 1 stanza 0.0.175~touchfix1, SHA256 e0123cc1...859, Size 1259980
 - DEVICE_TESTED=false
 
 ## Per-item
