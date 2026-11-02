@@ -16,7 +16,7 @@ class TestQA173(unittest.TestCase):
         cls.glue=(ROOT/"DFGofaBoardSource172.m").read_text()
         cls.decoder=(ROOT/"DFGofaPayloadDecoder172.swift").read_text()
         cls.build=(ROOT/"build.sh").read_text()
-        cls.workflow=(REPO/".github/workflows/duoface-173-touch-log-signed-private.yml").read_text()
+        cls.workflow=(REPO/".github/workflows/duoface-174-audit-fix-signed-private.yml").read_text()
     def test_versions_bumped(self):
         self.assertIn("0.1.174~auditfix1", self.build)
     def test_log_reduction_guards(self):
@@ -46,7 +46,7 @@ class TestQA173(unittest.TestCase):
         self.assertIn("decodeSpeedBoardWithUserInfo", self.glue)
         self.assertNotIn("DFSpeedHUDPublish", self.glue)
     def test_ci_runs_qa173_regression(self):
-        self.assertIn("test_qa173_touch_log.py", self.workflow)
+        self.assertIn("test_qa174_audit_fix.py", self.workflow)
         self.assertIn("GOFA_REAL_ROAD_ALERTS_CONNECTED=false", self.workflow)
         self.assertIn("GOFA_REAL_NAVIGATION_TURNS_CONNECTED=false", self.workflow)
         self.assertIn("GOFA_RUNTIME_PROBE_VERIFIED=false", self.workflow)
