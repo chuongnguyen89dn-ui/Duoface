@@ -18,7 +18,7 @@ class TestQA173(unittest.TestCase):
         cls.build=(ROOT/"build.sh").read_text()
         cls.workflow=(REPO/".github/workflows/duoface-173-touch-log-signed-private.yml").read_text()
     def test_versions_bumped(self):
-        self.assertIn("0.1.173~touchlog1", self.build)
+        self.assertIn("0.1.174~auditfix1", self.build)
     def test_log_reduction_guards(self):
         self.assertIn("DFLogWriteCapped173", self.guard)
         self.assertIn("256 * 1024", self.guard)
