@@ -53,6 +53,7 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
             "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de",
             "6a3c073f9d7502d588eb441d4ecb6c546c3f09f8",
             "2686c4531e480831af3db445fe5f3d7e9d7ded5d",
+            "a0f62fa5239e3993ef17a984bcd017eed0b07480",
         })
         if digest=="d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de":
             code=HOST.decode("utf-8")
@@ -73,6 +74,21 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
                 "if (!self.scene || observedScene!=self.scene || !hosting || !attached)",
             ):
                 self.assertIn(marker,code)
+        if digest=="a0f62fa5239e3993ef17a984bcd017eed0b07480":
+            # QA175-reviewed scene host: trailing-edge geometry commits
+            # with retry, observers registered once after the start
+            # guards, smaller YouTube state throttle behind the
+            # YTRelayGuard flag. Same stop/fail-closed identity.
+            for marker in (
+                "scheduleGeometryCommit",
+                "df175NoteGeometrySkip",
+                "kDF175GeometryDebounceSeconds",
+                "observersRegistered175",
+            ):
+                self.assertIn(marker,code)
+            self.assertNotIn("qa173-geometry-commit-immediate",code)
+            self.assertNotIn("[self commitSceneGeometry:nil]",code)
+            self.assertNotIn("geometryWait",code)
         if digest=="2686c4531e480831af3db445fe5f3d7e9d7ded5d":
             # QA173 (user-scoped, reviewed): DFSceneHost commits remote
             # geometry in the same layout pass and its log writes are
