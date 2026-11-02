@@ -37,7 +37,7 @@ class TestQA172(unittest.TestCase):
         self.assertNotIn("DFSpeedHUDPublish",self.glue)
         self.assertIn("swiftc -emit-object",self.build)
         self.assertIn("DFGofaBoardSource172.m",self.build)
-        self.assertIn("0.1.174~auditfix1",self.build)
+        self.assertIn("0.1.175~touchfix1",self.build)
     def test_ci_runs_qa172_decoder_regression(self):
         self.assertIn("test_qa172_gofa_decoder_shadow.py",self.workflow)
         self.assertIn("GOFA_REAL_ROAD_ALERTS_CONNECTED=false",self.workflow)
