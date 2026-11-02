@@ -21,3 +21,18 @@
 - Flags: `DEVICE_TESTED=false`, `SILEO_PUBLISHED=false`,
   `GOFA_REAL_ROAD_ALERTS_CONNECTED=false`,
   `GOFA_REAL_NAVIGATION_TURNS_CONNECTED=false`.
+
+## Update — 2026-11-02 evening: Gate G1 partially passed
+
+- QA171 published to Sileo (carplaydsp commit `ca428c4d79b5`,
+  publisher run `41420918323` SUCCESS, public index verified) and
+  installed by the user; device export analysed in `G1_EVIDENCE.md`.
+- Proven on device: GOFA posts the original board notifications —
+  34 events in one GOFA session; latest was `notificationSpeedBoard`
+  with exactly one `userInfo` key and a nil object, matching the G0
+  field map (`userInfo["pushSpeedBoard"]`).
+- Not captured: the probe's detail log file — the GOFA sandbox
+  blocked its writes to `/var/mobile/Library/Logs` (anticipated in
+  the probe source). Key name + value class remain runtime-unverified.
+- Decision recorded in `G1_EVIDENCE.md`: fold that question into the
+  decoder's shadow-mode diagnostics (Darwin channel), proceed to G2.
