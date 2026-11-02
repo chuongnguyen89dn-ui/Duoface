@@ -2,7 +2,7 @@
 
 Branch: feature/duoface-qa176-recall-hud-kbdiag-20261103 (from QA175 tip a9145de9)
 Integrated: com.duoface.jb.embedded 0.0.176~recallhud1; host 0.1.176~recallhud1
-DEVICE_TESTED=false. SILEO_PUBLISHED=false (awaiting user approval).
+DEVICE_TESTED=false. SILEO_PUBLISHED=true (see Publish below).
 
 ## Build
 - Private build run 41543719296: SUCCESS (SOURCE_SHA e80a4901).
@@ -115,3 +115,15 @@ Flag: KeyboardDiag176 in com.duoface.nativehost.qa176.plist
    QA177 keyboard fix.
 Also still owed from QA175: the driven GOFA navigation session for
 the QA172 shadow-decoder verdict.
+
+## Publish (2026-11-03, user-approved)
+- carplaydsp publisher: build.yml commit 4da7c240367d10829b4bdfb61f83c73d6d0bc4cc
+  on main (QA176 block cloned from QA175; retained set appended to 122
+  versions; selected version flipped 175 -> 176 at every gate).
+- Publisher run 41545877038: SUCCESS (all 5 jobs).
+- Public Packages index independently verified: exactly 1 stanza of
+  com.duoface.jb.embedded, Version 0.0.176~recallhud1, SHA256
+  c53598554aee0ce49284338e0a660ebb5db139e0ce0b685ba339be07f7414f23,
+  Size 1264944.
+- DEVICE_TESTED=false. Install/upgrade path: Sileo (user updates in
+  the Sileo app; no loose .deb handoff).
