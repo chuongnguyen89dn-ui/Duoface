@@ -45,7 +45,8 @@ class QA162GofaSpeed8(unittest.TestCase):
         self.assertIn("self.gofaSpeedHUD.ownerWindow=nil",self.chrome)
         self.assertIn("DFSpeedHUDReadBest(&sample)",self.speed)
         self.assertIn('self.limit.text=@"—"',self.speed)
-        self.assertIn("Nguồn: GOFA",self.speed)
+        self.assertIn("self.selectedSource=4",self.speed)
+        self.assertIn("Ẩn tạm",self.speed)
 
     def test_ttl_and_no_fabricated_speed_limit(self):
         self.assertIn("DFSpeed::Decode",self.transport)
