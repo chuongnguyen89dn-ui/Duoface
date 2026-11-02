@@ -12,8 +12,8 @@ class TestQA170(unittest.TestCase):
         self.assertIn("target.opaque=NO",block)
         self.assertIn("target.layer.masksToBounds=YES",block)
         self.assertIn("target.clipsToBounds=YES",block)
-        self.assertIn("CAShapeLayer *disc",block)
-        self.assertIn("bezierPathWithOvalInRect",block)
+        self.assertIn("target.layer.borderWidth=1.3",block)
+        self.assertIn("target.layer.borderColor=[UIColor colorWithRed:",block)
         self.assertIn("target.textColor=[UIColor colorWithRed:",block)
         self.assertNotIn("target.backgroundColor=[UIColor colorWithWhite:0.10 alpha:0.72]",block)
     def test_two_floating_owners_are_nopaque_and_circular(self):
