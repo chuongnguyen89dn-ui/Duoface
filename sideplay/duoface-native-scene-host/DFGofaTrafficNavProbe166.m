@@ -48,6 +48,9 @@ static NSString *DF167SafeClass(id obj) {
 }
 static void DF166Log(NSString *line) {
     if (!line || line.length>650)return;
+    // System log remains available when GOFA sandbox blocks the shared file.
+    // Only sanitized schema metadata is emitted; never payload or location values.
+    NSLog(@"[DuoFaceGOFAProbe QA171] %@",line);
     // The GOFA process may not have cross-sandbox write permission for
     // /var/mobile/Library/Logs. The Darwin state below is a separate,
     // always data-free manual export fallback; do not claim log persisted.
@@ -57,7 +60,8 @@ static void DF166Log(NSString *line) {
         [fm createDirectoryAtPath:dir withIntermediateDirectories:YES
                       attributes:nil error:nil];
         NSDictionary *attrs=[fm attributesOfItemAtPath:DF166LogFile error:nil];
-        if ([attrs fileSize]>128*1024)
+        unsigned long long existingSize=[attrs[NSFileSize] unsignedLongLongValue];
+        if (existingSize>128*1024)
             [fm removeItemAtPath:DF166LogFile error:nil]; // own diagnostic only
         if (![fm fileExistsAtPath:DF166LogFile])
             [fm createFileAtPath:DF166LogFile contents:[NSData data] attributes:nil];
@@ -65,7 +69,7 @@ static void DF166Log(NSString *line) {
         if (!h)return;
         @try {
             [h seekToEndOfFile];
-            NSString *row=[NSString stringWithFormat:@"QA167 %.0f %@\n",
+            NSString *row=[NSString stringWithFormat:@"QA171 %.0f %@\n",
                         NSDate.date.timeIntervalSince1970,line];
             [h writeData:[row dataUsingEncoding:NSUTF8StringEncoding]];
         } @catch(NSException *ex) {
