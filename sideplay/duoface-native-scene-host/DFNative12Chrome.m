@@ -623,6 +623,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)hideAllExternalWindowsImmediately {
     // Source-owned external windows only, never the native CarPlay Dock.
+    self.speedDismissWindow.hidden=YES; // prevent a stale X on CarPlay Home
     for(UIWindow *w in self.windows)w.hidden=YES;
     DFCLog(@"home-own-windows-hidden-before-scene-invalidate");
 }
@@ -1061,6 +1062,7 @@ static void DFCLog(NSString *text) {
     UIWindow *xWindow=[self makeWindow:xFrame root:xRoot level:2.6];
     if(!xWindow){[self stop];return NO;}
     [self.windows removeObject:xWindow]; // independently hide/show only on drag
+    xWindow.userInteractionEnabled=NO;
     self.speedDismissWindow=xWindow;
     self.gofaSpeedHUD.dismissWindow=xWindow;
     xWindow.hidden=YES;
