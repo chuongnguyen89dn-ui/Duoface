@@ -4,6 +4,21 @@
 #import "DFYouTubeHostState.h"
 #import "DFYouTubeOrientationVirtualization.h"
 
+// QA175 (T2): relay-side guard, same kill switch as the host side.
+// /var/mobile/Library/Preferences/com.duoface.nativehost.qa175.plist
+// key YTRelayGuard (absent = enabled; set 0 + respring = QA174 behaviour).
+static BOOL DF175RelayGuardEnabled(void) {
+    static BOOL cached; static BOOL loaded;
+    if (!loaded) {
+        loaded = YES; cached = YES;
+        NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:
+            @"/var/mobile/Library/Preferences/com.duoface.nativehost.qa175.plist"];
+        id v = prefs[@"YTRelayGuard"];
+        if ([v respondsToSelector:@selector(boolValue)]) cached = [v boolValue];
+    }
+    return cached;
+}
+
 @interface DFYTWindowSnapshot : NSObject
 @property(nonatomic) CGRect frame;
 @property(nonatomic) CGRect bounds;
@@ -30,6 +45,7 @@
 - (void)request:(NSNotification *)notification;
 - (void)windowVisible:(NSNotification *)notification;
 - (void)reset;
+- (void)df175ResetRestoringSnapshots:(BOOL)restore;
 - (void)apply;
 - (void)frameClockTick:(CADisplayLink *)link;
 - (void)startFrameClockObservation:(UIWindowScene *)scene;
@@ -111,7 +127,18 @@
                 DFYouTubeOrientationRelay *owner=weakSelf;
                 if(owner) {
                     [owner reportFrameClockIfDue];
-                    if(!DFYTValidState(owner.state,NSDate.date.timeIntervalSince1970))[owner reset];
+                    if(!DFYTValidState(owner.state,NSDate.date.timeIntervalSince1970)) {
+                        // QA175 (T2): silent expiry while a host lease was
+                        // live must not yank YouTube's windows back to
+                        // their pre-host snapshot — that restore is the
+                        // snap-back that fights the host's committed
+                        // geometry. Explicit host deactivation and owner
+                        // changes still restore via reset.
+                        if(DF175RelayGuardEnabled())
+                            [owner df175ResetRestoringSnapshots:NO];
+                        else
+                            [owner reset];
+                    }
                 }
             }];
             [NSRunLoop.mainRunLoop addTimer:self.expiryTimer forMode:NSRunLoopCommonModes];
@@ -303,6 +330,9 @@
     } @finally {self.applying=NO;}
 }
 - (void)reset {
+    [self df175ResetRestoringSnapshots:YES];
+}
+- (void)df175ResetRestoringSnapshots:(BOOL)restore {
     [self.frameClock invalidate]; self.frameClock=nil;
     self.frameClockScene=nil;self.frameClockTicks=0;self.lastFrameClockReportAt=0;
     [self.expiryTimer invalidate]; self.expiryTimer=nil;
@@ -310,7 +340,7 @@
     DFYTVirtualClearLease();
     self.state=nil; self.scene=nil; self.lastGeometryCheckKey=nil;
     // Restore ONLY windows we changed and which still belong to that scene.
-    for(UIWindow *window in self.snapshots.keyEnumerator) {
+    for(UIWindow *window in restore?self.snapshots.keyEnumerator:@[]) {
         if(window.windowScene!=scene || ![UIApplication.sharedApplication.connectedScenes containsObject:scene])continue;
         DFYTWindowSnapshot *saved=[self.snapshots objectForKey:window];
         @try {
