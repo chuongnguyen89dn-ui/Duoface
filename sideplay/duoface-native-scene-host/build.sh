@@ -10,14 +10,14 @@ mkdir -p "$APP" "$TMP/DEBIAN" "$ROOT/packages" "$TMP/var/jb/Library/MobileSubstr
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework CarPlay -framework Foundation -framework QuartzCore -framework CoreGraphics -framework AVFoundation -framework Speech \
-  -o "$APP/DuoFaceNativeHost" main.m DFNativeHostAppDelegate.m DFNative12BasicController.m DFNativeHostRootController.m DFVoiceAssistant.m DFNativeDiagnostics.m DF168NativeManeuver.m \
+  -o "$APP/DuoFaceNativeHost" main.m DFNativeHostAppDelegate.m DFNative12BasicController.m DFNativeHostRootController.m DFVoiceAssistant.m DFNativeDiagnostics.m DF168NativeManeuver.m DFSpeedVisibility169.m \
   DFNativeHostSurfaceView.m DFLayoutEngine.m ../mytweak-independent-v1a/prototype/MTCPBridgeContract.m
 # Separate SpringBoard input receiver: no implicit overlay at jailbreak startup.
 DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
-  -DDF144_SPRINGBOARD=1 -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m -lc++
+  -DDF144_SPRINGBOARD=1 -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
 # The native Apple AppDock owner lives inside the actual CarPlay UI process.
@@ -28,7 +28,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -framework UIKit -framework Foundation -framework CoreGraphics \
   -DDFCarPlayCaptureLiveOwnerSnapshot=DFIntegratedCarPlayCaptureLiveOwnerSnapshot \
   -DDF144_CARPLAY=1 -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m DFHomeAdmission141.m DFHomeLaunchABI142.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m \
-  DFSpeedNativeOverlay163.mm speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m -lc++
+  DFSpeedNativeOverlay163.mm speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
 # User-opted-in in-process native Maps scene UIKit container. Default idle;
@@ -59,7 +59,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreLocation -framework CarPlay -lc++ \
   -DDF165_PASSIVE_GOFA_ONLY=1 \
-  -o "$SPEED_DYLIB" DFGofaSpeedSource162.m DFGofaNativeLocationTap165.m DFGofaTrafficNavProbe166.m DF168NativeManeuver.m DF168PublicCarPlayManeuverAdapter.m speed8/DFSpeedTransport.mm
+  -o "$SPEED_DYLIB" DFGofaSpeedSource162.m DFGofaNativeLocationTap165.m DFGofaTrafficNavProbe166.m DF168NativeManeuver.m DF168PublicCarPlayManeuverAdapter.m DFSpeedVisibility169.m speed8/DFSpeedTransport.mm
 cp DFGofaSpeedSource162.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.plist"
 ldid -S "$SPEED_DYLIB"
 # GOFA-only map canvas resize in the existing integrated package.
@@ -111,7 +111,7 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.168~nativecpmaneuver1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.169~bubblevisibility1_iphoneos-arm64.deb"
 chmod 0755 "$TMP"
 dpkg-deb --root-owner-group --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
