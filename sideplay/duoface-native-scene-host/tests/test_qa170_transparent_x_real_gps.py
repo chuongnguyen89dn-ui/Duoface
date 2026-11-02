@@ -43,6 +43,7 @@ class TestQA170(unittest.TestCase):
         self.assertIn("location.speed*3.6",source)
         self.assertIn("DFSpeedHUDPublish(DFSpeedAppSourceGOFA",source)
         self.assertIn("DF165OriginalDidUpdate(receiver,cmd,manager,locations)",tap)
+        self.assertIn('isEqualToString:@"DFGofaSpeedSource162"',tap)
         self.assertIn("atomic_store_explicit",tap)
         self.assertIn("DF165LastNativeGPSPublishUptime",tap)
         self.assertNotIn("requestAlwaysAuthorization",source)
