@@ -27,6 +27,7 @@ jobs:
           git show origin/main:sideplay/audit/carplaypro-0.9.97/unpacked/rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SpeedAlerts.dylib > "$RUNNER_TEMP/SpeedAlerts.original.dylib"
           test "$(git hash-object "$RUNNER_TEMP/SpeedAlerts.original.dylib")" = "f2b7d46e7ace8dfb533e9e9a843eae9616523486"
           git show origin/main:sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.function-starts.json > "$RUNNER_TEMP/original-starts.json"
+          git show origin/main:sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.load-commands.json > "$RUNNER_TEMP/original-load-commands.json"
           python3 -m py_compile sideplay/tools/forensic_carplaypro_gofa_swift_literals.py
       - name: Recover actual original GOFA speed and alert Swift immediate literals
         shell: bash
@@ -36,11 +37,14 @@ jobs:
           python3 sideplay/tools/forensic_carplaypro_gofa_swift_literals.py \
             --disassembly sideplay/audit/carplaypro-0.9.97/qa166-gofa-dataflow/FULL_ORIGINAL_ARM64_DISASSEMBLY.txt.gz \
             --function-starts "$RUNNER_TEMP/original-starts.json" \
+            --original-fat-dylib "$RUNNER_TEMP/SpeedAlerts.original.dylib" \
+            --original-load-commands "$RUNNER_TEMP/original-load-commands.json" \
             --out qa169-temp
           python3 - qa169-temp/GOFA_SWIFT_LITERAL_REGISTER_TRACE.json <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
           assert d['original_instruction_count']==60552,d['original_instruction_count']
+          assert d['proven_original_CPNav_selectors']['selectors'][2]['selector']=='cancelTrip'
           assert d['static_only'] is True
           assert d['functions']['gofa_speed_swift']['start']=='0x3e390'
           assert d['functions']['gofa_alert_swift']['start']=='0x3e940'
