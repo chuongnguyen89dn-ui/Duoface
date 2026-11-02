@@ -1627,9 +1627,15 @@ static void DFCLog(NSString *text) {
     }
     BOOL valid=!self.startupActive && w.screen &&
         w.screen!=UIScreen.mainScreen && !CGRectIsEmpty(content);
-    w.hidden=!valid || !DF169SpeedBubbleEnabled();
-    if(!DF169SpeedBubbleEnabled() && self.speedDismissWindow)
-        self.speedDismissWindow.hidden=YES;
+    w.hidden=!valid;
+    if(valid)[hud refreshVisibility169]; // durable disable, reconnect and re-enable
+    if(self.speedDismissWindow){
+        CGRect target=CGRectMake(CGRectGetMidX(content)-22,
+                                CGRectGetMaxY(content)-53,44,44);
+        if(!CGRectEqualToRect(self.speedDismissWindow.frame,target))
+            self.speedDismissWindow.frame=target;
+        if(!valid || !DF169SpeedBubbleEnabled())self.speedDismissWindow.hidden=YES;
+    }
 }
 - (void)pillPressed:(UIButton *)sender {
     if(sender.tag<0 || sender.tag>=DFSlotCountForPreset(self.preset))return;
