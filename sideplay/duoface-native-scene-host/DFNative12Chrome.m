@@ -11,6 +11,10 @@
 #import "DFSceneHost.h"
 #import "speed8/DFNative8SpeedHUDView.h"
 #import "DFSpeedVisibility169.h"
+#import "DFSpeedHUDLease176.h"
+#import "DFKBDiag176.h"
+#import "DF156DarwinMailbox.h"
+#import <notify.h>
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerVC.h"
 #import "DFSlotWorkspacePolicy.h"
@@ -286,6 +290,14 @@ static void DF173InstallWindowPassThrough(void) {
 }
 @end
 
+// QA176 H1: controls visibility session (was literal 4s/2s). Show/hide is
+// decided by the single layout path, layoutControls (the QA175 T3 divider
+// function wraps it); activity only moves these deadlines, throttled so a
+// touch storm cannot relayout more than ~4x per second.
+static const NSTimeInterval kDF176ControlsVisibleSeconds = 4.0;
+static const NSTimeInterval kDF176ControlsBorderSeconds = 2.0;
+static const NSTimeInterval kDF176ActivityThrottleSeconds = 0.25;
+
 // Observe activity on our OWN external windows, above the hosted view's
 // hitTest implementation. Never recognize/cancel a competing app gesture.
 @interface DFNativeActivityObserver : UIGestureRecognizer
@@ -339,6 +351,11 @@ static void DF173InstallWindowPassThrough(void) {
 @property(nonatomic,assign) NSTimeInterval borderUntil;
 @property(nonatomic,assign) NSTimeInterval controlsUntil;
 @property(nonatomic,assign) NSUInteger borderGeneration;
+@property(nonatomic,assign) NSTimeInterval lastActivityLayoutAt176;
+@property(nonatomic,assign) NSUInteger hudLease176Generation;
+@property(nonatomic,assign) BOOL hudLease176Published;
+@property(nonatomic,assign) int kbDiag176Token;
+@property(nonatomic,assign) NSTimeInterval lastKbDiag176Timestamp;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
@@ -626,6 +643,12 @@ static void DF173InstallWindowPassThrough(void) {
         root.view.frame=CGRectMake(0,0,frame.size.width,frame.size.height);
         w.hidden=YES;
         [self.windows addObject:w];
+        // QA176 H1(b): every Chrome window gets the passive activity
+        // observer. DFNativeActivityObserver never cancels or delays
+        // touches (cancels/delays are NO, it fails itself immediately
+        // and prevents nothing), so hosted apps receive input unchanged;
+        // its own guards in observeActivityInWindow: filter the rest.
+        [self observeActivityInWindow:w];
         return w;
     } @catch(NSException *e) {
         DFCLog([NSString stringWithFormat:@"window-error=%@",e.name]);
@@ -693,11 +716,29 @@ static void DF173InstallWindowPassThrough(void) {
         self.logoWakeOnlyTap=NO;
     self.startupActive=YES;
     if(self.homeReentrySkipsSplash)self.startupActive=NO;
-    self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+kDF176ControlsVisibleSeconds;
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneFailed:) name:DFSceneHostDidFailNotification object:nil];
+    // QA176 H1(a): pane touches must recall the controls (the original
+    // behaviour: touch anywhere in the pane brings back logo + menus).
+    // DFSceneSurface already posts this from hitTest; until now nobody
+    // subscribed, so realAppTouched: was dead code. Removal is symmetric:
+    // stop calls removeObserver:self, which drops every name at once.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(realAppTouched:) name:DFSceneHostDidObserveTouchNotification object:nil];
+    // QA176 H3 (SpringBoard side): the app-side relay writes one
+    // keyboard record into a fixed DF156 mailbox and posts this wake;
+    // we log it together with our own surface frames. Log only.
+    if(DF176KBDiagEnabled() && !self.kbDiag176Token){
+        __weak typeof(self) weakKB=self;
+        int kbToken=0;
+        if(notify_register_dispatch(DF176KBDiagWakeName,&kbToken,
+               dispatch_get_main_queue(),^(int t){
+            (void)t; [weakKB df176LogKeyboardContext];
+        })==NOTIFY_STATUS_OK) self.kbDiag176Token=kbToken;
+    }
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
        CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
@@ -1103,6 +1144,7 @@ static void DF173InstallWindowPassThrough(void) {
     UIWindow *hudWindow=[self makeWindow:hudFrame root:hudRoot level:2.5];
     if(!hudWindow){ [self stop]; return NO; }
     self.speedHUDWindow=hudWindow;
+    [self df176HUDLeaseTick:++self.hudLease176Generation]; // QA176 H2
     self.gofaSpeedHUD=[[DFNative8SpeedHUDView alloc] initWithFrame:hudRoot.view.bounds];
     self.gofaSpeedHUD.floatingWindowMode=YES;
     self.gofaSpeedHUD.floatingDragBounds=cr;
@@ -1263,12 +1305,13 @@ static void DF173InstallWindowPassThrough(void) {
     DFCLog(@"grip-native12-scale-pulse-start-visual-1.18");
 }
 - (void)noteUserActivity {
-    self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
-    self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    self.borderUntil=now+kDF176ControlsBorderSeconds;
+    self.controlsUntil=now+kDF176ControlsVisibleSeconds;
     NSUInteger seq=++self.borderGeneration;
-    [self layoutControls];
     __weak typeof(self) weakOwner=self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(4.05*NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+        (int64_t)((kDF176ControlsVisibleSeconds+0.05)*NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         DFNative12Chrome *owner=weakOwner;
         if(owner && owner.borderGeneration==seq){
@@ -1276,6 +1319,67 @@ static void DF173InstallWindowPassThrough(void) {
             [owner layoutControls];
         }
     });
+    // QA176 H1(c): anti-storm. The deadlines and the hide timer above
+    // ALWAYS move (so continuous touching keeps the controls up); only
+    // the relayout is throttled. When the controls are hidden, the last
+    // layout is at least one visible-window old, so the first touch of
+    // a burst still shows them immediately.
+    if(now-self.lastActivityLayoutAt176<kDF176ActivityThrottleSeconds)return;
+    self.lastActivityLayoutAt176=now;
+    [self layoutControls];
+}
+// QA176 H2: Chrome is the top-priority speed-HUD owner. It publishes
+// its lease only while its HUD is actually visible and retracts it
+// otherwise, so DF144 / overlay163 can take over (e.g. native Home).
+- (void)df176HUDLeaseTick:(NSUInteger)generation {
+    __weak typeof(self) weakSelf=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.0*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        DFNative12Chrome *owner=weakSelf;
+        if(!owner || owner.hudLease176Generation!=generation ||
+           !owner.speedHUDWindow)return;
+        BOOL visible=!owner.speedHUDWindow.hidden && owner.gofaSpeedHUD &&
+                     !owner.gofaSpeedHUD.hidden && DF169SpeedBubbleEnabled();
+        if(visible){
+            DF176HUDLeasePublish(DF176HUDLeaseChromePath,@"Chrome");
+            owner.hudLease176Published=YES;
+        } else if(owner.hudLease176Published){
+            DF176HUDLeaseRetract(DF176HUDLeaseChromePath);
+            owner.hudLease176Published=NO;
+        }
+        [owner df176HUDLeaseTick:generation];
+    });
+}
+// QA176 H3 (SpringBoard side): read the app-side keyboard record and
+// log it with the host surface frames + external display size of this
+// moment. Read-only diagnostics; nothing here changes any behaviour.
+- (void)df176LogKeyboardContext {
+    if(!DF176KBDiagEnabled())return;
+    static DF156Mailbox kbBox;
+    static BOOL kbBoxReady=NO;
+    if(!kbBoxReady){ DF156Init(&kbBox,DF176KBDiagMailboxName); kbBoxReady=YES; }
+    uint8_t bytes[DF156_MAX_BYTES];
+    size_t size=DF156Read(&kbBox,bytes);
+    if(!size)return;
+    id parsed=[NSJSONSerialization JSONObjectWithData:
+        [NSData dataWithBytes:bytes length:size] options:0 error:nil];
+    if(![parsed isKindOfClass:NSDictionary.class])return;
+    NSDictionary *rec=parsed;
+    NSTimeInterval ts=[rec[@"ts"] doubleValue];
+    if(!(ts>self.lastKbDiag176Timestamp))return;
+    self.lastKbDiag176Timestamp=ts;
+    NSMutableString *slots=[NSMutableString string];
+    for(UIWindow *w in self.appSceneWindows)
+        [slots appendFormat:@"%@;",NSStringFromCGRect(w.frame)];
+    NSString *screen=@"?";
+    UIWindow *any=self.appSceneWindows.firstObject;
+    if(any && any.screen)screen=NSStringFromCGRect(any.screen.bounds);
+    DFCLog([NSString stringWithFormat:
+        @"qa176-kbdiag bundle=%@ kbClass=%@ kbFrame=%@ kbScreen=%@ keyplane=%@ inputMode=%@ lang=%@ hwKB=%@/%@ notif=%@ end=%@ appFrame=%@ | slots=%@ content=%@ extScreen=%@",
+        rec[@"bundle"],rec[@"kbClass"],rec[@"kbFrame"],rec[@"kbScreenBounds"],
+        rec[@"keyplane"],rec[@"inputMode"],rec[@"inputModeLang"],
+        rec[@"hwGSEvent"],rec[@"hwBKS"],rec[@"notifName"],rec[@"notifEnd"],
+        rec[@"appFrame"],slots,NSStringFromCGRect(self.contentRect),screen]);
 }
 - (void)realAppTouched:(NSNotification *)note {
     if(![note.object isKindOfClass:UIView.class] ||
@@ -2299,7 +2403,7 @@ static void DF173InstallWindowPassThrough(void) {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
     CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
     [self updateDividerDragAt:point];
-    self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+kDF176ControlsVisibleSeconds;
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside cancelled:(BOOL)cancelled {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
@@ -2508,6 +2612,14 @@ static void DF173InstallWindowPassThrough(void) {
     self.gofaSpeedHUD.dismissWindow=nil;
     self.gofaSpeedHUD.ownerWindow=nil;
     self.gofaSpeedHUD=nil;
+    // QA176: stop the HUD lease heartbeat, retract the lease so lower
+    // presenters may take over, and drop the keyboard-diagnostics wake.
+    self.hudLease176Generation++;
+    if(self.hudLease176Published){
+        DF176HUDLeaseRetract(DF176HUDLeaseChromePath);
+        self.hudLease176Published=NO;
+    }
+    if(self.kbDiag176Token){ notify_cancel(self.kbDiag176Token); self.kbDiag176Token=0; }
     self.speedHUDWindow=nil;
     self.speedDismissWindow=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
