@@ -5,6 +5,7 @@
 #import "DFCarPlayOwnerLease.h"
 #import "speed8/DFNative8SpeedHUDView.h"
 #import "DFSpeedVisibility169.h"
+#import "DFSpeedHUDLease176.h"
 #import <math.h>
 
 static NSString *const DF163SessionPath =
@@ -120,6 +121,14 @@ static NSString *const DF165StandaloneLease =
        [standalone[@"Role"] isEqualToString:@"SpringBoard-Standalone144"] &&
        age>=0 && age<2.0){
         if(self.hud)NSLog(@"[DuoFaceSpeed8] QA165 native HUD suppressed for standalone owner");
+        [self detach];return;
+    }
+    // QA176 H2: also yield to Chrome's HUD-scoped lease. The QA162
+    // session pulse above is session-scoped; this lease is published
+    // only while Chrome's HUD is actually visible, so the native
+    // overlay remains the fallback whenever no higher HUD is on screen.
+    if(DF176HUDLeaseFresh(DF176HUDLeaseChromePath,@"Chrome")){
+        if(self.hud)NSLog(@"[DuoFaceSpeed8] qa176-hud-owner yield=Overlay163 winner=Chrome");
         [self detach];return;
     }
     UIWindow *candidate=[self visibleExternalOwner];
