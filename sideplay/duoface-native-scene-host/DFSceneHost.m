@@ -1,4 +1,5 @@
 #import "DFDeepTrace.h"
+#import "DFLogGuard173.h"
 // .74: media host restored from nativehost .47 source 7cd4004d. Current touch wake retained.
 // Independently maintained first-party DuoFace module, ported from the
 // project's own prior scene-host experiments; no vendor binary or license.
@@ -30,13 +31,8 @@ static void DFSceneLog(NSString *event, NSString *bundleID, NSString *detail) {
     DFDeepTrace(@"scene",line);
     NSLog(@"%@", line);
     // One short app-scoped diagnostic file for iPhone X testing; no secrets.
-    int fd = open("/var/mobile/Library/Logs/DuoFaceSceneHost.log",
-                  O_WRONLY | O_APPEND | O_CREAT, 0644);
-    if (fd >= 0) {
-        NSData *data = [[line stringByAppendingString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding];
-        (void)write(fd, data.bytes, data.length);
-        close(fd);
-    }
+    // QA173: capped + de-duplicated append (see DFLogGuard173.h).
+    DFLogWriteCapped173(@"/var/mobile/Library/Logs/DuoFaceSceneHost.log", line);
 }
 static NSError *DFSceneError(NSInteger code, NSString *details) {
     return [NSError errorWithDomain:DFSceneErrorDomain code:code
@@ -131,6 +127,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @property(nonatomic) BOOL ready;
 @property(nonatomic) BOOL layingOutScene;
 @property(nonatomic) BOOL committingSceneGeometry;
+@property(nonatomic) CGSize lastLoggedResizeSize;
 @property(nonatomic) NSUInteger tries;
 @property(nonatomic) BOOL fastInitialPolling;
 @property(nonatomic) NSUInteger sceneGeneration;
@@ -416,7 +413,12 @@ static NSInteger DFObservedSceneForeground(id scene) {
         self.lastViewportLogAt=now;
         DFSceneLog(@"media-viewport-ui-only",self.bundleID,NSStringFromCGSize(size));
     }
-    DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
+    // QA173: the resize line is state-change-only now; identical sizes
+    // during layout storms no longer reach the log at all.
+    if (!CGSizeEqualToSize(size, self.lastLoggedResizeSize)) {
+        self.lastLoggedResizeSize = size;
+        DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
+    }
     if (!self.ready) return;
     self.pendingReferenceSize=size;
     [self.geometryCommitTimer invalidate];
@@ -428,12 +430,17 @@ static NSInteger DFObservedSceneForeground(id scene) {
         CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero) &&
         ![self.bundleID isEqual:DFYTBundle] &&
         ![self.bundleID isEqual:@"com.lumi.GOFA"];
-    NSTimeInterval geometryWait=quickSoloInitialGeometry?0.12:0.30;
+    // QA173: commit the remote scene geometry in the SAME layout pass
+    // instead of deferring 0.30s (0.12s solo) behind a one-shot timer.
+    // A visible frame whose remote input geometry lags behind it is the
+    // leading suspect for hosted-app taps landing nowhere. The commit
+    // keeps its own stale-owner, size-equality and re-entrancy guards.
     if(quickSoloInitialGeometry)
-        DFSceneLog(@"qa161-solo-first-reference-120ms",self.bundleID,
+        DFSceneLog(@"qa173-solo-first-reference-immediate",self.bundleID,
                    @"scene-ready-only; rendering-and-touch-unverified");
-    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:geometryWait
-        target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
+    DFSceneLog(@"qa173-geometry-commit-immediate",self.bundleID,
+               NSStringFromCGSize(size));
+    [self commitSceneGeometry:nil];
 }
 - (void)commitSceneGeometry:(NSTimer *)timer {
     if (timer && self.geometryCommitTimer!=timer) return;
