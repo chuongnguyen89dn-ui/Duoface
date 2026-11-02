@@ -79,6 +79,7 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
             # with retry, observers registered once after the start
             # guards, smaller YouTube state throttle behind the
             # YTRelayGuard flag. Same stop/fail-closed identity.
+            code=HOST.decode("utf-8")
             for marker in (
                 "scheduleGeometryCommit",
                 "df175NoteGeometrySkip",
