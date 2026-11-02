@@ -117,6 +117,29 @@ def main():
     with gzip.open(a.disassembly,"rt",encoding="utf-8") as f:original=f.read()
     report=analyze(original,json.loads(a.function_starts.read_text()))
     a.out.mkdir(parents=True,exist_ok=True)
+    # Bounded exact ARM64 windows for reconstructing the original producer.
+    # Include both original CPNavigationSession hook setup and the Swift
+    # dictionary/model extraction sites; do not turn guesses into schemas.
+    windows=[
+      ("CPNavigationSession_original_hooks",0x2fa50,0x2fb80),
+      ("GOFA_speed_notification_block",0x3ce1c,0x3cf60),
+      ("GOFA_speed_swift_model_literals",0x3e470,0x3e890),
+      ("GOFA_alert_swift_traffic_sign_id",0x3f1f0,0x3f300),
+      ("GOFA_alert_swift_lat_lon_group_points",0x3f5c0,0x3f880),
+    ]
+    raw_rows=[]
+    for line in original.splitlines():
+        columns=line.split("\t",1)
+        if len(columns)==2:
+            try:raw_rows.append((int(columns[0],16),line))
+            except ValueError:pass
+    window_output=[]
+    for label,start,end in windows:
+        part=[line for address,line in raw_rows if start<=address<end]
+        if not part:raise RuntimeError("missing original machine-code window "+label)
+        window_output.extend(["\n=== "+label+" ["+hex(start)+","+hex(end)+") ==="]+part)
+    (a.out/"GOFA_METHOD_AND_SWIFT_WINDOWS.txt").write_text(
+        "\n".join(window_output)+"\n")
     (a.out/"GOFA_SWIFT_LITERAL_REGISTER_TRACE.json").write_text(
          json.dumps(report,indent=2,ensure_ascii=False)+"\n")
     md=["# CarPlayPro Speed 0.9.97 — original Swift GOFA immediate trace",
