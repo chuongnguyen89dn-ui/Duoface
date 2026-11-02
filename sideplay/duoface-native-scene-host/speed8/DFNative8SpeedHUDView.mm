@@ -64,13 +64,11 @@ UILabel *DF169MakeBubbleDismissSymbol(void) {
     target.layer.cornerRadius=22.0;
     target.layer.masksToBounds=YES;
     target.clipsToBounds=YES;
-    CAShapeLayer *disc=[CAShapeLayer layer];
-    disc.frame=target.bounds;
-    disc.path=[UIBezierPath bezierPathWithOvalInRect:CGRectInset(target.bounds,2.0,2.0)].CGPath;
-    disc.fillColor=[UIColor colorWithRed:.16 green:.10 blue:.12 alpha:.48].CGColor;
-    disc.strokeColor=[UIColor colorWithRed:.95 green:.25 blue:.30 alpha:.78].CGColor;
-    disc.lineWidth=1.3;
-    [target.layer insertSublayer:disc atIndex:0];
+    // Use the actual clipped UILabel layer for the ring. This avoids adding
+    // another framework class to the rootless link while keeping the window
+    // completely transparent outside the 44pt circular hit visual.
+    target.layer.borderWidth=1.3;
+    target.layer.borderColor=[UIColor colorWithRed:.95 green:.25 blue:.30 alpha:.78].CGColor;
     target.text=@"×";
     target.font=[UIFont systemFontOfSize:26 weight:UIFontWeightMedium];
     target.textAlignment=NSTextAlignmentCenter;
