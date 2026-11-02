@@ -10,7 +10,7 @@ PACK=(ROOT.parents[0]/"jb-embedded-appbridge"/"package_integrated.py").read_text
 class QA161SoloInitialReference(unittest.TestCase):
  def test_reviewed_source_only(self):
   actual=hashlib.sha1(b"blob "+str(len(HOST)).encode()+b"\0"+HOST).hexdigest()
-  self.assertEqual(actual,"6a3c073f9d7502d588eb441d4ecb6c546c3f09f8")
+  self.assertEqual(actual,"6a3c073f9d7502d588eb441d4ecb6c546c3f09f8", "2686c4531e480831af3db445fe5f3d7e9d7ded5d")
   host=HOST.decode("utf-8")
   self.assertIn("quickSoloInitialGeometry=self.fastInitialPolling &&",host)
   self.assertIn("CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero)",host)
