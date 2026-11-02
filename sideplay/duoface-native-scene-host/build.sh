@@ -59,7 +59,9 @@ ldid -S "$YT_DYLIB"
 # LC_LINKER_OPTION entries, resolved by the clang/ld link below via
 # the SDK swift library path. If CI rejects this, fall back to
 # linking the GOFA dylib with the swiftc driver instead.
-SPEED_SWIFT_OBJ="$TMP/DFGofaPayloadDecoder172.o"
+SPEED_SWIFT_OBJ_DIR="$(mktemp -d)"
+trap 'rm -rf "$TMP" "$SPEED_SWIFT_OBJ_DIR"' EXIT
+SPEED_SWIFT_OBJ="$SPEED_SWIFT_OBJ_DIR/DFGofaPayloadDecoder172.o"
 xcrun --sdk iphoneos swiftc -emit-object -parse-as-library \
   -target arm64-apple-ios16.0 -sdk "$SDK" -O \
   -module-name DFGofaDecoder172 \
