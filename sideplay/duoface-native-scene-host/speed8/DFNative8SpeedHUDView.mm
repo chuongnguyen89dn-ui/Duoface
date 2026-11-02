@@ -28,6 +28,9 @@
 @property(nonatomic,strong) NSTimer *timer;
 @property(nonatomic,strong) UILabel *dismissTarget;
 @property(nonatomic,assign) BOOL windowHiddenForDisable;
+@property(nonatomic,assign) BOOL compactTemporarily;
+@property(nonatomic,assign) CGPoint compactRestoreCenter;
+@property(nonatomic,strong) UILabel *compactIndicator;
 @property(nonatomic,strong) UIView *settingsPanel;
 @property(nonatomic,assign) CGFloat visualScale;
 @property(nonatomic,assign) CGFloat visualOpacity;
@@ -79,6 +82,9 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
             initWithTarget:self action:@selector(showSettings:)];
         settings.minimumPressDuration=0.6;
         [self addGestureRecognizer:settings];
+        UITapGestureRecognizer *restore=[[UITapGestureRecognizer alloc]
+                         initWithTarget:self action:@selector(tapCompact169:)];
+        [self addGestureRecognizer:restore];
         // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
         self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
         self.layer.cornerRadius=23;
@@ -102,6 +108,14 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
         _limit.font=[UIFont monospacedDigitSystemFontOfSize:17 weight:UIFontWeightBold];
         [self addSubview:_current]; [self addSubview:_unit];
         [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
+        _compactIndicator=[UILabel new];
+        _compactIndicator.text=@"◉";
+        _compactIndicator.font=[UIFont systemFontOfSize:19 weight:UIFontWeightMedium];
+        _compactIndicator.textColor=UIColor.whiteColor;
+        _compactIndicator.textAlignment=NSTextAlignmentCenter;
+        _compactIndicator.hidden=YES;
+        _compactIndicator.userInteractionEnabled=NO;
+        [self addSubview:_compactIndicator];
         // CarPlay HUD startup is independent of data availability. Never invent a number.
         _current.text=@"—"; _limit.text=@"—";
         self.hidden=NO;
@@ -111,6 +125,11 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
 }
 - (void)layoutSubviews {
     [super layoutSubviews];
+    if(self.compactTemporarily){
+        self.compactIndicator.frame=self.bounds;
+        self.layer.cornerRadius=self.bounds.size.height/2;
+        return;
+    }
     const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
     // Speed8: proportional geometry, never use old 142x64 fixed subframes.
     const CGFloat sc=fmax(0.7,fmin(1.45,h/46.0));
@@ -284,6 +303,51 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     [self.dismissTarget removeFromSuperview];self.dismissTarget=nil;
     if(self.dismissWindow)self.dismissWindow.hidden=YES;
 }
+- (void)tapCompact169:(UITapGestureRecognizer *)tap {
+    if(tap.state!=UIGestureRecognizerStateRecognized || !self.compactTemporarily)return;
+    self.compactTemporarily=NO;
+    self.compactIndicator.hidden=YES;
+    self.current.hidden=NO;self.unit.hidden=NO;
+    self.limitRing.hidden=!self.displayLimit;
+    self.backgroundColor=[UIColor colorWithRed:.12 green:.16 blue:.20 alpha:.94];
+    CGSize size=CGSizeMake(104*self.visualScale,46*self.visualScale);
+    self.bounds=(CGRect){CGPointZero,size};
+    if(self.floatingWindowMode && self.ownerWindow) {
+        CGRect frame=self.ownerWindow.frame;
+        frame.size=size;
+        frame.origin=CGPointMake(self.compactRestoreCenter.x-size.width/2,
+                                 self.compactRestoreCenter.y-size.height/2);
+        self.ownerWindow.frame=frame;
+        self.ownerWindow.rootViewController.view.frame=(CGRect){CGPointZero,size};
+        self.frame=(CGRect){CGPointZero,size};
+    }
+    [self dfSetDisplayCenter:DFClampCenter(self.compactRestoreCenter,
+                                           DFAllowedArea(self),size)];
+    [self setNeedsLayout];
+    [self tick:nil];
+}
+- (void)temporarilyCompact169 {
+    if(self.compactTemporarily || !DF169SpeedBubbleEnabled() || !self.superview)return;
+    self.compactRestoreCenter=[self dfDisplayCenter];
+    const CGSize size=CGSizeMake(30,30);
+    CGRect area=DFAllowedArea(self);
+    if(CGRectIsEmpty(area))return;
+    CGPoint center=CGPointMake(CGRectGetMaxX(area)-size.width/2,
+                               self.compactRestoreCenter.y);
+    center=DFClampCenter(center,area,size);
+    self.compactTemporarily=YES;
+    self.current.hidden=YES;self.unit.hidden=YES;self.limitRing.hidden=YES;
+    self.compactIndicator.hidden=NO;
+    self.backgroundColor=[UIColor colorWithWhite:.12 alpha:.80];
+    self.bounds=(CGRect){CGPointZero,size};
+    if(self.floatingWindowMode && self.ownerWindow) {
+        self.ownerWindow.frame=CGRectMake(center.x-size.width/2,
+                        center.y-size.height/2,size.width,size.height);
+        self.ownerWindow.rootViewController.view.frame=(CGRect){CGPointZero,size};
+        self.frame=(CGRect){CGPointZero,size};
+    } else self.center=center;
+    [self setNeedsLayout];
+}
 - (void)showDismissTarget {
     if(!self.superview)return;
     if(self.floatingWindowMode) {
@@ -364,6 +428,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     [p setInteger:self.selectedSource forKey:@"source"];
 }
 - (void)refreshStyle {
+    if(self.compactTemporarily)return; // compact state is session-only, not a stored scale
     const CGSize size=CGSizeMake(104*self.visualScale,46*self.visualScale);
     CGPoint prior=[self dfDisplayCenter];
     self.bounds=(CGRect){CGPointZero,size};
@@ -420,7 +485,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     self.frame=(CGRect){CGPointZero,size};
 }
 - (void)showSettings:(UILongPressGestureRecognizer *)recognizer {
-    if(recognizer.state!=UIGestureRecognizerStateBegan || !self.superview)return;
+    if(recognizer.state!=UIGestureRecognizerStateBegan || !self.superview || self.compactTemporarily)return;
     if(self.settingsPanel){
         [self.settingsPanel removeFromSuperview];self.settingsPanel=nil;
         [self dfCollapseFloatingSettings];
@@ -474,7 +539,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
             case 3:label=@"Mờ −";break;
             case 4:label=@"Mờ +";break;
             case 5:label=self.displayLimit?@"Biển: Có":@"Biển: Không";break;
-            case 6:label=@"Nguồn: GOFA";break;
+            case 6:label=@"Ẩn tạm";break;
             case 7:label=@"Đặt lại";break;
             case 8:label=@"Đóng";break;
             default:break;
@@ -489,7 +554,11 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
         case 3:self.visualOpacity=fmax(0.5,self.visualOpacity-0.1);break;
         case 4:self.visualOpacity=fmin(1.0,self.visualOpacity+0.1);break;
         case 5:self.displayLimit=!self.displayLimit;break;
-        case 6:self.selectedSource=4;break; // Other source adapters are not connected.
+        case 6:
+            [self.settingsPanel removeFromSuperview];self.settingsPanel=nil;
+            [self dfCollapseFloatingSettings];
+            [self temporarilyCompact169];
+            return;
         case 7:{
             NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
             [p removeObjectForKey:@"positionX"];
