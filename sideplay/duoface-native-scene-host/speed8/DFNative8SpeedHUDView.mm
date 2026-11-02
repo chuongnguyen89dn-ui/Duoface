@@ -136,7 +136,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
     }
     // QA168: a genuine, fresh CarPlay maneuver may decorate the existing HUD.
     // No sample means ordinary km/h; NEVER render a guessed arrow or distance.
-    DF168Maneuver maneuver={0};
+    DF168Maneuver maneuver={};
     if(DF168ReadManeuver(&maneuver)) {
         NSString *arrow=@"";
         switch(maneuver.turn) {
