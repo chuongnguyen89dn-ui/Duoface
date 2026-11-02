@@ -139,22 +139,27 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
         [self stop];
     }
 }
-- (void)tick:(NSTimer *)timer {
-    (void)timer;
-    if (!self.window) {self.hidden=YES;return;}
+- (void)refreshVisibility169 {
+    if(!self.ownerWindow)return;
     if(!DF169SpeedBubbleEnabled()) {
         self.hidden=YES;
-        // Never hide a full CarPlay owner window. Bubble-sized windows only.
-        if(self.floatingWindowMode && self.ownerWindow && !self.ownerWindow.hidden) {
+        [self removeDismissTarget];
+        if(self.floatingWindowMode && !self.ownerWindow.hidden) {
             self.ownerWindow.hidden=YES;
             self.windowHiddenForDisable=YES;
         }
         return;
     }
-    if(self.windowHiddenForDisable && self.ownerWindow) {
+    if(self.windowHiddenForDisable) {
         self.ownerWindow.hidden=NO;
         self.windowHiddenForDisable=NO;
     }
+}
+- (void)tick:(NSTimer *)timer {
+    (void)timer;
+    if(!self.window){self.hidden=YES;return;}
+    [self refreshVisibility169];
+    if(!DF169SpeedBubbleEnabled())return;
     if (!self.ownerWindow || self.ownerWindow.hidden ||
         !self.ownerWindow.screen || self.ownerWindow.screen==UIScreen.mainScreen) {
         self.hidden=YES; return;
