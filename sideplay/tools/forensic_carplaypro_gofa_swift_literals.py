@@ -10,6 +10,8 @@ import bisect
 import gzip
 import json
 import re
+import hashlib
+import struct
 from pathlib import Path
 
 PIVOTS={"gofa_speed_swift":0x3e390,"gofa_alert_swift":0x3e940,
@@ -108,14 +110,59 @@ def analyze(disasm,starts):
             "not_verified_GOFA_runtime_schema":True})
     return report
 
+def decode_original_nav_hook_selrefs(fat:bytes, load:dict)->dict:
+    sl=load["slice"]
+    offset=int(sl["slice_offset"]); length=int(sl["slice_size"])
+    thin=fat[offset:offset+length]
+    if len(thin)!=length or hashlib.sha256(thin).hexdigest()!=load["sha256"]:
+        raise RuntimeError("original arm64 Mach-O slice hash mismatch")
+    sections=load["sections"]
+    def address_to_offset(address:int)->int:
+        for sec in sections:
+            if sec["addr"]<=address<sec["addr"]+sec["size"]:
+                return sec["offset"]+address-sec["addr"]
+        raise RuntimeError("out-of-range original Mach-O address "+hex(address))
+    report=[]
+    known={0x6b010:"cancelTrip",0x6b018:"finishTrip",
+           0x6b020:"pauseTripForReason:description:"}
+    for address in (0x6b000,0x6b008,0x6b010,0x6b018,0x6b020):
+        at=address_to_offset(address)
+        raw=struct.unpack_from("<Q",thin,at)[0]
+        # Original arm64 chained-rebased selref pointers verified against
+        # previous literal expected selectors at 0x6b010/018/020.
+        target=raw & 0xffffffff
+        string_offset=address_to_offset(target)
+        stop=thin.find(b"\0",string_offset,string_offset+256)
+        if stop<0:raise RuntimeError("original selector not nul-terminated "+hex(address))
+        value=thin[string_offset:stop].decode("ascii")
+        if not value or len(value)>120:
+            raise RuntimeError("invalid selector in original Mach-O")
+        if address in known and value!=known[address]:
+            raise RuntimeError("original chained pointer decoding disagrees at "+
+                               hex(address)+": "+value)
+        report.append({"selref":hex(address),"raw":hex(raw),
+            "target_cstring_addr":hex(target),"selector":value,
+            "original_source":True})
+    return {"original_binary_static":True,
+            "original_CPNav_hook_calls":{
+              "0x2fae4":"0x6b000","0x2fb00":"0x6b008",
+              "0x2fb20":"0x6b010","0x2fb40":"0x6b018",
+              "0x2fb60":"0x6b020"},
+            "selectors":report,"not_live_hardware_test":True}
+
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--disassembly",type=Path,required=True)
     p.add_argument("--function-starts",type=Path,required=True)
     p.add_argument("--out",type=Path,required=True)
+    p.add_argument("--original-fat-dylib",type=Path,required=True)
+    p.add_argument("--original-load-commands",type=Path,required=True)
     a=p.parse_args()
     with gzip.open(a.disassembly,"rt",encoding="utf-8") as f:original=f.read()
     report=analyze(original,json.loads(a.function_starts.read_text()))
+    nav=decode_original_nav_hook_selrefs(
+        a.original_fat_dylib.read_bytes(),json.loads(a.original_load_commands.read_text()))
+    report["proven_original_CPNav_selectors"]=nav
     a.out.mkdir(parents=True,exist_ok=True)
     # Bounded exact ARM64 windows for reconstructing the original producer.
     # Include both original CPNavigationSession hook setup and the Swift
@@ -140,6 +187,12 @@ def main():
         window_output.extend(["\n=== "+label+" ["+hex(start)+","+hex(end)+") ==="]+part)
     (a.out/"GOFA_METHOD_AND_SWIFT_WINDOWS.txt").write_text(
         "\n".join(window_output)+"\n")
+    (a.out/"ORIGINAL_CP_NAV_SELECTOR_POINTERS.json").write_text(
+        json.dumps(nav,indent=2)+"\n")
+    (a.out/"ORIGINAL_CP_NAV_SELECTOR_POINTERS.md").write_text(
+        "# Original CarPlayPro CPNavigationSession hook selectors (original arm64 binary)\n\n"+
+        "\n".join("- "+x["selref"]+" : "+x["selector"]+" (string "+x["target_cstring_addr"]+")"
+                  for x in nav["selectors"])+"\n\nStatic original pointers; not device delivery proof.\n")
     (a.out/"GOFA_SWIFT_LITERAL_REGISTER_TRACE.json").write_text(
          json.dumps(report,indent=2,ensure_ascii=False)+"\n")
     md=["# CarPlayPro Speed 0.9.97 — original Swift GOFA immediate trace",
