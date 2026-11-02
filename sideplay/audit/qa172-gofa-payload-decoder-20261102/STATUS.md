@@ -125,3 +125,20 @@
   exports the audit log — the new `QA172 decoder shadow:` line
   settles the payload value kind and which speed fields exist;
   `userSpeed` vs `speed` value comparison uses the shadow NSLog.
+
+
+## Update — 2026-11-02 night: QA172 PUBLISHED to Sileo
+
+- At the user's explicit direction (all builds go through Sileo;
+  no raw-DEB installs), the carplaydsp publisher was switched from
+  QA171 to QA172: publisher commits `40413873` + fix `8acde03f`
+  (first run caught a transform error that dropped QA171 from the
+  retained-version set; fixed and re-ran). Publisher run
+  `41444947933` SUCCESS (all 5 jobs).
+- Independently verified on the public index
+  `chuongnguyen89dn-ui.github.io/carplaydsp/Packages`: exactly one
+  `com.duoface.jb.embedded` stanza, Version `0.0.172~gofadecoder1`,
+  SHA256 `69aa22b09eda...`, Size 1256084.
+- State: SILEO_PUBLISHED=true, DEVICE_TESTED=false. QA171/QA170
+  retained as rollbacks. Next: user updates via Sileo, one driven
+  GOFA navigation session, export for the decoder shadow verdict.
