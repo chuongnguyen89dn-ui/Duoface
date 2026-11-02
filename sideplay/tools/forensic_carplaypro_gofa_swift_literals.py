@@ -47,7 +47,7 @@ def extract(rows,start,end):
                         val=(num<<shift)&((1<<64)-1);addr=[pc]
                     registers[reg]=(val,addr)
                     value=text8(val)
-                    if len(re.findall("[A-Za-z]",value))>=4:
+                    if sum(65<=b<=90 or 97<=b<=122 for b in val.to_bytes(8,"little"))>=4:
                         key=(val,tuple(addr))
                         if key not in seen:
                             seen.add(key)
@@ -83,6 +83,29 @@ def analyze(disasm,starts):
         i=bisect.bisect_right(starts,start)
         end=starts[i] if i<len(starts) else max(addresses)+4
         report["functions"][name]=extract(rows,start,end)
+    # Exact paired ARM64 immediates from independently recovered original binary.
+    # These are reconstructed textual literals, NOT verified GOFA app ABI/fields.
+    pairs=[
+       ("gofa_speed_swift","pushSpeedBoard","0x3e494","0x3e4a4"),
+       ("gofa_alert_swift","pushNextBoard","0x3e98c","0x3e97c"),
+       ("gofa_alert_swift","traffic_sign_id","0x3f230","0x3f244"),
+       ("gofa_alert_swift","traffic_sign_id","0x3f25c","0x3f26c"),
+    ]
+    report["paired_literal_candidates"]=[]
+    for func,expected,first,second in pairs:
+        matches={row["at"]:row for row in report["functions"][func]["immediate_literals"]}
+        if first not in matches or second not in matches:
+            raise RuntimeError("missing original string fragments "+expected)
+        def text_part(row):
+            raw=bytes.fromhex(row["raw_le"])
+            return "".join(chr(v) for v in raw if 32<=v<127)
+        reconstructed=text_part(matches[first])+text_part(matches[second])
+        if reconstructed!=expected:
+            raise RuntimeError("binary does not support "+expected+": "+reconstructed)
+        report["paired_literal_candidates"].append({
+            "text":expected,"source_function":func,"first_at":first,"second_at":second,
+            "original_machine_literals":True,
+            "not_verified_GOFA_runtime_schema":True})
     return report
 
 def main():
@@ -105,6 +128,11 @@ def main():
         for row in datum["immediate_literals"]:
             md.append("- "+row["at"]+" "+row["register"]+" LE="+row["ascii_le_escaped"]+
                       " origin="+",".join(row["origin"]))
+    md.append("\n## Reconstructed original paired literal candidates")
+    for candidate in report["paired_literal_candidates"]:
+        md.append("- "+candidate["text"]+" ["+candidate["source_function"]+
+                  " originals "+candidate["first_at"]+" + "+candidate["second_at"]+
+                  "]; static Swift immediate STRING, not validated app model")
     (a.out/"GOFA_SWIFT_LITERAL_REGISTER_TRACE.md").write_text("\n".join(md)+"\n")
     print("QA169_ORIGINAL_ARM64_GOFA_LITERAL_TRACE",{
         "instructions":report["original_instruction_count"],
