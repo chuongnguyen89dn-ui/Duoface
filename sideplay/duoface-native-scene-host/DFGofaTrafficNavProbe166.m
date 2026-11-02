@@ -193,6 +193,18 @@ static NSInteger DF167EventId(NSString *name) {
     if([name isEqualToString:@"notificationSpeedBoard"])return 3;
     return 0;
 }
+// QA175 (T5): the probe's bookkeeping (evidence sequence/token and
+// the bounded event counter) is confined to this serial queue; the
+// observer blocks hop here instead of running on GOFA's posting
+// thread. Log content and behaviour are unchanged.
+static dispatch_queue_t DF166Queue(void) {
+    static dispatch_queue_t q; static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        q = dispatch_queue_create("com.duoface.gofa.probe166",
+                                  DISPATCH_QUEUE_SERIAL);
+    });
+    return q;
+}
 static void DF166ObserveKnownNames(void) {
     NSNotificationCenter *center=NSNotificationCenter.defaultCenter;
     // NOW CONFIRMED by static original SpeedAlerts registration at 0x3ce1c.
@@ -202,14 +214,17 @@ static void DF166ObserveKnownNames(void) {
                              @"notificationSpeedBoard"]) {
         [center addObserverForName:name object:nil queue:nil
                        usingBlock:^(NSNotification *note) {
-            NSUInteger keys=note.userInfo.count;
-            uint8_t kind=DF167Kind(note.object);
+          NSDictionary *info=note.userInfo;
+          id object=note.object;
+          dispatch_async(DF166Queue(), ^{
+            NSUInteger keys=info.count;
+            uint8_t kind=DF167Kind(object);
             // Export-only proof from GOFA to DuoFace host via Darwin notify.
             DF167PublishEvidence(DF167EventId(name),keys,kind);
             // QA168: no private GOFA ABI assumptions. If an original event
             // actually carries a public CPManeuver object, its Apple-provided
             // distance/instruction may be forwarded; otherwise no turn.
-            id route=note.object;
+            id route=object;
             if([route isKindOfClass:NSArray.class])route=[route firstObject];
             if([route isKindOfClass:CPManeuver.class]) {
                 CPManeuver *maneuver=(CPManeuver *)route;
@@ -219,11 +234,12 @@ static void DF166ObserveKnownNames(void) {
             NSUInteger index=0;
             @synchronized(NSNotificationCenter.class) {index=++DF167EventLogCount;}
             if(index>80)return; // bound ONLY privacy logs, never drop live source
-            NSString *klass=DF167SafeClass(note.object);
+            NSString *klass=DF167SafeClass(object);
             DF166Log([NSString stringWithFormat:@"candidate-event=%@ objectClass=%@ payloadKeys=%lu",
                      name,klass,(unsigned long)keys]);
-            DF167SummarizeNSDictionary(note.userInfo,@"userInfo");
-            DF167SummarizeObject(note.object);
+            DF167SummarizeNSDictionary(info,@"userInfo");
+            DF167SummarizeObject(object);
+          });
         }];
     }
     DF166Log(@"GOFA original candidate-notification-observers-installed; QA167 types-only");
