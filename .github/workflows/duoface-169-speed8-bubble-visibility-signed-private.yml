@@ -212,7 +212,7 @@ jobs:
           dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa169-host"
           ldid -e "$RUNNER_TEMP/qa169-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
           ldid -e "$RUNNER_TEMP/qa169-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null
-          ! strings -a "$RUNNER_TEMP/qa169-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'selected-tap-redirect-to-existing-duoface-icon'
+          ! strings -a "$RUNNER_TEMP/qa169-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'selected-tap-redirect-to-existing-duoface-icon' >/dev/null
           echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
       - name: Assemble signed independent merged QA147 private candidate, NOT public APT
         run: |
@@ -241,14 +241,14 @@ jobs:
           strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'com.duoface.speedhud.v1.gofa'
           strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F '[DuoFaceSpeed8] QA163 native owner attached'
           strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'com.duoface.speedhud.v1.gofa'
-          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -Fq 'com.duoface.trafficnav.v2.gofa.cpnavigation'
-          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -Fq 'com.duoface.speedhud.visibility.v1.plist'
-          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'com.duoface.speedhud.visibility.v1.plist'
-          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" | grep -Fq 'com.duoface.speedhud.visibility.v1.plist'
-          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -Fq 'Bong bóng tốc độ' || true
+          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'com.duoface.trafficnav.v2.gofa.cpnavigation' >/dev/null
+          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'com.duoface.speedhud.visibility.v1.plist' >/dev/null
+          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'com.duoface.speedhud.visibility.v1.plist' >/dev/null
+          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" | grep -F 'com.duoface.speedhud.visibility.v1.plist' >/dev/null
+          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'Bong bóng tốc độ' >/dev/null || true
 
-          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -Fq 'com.duoface.trafficnav.v2.gofa.cpnavigation'
-          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -Fq 'com.duoface.trafficnav.v2.gofa.cpnavigation'
+          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'com.duoface.trafficnav.v2.gofa.cpnavigation' >/dev/null
+          strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'com.duoface.trafficnav.v2.gofa.cpnavigation' >/dev/null
           test -s "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
           strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'
           strings -a "$RUNNER_TEMP/qa169-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'
