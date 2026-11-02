@@ -50,9 +50,9 @@ class TestQA170(unittest.TestCase):
         self.assertNotIn("requestWhenInUseAuthorization",source)
         self.assertNotIn("limitKmh",source)
     def test_version_and_existing_transport(self):
-        self.assertIn("0.1.170~transparentxgps1",read("build.sh"))
+        self.assertIn("0.1.171~gofadiag1",read("build.sh"))
         pkg=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
-        self.assertIn('VERSION="0.0.170~transparentxgps1"',pkg)
+        self.assertIn('VERSION="0.0.171~gofadiag1"',pkg)
         transport=read("speed8/DFSpeedTransport.mm")
         self.assertIn("DFSpeed::Decode",transport)
         self.assertIn("sample.limitValid = false",transport)

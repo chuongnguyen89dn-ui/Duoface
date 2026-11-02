@@ -45,7 +45,7 @@
           @"This file contains technical diagnostics; share only with a trusted recipient.\n",
          NSDate.date.description,UIDevice.currentDevice.systemVersion,
          NSBundle.mainBundle.bundleIdentifier?:@"unknown"];
-    [summary appendString:@"Audit schema: 3; exporter build 0.0.90~nativegetters1; runtime process build is in timestamped traces.\n"];
+    [summary appendString:@"Audit schema: 4; exporter build 0.0.171~gofadiag1; runtime process build is in timestamped traces.\n"];
     // GOFA sandbox may prohibit writing /var/mobile/Library/Logs.
     // This Darwin notify is a 64-bit data-free fallback for on-phone proof:
     // event identifier, key COUNT, object category, age, and sequence ONLY.
