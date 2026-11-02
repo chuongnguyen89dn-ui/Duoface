@@ -14,7 +14,7 @@ class TestQA174(unittest.TestCase):
         cls.guard=(ROOT/"DFLogGuard173.h").read_text()
         cls.glue=(ROOT/"DFGofaBoardSource172.m").read_text()
         cls.build=(ROOT/"build.sh").read_text()
-        cls.workflow=(REPO/".github/workflows/duoface-174-audit-fix-signed-private.yml").read_text()
+        cls.workflow=(REPO/".github/workflows/duoface-175-touch-reliability-signed-private.yml").read_text()
     def test_versions_bumped(self):
         self.assertIn("0.1.175~touchfix1", self.build)
     def test_build_labels_current(self):
@@ -23,8 +23,8 @@ class TestQA174(unittest.TestCase):
         self.assertNotIn("build=0.0.90~nativegetters1", self.trace)
         self.assertNotIn("build=0.0.86~nativeowner1", self.probe)
     def test_qa173_contracts_carried(self):
-        self.assertIn("qa173-geometry-commit-immediate", self.scene)
-        self.assertIn("[self commitSceneGeometry:nil]", self.scene)
+        self.assertIn("scheduleGeometryCommit", self.scene)
+        self.assertNotIn("[self commitSceneGeometry:nil]", self.scene)
         self.assertIn("RootTouchPassThrough", self.chrome)
         self.assertIn("DFLogWriteCapped173", self.guard)
         self.assertNotIn("DFSpeedHUDPublish", self.glue)
