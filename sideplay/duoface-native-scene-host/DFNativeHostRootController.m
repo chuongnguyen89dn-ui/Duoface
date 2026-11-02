@@ -15,6 +15,7 @@
 #import "DFNativeMapLeasePolicy.h"
 #import "DFVoiceAssistant.h"
 #import "DFNativeDiagnostics.h"
+#import "DFSpeedVisibility169.h"
 #import "DFLayoutEngine.h"
 #import <objc/message.h>
 #import <math.h>
@@ -125,6 +126,7 @@
 @property(nonatomic,strong) UIButton *diagnosticsButton;
 @property(nonatomic,strong) UIButton *dockMonitorButton;
 @property(nonatomic,strong) UIButton *voiceButton;
+@property(nonatomic,strong) UIButton *speedBubbleButton;
 @property(nonatomic,strong) DFVoiceAssistant *voiceAssistant;
 @property(nonatomic,strong) UISegmentedControl *tabs;
 @property(nonatomic,strong) UITableView *appsTable;
@@ -222,6 +224,16 @@
         forControlEvents:UIControlEventTouchUpInside];
  [self.view addSubview:voice];self.voiceButton=voice;
  self.voiceAssistant=[DFVoiceAssistant new];
+ UIButton *speedButton=[UIButton buttonWithType:UIButtonTypeSystem];
+ speedButton.translatesAutoresizingMaskIntoConstraints=NO;
+ speedButton.backgroundColor=[UIColor colorWithWhite:.16 alpha:1];
+ speedButton.layer.cornerRadius=10;
+ [speedButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+ speedButton.titleLabel.font=[UIFont systemFontOfSize:14 weight:UIFontWeightSemibold];
+ [speedButton addTarget:self action:@selector(toggleSpeedBubble:)
+         forControlEvents:UIControlEventTouchUpInside];
+ [self.view addSubview:speedButton];self.speedBubbleButton=speedButton;
+ [self refreshSpeedBubbleButton];
  UITableView *list=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
  list.translatesAutoresizingMaskIntoConstraints=NO;list.backgroundColor=UIColor.blackColor;
  list.dataSource=self;list.delegate=self;list.hidden=YES;list.allowsSelection=YES;
@@ -258,6 +270,10 @@
    [voice.leadingAnchor constraintEqualToAnchor:dock.leadingAnchor],
    [voice.trailingAnchor constraintEqualToAnchor:dock.trailingAnchor],
    [voice.heightAnchor constraintEqualToConstant:42],
+   [speedButton.topAnchor constraintEqualToAnchor:voice.bottomAnchor constant:10],
+   [speedButton.leadingAnchor constraintEqualToAnchor:voice.leadingAnchor],
+   [speedButton.trailingAnchor constraintEqualToAnchor:voice.trailingAnchor],
+   [speedButton.heightAnchor constraintEqualToConstant:42],
    [list.topAnchor constraintEqualToAnchor:tabs.bottomAnchor constant:12],
    [list.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:14],
    [list.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-14],
@@ -268,7 +284,29 @@
  [list reloadData];
  [self reloadLiveStatus];
 }
+- (void)refreshSpeedBubbleButton {
+ if(!self.speedBubbleButton)return;
+ BOOL enabled=DF169SpeedBubbleEnabled();
+ [self.speedBubbleButton setTitle:enabled?
+   @"Bong bóng CarPlay: Đang bật · Chạm để tắt":
+   @"Bong bóng CarPlay: Đã tắt · Chạm để bật"
+   forState:UIControlStateNormal];
+}
+- (void)toggleSpeedBubble:(UIButton *)sender {
+ (void)sender;
+ BOOL requested=!DF169SpeedBubbleEnabled();
+ if(!DF169SetSpeedBubbleEnabled(requested)) {
+    UIAlertController *a=[UIAlertController alertControllerWithTitle:@"Không lưu được"
+       message:@"Không cập nhật được trạng thái bong bóng dùng chung. Chưa thay đổi cài đặt."
+       preferredStyle:UIAlertControllerStyleAlert];
+    [a addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:a animated:YES completion:nil];
+    return;
+ }
+ [self refreshSpeedBubbleButton];
+}
 - (void)reloadLiveStatus {
+ [self refreshSpeedBubbleButton];
  if(self.carPlay)return;
  NSDictionary *session=[NSDictionary dictionaryWithContentsOfFile:
    @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
@@ -428,6 +466,7 @@
  self.stateLabel.hidden=showingList;self.diagnosticsButton.hidden=showingList;
  self.dockMonitorButton.hidden=showingList;
  self.voiceButton.hidden=showingList;
+ self.speedBubbleButton.hidden=showingList;
  if(showingList)[self.voiceAssistant stop];
  self.appsTable.hidden=!showingList;
  if(showingList){
