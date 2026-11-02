@@ -133,6 +133,7 @@
 }
 @end
 __attribute__((constructor)) static void DFStartGOFASpeed162(void) {
+    if(![NSBundle.mainBundle.bundleIdentifier isEqualToString:@"com.lumi.GOFA"])return;
     dispatch_async(dispatch_get_main_queue(), ^{
         [[DFGofaSpeedSource162 shared] start];
     });
