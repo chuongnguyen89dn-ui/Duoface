@@ -87,7 +87,7 @@ on:
       - 'sideplay/duoface-native-scene-host/tests/test_qa146_native_home_exit.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa148_real_pid_and_stop_identity.py'
       - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
-      - 'sideplay/duoface-native-scene-host/tests/test_qa172_gofa_diagnostics_export.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa172_gofa_decoder_shadow.py'
       - 'sideplay/duoface-native-scene-host/tests/test_qa145_controlled_home.py'
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
       - 'sideplay/duoface-native-scene-host/DFSpeedNativeOverlay163.mm'
@@ -160,7 +160,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa169_bubble_visibility.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa170_transparent_x_real_gps.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa167_gofa_event_schema.py' -v
-          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172_gofa_diagnostics_export.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172_gofa_decoder_shadow.py' -v
           clang++ -std=c++17 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/speed8/test_speed_protocol.cpp -o "$RUNNER_TEMP/gofa-speed8-protocol"
           "$RUNNER_TEMP/gofa-speed8-protocol"
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
