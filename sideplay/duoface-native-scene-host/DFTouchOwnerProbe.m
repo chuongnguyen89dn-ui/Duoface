@@ -3,6 +3,7 @@
 // system Dock manipulation, fabricated UIKit touches, or autorun overlay.
 #import <UIKit/UIKit.h>
 #import "DFDeepTrace.h"
+#import "DFLogGuard173.h"
 #import "DFGeometrySnapshot119.h"
 #import "DFCarPlayOwnerLease.h"
 #import "DFNative12Chrome.h"
@@ -138,16 +139,11 @@ static void DFTOLog(NSString *event, NSString *detail) {
     // timestamped 2 MiB log as real player, system Dock and native CPWindow.
     DFDeepTrace(@"touch-owner",[NSString stringWithFormat:
         @"event=%@ %@",event?:@"-",detail?:@""]);
-    NSString *line=[NSString stringWithFormat:@"[DFTouchOwner] %@ %@\n",
+    NSString *line=[NSString stringWithFormat:@"[DFTouchOwner] %@ %@",
         event?:@"-", detail?:@""];
     NSLog(@"%@",line);
-    int fd=open("/var/mobile/Library/Logs/DuoFaceTouchOwner.log",
-                O_WRONLY|O_APPEND|O_CREAT,0644);
-    if(fd>=0) {
-        NSData *d=[line dataUsingEncoding:NSUTF8StringEncoding];
-        (void)write(fd,d.bytes,d.length);
-        close(fd);
-    }
+    // QA173: capped + de-duplicated append (see DFLogGuard173.h).
+    DFLogWriteCapped173(@"/var/mobile/Library/Logs/DuoFaceTouchOwner.log", line);
 }
 static id DFGetObject(id object,NSString *name) {
     if(!object)return nil;
