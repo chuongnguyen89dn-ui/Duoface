@@ -3,6 +3,7 @@ on:
   push:
     branches: [feature/duoface-qa168-gofa-carnav-maneuver-20261102]
     paths:
+      - '.github/workflows/duoface-168-native-carplay-maneuver-signed-private.yml'
       - '.github/workflows/duoface-167-gofa-event-schema-signed-private.yml'
       - 'sideplay/duoface-native-scene-host/DF167GOFAEventProtocol.h'
       - 'sideplay/duoface-native-scene-host/DF168NativeManeuver.h'
