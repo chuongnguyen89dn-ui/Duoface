@@ -705,10 +705,15 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
                xRoot.view=[[UIView alloc] initWithFrame:
                                                (CGRect){CGPointZero,xFrame.size}];
                xRoot.view.backgroundColor=UIColor.clearColor;
+               xRoot.view.opaque=NO;
+               xRoot.view.layer.masksToBounds=YES;
+               xRoot.view.layer.cornerRadius=22;
                xRoot.view.userInteractionEnabled=NO;
                [xRoot.view addSubview:DF169MakeBubbleDismissSymbol()];
                xWindow.rootViewController=xRoot;
                xWindow.userInteractionEnabled=NO;
+               xWindow.layer.masksToBounds=YES;
+               xWindow.layer.cornerRadius=22;
                xWindow.hidden=YES;
                self.speedDismissWindow=xWindow;
                speed.dismissWindow=xWindow;
