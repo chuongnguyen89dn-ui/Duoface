@@ -54,11 +54,21 @@ ldid -S "$YT_DYLIB"
 # QA162 GOFA-only CoreLocation speed publisher for the existing DuoFace Speed8 HUD.
 # GOFA source is a narrow app-bundle filter. No network calls, no activation,
 # no private field reads, no road-speed-limit fabrication.
+# QA172: first-party Swift payload decoder for the GOFA dylib.
+# swiftc emits a plain object; Swift library references ride in its
+# LC_LINKER_OPTION entries, resolved by the clang/ld link below via
+# the SDK swift library path. If CI rejects this, fall back to
+# linking the GOFA dylib with the swiftc driver instead.
+SPEED_SWIFT_OBJ="$TMP/DFGofaPayloadDecoder172.o"
+xcrun --sdk iphoneos swiftc -emit-object -parse-as-library \
+  -target arm64-apple-ios16.0 -sdk "$SDK" -O \
+  -module-name DFGofaDecoder172 \
+  -o "$SPEED_SWIFT_OBJ" DFGofaPayloadDecoder172.swift
 SPEED_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
-  -framework UIKit -framework Foundation -framework CoreLocation -framework CarPlay -lc++ \
-    -o "$SPEED_DYLIB" DFGofaSpeedSource162.m DFGofaNativeLocationTap165.m DFGofaTrafficNavProbe166.m DF168NativeManeuver.m DF168PublicCarPlayManeuverAdapter.m DFSpeedVisibility169.m speed8/DFSpeedTransport.mm
+  -framework UIKit -framework Foundation -framework CoreLocation -framework CarPlay -lc++ -L "$SDK/usr/lib/swift" \
+    -o "$SPEED_DYLIB" DFGofaSpeedSource162.m DFGofaNativeLocationTap165.m DFGofaTrafficNavProbe166.m DFGofaBoardSource172.m DF168NativeManeuver.m DF168PublicCarPlayManeuverAdapter.m DFSpeedVisibility169.m speed8/DFSpeedTransport.mm "$SPEED_SWIFT_OBJ"
 cp DFGofaSpeedSource162.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.plist"
 ldid -S "$SPEED_DYLIB"
 # GOFA-only map canvas resize in the existing integrated package.
@@ -110,7 +120,7 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.171~gofadiag1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.172~gofadecoder1_iphoneos-arm64.deb"
 chmod 0755 "$TMP"
 dpkg-deb --root-owner-group --build "$TMP" "$OUT"
 echo "BUILT=$OUT"

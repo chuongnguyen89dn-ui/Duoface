@@ -5,6 +5,7 @@
 #import <notify.h>
 #import <stdint.h>
 #import "DF167GOFAEventProtocol.h"
+#import "DF172GOFAEvidenceProtocol.h"
 
 @implementation DFNativeDiagnostics
 + (NSString *)tailAtPath:(NSString *)path maxBytes:(NSUInteger)limit {
@@ -45,7 +46,7 @@
           @"This file contains technical diagnostics; share only with a trusted recipient.\n",
          NSDate.date.description,UIDevice.currentDevice.systemVersion,
          NSBundle.mainBundle.bundleIdentifier?:@"unknown"];
-    [summary appendString:@"Audit schema: 4; exporter build 0.0.171~gofadiag1; runtime process build is in timestamped traces.\n"];
+    [summary appendString:@"Audit schema: 4; exporter build 0.0.172~gofadecoder1; runtime process build is in timestamped traces.\n"];
     // GOFA sandbox may prohibit writing /var/mobile/Library/Logs.
     // This Darwin notify is a 64-bit data-free fallback for on-phone proof:
     // event identifier, key COUNT, object category, age, and sequence ONLY.
@@ -66,6 +67,27 @@
             [summary appendString:@"\\nQA167 GOFA original notification: NONE VALID/FRESH within 900s; absence is NOT proof GOFA did not publish (source may be inactive, sandbox notify blocked, or user hasn't opened GOFA).\\n"];
     } else {
         [summary appendString:@"\\nQA167 GOFA original notification: Darwin transport unavailable (no success claim).\\n"];
+    }
+    // QA172 shadow decoder evidence (v2 channel): channel id, payload
+    // value kind, present/rejected field masks (speed) or bucketed
+    // point counts (alerts), age, sequence. Diagnostics only — the
+    // channel carries no values, no coordinates, no key names.
+    int df172Token=-1;
+    if(notify_register_check(DF172_GOFA_NOTIFY_NAME,&df172Token)==NOTIFY_STATUS_OK) {
+        uint64_t raw172=0;
+        int result172=notify_get_state(df172Token,&raw172);
+        notify_cancel(df172Token);
+        NSTimeInterval uptime172=NSProcessInfo.processInfo.systemUptime;
+        DF172GOFAEvidence sample172={0};
+        BOOL fresh172=result172==NOTIFY_STATUS_OK && isfinite(uptime172) &&
+           uptime172>=0 && DF172GOFADecode(raw172,uptime172,900,&sample172);
+        if(fresh172)
+            [summary appendFormat:@"\\nQA172 decoder shadow event=%u valueKind=%u present=0x%x rejected=0x%x ageSeconds=%.0f sequence=%u (diagnostics only, no values)\\n",
+              sample172.event,sample172.valueKind,sample172.present,sample172.rejected,uptime172-sample172.uptime,sample172.sequence];
+        else
+            [summary appendString:@"\\nQA172 decoder shadow: NONE VALID/FRESH within 900s; absence is NOT proof the decoder did not run (GOFA may be inactive or Darwin notify blocked).\\n"];
+    } else {
+        [summary appendString:@"\\nQA172 decoder shadow: Darwin transport unavailable (no success claim).\\n"];
     }
     NSArray<NSString *> *ownLogs=@[
       @"/var/mobile/Library/Logs/DuoFaceSceneHost.log",

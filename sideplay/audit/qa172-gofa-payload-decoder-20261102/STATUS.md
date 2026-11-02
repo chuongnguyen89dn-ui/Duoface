@@ -64,3 +64,39 @@
   (copy of the QA171 one), wire shadow mode, private build, device
   session to settle `userSpeed` vs `speed` and capture the value
   class via the v2 evidence channel.
+
+## Update — 2026-11-02 night: Gate G3 wiring completed (pre-build)
+
+- New glue `DFGofaBoardSource172.m`: GOFA-process-only constructor,
+  observes the 3 board notifications alongside the untouched QA166/167
+  probe, throttled to 2 decodes/sec/channel, decodes via the Swift
+  bridge, reports via NSLog `[DuoFaceDecoder172]` and the DF172 v2
+  Darwin evidence state. Shadow mode: NO HUD publish call exists in
+  the file (G4 owns transport).
+- Host app export extended in `DFNativeDiagnostics.m`: a
+  `QA172 decoder shadow: ...` summary line sits next to the QA167 one,
+  decoded from the v2 channel (diagnostics only, no values).
+- `build.sh` compiles `DFGofaPayloadDecoder172.swift` with
+  `xcrun swiftc -emit-object` (module DFGofaDecoder172) and links the
+  object + glue into `DFGofaSpeedSource162.dylib` with the SDK swift
+  library path added. First CI run must confirm the Swift autolink
+  (LC_LINKER_OPTION) resolution; documented fallback is linking that
+  one dylib with the swiftc driver.
+- Versions bumped: native host `0.1.172~gofadecoder1`
+  (control, build.sh OUT, Info.plist 172 / 0.1.172), integrated
+  `0.0.172~gofadecoder1` (package_integrated.py).
+- Local verification actually run: both ObjC files pass
+  `clang-18 -fsyntax-only -Wall -Wextra` against iPhoneOS16.5.sdk
+  (zero errors/warnings). The Swift @objc bridge and the final link
+  remain CI-only verifications.
+- Prepared workflow staged at
+  `sideplay/audit/qa172-gofa-payload-decoder-20261102/duoface-172-workflow-prepared.yml`
+  (mechanical QA171→QA172 transform + decoder marker checks, YAML
+  validated). It is NOT live: placing it under `.github/workflows/`
+  needs an account with Workflows permission (the Muse app lacks
+  it; the user's one-shot PAT was deleted after the QA171 publish).
+- Remaining for G3: place workflow → private build → user installs
+  the private DEB (single-file install, conflicts inventory first)
+  → one driven GOFA session → export settles (a) value class via the
+  v2 evidence kind, (b) `userSpeed` vs `speed` via the shadow NSLog
+  values compared with GOFA's own UI.
