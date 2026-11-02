@@ -1,3 +1,9 @@
+## 2026-11-02 — STANDING RULE: EVERY CHANGE/PLAN DISCUSSION GOES INTO THIS HISTORY (user directive)
+
+- User directive (2026-11-02 22:35 VN, given after finding QA171–QA175 were missing from this file): every discussion in the working chat that concerns a change or an approach/plan must be recorded in this project history (`sideplay/tiep tuc du an.md`) on the active working branch — per-QA STATUS files alone are not enough.
+- Every final report message to the user must end with the line: `Đã lưu: sideplay/tiep tuc du an.md — commit <full sha>, đã đọc lại xác minh trên GitHub.` — the commit must be the real push just made, verified by re-reading this file on GitHub afterwards.
+- The rule is also saved in Muse's long-term memory (MEMORY.md, Preferences) so the user never has to repeat it.
+
 ## 2026-11-02 — QA175 TOUCH RELIABILITY (T1–T7) SIGNED + SILEO PUBLISHED (device test pending)
 
 - Origin: full 4-track static audit of QA173 (handoff docs `~/workspace/duoface-audit/TONG_HOP_DEB_VA_LOI.md` + `BO_SUNG_PHAN_TICH.md`) produced 17 findings; the user had another Claude draft the closed T1–T7 work order, Muse reviewed it (5 amendments), then the user clarified there is no separate Codex — Muse is the implementer. Branch `feature/duoface-qa175-touch-reliability-20261102` from QA174 tip; integrated `0.0.175~touchfix1`, host `0.1.175~touchfix1`, rootless arm64.
