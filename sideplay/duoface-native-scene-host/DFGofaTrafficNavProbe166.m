@@ -202,14 +202,6 @@ static void DF166ObserveKnownNames(void) {
             uint8_t kind=DF167Kind(note.object);
             // Export-only proof from GOFA to DuoFace host via Darwin notify.
             DF167PublishEvidence(DF167EventId(name),keys,kind);
-            NSUInteger index=0;
-            @synchronized(NSNotificationCenter.class) {index=++DF167EventLogCount;}
-            if(index>80)return; // bounded, never flood navigation/UI
-            NSString *klass=DF167SafeClass(note.object);
-            DF166Log([NSString stringWithFormat:@"candidate-event=%@ objectClass=%@ payloadKeys=%lu",
-                     name,klass,(unsigned long)keys]);
-            DF167SummarizeNSDictionary(note.userInfo,@"userInfo");
-            DF167SummarizeObject(note.object);
             // QA168: no private GOFA ABI assumptions. If an original event
             // actually carries a public CPManeuver object, its Apple-provided
             // distance/instruction may be forwarded; otherwise no turn.
@@ -220,6 +212,14 @@ static void DF166ObserveKnownNames(void) {
                 (void)DF168PublishNativeCarPlayManeuver(
                     maneuver,maneuver.initialTravelEstimates);
             }
+            NSUInteger index=0;
+            @synchronized(NSNotificationCenter.class) {index=++DF167EventLogCount;}
+            if(index>80)return; // bound ONLY privacy logs, never drop live source
+            NSString *klass=DF167SafeClass(note.object);
+            DF166Log([NSString stringWithFormat:@"candidate-event=%@ objectClass=%@ payloadKeys=%lu",
+                     name,klass,(unsigned long)keys]);
+            DF167SummarizeNSDictionary(note.userInfo,@"userInfo");
+            DF167SummarizeObject(note.object);
         }];
     }
     DF166Log(@"GOFA original candidate-notification-observers-installed; QA167 types-only");
