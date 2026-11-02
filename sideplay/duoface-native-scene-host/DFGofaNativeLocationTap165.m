@@ -8,7 +8,13 @@
 #import <objc/message.h>
 #import <math.h>
 #import "speed8/DFSpeedTransport.h"
+#import "DF165NativeSpeedUptime.h"
+#include <stdatomic.h>
 
+static atomic_uint_fast64_t DF165LastGoodPublishSeconds=0;
+uint64_t DF165LastNativeGPSPublishUptime(void) {
+    return (uint64_t)atomic_load_explicit(&DF165LastGoodPublishSeconds,memory_order_relaxed);
+}
 static IMP DF165SetDelegateOriginal;
 static NSMutableDictionary<NSString *,NSValue *> *DF165OriginalCallbacks;
 static NSTimeInterval DF165LastAttachLog;
@@ -45,8 +51,11 @@ static void DF165DidUpdate(id receiver,SEL cmd,CLLocationManager *manager,NSArra
     }
     if(!valid)return;
     NSInteger kmh=(NSInteger)lround(point.speed*3.6);
-    if(!DFSpeedHUDPublish(DFSpeedAppSourceGOFA,kmh,YES,0,NO))
-        NSLog(@"[DuoFaceSpeed8] QA165 GOFA native GPS IPC FAILED");
+    if(DFSpeedHUDPublish(DFSpeedAppSourceGOFA,kmh,YES,0,NO)) {
+        if(isfinite(now) && now>=1 && now<=UINT32_MAX)
+            atomic_store_explicit(&DF165LastGoodPublishSeconds,
+                                  (uint_fast64_t)floor(now),memory_order_relaxed);
+    } else NSLog(@"[DuoFaceSpeed8] QA165 GOFA native GPS IPC FAILED");
 }
 static void DF165ObserveDelegate(id delegate) {
     if(!delegate)return;
