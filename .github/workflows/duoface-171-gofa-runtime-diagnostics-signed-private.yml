@@ -283,7 +283,7 @@ jobs:
             git worktree add --detach "$DIR" FETCH_HEAD
             OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
             mkdir -p "$OUT"
-            cp "$QA170_PRIVATE_OUTPUT" "$OUT/$ART"
+            cp "$QA171_PRIVATE_OUTPUT" "$OUT/$ART"
             ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
             cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
             printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nGOFA_REAL_ROAD_ALERTS_CONNECTED=false\nGOFA_REAL_NAVIGATION_TURNS_CONNECTED=false\nGOFA_RUNTIME_PROBE_VERIFIED=false\nDEVICE_TESTED=false\nDO_NOT_INSTALL_REPEATEDLY=true\nHOME_STANDALONE_OPTIN_DEFAULT_OFF=true\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
