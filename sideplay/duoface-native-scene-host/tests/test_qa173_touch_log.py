@@ -16,7 +16,7 @@ class TestQA173(unittest.TestCase):
         cls.glue=(ROOT/"DFGofaBoardSource172.m").read_text()
         cls.decoder=(ROOT/"DFGofaPayloadDecoder172.swift").read_text()
         cls.build=(ROOT/"build.sh").read_text()
-        cls.workflow=(REPO/".github/workflows/duoface-174-audit-fix-signed-private.yml").read_text()
+        cls.workflow=(REPO/".github/workflows/duoface-175-touch-reliability-signed-private.yml").read_text()
     def test_versions_bumped(self):
         self.assertIn("0.1.175~touchfix1", self.build)
     def test_log_reduction_guards(self):
@@ -32,9 +32,13 @@ class TestQA173(unittest.TestCase):
         self.assertIn("DF172_GOFA_NOTIFY_NAME", self.exporter)
         self.assertIn("QA172 decoder shadow event=", self.exporter)
         self.assertIn("DuoFaceTrafficNav166.log", self.exporter)
-    def test_geometry_commits_in_same_layout_pass(self):
-        self.assertIn("qa173-geometry-commit-immediate", self.scene)
-        self.assertIn("[self commitSceneGeometry:nil]", self.scene)
+    def test_geometry_commits_trailing_edge_qa175(self):
+        # QA175 supersedes the QA173 same-pass commit (drag jank,
+        # one-shot skips): trailing-edge scheduling with retry.
+        self.assertIn("scheduleGeometryCommit", self.scene)
+        self.assertIn("kDF175GeometryDebounceSeconds", self.scene)
+        self.assertNotIn("qa173-geometry-commit-immediate", self.scene)
+        self.assertNotIn("[self commitSceneGeometry:nil]", self.scene)
         self.assertNotIn("geometryWait", self.scene)
     def test_root_touch_passthrough_flagged(self):
         self.assertIn("RootTouchPassThrough", self.chrome)
