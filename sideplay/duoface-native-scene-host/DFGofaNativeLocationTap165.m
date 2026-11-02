@@ -60,6 +60,10 @@ static void DF165DidUpdate(id receiver,SEL cmd,CLLocationManager *manager,NSArra
 static void DF165ObserveDelegate(id delegate) {
     if(!delegate)return;
     Class cls=object_getClass(delegate);
+    // QA170: do NOT wrap DuoFace's own conditional fallback delegate.
+    // Otherwise its own GPS publish is misidentified as a GOFA native source,
+    // then the watchdog stops itself every 8 seconds.
+    if([DF165ClassKey(cls) isEqualToString:@"DFGofaSpeedSource162"])return;
     SEL callback=@selector(locationManager:didUpdateLocations:);
     Method method=class_getInstanceMethod(cls,callback);
     if(!method)return;
