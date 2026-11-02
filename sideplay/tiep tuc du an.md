@@ -1,3 +1,6 @@
+## 2026-11-02 — Speed8 bubble dismiss/restore forensic root cause (proposal only)
+- Active detailed handoff: `feature/duoface-qa168-gofa-carnav-maneuver-20261102:sideplay/tiep tuc du an.md` commit `654b6a2e1731cd3083c863ebc193de433c236bc7`. Confirmed from QA168 source: X intentionally skipped in DuoFace floatingWindowMode, 62px black/red X shown in native outside owner, dismissal only view-instance temporary and lost after owner window changes. Proposed consistent compact X on drag, persistent enabled/disabled state honored by both external owners and iPhone manual re-enable. Source fix/build/Sileo NOT performed yet for bubble UX; QA168 remains current public beta.
+
 ## 2026-11-02 — LATEST QA168 SILEO SUCCESS (EXPERIMENTAL; traffic data not functional)
 - Active authoritative handoff: feature/duoface-qa168-gofa-carnav-maneuver-20261102:sideplay/tiep tuc du an.md at commit 21f833416c82992e567e90742db60f4e245abbf3. Source commit 77f28c075c2ae3fc5263045498e45e4c1713b9b4.
 - Signed DuoFace run 41369893982 SUCCESS. Archived exact DEB at sideplay/jb-embedded-appbridge/evidence/runs/41369893982/ (artifact commit 1ae978cc0a6cc72682e62be948959a10d1753a77). Version 0.0.168~nativecpmaneuver1; SHA256 439ee06ce01d52fff5d67554a35897ac60b8e57e54f1af0aad62f93a261d2710.
