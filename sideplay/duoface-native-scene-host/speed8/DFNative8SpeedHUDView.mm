@@ -13,6 +13,7 @@
 #import "DFSpeedTransport.h"
 #import "DFNative8SpeedHUDView.h"
 #import "../DF168NativeManeuver.h"
+#import "../DFSpeedVisibility169.h"
 #import <math.h>
 #include <string.h>
 
@@ -26,7 +27,7 @@
 @property(nonatomic,strong) UIView *limitRing;
 @property(nonatomic,strong) NSTimer *timer;
 @property(nonatomic,strong) UILabel *dismissTarget;
-@property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,assign) BOOL windowHiddenForDisable;
 @property(nonatomic,strong) UIView *settingsPanel;
 @property(nonatomic,assign) CGFloat visualScale;
 @property(nonatomic,assign) CGFloat visualOpacity;
@@ -51,6 +52,19 @@
 - (void)dfCollapseFloatingSettings;
 @end
 
+UILabel *DF169MakeBubbleDismissSymbol(void) {
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,44,44)];
+    target.backgroundColor=[UIColor colorWithWhite:0.10 alpha:0.72];
+    target.layer.cornerRadius=22;
+    target.layer.borderWidth=1;
+    target.layer.borderColor=[UIColor colorWithWhite:1 alpha:0.32].CGColor;
+    target.font=[UIFont systemFontOfSize:23 weight:UIFontWeightMedium];
+    target.text=@"×";
+    target.textAlignment=NSTextAlignmentCenter;
+    target.textColor=UIColor.whiteColor;
+    target.userInteractionEnabled=NO;  // 44pt visual only; bubble owns the pan.
+    return target;
+}
 static CGRect DFAllowedArea(UIView *view);
 static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
 @implementation DFNative8SpeedHUDView
@@ -127,8 +141,19 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
 }
 - (void)tick:(NSTimer *)timer {
     (void)timer;
-    if (!self.window || self.dismissedForSession) {
-        self.hidden=YES; return;
+    if (!self.window) {self.hidden=YES;return;}
+    if(!DF169SpeedBubbleEnabled()) {
+        self.hidden=YES;
+        // Never hide a full CarPlay owner window. Bubble-sized windows only.
+        if(self.floatingWindowMode && self.ownerWindow && !self.ownerWindow.hidden) {
+            self.ownerWindow.hidden=YES;
+            self.windowHiddenForDisable=YES;
+        }
+        return;
+    }
+    if(self.windowHiddenForDisable && self.ownerWindow) {
+        self.ownerWindow.hidden=NO;
+        self.windowHiddenForDisable=NO;
     }
     if (!self.ownerWindow || self.ownerWindow.hidden ||
         !self.ownerWindow.screen || self.ownerWindow.screen==UIScreen.mainScreen) {
@@ -167,7 +192,6 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
         self.hidden=NO;
         return;
     }
-    if (self.dismissedForSession) { self.hidden=YES; return; }
     self.hidden=NO;
     self.current.text=sample.hasCurrent
         ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
@@ -251,28 +275,33 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     [prefs setDouble:fmax(0,fmin(1,(center.y-CGRectGetMinY(area))/area.size.height))
              forKey:kDFSpeedPosY];
 }
+- (void)removeDismissTarget {
+    [self.dismissTarget removeFromSuperview];self.dismissTarget=nil;
+    if(self.dismissWindow)self.dismissWindow.hidden=YES;
+}
 - (void)showDismissTarget {
-    // QA164: a bubble-sized external UIWindow cannot host an on-screen X
-    // elsewhere in the CarPlay rect. Never create a ghost hit target.
-    if(self.floatingWindowMode || !self.superview || self.dismissTarget) return;
-    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
-    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
-    target.layer.cornerRadius=31;
-    target.layer.borderWidth=2;
-    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
-    target.text=@"×";
-    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
-    target.textColor=UIColor.whiteColor;
-    target.textAlignment=NSTextAlignmentCenter;
-    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    if(!self.superview)return;
+    if(self.floatingWindowMode) {
+        if(self.dismissWindow && self.dismissWindow.rootViewController)
+            self.dismissWindow.hidden=NO;
+        return;
+    }
+    if(self.dismissTarget)return;
+    UILabel *target=DF169MakeBubbleDismissSymbol();
     CGRect area=DFAllowedArea(self);
     target.center=CGPointMake(CGRectGetMidX(area),
-                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+                    CGRectGetMaxY(area)-target.bounds.size.height/2-8);
     [self.superview addSubview:target];
     self.dismissTarget=target;
 }
+- (CGRect)deleteDropRect {
+    if(self.floatingWindowMode)
+        return self.dismissWindow && !self.dismissWindow.hidden ?
+               CGRectInset(self.dismissWindow.frame,-20,-20):CGRectZero;
+    return self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-20,-20):CGRectZero;
+}
 - (void)pan:(UIPanGestureRecognizer *)gesture {
-    if (!self.superview || self.dismissedForSession || self.settingsPanel) return;
+    if (!self.superview || !DF169SpeedBubbleEnabled() || self.settingsPanel)return;
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
             [self showDismissTarget];
@@ -287,31 +316,27 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
             break;
         }
         case UIGestureRecognizerStateEnded: {
-            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
-            BOOL hide= !self.floatingWindowMode && !CGRectIsEmpty(drop) &&
+            CGRect drop=[self deleteDropRect];
+            BOOL disable= !CGRectIsEmpty(drop) &&
                 CGRectContainsPoint(drop,[self dfDisplayCenter]);
-            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
-            if (hide) {
-                // GOFA-like drag to X. Session-only: next CarPlay window
-                // recreate resets it; no hidden-forever state without restore UI.
-                self.dismissedForSession=YES;
-                self.hidden=YES;
-                [_timer invalidate]; _timer=nil;
-            } else {
-                [self savePosition];
-            }
+            [self removeDismissTarget];
+            if(disable) {
+                if(DF169SetSpeedBubbleEnabled(NO)){
+                    [self tick:nil]; // durable dismissal, no per-instance reset
+                } else [self savePosition];
+            } else [self savePosition];
             break;
         }
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed:
-            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            [self removeDismissTarget];
             break;
-        default: break;
+        default:break;
     }
 }
 - (void)stop {
     [_timer invalidate]; _timer=nil;
-    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    [self removeDismissTarget];
     [self.settingsPanel removeFromSuperview]; self.settingsPanel=nil;
     self.hidden=YES;
 }
@@ -396,7 +421,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
         [self dfCollapseFloatingSettings];
         return;
     }
-    [self.dismissTarget removeFromSuperview];self.dismissTarget=nil;
+    [self removeDismissTarget];
     [self dfExpandFloatingSettings];
     CGRect b=self.superview.bounds;
     const CGFloat w=fmin(320,MAX(220,b.size.width-12));
