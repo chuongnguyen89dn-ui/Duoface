@@ -13,5 +13,6 @@ FOUNDATION_EXPORT UILabel *DF169MakeBubbleDismissSymbol(void);
 @property(nonatomic,assign) CGRect floatingDragBounds;
 @property(nonatomic,assign) BOOL floatingWindowMode;
 - (void)restoreSavedPosition;
+- (void)refreshVisibility169;
 - (void)stop;
 @end
