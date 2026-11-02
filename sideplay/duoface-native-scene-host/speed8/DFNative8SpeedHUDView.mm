@@ -12,6 +12,7 @@
 #import <objc/message.h>
 #import "DFSpeedTransport.h"
 #import "DFNative8SpeedHUDView.h"
+#import "../DF168NativeManeuver.h"
 #import <math.h>
 #include <string.h>
 
@@ -133,6 +134,21 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
         !self.ownerWindow.screen || self.ownerWindow.screen==UIScreen.mainScreen) {
         self.hidden=YES; return;
     }
+    // QA168: a genuine, fresh CarPlay maneuver may decorate the existing HUD.
+    // No sample means ordinary km/h; NEVER render a guessed arrow or distance.
+    DF168Maneuver maneuver={0};
+    if(DF168ReadManeuver(&maneuver)) {
+        NSString *arrow=@"";
+        switch(maneuver.turn) {
+          case DF168TurnLeft: arrow=@"↰";break;
+          case DF168TurnRight:arrow=@"↱";break;
+          case DF168TurnStraight:arrow=@"↑";break;
+          case DF168TurnUTurn:arrow=@"↶";break;
+          default:break;
+        }
+        self.unit.text=arrow.length?
+          [NSString stringWithFormat:@"%@ %u m",arrow,maneuver.meters]:@"km/h";
+    } else self.unit.text=@"km/h";
     DFSpeedHUDRecord sample={};
     if (!DFSpeedHUDReadBest(&sample)) {
         // A missing/stale GOFA CoreLocation source must stay unknown.
