@@ -16,10 +16,10 @@ class TestQA174(unittest.TestCase):
         cls.build=(ROOT/"build.sh").read_text()
         cls.workflow=(REPO/".github/workflows/duoface-174-audit-fix-signed-private.yml").read_text()
     def test_versions_bumped(self):
-        self.assertIn("0.1.174~auditfix1", self.build)
+        self.assertIn("0.1.175~touchfix1", self.build)
     def test_build_labels_current(self):
-        self.assertIn("build=0.0.174~auditfix1", self.trace)
-        self.assertIn("build=0.0.174~auditfix1", self.probe)
+        self.assertIn("build=0.0.175~touchfix1", self.trace)
+        self.assertIn("build=0.0.175~touchfix1", self.probe)
         self.assertNotIn("build=0.0.90~nativegetters1", self.trace)
         self.assertNotIn("build=0.0.86~nativeowner1", self.probe)
     def test_qa173_contracts_carried(self):
