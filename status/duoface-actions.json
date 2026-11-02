@@ -1,14 +1,38 @@
 {
-  "checked_at_utc": "2026-11-02T06:22:08.366329+00:00",
+  "checked_at_utc": "2026-11-02T17:11:36.365619+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4244,
+  "total_actions_runs": 4273,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
-      "success": 3,
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
+    },
+    "QA175 touch reliability - private rootless signed DuoFace DEB": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 4,
+      "other": 0
+    },
+    "QA174 audit fix - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA173 touch and log reduction - private rootless signed DuoFace DEB": {
+      "recent_runs": 8,
+      "success": 1,
+      "failure": 4,
+      "other": 3
+    },
+    "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB": {
+      "recent_runs": 14,
+      "success": 1,
+      "failure": 4,
+      "other": 9
     },
     "QA171 GOFA runtime diagnostic export - private rootless signed DuoFace DEB": {
       "recent_runs": 3,
@@ -65,360 +89,312 @@
       "other": 4
     },
     "QA166 GOFA traffic/nav original-source evidence gate (no Sileo)": {
-      "recent_runs": 4,
-      "success": 1,
-      "failure": 3,
-      "other": 0
-    },
-    "QA165 GOFA native GPS callback and standalone CarPlay HUD - signed private": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA164 Speed8 bubble window full-content drag and GPS diagnostics - signed private": {
       "recent_runs": 2,
       "success": 1,
       "failure": 1,
-      "other": 0
-    },
-    "QA163 global Speed8 across DuoFace and native CarPlay - signed private": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "QA162 first SOLO owned-scene reference improvement - signed private": {
-      "recent_runs": 6,
-      "success": 2,
-      "failure": 2,
-      "other": 2
-    },
-    "CarPlayPro 0.9.97 exhaustive read-only static audit": {
-      "recent_runs": 4,
-      "success": 2,
-      "failure": 2,
-      "other": 0
-    },
-    "QA161 first SOLO owned-scene reference improvement - signed private": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA160 scoped initial scene speed and native Home state trace - signed private": {
-      "recent_runs": 8,
-      "success": 0,
-      "failure": 1,
-      "other": 7
-    },
-    "QA147 launch mount and ACK scoped regressions": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 41488728755,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 105,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41488728755",
+      "created_at": "2026-11-02T17:11:11Z",
+      "head_sha": "1ac56d441b56286d5b0dc35f6397fbd8da4f0dc4"
+    },
+    {
+      "id": 41468306241,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41468306241",
+      "created_at": "2026-11-02T15:06:23Z",
+      "head_sha": "049e7d9445bc166123545261e75b3db20571efb0"
+    },
+    {
+      "id": 41466313889,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41466313889",
+      "created_at": "2026-11-02T14:53:55Z",
+      "head_sha": "96348f1656c594c6e7a8f775e96f5b78f866fd34"
+    },
+    {
+      "id": 41466060121,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41466060121",
+      "created_at": "2026-11-02T14:52:18Z",
+      "head_sha": "c340c6895371e9127c16579e52bf4e03e17737ce"
+    },
+    {
+      "id": 41465690339,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41465690339",
+      "created_at": "2026-11-02T14:49:58Z",
+      "head_sha": "88240971fac04b95f7276737d031c4d957e6f471"
+    },
+    {
+      "id": 41464572349,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41464572349",
+      "created_at": "2026-11-02T14:42:56Z",
+      "head_sha": "2e1fbcf1863d6f6b08e0b87b23fea0390d11e791"
+    },
+    {
+      "id": 41453745030,
+      "name": "QA174 audit fix - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41453745030",
+      "created_at": "2026-11-02T13:31:42Z",
+      "head_sha": "53c459839a769561e6e6dea4cb0822ab094adbb8"
+    },
+    {
+      "id": 41450574137,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41450574137",
+      "created_at": "2026-11-02T13:09:43Z",
+      "head_sha": "c110caef344788e830657009254c03f055c0556f"
+    },
+    {
+      "id": 41450342395,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41450342395",
+      "created_at": "2026-11-02T13:08:05Z",
+      "head_sha": "3009d626c157449fe1b3c50ae119698b7130ee29"
+    },
+    {
+      "id": 41449343037,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449343037",
+      "created_at": "2026-11-02T13:00:52Z",
+      "head_sha": "11f51a923da19549e8e9898ae347a55fe8702866"
+    },
+    {
+      "id": 41449327974,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449327974",
+      "created_at": "2026-11-02T13:00:46Z",
+      "head_sha": "370102c7572f43842c6b68535bf7bce9c1041d80"
+    },
+    {
+      "id": 41449322504,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449322504",
+      "created_at": "2026-11-02T13:00:43Z",
+      "head_sha": "33507d389f362b90c8e071c3d2a84ccea2668960"
+    },
+    {
+      "id": 41449316536,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449316536",
+      "created_at": "2026-11-02T13:00:41Z",
+      "head_sha": "d652680a750e60d57c604149cd8ee216cead150a"
+    },
+    {
+      "id": 41448974074,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41448974074",
+      "created_at": "2026-11-02T12:58:07Z",
+      "head_sha": "db7d847728bd3dde64c8d470eec3239f3a5d79a3"
+    },
+    {
+      "id": 41447367572,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41447367572",
+      "created_at": "2026-11-02T12:46:03Z",
+      "head_sha": "6680a43c1f10b2219f4b6f8850e09e1665e4a3e4"
+    },
+    {
+      "id": 41442985902,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41442985902",
+      "created_at": "2026-11-02T12:13:54Z",
+      "head_sha": "2af28b1da896c39ca792bc7614c45831f43a22f1"
+    },
+    {
+      "id": 41442425790,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41442425790",
+      "created_at": "2026-11-02T12:09:43Z",
+      "head_sha": "65ca5ca5770348787cb495eb8bd72315d9b6e14d"
+    },
+    {
+      "id": 41442243416,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41442243416",
+      "created_at": "2026-11-02T12:08:21Z",
+      "head_sha": "5f4a78b34e29e2507f3635262ab5ae7348820e26"
+    },
+    {
+      "id": 41441794601,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441794601",
+      "created_at": "2026-11-02T12:04:57Z",
+      "head_sha": "1734511ad17331fb4d4ad8bea98e0f31a4baaea4"
+    },
+    {
+      "id": 41441786851,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441786851",
+      "created_at": "2026-11-02T12:04:53Z",
+      "head_sha": "c0f4ab31de8f41581300154e4605b0bcf8ff7ca9"
+    },
+    {
+      "id": 41441782263,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441782263",
+      "created_at": "2026-11-02T12:04:51Z",
+      "head_sha": "5c79cbc0f08ac70470d6711d58b0a515fe24cbcf"
+    },
+    {
+      "id": 41441777926,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441777926",
+      "created_at": "2026-11-02T12:04:49Z",
+      "head_sha": "1e673bdf33383e7e665532f527fdecc4f81f5aa9"
+    },
+    {
+      "id": 41441774326,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441774326",
+      "created_at": "2026-11-02T12:04:47Z",
+      "head_sha": "05c312f117645ce58beee28ac2a0c4c3db504e1e"
+    },
+    {
+      "id": 41441768582,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441768582",
+      "created_at": "2026-11-02T12:04:44Z",
+      "head_sha": "16ffdcbc18f432926e0de72be240d06ec8c2c1a3"
+    },
+    {
+      "id": 41441763578,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441763578",
+      "created_at": "2026-11-02T12:04:42Z",
+      "head_sha": "dfbb1af739a99960a5384fc557be5ab5f83f787d"
+    },
+    {
+      "id": 41441760333,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441760333",
+      "created_at": "2026-11-02T12:04:41Z",
+      "head_sha": "9a801a6fe9a191f59818f93efb1c675787bf6e28"
+    },
+    {
+      "id": 41441754426,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441754426",
+      "created_at": "2026-11-02T12:04:38Z",
+      "head_sha": "550a2adc4d43f7d0cb99ac3dd6bff1d1f7dca282"
+    },
+    {
+      "id": 41441750285,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441750285",
+      "created_at": "2026-11-02T12:04:36Z",
+      "head_sha": "a584382f4d77db8232d0d1d7d5c89673db5c61c0"
+    },
+    {
+      "id": 41441311452,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441311452",
+      "created_at": "2026-11-02T12:01:12Z",
+      "head_sha": "cade03613e509631b7bf45f1d97015d7884d7337"
+    },
+    {
       "id": 41399445785,
       "name": "DuoFace Actions status snapshot",
       "run_number": 104,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41399445785",
       "created_at": "2026-11-02T06:21:57Z",
       "head_sha": "227a2ad437c9797752fe466a637d150a2a73fc02"
-    },
-    {
-      "id": 41381981210,
-      "name": "QA171 GOFA runtime diagnostic export - private rootless signed DuoFace DEB",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41381981210",
-      "created_at": "2026-11-02T03:14:20Z",
-      "head_sha": "b50dc2974b08d5e06df44aef9fbeaea2c7f0c6b9"
-    },
-    {
-      "id": 41381594291,
-      "name": "QA171 GOFA runtime diagnostic export - private rootless signed DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41381594291",
-      "created_at": "2026-11-02T03:10:16Z",
-      "head_sha": "51ddeccdfbaf9125b3090d6b129006c5bbd1b8eb"
-    },
-    {
-      "id": 41381308076,
-      "name": "QA171 GOFA runtime diagnostic export - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41381308076",
-      "created_at": "2026-11-02T03:07:17Z",
-      "head_sha": "76a278bc0d9767593040274c2aa036bd45d07450"
-    },
-    {
-      "id": 41380310578,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41380310578",
-      "created_at": "2026-11-02T02:55:58Z",
-      "head_sha": "373a3ed073638a7fca4a143efd7aa2659c94c612"
-    },
-    {
-      "id": 41377783058,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41377783058",
-      "created_at": "2026-11-02T02:26:54Z",
-      "head_sha": "457142d5a40788da577bd85310890a1face75bea"
-    },
-    {
-      "id": 41377767576,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41377767576",
-      "created_at": "2026-11-02T02:26:44Z",
-      "head_sha": "e61a808741709344497893b734d7815ed5a0a0a6"
-    },
-    {
-      "id": 41376891575,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41376891575",
-      "created_at": "2026-11-02T02:17:08Z",
-      "head_sha": "b1066de3b674a683b4e0f6083a7cc17a356553fc"
-    },
-    {
-      "id": 41376575443,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41376575443",
-      "created_at": "2026-11-02T02:13:45Z",
-      "head_sha": "8faf5f5f43fd2dd5da575bc04a20759443f66bc4"
-    },
-    {
-      "id": 41376539560,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41376539560",
-      "created_at": "2026-11-02T02:13:21Z",
-      "head_sha": "f36fc9bdbadfbb981facca3d4db4653e060274cb"
-    },
-    {
-      "id": 41376521860,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41376521860",
-      "created_at": "2026-11-02T02:13:08Z",
-      "head_sha": "0f117cc269cfbb18b12e94f5e40a5660c468d9dc"
-    },
-    {
-      "id": 41376302275,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41376302275",
-      "created_at": "2026-11-02T02:10:43Z",
-      "head_sha": "474106b7c8819a793526c73f1403bd932d91e6c1"
-    },
-    {
-      "id": 41376167450,
-      "name": "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41376167450",
-      "created_at": "2026-11-02T02:09:19Z",
-      "head_sha": "89820da4102df6c9a3c234325b2aa708386bd037"
-    },
-    {
-      "id": 41373878406,
-      "name": "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41373878406",
-      "created_at": "2026-11-02T01:42:30Z",
-      "head_sha": "69ac54fa414441da1dd47f0b74141d0ec0f5bf5c"
-    },
-    {
-      "id": 41373488475,
-      "name": "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41373488475",
-      "created_at": "2026-11-02T01:37:56Z",
-      "head_sha": "70c05f7bf83b38a6693d4125f87193d951a2578b"
-    },
-    {
-      "id": 41373483162,
-      "name": "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41373483162",
-      "created_at": "2026-11-02T01:37:53Z",
-      "head_sha": "cac41d87c749d0786b66c56f97dc06c7fdd419cc"
-    },
-    {
-      "id": 41373235080,
-      "name": "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41373235080",
-      "created_at": "2026-11-02T01:35:05Z",
-      "head_sha": "2a874fe23586a045532af7cb5c6bc09f2e09ac48"
-    },
-    {
-      "id": 41373108616,
-      "name": "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41373108616",
-      "created_at": "2026-11-02T01:33:37Z",
-      "head_sha": "8eceea8cb97202f5ca20112569e582039fcce6f1"
-    },
-    {
-      "id": 41373015312,
-      "name": "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41373015312",
-      "created_at": "2026-11-02T01:32:32Z",
-      "head_sha": "2b477745326efde721a106bde8a390079842ee05"
-    },
-    {
-      "id": 41371421901,
-      "name": "QA169 original CarPlayPro DEB-proven native navigation hook - signed private DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41371421901",
-      "created_at": "2026-11-02T01:14:24Z",
-      "head_sha": "2ad8fd6b30a16b930b9b2a55f94b928babd8e8f9"
-    },
-    {
-      "id": 41370792050,
-      "name": "QA169 original CarPlayPro Speed GOFA Swift field literal forensic",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41370792050",
-      "created_at": "2026-11-02T01:07:36Z",
-      "head_sha": "02ed2b10fbf20f254651f4bb9d64848f4b3ca2c2"
-    },
-    {
-      "id": 41370760986,
-      "name": "QA169 original CarPlayPro Speed GOFA Swift field literal forensic",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41370760986",
-      "created_at": "2026-11-02T01:07:16Z",
-      "head_sha": "897b796ee07e07df0ae70e98252243e0fb885073"
-    },
-    {
-      "id": 41370530874,
-      "name": "QA169 original CarPlayPro Speed GOFA Swift field literal forensic",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41370530874",
-      "created_at": "2026-11-02T01:04:42Z",
-      "head_sha": "56447af7a43556d51cab482e82155560508586f5"
-    },
-    {
-      "id": 41370313357,
-      "name": "QA169 original CarPlayPro Speed GOFA Swift field literal forensic",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41370313357",
-      "created_at": "2026-11-02T01:02:10Z",
-      "head_sha": "c00f42dd95868db594151aaf34d6bb336c2196fc"
-    },
-    {
-      "id": 41370148700,
-      "name": "QA169 original CarPlayPro Speed GOFA Swift field literal forensic",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41370148700",
-      "created_at": "2026-11-02T01:00:20Z",
-      "head_sha": "a24fc9e2349a96b6e4af9bdbc2e4f2a58b79053d"
-    },
-    {
-      "id": 41369893982,
-      "name": "QA168 native Apple CarPlay maneuver packet and existing Speed8 HUD - signed private DuoFace DEB",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41369893982",
-      "created_at": "2026-11-02T00:57:14Z",
-      "head_sha": "77f28c075c2ae3fc5263045498e45e4c1713b9b4"
-    },
-    {
-      "id": 41369649175,
-      "name": "QA168 native Apple CarPlay maneuver packet and existing Speed8 HUD - signed private DuoFace DEB",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41369649175",
-      "created_at": "2026-11-02T00:54:23Z",
-      "head_sha": "8049527eb90076efa399877bf0c102ed5380ed55"
-    },
-    {
-      "id": 41369599711,
-      "name": "QA168 native Apple CarPlay maneuver packet and existing Speed8 HUD - signed private DuoFace DEB",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41369599711",
-      "created_at": "2026-11-02T00:53:50Z",
-      "head_sha": "b1db9fd86e7222eb82fee5f61e6bb2db190bbd90"
-    },
-    {
-      "id": 41369258613,
-      "name": "QA168 native Apple CarPlay maneuver packet and existing Speed8 HUD - signed private DuoFace DEB",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41369258613",
-      "created_at": "2026-11-02T00:50:00Z",
-      "head_sha": "bb60c8d1d61564dfaa30e6186ac95c9da0d8f485"
-    },
-    {
-      "id": 41369240101,
-      "name": "QA168 native Apple CarPlay maneuver packet and existing Speed8 HUD - signed private DuoFace DEB",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41369240101",
-      "created_at": "2026-11-02T00:49:47Z",
-      "head_sha": "8109a1362e8e2870c6bfadb04faf1fce429217bf"
     }
   ]
 }
