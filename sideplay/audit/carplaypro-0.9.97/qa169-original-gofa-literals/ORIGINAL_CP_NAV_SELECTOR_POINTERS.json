@@ -1,0 +1,48 @@
+{
+  "original_binary_static": true,
+  "original_CPNav_hook_calls": {
+    "0x2fae4": "0x6b000",
+    "0x2fb00": "0x6b008",
+    "0x2fb20": "0x6b010",
+    "0x2fb40": "0x6b018",
+    "0x2fb60": "0x6b020"
+  },
+  "selectors": [
+    {
+      "selref": "0x6b000",
+      "raw": "0x10000000058dce",
+      "target_cstring_addr": "0x58dce",
+      "selector": "setUpcomingManeuvers:",
+      "original_source": true
+    },
+    {
+      "selref": "0x6b008",
+      "raw": "0x10000000059343",
+      "target_cstring_addr": "0x59343",
+      "selector": "updateTravelEstimates:forManeuver:",
+      "original_source": true
+    },
+    {
+      "selref": "0x6b010",
+      "raw": "0x1000000005720e",
+      "target_cstring_addr": "0x5720e",
+      "selector": "cancelTrip",
+      "original_source": true
+    },
+    {
+      "selref": "0x6b018",
+      "raw": "0x1000000005763b",
+      "target_cstring_addr": "0x5763b",
+      "selector": "finishTrip",
+      "original_source": true
+    },
+    {
+      "selref": "0x6b020",
+      "raw": "0x10000000055cb9",
+      "target_cstring_addr": "0x55cb9",
+      "selector": "pauseTripForReason:description:",
+      "original_source": true
+    }
+  ],
+  "not_live_hardware_test": true
+}
