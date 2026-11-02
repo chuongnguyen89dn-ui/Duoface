@@ -712,7 +712,8 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
                self.speedDismissWindow=xWindow;
                speed.dismissWindow=xWindow;
            }
-           bubble.hidden=!DF169SpeedBubbleEnabled();
+           bubble.hidden=NO;
+           [speed refreshVisibility169];
            DF144Log(@"qa165-standalone-HUD-attached",
                       @"bubble-sized owner spans external content");
          } else DF144Log(@"qa165-standalone-HUD-window-unavailable",
