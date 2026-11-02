@@ -56,16 +56,26 @@
 @end
 
 UILabel *DF169MakeBubbleDismissSymbol(void) {
+    // QA170: a clear UIView surface + an actual circular *shape*, not a
+    // dark UILabel rectangle with cornerRadius but no clipping.
     UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,44,44)];
-    target.backgroundColor=[UIColor colorWithWhite:0.10 alpha:0.72];
-    target.layer.cornerRadius=22;
-    target.layer.borderWidth=1;
-    target.layer.borderColor=[UIColor colorWithWhite:1 alpha:0.32].CGColor;
-    target.font=[UIFont systemFontOfSize:23 weight:UIFontWeightMedium];
+    target.backgroundColor=UIColor.clearColor;
+    target.opaque=NO;
+    target.layer.cornerRadius=22.0;
+    target.layer.masksToBounds=YES;
+    target.clipsToBounds=YES;
+    CAShapeLayer *disc=[CAShapeLayer layer];
+    disc.frame=target.bounds;
+    disc.path=[UIBezierPath bezierPathWithOvalInRect:CGRectInset(target.bounds,2.0,2.0)].CGPath;
+    disc.fillColor=[UIColor colorWithRed:.16 green:.10 blue:.12 alpha:.48].CGColor;
+    disc.strokeColor=[UIColor colorWithRed:.95 green:.25 blue:.30 alpha:.78].CGColor;
+    disc.lineWidth=1.3;
+    [target.layer insertSublayer:disc atIndex:0];
     target.text=@"×";
+    target.font=[UIFont systemFontOfSize:26 weight:UIFontWeightMedium];
     target.textAlignment=NSTextAlignmentCenter;
-    target.textColor=UIColor.whiteColor;
-    target.userInteractionEnabled=NO;  // 44pt visual only; bubble owns the pan.
+    target.textColor=[UIColor colorWithRed:1.0 green:.32 blue:.35 alpha:1.0];
+    target.userInteractionEnabled=NO; // visual only; X hit-test belongs to bubble pan
     return target;
 }
 static CGRect DFAllowedArea(UIView *view);
