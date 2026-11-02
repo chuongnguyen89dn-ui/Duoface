@@ -708,6 +708,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
                xRoot.view.userInteractionEnabled=NO;
                [xRoot.view addSubview:DF169MakeBubbleDismissSymbol()];
                xWindow.rootViewController=xRoot;
+               xWindow.userInteractionEnabled=NO;
                xWindow.hidden=YES;
                self.speedDismissWindow=xWindow;
                speed.dismissWindow=xWindow;
