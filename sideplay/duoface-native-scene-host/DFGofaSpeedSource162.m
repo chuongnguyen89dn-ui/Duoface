@@ -5,12 +5,14 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
 #import "speed8/DFSpeedTransport.h"
+#import "DF165NativeSpeedUptime.h"
 #import <math.h>
 
 @interface DFGofaSpeedSource162 : NSObject <CLLocationManagerDelegate>
 @property(nonatomic,strong) CLLocationManager *manager;
 @property(nonatomic,strong) NSTimer *retryTimer;
 @property(nonatomic,assign) BOOL started;
+@property(nonatomic,assign) NSTimeInterval initializedAt;
 @end
 @implementation DFGofaSpeedSource162
 + (instancetype)shared {
@@ -20,6 +22,7 @@
     return source;
 }
 - (void)start {
+    self.initializedAt=NSProcessInfo.processInfo.systemUptime;
     self.manager=[CLLocationManager new];
     self.manager.delegate=self;
     self.manager.desiredAccuracy=kCLLocationAccuracyNearestTenMeters;
@@ -30,7 +33,7 @@
     [center addObserver:self selector:@selector(applicationActivated:)
                    name:UIApplicationWillEnterForegroundNotification object:nil];
     // Authorization may be granted later from GOFA settings; no permission prompt.
-    self.retryTimer=[NSTimer scheduledTimerWithTimeInterval:10.0
+    self.retryTimer=[NSTimer scheduledTimerWithTimeInterval:4.0
         target:self selector:@selector(checkAuthorization:)
         userInfo:nil repeats:YES];
     [self checkAuthorization:nil];
@@ -57,14 +60,26 @@
     }
     BOOL allowed=(status==kCLAuthorizationStatusAuthorizedAlways ||
                   status==kCLAuthorizationStatusAuthorizedWhenInUse);
-    if(allowed && !self.started) {
+    // QA170: QA169 compiled this entire publisher out. GOFA's native
+    // delegate tap is still preferred, but some Flutter routes have no
+    // observable CLLocation delegate callbacks. A second first-party
+    // CLLocationManager may be used only as a bounded fallback and only
+    // under GOFA's EXISTING authorization. Never request permissions.
+    uint64_t nativeLast=DF165LastNativeGPSPublishUptime();
+    BOOL nativeHealthy=nativeLast>0 && isfinite(now) && now>=nativeLast &&
+                       now-(double)nativeLast<=8.0;
+    BOOL fallbackEligible=isfinite(now) &&
+                          now-self.initializedAt>=10.0 && !nativeHealthy;
+    if(allowed && fallbackEligible && !self.started) {
         [self.manager startUpdatingLocation];
         self.started=YES;
-        NSLog(@"[DuoFaceSpeed8] GOFA GPS publisher started");
-    } else if(!allowed && self.started) {
+        NSLog(@"[DuoFaceSpeed8] QA170 fallback real GOFA GPS started; passiveSampleMissing=%d",
+              nativeLast==0);
+    } else if((!allowed || nativeHealthy) && self.started) {
         [self.manager stopUpdatingLocation];
         self.started=NO;
-        NSLog(@"[DuoFaceSpeed8] GOFA location not authorized");
+        NSLog(@"[DuoFaceSpeed8] QA170 fallback stopped: permission=%d nativeHealthy=%d",
+              allowed,nativeHealthy);
     }
 }
 - (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
@@ -117,11 +132,9 @@
     NSLog(@"[DuoFaceSpeed8] GOFA GPS source unavailable: %@",error.domain);
 }
 @end
-#if !defined(DF165_PASSIVE_GOFA_ONLY)
 __attribute__((constructor)) static void DFStartGOFASpeed162(void) {
     dispatch_async(dispatch_get_main_queue(), ^{
         [[DFGofaSpeedSource162 shared] start];
     });
 }
 
-#endif // DF165_PASSIVE_GOFA_ONLY: listen only to GOFA's existing GPS callbacks.
