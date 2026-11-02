@@ -40,6 +40,22 @@ static int DF172NotifyToken = -1;
 static uint8_t DF172Sequence = 0;
 static NSTimeInterval DF172LastDecode[4] = {0, 0, 0, 0};
 
+// QA175 (T5): all decode work and every shared static above are
+// confined to this one serial queue. The observer blocks used to run
+// on GOFA's posting thread (queue:nil): the throttle table, evidence
+// sequence and notify token raced, and the Swift decoder reflected
+// GOFA's live model objects from that foreign thread. Blocks now copy
+// the userInfo and hop here; handlers below run only on this queue.
+static dispatch_queue_t DF172Queue(void) {
+    static dispatch_queue_t q; static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        q = dispatch_queue_create("com.duoface.gofa.decoder172",
+                                  DISPATCH_QUEUE_SERIAL);
+    });
+    return q;
+}
+static id DF172ObserverTokens[3];
+
 static uint8_t DF172EventId(NSString *name) {
     if ([name isEqualToString:@"notificationNextBoard"]) return 1;
     if ([name isEqualToString:@"notificationOtherBoard"]) return 2;
@@ -81,9 +97,9 @@ static NSString *DF172Fmt(NSNumber *value) {
                  : @"nil";
 }
 
-static void DF172HandleSpeed(NSNotification *note) {
+static void DF172HandleSpeed(NSDictionary *userInfo) {
     NSDictionary *board =
-        [DFGofaDecoder172 decodeSpeedBoardWithUserInfo:note.userInfo];
+        [DFGofaDecoder172 decodeSpeedBoardWithUserInfo:userInfo];
     if (!board) return;
     NSDictionary *diag = board[@"diagnostics"];
     uint8_t kind = (uint8_t)[diag[@"valueKind"] unsignedLongValue];
@@ -100,10 +116,11 @@ static void DF172HandleSpeed(NSNotification *note) {
     DF172PublishEvidence(3, kind, present, rejected);
 }
 
-static void DF172HandleAlerts(NSNotification *note, uint8_t event) {
+static void DF172HandleAlerts(NSString *name, NSDictionary *userInfo,
+                              uint8_t event) {
     NSDictionary *result =
-        [DFGofaDecoder172 decodeAlertPointsWithNotificationName:note.name
-                                                       userInfo:note.userInfo];
+        [DFGofaDecoder172 decodeAlertPointsWithNotificationName:name
+                                                       userInfo:userInfo];
     NSDictionary *diag = result[@"diagnostics"];
     uint8_t kind = (uint8_t)[diag[@"valueKind"] unsignedLongValue];
     NSUInteger accepted = [diag[@"pointsAccepted"] unsignedLongValue];
@@ -125,21 +142,42 @@ static void DF172Install(void) {
         @"notificationNextBoard",
         @"notificationOtherBoard",
     ];
-    for (NSString *name in names) {
-        [center addObserverForName:name
-                            object:nil
-                             queue:nil
-                        usingBlock:^(NSNotification *note) {
-            uint8_t event = DF172EventId(note.name);
-            if (event == 0 || !DF172ShouldDecode(event)) return;
-            if (event == 3)
-                DF172HandleSpeed(note);
-            else
-                DF172HandleAlerts(note, event);
-        }];
+    for (NSUInteger i = 0; i < names.count; i++) {
+        NSString *name = names[i];
+        // QA175 (T5): tokens are kept so the observers have a teardown
+        // path; the block copies the payload and hops to the serial
+        // decode queue instead of running on GOFA's posting thread.
+        DF172ObserverTokens[i] =
+            [center addObserverForName:name
+                                object:nil
+                                 queue:nil
+                            usingBlock:^(NSNotification *note) {
+                NSDictionary *info = [note.userInfo copy];
+                NSString *noteName = note.name;
+                dispatch_async(DF172Queue(), ^{
+                    uint8_t event = DF172EventId(noteName);
+                    if (event == 0 || !DF172ShouldDecode(event)) return;
+                    if (event == 3)
+                        DF172HandleSpeed(info);
+                    else
+                        DF172HandleAlerts(noteName, info, event);
+                });
+            }];
     }
     NSLog(@"[DuoFaceDecoder172] shadow decoder installed in GOFA; "
            "HUD publishing OFF (QA172 G3)");
+}
+
+// QA175 (T5): teardown path for the three block observers (the install
+// is process-lifetime today, but the tokens are no longer discarded).
+__attribute__((unused)) static void DF172RemoveObservers(void) {
+    for (int i = 0; i < 3; i++) {
+        if (DF172ObserverTokens[i]) {
+            [NSNotificationCenter.defaultCenter
+                removeObserver:DF172ObserverTokens[i]];
+            DF172ObserverTokens[i] = nil;
+        }
+    }
 }
 
 __attribute__((constructor)) static void DF172Start(void) {
