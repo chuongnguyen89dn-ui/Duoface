@@ -10,47 +10,6 @@
       "end_exclusive": "0x3e8fc",
       "immediate_literals": [
         {
-          "at": "0x3e3a8",
-          "register": "x24",
-          "ascii_le_escaped": "\\x14\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1400000000000000",
-          "origin": [
-            "0x3e3a8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e3ac",
-          "register": "x24",
-          "ascii_le_escaped": "\\x14\\x00\\x00\\x00\\x00\\x00\\x00\\xd0",
-          "raw_le": "14000000000000d0",
-          "origin": [
-            "0x3e3a8",
-            "0x3e3ac"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e424",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3e424"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e488",
-          "register": "x8",
-          "ascii_le_escaped": "pu\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7075000000000000",
-          "origin": [
-            "0x3e488"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3e48c",
           "register": "x8",
           "ascii_le_escaped": "push\\x00\\x00\\x00\\x00",
@@ -83,16 +42,6 @@
             "0x3e48c",
             "0x3e490",
             "0x3e494"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e498",
-          "register": "x9",
-          "ascii_le_escaped": "dB\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6442000000000000",
-          "origin": [
-            "0x3e498"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -133,46 +82,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3e590",
-          "register": "x2",
-          "ascii_le_escaped": "\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0100000000000000",
-          "origin": [
-            "0x3e590"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e5fc",
-          "register": "x21",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3e5fc"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e63c",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3e63c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e670",
-          "register": "x0",
-          "ascii_le_escaped": "li\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c69000000000000",
-          "origin": [
-            "0x3e670"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3e674",
           "register": "x0",
           "ascii_le_escaped": "limi\\x00\\x00\\x00\\x00",
@@ -192,47 +101,6 @@
             "0x3e670",
             "0x3e674",
             "0x3e678"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e6b8",
-          "register": "x2",
-          "ascii_le_escaped": "\\x14\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1400000000000000",
-          "origin": [
-            "0x3e6b8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e6bc",
-          "register": "x2",
-          "ascii_le_escaped": "\\x14\\x00\\x00\\x00\\x00\\x00\\x00\\xd0",
-          "raw_le": "14000000000000d0",
-          "origin": [
-            "0x3e6b8",
-            "0x3e6bc"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e6c0",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3e6c0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e6e0",
-          "register": "x1",
-          "ascii_le_escaped": "us\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7573000000000000",
-          "origin": [
-            "0x3e6e0"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -273,37 +141,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3e6f0",
-          "register": "x2",
-          "ascii_le_escaped": "d\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6400000000000000",
-          "origin": [
-            "0x3e6f0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e6f4",
-          "register": "x2",
-          "ascii_le_escaped": "d\\x00\\x00\\x00\\x00\\x00\\x00\\xe9",
-          "raw_le": "64000000000000e9",
-          "origin": [
-            "0x3e6f0",
-            "0x3e6f4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e738",
-          "register": "x0",
-          "ascii_le_escaped": "sp\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7370000000000000",
-          "origin": [
-            "0x3e738"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3e73c",
           "register": "x0",
           "ascii_le_escaped": "spee\\x00\\x00\\x00\\x00",
@@ -323,16 +160,6 @@
             "0x3e738",
             "0x3e73c",
             "0x3e740"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e778",
-          "register": "x1",
-          "ascii_le_escaped": "sp\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7370000000000000",
-          "origin": [
-            "0x3e778"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -360,16 +187,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3e7f4",
-          "register": "x0",
-          "ascii_le_escaped": "li\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c69000000000000",
-          "origin": [
-            "0x3e7f4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3e7f8",
           "register": "x0",
           "ascii_le_escaped": "limi\\x00\\x00\\x00\\x00",
@@ -393,16 +210,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3e834",
-          "register": "x1",
-          "ascii_le_escaped": "li\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c69000000000000",
-          "origin": [
-            "0x3e834"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3e838",
           "register": "x1",
           "ascii_le_escaped": "limi\\x00\\x00\\x00\\x00",
@@ -422,16 +229,6 @@
             "0x3e834",
             "0x3e838",
             "0x3e83c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e864",
-          "register": "x1",
-          "ascii_le_escaped": "li\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c69000000000000",
-          "origin": [
-            "0x3e864"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -837,16 +634,6 @@
       "end_exclusive": "0x3f8d4",
       "immediate_literals": [
         {
-          "at": "0x3e970",
-          "register": "x20",
-          "ascii_le_escaped": "Bo\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "426f000000000000",
-          "origin": [
-            "0x3e970"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3e974",
           "register": "x20",
           "ascii_le_escaped": "Boar\\x00\\x00\\x00\\x00",
@@ -879,16 +666,6 @@
             "0x3e974",
             "0x3e978",
             "0x3e97c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3e980",
-          "register": "x27",
-          "ascii_le_escaped": "pu\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7075000000000000",
-          "origin": [
-            "0x3e980"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -929,260 +706,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3e990",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3e990"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ea40",
-          "register": "x24",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1500000000000000",
-          "origin": [
-            "0x3ea40"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ea44",
-          "register": "x24",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\xd0",
-          "raw_le": "15000000000000d0",
-          "origin": [
-            "0x3ea40",
-            "0x3ea44"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ea7c",
-          "register": "x2",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1500000000000000",
-          "origin": [
-            "0x3ea7c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ea80",
-          "register": "x2",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\xd0",
-          "raw_le": "15000000000000d0",
-          "origin": [
-            "0x3ea7c",
-            "0x3ea80"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ea88",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3ea88"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3eacc",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3eacc"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3eae4",
-          "register": "x2",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1500000000000000",
-          "origin": [
-            "0x3eae4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3eae8",
-          "register": "x2",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\xd0",
-          "raw_le": "15000000000000d0",
-          "origin": [
-            "0x3eae4",
-            "0x3eae8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3eaf0",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3eaf0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ec48",
-          "register": "x2",
-          "ascii_le_escaped": "\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0100000000000000",
-          "origin": [
-            "0x3ec48"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ec74",
-          "register": "x24",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1500000000000000",
-          "origin": [
-            "0x3ec74"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ec78",
-          "register": "x24",
-          "ascii_le_escaped": "\\x15\\x00\\x00\\x00\\x00\\x00\\x00\\xd0",
-          "raw_le": "15000000000000d0",
-          "origin": [
-            "0x3ec74",
-            "0x3ec78"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ecf8",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3ecf8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ee34",
-          "register": "x24",
-          "ascii_le_escaped": "id\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6964000000000000",
-          "origin": [
-            "0x3ee34"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3eeb0",
-          "register": "x2",
-          "ascii_le_escaped": "\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0100000000000000",
-          "origin": [
-            "0x3eeb0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3ef04",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3ef04"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3efb4",
-          "register": "x2",
-          "ascii_le_escaped": "id\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6964000000000000",
-          "origin": [
-            "0x3efb4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3efbc",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3efbc"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f084",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3f084"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f0b8",
-          "register": "x4",
-          "ascii_le_escaped": "\\x06\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0600000000000000",
-          "origin": [
-            "0x3f0b8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f130",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3f130"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f15c",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3f15c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f188",
-          "register": "x4",
-          "ascii_le_escaped": "\\x06\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0600000000000000",
-          "origin": [
-            "0x3f188"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f224",
-          "register": "x8",
-          "ascii_le_escaped": "tr\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7472000000000000",
-          "origin": [
-            "0x3f224"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3f228",
           "register": "x8",
           "ascii_le_escaped": "traf\\x00\\x00\\x00\\x00",
@@ -1215,16 +738,6 @@
             "0x3f228",
             "0x3f22c",
             "0x3f230"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f238",
-          "register": "x8",
-          "ascii_le_escaped": "si\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7369000000000000",
-          "origin": [
-            "0x3f238"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -1265,16 +778,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3f250",
-          "register": "x2",
-          "ascii_le_escaped": "tr\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7472000000000000",
-          "origin": [
-            "0x3f250"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3f254",
           "register": "x2",
           "ascii_le_escaped": "traf\\x00\\x00\\x00\\x00",
@@ -1307,16 +810,6 @@
             "0x3f254",
             "0x3f258",
             "0x3f25c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f260",
-          "register": "x3",
-          "ascii_le_escaped": "si\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7369000000000000",
-          "origin": [
-            "0x3f260"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -1357,221 +850,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3f270",
-          "register": "x4",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3f270"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f33c",
-          "register": "x4",
-          "ascii_le_escaped": "\\x06\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0600000000000000",
-          "origin": [
-            "0x3f33c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f358",
-          "register": "x1",
-          "ascii_le_escaped": "la\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c61000000000000",
-          "origin": [
-            "0x3f358"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f35c",
-          "register": "x1",
-          "ascii_le_escaped": "lat\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c61740000000000",
-          "origin": [
-            "0x3f358",
-            "0x3f35c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f390",
-          "register": "x4",
-          "ascii_le_escaped": "\\x06\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0600000000000000",
-          "origin": [
-            "0x3f390"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f3ac",
-          "register": "x1",
-          "ascii_le_escaped": "lo\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c6f000000000000",
-          "origin": [
-            "0x3f3ac"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f3b0",
-          "register": "x1",
-          "ascii_le_escaped": "lon\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c6f6e0000000000",
-          "origin": [
-            "0x3f3ac",
-            "0x3f3b0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f3ec",
-          "register": "x4",
-          "ascii_le_escaped": "\\x06\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0600000000000000",
-          "origin": [
-            "0x3f3ec"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f454",
-          "register": "x8",
-          "ascii_le_escaped": "\\xff\\xff\\xff\\xff\\xff\\xff?C",
-          "raw_le": "ffffffffffff3f43",
-          "origin": [
-            "0x3f454"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f478",
-          "register": "x8",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x88\\x00\\x00",
-          "raw_le": "0000000000880000",
-          "origin": [
-            "0x3f478"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f47c",
-          "register": "x8",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x88\\xc3@",
-          "raw_le": "000000000088c340",
-          "origin": [
-            "0x3f478",
-            "0x3f47c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f49c",
-          "register": "x8",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x80\\x00\\x00",
-          "raw_le": "0000000000800000",
-          "origin": [
-            "0x3f49c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f4a0",
-          "register": "x8",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x80V@",
-          "raw_le": "0000000000805640",
-          "origin": [
-            "0x3f49c",
-            "0x3f4a0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f4b4",
-          "register": "x8",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x80\\x00\\x00",
-          "raw_le": "0000000000800000",
-          "origin": [
-            "0x3f4b4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f4b8",
-          "register": "x8",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x80f@",
-          "raw_le": "0000000000806640",
-          "origin": [
-            "0x3f4b4",
-            "0x3f4b8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f524",
-          "register": "x9",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\x7f",
-          "raw_le": "000000000000f07f",
-          "origin": [
-            "0x3f524"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f574",
-          "register": "x24",
-          "ascii_le_escaped": "id\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6964000000000000",
-          "origin": [
-            "0x3f574"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f5c0",
-          "register": "x24",
-          "ascii_le_escaped": "id\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6964000000000000",
-          "origin": [
-            "0x3f5c0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f5d4",
-          "register": "x1",
-          "ascii_le_escaped": "\\xe0\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "e000000000000000",
-          "origin": [
-            "0x3f5d4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f5d8",
-          "register": "x2",
-          "ascii_le_escaped": "\\x07\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0700000000000000",
-          "origin": [
-            "0x3f5d8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f5f0",
-          "register": "x8",
-          "ascii_le_escaped": "id\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6964000000000000",
-          "origin": [
-            "0x3f5f0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3f5f4",
           "register": "x8",
           "ascii_le_escaped": "iden\\x00\\x00\\x00\\x00",
@@ -1608,16 +886,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3f610",
-          "register": "x9",
-          "ascii_le_escaped": "si\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "7369000000000000",
-          "origin": [
-            "0x3f610"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3f614",
           "register": "x9",
           "ascii_le_escaped": "sign\\x00\\x00\\x00\\x00",
@@ -1625,16 +893,6 @@
           "origin": [
             "0x3f610",
             "0x3f614"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f62c",
-          "register": "x9",
-          "ascii_le_escaped": "la\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c61000000000000",
-          "origin": [
-            "0x3f62c"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         },
@@ -1675,16 +933,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3f648",
-          "register": "x8",
-          "ascii_le_escaped": "lo\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6c6f000000000000",
-          "origin": [
-            "0x3f648"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3f64c",
           "register": "x8",
           "ascii_le_escaped": "long\\x00\\x00\\x00\\x00",
@@ -1721,147 +969,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3f660",
-          "register": "x8",
-          "ascii_le_escaped": "e\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6500000000000000",
-          "origin": [
-            "0x3f660"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f664",
-          "register": "x8",
-          "ascii_le_escaped": "e\\x00\\x00\\x00\\x00\\x00\\x00\\xe9",
-          "raw_le": "65000000000000e9",
-          "origin": [
-            "0x3f660",
-            "0x3f664"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f6c8",
-          "register": "x1",
-          "ascii_le_escaped": "\\x04\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0400000000000000",
-          "origin": [
-            "0x3f6c8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f6d4",
-          "register": "x1",
-          "ascii_le_escaped": " \\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "2000000000000000",
-          "origin": [
-            "0x3f6d4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f6d8",
-          "register": "x2",
-          "ascii_le_escaped": "\\x07\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0700000000000000",
-          "origin": [
-            "0x3f6d8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f6f0",
-          "register": "x24",
-          "ascii_le_escaped": "id\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6964000000000000",
-          "origin": [
-            "0x3f6f0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f770",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3f770"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f774",
-          "register": "x2",
-          "ascii_le_escaped": "\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0100000000000000",
-          "origin": [
-            "0x3f774"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f794",
-          "register": "x2",
-          "ascii_le_escaped": "\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0100000000000000",
-          "origin": [
-            "0x3f794"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f7b4",
-          "register": "x20",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3f7b4"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f7d0",
-          "register": "x1",
-          "ascii_le_escaped": "\\x02\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0200000000000000",
-          "origin": [
-            "0x3f7d0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f800",
-          "register": "x1",
-          "ascii_le_escaped": "\\xa0\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "a000000000000000",
-          "origin": [
-            "0x3f800"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f804",
-          "register": "x2",
-          "ascii_le_escaped": "\\x07\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0700000000000000",
-          "origin": [
-            "0x3f804"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f81c",
-          "register": "x8",
-          "ascii_le_escaped": "gr\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "6772000000000000",
-          "origin": [
-            "0x3f81c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3f820",
           "register": "x8",
           "ascii_le_escaped": "grou\\x00\\x00\\x00\\x00",
@@ -1885,16 +992,6 @@
           "proof": "register_immediate_only_not_runtime_field"
         },
         {
-          "at": "0x3f840",
-          "register": "x8",
-          "ascii_le_escaped": "po\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "706f000000000000",
-          "origin": [
-            "0x3f840"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
           "at": "0x3f844",
           "register": "x8",
           "ascii_le_escaped": "poin\\x00\\x00\\x00\\x00",
@@ -1914,16 +1011,6 @@
             "0x3f840",
             "0x3f844",
             "0x3f848"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3f87c",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3f87c"
           ],
           "proof": "register_immediate_only_not_runtime_field"
         }
@@ -2854,88 +1941,7 @@
     "gofa_speed_callback": {
       "start": "0x3d468",
       "end_exclusive": "0x3d82c",
-      "immediate_literals": [
-        {
-          "at": "0x3d524",
-          "register": "x4",
-          "ascii_le_escaped": "\\x10\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1000000000000000",
-          "origin": [
-            "0x3d524"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3d53c",
-          "register": "x21",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3d53c"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3d5d8",
-          "register": "x2",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3d5d8"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3d5f0",
-          "register": "x23",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3d5f0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3d630",
-          "register": "x28",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3d630"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3d694",
-          "register": "x4",
-          "ascii_le_escaped": "\\x10\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "1000000000000000",
-          "origin": [
-            "0x3d694"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3d6b0",
-          "register": "x0",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3d6b0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        },
-        {
-          "at": "0x3d7a0",
-          "register": "x28",
-          "ascii_le_escaped": "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00",
-          "raw_le": "0000000000000000",
-          "origin": [
-            "0x3d7a0"
-          ],
-          "proof": "register_immediate_only_not_runtime_field"
-        }
-      ],
+      "immediate_literals": [],
       "control_calls": [
         {
           "address": "0x3d4a0",
@@ -3271,5 +2277,39 @@
         }
       ]
     }
-  }
+  },
+  "paired_literal_candidates": [
+    {
+      "text": "pushSpeedBoard",
+      "source_function": "gofa_speed_swift",
+      "first_at": "0x3e494",
+      "second_at": "0x3e4a4",
+      "original_machine_literals": true,
+      "not_verified_GOFA_runtime_schema": true
+    },
+    {
+      "text": "pushNextBoard",
+      "source_function": "gofa_alert_swift",
+      "first_at": "0x3e98c",
+      "second_at": "0x3e97c",
+      "original_machine_literals": true,
+      "not_verified_GOFA_runtime_schema": true
+    },
+    {
+      "text": "traffic_sign_id",
+      "source_function": "gofa_alert_swift",
+      "first_at": "0x3f230",
+      "second_at": "0x3f244",
+      "original_machine_literals": true,
+      "not_verified_GOFA_runtime_schema": true
+    },
+    {
+      "text": "traffic_sign_id",
+      "source_function": "gofa_alert_swift",
+      "first_at": "0x3f25c",
+      "second_at": "0x3f26c",
+      "original_machine_literals": true,
+      "not_verified_GOFA_runtime_schema": true
+    }
+  ]
 }
