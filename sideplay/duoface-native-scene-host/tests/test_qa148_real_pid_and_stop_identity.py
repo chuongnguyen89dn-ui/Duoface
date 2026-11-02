@@ -52,6 +52,7 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
             "aeb6178654eebe3a052e358febcc0b2519c3ac54",
             "d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de",
             "6a3c073f9d7502d588eb441d4ecb6c546c3f09f8",
+            "2686c4531e480831af3db445fe5f3d7e9d7ded5d",
         })
         if digest=="d1a71c03041d0d71f4a4ac6364ee14f84bf7f3de":
             code=HOST.decode("utf-8")
@@ -72,6 +73,19 @@ class ProcessPIDAndNativeStopGuard(unittest.TestCase):
                 "if (!self.scene || observedScene!=self.scene || !hosting || !attached)",
             ):
                 self.assertIn(marker,code)
+        if digest=="2686c4531e480831af3db445fe5f3d7e9d7ded5d":
+            # QA173 (user-scoped, reviewed): DFSceneHost commits remote
+            # geometry in the same layout pass and its log writes are
+            # capped/de-duplicated. Nothing else in the host changed.
+            code=HOST.decode("utf-8")
+            for marker in (
+                "qa173-geometry-commit-immediate",
+                "[self commitSceneGeometry:nil]",
+                "DFLogWriteCapped173",
+                "lastLoggedResizeSize",
+            ):
+                self.assertIn(marker,code)
+            self.assertNotIn("geometryWait",code)
         self.assertIn("DFGofaMapResize141.m",(ROOT/"build.sh").read_text())
         self.assertIn("DFYouTubeOrientationRelay.m",(ROOT/"build.sh").read_text())
 
