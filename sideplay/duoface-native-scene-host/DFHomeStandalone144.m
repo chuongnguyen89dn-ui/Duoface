@@ -16,6 +16,7 @@
 #import <string.h>
 #import "DFHome145Consent.h"
 #import "speed8/DFNative8SpeedHUDView.h"
+#import "DFSpeedVisibility169.h"
 #import "DFEnabledAppsPolicy.h"
 #if defined(DF144_SPRINGBOARD)
 #import "DFSceneHost.h"
@@ -386,6 +387,7 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
 @interface DF144Solo : NSObject <DFAppPickerDelegate>
 @property(nonatomic,strong) UIWindow *window;
 @property(nonatomic,strong) UIWindow *speedWindow;
+@property(nonatomic,strong) UIWindow *speedDismissWindow;
 @property(nonatomic,strong) DFNative8SpeedHUDView *speedHUD;
 @property(nonatomic,strong) UIViewController *root;
 @property(nonatomic,strong) UIView *surface;
@@ -543,6 +545,8 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
  self.emittedHosted=NO;
  self.emittedManager=NO;
  if(self.speedHUD){ [self.speedHUD stop]; [self.speedHUD removeFromSuperview]; }
+ self.speedDismissWindow.hidden=YES;self.speedDismissWindow.rootViewController=nil;
+ self.speedDismissWindow=nil;
  self.speedWindow.hidden=YES;self.speedWindow.rootViewController=nil;
  self.speedHUD=nil;self.speedWindow=nil;
  if(self.window)self.window.hidden=YES; // hide external content before scene invalidate
@@ -688,7 +692,27 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
            speed.frame=(CGRect){CGPointZero,size};
            [speed restoreSavedPosition];
            self.speedWindow=bubble;self.speedHUD=speed;
-           bubble.hidden=NO;
+           // Same 44pt indicator as native CarPlay. No full-screen touch layer.
+           CGRect xFrame=CGRectMake(CGRectGetMidX(content)-22,
+                                      CGRectGetMaxY(content)-53,44,44);
+           UIWindow *xWindow=((id(*)(id,SEL,id))objc_msgSend)(
+                                         [hudClass alloc],winSel,config);
+           if(xWindow && xWindow.screen==bubble.screen){
+               xWindow.frame=xFrame;
+               xWindow.windowLevel=UIWindowLevelNormal+2.6;
+               xWindow.backgroundColor=UIColor.clearColor;xWindow.opaque=NO;
+               UIViewController *xRoot=[UIViewController new];
+               xRoot.view=[[UIView alloc] initWithFrame:
+                                               (CGRect){CGPointZero,xFrame.size}];
+               xRoot.view.backgroundColor=UIColor.clearColor;
+               xRoot.view.userInteractionEnabled=NO;
+               [xRoot.view addSubview:DF169MakeBubbleDismissSymbol()];
+               xWindow.rootViewController=xRoot;
+               xWindow.hidden=YES;
+               self.speedDismissWindow=xWindow;
+               speed.dismissWindow=xWindow;
+           }
+           bubble.hidden=!DF169SpeedBubbleEnabled();
            DF144Log(@"qa165-standalone-HUD-attached",
                       @"bubble-sized owner spans external content");
          } else DF144Log(@"qa165-standalone-HUD-window-unavailable",
