@@ -105,7 +105,11 @@ static void DFCLog(NSString *text) {
     DFLogWriteCapped173(@"/var/mobile/Library/Logs/DuoFaceTouchOwner.log", s);
 }
 // QA173: root-window touch fall-through for DuoFace's own external
-// windows. The pane root view already returns nil when IT is the hit;
+// windows. QA175 (T1): the mark is now applied ONLY to pane (slot)
+// windows at their creation site — divider, splash, picker, style and
+// app-picker windows are never marked, after QA173's version swallowed
+// the divider drag track and leaked sheet taps into the panes below.
+// The pane root view already returns nil when IT is the hit;
 // this adds the same contract at the window level: when a DuoFace
 // window's hit-test resolves to nothing but its root container view,
 // the touch is released (nil) instead of being swallowed by the
@@ -615,10 +619,10 @@ static void DF173InstallWindowPassThrough(void) {
         w.backgroundColor=UIColor.clearColor;w.opaque=NO;
         w.windowLevel=UIWindowLevelNormal+level;
         w.rootViewController=root;
-        // QA173: mark as a DuoFace window for the root touch fall-through.
+        // QA173/QA175: the fall-through swizzle is installed once, but
+        // the per-window mark is set only for pane windows (see the slot
+        // creation in start) — never for divider/splash/picker windows.
         DF173InstallWindowPassThrough();
-        objc_setAssociatedObject(w, kDF173WindowMarkKey, @YES,
-                                 OBJC_ASSOCIATION_RETAIN);
         root.view.frame=CGRectMake(0,0,frame.size.width,frame.size.height);
         w.hidden=YES;
         [self.windows addObject:w];
@@ -1078,6 +1082,9 @@ static void DF173InstallWindowPassThrough(void) {
         // still operated directly on their own dedicated UIKit windows.
         UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];
         if(!slotWindow){[self stop];return NO;}
+        // QA175 (T1): pane windows are the ONLY fall-through carriers.
+        objc_setAssociatedObject(slotWindow, kDF173WindowMarkKey, @YES,
+                                 OBJC_ASSOCIATION_RETAIN);
         UIView *container=[[UIView alloc]initWithFrame:slotRoot.view.bounds];
         container.backgroundColor=UIColor.clearColor;
         container.clipsToBounds=YES;
@@ -1439,6 +1446,38 @@ static void DF173InstallWindowPassThrough(void) {
     self.menuContext.text=@"";self.menuContext.hidden=YES;
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
+// QA175 (T3): the divider windows' visibility is decided in exactly
+// one place. layoutControls calls this on every layout (which covers
+// swap, focus change, picker open/close and startup end, since all of
+// them funnel through layoutControls); a single log line is written
+// only when the outcome changes, naming the conditions blocking the
+// grip. The conditions are the pre-QA175 ones, unchanged: startup,
+// single-slot (primary) / under-3-slots (secondary), focus (a focused
+// pane is expanded, so the two panes are not simultaneously visible),
+// and any open sheet.
+- (void)df175RefreshDividerVisibility:(NSInteger)activeSlots
+                        secondaryRect:(CGRect)second {
+    NSMutableArray<NSString *> *blockers=[NSMutableArray array];
+    if(self.startupActive)[blockers addObject:@"startup"];
+    if(self.focus>=0)[blockers addObject:@"focus"];
+    if(self.pickerVisible)[blockers addObject:@"picker"];
+    if(self.styleVisible)[blockers addObject:@"style"];
+    if(self.appPickerVisible)[blockers addObject:@"appPicker"];
+    BOOL primaryHidden=blockers.count>0||activeSlots==1;
+    if(activeSlots==1)[blockers addObject:@"single-slot"];
+    BOOL secondaryHidden=blockers.count>0||activeSlots<3||CGRectIsNull(second);
+    if(activeSlots<3)[blockers addObject:@"under-3-slots"];
+    if(CGRectIsNull(second))[blockers addObject:@"no-secondary-rect"];
+    BOOL wasPrimary=self.dividerWindow.hidden;
+    BOOL wasSecondary=self.secondaryDividerWindow.hidden;
+    self.dividerWindow.hidden=primaryHidden;
+    self.secondaryDividerWindow.hidden=secondaryHidden;
+    if(primaryHidden!=wasPrimary||secondaryHidden!=wasSecondary)
+        DFCLog([NSString stringWithFormat:
+            @"qa175-divider-visibility primary=%d secondary=%d blockers=%@",
+            !primaryHidden,!secondaryHidden,
+            blockers.count?[blockers componentsJoinedByString:@","]:@"none"]);
+}
 - (void)layoutControls {
     // New user contract: transparent track and grip are independent touch
     // owners of the SAME immediate split-ratio gesture. If a modal/solo transition hides their UIWindow while
@@ -1596,7 +1635,7 @@ static void DF173InstallWindowPassThrough(void) {
     // hides the line/logo. A new pan wakes chrome rather than disabling
     // the only split-ratio input path after the timeout.
     self.dividerWindow.userInteractionEnabled=YES;
-    self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
+    // QA175 (T3): hidden state is assigned by df175RefreshDividerVisibility below.
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
     if(!CGRectIsNull(second)){
         BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
@@ -1611,8 +1650,8 @@ static void DF173InstallWindowPassThrough(void) {
         stroke.frame=vertical?CGRectMake(15,0,2,sf.size.height):
                               CGRectMake(0,15,sf.size.width,2);
     }
-    self.secondaryDividerWindow.hidden=(self.startupActive||activeSlots<3||
-        self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible||CGRectIsNull(second));
+    // QA175 (T3): single visibility decision for both divider windows.
+    [self df175RefreshDividerVisibility:activeSlots secondaryRect:second];
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     self.styleWindow.hidden=(self.startupActive||!self.styleVisible);
     self.appPickerWindow.hidden=(self.startupActive||!self.appPickerVisible);
