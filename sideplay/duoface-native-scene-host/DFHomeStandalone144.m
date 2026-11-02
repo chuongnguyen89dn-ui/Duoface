@@ -17,6 +17,7 @@
 #import "DFHome145Consent.h"
 #import "speed8/DFNative8SpeedHUDView.h"
 #import "DFSpeedVisibility169.h"
+#import "DFSpeedHUDLease176.h"
 #import "DFEnabledAppsPolicy.h"
 #if defined(DF144_SPRINGBOARD)
 #import "DFSceneHost.h"
@@ -837,8 +838,27 @@ static Class DF144OwnedPassThroughWindowClass(Class rootWindowClass) {
 static DF144Solo *DF144Owner;
 static NSString *DF144LastRequest;
 #import "DF153PhoneEviction.h"
+// QA176 H2: DF144-SB sits below Chrome in speed-HUD priority. While
+// Chrome's HUD lease is fresh, hide (never destroy) the standalone
+// speed window; resume when the lease goes stale. Runs before the
+// lease record below is composed, so the record's HUDOwnerVisible
+// already reflects the yielded state. One log line per transition.
+static BOOL DF144HUDYielded176;
+static void DF144ApplyHUDYield176(void) {
+ UIWindow *win=DF144Owner.speedWindow;
+ if(!DF144Owner || !DF144Owner.speedHUD || !win){ DF144HUDYielded176=NO; return; }
+ BOOL chromeFresh=DF176HUDLeaseFresh(DF176HUDLeaseChromePath,@"Chrome");
+ if(chromeFresh && !DF144HUDYielded176){
+   DF144HUDYielded176=YES; win.hidden=YES;
+   DF144Log(@"qa176-hud-owner",@"yield=DF144-SB winner=Chrome");
+ } else if(!chromeFresh && DF144HUDYielded176){
+   DF144HUDYielded176=NO; win.hidden=NO;
+   DF144Log(@"qa176-hud-owner",@"resume=DF144-SB");
+ }
+}
 static void DF144LeaseHeartbeat(void) {
  if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
+ DF144ApplyHUDYield176();
  BOOL usable=NSClassFromString(@"FBSDisplayConfiguration")!=nil &&
              NSClassFromString(@"UIRootSceneWindow")!=nil &&
              NSClassFromString(@"SBAppViewController")!=nil;
