@@ -1,14 +1,20 @@
 {
-  "checked_at_utc": "2026-11-02T17:11:36.365619+00:00",
+  "checked_at_utc": "2026-11-02T23:54:43.444194+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4273,
+  "total_actions_runs": 4275,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 0,
       "other": 1
+    },
+    "QA176 recall HUD kbdiag - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
     },
     "QA175 touch reliability - private rootless signed DuoFace DEB": {
       "recent_runs": 5,
@@ -87,21 +93,35 @@
       "success": 1,
       "failure": 1,
       "other": 4
-    },
-    "QA166 GOFA traffic/nav original-source evidence gate (no Sileo)": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 41548945696,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 106,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41548945696",
+      "created_at": "2026-11-02T23:54:30Z",
+      "head_sha": "ec4b2b37aca6df6f5c498b2f1fa6559fa1ded19b"
+    },
+    {
+      "id": 41543719296,
+      "name": "QA176 recall HUD kbdiag - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41543719296",
+      "created_at": "2026-11-02T23:13:24Z",
+      "head_sha": "e80a4901d4f9c631ffd15164e8f44f64f01872a3"
+    },
+    {
       "id": 41488728755,
       "name": "DuoFace Actions status snapshot",
       "run_number": 105,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41488728755",
       "created_at": "2026-11-02T17:11:11Z",
       "head_sha": "1ac56d441b56286d5b0dc35f6397fbd8da4f0dc4"
@@ -375,26 +395,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441750285",
       "created_at": "2026-11-02T12:04:36Z",
       "head_sha": "a584382f4d77db8232d0d1d7d5c89673db5c61c0"
-    },
-    {
-      "id": 41441311452,
-      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41441311452",
-      "created_at": "2026-11-02T12:01:12Z",
-      "head_sha": "cade03613e509631b7bf45f1d97015d7884d7337"
-    },
-    {
-      "id": 41399445785,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 104,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41399445785",
-      "created_at": "2026-11-02T06:21:57Z",
-      "head_sha": "227a2ad437c9797752fe466a637d150a2a73fc02"
     }
   ]
 }
