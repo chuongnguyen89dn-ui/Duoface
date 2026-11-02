@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import "DFCarPlayOwnerLease.h"
 #import "speed8/DFNative8SpeedHUDView.h"
+#import "DFSpeedVisibility169.h"
 #import <math.h>
 
 static NSString *const DF163SessionPath =
@@ -107,6 +108,7 @@ static NSString *const DF165StandaloneLease =
     (void)timer;
     // Never cover native CarPlay Home when an attested DuoFace pane owner is
     // visible; otherwise the native CarPlay process draws its own HUD.
+    if(!DF169SpeedBubbleEnabled()){ [self detach]; return; }
     if([self duoFaceOwnsExternalChrome]){ [self detach]; return; }
     // A native-Home standalone Safari/other selected app is SpringBoard-owned.
     // Its Speed8 bubble must be attached to that real external UIWindow, not
