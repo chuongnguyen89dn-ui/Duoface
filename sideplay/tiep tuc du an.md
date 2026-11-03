@@ -1,3 +1,7 @@
+## 2026-11-03 19:53 — Nguyen NHẮC cách làm việc: đọc phân tích có sẵn trước, không phân tích lại từ đầu
+
+Nguyên ý: trong lịch sử dự án đã có rất nhiều phân tích sẵn — cứ đọc lại mà dùng, không cần phân tích lại từ đầu; chỉ cái nào chưa có mới tìm deb gốc để phân tích. Đã chuyển thành chỉ đạo cho việc đào lịch sử fix-bó-app đang chạy (trích dẫn phân tích có sẵn cho từng khẳng định; đánh dấu riêng dữ kiện nào phải đọc deb mới) và ghi thành quy tắc làm việc chung trong bộ nhớ.
+
 ## 2026-11-03 19:50 — Nguyen GỢI Ý cách làm phím (chuyển vào QA187 đang build)
 
 Nguyên văn ý của anh: trước đây app trong ô chia cũng bị bó, sau fix được kiểu kéo chừng nào thì theo chừng đó theo tỷ lệ chia — bàn phím cũng làm y như vậy, nhưng CHỈ phần bàn phím, không làm lỗi giao diện đang ổn hiện tại. Diễn giải kỹ thuật đã chuyển cho builder: bề ngang phím lấy từ CÙNG nguồn sự thật mà cơ chế app-theo-ô-chia đang dùng (kích thước lease/host sẵn trong relay) để hai bên đồng bộ theo cấu trúc; thay đổi chỉ là phần cộng thêm trong xử lý phím của relay, TUYỆT ĐỐI không sửa đường hình học app đang ổn (scene commit, lease, resize cửa sổ app). Nếu kéo-chia-trong-lúc-phím-mở không đạt được mà không đụng đường đang ổn / không ép layout, thì giao bản thích nghi tại thời điểm phím hiện và ghi rõ giới hạn đó trong báo cáo — không ép.
