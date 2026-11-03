@@ -22,3 +22,10 @@
 
 ## Step-0 paperwork (parallel, read-only): readback premise — preliminary
 - scene-frame-readback's "actual" is the frame read back from the remote scene's SETTINGS object after the host's commit; "target" is the host's own nativeFrame (pane-derived). DFSceneHost.m contains no 414/mainScreen reference. Preliminary reading: actual {414,736} is produced on the system/app side of the scene-settings transaction, not by the host's commit — leaning toward the UIKit/client clamp hypothesis. Full transaction trace deferred until/unless the geometry branch opens (3 conditions in LOI_HIEN_TAI).
+
+## Publish record (2026-11-03)
+- SILEO_PUBLISHED=true. carplaydsp publisher commit 8bcad63d6cc0cd56546284599c65b9ecdb63ab59; publisher run 41580242887 SUCCESS (all 5 jobs).
+- Public Packages index verified independently: exactly 1 embedded stanza, Version 0.0.180~kbcycle1, Size 1279032.
+- PUBLISHED DEB checksum (downloaded from the Pages repo and hashed): SHA256 37e9bde009f203dc22245dcc76fa73a81bbc7311c35cc193407681cc2b6889ec — byte-identical to the private build artifact of run 41579486857 (37e9bde0...889ec). Retained set 125 -> 126; QA179 file still served for rollback (HTTP 206 range check).
+- R1 safety audit (source-level, pre-publish): the R1/R2 writer DF180WriteSegmentRecord is wrapped in @try/@catch; DF156Init is memset+snprintf on a static struct; DF156Write uses ONLY Darwin notify calls (notify_register_check / notify_set_state / notify_post), every status checked, failure returns 0. There is NO file I/O, no UIKit, no allocation outside a small JSON dictionary anywhere in the path, and payloads are bounded (<=2048 enforced). In a process where notify is unavailable the write degrades to a silent no-op. Residual truth: CI cannot prove behaviour inside real injected processes — only the device test does. This build is NOT described as fixed anywhere before the car verdict.
+- DEVICE_TESTED=false.
