@@ -48,3 +48,9 @@ Cơ chế đã đo dứt điểm ở QA178, không tranh luận lại:
   (DFSceneHost.layoutScene) — không đổi.
 - Decoder GOFA vẫn shadow: HUD tốc độ vẫn lấy GPS.
 - Cấm các chuỗi `setKeyplaneName` / `setKeyboardName` / `setKeyboardWidth` trong relay.
+
+## Cập nhật 03/11 — BƯỚC 0 QA180 (đọc code + đối chiếu log DuoFaceAudit 5, chưa sửa gì)
+
+1. **Maps — vì sao fit lúc được lúc không**: 31/77 lần capture không thấy cửa sổ phím, và đường dự phòng qua UIKeyboardImpl cũng không chạm được đối tượng phím nào (keyplane 0/31). Lúc trượt, trong process app chưa có vật thể bàn phím nào — fit đánh giá quá sớm (2 nhịp 0/+0,3s; 7/11 lần trượt ngay cả ở +0,3s). Hướng: đánh giá fit theo sự kiện UIWindowDidBecomeVisible của cửa sổ Keyboard + thử lại có giới hạn (+0,6/+1,2s, log foundAt).
+2. **Waze — relay im lặng**: constructor của relay app-side có 2 tầng dừng không để lại bản ghi: (a) guard đầu vào, nghi phạm riêng là key NSExtension trong Info.plist (chưa kiểm chứng); (b) DF156Listen thất bại thì chỉ NSLog rồi rút, mất cả observer phím lẫn app-touch. Cần marker bisection 2 điểm trong QA180: R1 đầu constructor (không có = dylib không nạp vào Waze), R2 cuối khối async (guard/listen/đăng ký). Chưa sửa Waze trước khi marker trả lời.
+3. **Hook keyboardScreenReferenceSize** (chỉ UIRemoteKeyboardWindow responds, i1c1; không thuộc danh sách cấm của test): có thể sửa bề ngang tại nguồn nhưng neo chiều cao vẫn cần fit frame — đề xuất để sau 1 vòng đo giá trị gốc, không làm trong QA180 trừ khi Spec quyết khác.
