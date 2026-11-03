@@ -1,3 +1,9 @@
+## 2026-11-03 (trưa) — QA180: VERDICT THIẾT BỊ (export trên main ed20760aa0) → CHỐT NHÁNH B CHO QA181
+
+- Waze: marker relay-alive trả lời dứt điểm — R1 có, R2 guards=ok listen=1 reg=1: dylib nạp thật, mọi guard qua, listener đăng ký xong; vẫn 0 bản ghi pipeline phím (kbdiag/kbfit/cycle) → lỗi nằm ở khâu thông báo/sản xuất sự kiện trong process Waze (QA182 xử lý; QA180 không đổi hành vi Waze — đúng thiết kế).
+- Maps: 3/6 chu kỳ dựng lại được kết thúc applied (đều nhịp đầu, foundAt=0); 3/6 exhausted — cửa sổ phím không hề xuất hiện trong danh sách cửa sổ của process suốt cả thang thử lại (0/0,3/0,6/1,2s + sự kiện hiện cửa sổ), trong khi notification DidShow mang sẵn end frame của phím {414,175}. Kết luận đo được: ở các chu kỳ hỏng, cửa sổ không "đến muộn" — nó không liệt kê được trong process; nới thời gian chờ không giải quyết được. Tỉ lệ đạt 50%, dưới cổng 90% rất xa → NHÁNH B: QA181 hook keyboardScreenReferenceSize sửa tại nguồn (refSize đo được = {414,736} ở các chu kỳ applied), giữ fit frame để neo đáy; Waze sang QA182; hình học pane-native giữ đóng băng.
+- Phiên test ngắn (7 chu kỳ, ~2,5 phút thay vì 20 chu kỳ) nhưng cộng với tỉ lệ trượt 11/28 của QA179 thì biên độ đủ dứt điểm. Chỉ 1/7 tóm tắt qa180-cycle tới được export (mailbox latest-value ghi đè — giới hạn đã lường trước); số liệu chu kỳ dựng lại từ cyc=/try=/foundAt= trên dòng fit. Không crash mới trong phiên.
+
 ## 2026-11-03 — QA180 ĐÃ PUBLISH Sileo (chưa test xe — không gọi là đã sửa)
 
 - Publisher carplaydsp commit 8bcad63d, run 41580242887 SUCCESS đủ 5 job (transform: block QA180 clone từ block QA179 chèn sau block QA179 trước dòng cd repo; retained 125->126 thêm 0.0.180~kbcycle1; mọi pin selected đã lật — đối chiếu đếm: OLDV còn đúng 4 (3 trong block QA179 + 1 retained set), OLDSHA còn đúng 1 (block QA179); pin trần CFBundleVersion trong block mới đã lật 179->180).
