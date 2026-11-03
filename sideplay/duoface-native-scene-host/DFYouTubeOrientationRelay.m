@@ -3,6 +3,8 @@
 #import <UIKit/UIKit.h>
 #import "DFYouTubeHostState.h"
 #import "DFYouTubeOrientationVirtualization.h"
+#define DF177_APP_SIDE_SENDER 1
+#import "DFAppTouch177.h"
 
 // QA175 (T2): relay-side guard, same kill switch as the host side.
 // /var/mobile/Library/Preferences/com.duoface.nativehost.qa175.plist
@@ -370,6 +372,15 @@ __attribute__((constructor)) static void DFYTStart(void) {
             [NSNotificationCenter.defaultCenter addObserver:relay selector:@selector(windowVisible:)
                 name:UISceneDidActivateNotification object:nil];
             [relay request:nil];
+            // QA177 H1: YouTube is NOT in the DF155 pilot scope (it has
+            // this own relay), so the identical app-side touch sender
+            // is installed here: -[UIApplication sendEvent:] original
+            // runs first, the hook only observes Began touches and
+            // signals SpringBoard via the DF156 mailbox. This file's
+            // no-swizzle rule predates the QA177 work order, which
+            // explicitly chose sendEvent: as the observation point;
+            // the hook changes no event behaviour. See DFAppTouch177.h.
+            DF177InstallAppTouchHook(DFYTBundle);
         });
     }
 }
