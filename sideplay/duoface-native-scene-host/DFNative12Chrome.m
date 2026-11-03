@@ -13,6 +13,7 @@
 #import "DFSpeedVisibility169.h"
 #import "DFSpeedHUDLease176.h"
 #import "DFKBDiag176.h"
+#import "DFAppTouch177.h"
 #import "DF156DarwinMailbox.h"
 #import <notify.h>
 #import "DFEnabledAppsPolicy.h"
@@ -297,6 +298,10 @@ static void DF173InstallWindowPassThrough(void) {
 static const NSTimeInterval kDF176ControlsVisibleSeconds = 4.0;
 static const NSTimeInterval kDF176ControlsBorderSeconds = 2.0;
 static const NSTimeInterval kDF176ActivityThrottleSeconds = 0.25;
+// QA177 H2: how long Chrome may hold its HUD up during an exit
+// handover, waiting for the overlay's HUD-visible record (the overlay
+// polls every 1.5s, so 4s covers >2 polls plus slack).
+static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
 
 // Observe activity on our OWN external windows, above the hosted view's
 // hitTest implementation. Never recognize/cancel a competing app gesture.
@@ -356,6 +361,14 @@ static const NSTimeInterval kDF176ActivityThrottleSeconds = 0.25;
 @property(nonatomic,assign) BOOL hudLease176Published;
 @property(nonatomic,assign) int kbDiag176Token;
 @property(nonatomic,assign) NSTimeInterval lastKbDiag176Timestamp;
+@property(nonatomic,assign) int touchWake177Token;
+@property(nonatomic,strong) NSMutableDictionary *touch177Bundles;
+@property(nonatomic,copy) NSString *touch177LastBundle;
+@property(nonatomic,assign) BOOL hudHandover177Active;
+@property(nonatomic,assign) NSTimeInterval hudHandover177Deadline;
+@property(nonatomic,strong) NSTimer *hudHandover177Timer;
+@property(nonatomic,strong) UIWindow *handover177Window;
+@property(nonatomic,strong) DFNative8SpeedHUDView *handover177HUD;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
@@ -739,6 +752,24 @@ static const NSTimeInterval kDF176ActivityThrottleSeconds = 0.25;
             (void)t; [weakKB df176LogKeyboardContext];
         })==NOTIFY_STATUS_OK) self.kbDiag176Token=kbToken;
     }
+    // QA177 H1 (SpringBoard side): the app-side relays report Began
+    // touches through a DF156 mailbox + this wake (the QA176 touch
+    // notification source proved dead on device — see DFAppTouch177.h).
+    // A signal means "the user touched the hosted app": recall the
+    // controls through the same noteUserActivity path as every other
+    // activity source. Kill switch: AppTouchRecall177 in the qa177
+    // prefs plist (absent = ON), read live on every wake.
+    if(DF177AppTouchEnabled() && !self.touchWake177Token){
+        __weak typeof(self) weakTouch=self;
+        int touchToken=0;
+        if(notify_register_dispatch(DF177TouchWakeName,&touchToken,
+               dispatch_get_main_queue(),^(int t){
+            (void)t; [weakTouch df177HandleAppTouch];
+        })==NOTIFY_STATUS_OK) self.touchWake177Token=touchToken;
+    }
+    // QA177 H2: a reconnect supersedes any exit handover still holding
+    // the old speed window up.
+    if(self.hudHandover177Active)[self df177FinishHUDHandover:@"superseded"];
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
        CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
@@ -1374,12 +1405,102 @@ static const NSTimeInterval kDF176ActivityThrottleSeconds = 0.25;
     NSString *screen=@"?";
     UIWindow *any=self.appSceneWindows.firstObject;
     if(any && any.screen)screen=NSStringFromCGRect(any.screen.bounds);
+    // QA177 H3: host view facts for the same bundle — its frame is the
+    // scene's logical size, its transform is the pane scale; together
+    // with kbLevel/sceneBounds from the app side, one block now shows
+    // scene size vs presented size vs keyboard size.
+    NSString *hostFacts=@"?";
+    NSString *kbBundle=rec[@"bundle"];
+    if([kbBundle isKindOfClass:NSString.class]){
+        UIView *hv=[DFSceneHost.sharedHost hostViewForBundleID:kbBundle error:nil];
+        if(hv){
+            CGAffineTransform t=hv.transform;
+            hostFacts=[NSString stringWithFormat:
+                @"hostF=%@ hostB=%@ hostT=%.3f,%.3f,%.3f surfB=%@",
+                NSStringFromCGRect(hv.frame),NSStringFromCGRect(hv.bounds),
+                t.a,t.b,t.d,
+                hv.superview?NSStringFromCGRect(hv.superview.bounds):@"?"];
+        }
+    }
     DFCLog([NSString stringWithFormat:
-        @"qa176-kbdiag bundle=%@ kbClass=%@ kbFrame=%@ kbScreen=%@ keyplane=%@ inputMode=%@ lang=%@ hwKB=%@/%@ notif=%@ end=%@ appFrame=%@ | slots=%@ content=%@ extScreen=%@",
+        @"qa176-kbdiag bundle=%@ kbClass=%@ kbFrame=%@ kbScreen=%@ keyplane=%@ inputMode=%@ lang=%@ hwKB=%@/%@ notif=%@ end=%@ appFrame=%@ kbLevel=%@ scene=%@ | slots=%@ content=%@ extScreen=%@ | %@",
         rec[@"bundle"],rec[@"kbClass"],rec[@"kbFrame"],rec[@"kbScreenBounds"],
         rec[@"keyplane"],rec[@"inputMode"],rec[@"inputModeLang"],
         rec[@"hwGSEvent"],rec[@"hwBKS"],rec[@"notifName"],rec[@"notifEnd"],
-        rec[@"appFrame"],slots,NSStringFromCGRect(self.contentRect),screen]);
+        rec[@"appFrame"],rec[@"kbLevel"]?:@"?",rec[@"sceneBounds"]?:@"?",
+        slots,NSStringFromCGRect(self.contentRect),screen,hostFacts]);
+}
+// QA177 H1: one app-side touch signal arrived. The mailbox holds the
+// cumulative count, so the qa177-app-touch line is materialized here
+// (only SpringBoard file logs reach the exporter): at most one line
+// per bundle per 5s, plus one whenever the bundle changes. The recall
+// itself goes through noteUserActivity (QA175 T3 single path + QA176
+// throttle); qa177-recall is logged only on a hidden->visible change.
+- (void)df177HandleAppTouch {
+    if(!DF177AppTouchEnabled())return;
+    static DF156Mailbox touchBox;
+    static BOOL touchBoxReady=NO;
+    if(!touchBoxReady){ DF156Init(&touchBox,DF177TouchMailboxName); touchBoxReady=YES; }
+    uint8_t bytes[DF156_MAX_BYTES];
+    size_t size=DF156Read(&touchBox,bytes);
+    if(!size)return;
+    id parsed=[NSJSONSerialization JSONObjectWithData:
+        [NSData dataWithBytes:bytes length:size] options:0 error:nil];
+    if(![parsed isKindOfClass:NSDictionary.class])return;
+    NSString *bundle=parsed[@"bundle"];
+    if(![bundle isKindOfClass:NSString.class] || !bundle.length)return;
+    uint64_t count=[parsed[@"count"] unsignedLongLongValue];
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(!self.touch177Bundles)self.touch177Bundles=[NSMutableDictionary dictionary];
+    BOOL bundleChanged=![bundle isEqualToString:self.touch177LastBundle];
+    self.touch177LastBundle=bundle;
+    NSTimeInterval lastLog=[self.touch177Bundles[bundle][@"lastLog"] doubleValue];
+    if(bundleChanged || now-lastLog>=5.0){
+        DFCLog([NSString stringWithFormat:
+            @"qa177-app-touch bundle=%@ count=%llu",
+            bundle,(unsigned long long)count]);
+        lastLog=now;
+    }
+    self.touch177Bundles[bundle]=@{@"count":@(count),@"lastLog":@(lastLog)};
+    BOOL wasVisible=now<self.controlsUntil;
+    [self noteUserActivity];
+    if(!wasVisible)
+        DFCLog([NSString stringWithFormat:
+            @"qa177-recall source=app-touch bundle=%@",bundle]);
+}
+// QA177 H2: exit handover. While active, the retiring lease is kept
+// fresh by the tick below and the stashed speed window stays visible;
+// the overlay attaches against the Retiring flag and announces itself
+// in its own record, which is what the tick waits for.
+- (void)df177HUDHandoverTick {
+    if(!self.hudHandover177Active)return;
+    if(DF177OverlayVisibleFresh(2.0)){
+        [self df177FinishHUDHandover:@"overlay-visible"]; return;
+    }
+    if(NSDate.date.timeIntervalSince1970>=self.hudHandover177Deadline){
+        [self df177FinishHUDHandover:@"timeout"]; return;
+    }
+    DF176HUDLeasePublishChrome(YES,YES);
+}
+- (void)df177FinishHUDHandover:(NSString *)how {
+    if(!self.hudHandover177Active)return;
+    self.hudHandover177Active=NO;
+    [self.hudHandover177Timer invalidate];
+    self.hudHandover177Timer=nil;
+    NSTimeInterval waited=kDF177HUDHandoverMaxSeconds-
+        (self.hudHandover177Deadline-NSDate.date.timeIntervalSince1970);
+    if(waited<0)waited=0;
+    if(waited>kDF177HUDHandoverMaxSeconds)waited=kDF177HUDHandoverMaxSeconds;
+    [self.handover177HUD removeFromSuperview];
+    self.handover177Window.hidden=YES;
+    self.handover177Window=nil;
+    self.handover177HUD=nil;
+    if(self.hudLease176Published){
+        DF176HUDLeaseRetract(DF176HUDLeaseChromePath);
+        self.hudLease176Published=NO;
+    }
+    DFCLog([NSString stringWithFormat:
+        @"qa177-hud-handover done=%@ waited=%.2fs",how?:@"?",waited]);
 }
 - (void)realAppTouched:(NSNotification *)note {
     if(![note.object isKindOfClass:UIView.class] ||
@@ -2605,21 +2726,51 @@ static const NSTimeInterval kDF176ActivityThrottleSeconds = 0.25;
     // scene invalidation can be slow for media apps, and must never leave
     // divider/menu controls drawn over CarPlay Home during that delay.
     [self.dividerLogo.layer removeAnimationForKey:@"dfNative12GripPulse"];
+    // QA177 H2: exit handover. If the speed HUD is up (a published
+    // lease means it is), do not hide its window with the rest: stash
+    // it out of the window list, mark the lease Retiring and hold the
+    // HUD visible until the CarPlay-process overlay announces its own
+    // HUD (max kDF177HUDHandoverMaxSeconds), so the exit no longer
+    // blinks through a no-HUD gap. Everything else in this stop runs
+    // exactly as before; the stashed strong refs keep the view/window
+    // alive past the teardown assignments below.
+    if(self.hudLease176Published && self.speedHUDWindow &&
+       !self.speedHUDWindow.hidden && self.gofaSpeedHUD){
+        self.hudHandover177Active=YES;
+        self.handover177Window=self.speedHUDWindow;
+        self.handover177HUD=self.gofaSpeedHUD;
+        [self.windows removeObject:self.speedHUDWindow];
+        self.hudHandover177Deadline=NSDate.date.timeIntervalSince1970+
+            kDF177HUDHandoverMaxSeconds;
+        DF176HUDLeasePublishChrome(YES,YES);
+        self.hudHandover177Timer=[NSTimer scheduledTimerWithTimeInterval:0.25
+            target:self selector:@selector(df177HUDHandoverTick)
+            userInfo:nil repeats:YES];
+        DFCLog(@"qa177-hud-handover start max=4.0s");
+    }
     [self hideAllExternalWindowsImmediately];
     self.speedDismissWindow.hidden=YES;
     self.speedDismissWindow.rootViewController=nil;
-    [self.gofaSpeedHUD removeFromSuperview];
-    self.gofaSpeedHUD.dismissWindow=nil;
-    self.gofaSpeedHUD.ownerWindow=nil;
+    // QA177: during a handover the HUD view stays mounted in the
+    // stashed window until the finish path removes it.
+    if(!self.hudHandover177Active){
+        [self.gofaSpeedHUD removeFromSuperview];
+        self.gofaSpeedHUD.dismissWindow=nil;
+        self.gofaSpeedHUD.ownerWindow=nil;
+    }
     self.gofaSpeedHUD=nil;
     // QA176: stop the HUD lease heartbeat, retract the lease so lower
     // presenters may take over, and drop the keyboard-diagnostics wake.
+    // QA177: with a handover active the lease stays published (marked
+    // Retiring, refreshed by the handover tick) until the overlay has
+    // its HUD up or the hold expires; the finish path retracts it.
     self.hudLease176Generation++;
-    if(self.hudLease176Published){
+    if(!self.hudHandover177Active && self.hudLease176Published){
         DF176HUDLeaseRetract(DF176HUDLeaseChromePath);
         self.hudLease176Published=NO;
     }
     if(self.kbDiag176Token){ notify_cancel(self.kbDiag176Token); self.kbDiag176Token=0; }
+    if(self.touchWake177Token){ notify_cancel(self.touchWake177Token); self.touchWake177Token=0; }
     self.speedHUDWindow=nil;
     self.speedDismissWindow=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
