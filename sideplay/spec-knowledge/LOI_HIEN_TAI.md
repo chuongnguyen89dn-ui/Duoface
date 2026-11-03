@@ -87,3 +87,10 @@
 - Maps: 8 chu kỳ pane ngang; fit tầng 2 chạy đủ, chuỗi deep tới UIKBInputBackdropView đều bằng bề ngang cửa sổ (12/12); (d) không kích hoạt (không lệch ở tầng backdrop). Còn dở: khoảnh khắc mở đầu hàng phím vẫn chưa đều (ảnh Nguyen), chạm thì đều + gõ được; chuỗi deep dừng ở backdrop nên hàng phím thật chưa đo trực tiếp; pane dọc chưa có dữ liệu. Chi tiết: BAO_CAO_VERDICT_QA184.md cùng thư mục này.
 - Waze: phím sống lần đầu (16 kbdiag, R3 hook bắn, hw=0) nhưng cửa sổ phím vô hình với capture (kbClass=none) — không cần fit theo ảnh.
 - App khác không hiện phím: trong phiên không app nào khác thử bật phím; phím là của iOS, điều kiện là ô nhập nhận focus.
+
+
+## QA185 ĐÃ PUBLISH (03/11) — vòng hình học theo lệnh trực tiếp của Nguyen (thông báo cho Spec)
+
+- Bản đứng mới: **0.0.185~destsize1 ĐÃ PUBLISH Sileo** (publisher 94aab60e, run 41617977680 SUCCESS 5/5; index 1 stanza SHA 3cf5aeb9… Size 1295088, retained 132). DEVICE_TESTED=false.
+- Nội dung: đổi hợp đồng hình học sang RENDER THEO KÍCH THƯỚC ĐÍCH (scene = pane, scale 1.0) trong DFHostedMapRenderSize.h, sau cờ DestSize185 (vắng = bật; =0 khôi phục ×2/0.5). DFSceneHost.m không đổi byte nào. Fallback kbdiag của Chrome thêm tiêu chí khớp kích thước (fallback185).
+- Ghi rõ để Spec nắm: đây là quyết định của chủ dự án, thay cho (a) trạng thái đóng băng của render-size và (b) tuyên bố QA184 là vòng phím cuối trong phán quyết QA184 của Spec — QA185 là vòng HÌNH HỌC, không phải vòng vá phím. Bước 0 QA185 (bản đồ nơi tiêu thụ hợp đồng ×2, kiểm chứng từng dòng) nằm trong STATUS_QA185 trên nhánh feature/duoface-qa185-destsize-20261103. Verdict QA184 (Audit 8) vẫn chờ Spec phán như cũ; kết quả xe của QA185 sẽ cho biết hợp đồng mới có khép luôn vết phím mở đầu hay không.
