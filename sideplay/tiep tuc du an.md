@@ -1,3 +1,9 @@
+## 2026-11-03 — Nguyen hỏi vì sao không làm theo deb gốc; chốt lại gốc rễ kiến trúc + ngã rẽ
+
+- DuoNavi gốc không gặp bài toán bàn phím này vì khác gốc ở 2 điểm (đã đo ở đối chiếu QA178): (1) app được host TỰ layout theo kích thước đích — portal mirroring + viết lại scene settings frame (updateSceneSettingsFrame) + renderSize theo bundle; ta thì giữ scene logical 414x736 rồi nén bằng transform, nên cửa sổ phím lấy kích thước từ màn điện thoại là triệu chứng của hợp đồng hình học của ta. (2) Kể cả có hình học đúng, bản gốc vẫn có lớp [DuoFaceKB] riêng trong process app (5 nhóm can thiệp) — hosting CarPlay phá giả định bàn phím ở mọi kiến trúc.
+- Ba lý do ta đi đường vòng đo từng bước: (a) không có code của họ — chỉ có strings/tên hàm đọc tĩnh, "làm theo" vẫn là tự viết lại từ manh mối hành vi; (b) ranh giới clean-room đã chốt từ đầu dự án (không copy/port kiến trúc nội bộ); (c) DFSceneHost + hợp đồng logical+scale bị ĐÓNG BĂNG trong mọi WO QA176-180 — hướng đổi hợp đồng hình học đã đặt lên bàn từ QA178, mỗi vòng đều chọn bước nhỏ an toàn.
+- Ngã rẽ trình Nguyen: giữ QA180 (bước nhỏ, rủi ro thấp; marker Waze + bắt sự kiện cần dù đi hướng nào) đồng thời chốt hướng gốc cho QA181 (bỏ đóng băng, cho app layout theo kích thước đích — rủi ro cao nhất dự án, cần vòng riêng có đường lùi), hoặc tiếp tục vá tăng dần. Chờ Nguyen quyết.
+
 ## 2026-11-03 — NHẬN XÉT WORK ORDER QA180 v2 (Muse): đồng ý, 2 đính chính + trả lời 2 dữ kiện mở
 
 - **A.5 — định nghĩa đếm (trả lời Spec)**: "capture" = 1 bản ghi kbdiag bất kỳ (WillShow + DidShow + nhịp trễ, đã qua rate gate) — phiên QA179 có 77, toàn bộ Maps. "Đánh giá" = 1 lần fit chạy trong capture DidShow (tức thì hoặc trễ): 28 dòng qa179-kbfit = 25 lần đánh giá (applied 5, already-fit 9, no-kb-window 11) + 3 bản ghi restore ngoài chu kỳ (did-hide 2, not-hosted 1). Nghiệm thu QA180 đếm theo kết quả cuối mỗi chu kỳ như WO.
