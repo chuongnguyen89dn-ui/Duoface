@@ -1,7 +1,7 @@
 # TRÌNH BÀY LỖI HIỆN TẠI — gửi Claude Spec (cập nhật 03/11/2026)
 
 ## Trạng thái đứng
-- Bản DuoFace đang trên Sileo: **0.0.179~kbfit1**, đã publish và ĐÃ TEST TRÊN XE
+- Bản DuoFace đang trên Sileo: **0.0.180~kbcycle1**, đã publish và ĐÃ TEST TRÊN XE
   (iPhone X, palera1n rootless, iOS 16.7.16). Nhánh làm việc hiện tại có đầu
   `1b147c89`; nhánh `spec-main` (nhánh bạn đang đọc) trỏ đúng đầu này.
 - Cấu trúc deb gốc làm tham chiếu: file `CAU_TRUC_DEB_GOC.md` cùng thư mục này.
@@ -61,3 +61,9 @@ Cơ chế đã đo dứt điểm ở QA178, không tranh luận lại:
 - CHỐT: hình học KHÔNG sửa được bàn phím (cửa sổ phím lấy kích thước từ UIScreen.mainScreen; bản gốc có renderSize vẫn cần lớp KB riêng). Phím đi đường fit/hook ở cả hai hướng. Ngoài phím, chưa có triệu chứng scale nào được ĐO — không mở đóng băng khi chưa có triệu chứng đã đo.
 - QA181 quyết theo verdict QA180: Nhánh A — Maps đạt >=90% chu kỳ và phím không cụt: QA181 = sửa Waze theo kết quả R1/R2. Nhánh B — Maps dưới 90% hoặc cửa sổ phím xuất hiện muộn hơn 1,2s: QA181 = hook keyboardScreenReferenceSize (sửa bề ngang tại nguồn, dùng giá trị gốc từ D-B của QA180) + fit neo chiều cao; Waze sang QA182. Hình học pane-native chỉ mở khi đủ 3 điều kiện: Nguyen duyệt mở đóng băng + có triệu chứng đã đo + Bước 0 làm rõ premise readback và mọi chỗ phụ thuộc hệ số 2/0,5.
 - D-B đã chốt gộp vào QA180 với 3 điều kiện: chỉ đọc (respondsToSelector + try/catch); không tính vào tiêu chí đạt của fit; ghi giá trị gốc TRƯỚC fit và SAU fit ở +0,3s, kèm bundle + kích thước key window.
+
+## CẬP NHẬT 03/11/2026 (trưa) — QA180 ĐÃ TEST MÁY → QA181 ĐI NHÁNH B
+- Bản đứng: 0.0.180~kbcycle1 (đã publish Sileo, DEVICE_TESTED=true, export main ed20760aa0).
+- Waze: relay-alive chứng minh dylib nạp + guard qua + listener đăng ký (R2 guards=ok listen=1 reg=1) nhưng pipeline phím vẫn im lặng → vấn đề ở khâu thông báo/sản xuất sự kiện trong process Waze; xử lý ở QA182.
+- Maps: chu kỳ fit đạt 3/6 (50%, dưới cổng 90%): ở chu kỳ hỏng, cửa sổ phím không xuất hiện trong danh sách cửa sổ của process ở mọi nhịp thử lại (0/0,3/0,6/1,2s + sự kiện hiện cửa sổ) dù notification mang sẵn end frame phím — không phải đến muộn. refSize đo được = {414, 736}.
+- QA181 (chưa có work order): hook keyboardScreenReferenceSize trên UIRemoteKeyboardWindow để sửa kích thước tham chiếu tại nguồn + giữ fit frame neo đáy. Hình học pane-native: tiếp tục đóng băng (chưa đủ 3 điều kiện mở băng).
