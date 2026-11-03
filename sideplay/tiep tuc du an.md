@@ -1,3 +1,10 @@
+## 2026-11-03 — QA179 PUBLISHED lên Sileo (0.0.179~kbfit1), đã kiểm chứng độc lập
+
+- Nguyen duyệt publish 08:56. Publisher carplaydsp: commit chọn bản `0d4cfc46840f` (retained 124->125, giữ QA178 rollback). Ba run đầu fail ở step 22 vì hai lỗi của chính transform: (1) block QA179 bị chèn vào giữa comment của section prune (ranh giới chèn chọn theo chuỗi comment bị trùng) nên nằm sau lần scanpackages đầu; (2) sót pin trần `CFBundleVersion=='178'` trong verify của block clone — loại pin số trần mà phép đếm version/SHA không thấy. Đã sửa: commit `c3e46572877e` (dời block về cạnh block QA178, trước `cd repo`) và `14d6323a44c9` (pin 178->179). Run `41564754006` SUCCESS đủ 5 job (query trực tiếp).
+- Kiểm chứng độc lập: index công khai đúng 1 stanza 0.0.179~kbfit1, Size 1277328, SHA256 9e83b36c…22a6; tải chính DEB đã publish về hash lại — trùng byte với artifact của run build riêng tư 41562273711. DEB QA178 (0.0.178~kbhud1) vẫn tải được (HTTP 206) để hạ cấp. Test CI trong run 41562273711 (đọc từ job log): qa154 4/4, qa155 4/4, qa176 7/7, qa177 12/12, qa178 10/10, qa179 9/9, integrated144 4/4 — tổng 36 module test.
+- Cảnh báo quy trình: trong phiên publish này output poll nền bịa kết quả BA lần (run 41561078001, 41563697831, 41564415560 — query trực tiếp đều 404). Mọi kết luận đều dựa trên query foreground.
+- SILEO_PUBLISHED=true, DEVICE_TESTED=false. Test máy nợ: checklist 5 bước của WO (Waze full/pane, Maps pane, kéo divider, kiểm tra ngoài DuoFace).
+
 ## 2026-11-03 — QA179 BUILT 0.0.179~kbfit1 (keyboard fit, not yet published, not device tested)
 
 - Theo work order QA179: H1 lớp "keyboard fit" tối thiểu trong relay DF154, chỉ Maps + Waze — tại DidShow (và lần chụp trễ 0,3s) khi đủ guard (cờ KeyboardFit179 mặc định BẬT trong plist qa176, app đang bị host/resize, tìm được cửa sổ bàn phím + key window) thì đặt frame cửa sổ bàn phím = frame key window; khôi phục ở DidHide / khi hết host / khi tắt cờ; lưu frame gốc lần đầu. Chuỗi cấm (setKeyplaneName/setKeyboardName/setKeyboardWidth) xác minh vắng mặt trong relay (đếm 0), không sửa hai test QA176/QA177, không hook keyplane/input mode/hwKB, không đụng DFSceneHost.m/DFHostedMapRenderSize.h/HUD.
