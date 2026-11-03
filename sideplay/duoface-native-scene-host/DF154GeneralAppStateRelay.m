@@ -92,6 +92,109 @@ static void DF179WriteFitRecord(NSString *bundle, NSString *fitSeg) {
    generation?:1))
   notify_post(DF176KBDiagWakeName);
 }
+// QA180: standalone record writers for the relay-alive markers (C)
+// and the fit-cycle summaries (B). Same proven pattern as
+// DF179WriteFitRecord: direct DF156Init on the kbdiag mailbox, so
+// the markers do NOT depend on DF156Listen or the pilot channel.
+static DF156Mailbox gDF180Box;
+static BOOL gDF180BoxReady=NO;
+static void DF180WriteSegmentRecord(NSString *bundle, NSString *notifName,
+    NSString *key, NSString *seg) {
+ @try {
+  if(!gDF180BoxReady){ DF156Init(&gDF180Box,DF176KBDiagMailboxName);
+   gDF180BoxReady=YES; }
+  NSDictionary *rec=@{@"version":@1,@"bundle":bundle?:@"?",
+   @"ts":@(NSDate.date.timeIntervalSince1970),
+   @"notifName":notifName?:@"?",key:seg?:@""};
+  NSData *bytes=[NSJSONSerialization dataWithJSONObject:rec
+    options:0 error:nil];
+  uint64_t generation=0;arc4random_buf(&generation,sizeof(generation));
+  if(bytes && DF156Write(&gDF180Box,bytes.bytes,bytes.length,
+    generation?:1))
+   notify_post(DF176KBDiagWakeName);
+ } @catch(__unused NSException *e) {}
+}
+static void DF180WriteAliveRecord(NSString *bundle, NSString *seg) {
+ DF180WriteSegmentRecord(bundle,@"DF180Alive",@"alive180",seg);
+}
+// QA180 B: the keyboard-fit CYCLE. QA179 evaluated the fit at two
+// fixed beats (DidShow, +0.3s); QA179's device export showed the
+// keyboard window often does not exist in-process yet at either
+// beat (11/28 evaluations no-kb-window). A cycle opens at each
+// accepted DidShow (fit scope only), evaluates at 0/+0.3/+0.6/+1.2s
+// and immediately when a Keyboard-class window becomes visible,
+// and closes on a terminal outcome, on exhaustion, or on DidHide.
+// Flag KeyboardCycle180 in the qa176 plist, read fresh from file
+// on every check (DF176KBDiag pattern); absent = ON. Flag OFF =
+// exactly the QA179 two-beat behaviour.
+static BOOL DF180KeyboardCycleEnabled(void) {
+ NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:
+   DF176KBDiagPrefsPath];
+ id v=[p isKindOfClass:NSDictionary.class]?p[@"KeyboardCycle180"]:nil;
+ return v?[v boolValue]:YES;
+}
+static uint64_t gDF180CycleID=0;
+static NSTimeInterval gDF180CycleStart=0;
+static int gDF180CycleTries=0;
+static BOOL gDF180CycleOpen=NO;
+static BOOL gDF180CycleFound=NO;
+static double gDF180CycleFoundAtMs=-1;
+static NSNotification *gDF180CycleNote=nil;
+static id gDF180CycleObserver=nil;
+static int gDF180Checkpoint=-1;
+static void DF180CycleFinish(NSString *bundle, NSString *outcome,
+    NSString *reason) {
+ if(!gDF180CycleOpen)return;
+ gDF180CycleOpen=NO;
+ if(gDF180CycleObserver){
+  [NSNotificationCenter.defaultCenter
+    removeObserver:gDF180CycleObserver];
+  gDF180CycleObserver=nil;
+ }
+ double dur=(NSDate.date.timeIntervalSince1970-gDF180CycleStart)*1000.0;
+ DF180WriteSegmentRecord(bundle,@"DF180Cycle",@"cyc180",
+  [NSString stringWithFormat:
+   @"outcome=%@ reason=%@ cyc=%llu tries=%d found=%d foundAt=%.0f dur=%.0f",
+   outcome,reason,(unsigned long long)gDF180CycleID,gDF180CycleTries,
+   gDF180CycleFound?1:0,gDF180CycleFoundAtMs,dur]);
+ gDF180CycleNote=nil;
+}
+static void DF180CycleBegin(DF154GeneralAppStateRelay *relay,
+    NSString *bundle, NSNotification *note) {
+ DF180CycleFinish(bundle,@"cancelled",@"superseded");
+ gDF180CycleID++;
+ gDF180CycleStart=NSDate.date.timeIntervalSince1970;
+ gDF180CycleTries=0;
+ gDF180CycleFound=NO;
+ gDF180CycleFoundAtMs=-1;
+ gDF180CycleNote=note;
+ gDF180CycleOpen=YES;
+ uint64_t token=gDF180CycleID;
+ gDF180CycleObserver=[NSNotificationCenter.defaultCenter
+  addObserverForName:UIWindowDidBecomeVisibleNotification object:nil
+  queue:NSOperationQueue.mainQueue
+  usingBlock:^(__unused NSNotification *n){
+   if(!gDF180CycleOpen || token!=gDF180CycleID)return;
+   id obj=n.object;
+   if(![obj isKindOfClass:UIWindow.class])return;
+   if(![NSStringFromClass([obj class]) containsString:@"Keyboard"])
+    return;
+   gDF180Checkpoint=4;
+   [relay df178CaptureKeyboard:gDF180CycleNote late:YES];
+  }];
+ // Scheduled retries: +0.3s (checkpoint 1, the QA178 beat), +0.6s
+ // (2) and +1.2s (3, the last scheduled beat — a retryable outcome
+ // there ends the cycle as exhausted).
+ const double beats[3]={0.3,0.6,1.2};
+ for(int cp=1;cp<=3;cp++){
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+    (int64_t)(beats[cp-1]*NSEC_PER_SEC)),dispatch_get_main_queue(),^{
+     if(!gDF180CycleOpen || token!=gDF180CycleID)return;
+     gDF180Checkpoint=cp;
+     [relay df178CaptureKeyboard:gDF180CycleNote late:YES];
+    });
+ }
+}
 @implementation DF154GeneralAppStateRelay
 - (void)postAck:(NSString *)phase count:(NSUInteger)count {
  NSDictionary *state=self.state;
@@ -260,6 +363,18 @@ static void DF179WriteFitRecord(NSString *bundle, NSString *fitSeg) {
  } else {
   if(now-self.lastKbDiag176<2.0)return;
   self.lastKbDiag176=now;
+ }
+ // QA180 B: in fit scope with the cycle flag on, an accepted
+ // DidShow opens a fit cycle (evaluations at 0/+0.3/+0.6/+1.2s and
+ // on keyboard-window visibility). Otherwise the QA179 two-beat
+ // path below runs unchanged.
+ BOOL cycleMode=[note.name isEqualToString:UIKeyboardDidShowNotification] &&
+  DF180KeyboardCycleEnabled() && DF179FitScope(self.bundle);
+ if(cycleMode){
+  DF180CycleBegin(self,self.bundle,note);
+  gDF180Checkpoint=0;
+  [self df178CaptureKeyboard:note late:NO];
+  return;
  }
  [self df178CaptureKeyboard:note late:NO];
  // QA178 H1: one delayed capture ~300ms after an accepted DidShow —
@@ -470,6 +585,22 @@ static void DF179WriteFitRecord(NSString *bundle, NSString *fitSeg) {
       fitKey=w;
     }
     CGRect kbBefore=kb?kb.frame:CGRectNull;
+    // QA180 D-B (Spec condition set): log the ORIGINAL value of
+    // keyboardScreenReferenceSize on the keyboard window, read
+    // BEFORE the fit chain below runs (the late capture re-reads
+    // it after the fit, so one export shows pre and post). Read
+    // only: respondsToSelector + try/catch, never used for any
+    // decision. The selector is not in any test's forbidden list.
+    NSString *refSize=@"?";
+    if(kb) {
+     @try {
+      SEL rsSel=NSSelectorFromString(@"keyboardScreenReferenceSize");
+      if([kb respondsToSelector:rsSel]) {
+       CGSize rv=((CGSize(*)(id,SEL))objc_msgSend)(kb,rsSel);
+       refSize=NSStringFromCGSize(rv);
+      }
+     } @catch(__unused NSException *e) { refSize=@"exc"; }
+    }
     NSString *subs=@"";
     if(kb) {
      NSMutableString *sb=[NSMutableString string];
@@ -517,12 +648,41 @@ static void DF179WriteFitRecord(NSString *bundle, NSString *fitSeg) {
      gDF179KbFitApplied=YES;
      action=@"applied";
     }
+    // QA180 B: cycle accounting. Only captures that belong to an
+    // open cycle (checkpoint set by the cycle scheduler) take
+    // part; terminal outcomes close the cycle, retryable ones
+    // (no-kb-window / no-key-window) close it as exhausted only
+    // at the last scheduled beat (checkpoint 3).
+    NSString *cycSeg=@"";
+    if(gDF180CycleOpen && gDF180Checkpoint>=0) {
+     gDF180CycleTries++;
+     if(kb && !gDF180CycleFound) {
+      gDF180CycleFound=YES;
+      gDF180CycleFoundAtMs=(now-gDF180CycleStart)*1000.0;
+     }
+     cycSeg=[NSString stringWithFormat:@" cyc=%llu try=%d foundAt=%.0f",
+      (unsigned long long)gDF180CycleID,gDF180CycleTries,
+      gDF180CycleFoundAtMs];
+     BOOL terminal=[action isEqualToString:@"applied"] ||
+      [reason isEqualToString:@"already-fit"] ||
+      [reason isEqualToString:@"not-hosted"] ||
+      [reason isEqualToString:@"flag-off"];
+     if(terminal) {
+      DF180CycleFinish(self.bundle,
+       [action isEqualToString:@"applied"]?@"applied":reason,
+       [action isEqualToString:@"applied"]?@"-":reason);
+     } else if(gDF180Checkpoint==3) {
+      DF180CycleFinish(self.bundle,@"exhausted",reason);
+     }
+    }
+    gDF180Checkpoint=-1;
     fitSeg=[NSString stringWithFormat:
-     @"action=%@ reason=%@ late=%d screen=%@ key=%@ kbBefore=%@ kbAfter=%@ subs=%@",
+     @"action=%@ reason=%@ late=%d screen=%@ key=%@ kbBefore=%@ kbAfter=%@ subs=%@ refSize=%@ refWhen=%@%@",
      action,reason,late?1:0,NSStringFromCGRect(screenR),
      fitKey?NSStringFromCGRect(fitKey.frame):@"?",
      kb?NSStringFromCGRect(kbBefore):@"?",
-     kb?NSStringFromCGRect(kb.frame):@"?",subs];
+     kb?NSStringFromCGRect(kb.frame):@"?",subs,refSize,
+     late?@"post":@"pre",cycSeg];
    } @catch(NSException *e) {
     fitSeg=[NSString stringWithFormat:@"action=skip reason=exception-%@",
      e.name?:@"?"];
@@ -573,6 +733,8 @@ static void DF179WriteFitRecord(NSString *bundle, NSString *fitSeg) {
    ^{[self df179KeyboardHidden:note];});
   return;
  }
+ // QA180 B: the keyboard going away cancels any open fit cycle.
+ DF180CycleFinish(self.bundle,@"cancelled",@"did-hide");
  if(!gDF179KbFitApplied)return;
  @try {
   NSMutableArray<UIWindow *> *all=[NSMutableArray array];
@@ -620,10 +782,26 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
  @autoreleasepool {
   NSString *bundle=NSBundle.mainBundle.bundleIdentifier;
   NSString *path=NSBundle.mainBundle.bundlePath;
-  if(!DF154String(bundle) || ![path hasSuffix:@".app"] ||
-     NSBundle.mainBundle.infoDictionary[@"NSExtension"] ||
-     !DF155PilotAppID(bundle) ||
-     NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
+  // QA180 C: relay-alive marker R1 — the very first statement, so
+  // its presence proves the dylib was injected into this process.
+  // Written directly to the kbdiag mailbox (no DF156Listen, no
+  // pilot channel), because the guards below are the suspects.
+  DF180WriteAliveRecord(bundle,@"stage=R1");
+  // The compound guard is split into named conditions WITHOUT
+  // changing its semantics, so marker R2 can name the failing
+  // one (b=bundle, p=.app path, e=no NSExtension key, s=pilot
+  // scope, i=iOS 16).
+  BOOL gB=DF154String(bundle)!=nil;
+  BOOL gP=[path hasSuffix:@".app"];
+  BOOL gE=NSBundle.mainBundle.infoDictionary[@"NSExtension"]==nil;
+  BOOL gS=gB?DF155PilotAppID(bundle):NO;
+  BOOL gI=NSProcessInfo.processInfo.operatingSystemVersion.majorVersion==16;
+  if(!(gB && gP && gE && gS && gI)){
+   DF180WriteAliveRecord(bundle,[NSString stringWithFormat:
+    @"stage=R2 guards=b%d,p%d,e%d,s%d,i%d listen=-1 reg=0",
+    gB?1:0,gP?1:0,gE?1:0,gS?1:0,gI?1:0]);
+   return;
+  }
   dispatch_async(dispatch_get_main_queue(),^{
     DF154GeneralAppStateRelay *relay=[DF154GeneralAppStateRelay new];
     relay.bundle=bundle;
@@ -632,6 +810,9 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
       [relay receive:[NSNotification notificationWithName:DF154StateNotification
           object:nil userInfo:state]];
     })) {
+      // QA180 C: marker R2, listen-failure variant.
+      DF180WriteAliveRecord(bundle,
+       @"stage=R2 guards=ok listen=0 reg=0");
       NSLog(@"[DF154AppState] bundle=%@ transport-unavailable; no UIKit changes",bundle);
       return;
     }
@@ -676,6 +857,10 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
           [relay restore:@"app-reentered-after-expiry"];
         else [relay reconcile];
       }];
+    // QA180 C: marker R2, success variant — guards passed, the
+    // transport listens and every observer is registered.
+    DF180WriteAliveRecord(bundle,
+     @"stage=R2 guards=ok listen=1 reg=1");
     NSLog(@"[DF154AppState] bundle=%@ registered=exact-owned-scene-only enabled=%d",
       bundle,DF155EnabledPilotApp(bundle));
   });

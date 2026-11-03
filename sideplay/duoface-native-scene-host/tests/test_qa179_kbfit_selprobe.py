@@ -10,10 +10,10 @@ WORKFLOW = (REPO / ".github" / "workflows" /
 
 class QA179KeyboardFit(unittest.TestCase):
     def test_versions(self):
-        self.assertIn("0.1.179~kbfit1", BUILD)
+        self.assertIn("0.1.180~kbcycle1", BUILD)
         pack = (ROOT.parent / "jb-embedded-appbridge" /
                 "package_integrated.py").read_text()
-        self.assertIn("0.0.179~kbfit1", pack)
+        self.assertIn("0.0.180~kbcycle1", pack)
         self.assertIn("duoface-179-kbfit-selprobe-signed-private", WORKFLOW)
 
     def test_forbidden_strings_stay_out_of_relay(self):

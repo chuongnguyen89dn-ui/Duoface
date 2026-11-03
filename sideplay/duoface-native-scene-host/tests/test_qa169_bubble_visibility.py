@@ -45,6 +45,6 @@ class TestBubbleVisibility169(unittest.TestCase):
         build=read("build.sh")
         pkg=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
         self.assertEqual(build.count("DFSpeedVisibility169.m"),4)
-        self.assertIn("0.1.179~kbfit1",build)
-        self.assertIn('VERSION="0.0.179~kbfit1"',pkg)
+        self.assertIn("0.1.180~kbcycle1",build)
+        self.assertIn('VERSION="0.0.180~kbcycle1"',pkg)
 if __name__=="__main__":unittest.main()

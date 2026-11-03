@@ -1445,6 +1445,19 @@ static const NSTimeInterval kDF178HUDSnapshotFreshSeconds = 2.0;
             DFCLog([NSString stringWithFormat:
             @"qa179-kbfit bundle=%@ %@",
             rec[@"bundle"],fitOnly]);
+        // QA180 C: relay-alive markers (R1/R2) arrive as standalone
+        // records; log them even with the diagnostics flag off.
+        NSString *alive180=rec[@"alive180"];
+        if([alive180 isKindOfClass:NSString.class] && alive180.length)
+            DFCLog([NSString stringWithFormat:
+            @"qa180-relay-alive bundle=%@ %@",
+            rec[@"bundle"],alive180]);
+        // QA180 B: fit-cycle summaries likewise.
+        NSString *cyc180=rec[@"cyc180"];
+        if([cyc180 isKindOfClass:NSString.class] && cyc180.length)
+            DFCLog([NSString stringWithFormat:
+            @"qa180-cycle bundle=%@ %@",
+            rec[@"bundle"],cyc180]);
         return;
     }
     if(!DF176KBDiagEnabled())return;
