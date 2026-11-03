@@ -1,3 +1,11 @@
+## 2026-11-03 — QA177 DEVICE TEST: H1 PASS, H2 PARTIAL, keyboard unchanged (as designed)
+
+- Nguyen tested on device 07:35 (photo: YouTube search hosted, keyboard still squeezed into a narrow band). Verdicts:
+- **H1 PASS (device-confirmed)**: "Khắc phục được việc gọi lại logo di chuyển" — controls/logo recall works from touches inside hosted apps, including the movable divider logo. First device PASS for recall in the project; the app-side `sendEvent:` signal is the working source (QA176's scene-touch source stays dead).
+- **H2 PARTIAL**: exits from the CarPlay dashboard and native CarPlay apps no longer blink the HUD. Exits from HOSTED (non-CarPlay) apps still cycle the HUD off/on after leaving the app — the handover gap remains on the hosted-exit path specifically.
+- **H3 unchanged (expected)**: keyboard still broken; QA177 was diagnostics-only for the keyboard by the approved work order. The geometry-contract FIX is QA178 scope.
+- Owed to close H2: the log export of this session — the `qa177-overlay attach/detach reason=` lines plus `qa177-hud-handover` lines will show exactly which transition a hosted-app exit takes (whether the handover even starts, and whether the overlay re-attaches as chrome-handover or native-fallback after a gap). The same export completes the kbdiag round-2 data (DidShow blocks) for the QA178 keyboard fix design.
+
 ## 2026-11-03 — QA177 PUBLISHED to Sileo (0.0.177~apptouch1 selected)
 
 - Nguyen approved ("Đưa QA177 lên Sileo", 07:16). carplaydsp publisher: first commit `8ed037be` (QA177 block cloned from QA176, retained set 122→123 with 177 appended, all selected pins flipped) → publisher run `41551792852` FAILED at the index-completion step: the selected-stanza SHA assert (`a.get('SHA256')`) still pinned the QA176 SHA — a pin the QA177 transform missed (it is separate from the final-verify VER/FILE/SHA vars; the QA176 publish had updated it). Fix commit `a37de836` → publisher run `41552468225` SUCCESS (all 5 jobs).
