@@ -1,7 +1,7 @@
-name: QA178 app-touch HUD handover kbdiag2 - private rootless signed DuoFace DEB
+name: QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB
 on:
   push:
-    branches: [feature/duoface-qa178-apptouch-hudhand-kbdiag-20261103]
+    branches: [feature/duoface-qa178-kbdiag-hudhold-20261103]
     paths:
       - '.github/workflows/duoface-178-kbdiag-hudhold-signed-private.yml'
       - '.github/workflows/duoface-169-speed8-bubble-visibility-signed-private.yml'
@@ -289,7 +289,7 @@ jobs:
       - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
         run: |
           set -euo pipefail
-          BRANCH='feature/duoface-qa178-apptouch-hudhand-kbdiag-20261103'
+          BRANCH='feature/duoface-qa178-kbdiag-hudhold-20261103'
           ART='com.duoface.jb.embedded_0.0.178~kbhud1_iphoneos-arm64.deb'
           for n in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
