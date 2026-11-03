@@ -1,3 +1,7 @@
+## 2026-11-03 19:48 — LỆNH ĐỨNG của Nguyen: sửa từ dữ liệu có sẵn, không thay mới, không bịa
+
+Cách làm từ giờ: sửa ra từ dữ liệu/code có sẵn trên nền 172; thiếu thông tin thì đào từ gốc (cây 171/172, hồ sơ bóc deb gốc chỉ-đọc, log và số đo đã có) mà làm. Đã chuyển nguyên văn quy tắc này cho vòng QA187 đang build: bề ngang phím phải là giá trị lease sẵn có trong code, hằng số theo Bước 0 thật đã kiểm chứng; gặp khoảng trống dữ kiện thì dừng và báo, không đoán lấp.
+
 ## 2026-11-03 19:47 — LỆNH ĐỨNG của Nguyen: từ giờ CHỈ làm trên nền bản 172 hiện tại
 
 Không làm trên những bản lỗi của chiều nay (chặng QA173-185) nữa — chặng đó chỉ còn là tài liệu tham chiếu. Mọi vòng build từ nay base = QA172R (0.0.172~logorecall1). QA187 đang build đã đúng nền này. QA186 (nền 185) bỏ hẳn, không còn là park chờ lệnh.
