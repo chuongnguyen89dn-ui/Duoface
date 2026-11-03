@@ -2,8 +2,10 @@
 
 ## Bản đứng
 - DuoFace 0.0.182~kbhook1 (host 0.1.182~kbhook1), nhánh
-  feature/duoface-qa182-kbhook-20261103, ĐÃ BUILD + kiểm chứng, CHƯA publish
-  Sileo (chờ Nguyen duyệt), CHƯA test máy (DEVICE_TESTED=false).
+  feature/duoface-qa182-kbhook-20261103, ĐÃ BUILD + kiểm chứng và ĐÃ PUBLISH Sileo ngày 03/11/2026
+  (publisher run 41590841195 SUCCESS đủ 5 job; index công khai đã kiểm
+  chứng đúng 1 stanza, DEB tải về trùng hash; retained 128). CHƯA test
+  máy (DEVICE_TESTED=false).
 - Báo cáo đầy đủ cho Spec: BAO_CAO_QA182_CHO_SPEC.md trong thư mục này;
   STATUS ở nhánh QA182: sideplay/audit/qa182-kbhook-20261103/STATUS_QA182.md.
 
