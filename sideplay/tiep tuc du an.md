@@ -1,3 +1,7 @@
+## 2026-11-03 19:50 — Nguyen GỢI Ý cách làm phím (chuyển vào QA187 đang build)
+
+Nguyên văn ý của anh: trước đây app trong ô chia cũng bị bó, sau fix được kiểu kéo chừng nào thì theo chừng đó theo tỷ lệ chia — bàn phím cũng làm y như vậy, nhưng CHỈ phần bàn phím, không làm lỗi giao diện đang ổn hiện tại. Diễn giải kỹ thuật đã chuyển cho builder: bề ngang phím lấy từ CÙNG nguồn sự thật mà cơ chế app-theo-ô-chia đang dùng (kích thước lease/host sẵn trong relay) để hai bên đồng bộ theo cấu trúc; thay đổi chỉ là phần cộng thêm trong xử lý phím của relay, TUYỆT ĐỐI không sửa đường hình học app đang ổn (scene commit, lease, resize cửa sổ app). Nếu kéo-chia-trong-lúc-phím-mở không đạt được mà không đụng đường đang ổn / không ép layout, thì giao bản thích nghi tại thời điểm phím hiện và ghi rõ giới hạn đó trong báo cáo — không ép.
+
 ## 2026-11-03 19:48 — LỆNH ĐỨNG của Nguyen: sửa từ dữ liệu có sẵn, không thay mới, không bịa
 
 Cách làm từ giờ: sửa ra từ dữ liệu/code có sẵn trên nền 172; thiếu thông tin thì đào từ gốc (cây 171/172, hồ sơ bóc deb gốc chỉ-đọc, log và số đo đã có) mà làm. Đã chuyển nguyên văn quy tắc này cho vòng QA187 đang build: bề ngang phím phải là giá trị lease sẵn có trong code, hằng số theo Bước 0 thật đã kiểm chứng; gặp khoảng trống dữ kiện thì dừng và báo, không đoán lấp.
