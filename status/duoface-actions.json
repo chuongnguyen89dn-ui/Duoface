@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-03T15:17:35.399276+00:00",
+  "checked_at_utc": "2026-11-03T21:09:33.092512+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4332,
+  "total_actions_runs": 4333,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 0,
       "other": 1
     },
@@ -119,19 +119,29 @@
       "other": 0
     },
     "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB": {
-      "recent_runs": 8,
+      "recent_runs": 7,
       "success": 3,
       "failure": 1,
-      "other": 4
+      "other": 3
     }
   },
   "latest_runs": [
     {
+      "id": 41719007774,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 109,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41719007774",
+      "created_at": "2026-11-03T21:08:11Z",
+      "head_sha": "0fb661177fdd29f3d8cb49eb7c2e8fddf6c5b958"
+    },
+    {
       "id": 41662255830,
       "name": "DuoFace Actions status snapshot",
       "run_number": 108,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41662255830",
       "created_at": "2026-11-03T15:17:00Z",
       "head_sha": "a9fec8137d8be6f5ae8b71dc5651dc1e51d749d4"
@@ -415,16 +425,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600205643",
       "created_at": "2026-11-03T08:01:14Z",
       "head_sha": "03fecc701d09fb60df02ea7f1d3d1c8a3232c157"
-    },
-    {
-      "id": 41600201420,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600201420",
-      "created_at": "2026-11-03T08:01:12Z",
-      "head_sha": "35b771c83aacdd04745a983e92d905b719199cda"
     }
   ]
 }
