@@ -1,3 +1,11 @@
+## 2026-11-03 — QA179 device photos 09:22-09:26: Maps cải thiện, Waze vẫn cụt nặng (đọc ảnh, chờ log)
+
+- Bốn ảnh Nguyen gửi ngay sau báo cáo "lúc hiện lúc không, lúc có space lúc không, lúc dài lúc ngắn" (đọc ảnh, có thể sai lệch — kết luận chờ log):
+  - Maps (chia pane, pane trái): bàn phím có đủ hàng dưới — thấy rõ phím "dấu cách" — và bề ngang bám pane hơn hẳn các vòng trước. Ca tốt nhất từ đầu dự án cho Maps.
+  - YouTube (pane phải, NGOÀI phạm vi fit): bàn phím hiện tương đối cân trong pane của nó — đáng chú ý nhưng không thuộc QA179.
+  - Waze full màn (2 ảnh 09:22 và 09:26): bàn phím vẫn cụt nặng ở góc dưới-trái, chỉ thấy một cột phím hẹp (Q/A/shift/123), mức độ khác nhau giữa hai lần mở — khớp mô tả thất thường của Nguyen. Waze vẫn chưa có bản ghi kbdiag nào trong mọi phiên log tới nay.
+- Chưa kết luận được cơ chế (fit không áp dụng cho Waze vì relay không chạy/không có capture, hay đã áp dụng mà scene của Waze trình diễn khác). Đã yêu cầu xuất log ngay trong phiên này để đọc qa179-kbfit + qa179-selprobe theo bundle.
+
 ## 2026-11-03 — QA179 device feedback đầu tiên: bàn phím thất thường (chưa có log)
 
 - Nguyen báo 09:27 (sau publish QA179): bàn phím lúc hiện lúc không hiện; lúc có hàng dưới cùng (space) lúc không; lúc dài lúc ngắn. Chưa kèm ảnh/log — chưa kết luận được fit có áp dụng hay bị hệ thống đặt lại, hay do nhịp capture/mailbox.
