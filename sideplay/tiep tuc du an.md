@@ -1,3 +1,7 @@
+## 2026-11-03 21:42 — Nguyen DỪNG vụ bản đồ
+
+Sau ba lần Muse hiểu lệch yêu cầu, Nguyen ra lệnh dừng hẳn: 'Thôi. Ko cần làm j nữa.' Không build, không nghiên cứu thêm, không mở lại vụ này trừ khi Nguyen tự ra lệnh mới. Bản đứng Sileo giữ nguyên QA172R. Các hồ sơ đào sâu tối nay (phím, cơ chế app, bản đồ) vẫn nằm ở ~/workspace/duoface-audit/ để tham chiếu sau này.
+
 ## 2026-11-03 21:40 — Đính chính lần 3 về LUỒNG vụ bản đồ: lên màn hình xe BỞI DuoFace, không phải mở DuoFace lên mới làm được
 
 Nguyen: 'Tôi phải đưa đc app bản đồ lên màn hình carplay bằng duoface. Ko phải mở duoface lên ms làm đc.' Nghĩa là: DuoFace với tư cách tweak thường trú (SpringBoard + process CarPlay) phải tự đảm nhiệm việc đưa app bản đồ lên màn hình xe — tầng thường trú đón app ngay khi nó được gọi trên màn hình xe và đặt vào khung chia, như OmniCar. KHÔNG chấp nhận luồng 'người dùng mở app/giao diện DuoFace trước rồi từ đó mới lôi app bản đồ ra'. Muse phát lại luồng này nguyên văn để Nguyen xác nhận; chưa bàn cách làm cho tới khi anh gật đầu là đã hiểu đúng.
