@@ -1,3 +1,10 @@
+## 2026-11-03 — QA178 PUBLISHED to Sileo
+
+- Nguyen approved ("Đưa QA178 lên Sileo"). carplaydsp publisher commit `5534b504b3ae79ff6b4a929ac795512f1cb816a2`: QA178 block cloned from the QA177 block (archive `75d496c7`, run `41557631891`, SHA `5f4ecb0d…`), retained set 123 -> 124 with `0.0.178~kbhud1` appended (QA177 kept), every selected pin flipped — including the index-completion `a.get('SHA256')` assert that QA177's first publish missed — and the public Description rewritten for QA178.
+- Publisher run `41558568255` SUCCESS (all 5 jobs: build, deploy, verify-duoface-integrated-pages, verify-qa11-pages, verify-duonavi-observer-pages), queried directly through the Actions API.
+- Independent public-index verification: exactly 1 `com.duoface.jb.embedded` stanza, Version `0.0.178~kbhud1`, SHA256 `5f4ecb0d10eb5205909f2e5aaa9a764390a1f5f6e14da839a7e7871fe4126c7a`, Size 1273420, QA178 Description live. -> SILEO_PUBLISHED=true, DEVICE_TESTED=false.
+- Device tests owed: (1) Waze full-screen -> search -> keyboard photo -> export log immediately; (2) Google Maps in a pane -> same; (3) exit DuoFace while the speed HUD is visible -> blink check -> export log. The export should settle whether kbdiag round 3 finally sees the keyboard window (kbClass != none, late=1 block present) and whether the handover engages (`qa177-hud-handover start` + gate lines at `deactivate`/`stop`).
+
 ## 2026-11-03 — QA178 BUILT (kbdiag round 3 + HUD exit hold), awaiting Sileo publish approval
 
 - Branch `feature/duoface-qa178-kbdiag-hudhold-20261103` from QA177 tip. Integrated `0.0.178~kbhud1`, host `0.1.178~kbhud1`. Implementation `93d93f8d`; workflow/relay/test fixes `cb61c847`, `6befad7d`, `07fb0c97`; archive `75d496c790a1f05f44efc7dbf12e4f7b24f9b880`. Private build run `41557631891` SUCCESS (run queried directly; an earlier backgrounded poll produced a non-existent run id and was discarded). DEB 1,273,420 bytes, SHA256 `5f4ecb0d10eb5205909f2e5aaa9a764390a1f5f6e14da839a7e7871fe4126c7a`. SILEO_PUBLISHED=false, DEVICE_TESTED=false.
