@@ -22,10 +22,10 @@ class TestQA176(unittest.TestCase):
         cls.pack=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
         cls.workflow=(REPO/".github/workflows/duoface-176-recall-hud-kbdiag-signed-private.yml").read_text()
     def test_versions_bumped(self):
-        self.assertIn("0.1.178~kbhud1", self.build)
-        self.assertIn("0.1.178~kbhud1", self.control)
-        self.assertIn('VERSION="0.0.178~kbhud1"', self.pack)
-        self.assertIn("build=0.0.178~kbhud1", self.trace)
+        self.assertIn("0.1.179~kbfit1", self.build)
+        self.assertIn("0.1.179~kbfit1", self.control)
+        self.assertIn('VERSION="0.0.179~kbfit1"', self.pack)
+        self.assertIn("build=0.0.179~kbfit1", self.trace)
     def test_h1_touch_subscription_connected(self):
         # (a) the scene-touch notification finally has a subscriber
         self.assertIn("selector:@selector(realAppTouched:) name:DFSceneHostDidObserveTouchNotification", self.chrome)

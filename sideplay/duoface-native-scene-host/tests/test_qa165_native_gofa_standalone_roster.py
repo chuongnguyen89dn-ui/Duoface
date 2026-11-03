@@ -15,8 +15,8 @@ class TestNativeGofaAndHome165(unittest.TestCase):
   cls.home=(ROOT/"DFHomePublisher136Core.m").read_text()
   cls.build=(ROOT/"build.sh").read_text()
  def test_single_signed_duoface_package_and_conservative_data_origin(self):
-  self.assertIn('VERSION="0.0.178~kbhud1"',PACK)
-  self.assertIn("0.1.178~kbhud1",self.build)
+  self.assertIn('VERSION="0.0.179~kbfit1"',PACK)
+  self.assertIn("0.1.179~kbfit1",self.build)
   self.assertNotIn("-DDF165_PASSIVE_GOFA_ONLY=1",self.build)
   self.assertIn("DFGofaNativeLocationTap165.m",self.build)
   self.assertIn("DFGofaSpeedSource162.m",self.build)

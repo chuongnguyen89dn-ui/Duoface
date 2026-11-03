@@ -45,11 +45,53 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
 @property(nonatomic) NSTimeInterval lastKbDid176;
 - (void)df176KeyboardShown:(NSNotification *)notification;
 - (void)df178CaptureKeyboard:(NSNotification *)note late:(BOOL)late;
+- (void)df179KeyboardHidden:(NSNotification *)notification;
 - (void)postAck:(NSString *)phase count:(NSUInteger)count;
 - (void)receive:(NSNotification *)notification;
 - (void)reconcile;
 - (void)restore:(NSString *)reason;
 @end
+// QA179 H1: "keyboard fit" — when a hosted app's window has been
+// resized away from the phone screen, the remote keyboard window
+// still lays out against UIScreen.mainScreen (QA178 measured
+// 414x736 against a 397x685 app window) and its bottom rows clip.
+// The fit sets the keyboard window's frame to the app key window's
+// frame at DidShow, and restores it at DidHide / when hosting ends.
+// Scope: Google Maps + Waze only (the two ids are
+// DF155PilotAppScope.h lines 26-27). Flag KeyboardFit179 in the
+// qa176 plist, read fresh from file on every check, following the
+// DF176KBDiagEnabled pattern; absent = ON; turn off in Filza.
+static BOOL DF179KeyboardFitEnabled(void) {
+ NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:
+   DF176KBDiagPrefsPath];
+ id v=[p isKindOfClass:NSDictionary.class]?p[@"KeyboardFit179"]:nil;
+ return v?[v boolValue]:YES;
+}
+static BOOL DF179FitScope(NSString *bundle) {
+ return [bundle isEqualToString:@"com.google.Maps"] ||
+        [bundle isEqualToString:@"com.waze.iphone"];
+}
+static BOOL gDF179KbFitApplied=NO;
+static BOOL gDF179KbHasSaved=NO;
+static CGRect gDF179KbSavedFrame;
+static DF156Mailbox gDF179Box;
+static BOOL gDF179BoxReady=NO;
+// Standalone fit records (the DidHide restore has no kbdiag capture
+// to ride on) go through the same DF156 kbdiag mailbox + wake, with
+// a fit179 segment Chrome logs as qa179-kbfit.
+static void DF179WriteFitRecord(NSString *bundle, NSString *fitSeg) {
+ if(!gDF179BoxReady){ DF156Init(&gDF179Box,DF176KBDiagMailboxName);
+  gDF179BoxReady=YES; }
+ NSDictionary *rec=@{@"version":@1,@"bundle":bundle?:@"?",
+  @"ts":@(NSDate.date.timeIntervalSince1970),
+  @"notifName":@"DF179Fit",@"fit179":fitSeg?:@""};
+ NSData *bytes=[NSJSONSerialization dataWithJSONObject:rec
+   options:0 error:nil];
+ uint64_t generation=0;arc4random_buf(&generation,sizeof(generation));
+ if(bytes && DF156Write(&gDF179Box,bytes.bytes,bytes.length,
+   generation?:1))
+  notify_post(DF176KBDiagWakeName);
+}
 @implementation DF154GeneralAppStateRelay
 - (void)postAck:(NSString *)phase count:(NSUInteger)count {
  NSDictionary *state=self.state;
@@ -201,7 +243,13 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   dispatch_async(dispatch_get_main_queue(),^{[self df176KeyboardShown:note];});
   return;
  }
- if(!DF176KBDiagEnabled())return;
+ // QA179: the DidShow capture also carries the keyboard fit, so it
+ // may run on the fit path alone (fit flag on, scope bundle) even
+ // when the diagnostics flag is off.
+ BOOL diagOn=DF176KBDiagEnabled();
+ BOOL fitPath=DF179KeyboardFitEnabled() && DF179FitScope(self.bundle) &&
+   [note.name isEqualToString:UIKeyboardDidShowNotification];
+ if(!diagOn && !fitPath)return;
  NSTimeInterval now=NSDate.date.timeIntervalSince1970;
  // QA177 H3: rate-limit PER notification name. QA176 used one shared
  // 2s gate, so WillShow (keyboard window not yet visible, kbClass=none)
@@ -223,7 +271,8 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
     (int64_t)(kDF178KBDelayedCaptureSeconds*NSEC_PER_SEC)),
     dispatch_get_main_queue(),^{
-     if(DF176KBDiagEnabled())[self df178CaptureKeyboard:held late:YES];
+     if(DF176KBDiagEnabled() || DF179KeyboardFitEnabled())
+      [self df178CaptureKeyboard:held late:YES];
     });
  }
 }
@@ -369,6 +418,120 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   }
   if(winDump.length>880)
    winDump=[[winDump substringToIndex:880] mutableCopy];
+  // QA179 H3: read-only selector-ownership probe, once per app
+  // session (computed once, attached to the first 3 captures so a
+  // mailbox overwrite cannot lose it). Responds-checks only: no
+  // selector is ever invoked and nothing is hooked. i=instances
+  // respond, c=the class object responds.
+  static NSString *selProbe179=nil;
+  static int selAttach179=0;
+  if(!selProbe179) {
+   @try {
+    NSArray *classes=@[@"UIKeyboardImpl",@"UIKeyboardLayoutStar",
+     @"UIKeyboard",@"UIRemoteKeyboardWindow",
+     @"UIInputWindowController",@"UIKeyboardInputModeController"];
+    NSArray *sels=@[@"keyboardWidthForScreen:withOrientation:",
+     @"keyboardWidth",@"keyboardScreenReferenceSize"];
+    NSMutableString *probe=[NSMutableString string];
+    for(NSString *cn in classes) {
+     Class cls=NSClassFromString(cn);
+     [probe appendFormat:@"%@%@:",probe.length?@";":@"",cn];
+     if(!cls){ [probe appendString:@"noclass"]; continue; }
+     for(NSString *sn in sels) {
+      SEL sel=NSSelectorFromString(sn);
+      [probe appendFormat:@" %@=i%dc%d",sn,
+       [cls instancesRespondToSelector:sel]?1:0,
+       class_respondsToSelector(cls,sel)?1:0];
+     }
+    }
+    selProbe179=[probe copy];
+   } @catch(__unused NSException *e) { selProbe179=@"probe-failed"; }
+  }
+  NSString *selSeg=(selAttach179<3)?selProbe179:nil;
+  if(selSeg)selAttach179++;
+  // QA179 H1/H2: keyboard fit evaluation. DidShow captures only
+  // (the immediate one and the QA178 late one). Everything is
+  // guarded; a failure skips the fit and is reported in the segment.
+  NSString *fitSeg=nil;
+  if([note.name isEqualToString:UIKeyboardDidShowNotification] &&
+     DF179FitScope(self.bundle)) {
+   @try {
+    CGRect screenR=UIScreen.mainScreen.bounds;
+    UIWindow *fitKey=nil;
+    for(UIWindow *w in all) {
+     NSString *wc=NSStringFromClass(w.class);
+     if([wc containsString:@"Keyboard"] ||
+        [wc containsString:@"TextEffects"])continue;
+     if(fabs(w.windowLevel-UIWindowLevelNormal)>0.5)continue;
+     if(w.isKeyWindow){fitKey=w;break;}
+     if(!fitKey)fitKey=w;
+     else if(w.bounds.size.width*w.bounds.size.height >
+             fitKey.bounds.size.width*fitKey.bounds.size.height)
+      fitKey=w;
+    }
+    CGRect kbBefore=kb?kb.frame:CGRectNull;
+    NSString *subs=@"";
+    if(kb) {
+     NSMutableString *sb=[NSMutableString string];
+     NSUInteger di=0;
+     for(UIView *sv in kb.subviews) {
+      if(di>=6)break;
+      [sb appendFormat:@"%@%@%@",
+       di?@";":@"",NSStringFromClass(sv.class),
+       NSStringFromCGRect(sv.frame)];
+      NSUInteger ci=0;
+      for(UIView *cv in sv.subviews) {
+       if(ci>=3)break;
+       [sb appendFormat:@">%@%@",NSStringFromClass(cv.class),
+        NSStringFromCGRect(cv.frame)];
+       ci++;
+      }
+      di++;
+     }
+     if(sb.length>320)sb=[[sb substringToIndex:320] mutableCopy];
+     subs=sb;
+    }
+    NSString *action=nil,*reason=@"-";
+    if(!DF179KeyboardFitEnabled()) {
+     if(gDF179KbFitApplied && kb) {
+      CGRect target=gDF179KbHasSaved?gDF179KbSavedFrame:screenR;
+      if(!CGRectEqualToRect(kb.frame,target))kb.frame=target;
+      gDF179KbFitApplied=NO;gDF179KbHasSaved=NO;
+      action=@"restored";reason=@"flag-off";
+     } else { action=@"skip";reason=@"flag-off"; }
+    } else if(!kb) { action=@"skip";reason=@"no-kb-window"; }
+    else if(!fitKey) { action=@"skip";reason=@"no-key-window"; }
+    else if(CGSizeEqualToSize(fitKey.bounds.size,screenR.size)) {
+     if(gDF179KbFitApplied) {
+      CGRect target=gDF179KbHasSaved?gDF179KbSavedFrame:screenR;
+      if(!CGRectEqualToRect(kb.frame,target))kb.frame=target;
+      gDF179KbFitApplied=NO;gDF179KbHasSaved=NO;
+      action=@"restored";reason=@"not-hosted";
+     } else { action=@"skip";reason=@"not-hosted"; }
+    } else if(CGRectEqualToRect(kb.frame,fitKey.frame)) {
+     action=@"skip";reason=@"already-fit";
+    } else {
+     if(!gDF179KbHasSaved){ gDF179KbSavedFrame=kb.frame;
+      gDF179KbHasSaved=YES; }
+     kb.frame=fitKey.frame;
+     gDF179KbFitApplied=YES;
+     action=@"applied";
+    }
+    fitSeg=[NSString stringWithFormat:
+     @"action=%@ reason=%@ late=%d screen=%@ key=%@ kbBefore=%@ kbAfter=%@ subs=%@",
+     action,reason,late?1:0,NSStringFromCGRect(screenR),
+     fitKey?NSStringFromCGRect(fitKey.frame):@"?",
+     kb?NSStringFromCGRect(kbBefore):@"?",
+     kb?NSStringFromCGRect(kb.frame):@"?",subs];
+   } @catch(NSException *e) {
+    fitSeg=[NSString stringWithFormat:@"action=skip reason=exception-%@",
+     e.name?:@"?"];
+   }
+  }
+  // Keep the whole record inside the DF156 mailbox budget when the
+  // QA179 segments ride along.
+  if((fitSeg || selSeg) && winDump.length>620)
+   winDump=[[winDump substringToIndex:620] mutableCopy];
   id endValue=note.userInfo[UIKeyboardFrameEndUserInfoKey];
   NSDictionary *rec=@{@"version":@1,@"bundle":self.bundle?:@"?",
    @"ts":@(now),
@@ -383,7 +546,11 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
    @"kbLevel":kbLevel,@"sceneBounds":sceneBounds,
    @"late":@(late?1:0),@"kbScreenFrame":kbScreenFrame,
    @"kbTransform":kbTransform,@"appSelf":appSelf,
-   @"winDump":winDump};
+   @"winDump":winDump,
+   @"notifBegin":note.userInfo[UIKeyboardFrameBeginUserInfoKey]?
+    NSStringFromCGRect([note.userInfo[UIKeyboardFrameBeginUserInfoKey]
+     CGRectValue]):@"?",
+   @"fit179":fitSeg?:@"",@"sel179":selSeg?:@""};
   static DF156Mailbox kbBox;
   static BOOL kbReady=NO;
   if(!kbReady){ DF156Init(&kbBox,DF176KBDiagMailboxName); kbReady=YES; }
@@ -395,6 +562,55 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
         self.bundle,rec[@"kbClass"],rec[@"kbFrame"],keyplane,inputMode,hwGS,hwBKS);
  } @catch(NSException *e) {
   NSLog(@"[DF176KBDiag] failed %@",e.name);
+ }
+}
+// QA179 H1: restore the keyboard window's frame when the keyboard
+// hides, so a fitted frame never sticks after the hosted session.
+- (void)df179KeyboardHidden:(NSNotification *)note {
+ (void)note;
+ if(!NSThread.isMainThread) {
+  dispatch_async(dispatch_get_main_queue(),
+   ^{[self df179KeyboardHidden:note];});
+  return;
+ }
+ if(!gDF179KbFitApplied)return;
+ @try {
+  NSMutableArray<UIWindow *> *all=[NSMutableArray array];
+  for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
+   if([scene isKindOfClass:UIWindowScene.class])
+    [all addObjectsFromArray:((UIWindowScene *)scene).windows];
+  [all addObjectsFromArray:UIApplication.sharedApplication.windows];
+  @try {
+   SEL allSel=NSSelectorFromString(
+     @"allWindowsIncludingInternalWindows:onlyVisibleWindows:");
+   if([UIWindow respondsToSelector:allSel]) {
+    NSArray *priv=((NSArray *(*)(id,SEL,BOOL,BOOL))objc_msgSend)(
+      (id)UIWindow.class,allSel,YES,NO);
+    if([priv isKindOfClass:NSArray.class])
+     for(id cand in priv)
+      if([cand isKindOfClass:UIWindow.class] &&
+         ![all containsObject:(UIWindow *)cand])
+       [all addObject:(UIWindow *)cand];
+   }
+  } @catch(__unused NSException *e) {}
+  UIWindow *kb=nil;
+  for(UIWindow *w in all)
+   if([NSStringFromClass(w.class) containsString:@"Keyboard"]) {
+    kb=w;if(!w.hidden)break;
+   }
+  CGRect screenR=UIScreen.mainScreen.bounds;
+  CGRect target=gDF179KbHasSaved?gDF179KbSavedFrame:screenR;
+  CGRect before=kb?kb.frame:CGRectNull;
+  if(kb && !CGRectEqualToRect(kb.frame,target))kb.frame=target;
+  gDF179KbFitApplied=NO;gDF179KbHasSaved=NO;
+  DF179WriteFitRecord(self.bundle,[NSString stringWithFormat:
+   @"action=restored reason=did-hide screen=%@ kbBefore=%@ kbAfter=%@",
+   NSStringFromCGRect(screenR),
+   kb?NSStringFromCGRect(before):@"?",
+   kb?NSStringFromCGRect(kb.frame):@"?"]);
+ } @catch(NSException *e) {
+  gDF179KbFitApplied=NO;
+  NSLog(@"[DF179KBfit] restore failed %@",e.name);
  }
 }
 @end
@@ -428,6 +644,19 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
       [[NSNotificationCenter defaultCenter] addObserver:relay
         selector:@selector(df176KeyboardShown:)
         name:UIKeyboardDidShowNotification object:nil];
+    }
+    // QA179 H1: keyboard fit. DidHide drives the restore; if the
+    // diagnostics flag was off at start, register DidShow on the
+    // fit path alone so the fit still runs in its scope bundles.
+    if(DF179KeyboardFitEnabled()){
+      [[NSNotificationCenter defaultCenter] addObserver:relay
+        selector:@selector(df179KeyboardHidden:)
+        name:UIKeyboardDidHideNotification object:nil];
+      if(!DF176KBDiagEnabled()){
+        [[NSNotificationCenter defaultCenter] addObserver:relay
+          selector:@selector(df176KeyboardShown:)
+          name:UIKeyboardDidShowNotification object:nil];
+      }
     }
     // QA177 H1: app-side "user touched" signal for controls recall.
     // This constructor only proceeds inside a DF155 pilot app, so the

@@ -1422,7 +1422,6 @@ static const NSTimeInterval kDF178HUDSnapshotFreshSeconds = 2.0;
 // log it with the host surface frames + external display size of this
 // moment. Read-only diagnostics; nothing here changes any behaviour.
 - (void)df176LogKeyboardContext {
-    if(!DF176KBDiagEnabled())return;
     static DF156Mailbox kbBox;
     static BOOL kbBoxReady=NO;
     if(!kbBoxReady){ DF156Init(&kbBox,DF176KBDiagMailboxName); kbBoxReady=YES; }
@@ -1436,6 +1435,19 @@ static const NSTimeInterval kDF178HUDSnapshotFreshSeconds = 2.0;
     NSTimeInterval ts=[rec[@"ts"] doubleValue];
     if(!(ts>self.lastKbDiag176Timestamp))return;
     self.lastKbDiag176Timestamp=ts;
+    // QA179: a fit-only record (the app-side DidHide restore) has no
+    // keyboard fields; log its fit segment and stop there. It is
+    // logged even when the diagnostics flag is off, because the fit
+    // has its own flag.
+    if(!rec[@"kbClass"]){
+        NSString *fitOnly=rec[@"fit179"];
+        if([fitOnly isKindOfClass:NSString.class] && fitOnly.length)
+            DFCLog([NSString stringWithFormat:
+            @"qa179-kbfit bundle=%@ %@",
+            rec[@"bundle"],fitOnly]);
+        return;
+    }
+    if(!DF176KBDiagEnabled())return;
     NSMutableString *slots=[NSMutableString string];
     for(UIWindow *w in self.appSceneWindows)
         [slots appendFormat:@"%@;",NSStringFromCGRect(w.frame)];
@@ -1492,6 +1504,27 @@ static const NSTimeInterval kDF178HUDSnapshotFreshSeconds = 2.0;
         rec[@"bundle"],rec[@"late"]?:@"?",rec[@"kbScreenFrame"]?:@"?",
         rec[@"kbTransform"]?:@"?",rec[@"appSelf"]?:@"?",
         rec[@"winDump"]?:@"?"]);
+    // QA179 H2/H3: keyboard-fit actions and the selector probe ride
+    // the same mailbox record; log them under their own markers.
+    NSString *fit179=rec[@"fit179"];
+    if([fit179 isKindOfClass:NSString.class] && fit179.length)
+        DFCLog([NSString stringWithFormat:
+        @"qa179-kbfit bundle=%@ %@ begin=%@ end=%@",
+        rec[@"bundle"],fit179,rec[@"notifBegin"]?:@"?",
+        rec[@"notifEnd"]?:@"?"]);
+    NSString *sel179=rec[@"sel179"];
+    if([sel179 isKindOfClass:NSString.class] && sel179.length) {
+        static NSMutableSet *selLogged179;
+        if(!selLogged179)selLogged179=[NSMutableSet set];
+        NSString *bk=[NSString stringWithFormat:@"%@|%@",
+            rec[@"bundle"],sel179];
+        if(![selLogged179 containsObject:bk]) {
+            [selLogged179 addObject:bk];
+            DFCLog([NSString stringWithFormat:
+            @"qa179-selprobe bundle=%@ %@",
+            rec[@"bundle"],sel179]);
+        }
+    }
 }
 // QA177 H1: one app-side touch signal arrived. The mailbox holds the
 // cumulative count, so the qa177-app-touch line is materialized here
