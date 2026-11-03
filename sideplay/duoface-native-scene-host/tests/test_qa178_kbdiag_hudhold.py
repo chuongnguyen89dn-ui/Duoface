@@ -39,11 +39,11 @@ class QA178KBDiag(unittest.TestCase):
         self.assertIn("substringToIndex:880", RELAY)  # mailbox budget cap
 
     def test_versions(self):
-        self.assertIn('Version: 0.1.179~kbfit1', CONTROL)
-        self.assertIn('0.1.179~kbfit1_iphoneos-arm64.deb', BUILD)
-        self.assertIn('<string>179</string>', INFO)
-        self.assertIn('build=0.0.179~kbfit1', TRACE)
-        self.assertIn('build=0.0.179~kbfit1', PROBE)
+        self.assertIn('Version: 0.1.180~kbcycle1', CONTROL)
+        self.assertIn('0.1.180~kbcycle1_iphoneos-arm64.deb', BUILD)
+        self.assertIn('<string>180</string>', INFO)
+        self.assertIn('build=0.0.180~kbcycle1', TRACE)
+        self.assertIn('build=0.0.180~kbcycle1', PROBE)
 
 
 class QA178HUDHold(unittest.TestCase):
