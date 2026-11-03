@@ -35,3 +35,12 @@
 3. Maps split pane: same.
 4. Drag the divider to resize, open the keyboard again.
 5. Exit DuoFace; open Waze/Maps standalone: keyboard must be normal.
+
+## Publish amendment (2026-11-03, approved by Nguyen)
+- Publisher commits (carplaydsp): 0d4cfc46840f (QA179 selected, retained 124->125), c694f60681 (retrigger comment), c3e46572877e (block placement fix), 14d6323a44c9 (CFBundleVersion pin fix).
+- Publisher runs: 41563094115 FAILURE (curl 56 in the index step with the QA179 block misplaced mid-script), 41563559696 FAILURE (same point), 41564189146 FAILURE (QA179 block verify: CFBundleVersion pin still '178' — a bare-number pin the version-tally missed), 41564754006 SUCCESS (all 5 jobs, queried directly).
+- Public index independently verified: exactly 1 embedded stanza 0.0.179~kbfit1, Size 1277328, SHA256 9e83b36c9e381575fa3704da308170b5f79f91d998b422ac545ad7ac6f0b22a6. The published DEB was downloaded and hashed: byte-identical to the artifact of private build run 41562273711.
+- QA178 rollback: 0.0.178~kbhud1 DEB still served from the repo (HTTP 206 on range request after the QA179 publish).
+- CI tests in run 41562273711 (from the job log, per-test lines): test_qa154 4/4 ok, test_qa155 4/4 ok, test_qa176 7/7 ok, test_qa177 12/12 ok, test_qa178 10/10 ok, test_qa179 9/9 ok, test_integrated_package_144 4/4 ok; 36 test modules ran in total.
+- NOTE: three backgrounded poll outputs during this publish fabricated run ids/results (41561078001, 41563697831, 41564415560 — all 404 on direct query). Every conclusion above rests on foreground queries only.
+- SILEO_PUBLISHED=true. DEVICE_TESTED=false.
