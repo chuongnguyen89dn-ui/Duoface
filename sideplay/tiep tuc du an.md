@@ -1,3 +1,11 @@
+## 2026-11-03 — QA179 DEVICE VERDICTS (export DuoFaceAudit 5.txt): selprobe có đáp án, fit chạy trong Maps, Waze im lặng
+
+- **Selprobe (H3) — ĐÃ TRẢ LỜI**: `keyboardWidthForScreen:withOrientation:` và `keyboardWidth` KHÔNG lớp nào trong 6 lớp responds (i0c0 khắp). `keyboardScreenReferenceSize` CHỈ responds trên **UIRemoteKeyboardWindow** (i1c1) — đòn bẩy kích thước tham chiếu nằm ngay trên cửa sổ bàn phím từ xa (đo trong process Maps).
+- **Maps — fit HOẠT ĐỘNG khi bắt được cửa sổ, và GIỮ NGUYÊN**: 5 lần applied (kb {414,736} -> {595,685} đúng frame key window); lần chụp trễ +0,3s vẫn {595,685} (hệ thống không đặt lại) và UIInputSetHostView đã layout lại theo bề ngang 595, dải phím neo đáy cửa sổ app (510+175=685). Restored: did-hide x2, not-hosted x1. Ảnh Maps có đủ hàng "dấu cách" khớp số đo này.
+- **Maps — nguồn gốc thất thường**: 11/28 lần đánh giá là skip/no-kb-window (4 lần ngay, 7 lần ở +0,3s) — những lần đó không tồn tại cửa sổ class Keyboard nào trong mọi danh sách liệt kê của process app nên fit không áp dụng được. Chiều cao dải phím 175-270 tùy input mode (một phần là hành vi iOS bình thường).
+- **Waze — relay KHÔNG SẢN XUẤT GÌ**: 0 kbdiag (77 bản ghi, toàn Maps), 0 kbfit, 0 selprobe, 0 app-touch của Waze qua cả 4 phiên QA177-179 — trong khi relay chạy thật trong Safari/Maps, Waze có trong cả filter plist lẫn pilot scope, được host (readback actual {414,736} target {1190,685}) và đã mở bàn phím (ảnh). Chưa phân biệt được: dylib không nạp vào process Waze / constructor dừng ở DF156Listen / thông báo bàn phím không bắn trong process đó. QA180 cần marker "relay alive" theo bundle.
+- DEVICE_TESTED=true cho QA179.
+
 ## 2026-11-03 — QA179 device photos 09:22-09:26: Maps cải thiện, Waze vẫn cụt nặng (đọc ảnh, chờ log)
 
 - Bốn ảnh Nguyen gửi ngay sau báo cáo "lúc hiện lúc không, lúc có space lúc không, lúc dài lúc ngắn" (đọc ảnh, có thể sai lệch — kết luận chờ log):
