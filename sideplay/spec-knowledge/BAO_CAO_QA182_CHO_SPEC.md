@@ -73,3 +73,43 @@ KeyboardHook182 vắng = hook HOẠT ĐỘNG; đặt 0 = không cài, hành vi v
   KbReapply lúc runtime; <90% với didShow=Y mà ev toàn 0 (H2) -> DỪNG hẳn
   hướng app-side, chấp nhận hiện trạng; mọi hook cài lỗi kể cả fallback ->
   dừng, báo Spec kết quả cài đặt.
+
+
+---
+
+## PHỤ LỤC SAU REVIEW CỦA SPEC (03/11 — Muse)
+- Kill switch: cảm ơn Spec đã xác nhận — lỗi ở WO, cách làm giữ nguyên.
+- Điểm 2 (hook khi ngoài phạm vi/không host): XÁC NHẬN ĐẠT bằng đọc code,
+  không sửa. Hook chỉ cài khi bundle thuộc phạm vi fit (Maps/Waze); app
+  pilot khác nhận not-scope, không hook nào được cài. Khi Maps/Waze không
+  được host: thân hook gọi gốc + đếm; fit tự quyết not-hosted (key window
+  bằng kích thước màn hình / không lease) và không đổi frame nào; đường
+  KbReapply còn đòi key window khác màn hình.
+- Điểm 1 (Waze): KHÔNG đạt ở bản đầu — Spec bắt đúng. Trigger ở Waze trả
+  về sau khi bắt receiver; số đếm chỉ rời process qua capture phụ thuộc
+  notification. ĐÃ SỬA: hook tự ghi record hook182 (Chrome in
+  qa182-hookfire) mỗi lần hiện + lần đầu của process, không cần
+  notification/chu kỳ/capture. Commit c6f8ba53, run 41589314024 SUCCESS,
+  DEB 1.285.360 bytes SHA256 11237fc9...8c433 — bản này thay bản đã báo.
+- Điểm 3 (lồng fit): bản đầu chạy ĐỒNG BỘ trong hook — nay fit chạy ở
+  vòng lặp main KẾ TIẾP (dispatch_async); trong hook chỉ bắt receiver +
+  nguồn. Thêm cờ gDF182InFit: hook setFrame:/setBounds: không đếm frame
+  do chính lượt fit ghi (khẳng định của Spec được thực thi đúng chữ).
+  STATUS đã ghi rõ sync/async.
+- Quy tắc bổ sung của Spec (cổng khói R2 trước khi đếm; phân loại hỗn hợp
+  từng chu kỳ; làm nhánh 2 trước, H2 còn lại kéo dưới 90% thì dừng): đã
+  ghi vào STATUS QA182 mục Decision rules, áp nguyên văn khi có verdict.
+- Digest DFSceneHost a0f62fa5: đây là git-blob SHA-1 của file đã chốt từ
+  QA175; các vòng QA176–182 đều tính lại và trùng khớp từng vòng, và CI
+  có test ghim digest (họ test_qa148–151/161). Spec có thể tự kiểm: tính
+  SHA-1 của "blob <size>\0" + nội dung file ở bất kỳ nhánh QA nào gần đây.
+- Hai assertion QA181 đã sửa (diff): (1) assertIn('@"hook181"', RELAY) ->
+  assertIn('ref181=%@', RELAY) kèm chú thích QA182 — vì record hook181
+  riêng bị bỏ, phase đi trong R2. (2) Bỏ "installPhase=%@" khỏi danh sách
+  phase phải có trong relay — chuỗi format đó không còn tồn tại sau khi
+  gộp; các phase no-hook-symbol/no-class/no-method/abi-mismatch vẫn được
+  assertIn như cũ. Cả hai thay đổi chỉ nới đúng chỗ hành vi đã đổi theo
+  WO, không nới phần còn lại.
+- Ghi nhận cải chính của Spec về dòng bản đứng trong file txt trước —
+  phía Muse không dùng dòng đó ở đâu; báo cáo của Muse luôn ghi version
+  theo control của DEB đã build.
