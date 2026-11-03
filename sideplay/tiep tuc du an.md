@@ -1,3 +1,7 @@
+## 2026-11-03 19:45 — Nguyen CHỐT thứ tự: làm việc phím đồng bộ theo ô chia trước, tính tiếp sau
+
+Đường phím tự vẽ kiểu OmniCar: để sau, không làm bây giờ. Việc đang chạy QA187 (nền 172R + ghi bề ngang ô chia vào traits) chính là việc được chốt — giữ nguyên phạm vi, không mở rộng. Chờ build/CI xong -> publish Sileo -> Nguyen test xe.
+
 ## 2026-11-03 19:41-19:5x — Nguyen chỉ: OmniCar có phím khác, màu riêng. ĐÃ KIỂM CHỨNG — ANH ĐÚNG, Muse đính chính
 
 Tải deb com.anlai.omnicar_1.0.3 từ repo Omnicar @bafc2441 (SHA256 d9297b01...9fd khớp workflow audit cũ), đọc tĩnh chỉ đọc. OmniCar KHÔNG sửa phím Apple: dylib OmniCarAppBridge (filter tiêm com.apple.UIKit = mọi app) chứa class phím tự vẽ ABKeyboard + ABKey (từng phím con), hàng phím ghi cứng qwertyuiop/asdfghjkl/zxcvbnm, gắn làm inputView qua showForApp:keyboardType:returnType: + setInputView:, gửi chữ qua insertText:/deleteBackward, tôn trọng UITextInputTraits (keyboardType/Appearance), ngôn ngữ phím là prefs riêng appBridgeKeyboardLang. ĐÍNH CHÍNH phát biểu 19:40 của Muse ('không tự vẽ lại được'): đúng với việc vẽ lại phím Apple, nhưng thay hẳn bằng phím tự vẽ qua inputView thì làm được — OmniCar là bằng chứng sống. Đánh đổi nếu ta đi đường này: mất autocorrect/goi y/dictation cua Apple, tieng Viet phai tu viet bo go Telex, o mat khau can kiem chung rieng. Day la build tinh nang rieng, lon hon QA187 (traits) dang chay. Ho so: ~/workspace/duoface-audit/OMNICAR_BAN_PHIM.md (dinh kem trong chat).
