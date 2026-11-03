@@ -1,3 +1,9 @@
+## 2026-11-03 — QA180 ĐÃ PUBLISH Sileo (chưa test xe — không gọi là đã sửa)
+
+- Publisher carplaydsp commit 8bcad63d, run 41580242887 SUCCESS đủ 5 job (transform: block QA180 clone từ block QA179 chèn sau block QA179 trước dòng cd repo; retained 125->126 thêm 0.0.180~kbcycle1; mọi pin selected đã lật — đối chiếu đếm: OLDV còn đúng 4 (3 trong block QA179 + 1 retained set), OLDSHA còn đúng 1 (block QA179); pin trần CFBundleVersion trong block mới đã lật 179->180).
+- Kiểm chứng độc lập: index công khai đúng 1 stanza 0.0.180~kbcycle1, Size 1279032, SHA256 37e9bde009f203dc22245dcc76fa73a81bbc7311c35cc193407681cc2b6889ec; DEB tải từ repo Sileo về hash TRÙNG artifact build run 41579486857; file QA179 vẫn tải được (HTTP 206) để lùi. Checksum publish đã ghi vào STATUS QA180.
+- Kiểm toán R1 theo yêu cầu: đường ghi marker chỉ gồm @try/@catch + DF156Init (memset/snprintf) + DF156Write (toàn lệnh Darwin notify, kiểm status, fail = im lặng); KHÔNG file I/O, KHÔNG UIKit, payload <=2048 — process lạ/notify không khả dụng thì ghi thành no-op. CI không chứng minh được hành vi trong process thật; chỉ test xe mới chứng minh. SILEO_PUBLISHED=true, DEVICE_TESTED=false.
+
 ## 2026-11-03 — QA180 ĐÃ BUILD (chờ duyệt publish): chu kỳ fit + marker R1/R2 + D-B
 
 - Theo WORK ORDER QA180 v2 + điều kiện D-B của Spec, đã duyệt bởi Nguyen. Nhánh `feature/duoface-qa180-kbcycle-alive-20261103` từ đầu QA179. Bản 0.0.180~kbcycle1 (host 0.1.180~kbcycle1).
