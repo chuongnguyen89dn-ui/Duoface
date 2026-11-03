@@ -1,334 +1,430 @@
 {
-  "checked_at_utc": "2026-10-18T06:01:19.843208+00:00",
+  "checked_at_utc": "2026-11-03T06:58:00.313889+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1322,
+  "total_actions_runs": 4287,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
-    "DuoFace Visual12 standalone engine and CB facade link test": {
-      "recent_runs": 25,
-      "success": 9,
-      "failure": 6,
-      "other": 10
-    },
-    ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml": {
-      "recent_runs": 60,
-      "success": 0,
-      "failure": 60,
-      "other": 0
-    },
     "DuoFace Actions status snapshot": {
-      "recent_runs": 1,
-      "success": 0,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 0,
       "other": 1
     },
-    "Readonly actual Native12 HUD8 vs original104 UI DEBs": {
-      "recent_runs": 14,
-      "success": 10,
+    "QA182 keyboard-window interception - private rootless signed DuoFace DEB": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "QA181 keyboard reference-size hook - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA180 keyboard cycle + relay-alive - private rootless signed DuoFace DEB": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "QA179 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB": {
+      "recent_runs": 3,
+      "success": 1,
       "failure": 2,
+      "other": 0
+    },
+    "QA177 app-touch HUD handover kbdiag2 - private rootless signed DuoFace DEB": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "QA176 recall HUD kbdiag - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA175 touch reliability - private rootless signed DuoFace DEB": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 4,
+      "other": 0
+    },
+    "QA174 audit fix - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA173 touch and log reduction - private rootless signed DuoFace DEB": {
+      "recent_runs": 8,
+      "success": 1,
+      "failure": 4,
+      "other": 3
+    },
+    "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB": {
+      "recent_runs": 14,
+      "success": 1,
+      "failure": 4,
+      "other": 9
+    },
+    "QA171 GOFA runtime diagnostic export - private rootless signed DuoFace DEB": {
+      "recent_runs": 3,
+      "success": 2,
+      "failure": 1,
+      "other": 0
+    },
+    "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB": {
+      "recent_runs": 9,
+      "success": 3,
+      "failure": 2,
+      "other": 4
+    },
+    "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB": {
+      "recent_runs": 6,
+      "success": 1,
+      "failure": 3,
       "other": 2
+    },
+    "QA169 original CarPlayPro DEB-proven native navigation hook - signed private DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA169 original CarPlayPro Speed GOFA Swift field literal forensic": {
+      "recent_runs": 5,
+      "success": 4,
+      "failure": 1,
+      "other": 0
+    },
+    "QA168 native Apple CarPlay maneuver packet and existing Speed8 HUD - signed private DuoFace DEB": {
+      "recent_runs": 10,
+      "success": 1,
+      "failure": 4,
+      "other": 5
+    },
+    "QA167 GOFA original notification type-only schema and cross-process proof - single signed private DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA166 Original CarPlayPro GOFA direct callgraph research - static only": {
+      "recent_runs": 19,
+      "success": 17,
+      "failure": 2,
+      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 39102551623,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 134,
-      "status": "pending",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102551623",
-      "created_at": "2026-10-18T06:01:14Z",
-      "head_sha": "ddab37b885f4a6e6002baf2f0bff470834a12953"
-    },
-    {
-      "id": 39102550956,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 467,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102550956",
-      "created_at": "2026-10-18T06:01:13Z",
-      "head_sha": "ddab37b885f4a6e6002baf2f0bff470834a12953"
-    },
-    {
-      "id": 39102548480,
+      "id": 41593159860,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 31,
+      "run_number": 107,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102548480",
-      "created_at": "2026-10-18T06:01:11Z",
-      "head_sha": "ec72a486e75ce751f17e3505752326f1120daed1"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41593159860",
+      "created_at": "2026-11-03T06:57:38Z",
+      "head_sha": "43991296b5081352f3f9f4ebdc6a96750c8d22a5"
     },
     {
-      "id": 39102533557,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 133,
-      "status": "in_progress",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102533557",
-      "created_at": "2026-10-18T06:00:59Z",
-      "head_sha": "e82a91bbad597d4a599f2077dce375dbcacb7818"
-    },
-    {
-      "id": 39102532564,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 466,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102532564",
-      "created_at": "2026-10-18T06:00:58Z",
-      "head_sha": "e82a91bbad597d4a599f2077dce375dbcacb7818"
-    },
-    {
-      "id": 39102488822,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 132,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102488822",
-      "created_at": "2026-10-18T06:00:21Z",
-      "head_sha": "062ec9c0d406e1b597ebb245c422cac4ceccffcb"
-    },
-    {
-      "id": 39102488034,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 465,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102488034",
-      "created_at": "2026-10-18T06:00:20Z",
-      "head_sha": "062ec9c0d406e1b597ebb245c422cac4ceccffcb"
-    },
-    {
-      "id": 39102383379,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 464,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102383379",
-      "created_at": "2026-10-18T05:58:34Z",
-      "head_sha": "7df755b6b8fa204eca40a0ed73aebfb8a7fb31dd"
-    },
-    {
-      "id": 39102317247,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 463,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102317247",
-      "created_at": "2026-10-18T05:57:18Z",
-      "head_sha": "b4ee13388fa5aed833171f47985dde3fa83749e4"
-    },
-    {
-      "id": 39102303935,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 131,
+      "id": 41589314024,
+      "name": "QA182 keyboard-window interception - private rootless signed DuoFace DEB",
+      "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102303935",
-      "created_at": "2026-10-18T05:57:01Z",
-      "head_sha": "e18d689a32d57fbb76473ead8b859cddf95372b6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41589314024",
+      "created_at": "2026-11-03T06:21:00Z",
+      "head_sha": "c6f8ba5390bcba4fc807ae956593830231c36758"
     },
     {
-      "id": 39102303293,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 462,
+      "id": 41587902277,
+      "name": "QA182 keyboard-window interception - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41587902277",
+      "created_at": "2026-11-03T06:07:23Z",
+      "head_sha": "a1348c70d191f3cbbcf9d41b992280aeccf48826"
+    },
+    {
+      "id": 41583139656,
+      "name": "QA181 keyboard reference-size hook - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41583139656",
+      "created_at": "2026-11-03T05:18:24Z",
+      "head_sha": "921ec9b566c9baf0ca162ed553d19d0ca332385b"
+    },
+    {
+      "id": 41579486857,
+      "name": "QA180 keyboard cycle + relay-alive - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41579486857",
+      "created_at": "2026-11-03T04:40:29Z",
+      "head_sha": "57f02a728afe45ca3e5d4c4951bd00bc2faf6b5f"
+    },
+    {
+      "id": 41579370429,
+      "name": "QA180 keyboard cycle + relay-alive - private rootless signed DuoFace DEB",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102303293",
-      "created_at": "2026-10-18T05:57:01Z",
-      "head_sha": "e18d689a32d57fbb76473ead8b859cddf95372b6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41579370429",
+      "created_at": "2026-11-03T04:39:13Z",
+      "head_sha": "0048aa07f067e1836007d02ce278fa2ccd793322"
     },
     {
-      "id": 39102300188,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 130,
+      "id": 41562273711,
+      "name": "QA179 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41562273711",
+      "created_at": "2026-11-03T01:49:57Z",
+      "head_sha": "399dc3d435efdd1a65156938ba7cbc03a992dbcc"
+    },
+    {
+      "id": 41557631891,
+      "name": "QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41557631891",
+      "created_at": "2026-11-03T01:07:31Z",
+      "head_sha": "07fb0c973ae353990bbc88de0710f2d2f0c0d729"
+    },
+    {
+      "id": 41557474653,
+      "name": "QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41557474653",
+      "created_at": "2026-11-03T01:06:08Z",
+      "head_sha": "6befad7d457da2bdef3a71b98ae64a937fd7aa62"
+    },
+    {
+      "id": 41557263189,
+      "name": "QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41557263189",
+      "created_at": "2026-11-03T01:04:19Z",
+      "head_sha": "cb61c8475cb90f7739df9be14d41ce5bcef9be5b"
+    },
+    {
+      "id": 41550814513,
+      "name": "QA177 app-touch HUD handover kbdiag2 - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41550814513",
+      "created_at": "2026-11-03T00:09:35Z",
+      "head_sha": "627f39d89ff96ea97eb477f7fa87066e17295084"
+    },
+    {
+      "id": 41550619395,
+      "name": "QA177 app-touch HUD handover kbdiag2 - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41550619395",
+      "created_at": "2026-11-03T00:08:02Z",
+      "head_sha": "fcad40b20b3be0e34c302e992055d3fba288b3f9"
+    },
+    {
+      "id": 41548945696,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 106,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41548945696",
+      "created_at": "2026-11-02T23:54:30Z",
+      "head_sha": "ec4b2b37aca6df6f5c498b2f1fa6559fa1ded19b"
+    },
+    {
+      "id": 41543719296,
+      "name": "QA176 recall HUD kbdiag - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41543719296",
+      "created_at": "2026-11-02T23:13:24Z",
+      "head_sha": "e80a4901d4f9c631ffd15164e8f44f64f01872a3"
+    },
+    {
+      "id": 41488728755,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 105,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41488728755",
+      "created_at": "2026-11-02T17:11:11Z",
+      "head_sha": "1ac56d441b56286d5b0dc35f6397fbd8da4f0dc4"
+    },
+    {
+      "id": 41468306241,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41468306241",
+      "created_at": "2026-11-02T15:06:23Z",
+      "head_sha": "049e7d9445bc166123545261e75b3db20571efb0"
+    },
+    {
+      "id": 41466313889,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41466313889",
+      "created_at": "2026-11-02T14:53:55Z",
+      "head_sha": "96348f1656c594c6e7a8f775e96f5b78f866fd34"
+    },
+    {
+      "id": 41466060121,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41466060121",
+      "created_at": "2026-11-02T14:52:18Z",
+      "head_sha": "c340c6895371e9127c16579e52bf4e03e17737ce"
+    },
+    {
+      "id": 41465690339,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41465690339",
+      "created_at": "2026-11-02T14:49:58Z",
+      "head_sha": "88240971fac04b95f7276737d031c4d957e6f471"
+    },
+    {
+      "id": 41464572349,
+      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41464572349",
+      "created_at": "2026-11-02T14:42:56Z",
+      "head_sha": "2e1fbcf1863d6f6b08e0b87b23fea0390d11e791"
+    },
+    {
+      "id": 41453745030,
+      "name": "QA174 audit fix - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41453745030",
+      "created_at": "2026-11-02T13:31:42Z",
+      "head_sha": "53c459839a769561e6e6dea4cb0822ab094adbb8"
+    },
+    {
+      "id": 41450574137,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41450574137",
+      "created_at": "2026-11-02T13:09:43Z",
+      "head_sha": "c110caef344788e830657009254c03f055c0556f"
+    },
+    {
+      "id": 41450342395,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41450342395",
+      "created_at": "2026-11-02T13:08:05Z",
+      "head_sha": "3009d626c157449fe1b3c50ae119698b7130ee29"
+    },
+    {
+      "id": 41449343037,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449343037",
+      "created_at": "2026-11-02T13:00:52Z",
+      "head_sha": "11f51a923da19549e8e9898ae347a55fe8702866"
+    },
+    {
+      "id": 41449327974,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 5,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102300188",
-      "created_at": "2026-10-18T05:56:58Z",
-      "head_sha": "b92bcfe8ee359b89618b4dc3cc0e8a2cbcace133"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449327974",
+      "created_at": "2026-11-02T13:00:46Z",
+      "head_sha": "370102c7572f43842c6b68535bf7bce9c1041d80"
     },
     {
-      "id": 39102299467,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 461,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102299467",
-      "created_at": "2026-10-18T05:56:57Z",
-      "head_sha": "b92bcfe8ee359b89618b4dc3cc0e8a2cbcace133"
-    },
-    {
-      "id": 39102286665,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 129,
+      "id": 41449322504,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 4,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102286665",
-      "created_at": "2026-10-18T05:56:44Z",
-      "head_sha": "7cd915ad03c7e9cc06a74736a2fb40c3cf4b9513"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449322504",
+      "created_at": "2026-11-02T13:00:43Z",
+      "head_sha": "33507d389f362b90c8e071c3d2a84ccea2668960"
     },
     {
-      "id": 39102285773,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 460,
+      "id": 41449316536,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449316536",
+      "created_at": "2026-11-02T13:00:41Z",
+      "head_sha": "d652680a750e60d57c604149cd8ee216cead150a"
+    },
+    {
+      "id": 41448974074,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 2,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102285773",
-      "created_at": "2026-10-18T05:56:43Z",
-      "head_sha": "7cd915ad03c7e9cc06a74736a2fb40c3cf4b9513"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41448974074",
+      "created_at": "2026-11-02T12:58:07Z",
+      "head_sha": "db7d847728bd3dde64c8d470eec3239f3a5d79a3"
     },
     {
-      "id": 39102218236,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
-      "run_number": 23,
+      "id": 41447367572,
+      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41447367572",
+      "created_at": "2026-11-02T12:46:03Z",
+      "head_sha": "6680a43c1f10b2219f4b6f8850e09e1665e4a3e4"
+    },
+    {
+      "id": 41442985902,
+      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
+      "run_number": 14,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102218236",
-      "created_at": "2026-10-18T05:55:27Z",
-      "head_sha": "14c44c9e0dd99bb030fe27430c88385fc5201532"
-    },
-    {
-      "id": 39102217510,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 459,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102217510",
-      "created_at": "2026-10-18T05:55:27Z",
-      "head_sha": "14c44c9e0dd99bb030fe27430c88385fc5201532"
-    },
-    {
-      "id": 39102158125,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 458,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102158125",
-      "created_at": "2026-10-18T05:54:24Z",
-      "head_sha": "ab4250058c9acaf751c98b2748b99ad0c45440c6"
-    },
-    {
-      "id": 39102094919,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 457,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102094919",
-      "created_at": "2026-10-18T05:53:16Z",
-      "head_sha": "327cd29e9029250b35e938d07929e9b31b85018b"
-    },
-    {
-      "id": 39102083373,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102083373",
-      "created_at": "2026-10-18T05:53:03Z",
-      "head_sha": "10e995477463882ea476d01e912a237a118c1be9"
-    },
-    {
-      "id": 39102082643,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 456,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102082643",
-      "created_at": "2026-10-18T05:53:03Z",
-      "head_sha": "10e995477463882ea476d01e912a237a118c1be9"
-    },
-    {
-      "id": 39102074795,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102074795",
-      "created_at": "2026-10-18T05:52:54Z",
-      "head_sha": "df412f5d4788ad0a39d34f53f125864b600d8bf0"
-    },
-    {
-      "id": 39102073932,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 455,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102073932",
-      "created_at": "2026-10-18T05:52:53Z",
-      "head_sha": "df412f5d4788ad0a39d34f53f125864b600d8bf0"
-    },
-    {
-      "id": 39101879710,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 128,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101879710",
-      "created_at": "2026-10-18T05:49:32Z",
-      "head_sha": "52d7039e08a3037faec56e8b0fe18b667142b6bd"
-    },
-    {
-      "id": 39101878924,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 454,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101878924",
-      "created_at": "2026-10-18T05:49:31Z",
-      "head_sha": "52d7039e08a3037faec56e8b0fe18b667142b6bd"
-    },
-    {
-      "id": 39101868270,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 453,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101868270",
-      "created_at": "2026-10-18T05:49:20Z",
-      "head_sha": "6e3389b2cc9b7cd77f3fe0e37d65524e8c48f747"
-    },
-    {
-      "id": 39101826645,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101826645",
-      "created_at": "2026-10-18T05:48:36Z",
-      "head_sha": "bb2080a3c1f098128f5a22c22a4958d7933f7375"
-    },
-    {
-      "id": 39101825889,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 452,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101825889",
-      "created_at": "2026-10-18T05:48:35Z",
-      "head_sha": "bb2080a3c1f098128f5a22c22a4958d7933f7375"
-    },
-    {
-      "id": 39101730530,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101730530",
-      "created_at": "2026-10-18T05:46:54Z",
-      "head_sha": "ef5088429c49f02ec5914fa179ff1314b71cea1c"
-    },
-    {
-      "id": 39101729522,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 451,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101729522",
-      "created_at": "2026-10-18T05:46:53Z",
-      "head_sha": "ef5088429c49f02ec5914fa179ff1314b71cea1c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41442985902",
+      "created_at": "2026-11-02T12:13:54Z",
+      "head_sha": "2af28b1da896c39ca792bc7614c45831f43a22f1"
     }
   ]
 }
