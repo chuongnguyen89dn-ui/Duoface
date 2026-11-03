@@ -1,14 +1,50 @@
 {
-  "checked_at_utc": "2026-11-03T06:58:00.313889+00:00",
+  "checked_at_utc": "2026-11-03T15:17:35.399276+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4287,
+  "total_actions_runs": 4332,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 6,
-      "success": 5,
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
+    },
+    "QA187 kbwidth1 (QA172 base + keyboard width adaptation only) - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA172 logorecall1 (QA171 base + QA177 H1 only) - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA186 split supersample + scene liveness - private rootless signed DuoFace DEB": {
+      "recent_runs": 2,
+      "success": 0,
+      "failure": 2,
+      "other": 0
+    },
+    "QA185 destination-size geometry - private rootless signed DuoFace DEB": {
+      "recent_runs": 6,
+      "success": 1,
+      "failure": 0,
+      "other": 5
+    },
+    "QA184 fit layer 2 - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA183 keyboard suite - private rootless signed DuoFace DEB": {
+      "recent_runs": 33,
+      "success": 4,
+      "failure": 5,
+      "other": 24
     },
     "QA182 keyboard-window interception - private rootless signed DuoFace DEB": {
       "recent_runs": 2,
@@ -83,348 +119,312 @@
       "other": 0
     },
     "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB": {
-      "recent_runs": 9,
+      "recent_runs": 8,
       "success": 3,
-      "failure": 2,
-      "other": 4
-    },
-    "QA169 compact Speed8 bubble X and persistent cross-owner visibility - signed private DuoFace DEB": {
-      "recent_runs": 6,
-      "success": 1,
-      "failure": 3,
-      "other": 2
-    },
-    "QA169 original CarPlayPro DEB-proven native navigation hook - signed private DuoFace DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA169 original CarPlayPro Speed GOFA Swift field literal forensic": {
-      "recent_runs": 5,
-      "success": 4,
       "failure": 1,
-      "other": 0
-    },
-    "QA168 native Apple CarPlay maneuver packet and existing Speed8 HUD - signed private DuoFace DEB": {
-      "recent_runs": 10,
-      "success": 1,
-      "failure": 4,
-      "other": 5
-    },
-    "QA167 GOFA original notification type-only schema and cross-process proof - single signed private DuoFace DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA166 Original CarPlayPro GOFA direct callgraph research - static only": {
-      "recent_runs": 19,
-      "success": 17,
-      "failure": 2,
-      "other": 0
+      "other": 4
     }
   },
   "latest_runs": [
     {
-      "id": 41593159860,
+      "id": 41662255830,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 107,
+      "run_number": 108,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41593159860",
-      "created_at": "2026-11-03T06:57:38Z",
-      "head_sha": "43991296b5081352f3f9f4ebdc6a96750c8d22a5"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41662255830",
+      "created_at": "2026-11-03T15:17:00Z",
+      "head_sha": "a9fec8137d8be6f5ae8b71dc5651dc1e51d749d4"
     },
     {
-      "id": 41589314024,
-      "name": "QA182 keyboard-window interception - private rootless signed DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41589314024",
-      "created_at": "2026-11-03T06:21:00Z",
-      "head_sha": "c6f8ba5390bcba4fc807ae956593830231c36758"
-    },
-    {
-      "id": 41587902277,
-      "name": "QA182 keyboard-window interception - private rootless signed DuoFace DEB",
+      "id": 41639519757,
+      "name": "QA187 kbwidth1 (QA172 base + keyboard width adaptation only) - private rootless signed DuoFace DEB",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41587902277",
-      "created_at": "2026-11-03T06:07:23Z",
-      "head_sha": "a1348c70d191f3cbbcf9d41b992280aeccf48826"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41639519757",
+      "created_at": "2026-11-03T12:53:28Z",
+      "head_sha": "7d9a53188fab38fded1ed993acdd83aa56ff3326"
     },
     {
-      "id": 41583139656,
-      "name": "QA181 keyboard reference-size hook - private rootless signed DuoFace DEB",
+      "id": 41634111776,
+      "name": "QA172 logorecall1 (QA171 base + QA177 H1 only) - private rootless signed DuoFace DEB",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41583139656",
-      "created_at": "2026-11-03T05:18:24Z",
-      "head_sha": "921ec9b566c9baf0ca162ed553d19d0ca332385b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41634111776",
+      "created_at": "2026-11-03T12:14:59Z",
+      "head_sha": "2f283ec90380c622561da44c3b4aec762dd5819a"
     },
     {
-      "id": 41579486857,
-      "name": "QA180 keyboard cycle + relay-alive - private rootless signed DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41579486857",
-      "created_at": "2026-11-03T04:40:29Z",
-      "head_sha": "57f02a728afe45ca3e5d4c4951bd00bc2faf6b5f"
-    },
-    {
-      "id": 41579370429,
-      "name": "QA180 keyboard cycle + relay-alive - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41579370429",
-      "created_at": "2026-11-03T04:39:13Z",
-      "head_sha": "0048aa07f067e1836007d02ce278fa2ccd793322"
-    },
-    {
-      "id": 41562273711,
-      "name": "QA179 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41562273711",
-      "created_at": "2026-11-03T01:49:57Z",
-      "head_sha": "399dc3d435efdd1a65156938ba7cbc03a992dbcc"
-    },
-    {
-      "id": 41557631891,
-      "name": "QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41557631891",
-      "created_at": "2026-11-03T01:07:31Z",
-      "head_sha": "07fb0c973ae353990bbc88de0710f2d2f0c0d729"
-    },
-    {
-      "id": 41557474653,
-      "name": "QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
+      "id": 41626756922,
+      "name": "QA186 split supersample + scene liveness - private rootless signed DuoFace DEB",
       "run_number": 2,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41557474653",
-      "created_at": "2026-11-03T01:06:08Z",
-      "head_sha": "6befad7d457da2bdef3a71b98ae64a937fd7aa62"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41626756922",
+      "created_at": "2026-11-03T11:20:45Z",
+      "head_sha": "2d408d469fc90cbe52f1bebeaecdc6e21c450df7"
     },
     {
-      "id": 41557263189,
-      "name": "QA178 kbdiag3 HUD exit hold - private rootless signed DuoFace DEB",
+      "id": 41626456136,
+      "name": "QA186 split supersample + scene liveness - private rootless signed DuoFace DEB",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41557263189",
-      "created_at": "2026-11-03T01:04:19Z",
-      "head_sha": "cb61c8475cb90f7739df9be14d41ce5bcef9be5b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41626456136",
+      "created_at": "2026-11-03T11:18:35Z",
+      "head_sha": "f2ebf4083b08d50a12e7cd9f7e5799163456fc15"
     },
     {
-      "id": 41550814513,
-      "name": "QA177 app-touch HUD handover kbdiag2 - private rootless signed DuoFace DEB",
-      "run_number": 2,
+      "id": 41617303355,
+      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
+      "run_number": 6,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41550814513",
-      "created_at": "2026-11-03T00:09:35Z",
-      "head_sha": "627f39d89ff96ea97eb477f7fa87066e17295084"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41617303355",
+      "created_at": "2026-11-03T10:12:24Z",
+      "head_sha": "39ab58f108c977cc4e9b52fafef6214578288ddd"
     },
     {
-      "id": 41550619395,
-      "name": "QA177 app-touch HUD handover kbdiag2 - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41550619395",
-      "created_at": "2026-11-03T00:08:02Z",
-      "head_sha": "fcad40b20b3be0e34c302e992055d3fba288b3f9"
-    },
-    {
-      "id": 41548945696,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 106,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41548945696",
-      "created_at": "2026-11-02T23:54:30Z",
-      "head_sha": "ec4b2b37aca6df6f5c498b2f1fa6559fa1ded19b"
-    },
-    {
-      "id": 41543719296,
-      "name": "QA176 recall HUD kbdiag - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41543719296",
-      "created_at": "2026-11-02T23:13:24Z",
-      "head_sha": "e80a4901d4f9c631ffd15164e8f44f64f01872a3"
-    },
-    {
-      "id": 41488728755,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 105,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41488728755",
-      "created_at": "2026-11-02T17:11:11Z",
-      "head_sha": "1ac56d441b56286d5b0dc35f6397fbd8da4f0dc4"
-    },
-    {
-      "id": 41468306241,
-      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "id": 41616954464,
+      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
       "run_number": 5,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41468306241",
-      "created_at": "2026-11-02T15:06:23Z",
-      "head_sha": "049e7d9445bc166123545261e75b3db20571efb0"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616954464",
+      "created_at": "2026-11-03T10:09:55Z",
+      "head_sha": "0c3c9762a14b4d3c7d3279f2f463040b13da35c1"
     },
     {
-      "id": 41466313889,
-      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "id": 41616950043,
+      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
       "run_number": 4,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41466313889",
-      "created_at": "2026-11-02T14:53:55Z",
-      "head_sha": "96348f1656c594c6e7a8f775e96f5b78f866fd34"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616950043",
+      "created_at": "2026-11-03T10:09:54Z",
+      "head_sha": "c3a5f46b3828e358510a7daf7559bc653b36c174"
     },
     {
-      "id": 41466060121,
-      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "id": 41616945492,
+      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
       "run_number": 3,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41466060121",
-      "created_at": "2026-11-02T14:52:18Z",
-      "head_sha": "c340c6895371e9127c16579e52bf4e03e17737ce"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616945492",
+      "created_at": "2026-11-03T10:09:52Z",
+      "head_sha": "ee737de87d0afc19aa14e3104c1b55ef67c2c5f3"
     },
     {
-      "id": 41465690339,
-      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "id": 41616931019,
+      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
       "run_number": 2,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41465690339",
-      "created_at": "2026-11-02T14:49:58Z",
-      "head_sha": "88240971fac04b95f7276737d031c4d957e6f471"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616931019",
+      "created_at": "2026-11-03T10:09:45Z",
+      "head_sha": "8e4ca48542b3c8bb5b68de7b20961a56d1fea1b3"
     },
     {
-      "id": 41464572349,
-      "name": "QA175 touch reliability - private rootless signed DuoFace DEB",
+      "id": 41616927386,
+      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
       "run_number": 1,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41464572349",
-      "created_at": "2026-11-02T14:42:56Z",
-      "head_sha": "2e1fbcf1863d6f6b08e0b87b23fea0390d11e791"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616927386",
+      "created_at": "2026-11-03T10:09:44Z",
+      "head_sha": "09aafeec02efd84f5cbff500ca5fda52ddeb511a"
     },
     {
-      "id": 41453745030,
-      "name": "QA174 audit fix - private rootless signed DuoFace DEB",
-      "run_number": 1,
+      "id": 41608140048,
+      "name": "QA184 fit layer 2 - private rootless signed DuoFace DEB",
+      "run_number": 10,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41453745030",
-      "created_at": "2026-11-02T13:31:42Z",
-      "head_sha": "53c459839a769561e6e6dea4cb0822ab094adbb8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41608140048",
+      "created_at": "2026-11-03T09:05:10Z",
+      "head_sha": "1af9046bc4f93383ae8f6c12de5edf211de2c994"
     },
     {
-      "id": 41450574137,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41607502823,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41607502823",
+      "created_at": "2026-11-03T09:00:19Z",
+      "head_sha": "71d154d3cb3c1627ee59942849ead5b87e55d911"
+    },
+    {
+      "id": 41607497909,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 8,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41450574137",
-      "created_at": "2026-11-02T13:09:43Z",
-      "head_sha": "c110caef344788e830657009254c03f055c0556f"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41607497909",
+      "created_at": "2026-11-03T09:00:17Z",
+      "head_sha": "a9b888edb37e9006516d2faf512c8bc0370b8d75"
     },
     {
-      "id": 41450342395,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41607067884,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 7,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41450342395",
-      "created_at": "2026-11-02T13:08:05Z",
-      "head_sha": "3009d626c157449fe1b3c50ae119698b7130ee29"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41607067884",
+      "created_at": "2026-11-03T08:56:47Z",
+      "head_sha": "f0759956b6cfeb3f8cfa23df80359e01005b65b4"
     },
     {
-      "id": 41449343037,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41606594846,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 6,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449343037",
-      "created_at": "2026-11-02T13:00:52Z",
-      "head_sha": "11f51a923da19549e8e9898ae347a55fe8702866"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606594846",
+      "created_at": "2026-11-03T08:53:01Z",
+      "head_sha": "d1ca2e5dd1586481e393d1942260256e64e1802a"
     },
     {
-      "id": 41449327974,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41606590739,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 5,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449327974",
-      "created_at": "2026-11-02T13:00:46Z",
-      "head_sha": "370102c7572f43842c6b68535bf7bce9c1041d80"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606590739",
+      "created_at": "2026-11-03T08:52:59Z",
+      "head_sha": "686eb86ebf7fbefacaf13a76827c0d1d54892db3"
     },
     {
-      "id": 41449322504,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41606585419,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 4,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449322504",
-      "created_at": "2026-11-02T13:00:43Z",
-      "head_sha": "33507d389f362b90c8e071c3d2a84ccea2668960"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606585419",
+      "created_at": "2026-11-03T08:52:56Z",
+      "head_sha": "ebddcc9676084995f14ba61ff2ba579263d72512"
     },
     {
-      "id": 41449316536,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41606580656,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 3,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41449316536",
-      "created_at": "2026-11-02T13:00:41Z",
-      "head_sha": "d652680a750e60d57c604149cd8ee216cead150a"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606580656",
+      "created_at": "2026-11-03T08:52:54Z",
+      "head_sha": "8ef1c0284bc0e8efc0d724032bfdb0417c181837"
     },
     {
-      "id": 41448974074,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41606568139,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 2,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41448974074",
-      "created_at": "2026-11-02T12:58:07Z",
-      "head_sha": "db7d847728bd3dde64c8d470eec3239f3a5d79a3"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606568139",
+      "created_at": "2026-11-03T08:52:48Z",
+      "head_sha": "fb8da09f228b0d9b0c8fd4a7cb8e48eaa8cd0341"
     },
     {
-      "id": 41447367572,
-      "name": "QA173 touch and log reduction - private rootless signed DuoFace DEB",
+      "id": 41606565256,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
       "run_number": 1,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41447367572",
-      "created_at": "2026-11-02T12:46:03Z",
-      "head_sha": "6680a43c1f10b2219f4b6f8850e09e1665e4a3e4"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606565256",
+      "created_at": "2026-11-03T08:52:46Z",
+      "head_sha": "a2a0e75ca940f025b65fe289b45446d3f1a04234"
     },
     {
-      "id": 41442985902,
-      "name": "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB",
-      "run_number": 14,
+      "id": 41600272820,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 24,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41442985902",
-      "created_at": "2026-11-02T12:13:54Z",
-      "head_sha": "2af28b1da896c39ca792bc7614c45831f43a22f1"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600272820",
+      "created_at": "2026-11-03T08:01:48Z",
+      "head_sha": "21a1428b152ee84a605d6b95e061de995dd57c62"
+    },
+    {
+      "id": 41600267728,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600267728",
+      "created_at": "2026-11-03T08:01:46Z",
+      "head_sha": "9f3224e1c22a729edc31334641b25fabbf8db698"
+    },
+    {
+      "id": 41600255105,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600255105",
+      "created_at": "2026-11-03T08:01:39Z",
+      "head_sha": "8b4072d22b648480dc06e9c1c0f67ddd2f91d2f9"
+    },
+    {
+      "id": 41600250505,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600250505",
+      "created_at": "2026-11-03T08:01:37Z",
+      "head_sha": "75ce1fc152150de4899d808216f3548b32db99a3"
+    },
+    {
+      "id": 41600246345,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600246345",
+      "created_at": "2026-11-03T08:01:34Z",
+      "head_sha": "9a7d99fc817477c57cc8eb58c4e7fee14c941f2b"
+    },
+    {
+      "id": 41600242622,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600242622",
+      "created_at": "2026-11-03T08:01:33Z",
+      "head_sha": "31a9f488aa2ee08b80f1c1e3ec5d58eef6f82a26"
+    },
+    {
+      "id": 41600219293,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600219293",
+      "created_at": "2026-11-03T08:01:21Z",
+      "head_sha": "d6740057a29163a701f4fcc4c1963953877969da"
+    },
+    {
+      "id": 41600205643,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600205643",
+      "created_at": "2026-11-03T08:01:14Z",
+      "head_sha": "03fecc701d09fb60df02ea7f1d3d1c8a3232c157"
+    },
+    {
+      "id": 41600201420,
+      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600201420",
+      "created_at": "2026-11-03T08:01:12Z",
+      "head_sha": "35b771c83aacdd04745a983e92d905b719199cda"
     }
   ]
 }
