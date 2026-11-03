@@ -1,3 +1,8 @@
+## 2026-11-03 — Gói đầu vào QA179 đã soạn sẵn để Nguyen gửi Claude soạn spec
+
+- Nguyen hỏi có phải gửi kết quả QA178 cho Claude (soạn spec) hay không — đúng quy trình các vòng trước: kết quả đo -> Claude soạn work order QA179 -> Nguyen dán WO sang đây -> Muse triển khai.
+- Đã soạn gói đầu vào tự chứa: `sideplay/audit/qa179-kb-layer-brief-20261103/GOI_QA179_CHO_CLAUDE_SPEC.md` (bản sao tại `~/workspace/duoface-audit/`). Nội dung: verdict QA178 (H2 PASS, H1 PASS), cơ chế lỗi phím đã đo được (bàn phím lấy kích thước từ UIScreen.mainScreen 414x736 thay vì cửa sổ app 397x685; keyplane/input mode/hwKB bình thường), phạm vi đề xuất QA179 (lớp phím tối thiểu chỉ sửa reference-size/bề ngang trong process app qua relay DF155, Maps + Waze, giữ nguyên DFSceneHost.m/DFHostedMapRenderSize.h/HUD), và 3 câu hỏi để spec chốt (điểm hook tối thiểu, nguồn kích thước đích, thứ tự an toàn).
+
 ## 2026-11-03 — QA178 DEVICE VERDICTS: H2 PASS, H1 data delivered, keyboard mechanism measured
 
 - Export 08:25 VN (`DuoFaceAudit 4.txt`, main `bb6e32b7`; the two .ips alongside are the old 2026-11-02 diskwrites reports again, not new crashes). 471 lines `build=0.0.178~kbhud1`. DEVICE_TESTED=true.
