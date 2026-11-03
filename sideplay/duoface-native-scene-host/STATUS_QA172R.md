@@ -13,4 +13,4 @@
   DFDeepTrace.h/DFTouchOwnerProbe.m (were stale 0.0.90/0.0.86 at QA171).
 - Tests: version re-pins; test_qa155 carries QA177's scoped sendEvent:
   exception verbatim; new test_qa172r_logo_recall.py guards scope.
-- DEVICE_TESTED=false; SILEO_PUBLISHED=false (pending Nguyen).
+- DEVICE_TESTED=false; SILEO_PUBLISHED=true (2026-11-03, publisher carplaydsp df4da1cf, run 41634752388 SUCCESS 5/5; public index verified: 1 stanza 0.0.172~logorecall1, SHA 8ddc167b..., Size 1240844; QA171 and QA185 DEBs still served with original hashes).
