@@ -7,6 +7,22 @@
 #import "DFSpeedVisibility169.h"
 #import "DFSpeedHUDLease176.h"
 #import <math.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+// QA177 H2(i): the overlay's attach/detach must be visible in the
+// exported logs. NSLog never reaches the exporter; the dock owner's
+// file (DuoFaceDockOwner.log) is in its collection list, so transitions
+// are appended there — one line per transition only, which keeps the
+// volume trivially inside the QA173 limits.
+static void DF177OverlayFileLog(NSString *message) {
+    NSString *line = [NSString stringWithFormat:@"[DuoFaceSpeed8] %@\n",
+                      message ?: @""];
+    NSData *data = [line dataUsingEncoding:NSUTF8StringEncoding];
+    int fd = open("/var/mobile/Library/Logs/DuoFaceDockOwner.log",
+                  O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (fd >= 0) { write(fd, data.bytes, data.length); close(fd); }
+}
 
 static NSString *const DF163SessionPath =
     @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
@@ -100,6 +116,17 @@ static NSString *const DF165StandaloneLease =
     return winner;
 }
 - (void)detach {
+    [self detachWithReason:@"plain"];
+}
+// QA177 H2: single funnel for detach so every loss of the overlay HUD
+// leaves one file-log line with its reason and clears the overlay's
+// HUD-visible record (Chrome's exit handover reads that record).
+- (void)detachWithReason:(NSString *)reason {
+    if(self.hud){
+        DF177OverlayFileLog([NSString stringWithFormat:
+            @"qa177-overlay detach reason=%@",reason?:@"?"]);
+        DF177OverlayPublish(NO);
+    }
     [self.hud removeFromSuperview];
     self.hud.ownerWindow=nil;
     self.hud=nil;
@@ -109,37 +136,47 @@ static NSString *const DF165StandaloneLease =
     (void)timer;
     // Never cover native CarPlay Home when an attested DuoFace pane owner is
     // visible; otherwise the native CarPlay process draws its own HUD.
-    if(!DF169SpeedBubbleEnabled()){ [self detach]; return; }
-    if([self duoFaceOwnsExternalChrome]){ [self detach]; return; }
+    if(!DF169SpeedBubbleEnabled()){ [self detachWithReason:@"bubble-disabled"]; return; }
+    // QA177 H2: a fresh Retiring Chrome lease is an exit handover in
+    // progress — Chrome holds its HUD up until this overlay attaches.
+    // Retiring therefore overrides BOTH yield signals below (the
+    // session pulse can still be fresh while Chrome is leaving; the
+    // HUD-scoped Retiring flag is the stronger, explicit signal).
+    BOOL chromeRetiring=DF176ChromeLeaseRetiring();
+    if(!chromeRetiring && [self duoFaceOwnsExternalChrome]){ [self detachWithReason:@"duo-session-pulse"]; return; }
     // A native-Home standalone Safari/other selected app is SpringBoard-owned.
     // Its Speed8 bubble must be attached to that real external UIWindow, not
     // the lower CarPlayApp native window. A fresh lease prevents doubles.
     NSDictionary *standalone=[NSDictionary dictionaryWithContentsOfFile:DF165StandaloneLease];
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-
                          [standalone[@"Timestamp"] doubleValue];
-    if([standalone[@"HUDOwnerVisible"] boolValue] &&
+    if(!chromeRetiring &&
+       [standalone[@"HUDOwnerVisible"] boolValue] &&
        [standalone[@"Role"] isEqualToString:@"SpringBoard-Standalone144"] &&
        age>=0 && age<2.0){
         if(self.hud)NSLog(@"[DuoFaceSpeed8] QA165 native HUD suppressed for standalone owner");
-        [self detach];return;
+        [self detachWithReason:@"standalone-yield"];return;
     }
     // QA176 H2: also yield to Chrome's HUD-scoped lease. The QA162
     // session pulse above is session-scoped; this lease is published
     // only while Chrome's HUD is actually visible, so the native
     // overlay remains the fallback whenever no higher HUD is on screen.
-    if(DF176HUDLeaseFresh(DF176HUDLeaseChromePath,@"Chrome")){
+    if(!chromeRetiring && DF176HUDLeaseFresh(DF176HUDLeaseChromePath,@"Chrome")){
         if(self.hud)NSLog(@"[DuoFaceSpeed8] qa176-hud-owner yield=Overlay163 winner=Chrome");
-        [self detach];return;
+        [self detachWithReason:@"chrome-yield"];return;
     }
     UIWindow *candidate=[self visibleExternalOwner];
     if(!candidate){
-        if(self.ownerWindow)[self detach];
+        if(self.ownerWindow)[self detachWithReason:@"no-candidate"];
         return;
     }
     UIView *root=candidate.rootViewController.viewIfLoaded;
     if(!root)return;
-    if(self.ownerWindow==candidate && self.hud.superview==root)return;
-    [self detach];
+    if(self.ownerWindow==candidate && self.hud.superview==root){
+        DF177OverlayPublish(YES); // heartbeat the HUD-visible record
+        return;
+    }
+    [self detachWithReason:@"replace"];
     DFNative8SpeedHUDView *view=[[DFNative8SpeedHUDView alloc]
                                   initWithFrame:CGRectMake(0,0,104,46)];
     // Only the actual 104x46 HUD bubble is interactive for drag/long-press.
@@ -149,6 +186,13 @@ static NSString *const DF165StandaloneLease =
     view.ownerWindow=candidate;
     [root addSubview:view];
     [view restoreSavedPosition];
+    // QA177 H2: announce the HUD in the overlay's own record (Chrome's
+    // exit handover waits for it) and in the exported file log.
+    DF177OverlayPublish(YES);
+    DF177OverlayFileLog([NSString stringWithFormat:
+        @"qa177-overlay attach reason=%@ class=%@",
+        chromeRetiring?@"chrome-handover":@"native-fallback",
+        NSStringFromClass(candidate.class)]);
     NSLog(@"[DuoFaceSpeed8] QA163 native owner attached process=%@ class=%@",
           NSProcessInfo.processInfo.processName,NSStringFromClass(candidate.class));
 }
