@@ -1,3 +1,8 @@
+## 2026-11-03 — QA179 device feedback đầu tiên: bàn phím thất thường (chưa có log)
+
+- Nguyen báo 09:27 (sau publish QA179): bàn phím lúc hiện lúc không hiện; lúc có hàng dưới cùng (space) lúc không; lúc dài lúc ngắn. Chưa kèm ảnh/log — chưa kết luận được fit có áp dụng hay bị hệ thống đặt lại, hay do nhịp capture/mailbox.
+- Đã yêu cầu MỘT bản xuất log ngay sau khi tái hiện theo checklist: xác nhận bản cài là 0.0.179~kbfit1; Maps chia pane mở/đóng phím 2-3 lần (chụp mỗi lần khác nhau); Waze tương tự; xuất log ngay. Các dòng sẽ đọc: qa179-kbfit (applied/skip + lý do, kb trước/sau, lần late) và qa179-selprobe.
+
 ## 2026-11-03 — QA179 PUBLISHED lên Sileo (0.0.179~kbfit1), đã kiểm chứng độc lập
 
 - Nguyen duyệt publish 08:56. Publisher carplaydsp: commit chọn bản `0d4cfc46840f` (retained 124->125, giữ QA178 rollback). Ba run đầu fail ở step 22 vì hai lỗi của chính transform: (1) block QA179 bị chèn vào giữa comment của section prune (ranh giới chèn chọn theo chuỗi comment bị trùng) nên nằm sau lần scanpackages đầu; (2) sót pin trần `CFBundleVersion=='178'` trong verify của block clone — loại pin số trần mà phép đếm version/SHA không thấy. Đã sửa: commit `c3e46572877e` (dời block về cạnh block QA178, trước `cd repo`) và `14d6323a44c9` (pin 178->179). Run `41564754006` SUCCESS đủ 5 job (query trực tiếp).
