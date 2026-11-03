@@ -103,6 +103,18 @@ Hệ quả đo được trong từ vựng selector: hai bên có **2.590 (gốc)
 - Gốc: liên kết libsqlite3 + thẻ `[DuoFaceDB]` (có tầng cơ sở dữ liệu), file log ở /var/mobile/duoface*.log (script optimizer biết và dọn các file này).
 - Ta: log qua exporter trong app + audit records; không có tầng DB.
 
+## 3b. Bổ sung từ quét sâu (lớp chuỗi log + bề mặt selector)
+
+Quét lớp sâu hơn (380 chuỗi log có định dạng riêng trong Dashboard, bề mặt 1.089 selector ngoài class tự định nghĩa) cho thêm các sự kiện sau:
+
+- **Mô hình hình học 3 lớp:** log `PRE-RENDER CHECK` phân biệt rạch ròi *CarPlay Screen* / *UsableCanvas* / *RenderCanvas* — gốc không chỉ có "kích thước đích": nó tách canvas dùng được (sau dock/vùng an toàn) khỏi canvas render. QA185 hiện gộp hai khái niệm này vào một (pane). Đây là chênh lệch tinh vi còn lại trong mảng hình học, chỉ lộ khi đọc log gốc.
+- **Tự cập nhật filter của chính mình:** log `Dynamically updated tweak filter plist with %lu bundles` — Dashboard viết lại plist filter của Substrate lúc chạy theo danh sách bridgedApps, nên đổi app bridge không cần cài lại gói. Phía ta: filter tĩnh trong deb.
+- **Cấp quyền TCC bằng ghi thẳng cơ sở dữ liệu:** hàm đặt tên `CBGrantTCCSpeechPermissions` ghi `INSERT OR REPLACE INTO access ... 'kTCCServiceSpeechRecognition', 'com.apple.springboard' ...` vào TCC.db (thử 3 biến thể đường dẫn) và liên kết libsqlite3 — đó là cách trợ lý của gốc có quyền nhận dạng giọng nói cho SpringBoard mà không qua hộp thoại xin quyền. Ghi nhận như một sự kiện hành vi có rủi ro quyền riêng tư cao; phía ta không có cơ chế tương đương.
+- **Backend giấy phép:** endpoint `/api/v1/license/sync` trên miền duoface.com, URL backend phân giải 3 tầng (file override → plist override → mặc định production); đồng bộ có khóa chống trùng đa process (cooldown 10 giây) và lịch refresh theo lease. (Chỉ ghi nhận, ngoài phạm vi làm theo.)
+- **Tích hợp mô hình icon của SpringBoard:** 54 selector thuộc họ SBIconModel/launchIcon — picker và dock của gốc dựng trên chính mô hình icon của hệ thống, không tự quét thư mục app. Phía ta tự duy trì thư viện app riêng.
+- **Bản đồ hook bàn phím đầy đủ (21 selector bề mặt):** gồm cả `traitsWithScreen:orientation:`, `showKeyboardWithInputTraits:screenTraits:splitTraits:`, `softwareKeyboardAllowedForFirstResponder:`, `isHardwareKeyboardAttached` — tức gốc chạm tới cả tầng traits factory và tầng cho-phép-bàn-phần-mềm, sâu hơn danh sách 5 nhóm đã biết ở QA183.
+- **Nhật ký hành vi xác nhận các cơ chế đã liệt kê:** chống flap kết nối (`Ignoring rapid screen connect flap`), thử lại khi CADisplay chưa sẵn sàng (auto-resume retry 1.0s), tự nạp sạch khi cửa sổ "stale or detached" sau reconnect, giữ sleep assertion `PreventUserIdleSystemSleep` qua IOKit.
+
 ## 4. Bảng chênh lệch tổng hợp
 
 **Gốc có — ta chưa có (khoảng trống chức năng thật):**
