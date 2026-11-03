@@ -57,3 +57,19 @@
   twPoint/twIdiom/twW đã ghi), không chỉ nhãn profile=; cổng
   khói R2 + bảng quyết định WO giữ nguyên (Spec đã xác nhận ở
   Q1–Q4, báo cáo BAO_CAO_QA183_CHO_SPEC.md).
+
+## VERDICT QA183 (export Audit 7, 03/11/2026) — KHÔNG ĐẠT
+- Phiên chứa cả kbsuite1 (static) và kbsuite2 (p0-182); suite
+  KHÔNG bắn hành động nào đo được: nameFix=0, kpFix=0,
+  twPoint=none ở mọi record (4 record tới nơi, p1–p3 mất
+  record qua mailbox). Tên/kp bình thường sẵn -> B không có
+  gì sửa. Điểm traits không ghi lần nào.
+- Vỡ trong ảnh đã đo: Maps ở pane NGANG 480; fit đặt cửa sổ
+  phím {414,736} -> khung ngang {255..764,480} nhưng nội
+  dung giữ {414,270} refSize 414 -> dải phím 414 lệch giữa,
+  cụt phải. Là fit QA179 + layout không theo, không phải
+  suite.
+- Waze: R2 sống lần 4, 0 record phím, Nguyen báo phím không
+  hiện. HUD không hồi quy (hud-gate x10).
+- Chi tiết + 3 câu hỏi cho Spec: BAO_CAO_VERDICT_QA183.md.
+  Chờ Spec phán theo bảng quyết định (H2 tầng B/C?).
