@@ -28,8 +28,8 @@ class QA178KBDiag(unittest.TestCase):
 
     def test_keyplane_independent_of_window(self):
         self.assertIn('NSClassFromString(@"UIKeyboardImpl")', RELAY)
-        self.assertIn('@"activeInstance"', RELAY)
-        self.assertIn('@"layoutStar"', RELAY)
+        self.assertIn('DF154Object((id)implCls,"activeInstance")', RELAY)
+        self.assertIn('"layoutStar"', RELAY)
 
     def test_record_fields(self):
         for key in ('@"late"', '@"kbScreenFrame"', '@"kbTransform"',
