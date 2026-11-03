@@ -3,6 +3,8 @@
 #import <UIKit/UIKit.h>
 #import "DFYouTubeHostState.h"
 #import "DFYouTubeOrientationVirtualization.h"
+#define DF177_APP_SIDE_SENDER 1
+#import "DFAppTouch177.h"
 
 @interface DFYTWindowSnapshot : NSObject
 @property(nonatomic) CGRect frame;
@@ -340,6 +342,14 @@ __attribute__((constructor)) static void DFYTStart(void) {
             [NSNotificationCenter.defaultCenter addObserver:relay selector:@selector(windowVisible:)
                 name:UISceneDidActivateNotification object:nil];
             [relay request:nil];
+            // QA177 H1 (the ONLY change ported onto the QA171 base in
+            // this build): YouTube is NOT in the DF155 pilot scope (it
+            // has this own relay), so the identical app-side touch
+            // sender is installed here: -[UIApplication sendEvent:]
+            // original runs first, the hook only observes Began
+            // touches and signals SpringBoard via the DF156 mailbox.
+            // See DFAppTouch177.h.
+            DF177InstallAppTouchHook(DFYTBundle);
         });
     }
 }

@@ -35,8 +35,13 @@ class QA155AppReceiver(unittest.TestCase):
                 'postAck:@"scene-matched"','postAck:@"restored"','window.windowScene!=target',
                 'window.frame=original.frame','transport-unavailable'):
    self.assertIn(token,relay)
-  for forbidden in ('setInterfaceOrientation:','sendEvent:','UIWindowLevelAlert','SBMainWorkspace'):
+  # QA177 supersedes the sendEvent: ban for ONE narrow use: the
+  # app-side touch sender observes -[UIApplication sendEvent:] with
+  # the original implementation called first and read-only access
+  # afterwards (DFAppTouch177.h). It still never steers input.
+  for forbidden in ('setInterfaceOrientation:','UIWindowLevelAlert','SBMainWorkspace'):
    self.assertNotIn(forbidden,relay)
+  self.assertIn('DF177InstallAppTouchHook(bundle)',relay)
   self.assertIn('DF154Valid(self.state,NSDate.date.timeIntervalSince1970)',relay)
   self.assertIn('qa155-app-side-ack',(ROOT/"DFHomeStandalone144.m").read_text())
   self.assertIn('DF155AckNotification',(ROOT/"DF154AppStateProtocol.h").read_text())

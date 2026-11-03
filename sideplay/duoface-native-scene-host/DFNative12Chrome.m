@@ -10,6 +10,9 @@
 #import "DFSceneHost.h"
 #import "speed8/DFNative8SpeedHUDView.h"
 #import "DFSpeedVisibility169.h"
+#import "DF156DarwinMailbox.h"
+#import "DFAppTouch177.h"
+#import <notify.h>
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerVC.h"
 #import "DFSlotWorkspacePolicy.h"
@@ -290,6 +293,9 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSTimeInterval borderUntil;
 @property(nonatomic,assign) NSTimeInterval controlsUntil;
 @property(nonatomic,assign) NSUInteger borderGeneration;
+@property(nonatomic,assign) int touchWake177Token;
+@property(nonatomic,strong) NSMutableDictionary *touch177Bundles;
+@property(nonatomic,copy) NSString *touch177LastBundle;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
@@ -645,6 +651,21 @@ static void DFCLog(NSString *text) {
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneFailed:) name:DFSceneHostDidFailNotification object:nil];
+    // QA177 H1 (SpringBoard side; the ONLY change ported onto the
+    // QA171 base in this build): the app-side relays report Began
+    // touches through a DF156 mailbox + this wake. A signal means
+    // "the user touched the hosted app": recall the controls through
+    // the same noteUserActivity path as every other activity source.
+    // Kill switch: AppTouchRecall177 in the qa177 prefs plist
+    // (absent = ON), read live on every wake.
+    if(DF177AppTouchEnabled() && !self.touchWake177Token){
+        __weak typeof(self) weakTouch=self;
+        int touchToken=0;
+        if(notify_register_dispatch(DF177TouchWakeName,&touchToken,
+               dispatch_get_main_queue(),^(int t){
+            (void)t; [weakTouch df177HandleAppTouch];
+        })==NOTIFY_STATUS_OK) self.touchWake177Token=touchToken;
+    }
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
        CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
@@ -1220,6 +1241,45 @@ static void DFCLog(NSString *text) {
             [owner layoutControls];
         }
     });
+}
+// QA177 H1: one app-side touch signal arrived. The mailbox holds the
+// cumulative count, so the qa177-app-touch line is materialized here
+// (only SpringBoard file logs reach the exporter): at most one line
+// per bundle per 5s, plus one whenever the bundle changes. The recall
+// itself goes through noteUserActivity, the same path every other
+// activity source uses; qa177-recall is logged only on a
+// hidden->visible change.
+- (void)df177HandleAppTouch {
+    if(!DF177AppTouchEnabled())return;
+    static DF156Mailbox touchBox;
+    static BOOL touchBoxReady=NO;
+    if(!touchBoxReady){ DF156Init(&touchBox,DF177TouchMailboxName); touchBoxReady=YES; }
+    uint8_t bytes[DF156_MAX_BYTES];
+    size_t size=DF156Read(&touchBox,bytes);
+    if(!size)return;
+    id parsed=[NSJSONSerialization JSONObjectWithData:
+        [NSData dataWithBytes:bytes length:size] options:0 error:nil];
+    if(![parsed isKindOfClass:NSDictionary.class])return;
+    NSString *bundle=parsed[@"bundle"];
+    if(![bundle isKindOfClass:NSString.class] || !bundle.length)return;
+    uint64_t count=[parsed[@"count"] unsignedLongLongValue];
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(!self.touch177Bundles)self.touch177Bundles=[NSMutableDictionary dictionary];
+    BOOL bundleChanged=![bundle isEqualToString:self.touch177LastBundle];
+    self.touch177LastBundle=bundle;
+    NSTimeInterval lastLog=[self.touch177Bundles[bundle][@"lastLog"] doubleValue];
+    if(bundleChanged || now-lastLog>=5.0){
+        DFCLog([NSString stringWithFormat:
+            @"qa177-app-touch bundle=%@ count=%llu",
+            bundle,(unsigned long long)count]);
+        lastLog=now;
+    }
+    self.touch177Bundles[bundle]=@{@"count":@(count),@"lastLog":@(lastLog)};
+    BOOL wasVisible=now<self.controlsUntil;
+    [self noteUserActivity];
+    if(!wasVisible)
+        DFCLog([NSString stringWithFormat:
+            @"qa177-recall source=app-touch bundle=%@",bundle]);
 }
 - (void)realAppTouched:(NSNotification *)note {
     if(![note.object isKindOfClass:UIView.class] ||
@@ -2420,6 +2480,7 @@ static void DFCLog(NSString *text) {
     self.gofaSpeedHUD.dismissWindow=nil;
     self.gofaSpeedHUD.ownerWindow=nil;
     self.gofaSpeedHUD=nil;
+    if(self.touchWake177Token){ notify_cancel(self.touchWake177Token); self.touchWake177Token=0; }
     self.speedHUDWindow=nil;
     self.speedDismissWindow=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
