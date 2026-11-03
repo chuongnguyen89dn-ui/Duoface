@@ -1,3 +1,9 @@
+## 2026-11-03 — Phương án của Muse cho ngã rẽ hình học + gói tham khảo gửi Claude Spec
+
+- Ý kiến của Muse (đã trình Nguyen): làm CẢ HAI hướng theo thứ tự có khóa an toàn — (1) QA180 giữ nguyên WO v2 (bắt phím theo sự kiện + marker Waze + D-B): rẻ và cần ở mọi tương lai; (2) QA181 đổi hợp đồng hình học SAU CỜ theo bundle, bật riêng Maps trước (logical = pane thật, scale 1,0; đo readback/phím/chạm; cờ tắt = lùi không cần hạ cấp); (3) QA182 mới quyết mặc định + hook keyboardScreenReferenceSize nếu phím còn lệch (đã có số đo giá trị gốc từ D-B).
+- Lý do không nhảy thẳng vào hình học: DFSceneHost là lõi hosting, hợp đồng cũ đang gánh cả chạm (QA177 PASS) và HUD (QA178 PASS); bản gốc cũng cần lớp KB trên nền hình học đúng, nên hình học không thay thế hoàn toàn lớp phím — fit hiện tại giữ làm lưới an toàn trong chuyển đổi.
+- Đã đặt tài liệu tham khảo `sideplay/spec-knowledge/THAM_KHAO_QA181_HINH_HOC.md` lên spec-main (đủ sự thật đã đo + 2 hướng + phương án trên + 5 câu hỏi Q1-Q5 cho Spec phản biện). Chờ Spec trả lời; Muse tổng hợp phương án cuối cùng trình Nguyen duyệt trước khi triển khai QA181. QA180 chờ duyệt mục G như cũ.
+
 ## 2026-11-03 — Nguyen hỏi vì sao không làm theo deb gốc; chốt lại gốc rễ kiến trúc + ngã rẽ
 
 - DuoNavi gốc không gặp bài toán bàn phím này vì khác gốc ở 2 điểm (đã đo ở đối chiếu QA178): (1) app được host TỰ layout theo kích thước đích — portal mirroring + viết lại scene settings frame (updateSceneSettingsFrame) + renderSize theo bundle; ta thì giữ scene logical 414x736 rồi nén bằng transform, nên cửa sổ phím lấy kích thước từ màn điện thoại là triệu chứng của hợp đồng hình học của ta. (2) Kể cả có hình học đúng, bản gốc vẫn có lớp [DuoFaceKB] riêng trong process app (5 nhóm can thiệp) — hosting CarPlay phá giả định bàn phím ở mọi kiến trúc.
