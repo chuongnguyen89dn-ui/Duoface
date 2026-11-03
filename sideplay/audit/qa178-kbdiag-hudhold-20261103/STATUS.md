@@ -7,7 +7,7 @@
 - Private build run: `41557631891` — SUCCESS (verified directly through the Actions API).
 - Archive commit: `75d496c790a1f05f44efc7dbf12e4f7b24f9b880`.
 - DEB: `com.duoface.jb.embedded_0.0.178~kbhud1_iphoneos-arm64.deb`, 1,273,420 bytes, SHA256 `5f4ecb0d10eb5205909f2e5aaa9a764390a1f5f6e14da839a7e7871fe4126c7a`.
-- SILEO_PUBLISHED=false. DEVICE_TESTED=false.
+- SILEO_PUBLISHED=true (2026-11-03, Nguyen approved). Publisher commit `5534b504b3ae79ff6b4a929ac795512f1cb816a2`, publisher run `41558568255` SUCCESS (all 5 jobs); public index independently verified: exactly 1 stanza `0.0.178~kbhud1`, SHA256 `5f4ecb0d10eb5205909f2e5aaa9a764390a1f5f6e14da839a7e7871fe4126c7a`, Size 1273420. DEVICE_TESTED=false.
 
 ## H1 — keyboard diagnostics round 3: DONE, behaviour unchanged
 - `DF154GeneralAppStateRelay.m`: window enumeration now merges the two public lists with the guarded private `+[UIWindow allWindowsIncludingInternalWindows:onlyVisibleWindows:]` (`respondsToSelector` + @try/@catch).
