@@ -8,6 +8,10 @@
 #define DF177_APP_SIDE_SENDER 1
 #import "DFAppTouch177.h"
 #import <dlfcn.h>
+#import <objc/message.h>
+
+// QA178 H1: delayed second keyboard capture after DidShow.
+static const NSTimeInterval kDF178KBDelayedCaptureSeconds = 0.3;
 
 // QA176 H3: recursive view search for the keyboard layout view.
 static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
@@ -40,6 +44,7 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
 @property(nonatomic) NSTimeInterval lastKbDiag176;
 @property(nonatomic) NSTimeInterval lastKbDid176;
 - (void)df176KeyboardShown:(NSNotification *)notification;
+- (void)df178CaptureKeyboard:(NSNotification *)note late:(BOOL)late;
 - (void)postAck:(NSString *)phase count:(NSUInteger)count;
 - (void)receive:(NSNotification *)notification;
 - (void)reconcile;
@@ -208,35 +213,94 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   if(now-self.lastKbDiag176<2.0)return;
   self.lastKbDiag176=now;
  }
+ [self df178CaptureKeyboard:note late:NO];
+ // QA178 H1: one delayed capture ~300ms after an accepted DidShow —
+ // the keyboard frame may not be settled in the immediate capture.
+ // The late capture runs only off an accepted DidShow and does not
+ // pass the rate gates again.
+ if([note.name isEqualToString:UIKeyboardDidShowNotification]){
+  NSNotification *held=note;
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+    (int64_t)(kDF178KBDelayedCaptureSeconds*NSEC_PER_SEC)),
+    dispatch_get_main_queue(),^{
+     if(DF176KBDiagEnabled())[self df178CaptureKeyboard:held late:YES];
+    });
+ }
+}
+- (void)df178CaptureKeyboard:(NSNotification *)note late:(BOOL)late {
+ NSTimeInterval now=NSDate.date.timeIntervalSince1970;
  @try {
   NSMutableArray<UIWindow *> *all=[NSMutableArray array];
   for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
    if([scene isKindOfClass:UIWindowScene.class])
     [all addObjectsFromArray:((UIWindowScene *)scene).windows];
   [all addObjectsFromArray:UIApplication.sharedApplication.windows];
-  UIWindow *kb=nil;
-  for(UIWindow *w in all)
-   if(!w.hidden && [NSStringFromClass(w.class) containsString:@"Keyboard"]) {
-    kb=w;break;
+  // QA178 H1: the remote keyboard window is in NEITHER public list
+  // (two device rounds: kbClass=none even at DidShow). Merge the
+  // private all-windows enumeration (internal windows included),
+  // guarded by respondsToSelector + try/catch. Read-only.
+  @try {
+   SEL allSel=NSSelectorFromString(
+     @"allWindowsIncludingInternalWindows:onlyVisibleWindows:");
+   if([UIWindow respondsToSelector:allSel]) {
+    NSArray *priv=((NSArray *(*)(id,SEL,BOOL,BOOL))objc_msgSend)(
+      (id)UIWindow.class,allSel,YES,NO);
+    if([priv isKindOfClass:NSArray.class])
+     for(id cand in priv)
+      if([cand isKindOfClass:UIWindow.class] &&
+         ![all containsObject:(UIWindow *)cand])
+       [all addObject:(UIWindow *)cand];
    }
+  } @catch(__unused NSException *e) {}
+  UIWindow *kb=nil,*kbAny=nil;
+  for(UIWindow *w in all)
+   if([NSStringFromClass(w.class) containsString:@"Keyboard"]) {
+    if(!kbAny)kbAny=w;
+    if(!w.hidden){kb=w;break;}
+   }
+  if(!kb)kb=kbAny;
   NSString *keyplane=@"?";
   if(kb) {
    UIView *star=DF176FindView(kb,@"UIKeyboardLayoutStar",0);
    if(star) {
-    id kp=DF154Object(star,"keyplaneName");
+    id kp=DF154Object(star,@"keyplaneName");
     if(!DF154String(kp)) {
-     id plane=DF154Object(star,"keyplane");
-     kp=plane?DF154Object(plane,"name"):nil;
+     id plane=DF154Object(star,@"keyplane");
+     kp=plane?DF154Object(plane,@"name"):nil;
     }
     if(DF154String(kp))keyplane=kp;
    }
   }
+  // QA178 H1: the keyplane lookup must not depend on finding the
+  // window. Fall back to the keyboard implementation's active
+  // instance and its layout star. Read-only, fully guarded.
+  if([keyplane isEqualToString:@"?"]) {
+   @try {
+    Class implCls=NSClassFromString(@"UIKeyboardImpl");
+    id active=implCls?DF154Object((id)implCls,@"activeInstance"):nil;
+    UIView *star=nil;
+    if(active)
+     for(NSString *selName in @[@"layoutStar",@"keyboardLayoutStar",
+                               @"_layoutStar"]) {
+      id cand=DF154Object(active,selName);
+      if([cand isKindOfClass:UIView.class]){star=(UIView *)cand;break;}
+     }
+    if(star) {
+     id kp=DF154Object(star,@"keyplaneName");
+     if(!DF154String(kp)) {
+      id plane=DF154Object(star,@"keyplane");
+      kp=plane?DF154Object(plane,@"name"):nil;
+     }
+     if(DF154String(kp))keyplane=kp;
+    }
+   } @catch(__unused NSException *e) {}
+  }
   NSString *inputMode=@"?",*lang=@"?";
   @try {
    Class ctl=NSClassFromString(@"UIKeyboardInputModeController");
-   id shared=ctl?DF154Object((id)ctl,"sharedInputModeController"):nil;
-   id current=shared?DF154Object(shared,"currentInputMode"):nil;
-   id ident=current?DF154Object(current,"identifier"):nil;
+   id shared=ctl?DF154Object((id)ctl,@"sharedInputModeController"):nil;
+   id current=shared?DF154Object(shared,@"currentInputMode"):nil;
+   id ident=current?DF154Object(current,@"identifier"):nil;
    if(DF154String(ident))inputMode=ident;
   } @catch(__unused NSException *e) {}
   UITextInputMode *publicMode=UITextInputMode.activeInputModes.firstObject;
@@ -263,6 +327,46 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   NSString *kbLevel=kb?[NSString stringWithFormat:@"%.1f",kb.windowLevel]:@"?";
   NSString *sceneBounds=self.ownedScene?
    NSStringFromCGRect(self.ownedScene.coordinateSpace.bounds):@"?";
+  // QA178 H1: keyboard frame converted to screen coordinates and
+  // the window's own transform, so the next export can separate
+  // "laid out wide, presented narrow" from "laid out narrow".
+  NSString *kbScreenFrame=@"?";
+  if(kb && kb.screen){
+   @try{ kbScreenFrame=NSStringFromCGRect(
+     [kb convertRect:kb.bounds
+       toCoordinateSpace:kb.screen.coordinateSpace]);
+   } @catch(__unused NSException *e) {}
+  }
+  NSString *kbTransform=kb?[NSString stringWithFormat:
+   @"%.2f,%.2f,%.2f,%.2f,%.0f,%.0f",
+   kb.transform.a,kb.transform.b,kb.transform.c,kb.transform.d,
+   kb.transform.tx,kb.transform.ty]:@"?";
+  // QA178 H1: the size the APP believes it has: main screen bounds,
+  // key-window bounds, scene coordinate bounds.
+  UIWindow *keyWin=nil;
+  for(UIWindow *w in all)if(w.isKeyWindow){keyWin=w;break;}
+  NSString *appSelf=[NSString stringWithFormat:@"main=%@ key=%@ scene=%@",
+   NSStringFromCGRect(UIScreen.mainScreen.bounds),
+   keyWin?NSStringFromCGRect(keyWin.bounds):@"?",sceneBounds];
+  // QA178 H1: compact dump of every window found (keyboard first),
+  // capped in count and length so the record stays inside the
+  // DF156 2048-byte mailbox budget with the other fields.
+  NSMutableString *winDump=[NSMutableString string];
+  NSMutableArray<UIWindow *> *ordered=[NSMutableArray array];
+  if(kb)[ordered addObject:kb];
+  for(UIWindow *w in all)if(w!=kb)[ordered addObject:w];
+  NSUInteger dumpCount=0;
+  for(UIWindow *w in ordered) {
+   if(dumpCount>=10)break;
+   [winDump appendFormat:@"%@%@{f%@|b%@|h%d|a%.1f|L%.0f|s%@}",
+    dumpCount?@";":@"",NSStringFromClass(w.class),
+    NSStringFromCGRect(w.frame),NSStringFromCGRect(w.bounds),
+    w.hidden?1:0,w.alpha,w.windowLevel,
+    w.screen?NSStringFromCGRect(w.screen.bounds):@"?"];
+   dumpCount++;
+  }
+  if(winDump.length>880)
+   winDump=[[winDump substringToIndex:880] mutableCopy];
   id endValue=note.userInfo[UIKeyboardFrameEndUserInfoKey];
   NSDictionary *rec=@{@"version":@1,@"bundle":self.bundle?:@"?",
    @"ts":@(now),
@@ -274,7 +378,10 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
    @"notifName":note.name?:@"?",
    @"notifEnd":endValue?NSStringFromCGRect([endValue CGRectValue]):@"?",
    @"appFrame":appFrame,
-   @"kbLevel":kbLevel,@"sceneBounds":sceneBounds};
+   @"kbLevel":kbLevel,@"sceneBounds":sceneBounds,
+   @"late":@(late?1:0),@"kbScreenFrame":kbScreenFrame,
+   @"kbTransform":kbTransform,@"appSelf":appSelf,
+   @"winDump":winDump};
   static DF156Mailbox kbBox;
   static BOOL kbReady=NO;
   if(!kbReady){ DF156Init(&kbBox,DF176KBDiagMailboxName); kbReady=YES; }

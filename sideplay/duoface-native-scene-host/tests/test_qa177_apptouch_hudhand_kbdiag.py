@@ -25,12 +25,12 @@ class TestQA177(unittest.TestCase):
         cls.build=(ROOT/"build.sh").read_text()
         cls.control=(ROOT/"control").read_text()
         cls.pack=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
-        cls.workflow=(REPO/".github/workflows/duoface-177-apptouch-hudhand-kbdiag-signed-private.yml").read_text()
+        cls.workflow=(REPO/".github/workflows/duoface-178-kbdiag-hudhold-signed-private.yml").read_text()
     def test_versions_bumped(self):
-        self.assertIn("0.1.177~apptouch1", self.build)
-        self.assertIn("0.1.177~apptouch1", self.control)
-        self.assertIn('VERSION="0.0.177~apptouch1"', self.pack)
-        self.assertIn("build=0.0.177~apptouch1", self.trace)
+        self.assertIn("0.1.178~kbhud1", self.build)
+        self.assertIn("0.1.178~kbhud1", self.control)
+        self.assertIn('VERSION="0.0.178~kbhud1"', self.pack)
+        self.assertIn("build=0.0.178~kbhud1", self.trace)
     def test_h1_sender_original_first_readonly(self):
         # original implementation runs FIRST, hook only reads Began
         hook=self.touch.index("DF177SendEventOriginal)(")

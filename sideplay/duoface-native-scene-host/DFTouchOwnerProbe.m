@@ -106,7 +106,7 @@ static void DFCaptureFatalException(NSException *exception) {
                  NSMakeRange(0,MIN((NSUInteger)12,stack.count))]
                  componentsJoinedByString:@" | "]:@"(unavailable)";
             NSString *line=[NSString stringWithFormat:
-               @"pid=%d build=0.0.177~apptouch1 name=%@ reason=%@ stack=%@\n",
+               @"pid=%d build=0.0.178~kbhud1 name=%@ reason=%@ stack=%@\n",
                 getpid(),name,reason,callers];
             NSData *data=[line dataUsingEncoding:NSUTF8StringEncoding];
             int fd=open("/var/mobile/Library/Logs/DuoFaceFatalException.log",
@@ -482,6 +482,7 @@ static void DFStopProbe(NSString *reason) {
     // process also has an independent heartbeat watchdog restoring the Dock.
     // On Home the old external overlays must disappear BEFORE any Dock
     // owner request or slow scene invalidation. Never touch native Dock.
+    if(sChrome)[sChrome df178LogHUDGate:@"deactivate"]; // QA178 H2
     [sChrome hideAllExternalWindowsImmediately];
     DFDockZoomDetach(sChrome,sSession);
     sZoomReceipt=nil;sZoomFinishing=NO;

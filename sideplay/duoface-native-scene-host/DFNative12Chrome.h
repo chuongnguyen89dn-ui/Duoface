@@ -13,6 +13,8 @@ typedef void (^DFNative12ChromeCommand)(NSString *action, NSNumber *ratio);
 - (BOOL)start;
 - (void)skipStartupSplashForHomeReentry;
 - (void)hideAllExternalWindowsImmediately;
+// QA178 H2: unconditional one-line HUD/lease gate-state log.
+- (void)df178LogHUDGate:(NSString *)point;
 // Immutable post-action state sampled from the actual SpringBoard UI owner.
 // This is the proof of operation relayed to CarPlay; never a second renderer.
 - (NSDictionary<NSString *, id> *)stateSnapshot;

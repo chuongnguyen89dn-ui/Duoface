@@ -302,6 +302,10 @@ static const NSTimeInterval kDF176ActivityThrottleSeconds = 0.25;
 // handover, waiting for the overlay's HUD-visible record (the overlay
 // polls every 1.5s, so 4s covers >2 polls plus slack).
 static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
+// QA178 H2: a pre-hide HUD-visible snapshot stays valid this long;
+// the deactivation hide (DFStopProbe) runs BEFORE -stop, so
+// the handover decision must not read the live hidden flag.
+static const NSTimeInterval kDF178HUDSnapshotFreshSeconds = 2.0;
 
 // Observe activity on our OWN external windows, above the hosted view's
 // hitTest implementation. Never recognize/cancel a competing app gesture.
@@ -359,6 +363,7 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
 @property(nonatomic,assign) NSTimeInterval lastActivityLayoutAt176;
 @property(nonatomic,assign) NSUInteger hudLease176Generation;
 @property(nonatomic,assign) BOOL hudLease176Published;
+@property(nonatomic,assign) NSTimeInterval hudWasVisibleAt176; // QA178 H2
 @property(nonatomic,assign) int kbDiag176Token;
 @property(nonatomic,assign) NSTimeInterval lastKbDiag176Timestamp;
 @property(nonatomic,assign) int touchWake177Token;
@@ -713,8 +718,39 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
 - (void)hideAllExternalWindowsImmediately {
     // Source-owned external windows only, never the native CarPlay Dock.
     self.speedDismissWindow.hidden=YES; // prevent a stale X on CarPlay Home
-    for(UIWindow *w in self.windows)w.hidden=YES;
+    // QA178 H2 (branch 2): the session owner calls this at scene
+    // deactivation, BEFORE -stop can run its handover gate. While the
+    // pre-hide snapshot says the speed HUD is up, the HUD window is
+    // excluded from this hide; -stop's handover then owns its fate
+    // (the owner always calls -stop right after this). With no fresh
+    // snapshot the behaviour is exactly QA177's.
+    BOOL holdHUD178=[self df178HUDSnapshotUp];
+    for(UIWindow *w in self.windows){
+        if(holdHUD178 && w==self.speedHUDWindow)continue;
+        w.hidden=YES;
+    }
     DFCLog(@"home-own-windows-hidden-before-scene-invalidate");
+}
+// QA178 H2: was the speed HUD up, per the lease flag or the pre-hide
+// snapshot stamped by the lease heartbeat (fresh <= 2s)?
+- (BOOL)df178HUDSnapshotUp {
+    if(!self.speedHUDWindow || !self.gofaSpeedHUD)return NO;
+    if(self.hudLease176Published)return YES;
+    return self.hudWasVisibleAt176>0 &&
+        NSDate.date.timeIntervalSince1970-self.hudWasVisibleAt176<=
+            kDF178HUDSnapshotFreshSeconds;
+}
+// QA178 H2: unconditional gate-state log (one line): all four QA177
+// gate values plus the snapshot age and both channels' freshness.
+- (void)df178LogHUDGate:(NSString *)point {
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    double age=self.hudWasVisibleAt176>0?now-self.hudWasVisibleAt176:-1;
+    DFCLog([NSString stringWithFormat:
+        @"qa178-hud-gate point=%@ pub=%d win=%d hidden=%d hud=%d wasAge=%.2f leaseFresh=%d overlayFresh=%d",
+        point,self.hudLease176Published?1:0,self.speedHUDWindow?1:0,
+        self.speedHUDWindow.hidden?1:0,self.gofaSpeedHUD?1:0,age,
+        DF176HUDLeaseFresh(DF176HUDLeaseChromePath,@"Chrome")?1:0,
+        DF177OverlayVisibleFresh(kDF176HUDLeaseFreshSeconds)?1:0]);
 }
 - (BOOL)start {
     // Fetch the latest iPhone choices for each actual reconnect.
@@ -1374,6 +1410,7 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
         if(visible){
             DF176HUDLeasePublish(DF176HUDLeaseChromePath,@"Chrome");
             owner.hudLease176Published=YES;
+            owner.hudWasVisibleAt176=NSDate.date.timeIntervalSince1970; // QA178 H2: pre-hide snapshot
         } else if(owner.hudLease176Published){
             DF176HUDLeaseRetract(DF176HUDLeaseChromePath);
             owner.hudLease176Published=NO;
@@ -1413,6 +1450,26 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
     NSString *kbBundle=rec[@"bundle"];
     if([kbBundle isKindOfClass:NSString.class]){
         UIView *hv=[DFSceneHost.sharedHost hostViewForBundleID:kbBundle error:nil];
+        NSString *hostSrc=@"scenehost";
+        if(!hv){
+            // QA178 H1.4: the scene-host lookup returned nil on device
+            // (QA177 export: host facts '?'). Fall back to Chrome's own
+            // surface list: match the surface by bundle via the public
+            // reverse lookup, then take its transformed subview (the
+            // app controller view carrying the pane scale).
+            hostSrc=@"none";
+            for(id cand in self.hostedScenes){
+                if(![cand isKindOfClass:UIView.class])continue;
+                UIView *surface=(UIView *)cand;
+                NSString *b=[DFSceneHost.sharedHost bundleIDForHostedView:surface];
+                if(![b isEqualToString:kbBundle])continue;
+                for(UIView *sub in surface.subviews)
+                    if(!CGAffineTransformIsIdentity(sub.transform)){
+                        hv=sub;hostSrc=@"fallback";break;
+                    }
+                if(hv)break;
+            }
+        }
         if(hv){
             CGAffineTransform t=hv.transform;
             hostFacts=[NSString stringWithFormat:
@@ -1420,6 +1477,7 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
                 NSStringFromCGRect(hv.frame),NSStringFromCGRect(hv.bounds),
                 t.a,t.b,t.d,
                 hv.superview?NSStringFromCGRect(hv.superview.bounds):@"?"];
+            hostFacts=[hostFacts stringByAppendingFormat:@" src=%@",hostSrc];
         }
     }
     DFCLog([NSString stringWithFormat:
@@ -1429,6 +1487,11 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
         rec[@"hwGSEvent"],rec[@"hwBKS"],rec[@"notifName"],rec[@"notifEnd"],
         rec[@"appFrame"],rec[@"kbLevel"]?:@"?",rec[@"sceneBounds"]?:@"?",
         slots,NSStringFromCGRect(self.contentRect),screen,hostFacts]);
+    DFCLog([NSString stringWithFormat:
+        @"qa178-kbdiag2 bundle=%@ late=%@ kbScreen=%@ kbT=%@ appSelf=%@ dump=%@",
+        rec[@"bundle"],rec[@"late"]?:@"?",rec[@"kbScreenFrame"]?:@"?",
+        rec[@"kbTransform"]?:@"?",rec[@"appSelf"]?:@"?",
+        rec[@"winDump"]?:@"?"]);
 }
 // QA177 H1: one app-side touch signal arrived. The mailbox holds the
 // cumulative count, so the qa177-app-touch line is materialized here
@@ -2708,6 +2771,7 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
     DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
 }
 - (void)stop {
+    [self df178LogHUDGate:@"stop"]; // QA178 H2: unconditional, pre-teardown
     ++self.restoreGeneration;
     self.restorePending=NO;
     self.restoringPhysical=-1;
@@ -2734,19 +2798,31 @@ static const NSTimeInterval kDF177HUDHandoverMaxSeconds = 4.0;
     // blinks through a no-HUD gap. Everything else in this stop runs
     // exactly as before; the stashed strong refs keep the view/window
     // alive past the teardown assignments below.
-    if(self.hudLease176Published && self.speedHUDWindow &&
-       !self.speedHUDWindow.hidden && self.gofaSpeedHUD){
+    // QA178 H2 (branch 3): the QA177 gate ALSO required the live
+    // !speedHUDWindow.hidden, but DFStopProbe hides every window
+    // BEFORE this stop runs, so that condition was already false and
+    // the handover never started (0 lines in the 03/11 export). The
+    // decision now uses the pre-hide snapshot (lease flag OR a
+    // heartbeat stamp <= 2s old) and re-shows the stashed window;
+    // the Retiring lease is published immediately, before the mass
+    // hide below. The hideAll above already excluded this window.
+    if([self df178HUDSnapshotUp]){
         self.hudHandover177Active=YES;
         self.handover177Window=self.speedHUDWindow;
         self.handover177HUD=self.gofaSpeedHUD;
         [self.windows removeObject:self.speedHUDWindow];
+        self.handover177Window.hidden=NO;
         self.hudHandover177Deadline=NSDate.date.timeIntervalSince1970+
             kDF177HUDHandoverMaxSeconds;
         DF176HUDLeasePublishChrome(YES,YES);
         self.hudHandover177Timer=[NSTimer scheduledTimerWithTimeInterval:0.25
             target:self selector:@selector(df177HUDHandoverTick)
             userInfo:nil repeats:YES];
-        DFCLog(@"qa177-hud-handover start max=4.0s");
+        DFCLog([NSString stringWithFormat:
+            @"qa177-hud-handover start max=4.0s pub=%d snapshotAge=%.2f",
+            self.hudLease176Published?1:0,
+            self.hudWasVisibleAt176>0?
+                NSDate.date.timeIntervalSince1970-self.hudWasVisibleAt176:-1]);
     }
     [self hideAllExternalWindowsImmediately];
     self.speedDismissWindow.hidden=YES;
