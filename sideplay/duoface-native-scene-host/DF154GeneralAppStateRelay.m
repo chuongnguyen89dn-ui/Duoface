@@ -791,7 +791,7 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
   // changing its semantics, so marker R2 can name the failing
   // one (b=bundle, p=.app path, e=no NSExtension key, s=pilot
   // scope, i=iOS 16).
-  BOOL gB=DF154String(bundle)!=nil;
+  BOOL gB=DF154String(bundle);
   BOOL gP=[path hasSuffix:@".app"];
   BOOL gE=NSBundle.mainBundle.infoDictionary[@"NSExtension"]==nil;
   BOOL gS=gB?DF155PilotAppID(bundle):NO;
