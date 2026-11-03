@@ -18,9 +18,9 @@ class TestQA175(unittest.TestCase):
         cls.build=(ROOT/"build.sh").read_text()
         cls.workflow=(REPO/".github/workflows/duoface-175-touch-reliability-signed-private.yml").read_text()
     def test_versions_bumped(self):
-        self.assertIn("0.1.176~recallhud1", self.build)
+        self.assertIn("0.1.177~apptouch1", self.build)
     def test_t6_build_labels_current(self):
-        self.assertIn("build=0.0.176~recallhud1", self.trace)
+        self.assertIn("build=0.0.177~apptouch1", self.trace)
     def test_t1_passthrough_only_pane_windows(self):
         # the mark is set exactly once: at the pane (slot) creation site
         self.assertEqual(self.chrome.count("objc_setAssociatedObject(slotWindow, kDF173WindowMarkKey"), 1)
