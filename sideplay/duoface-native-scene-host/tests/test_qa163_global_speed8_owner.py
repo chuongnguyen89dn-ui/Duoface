@@ -18,8 +18,8 @@ class GlobalSpeedHUD163(unittest.TestCase):
         cls.source=(ROOT/"DFGofaSpeedSource162.m").read_text()
 
     def test_only_one_integrated_duoface_package_and_full_compilation(self):
-        self.assertIn('VERSION="0.0.176~recallhud1"',PACK)
-        self.assertIn('0.1.176~recallhud1',self.build)
+        self.assertIn('VERSION="0.0.177~apptouch1"',PACK)
+        self.assertIn('0.1.177~apptouch1',self.build)
         self.assertIn("DFSpeedNativeOverlay163.mm speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm",self.build)
         self.assertIn("DFNative12Chrome.m",self.build)
         self.assertIn("DFGofaSpeedSource162.m",self.build)
@@ -47,7 +47,9 @@ class GlobalSpeedHUD163(unittest.TestCase):
         self.assertIn("UISceneDidActivateNotification",self.native)
         self.assertIn("w.screen==UIScreen.mainScreen",self.native)
         self.assertIn("w.rootViewController.viewIfLoaded",self.native)
-        self.assertIn("[self detach]",self.native)
+        # QA177: detach is funnelled through detachWithReason: so
+        # every detach leaves a file-log line + record update.
+        self.assertIn("[self detachWithReason:",self.native)
         self.assertIn("[root addSubview:view]",self.native)
         self.assertNotIn("alloc] initWithWindow",self.native)
         self.assertNotIn("initWithDisplayConfiguration:",self.native)
