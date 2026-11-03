@@ -5,7 +5,11 @@ fix a37de836; publisher run 41552468225 SUCCESS; public index verified:
 exactly 1 stanza 0.0.177~apptouch1, SHA 70e5117f…, Size 1270336).
 First publisher run 41551792852 failed on a stale selected-stanza SHA
 pin (QA176's) in the index-completion assert; fixed and re-run.
-NOT device tested.
+DEVICE TEST 2026-11-03 (Nguyen): H1 PASS — controls/logo recall works
+from hosted-app touches. H2 PARTIAL — dashboard/native CarPlay exits no
+longer blink; hosted-app exits still cycle the HUD. H3 unchanged
+(diagnostics-only by design; keyboard fix is QA178). Session log export
+still owed to pin the hosted-exit transition and complete kbdiag data.
 Branch: feature/duoface-qa177-apptouch-hudhand-kbdiag-20261103 (from QA176 tip 6fdf6af9)
 Code tip: 627f39d89ff9 (test re-pin fix on top of fcad40b2)
 Build: private run 41550814513 SUCCESS (first run 41550619395 failed step 3:
