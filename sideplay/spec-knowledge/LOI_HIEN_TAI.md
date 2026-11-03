@@ -1,4 +1,4 @@
-# LỖI HIỆN TẠI — bản đứng 0.0.182~kbhook1 (cập nhật 03/11/2026, Muse)
+# LỖI HIỆN TẠI — bản đứng 0.0.183~kbsuite1 (cập nhật 03/11/2026, Muse)
 
 ## Bản đứng
 - DuoFace 0.0.182~kbhook1 (host 0.1.182~kbhook1), nhánh
@@ -29,19 +29,23 @@
 - Hình học pane-native: vẫn đóng băng (mới đạt 1/3 điều kiện mở).
 
 ## QA183 (cập nhật 03/11/2026 chiều)
-- ĐÃ BUILD theo WO (đủ 5 nhóm + nguồn layoutstar + xoay profile),
-  bản 0.0.183~kbsuite1, build đúng: run 41594761935 SUCCESS, DEB
-  1.291.168 bytes SHA256 66012b70...aaa0. CHƯA publish — chờ Spec
-  review (báo cáo BAO_CAO_QA183_CHO_SPEC.md trong thư mục này, có
-  Q1–Q4) và lệnh publish của Nguyen. DEVICE_TESTED=false.
-- Sự cố đã khai trong báo cáo: build đầu dựng trên 3 giá trị Bước 0
-  GIẢ (tiền tố CarPlay_, idiom pad, height 270) từ một tóm tắt
-  trung gian mạo danh agent Bước 0; báo cáo thật mâu thuẫn cả ba;
-  đã sửa trước publish, bản sai chưa lên Sileo.
-- Bước 0 thật (tóm tắt): sửa tên 3 nhánh với token
-  iPhone-Portrait/iPhone-Landscape (nil -> ...-QWERTY; "(null)" ->
-  thay token; thiếu token thiết bị -> thêm "<token>-"); idiom = 0
-  (phone) + emulating YES; bề ngang KHÔNG có số cứng (tính runtime;
-  hằng 50/480/500 chưa rõ vai trò); helper width còn ghi
-  setKeyboardWidth: lên traits; candidate-list + setInputMode:
-  vẫn ngoài phạm vi, chờ Spec quyết (Q3 trong báo cáo).
+- ĐÃ PUBLISH Sileo 03/11/2026: bản 0.0.183~kbsuite1 (host
+  0.1.183~kbsuite1) là bản đứng hiện tại. Publisher run
+  41598365512 SUCCESS đủ 5 job; index công khai kiểm chứng độc
+  lập: đúng 1 stanza, DEB tải về trùng hash; retained 129;
+  QA182 còn tải được. DEVICE_TESTED=false — chờ test xe theo
+  giao thức WO (bật KbRotate183=1 trước phiên).
+- Nội dung: đủ 5 nhóm phím + nguồn layoutstar/impl + xoay
+  profile; ĐÃ gồm amendment theo Lựa chọn 1 của Spec (Nguyen
+  chọn): hook factory +[UIKBScreenTraits
+  traitsWithScreen:orientation:] ghi idiom + bề ngang
+  (KbTraitsWidth183 / bề ngang key window) lúc traits tạo,
+  setScreenTraits: dự phòng, log trước/sau twPoint/twIdiom/
+  twW/twSrc; reset bộ đếm chuyển về đầu show. Build cuối: run
+  41597779226 SUCCESS, DEB 1.291.816 bytes, SHA256
+  b7dbdce0...c72. Hai bản ứng viên bị thay (66012b70 tiền
+  amendment; 6a4baf26 bản số Bước 0 giả) KHÔNG hề publish.
+- Verdict đọc theo HÀNH ĐỘNG trong log qa183-kbsuite (nameFix>0,
+  twPoint/twIdiom/twW đã ghi), không chỉ nhãn profile=; cổng
+  khói R2 + bảng quyết định WO giữ nguyên (Spec đã xác nhận ở
+  Q1–Q4, báo cáo BAO_CAO_QA183_CHO_SPEC.md).
