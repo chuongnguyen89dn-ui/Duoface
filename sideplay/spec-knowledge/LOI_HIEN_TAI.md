@@ -1,4 +1,4 @@
-# LỖI HIỆN TẠI — bản đứng 0.0.183~kbsuite2 (cập nhật 03/11/2026, Muse)
+# LỖI HIỆN TẠI — bản đứng 0.0.184~fit2 (cập nhật 03/11/2026, Muse)
 
 ## Bản đứng
 - DuoFace 0.0.182~kbhook1 (host 0.1.182~kbhook1), nhánh
@@ -73,3 +73,10 @@
   hiện. HUD không hồi quy (hud-gate x10).
 - Chi tiết + 3 câu hỏi cho Spec: BAO_CAO_VERDICT_QA183.md.
   Chờ Spec phán theo bảng quyết định (H2 tầng B/C?).
+
+
+## QA184 ĐÃ PUBLISH (03/11/2026) + trả Spec 2 mục
+
+- Bản đứng mới: **0.0.184~fit2 ĐÃ PUBLISH Sileo** (publisher ca5ec688, run 41608884476 SUCCESS 5/5; index công khai 1 stanza SHA 9c9f643b… Size 1293960, DEB tải về trùng, retained 131). Nội dung: fit tầng 2 a/b/c ép nội dung theo cửa sổ + đo sâu class@width vào kbfit + giãn ngang (d) có điều kiện xoay vòng lẻ/chẵn + suite B–E mặc định TẮT + R2 hw= + stage R3 cho Waze. DEVICE_TESTED=false — chờ test xe theo §5 của Spec (ảnh ≥3s, cổng bề ngang view phím sâu nhất nhịp +0,3s ≥90% chu kỳ).
+- **Cổng theo CHU KỲ từ Audit 7**: 76 dòng kbfit → 8 chu kỳ, **8/8 có ≥1 applied/already-fit = 100%** tầng cửa sổ (đếm theo nhịp là 91%; đếm utc-only sót dòng tiền tố Chrome).
+- **hookfire**: code `DF182Trigger` chỉ ghi record DF182HookFire ở nhánh NGOÀI Maps; Maps đi thẳng vào fit → record không tồn tại theo thiết kế. Waze: record do hook tự ghi qua mailbox đã chứng minh sống; vắng ở 4 export = trigger chưa chạy trong Waze. Đính chính cách nói ở Bước 0 QA184.
