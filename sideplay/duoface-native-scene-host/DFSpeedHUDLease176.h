@@ -48,6 +48,54 @@ static inline void DF176HUDLeasePublish(NSString *path, NSString *owner) {
     [p writeToFile:path atomically:YES];
 }
 
+// QA177 H2: Chrome marks its lease Retiring while it holds its HUD up
+// during an exit handover. Lower presenters keep yielding to a fresh
+// visible lease (Retiring or not); only the overlay treats a Retiring
+// lease as the signal to attach NOW so Chrome can let go.
+static inline void DF176HUDLeasePublishChrome(BOOL visible, BOOL retiring) {
+    NSDictionary *p = @{@"Version" : @1,
+                        @"HUDOwner" : @"Chrome",
+                        @"HUDOwnerVisible" : @(visible),
+                        @"Retiring" : @(retiring),
+                        @"Timestamp" : @(NSDate.date.timeIntervalSince1970)};
+    [p writeToFile:DF176HUDLeaseChromePath atomically:YES];
+}
+static inline BOOL DF176ChromeLeaseRetiring(void) {
+    NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:
+        DF176HUDLeaseChromePath];
+    if (![p isKindOfClass:NSDictionary.class] ||
+        ![p[@"HUDOwner"] isEqualToString:@"Chrome"]) return NO;
+    NSTimeInterval age = NSDate.date.timeIntervalSince1970 -
+                         [p[@"Timestamp"] doubleValue];
+    return [p[@"Retiring"] boolValue] && age >= 0 &&
+           age <= kDF176HUDLeaseFreshSeconds;
+}
+
+// QA177 H2: the CarPlay-process overlay is the single writer of its
+// own HUD-visible record (same single-writer rule as every lease).
+// Chrome's exit handover waits for this record to read visible+fresh
+// before hiding its own HUD; the overlay refreshes it on every poll
+// while attached and clears it on detach.
+static NSString *const DF177OverlayRecordPath =
+    @"/var/mobile/Library/Preferences/com.duoface.speedhud.overlay163.plist";
+static inline void DF177OverlayPublish(BOOL visible) {
+    NSDictionary *p = @{@"Version" : @1,
+                        @"HUDOwner" : @"Overlay163",
+                        @"HUDOwnerVisible" : @(visible),
+                        @"Timestamp" : @(NSDate.date.timeIntervalSince1970)};
+    [p writeToFile:DF177OverlayRecordPath atomically:YES];
+}
+static inline BOOL DF177OverlayVisibleFresh(NSTimeInterval maxAge) {
+    NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:
+        DF177OverlayRecordPath];
+    if (![p isKindOfClass:NSDictionary.class] ||
+        ![p[@"HUDOwner"] isEqualToString:@"Overlay163"] ||
+        ![p[@"HUDOwnerVisible"] boolValue]) return NO;
+    NSTimeInterval age = NSDate.date.timeIntervalSince1970 -
+                         [p[@"Timestamp"] doubleValue];
+    return isfinite(age) && age >= 0 && age < maxAge;
+}
+
 static inline void DF176HUDLeaseRetract(NSString *path) {
     [NSFileManager.defaultManager removeItemAtPath:path error:nil];
 }
