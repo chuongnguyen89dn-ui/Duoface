@@ -80,3 +80,10 @@
 - Bản đứng mới: **0.0.184~fit2 ĐÃ PUBLISH Sileo** (publisher ca5ec688, run 41608884476 SUCCESS 5/5; index công khai 1 stanza SHA 9c9f643b… Size 1293960, DEB tải về trùng, retained 131). Nội dung: fit tầng 2 a/b/c ép nội dung theo cửa sổ + đo sâu class@width vào kbfit + giãn ngang (d) có điều kiện xoay vòng lẻ/chẵn + suite B–E mặc định TẮT + R2 hw= + stage R3 cho Waze. DEVICE_TESTED=false — chờ test xe theo §5 của Spec (ảnh ≥3s, cổng bề ngang view phím sâu nhất nhịp +0,3s ≥90% chu kỳ).
 - **Cổng theo CHU KỲ từ Audit 7**: 76 dòng kbfit → 8 chu kỳ, **8/8 có ≥1 applied/already-fit = 100%** tầng cửa sổ (đếm theo nhịp là 91%; đếm utc-only sót dòng tiền tố Chrome).
 - **hookfire**: code `DF182Trigger` chỉ ghi record DF182HookFire ở nhánh NGOÀI Maps; Maps đi thẳng vào fit → record không tồn tại theo thiết kế. Waze: record do hook tự ghi qua mailbox đã chứng minh sống; vắng ở 4 export = trigger chưa chạy trong Waze. Đính chính cách nói ở Bước 0 QA184.
+
+
+## Verdict QA184 (Audit 8, 03/11) — chờ Spec phán
+
+- Maps: 8 chu kỳ pane ngang; fit tầng 2 chạy đủ, chuỗi deep tới UIKBInputBackdropView đều bằng bề ngang cửa sổ (12/12); (d) không kích hoạt (không lệch ở tầng backdrop). Còn dở: khoảnh khắc mở đầu hàng phím vẫn chưa đều (ảnh Nguyen), chạm thì đều + gõ được; chuỗi deep dừng ở backdrop nên hàng phím thật chưa đo trực tiếp; pane dọc chưa có dữ liệu. Chi tiết: BAO_CAO_VERDICT_QA184.md cùng thư mục này.
+- Waze: phím sống lần đầu (16 kbdiag, R3 hook bắn, hw=0) nhưng cửa sổ phím vô hình với capture (kbClass=none) — không cần fit theo ảnh.
+- App khác không hiện phím: trong phiên không app nào khác thử bật phím; phím là của iOS, điều kiện là ô nhập nhận focus.
