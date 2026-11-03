@@ -1,3 +1,9 @@
+## 2026-11-03 — QA177 PUBLISHED to Sileo (0.0.177~apptouch1 selected)
+
+- Nguyen approved ("Đưa QA177 lên Sileo", 07:16). carplaydsp publisher: first commit `8ed037be` (QA177 block cloned from QA176, retained set 122→123 with 177 appended, all selected pins flipped) → publisher run `41551792852` FAILED at the index-completion step: the selected-stanza SHA assert (`a.get('SHA256')`) still pinned the QA176 SHA — a pin the QA177 transform missed (it is separate from the final-verify VER/FILE/SHA vars; the QA176 publish had updated it). Fix commit `a37de836` → publisher run `41552468225` SUCCESS (all 5 jobs).
+- Public index independently verified: exactly 1 embedded stanza, Version `0.0.177~apptouch1`, SHA256 `70e5117f290576b7958d9dfbd8cf734cb60b79d0dfba2ba621fc7dad553f122b`, Size 1270336.
+- SILEO_PUBLISHED=true, DEVICE_TESTED=false. Device tests owed: H1 tap in YouTube/Maps (controls appear, hide ~4s, app still receives the tap; export shows `qa177-app-touch` > 0); H2 exit DuoFace (no blink) + steady-state HUD count; H3 keyboard in Maps (pane) and Waze (full screen) + photo + export after each; plus the still-open driven GOFA navigation session for the QA172 decoder verdict.
+
 ## 2026-11-03 — QA177 BUILT (private): app-touch recall, HUD exit handover, kbdiag round 2 — not published, not device tested
 
 - Branch `feature/duoface-qa177-apptouch-hudhand-kbdiag-20261103` from QA176 tip `6fdf6af9`. Private build run `41550814513` SUCCESS (head `627f39d8`; first run `41550619395` failed step 3 on test_integrated_package_144 version pins — re-pinned, re-dispatched). Archive commit `b7657a3624cf`; integrated `0.0.177~apptouch1` (host `0.1.177~apptouch1`), DEB 1,270,336 bytes, SHA256 `70e5117f290576b7958d9dfbd8cf734cb60b79d0dfba2ba621fc7dad553f122b` (computed from the downloaded DEB). Control verified from the DEB; postinst/postrm byte-identical to QA176; QA177 markers verified in the correct binaries. SILEO_PUBLISHED=false, DEVICE_TESTED=false.
