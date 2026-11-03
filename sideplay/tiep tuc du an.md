@@ -1,3 +1,13 @@
+## 2026-11-03 — QA180 ĐÃ BUILD (chờ duyệt publish): chu kỳ fit + marker R1/R2 + D-B
+
+- Theo WORK ORDER QA180 v2 + điều kiện D-B của Spec, đã duyệt bởi Nguyen. Nhánh `feature/duoface-qa180-kbcycle-alive-20261103` từ đầu QA179. Bản 0.0.180~kbcycle1 (host 0.1.180~kbcycle1).
+- B: chu kỳ fit mở ở DidShow được chấp nhận (Maps + Waze), đánh giá ở 0/+0,3/+0,6/+1,2s + ngay khi cửa sổ Keyboard trở nên visible (observer riêng trong chu kỳ, không đụng observer reconcile toàn cục); kết thúc applied/already-fit/not-hosted/flag-off, exhausted ở nhịp cuối, cancelled khi DidHide; tóm tắt qa180-cycle (tries, foundAt). Kill switch KeyboardCycle180 (vắng = bật; tắt = y hệt QA179).
+- C: marker R1 đầu constructor (chứng minh dylib nạp), guard tách tên không đổi ngữ nghĩa, R2 ghi ở mọi lối ra (guard nào fail / listen=0 / listen=1 reg=1), đi thẳng mailbox kbdiag, Chrome log qa180-relay-alive. Không sửa hành vi Waze.
+- D-B: log giá trị gốc keyboardScreenReferenceSize (refSize=, refWhen=pre/post) trong segment fit, chỉ đọc.
+- Build: run 41579486857 SUCCESS (run đầu 41579370429 fail compile vì so sánh BOOL/nil trong guard tách — đã sửa 57f02a72, kiểm lại bằng đúng cờ -Werror của CI). Archive 7b940c301bbc. DEB 1.279.032 bytes, SHA256 37e9bde009f203dc22245dcc76fa73a81bbc7311c35cc193407681cc2b6889ec; postinst/postrm byte-identical; CI 159 test OK/33 module, 0 FAIL (qa180 mới 8/8). DFSceneHost.m + DFHostedMapRenderSize.h không đụng.
+- Giấy tờ song song (Bước 0 premise readback, sơ bộ): "actual" của scene-frame-readback là frame đọc lại từ settings của remote scene sau commit của host, target là nativeFrame của host; DFSceneHost.m không chứa 414/mainScreen nào → nghiêng về phía UIKit/app tự kẹp, chưa phải kết luận cuối.
+- SILEO_PUBLISHED=false, DEVICE_TESTED=false. Chờ Nguyen duyệt publish.
+
 ## 2026-11-03 — TỔNG HỢP PHƯƠNG ÁN CUỐI SAU THAM KHẢO SPEC (Muse): nhận 2 điểm Spec đúng, chốt nhánh QA181
 
 - **Muse nhận sai/đính chính**: (1) "hình học xử lý gốc cho phím" là nói quá — cửa sổ phím bám UIScreen.mainScreen, đổi logical không đổi nguồn đó; bản gốc có renderSize vẫn cần lớp KB. Phím đi đường fit/hook ở mọi hướng. (2) Các "triệu chứng scale" ngoài phím (chạm lệch, chữ scale) là [SUY] chưa có số đo; QA175/177 đều PASS — không đủ căn cứ mở đóng băng. (3) LOI mô tả hình học lệch code (đã đính chính trên spec-main): logical = pane x2 theo DFHostedMapRenderSize.h; 414x736 là actual phía app, nguyên nhân (UIKit kẹp hay đường commit) CHƯA rõ = premise readback.
