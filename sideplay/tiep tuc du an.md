@@ -1,3 +1,7 @@
+## 2026-11-03 19:47 — LỆNH ĐỨNG của Nguyen: từ giờ CHỈ làm trên nền bản 172 hiện tại
+
+Không làm trên những bản lỗi của chiều nay (chặng QA173-185) nữa — chặng đó chỉ còn là tài liệu tham chiếu. Mọi vòng build từ nay base = QA172R (0.0.172~logorecall1). QA187 đang build đã đúng nền này. QA186 (nền 185) bỏ hẳn, không còn là park chờ lệnh.
+
 ## 2026-11-03 19:45 — Nguyen CHỐT thứ tự: làm việc phím đồng bộ theo ô chia trước, tính tiếp sau
 
 Đường phím tự vẽ kiểu OmniCar: để sau, không làm bây giờ. Việc đang chạy QA187 (nền 172R + ghi bề ngang ô chia vào traits) chính là việc được chốt — giữ nguyên phạm vi, không mở rộng. Chờ build/CI xong -> publish Sileo -> Nguyen test xe.
