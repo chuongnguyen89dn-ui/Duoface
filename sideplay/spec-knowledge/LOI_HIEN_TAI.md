@@ -1,4 +1,4 @@
-# LỖI HIỆN TẠI — bản đứng 0.0.183~kbsuite1 (cập nhật 03/11/2026, Muse)
+# LỖI HIỆN TẠI — bản đứng 0.0.183~kbsuite2 (cập nhật 03/11/2026, Muse)
 
 ## Bản đứng
 - DuoFace 0.0.182~kbhook1 (host 0.1.182~kbhook1), nhánh
@@ -29,12 +29,20 @@
 - Hình học pane-native: vẫn đóng băng (mới đạt 1/3 điều kiện mở).
 
 ## QA183 (cập nhật 03/11/2026 chiều)
-- ĐÃ PUBLISH Sileo 03/11/2026: bản 0.0.183~kbsuite1 (host
+- ĐÃ PUBLISH Sileo 03/11/2026: bản 0.0.183~kbsuite2 (host
   0.1.183~kbsuite1) là bản đứng hiện tại. Publisher run
   41598365512 SUCCESS đủ 5 job; index công khai kiểm chứng độc
   lập: đúng 1 stanza, DEB tải về trùng hash; retained 129;
   QA182 còn tải được. DEVICE_TESTED=false — chờ test xe theo
   giao thức WO (bật KbRotate183=1 trước phiên).
+- kbsuite2 (thay kbsuite1 cùng ngày): CHỈ khác một điểm —
+  KbRotate183 vắng mặt = xoay profile BẬT sẵn, để phiên test
+  KHÔNG cần sửa plist bằng Filza (Nguyen phản đối đúng: bước
+  đó là việc của Muse; file plist có thể chưa tồn tại trên
+  máy anh). Build run 41600272820, DEB 1.292.260 bytes,
+  SHA256 bdb7dd0d...b65; publisher run 41601332726 SUCCESS;
+  kiểm chứng độc lập đạt; retained 130. Lệch bước bật-cờ của
+  WO là có chủ đích, Spec đọc mục này là đủ.
 - Nội dung: đủ 5 nhóm phím + nguồn layoutstar/impl + xoay
   profile; ĐÃ gồm amendment theo Lựa chọn 1 của Spec (Nguyen
   chọn): hook factory +[UIKBScreenTraits
