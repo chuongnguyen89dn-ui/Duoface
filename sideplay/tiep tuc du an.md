@@ -1,3 +1,10 @@
+## 2026-11-03 — BƯỚC 0 QA180 (đọc code + đối chiếu log, chưa sửa gì; bản đầy đủ: workspace duoface-audit/BUOC0_QA180.md)
+
+- **Maps no-kb-window**: trong 31/77 capture kbClass=none, đường fallback UIKeyboardImpl cũng không chạm được đối tượng phím nào (keyplane 0/31) → lúc trượt, process app không có vật thể bàn phím nào với tới được, không phải lỗi một API liệt kê. Fit chỉ đánh giá ở 2 nhịp 0/+0,3s; 7/11 lần trượt ngay cả ở +0,3s. Phương án đề xuất: (A) đánh giá fit theo sự kiện UIWindowDidBecomeVisible khi cửa sổ Keyboard hiện; (B) thử lại có giới hạn +0,6/+1,2s kèm log foundAt; (C) hook reference-size (dưới).
+- **Waze im lặng**: constructor DF154StartAppSide có 2 tầng dừng im lặng — guard đồng bộ (nghi phạm riêng: key NSExtension trong Info.plist, chưa kiểm chứng) và DF156Listen fail (chỉ NSLog, không bản ghi xuất được; mất cả observer phím lẫn app-touch). Thiết kế marker bisection 2 điểm cưỡi mailbox kbdiag: R1 đầu constructor (không có = dylib không nạp vào Waze), R2 cuối khối async (guard/listen/đăng ký). Chưa sửa Waze cho tới khi marker trả lời.
+- **Hook keyboardScreenReferenceSize**: selprobe chốt chỉ UIRemoteKeyboardWindow responds (i1c1); selector không nằm trong danh sách cấm của test. Giả thuyết: trả CGSize tham chiếu cho layout — hook có thể sửa bề ngang tại nguồn nhưng neo chiều cao vẫn cần fit frame; cân nhắc kết hợp, và cần 1 vòng đo giá trị gốc trước khi hook đổi giá trị. Quyết định thuộc Spec/Nguyen.
+- Vùng đóng băng giữ nguyên (DFSceneHost.m, DFHostedMapRenderSize.h, HUD, hợp đồng logical+scale). Chờ WORK ORDER QA180.
+
 ## 2026-11-03 — QA179 DEVICE VERDICTS (export DuoFaceAudit 5.txt): selprobe có đáp án, fit chạy trong Maps, Waze im lặng
 
 - **Selprobe (H3) — ĐÃ TRẢ LỜI**: `keyboardWidthForScreen:withOrientation:` và `keyboardWidth` KHÔNG lớp nào trong 6 lớp responds (i0c0 khắp). `keyboardScreenReferenceSize` CHỈ responds trên **UIRemoteKeyboardWindow** (i1c1) — đòn bẩy kích thước tham chiếu nằm ngay trên cửa sổ bàn phím từ xa (đo trong process Maps).
