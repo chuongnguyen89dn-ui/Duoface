@@ -263,10 +263,10 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   if(kb) {
    UIView *star=DF176FindView(kb,@"UIKeyboardLayoutStar",0);
    if(star) {
-    id kp=DF154Object(star,@"keyplaneName");
+    id kp=DF154Object(star,"keyplaneName");
     if(!DF154String(kp)) {
-     id plane=DF154Object(star,@"keyplane");
-     kp=plane?DF154Object(plane,@"name"):nil;
+     id plane=DF154Object(star,"keyplane");
+     kp=plane?DF154Object(plane,"name"):nil;
     }
     if(DF154String(kp))keyplane=kp;
    }
@@ -277,19 +277,21 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   if([keyplane isEqualToString:@"?"]) {
    @try {
     Class implCls=NSClassFromString(@"UIKeyboardImpl");
-    id active=implCls?DF154Object((id)implCls,@"activeInstance"):nil;
+    id active=implCls?DF154Object((id)implCls,"activeInstance"):nil;
     UIView *star=nil;
-    if(active)
-     for(NSString *selName in @[@"layoutStar",@"keyboardLayoutStar",
-                               @"_layoutStar"]) {
-      id cand=DF154Object(active,selName);
-      if([cand isKindOfClass:UIView.class]){star=(UIView *)cand;break;}
+    if(active) {
+     const char *starGetters[]={"layoutStar","keyboardLayoutStar",
+                                "_layoutStar"};
+     for(int gi=0;gi<3 && !star;gi++) {
+      id cand=DF154Object(active,starGetters[gi]);
+      if([cand isKindOfClass:UIView.class])star=(UIView *)cand;
      }
+    }
     if(star) {
-     id kp=DF154Object(star,@"keyplaneName");
+     id kp=DF154Object(star,"keyplaneName");
      if(!DF154String(kp)) {
-      id plane=DF154Object(star,@"keyplane");
-      kp=plane?DF154Object(plane,@"name"):nil;
+      id plane=DF154Object(star,"keyplane");
+      kp=plane?DF154Object(plane,"name"):nil;
      }
      if(DF154String(kp))keyplane=kp;
     }
@@ -298,9 +300,9 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
   NSString *inputMode=@"?",*lang=@"?";
   @try {
    Class ctl=NSClassFromString(@"UIKeyboardInputModeController");
-   id shared=ctl?DF154Object((id)ctl,@"sharedInputModeController"):nil;
-   id current=shared?DF154Object(shared,@"currentInputMode"):nil;
-   id ident=current?DF154Object(current,@"identifier"):nil;
+   id shared=ctl?DF154Object((id)ctl,"sharedInputModeController"):nil;
+   id current=shared?DF154Object(shared,"currentInputMode"):nil;
+   id ident=current?DF154Object(current,"identifier"):nil;
    if(DF154String(ident))inputMode=ident;
   } @catch(__unused NSException *e) {}
   UITextInputMode *publicMode=UITextInputMode.activeInputModes.firstObject;
