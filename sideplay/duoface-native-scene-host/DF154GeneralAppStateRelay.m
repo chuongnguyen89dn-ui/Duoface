@@ -5,6 +5,8 @@
 #import "DF154AppStateProtocol.h"
 #import "DF155PilotAppScope.h"
 #import "DFKBDiag176.h"
+#define DF177_APP_SIDE_SENDER 1
+#import "DFAppTouch177.h"
 #import <dlfcn.h>
 
 // QA176 H3: recursive view search for the keyboard layout view.
@@ -36,6 +38,7 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
 @property(nonatomic) BOOL applying;
 @property(nonatomic,copy) NSString *lastAckPhase;
 @property(nonatomic) NSTimeInterval lastKbDiag176;
+@property(nonatomic) NSTimeInterval lastKbDid176;
 - (void)df176KeyboardShown:(NSNotification *)notification;
 - (void)postAck:(NSString *)phase count:(NSUInteger)count;
 - (void)receive:(NSNotification *)notification;
@@ -195,8 +198,16 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
  }
  if(!DF176KBDiagEnabled())return;
  NSTimeInterval now=NSDate.date.timeIntervalSince1970;
- if(now-self.lastKbDiag176<2.0)return;
- self.lastKbDiag176=now;
+ // QA177 H3: rate-limit PER notification name. QA176 used one shared
+ // 2s gate, so WillShow (keyboard window not yet visible, kbClass=none)
+ // always won and the informative DidShow record was swallowed.
+ if([note.name isEqualToString:UIKeyboardDidShowNotification]){
+  if(now-self.lastKbDid176<2.0)return;
+  self.lastKbDid176=now;
+ } else {
+  if(now-self.lastKbDiag176<2.0)return;
+  self.lastKbDiag176=now;
+ }
  @try {
   NSMutableArray<UIWindow *> *all=[NSMutableArray array];
   for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
@@ -245,6 +256,13 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
        ![NSStringFromClass(w.class) containsString:@"Keyboard"]) {
      appFrame=NSStringFromCGRect(w.frame);break;
     }
+  // QA177 H3: keyboard window level + the scene's own coordinate
+  // bounds (the "settings" size the app lives in) next to the actual
+  // window frame above, so the exported block separates scene size
+  // from presented size. kb.frame is already in screen coordinates.
+  NSString *kbLevel=kb?[NSString stringWithFormat:@"%.1f",kb.windowLevel]:@"?";
+  NSString *sceneBounds=self.ownedScene?
+   NSStringFromCGRect(self.ownedScene.coordinateSpace.bounds):@"?";
   id endValue=note.userInfo[UIKeyboardFrameEndUserInfoKey];
   NSDictionary *rec=@{@"version":@1,@"bundle":self.bundle?:@"?",
    @"ts":@(now),
@@ -255,7 +273,8 @@ static UIView *DF176FindView(UIView *root, NSString *klass, int depth) {
    @"hwGSEvent":hwGS,@"hwBKS":hwBKS,
    @"notifName":note.name?:@"?",
    @"notifEnd":endValue?NSStringFromCGRect([endValue CGRectValue]):@"?",
-   @"appFrame":appFrame};
+   @"appFrame":appFrame,
+   @"kbLevel":kbLevel,@"sceneBounds":sceneBounds};
   static DF156Mailbox kbBox;
   static BOOL kbReady=NO;
   if(!kbReady){ DF156Init(&kbBox,DF176KBDiagMailboxName); kbReady=YES; }
@@ -301,6 +320,11 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
         selector:@selector(df176KeyboardShown:)
         name:UIKeyboardDidShowNotification object:nil];
     }
+    // QA177 H1: app-side "user touched" signal for controls recall.
+    // This constructor only proceeds inside a DF155 pilot app, so the
+    // sendEvent: observation hook (original first, read-only) is
+    // installed with the right scope. See DFAppTouch177.h.
+    DF177InstallAppTouchHook(bundle);
     [[NSNotificationCenter defaultCenter] addObserverForName:
       UISceneDidActivateNotification object:nil queue:NSOperationQueue.mainQueue
       usingBlock:^(__unused NSNotification *n){[relay reconcile];}];
