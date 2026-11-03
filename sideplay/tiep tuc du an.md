@@ -1,3 +1,7 @@
+## 2026-11-03 21:40 — Đính chính lần 3 về LUỒNG vụ bản đồ: lên màn hình xe BỞI DuoFace, không phải mở DuoFace lên mới làm được
+
+Nguyen: 'Tôi phải đưa đc app bản đồ lên màn hình carplay bằng duoface. Ko phải mở duoface lên ms làm đc.' Nghĩa là: DuoFace với tư cách tweak thường trú (SpringBoard + process CarPlay) phải tự đảm nhiệm việc đưa app bản đồ lên màn hình xe — tầng thường trú đón app ngay khi nó được gọi trên màn hình xe và đặt vào khung chia, như OmniCar. KHÔNG chấp nhận luồng 'người dùng mở app/giao diện DuoFace trước rồi từ đó mới lôi app bản đồ ra'. Muse phát lại luồng này nguyên văn để Nguyen xác nhận; chưa bàn cách làm cho tới khi anh gật đầu là đã hiểu đúng.
+
 ## 2026-11-03 21:35 — Nguyen chốt chuẩn: LÀM ĐÚNG NHƯ OMNICAR ĐANG LÀM
 
 Làm rõ dứt điểm sau hai lượt hiểu lệch: chuẩn của Nguyen tính theo kết quả người dùng thấy — app bản đồ hiện trong giao diện chia ô của DuoFace, cài đặt gốc không đụng — và cơ chế phải làm theo đúng OmniCar: hai đường (app thường qua host main-scene sẵn có; app CarPlay-native như bản đồ qua tầng can thiệp trong process CarPlay: frame size theo ô + giữ sống + điểm launch/library). Muse xác nhận: LÀM ĐƯỢC theo cơ chế đó — các điểm can thiệp đã có tọa độ từ hồ sơ đào sâu; phần khó nhất là ráp khung scene gốc vào đúng ô DuoFace. Lỗi hai lượt trước là lỗi diễn đạt/khẳng định lệch của Muse (mô tả cơ chế OmniCar là 'qua hệ thống gốc' khiến nó nghe ngược ý anh), đã nhận. Đang chờ lệnh build chính thức của Nguyen; phạm vi dự kiến: nền 172, không công tắc, xây trên mảnh CarPlay-process sẵn có.
