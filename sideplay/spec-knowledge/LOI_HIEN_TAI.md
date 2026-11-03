@@ -1,7 +1,7 @@
 # TRÌNH BÀY LỖI HIỆN TẠI — gửi Claude Spec (cập nhật 03/11/2026)
 
 ## Trạng thái đứng
-- Bản DuoFace đang trên Sileo: **0.0.180~kbcycle1**, đã publish và ĐÃ TEST TRÊN XE
+- Bản DuoFace đang trên Sileo: **0.0.181~refhook1**, đã publish và ĐÃ TEST TRÊN XE
   (iPhone X, palera1n rootless, iOS 16.7.16). Nhánh làm việc hiện tại có đầu
   `1b147c89`; nhánh `spec-main` (nhánh bạn đang đọc) trỏ đúng đầu này.
 - Cấu trúc deb gốc làm tham chiếu: file `CAU_TRUC_DEB_GOC.md` cùng thư mục này.
@@ -67,3 +67,9 @@ Cơ chế đã đo dứt điểm ở QA178, không tranh luận lại:
 - Waze: relay-alive chứng minh dylib nạp + guard qua + listener đăng ký (R2 guards=ok listen=1 reg=1) nhưng pipeline phím vẫn im lặng → vấn đề ở khâu thông báo/sản xuất sự kiện trong process Waze; xử lý ở QA182.
 - Maps: chu kỳ fit đạt 3/6 (50%, dưới cổng 90%): ở chu kỳ hỏng, cửa sổ phím không xuất hiện trong danh sách cửa sổ của process ở mọi nhịp thử lại (0/0,3/0,6/1,2s + sự kiện hiện cửa sổ) dù notification mang sẵn end frame phím — không phải đến muộn. refSize đo được = {414, 736}.
 - QA181 (chưa có work order): hook keyboardScreenReferenceSize trên UIRemoteKeyboardWindow để sửa kích thước tham chiếu tại nguồn + giữ fit frame neo đáy. Hình học pane-native: tiếp tục đóng băng (chưa đủ 3 điều kiện mở băng).
+
+## CẬP NHẬT 03/11/2026 (chiều) — QA181 ĐÃ TEST MÁY: HƯỚNG HOOK REFERENCE-SIZE DỪNG
+- Bản đứng: 0.0.181~refhook1 (đã publish Sileo, DEVICE_TESTED=true, export main 208d92044a).
+- Maps 9 chu kỳ: applied 6, exhausted 3 (67% < cổng 90%); kbSrc=hook = 0/18 — D3 không kích hoạt lần nào; receiver của hook không tồn tại ở mọi nhịp của các chu kỳ hỏng.
+- installPhase bị mất vì lỗi đo (record hook181 bị marker R2 ghi đè trong cùng mailbox một-ô) → chưa phân biệt được "hook không cài được" với "getter không được gọi" (P2). Trước bước phím tiếp theo phải sửa đường ghi log (gộp installPhase vào record R2; tóm tắt chu kỳ đi nhờ record kbdiag).
+- Cần Bước 0 MỚI từ Spec: điểm nào của UIKit thật sự quyết định khung/kích thước cửa sổ phím khi app bị host? Ứng viên: khung do hệ thống đặt theo hình học end-frame; layout của UIInputSetContainerView/HostView; UIKeyboardImpl. Waze (QA182) giữ kế hoạch riêng; hình học pane-native tiếp tục đóng băng.
