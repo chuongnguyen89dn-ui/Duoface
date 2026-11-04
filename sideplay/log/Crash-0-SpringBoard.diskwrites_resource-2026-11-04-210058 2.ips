@@ -1,0 +1,421 @@
+{"app_name":"SpringBoard","timestamp":"2026-11-04 21:00:58.00 +0700","app_version":"1.0","slice_uuid":"E1A4FE7D-29FF-3269-B3AB-50AED40C4495","build_version":"50","bundleID":"com.apple.springboard","duration_ms":"38512141","share_with_app_devs":0,"is_first_party":1,"bug_type":"145","os_version":"iPhone OS 16.7.16 (20H392)","roots_installed":0,"incident_id":"82985C43-3402-4DBF-968F-590252A509DA","name":"SpringBoard"}
+Date/Time:        2026-11-04 10:19:04.354 +0700
+End time:         2026-11-04 21:00:56.495 +0700
+OS Version:       iPhone OS 16.7.16 (Build 20H392)
+Architecture:     arm64
+Report Version:   40
+Incident Identifier: 82985C43-3402-4DBF-968F-590252A509DA
+
+Data Source:      Microstackshots
+Shared Cache:     6CC69D47-36F1-32A1-AE28-AFED14BD6E23 slid base address 0x19d61c000, slide 0x1d61c000
+
+Command:          SpringBoard
+Path:             /System/Library/CoreServices/SpringBoard.app/SpringBoard
+Identifier:       com.apple.springboard
+Version:          1.0 (50)
+Is First Party:   Yes
+Beta Identifier:  F5CBAAC9-7AAB-49F8-80C6-527B233A9378
+Resource Coalition ID: 595
+Architecture:     arm64
+Parent:           launchd [1]
+PID:              418
+
+Event:            disk writes
+Action taken:     none
+Writes:           1073.75 MB of file backed memory dirtied over 38512 seconds (27.88 KB per second average), exceeding limit of 12.43 KB per second over 86400 seconds
+Writes limit:     1073.74 MB
+Limit duration:   86400s
+Writes caused:    1073.75 MB
+Writes duration:  38512s
+Duration:         38512.14s
+Duration Sampled: 38449.05s
+Steps:            233 (10.49 MB/step)
+
+Hardware model:   iPhone10,2
+Active cpus:      6
+HW page size:     16384
+VM page size:     16384
+
+Advisory levels:  Battery -> 3, User -> 3, ThermalPressure -> 0, Combined -> 3
+Free disk space:  35.20 GB/59.59 GB, low space threshold 150 MB
+Low Power Mode:   Enabled (for first 38214.6s of samples)
+Vnodes Available: 73.39% (14679/20000, 10000 allocated, 10000 soft limit)
+
+Preferred User Language: vi-VN, en-VN
+Country Code:     VN
+Keyboards:        vi_VN-Telex QWERTY, en-US
+OS Cryptex File Extents: 108
+
+Heaviest stack for the target process:
+  93  ??? (<444F5041-332E-302E-3900-AE6387A9FA9A> + 99140) [0x100aa4344]
+  93  ??? (SpringBoard + 636392) [0x1e2e815e8]
+  93  ??? (UIKitCore + 3608516) [0x1a670ffc4]
+  93  ??? (UIKitCore + 3609420) [0x1a671034c]
+  93  ??? (GraphicsServices + 6552) [0x1dc551998]
+  93  ??? (CoreFoundation + 498976) [0x1a447dd20]
+  93  ??? (CoreFoundation + 480840) [0x1a4479648]
+  93  ??? (CoreFoundation + 596396) [0x1a44959ac]
+  93  ??? (libdispatch.dylib + 285320) [0x1ab195a88]
+  91  ??? (libdispatch.dylib + 286052) [0x1ab195d64]
+  91  ??? (libdispatch.dylib + 317312) [0x1ab19d780]
+  91  ??? (libdispatch.dylib + 245064) [0x1ab18bd48]
+  91  ??? (libdispatch.dylib + 411520) [0x1ab1b4780]
+  91  ??? (<679D290B-EF8D-36CB-B69B-24B50C08264B> + 65000) [0x100d4bde8]
+  91  ??? (Foundation + 768824) [0x19e849b38]
+  78  ??? (Foundation + 422844) [0x19e7f53bc]
+  78  ??? (Foundation + 305756) [0x19e7d8a5c]
+  78  ??? (Foundation + 632640) [0x19e828740]
+  78  ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+
+
+Powerstats for:   SpringBoard [418]
+UUID:             E1A4FE7D-29FF-3269-B3AB-50AED40C4495
+Path:             /System/Library/CoreServices/SpringBoard.app/SpringBoard
+Identifier:       com.apple.springboard
+Version:          1.0 (50)
+Is First Party:   Yes
+Beta Identifier:  F5CBAAC9-7AAB-49F8-80C6-527B233A9378
+Resource Coalition ID: 595
+Architecture:     arm64
+Parent:           launchd [1]
+UID:              501
+Sudden Term:      Tracked
+Footprint:        85.42 MB -> 93.70 MB (+8480 KB) (max 109.48 MB )
+Pageins:          2360 pages
+Start time:       2026-11-04 10:20:38.813 +0700
+End time:         2026-11-04 21:00:09.262 +0700
+Num samples:      96 (41%)
+Primary state:    93 samples Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS User Interactive, Requested Thread QoS User Interactive, Override Thread QoS Unspecified
+User Activity:    91 samples Idle, 5 samples Active
+Power Source:     91 samples on Battery, 5 samples on AC
+  93  ??? (<444F5041-332E-302E-3900-AE6387A9FA9A> + 99140) [0x100aa4344]
+    93  ??? (SpringBoard + 636392) [0x1e2e815e8]
+      93  ??? (UIKitCore + 3608516) [0x1a670ffc4]
+        93  ??? (UIKitCore + 3609420) [0x1a671034c]
+          93  ??? (GraphicsServices + 6552) [0x1dc551998]
+            93  ??? (CoreFoundation + 498976) [0x1a447dd20]
+              93  ??? (CoreFoundation + 480840) [0x1a4479648]
+                93  ??? (CoreFoundation + 596396) [0x1a44959ac]
+                  93  ??? (libdispatch.dylib + 285320) [0x1ab195a88]
+                    91  ??? (libdispatch.dylib + 286052) [0x1ab195d64]
+                      91  ??? (libdispatch.dylib + 317312) [0x1ab19d780]
+                        91  ??? (libdispatch.dylib + 245064) [0x1ab18bd48]
+                          91  ??? (libdispatch.dylib + 411520) [0x1ab1b4780]
+                            91  ??? (<679D290B-EF8D-36CB-B69B-24B50C08264B> + 65000) [0x100d4bde8]
+                              91  ??? (Foundation + 768824) [0x19e849b38]
+                                78  ??? (Foundation + 422844) [0x19e7f53bc]
+                                  78  ??? (Foundation + 305756) [0x19e7d8a5c]
+                                    78  ??? (Foundation + 632640) [0x19e828740]
+                                      78  ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+                                11  ??? (Foundation + 422680) [0x19e7f5318]
+                                  11  ??? (Foundation + 366196) [0x19e7e7674]
+                                    11  ??? (Foundation + 505692) [0x19e80975c]
+                                      11  ??? (libsystem_kernel.dylib + 15392) [0x1dfc2fc20]
+                                1   ??? (libsystem_kernel.dylib + 11852) [0x1dfc2ee4c]
+                                1   ??? (Foundation + 423180) [0x19e7f550c]
+                                  1   ??? (libsystem_kernel.dylib + 17172) [0x1dfc30314]
+                    2   ??? (libdispatch.dylib + 286224) [0x1ab195e10]
+                      2   ??? (libdispatch.dylib + 411520) [0x1ab1b4780]
+                        1   ??? (libdispatch.dylib + 407464) [0x1ab1b37a8]
+                          1   ??? (SpringBoard + 5154300) [0x1e32d05fc]
+                            1   ??? (FrontBoard + 117920) [0x1bfc78ca0]
+                              1   ??? (FrontBoard + 24472) [0x1bfc61f98]
+                                1   ??? (FrontBoard + 21512) [0x1bfc61408]
+                                  1   ??? (<679D290B-EF8D-36CB-B69B-24B50C08264B> + 235712) [0x100d758c0]
+                                    1   ??? (FrontBoard + 21792) [0x1bfc61520]
+                                      1   ??? (FrontBoard + 28400) [0x1bfc62ef0]
+                                        1   ??? (FrontBoard + 48236) [0x1bfc67c6c]
+                                          1   ??? (FrontBoard + 54668) [0x1bfc6958c]
+                                            1   ??? (FrontBoard + 41868) [0x1bfc6638c]
+                                              1   ??? (BaseBoard + 56844) [0x1ab369e0c]
+                                                1   ??? (BaseBoard + 78716) [0x1ab36f37c]
+                                                  1   ??? (BaseBoard + 91324) [0x1ab3724bc]
+                                                    1   ??? (FrontBoard + 59764) [0x1bfc6a974]
+                                                      1   ??? (FrontBoard + 145788) [0x1bfc7f97c]
+                                                        1   ??? (FrontBoard + 81004) [0x1bfc6fc6c]
+                                                          1   ??? (FrontBoard + 127820) [0x1bfc7b34c]
+                                                            1   ??? (SpringBoard + 154624) [0x1e2e0bc00]
+                                                              1   ??? (SpringBoardUI + 8108) [0x20e51ffac]
+                                                                1   ??? (SpringBoardUI + 8580) [0x20e520184]
+                                                                  1   ??? (SpringBoardUI + 20852) [0x20e523174]
+                                                                    1   ??? (<679D290B-EF8D-36CB-B69B-24B50C08264B> + 234644) [0x100d75494]
+                                                                      1   ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+                        1   ??? (libdispatch.dylib + 288304) [0x1ab196630]
+                          1   ??? (libsystem_notify.dylib + 12368) [0x1c8141050]
+                            1   ??? (<679D290B-EF8D-36CB-B69B-24B50C08264B> + 20916) [0x100d411b4]
+                              1   ??? (<679D290B-EF8D-36CB-B69B-24B50C08264B> + 193176) [0x100d6b298]
+                                1   ??? (<679D290B-EF8D-36CB-B69B-24B50C08264B> + 233472) [0x100d75000]
+                                  1   ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+  3   ??? (libsystem_pthread.dylib + 5920) [0x1ef1b6720]
+    2   ??? (libsystem_pthread.dylib + 7120) [0x1ef1b6bd0]
+      2   ??? (libdispatch.dylib + 302868) [0x1ab199f14]
+        2   ??? (libdispatch.dylib + 262628) [0x1ab1901e4]
+          2   ??? (libdispatch.dylib + 259836) [0x1ab18f6fc]
+            2   ??? (libdispatch.dylib + 411520) [0x1ab1b4780]
+              2   ??? (libdispatch.dylib + 407464) [0x1ab1b37a8]
+                1   ??? (UserNotificationsServer + 330648) [0x20f4e6b98]
+                  1   ??? (UserNotificationsServer + 330248) [0x20f4e6a08]
+                    1   ??? (UserNotificationsServer + 68972) [0x20f4a6d6c]
+                      1   ??? (UserNotificationsServer + 322380) [0x20f4e4b4c]
+                        1   ??? (UserNotificationsServer + 322568) [0x20f4e4c08]
+                          1   ??? (UserNotificationsServer + 35368) [0x20f49ea28]
+                            1   ??? (UserNotificationsServer + 36796) [0x20f49efbc]
+                              1   ??? (UserNotificationsServer + 34364) [0x20f49e63c]
+                                1   ??? (Foundation + 422844) [0x19e7f53bc]
+                                  1   ??? (Foundation + 305756) [0x19e7d8a5c]
+                                    1   ??? (Foundation + 632640) [0x19e828740]
+                                      1   ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+                                        1   <Effective Thread QoS Default, Requested Thread QoS Default>
+                1   ??? (UserNotificationsServer + 66660) [0x20f4a6464]
+                  1   ??? (UserNotificationsServer + 26816) [0x20f49c8c0]
+                    1   ??? (UserNotificationsServer + 54780) [0x20f4a35fc]
+                      1   ??? (UserNotificationsServer + 35368) [0x20f49ea28]
+                        1   ??? (UserNotificationsServer + 36796) [0x20f49efbc]
+                          1   ??? (UserNotificationsServer + 34364) [0x20f49e63c]
+                            1   ??? (Foundation + 422844) [0x19e7f53bc]
+                              1   ??? (Foundation + 305756) [0x19e7d8a5c]
+                                1   ??? (Foundation + 632640) [0x19e828740]
+                                  1   ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+                                    1   <Effective Thread QoS Default, Requested Thread QoS Default>
+    1   ??? (libsystem_pthread.dylib + 7060) [0x1ef1b6b94]
+      1   ??? (libdispatch.dylib + 300080) [0x1ab199430]
+        1   ??? (libdispatch.dylib + 298088) [0x1ab198c68]
+          1   ??? (libdispatch.dylib + 242816) [0x1ab18b480]
+            1   ??? (libdispatch.dylib + 245064) [0x1ab18bd48]
+              1   ??? (libdispatch.dylib + 411520) [0x1ab1b4780]
+                1   ??? (libdispatch.dylib + 407464) [0x1ab1b37a8]
+                  1   ??? (Foundation + 256012) [0x19e7cc80c]
+                    1   ??? (Foundation + 235372) [0x19e7c776c]
+                      1   ??? (Foundation + 236064) [0x19e7c7a20]
+                        1   ??? (Foundation + 477536) [0x19e802960]
+                          1   ??? (Foundation + 477644) [0x19e8029cc]
+                            1   ??? (Foundation + 646744) [0x19e82be58]
+                              1   ??? (SpringBoardUIServices + 350668) [0x1c0a659cc]
+                                1   ??? (SpringBoardUIServices + 230780) [0x1c0a4857c]
+                                  1   ??? (SpringBoardFoundation + 79136) [0x1abc34520]
+                                    1   ??? (SpringBoardFoundation + 45556) [0x1abc2c1f4]
+                                      1   ??? (AppSupport + 177168) [0x1aeb15410]
+                                        1   ??? (libsystem_kernel.dylib + 11936) [0x1dfc2eea0]
+                                          1   <Effective Thread QoS User Initiated, Requested Thread QoS User Initiated>
+
+  Binary Images:
+           0x10093c000 -                ???  com.apple.springboard 1.0 (50) <E1A4FE7D-29FF-3269-B3AB-50AED40C4495>  /System/Library/CoreServices/SpringBoard.app/SpringBoard
+           0x100a8c000 -                ???  ???                            <444F5041-332E-302E-3900-AE6387A9FA9A>
+           0x100d3c000 -                ???  ???                            <679D290B-EF8D-36CB-B69B-24B50C08264B>
+           0x19e78e000 -        0x19efd6fff  Foundation                     <DCE5E587-2A0D-34CF-8245-23E1B12936A9>  /System/Library/Frameworks/Foundation.framework/Foundation
+           0x1a4404000 -        0x1a47d2fff  CoreFoundation                 <55B9BA28-4C5C-3FE7-9C47-4983337D6E83>  /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+           0x1a639f000 -        0x1a7ab3fff  UIKitCore                      <1242978A-2C2C-3781-8D6C-9777EDCE2804>  /System/Library/PrivateFrameworks/UIKitCore.framework/UIKitCore
+           0x1ab150000 -        0x1ab1d3fff  libdispatch.dylib              <B51E7CDB-ABC9-35AF-B8BB-2DCE23BC4D6E>  /usr/lib/system/libdispatch.dylib
+           0x1ab35c000 -        0x1ab40cfff  BaseBoard                      <809DA722-A9B5-3ACF-A0E7-E41632331F2B>  /System/Library/PrivateFrameworks/BaseBoard.framework/BaseBoard
+           0x1abc21000 -        0x1abcf2fff  SpringBoardFoundation          <7949279B-DBC1-3949-B8EF-90E7EF34DD46>  /System/Library/PrivateFrameworks/SpringBoardFoundation.framework/SpringBoardFoundation
+           0x1aeaea000 -        0x1aeb2cfff  AppSupport                     <513914B3-E92C-3218-AD29-45A1F9F7C4F2>  /System/Library/PrivateFrameworks/AppSupport.framework/AppSupport
+           0x1bfc5c000 -        0x1bfcf5fff  FrontBoard                     <0ABE70D4-6CC0-37F9-AF9E-CA2FD42442DE>  /System/Library/PrivateFrameworks/FrontBoard.framework/FrontBoard
+           0x1c0a10000 -        0x1c0ad0fff  SpringBoardUIServices          <995E7A98-75C4-3AA8-BAF4-F123D1834BE6>  /System/Library/PrivateFrameworks/SpringBoardUIServices.framework/SpringBoardUIServices
+           0x1c813e000 -        0x1c8148ff7  libsystem_notify.dylib         <A3632CBF-CD46-3804-A361-11BD2168BBC1>  /usr/lib/system/libsystem_notify.dylib
+           0x1dc550000 -        0x1dc558fff  GraphicsServices               <BD39268B-DD51-3B91-A12D-A4A75A6E2308>  /System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices
+           0x1dfc2c000 -        0x1dfc61ff7  libsystem_kernel.dylib         <2E54C705-1974-30D2-B371-81FD168F8D76>  /usr/lib/system/libsystem_kernel.dylib
+           0x1e2de6000 -        0x1e38c7fff  SpringBoard                    <22034ABA-9A9A-3B94-93A5-A0DE02BEFD2E>  /System/Library/PrivateFrameworks/SpringBoard.framework/SpringBoard
+           0x1ef1b5000 -        0x1ef1c5fff  libsystem_pthread.dylib        <78C98F18-5985-3BE3-BC4B-F2A3A34AE906>  /usr/lib/system/libsystem_pthread.dylib
+           0x20e51e000 -        0x20e548fff  SpringBoardUI                  <AE9BFE93-3865-3E4E-A97C-207AB55FDF07>  /System/Library/PrivateFrameworks/SpringBoardUI.framework/SpringBoardUI
+           0x20f496000 -        0x20f52ffff  UserNotificationsServer        <245F6694-ADE4-31B9-8125-DD8C8E62F329>  /System/Library/PrivateFrameworks/UserNotificationsServer.framework/UserNotificationsServer
+
+
+Powerstats for:   le-relay
+UUID:             F26FBB05-5EB6-32E7-81EE-BA892AAE845C
+Path:             /private/preboot/6E28C2982F4FA5004BAEC693A471B4AF6231B082CA60D3E392780A6C09B8B1E720C1241F3683EBA5B7DA98D4CE73495A/dopamine-peQ2OH/procursus/usr/libexec/le-relay
+Resource Coalition ID: 655
+Architecture:     arm64
+Start time:       2026-11-04 11:33:41.924 +0700
+End time:         2026-11-04 20:19:02.494 +0700
+Num samples:      23 (10%)
+Primary state:    23 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Background, Requested Thread QoS Background, Override Thread QoS Unspecified
+User Activity:    23 samples Idle, 0 samples Active
+Power Source:     23 samples on Battery, 0 samples on AC
+  23  ??? (<444F5041-332E-302E-3900-AE6387A9FA9A> + 99140) [0x10224c344]
+    23  ??? (le-relay + 16796) [0x1020e019c]
+      20  ??? (le-relay + 24612) [0x1020e2024]
+        17  ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+        3   ??? (le-relay + 69728) [0x1020ed060]
+          3   ??? (libsystem_kernel.dylib + 10024) [0x1dfc2e728]
+      3   ??? (le-relay + 24632) [0x1020e2038]
+        3   ??? (le-relay + 28868) [0x1020e30c4]
+          3   ??? (libsystem_kernel.dylib + 10384) [0x1dfc2e890]
+
+  Binary Images:
+           0x1020dc000 -                ???  le-relay               <F26FBB05-5EB6-32E7-81EE-BA892AAE845C>  /private/preboot/6E28C2982F4FA5004BAEC693A471B4AF6231B082CA60D3E392780A6C09B8B1E720C1241F3683EBA5B7DA98D4CE73495A/dopamine-peQ2OH/procursus/usr/libexec/le-relay
+           0x102234000 -                ???  ???                    <444F5041-332E-302E-3900-AE6387A9FA9A>
+           0x1dfc2c000 -        0x1dfc61ff7  libsystem_kernel.dylib <2E54C705-1974-30D2-B371-81FD168F8D76>  /usr/lib/system/libsystem_kernel.dylib
+
+
+Powerstats for:   analyticsd
+UUID:             C0F6D570-459A-3C74-931B-3192BFBB826F
+Path:             /System/Library/PrivateFrameworks/CoreAnalytics.framework/Support/analyticsd
+Resource Coalition ID: 819
+Architecture:     arm64
+Start time:       2026-11-04 10:31:28.090 +0700
+End time:         2026-11-04 20:09:28.083 +0700
+Num samples:      19 (8%)
+Primary state:    11 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Background, Requested Thread QoS Utility, Override Thread QoS Unspecified
+User Activity:    19 samples Idle, 0 samples Active
+Power Source:     19 samples on Battery, 0 samples on AC
+  19  ??? (libsystem_pthread.dylib + 5920) [0x1ef1b6720]
+    19  ??? (libsystem_pthread.dylib + 7120) [0x1ef1b6bd0]
+      19  ??? (libdispatch.dylib + 302868) [0x1ab199f14]
+        19  ??? (libdispatch.dylib + 262576) [0x1ab1901b0]
+          19  ??? (libdispatch.dylib + 259836) [0x1ab18f6fc]
+            19  ??? (libdispatch.dylib + 411520) [0x1ab1b4780]
+              14  ??? (analyticsd + 297568) [0x1047c0a60]
+                14  ??? (analyticsd + 444984) [0x1047e4a38]
+                  14  ??? (libsqlite3.dylib + 177948) [0x1c6e9871c]
+                    14  ??? (libsqlite3.dylib + 223400) [0x1c6ea38a8]
+                      14  ??? (libsqlite3.dylib + 85144) [0x1c6e81c98]
+                        14  ??? (libsqlite3.dylib + 246116) [0x1c6ea9164]
+                          14  ??? (libsqlite3.dylib + 247440) [0x1c6ea9690]
+                            14  ??? (libsqlite3.dylib + 308788) [0x1c6eb8634]
+                              13  ??? (libsqlite3.dylib + 606496) [0x1c6f01120]
+                                13  ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                  13  ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+                                    3   <Effective Thread QoS Utility>
+                              1   ??? (libsqlite3.dylib + 606888) [0x1c6f012a8]
+                                1   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                  1   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+              5   ??? (analyticsd + 249228) [0x1047b4d8c]
+                5   ??? (analyticsd + 201656) [0x1047a93b8]
+                  5   ??? (analyticsd + 202332) [0x1047a965c]
+                    5   ??? (analyticsd + 98516) [0x1047900d4]
+                      5   ??? (analyticsd + 99068) [0x1047902fc]
+                        5   ??? (analyticsd + 115572) [0x104794374]
+                          5   ??? (analyticsd + 116700) [0x1047947dc]
+                            5   ??? (analyticsd + 117712) [0x104794bd0]
+                              5   ??? (analyticsd + 118208) [0x104794dc0]
+                                5   ??? (analyticsd + 250088) [0x1047b50e8]
+                                  5   ??? (analyticsd + 705728) [0x1048244c0]
+                                    5   ??? (analyticsd + 107012) [0x104792204]
+                                      5   ??? (analyticsd + 700328) [0x104822fa8]
+                                        5   ??? (analyticsd + 699560) [0x104822ca8]
+                                          5   ??? (analyticsd + 584232) [0x104806a28]
+                                            5   ??? (analyticsd + 718048) [0x1048274e0]
+                                              5   ??? (analyticsd + 275500) [0x1047bb42c]
+                                                5   ??? (libsqlite3.dylib + 35112) [0x1c6e75928]
+                                                  5   ??? (libsqlite3.dylib + 177948) [0x1c6e9871c]
+                                                    5   ??? (libsqlite3.dylib + 223816) [0x1c6ea3a48]
+                                                      5   ??? (libsqlite3.dylib + 85144) [0x1c6e81c98]
+                                                        5   ??? (libsqlite3.dylib + 246116) [0x1c6ea9164]
+                                                          5   ??? (libsqlite3.dylib + 247440) [0x1c6ea9690]
+                                                            5   ??? (libsqlite3.dylib + 308788) [0x1c6eb8634]
+                                                              5   ??? (libsqlite3.dylib + 606496) [0x1c6f01120]
+                                                                5   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                                                  5   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+                                                                    5   <Requested Thread QoS Background>
+
+  Binary Images:
+           0x104778000 -                ???  analyticsd              <C0F6D570-459A-3C74-931B-3192BFBB826F>  /System/Library/PrivateFrameworks/CoreAnalytics.framework/Support/analyticsd
+           0x1ab150000 -        0x1ab1d3fff  libdispatch.dylib       <B51E7CDB-ABC9-35AF-B8BB-2DCE23BC4D6E>  /usr/lib/system/libdispatch.dylib
+           0x1c6e6d000 -        0x1c6fd1fff  libsqlite3.dylib        <670209FF-AB2B-378B-97F5-113A1CD41A14>  /usr/lib/libsqlite3.dylib
+           0x1dfc2c000 -        0x1dfc61ff7  libsystem_kernel.dylib  <2E54C705-1974-30D2-B371-81FD168F8D76>  /usr/lib/system/libsystem_kernel.dylib
+           0x1ef1b5000 -        0x1ef1c5fff  libsystem_pthread.dylib <78C98F18-5985-3BE3-BC4B-F2A3A34AE906>  /usr/lib/system/libsystem_pthread.dylib
+
+
+Powerstats for:   rtcreportingd
+UUID:             A756E577-EF5A-34E8-998B-589DF3DC8126
+Path:             /usr/libexec/rtcreportingd
+Resource Coalition ID: 1062
+Architecture:     arm64
+Start time:       2026-11-04 12:48:08.406 +0700
+End time:         2026-11-04 20:57:12.381 +0700
+Num samples:      16 (7%)
+Primary state:    16 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Background, Requested Thread QoS Background, Override Thread QoS Unspecified
+User Activity:    15 samples Idle, 1 samples Active
+Power Source:     15 samples on Battery, 1 samples on AC
+  16  ??? (libswift_Concurrency.dylib + 211224) [0x1ade78918]
+    14  ??? (rtcreportingd + 124724) [0x10235e734]
+      14  ??? (rtcreportingd + 120480) [0x10235d6a0]
+        14  ??? (rtcreportingd + 121768) [0x10235dba8]
+          14  ??? (rtcreportingd + 124704) [0x10235e720]
+            8   ??? (rtcreportingd + 108168) [0x10235a688]
+              8   ??? (rtcreportingd + 163728) [0x102367f90]
+                7   ??? (rtcreportingd + 456572) [0x1023af77c]
+                  7   ??? (rtcreportingd + 446580) [0x1023ad074]
+                    7   ??? (rtcreportingd + 25120) [0x102346220]
+                      5   ??? (libsqlite3.dylib + 177948) [0x1c6e9871c]
+                        5   ??? (libsqlite3.dylib + 223400) [0x1c6ea38a8]
+                          5   ??? (libsqlite3.dylib + 85144) [0x1c6e81c98]
+                            5   ??? (libsqlite3.dylib + 246116) [0x1c6ea9164]
+                              5   ??? (libsqlite3.dylib + 247440) [0x1c6ea9690]
+                                5   ??? (libsqlite3.dylib + 308788) [0x1c6eb8634]
+                                  5   ??? (libsqlite3.dylib + 606496) [0x1c6f01120]
+                                    5   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                      5   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+                      2   ??? (libsqlite3.dylib + 179480) [0x1c6e98d18]
+                        2   ??? (libsqlite3.dylib + 310568) [0x1c6eb8d28]
+                          2   ??? (libsqlite3.dylib + 500424) [0x1c6ee72c8]
+                            2   ??? (libsqlite3.dylib + 977972) [0x1c6f5bc34]
+                              2   ??? (libsqlite3.dylib + 378088) [0x1c6ec94e8]
+                                2   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                  2   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+                1   ??? (rtcreportingd + 457788) [0x1023afc3c]
+                  1   ??? (rtcreportingd + 462072) [0x1023b0cf8]
+                    1   ??? (rtcreportingd + 207104) [0x102372900]
+                      1   ??? (rtcreportingd + 25120) [0x102346220]
+                        1   ??? (libsqlite3.dylib + 177948) [0x1c6e9871c]
+                          1   ??? (libsqlite3.dylib + 223400) [0x1c6ea38a8]
+                            1   ??? (libsqlite3.dylib + 85144) [0x1c6e81c98]
+                              1   ??? (libsqlite3.dylib + 246116) [0x1c6ea9164]
+                                1   ??? (libsqlite3.dylib + 247440) [0x1c6ea9690]
+                                  1   ??? (libsqlite3.dylib + 308788) [0x1c6eb8634]
+                                    1   ??? (libsqlite3.dylib + 606888) [0x1c6f012a8]
+                                      1   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                        1   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+            6   ??? (rtcreportingd + 113300) [0x10235ba94]
+              4   ??? (rtcreportingd + 443684) [0x1023ac524]
+                4   ??? (rtcreportingd + 207820) [0x102372bcc]
+                  4   ??? (rtcreportingd + 25120) [0x102346220]
+                    4   ??? (libsqlite3.dylib + 177948) [0x1c6e9871c]
+                      4   ??? (libsqlite3.dylib + 223400) [0x1c6ea38a8]
+                        4   ??? (libsqlite3.dylib + 85144) [0x1c6e81c98]
+                          4   ??? (libsqlite3.dylib + 246116) [0x1c6ea9164]
+                            4   ??? (libsqlite3.dylib + 247440) [0x1c6ea9690]
+                              4   ??? (libsqlite3.dylib + 308788) [0x1c6eb8634]
+                                3   ??? (libsqlite3.dylib + 606496) [0x1c6f01120]
+                                  3   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                    3   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+                                1   ??? (libsqlite3.dylib + 606888) [0x1c6f012a8]
+                                  1   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                    1   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+              2   ??? (rtcreportingd + 443296) [0x1023ac3a0]
+                2   ??? (rtcreportingd + 462072) [0x1023b0cf8]
+                  2   ??? (rtcreportingd + 207104) [0x102372900]
+                    2   ??? (rtcreportingd + 25120) [0x102346220]
+                      2   ??? (libsqlite3.dylib + 177948) [0x1c6e9871c]
+                        2   ??? (libsqlite3.dylib + 223400) [0x1c6ea38a8]
+                          2   ??? (libsqlite3.dylib + 85144) [0x1c6e81c98]
+                            2   ??? (libsqlite3.dylib + 246116) [0x1c6ea9164]
+                              2   ??? (libsqlite3.dylib + 247440) [0x1c6ea9690]
+                                2   ??? (libsqlite3.dylib + 308788) [0x1c6eb8634]
+                                  2   ??? (libsqlite3.dylib + 606496) [0x1c6f01120]
+                                    2   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                      2   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+    2   ??? (rtcreportingd + 122468) [0x10235de64]
+      2   ??? (rtcreportingd + 120480) [0x10235d6a0]
+        2   ??? (rtcreportingd + 124708) [0x10235e724]
+          2   ??? (rtcreportingd + 124700) [0x10235e71c]
+            2   ??? (rtcreportingd + 103200) [0x102359320]
+              2   ??? (rtcreportingd + 440904) [0x1023aba48]
+                2   ??? (rtcreportingd + 462072) [0x1023b0cf8]
+                  2   ??? (rtcreportingd + 207104) [0x102372900]
+                    2   ??? (rtcreportingd + 25120) [0x102346220]
+                      2   ??? (libsqlite3.dylib + 177948) [0x1c6e9871c]
+                        2   ??? (libsqlite3.dylib + 223400) [0x1c6ea38a8]
+                          2   ??? (libsqlite3.dylib + 85144) [0x1c6e81c98]
+                            2   ??? (libsqlite3.dylib + 246116) [0x1c6ea9164]
+                              2   ??? (libsqlite3.dylib + 247440) [0x1c6ea9690]
+                                2   ??? (libsqlite3.dylib + 308788) [0x1c6eb8634]
+                                  2   ??? (libsqlite3.dylib + 606496) [0x1c6f01120]
+                                    2   ??? (libsqlite3.dylib + 309572) [0x1c6eb8944]
+                                      2   ??? (libsystem_kernel.dylib + 11088) [0x1dfc2eb50]
+
+  Binary Images:
+           0x102340000 -                ???  rtcreportingd              <A756E577-EF5A-34E8-998B-589DF3DC8126>  /usr/libexec/rtcreportingd
+           0x1ade45000 -        0x1ade8aff3  libswift_Concurrency.dylib <69F253B0-F38C-324C-9454-EA5CCF698F47>  /usr/lib/swift/libswift_Concurrency.dylib
+           0x1c6e6d000 -        0x1c6fd1fff  libsqlite3.dylib           <670209FF-AB2B-378B-97F5-113A1CD41A14>  /usr/lib/libsqlite3.dylib
+           0x1dfc2c000 -        0x1dfc61ff7  libsystem_kernel.dylib     <2E54C705-1974-30D2-B371-81FD168F8D76>  /usr/lib/system/libsystem_kernel.dylib
