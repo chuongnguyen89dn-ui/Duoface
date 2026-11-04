@@ -124,7 +124,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   stage-only:
-    runs-on: macos-15
+    runs-on: macos-13
     timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
