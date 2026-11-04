@@ -1,13 +1,19 @@
 {
-  "checked_at_utc": "2026-11-04T09:27:48.112359+00:00",
+  "checked_at_utc": "2026-11-04T18:04:03.666109+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4337,
+  "total_actions_runs": 4342,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 8,
-      "success": 7,
+      "recent_runs": 9,
+      "success": 8,
       "failure": 0,
+      "other": 1
+    },
+    "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB": {
+      "recent_runs": 4,
+      "success": 0,
+      "failure": 3,
       "other": 1
     },
     "QA172 nativemap1 (QA172R base + native map Step 1 intervention) - private rootless signed DuoFace DEB": {
@@ -119,25 +125,69 @@
       "other": 9
     },
     "QA171 GOFA runtime diagnostic export - private rootless signed DuoFace DEB": {
-      "recent_runs": 3,
-      "success": 2,
-      "failure": 1,
-      "other": 0
-    },
-    "QA170 transparent red X and genuine GOFA GPS fallback - private rootless signed DuoFace DEB": {
-      "recent_runs": 3,
-      "success": 2,
+      "recent_runs": 1,
+      "success": 1,
       "failure": 0,
-      "other": 1
+      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 41883262837,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 112,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41883262837",
+      "created_at": "2026-11-04T18:03:42Z",
+      "head_sha": "97328d5bf99e1b0b1df018921e59a4e7a2b206e5"
+    },
+    {
+      "id": 41869742170,
+      "name": "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB",
+      "run_number": 4,
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41869742170",
+      "created_at": "2026-11-04T16:40:32Z",
+      "head_sha": "2d041bedeba7db342e2b003b29a406d7f746e6c3"
+    },
+    {
+      "id": 41866688054,
+      "name": "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41866688054",
+      "created_at": "2026-11-04T16:23:09Z",
+      "head_sha": "5a3cc58add808bf19d185ef97bf1d805834edc74"
+    },
+    {
+      "id": 41861543105,
+      "name": "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41861543105",
+      "created_at": "2026-11-04T15:48:20Z",
+      "head_sha": "4dcb6888462acae249bd4bfc3da25205c9cd4aa1"
+    },
+    {
+      "id": 41855698224,
+      "name": "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41855698224",
+      "created_at": "2026-11-04T15:14:42Z",
+      "head_sha": "c4bcea3586a582d0a4c903330e0a6b872c1f6ff7"
+    },
+    {
       "id": 41807654901,
       "name": "DuoFace Actions status snapshot",
       "run_number": 111,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41807654901",
       "created_at": "2026-11-04T09:27:29Z",
       "head_sha": "239b0842b93da0ea039fb0501d7dbc0293e1d6e0"
@@ -381,56 +431,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606568139",
       "created_at": "2026-11-03T08:52:48Z",
       "head_sha": "fb8da09f228b0d9b0c8fd4a7cb8e48eaa8cd0341"
-    },
-    {
-      "id": 41606565256,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606565256",
-      "created_at": "2026-11-03T08:52:46Z",
-      "head_sha": "a2a0e75ca940f025b65fe289b45446d3f1a04234"
-    },
-    {
-      "id": 41600272820,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 24,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600272820",
-      "created_at": "2026-11-03T08:01:48Z",
-      "head_sha": "21a1428b152ee84a605d6b95e061de995dd57c62"
-    },
-    {
-      "id": 41600267728,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 23,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600267728",
-      "created_at": "2026-11-03T08:01:46Z",
-      "head_sha": "9f3224e1c22a729edc31334641b25fabbf8db698"
-    },
-    {
-      "id": 41600255105,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600255105",
-      "created_at": "2026-11-03T08:01:39Z",
-      "head_sha": "8b4072d22b648480dc06e9c1c0f67ddd2f91d2f9"
-    },
-    {
-      "id": 41600250505,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41600250505",
-      "created_at": "2026-11-03T08:01:37Z",
-      "head_sha": "75ce1fc152150de4899d808216f3548b32db99a3"
     }
   ]
 }
