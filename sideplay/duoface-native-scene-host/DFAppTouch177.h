@@ -173,14 +173,14 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
         [nc addObserverForName:UIWindowDidBecomeVisibleNotification
                         object:nil queue:NSOperationQueue.mainQueue
                     usingBlock:^(__unused NSNotification *note) {
-            if ([NSStringFromClass(note.object.class)
+            if ([NSStringFromClass([note.object class])
                     isEqualToString:@"UIRemoteKeyboardWindow"])
                 DF177KbSetVisible(YES);
         }];
         [nc addObserverForName:UIWindowDidBecomeHiddenNotification
                         object:nil queue:NSOperationQueue.mainQueue
                     usingBlock:^(__unused NSNotification *note) {
-            if ([NSStringFromClass(note.object.class)
+            if ([NSStringFromClass([note.object class])
                     isEqualToString:@"UIRemoteKeyboardWindow"])
                 DF177KbRefreshFromScan();
         }];
