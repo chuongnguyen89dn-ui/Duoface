@@ -1,3 +1,7 @@
+## 2026-11-04 07:38 — Nguyen phát biểu chuẩn của bài toán app (sau khi dừng tối qua)
+
+'Hiện tại ở app duoface trong mục cài đặt đưa app lên màn hình carplay ko đưa đc những app mà Apple hỗ trợ. Chỉ đưa đc những app carplay ko hỗ trợ.' — Tức: trong mục cài đặt chọn app đưa lên màn hình CarPlay của app DuoFace: app đã được Apple hỗ trợ CarPlay (có CarPlay native, gồm các app bản đồ) thì DuoFace KHÔNG đưa lên được; app CarPlay không hỗ trợ thì đưa lên được bình thường. Đây là phát biểu gốc để đối chiếu mọi cách hiểu từ nay. Muse chỉ xác nhận đã hiểu, chưa làm gì thêm (lệnh dừng tối 03/11 vẫn còn hiệu lực).
+
 ## 2026-11-03 21:42 — Nguyen DỪNG vụ bản đồ
 
 Sau ba lần Muse hiểu lệch yêu cầu, Nguyen ra lệnh dừng hẳn: 'Thôi. Ko cần làm j nữa.' Không build, không nghiên cứu thêm, không mở lại vụ này trừ khi Nguyen tự ra lệnh mới. Bản đứng Sileo giữ nguyên QA172R. Các hồ sơ đào sâu tối nay (phím, cơ chế app, bản đồ) vẫn nằm ở ~/workspace/duoface-audit/ để tham chiếu sau này.
