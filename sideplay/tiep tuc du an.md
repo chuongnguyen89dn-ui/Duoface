@@ -1,3 +1,7 @@
+## 2026-11-04 07:39 — Nguyen bổ sung vế đối chiếu: OmniCar làm được việc đó hiện tại
+
+Bài toán đầy đủ theo lời Nguyen: DuoFace ở mục cài đặt đưa app lên màn hình CarPlay — app Apple đã hỗ trợ CarPlay thì KHÔNG đưa lên được, chỉ đưa được app CarPlay không hỗ trợ; trong khi OmniCar hiện tại LÀM ĐƯỢC cả nhóm app Apple hỗ trợ đó. Vấn đề = DuoFace thiếu đúng khả năng mà OmniCar đang có với nhóm app CarPlay-native. Muse xác nhận đã hiểu trọn bài toán; chưa làm gì thêm.
+
 ## 2026-11-04 07:38 — Nguyen phát biểu chuẩn của bài toán app (sau khi dừng tối qua)
 
 'Hiện tại ở app duoface trong mục cài đặt đưa app lên màn hình carplay ko đưa đc những app mà Apple hỗ trợ. Chỉ đưa đc những app carplay ko hỗ trợ.' — Tức: trong mục cài đặt chọn app đưa lên màn hình CarPlay của app DuoFace: app đã được Apple hỗ trợ CarPlay (có CarPlay native, gồm các app bản đồ) thì DuoFace KHÔNG đưa lên được; app CarPlay không hỗ trợ thì đưa lên được bình thường. Đây là phát biểu gốc để đối chiếu mọi cách hiểu từ nay. Muse chỉ xác nhận đã hiểu, chưa làm gì thêm (lệnh dừng tối 03/11 vẫn còn hiệu lực).
