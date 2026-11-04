@@ -37,6 +37,13 @@ static NSString *const DF177TouchPrefsPath =
     @"/var/mobile/Library/Preferences/com.duoface.nativehost.qa177.plist";
 static const char *const DF177TouchWakeName = "com.duoface.apptouch177.wake";
 static const char *const DF177TouchMailboxName = "com.duoface.ipc.v177.apptouch";
+// QA172 wakefix: keyboard-visibility state, same DF156 transport and
+// direction (app -> SpringBoard). Chrome's wake shield must never
+// re-arm over a live keyboard; the keyboard window's order relative
+// to the shield cannot be proven from SpringBoard, so the app
+// reports its own keyboard state and Chrome trusts the report.
+static const char *const DF177KbWakeName = "com.duoface.kbstate177.wake";
+static const char *const DF177KbMailboxName = "com.duoface.ipc.v177.kbstate";
 static const NSTimeInterval kDF177TouchThrottleSeconds = 0.25;
 
 static inline BOOL DF177AppTouchEnabled(void) {
@@ -81,6 +88,53 @@ static inline void DF177AppTouchNoteBegan(NSString *bundle) {
 static IMP DF177SendEventOriginal = NULL;
 static NSString *DF177TouchBundle = nil;
 
+// QA172 wakefix keyboard state sender. Sent only on change. The
+// visibility notification is the trigger and a window scan is the
+// state read, with a corrective scan on every Began touch (the
+// QA178 lesson: a bare poll can miss the keyboard window in the
+// app's window list; a visibility notification does not depend on
+// enumeration timing, and the event object names the window).
+static DF156Mailbox DF177KbBox;
+static BOOL DF177KbBoxReady = NO;
+static BOOL DF177KbVisible = NO;
+
+static inline BOOL DF177KbComputeVisible(void) {
+    for (UIWindow *window in UIApplication.sharedApplication.windows) {
+        if (!window.hidden &&
+            [NSStringFromClass(window.class)
+                isEqualToString:@"UIRemoteKeyboardWindow"])
+            return YES;
+    }
+    return NO;
+}
+
+static inline void DF177KbSetVisible(BOOL visible) {
+    if (!DF177AppTouchEnabled()) return;
+    if (visible == DF177KbVisible && DF177KbBoxReady) return;
+    DF177KbVisible = visible;
+    @try {
+        if (!DF177KbBoxReady) {
+            DF156Init(&DF177KbBox, DF177KbMailboxName);
+            DF177KbBoxReady = YES;
+        }
+        NSDictionary *rec = @{@"version": @1,
+                              @"bundle": DF177TouchBundle ?: @"",
+                              @"kb": @(visible),
+                              @"ts": @(NSDate.date.timeIntervalSince1970)};
+        NSData *bytes = [NSJSONSerialization dataWithJSONObject:rec
+                                                          options:0 error:nil];
+        uint64_t generation = 0;
+        arc4random_buf(&generation, sizeof(generation));
+        if (bytes && DF156Write(&DF177KbBox, bytes.bytes, bytes.length,
+                                generation ?: 1))
+            notify_post(DF177KbWakeName);
+    } @catch (__unused NSException *e) {}
+}
+
+static inline void DF177KbRefreshFromScan(void) {
+    DF177KbSetVisible(DF177KbComputeVisible());
+}
+
 static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
     // Original first: the app receives the event exactly as before.
     ((void (*)(UIApplication *, SEL, UIEvent *))DF177SendEventOriginal)(
@@ -90,6 +144,7 @@ static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
         for (UITouch *touch in event.allTouches) {
             if (touch.phase == UITouchPhaseBegan) {
                 DF177AppTouchNoteBegan(DF177TouchBundle);
+                DF177KbRefreshFromScan();
                 break;
             }
         }
@@ -109,6 +164,27 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
     DF177SendEventOriginal = method_getImplementation(m);
     if (DF177SendEventOriginal)
         method_setImplementation(m, (IMP)DF177SendEventHook);
+    // QA172 wakefix: keyboard visibility observers for the wake
+    // shield. Installed once per process, alongside the touch hook.
+    static BOOL kbObserversInstalled = NO;
+    if (!kbObserversInstalled) {
+        kbObserversInstalled = YES;
+        NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+        [nc addObserverForName:UIWindowDidBecomeVisibleNotification
+                        object:nil queue:NSOperationQueue.mainQueue
+                    usingBlock:^(__unused NSNotification *note) {
+            if ([NSStringFromClass(note.object.class)
+                    isEqualToString:@"UIRemoteKeyboardWindow"])
+                DF177KbSetVisible(YES);
+        }];
+        [nc addObserverForName:UIWindowDidBecomeHiddenNotification
+                        object:nil queue:NSOperationQueue.mainQueue
+                    usingBlock:^(__unused NSNotification *note) {
+            if ([NSStringFromClass(note.object.class)
+                    isEqualToString:@"UIRemoteKeyboardWindow"])
+                DF177KbRefreshFromScan();
+        }];
+    }
 }
 #endif // DF177_APP_SIDE_SENDER
 #endif

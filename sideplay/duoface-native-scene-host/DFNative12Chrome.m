@@ -12,6 +12,7 @@
 #import "DFSpeedVisibility169.h"
 #import "DF156DarwinMailbox.h"
 #import "DFAppTouch177.h"
+#import "DF155PilotAppScope.h"
 #import <notify.h>
 #import "DFEnabledAppsPolicy.h"
 #import "DFAppPickerVC.h"
@@ -296,6 +297,13 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) int touchWake177Token;
 @property(nonatomic,strong) NSMutableDictionary *touch177Bundles;
 @property(nonatomic,copy) NSString *touch177LastBundle;
+// QA172 wakefix: transparent first-touch shield over the panes, the
+// app-reported keyboard state that gates it, and the coalesced
+// layout re-check for app-touch timer extensions.
+@property(nonatomic,strong) UIWindow *wakeShieldWindow;
+@property(nonatomic,assign) int kbWake177Token;
+@property(nonatomic,assign) BOOL kbVisible177;
+@property(nonatomic,assign) NSUInteger touch177RecheckGeneration;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
@@ -665,6 +673,17 @@ static void DFCLog(NSString *text) {
                dispatch_get_main_queue(),^(int t){
             (void)t; [weakTouch df177HandleAppTouch];
         })==NOTIFY_STATUS_OK) self.touchWake177Token=touchToken;
+    }
+    // QA172 wakefix: the relays also report keyboard visibility on a
+    // sibling mailbox + wake; the wake shield (below) trusts that
+    // report and never re-arms over a live keyboard.
+    if(DF177AppTouchEnabled() && !self.kbWake177Token){
+        __weak typeof(self) weakKb=self;
+        int kbToken=0;
+        if(notify_register_dispatch(DF177KbWakeName,&kbToken,
+               dispatch_get_main_queue(),^(int t){
+            (void)t; [weakKb df177HandleKbState];
+        })==NOTIFY_STATUS_OK) self.kbWake177Token=kbToken;
     }
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
@@ -1155,6 +1174,40 @@ static void DFCLog(NSString *text) {
     load.duration=1.25;
     load.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     [fill addAnimation:load forKey:@"duoface-native-loading-line"];
+    // QA172 wakefix: the first-touch shield. A transparent window
+    // over the whole content area at level 1 (above the scene slots
+    // at 0.5, below pills/divider at 2). layoutControls owns its
+    // visibility: it is up only while the controls are idle, so the
+    // first touch lands on the shield and wakes the controls
+    // (DuoNavi semantics) instead of executing whatever sits under
+    // the touch inside the hosted app. The touch is consumed by
+    // window order alone; the observer below only triggers the
+    // wake, exactly like the activity observers on Chrome's own
+    // windows, and deliberately does not touch the scene's own
+    // event path (the touch-ownership contract stays untouched).
+    UIViewController *shieldRoot=[self emptyRoot:cr];
+    shieldRoot.view.backgroundColor=UIColor.clearColor;
+    self.wakeShieldWindow=[self makeWindow:cr root:shieldRoot level:1];
+    if(!self.wakeShieldWindow){[self stop];return NO;}
+    self.wakeShieldWindow.hidden=YES;
+    DFNativeActivityObserver *shieldObserver=[DFNativeActivityObserver new];
+    shieldObserver.cancelsTouchesInView=NO;
+    shieldObserver.delaysTouchesBegan=NO;
+    shieldObserver.delaysTouchesEnded=NO;
+    __weak typeof(self) weakShield=self;
+    shieldObserver.activity=^(UIWindow *touchedWindow){
+        // Never mutate layout during UIKit's touch dispatch.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DFNative12Chrome *owner=weakShield;
+            if(!owner || touchedWindow!=owner.wakeShieldWindow ||
+               touchedWindow.hidden || owner.startupActive ||
+               owner.pickerVisible || owner.styleVisible ||
+               owner.appPickerVisible)return;
+            [owner noteUserActivity];
+            DFCLog(@"qa177-recall source=shield-touch");
+        });
+    };
+    [shieldRoot.view addGestureRecognizer:shieldObserver];
     self.splashWindow=[self makeWindow:cr root:launch level:5];
     if(!self.splashWindow){[self stop];return NO;}
     [self layoutControls];
@@ -1242,13 +1295,34 @@ static void DFCLog(NSString *text) {
         }
     });
 }
+// QA172 wakefix: one keyboard-state report arrived on the sibling
+// mailbox. Only a state CHANGE re-evaluates layout (shield arming);
+// the report itself never touches the visibility timers.
+- (void)df177HandleKbState {
+    if(!DF177AppTouchEnabled())return;
+    static DF156Mailbox kbBox;
+    static BOOL kbBoxReady=NO;
+    if(!kbBoxReady){ DF156Init(&kbBox,DF177KbMailboxName); kbBoxReady=YES; }
+    uint8_t bytes[DF156_MAX_BYTES];
+    size_t size=DF156Read(&kbBox,bytes);
+    if(!size)return;
+    id parsed=[NSJSONSerialization JSONObjectWithData:
+        [NSData dataWithBytes:bytes length:size] options:0 error:nil];
+    if(![parsed isKindOfClass:NSDictionary.class])return;
+    BOOL kb=[parsed[@"kb"] boolValue];
+    if(kb==self.kbVisible177)return;
+    self.kbVisible177=kb;
+    DFCLog([NSString stringWithFormat:
+        @"qa177-kb-state visible=%d",kb?1:0]);
+    [self layoutControls];
+}
 // QA177 H1: one app-side touch signal arrived. The mailbox holds the
 // cumulative count, so the qa177-app-touch line is materialized here
 // (only SpringBoard file logs reach the exporter): at most one line
-// per bundle per 5s, plus one whenever the bundle changes. The recall
-// itself goes through noteUserActivity, the same path every other
-// activity source uses; qa177-recall is logged only on a
-// hidden->visible change.
+// per bundle per 5s, plus one whenever the bundle changes. Since
+// QA172 wakefix the signal only extends the visibility timers (see
+// the tail of this method); hidden->visible recalls come from
+// host-side touches and log qa177-recall at their own call sites.
 - (void)df177HandleAppTouch {
     if(!DF177AppTouchEnabled())return;
     static DF156Mailbox touchBox;
@@ -1276,10 +1350,35 @@ static void DFCLog(NSString *text) {
     }
     self.touch177Bundles[bundle]=@{@"count":@(count),@"lastLog":@(lastLog)};
     BOOL wasVisible=now<self.controlsUntil;
-    [self noteUserActivity];
+    // QA172 wakefix: an app-side touch NEVER runs a layout pass
+    // itself. The 172R device A/B (2026-11-04) proved the chain
+    // signal -> noteUserActivity -> layoutControls is what breaks
+    // the hosted keyboard: the summoning tap itself triggers the
+    // pill/divider frame + hidden churn on this display, the remote
+    // keyboard re-lays out against the phone reference and its
+    // bottom row (space / search) falls outside the pane. The
+    // signal now ONLY extends the visibility timers. A single
+    // coalesced re-check runs layoutControls after activity
+    // settles, and it stands down while a keyboard is reported up
+    // (the keyboard-state handler re-evaluates layout when the
+    // keyboard closes). Real hidden->visible recalls originate
+    // from host-side touches: the wake shield or Chrome's own
+    // controls, both of which call noteUserActivity directly.
+    self.borderUntil=MAX(self.borderUntil,now+2.0);
+    self.controlsUntil=MAX(self.controlsUntil,now+4.0);
+    NSUInteger gen=++self.touch177RecheckGeneration;
+    __weak typeof(self) weakSelf=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                   (int64_t)(4.1*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),^{
+        DFNative12Chrome *owner=weakSelf;
+        if(owner && owner.touch177RecheckGeneration==gen &&
+           !owner.kbVisible177)
+            [owner layoutControls];
+    });
     if(!wasVisible)
         DFCLog([NSString stringWithFormat:
-            @"qa177-recall source=app-touch bundle=%@",bundle]);
+            @"qa177-extend-while-hidden bundle=%@",bundle]);
 }
 - (void)realAppTouched:(NSNotification *)note {
     if(![note.object isKindOfClass:UIView.class] ||
@@ -1609,6 +1708,32 @@ static void DFCLog(NSString *text) {
     self.dividerWindow.userInteractionEnabled=YES;
     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
+    // QA172 wakefix: arm the first-touch shield only while the
+    // controls are idle, never over a reported live keyboard, and
+    // never when a hosted app cannot report its keyboard state
+    // (anything outside the DF155 pilot scope plus YouTube's own
+    // relay bundle): an unreported keyboard must never lose a
+    // keystroke to the shield. Empty slots report no bundle and
+    // do not block arming.
+    if(self.wakeShieldWindow){
+        BOOL shieldBlocked=controlsVisible || unavailable ||
+            self.kbVisible177;
+        if(!shieldBlocked){
+            DFSceneHost *host=[DFSceneHost sharedHost];
+            for(UIView *surface in self.hostedScenes){
+                if(![surface isKindOfClass:UIView.class])continue;
+                NSString *hostedBundle=
+                    [host bundleIDForHostedView:surface];
+                if(hostedBundle.length &&
+                   !DF155PilotAppID(hostedBundle) &&
+                   ![hostedBundle isEqualToString:@"com.google.ios.youtube"]){
+                    shieldBlocked=YES;break;
+                }
+            }
+        }
+        self.wakeShieldWindow.frame=cr;
+        self.wakeShieldWindow.hidden=shieldBlocked;
+    }
     if(!CGRectIsNull(second)){
         BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
         CGRect sf=vertical?
@@ -2481,6 +2606,8 @@ static void DFCLog(NSString *text) {
     self.gofaSpeedHUD.ownerWindow=nil;
     self.gofaSpeedHUD=nil;
     if(self.touchWake177Token){ notify_cancel(self.touchWake177Token); self.touchWake177Token=0; }
+    if(self.kbWake177Token){ notify_cancel(self.kbWake177Token); self.kbWake177Token=0; }
+    self.kbVisible177=NO;
     self.speedHUDWindow=nil;
     self.speedDismissWindow=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
@@ -2488,7 +2615,7 @@ static void DFCLog(NSString *text) {
     for(UIWindow *w in self.windows)w.rootViewController=nil;
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
-    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
+    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;self.wakeShieldWindow=nil;
     self.styleChoices=nil;self.styleSelectionBadges=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
     self.styleHeaderTitle=nil;self.styleZoom=nil;self.styleModeBar=nil;
     self.appPickerVisible=NO;
