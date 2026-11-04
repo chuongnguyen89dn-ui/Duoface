@@ -25,7 +25,7 @@ Nguồn: [Meta — Introducing Muse Code and Muse Spark 1.2](https://research.me
 
 ### 2.1 Bối cảnh đang bị phân tán và quá dài
 
-Trên `spec-main`, hồ sơ `sideplay/tiep tuc du an.md` khoảng 491 KB; hồ sơ gốc `tiep tuc du an.md` khoảng 699 KB. Hai file có mục đích và lịch sử khác nhau, không nên nạp nguyên khối vào mỗi phiên Muse. README dự án chỉ rõ hồ sơ SidePlay hiện hành và phân biệt hồ sơ lịch sử.
+Trên `spec-main`, hồ sơ `sideplay/tiep tuc du an.md` khoảng 491 KB; hồ sơ root `tiep tuc du an.md` khoảng 699 KB. README root chỉ rõ `ban giao du an duoface moi.md` là hồ sơ chính thức cho hướng DuoFace độc lập; `tiep tuc du an.md` ở root là lịch sử của nhánh cũ. Với công việc SidePlay đang theo dõi, hồ sơ chuyên biệt là `sideplay/tiep tuc du an.md`. Muse phải chọn hồ sơ theo đúng workstream, không coi hai file tên giống nhau là cùng nguồn và không nạp nguyên khối vào mỗi phiên.
 
 **Hệ quả:** cần memory dạng chỉ mục + các chủ đề nhỏ. Agent phải mở đúng đoạn hồ sơ, WO, log hoặc file source khi có câu hỏi; không được lấy một trích đoạn cũ làm trạng thái hiện tại.
 
