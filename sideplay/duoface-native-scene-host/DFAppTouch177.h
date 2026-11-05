@@ -31,7 +31,9 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #include <notify.h>
+#include <unistd.h>
 #import "DF156DarwinMailbox.h"
+#import "DFKeyboardState177.h"
 
 static NSString *const DF177TouchPrefsPath =
     @"/var/mobile/Library/Preferences/com.duoface.nativehost.qa177.plist";
@@ -43,8 +45,38 @@ static const char *const DF177TouchMailboxName = "com.duoface.ipc.v177.apptouch"
 // to the shield cannot be proven from SpringBoard, so the app
 // reports its own keyboard state and Chrome trusts the report.
 static const char *const DF177KbWakeName = "com.duoface.kbstate177.wake";
-static const char *const DF177KbMailboxName = "com.duoface.ipc.v177.kbstate";
 static const NSTimeInterval kDF177TouchThrottleSeconds = 0.25;
+
+// Each app owns a separate retained snapshot. The common notification is
+// only a wakeup, so simultaneous app writes cannot erase another app's state.
+static inline DF156Mailbox *DF177KeyboardChannel(NSString *bundle) {
+    if(!NSThread.isMainThread || ![bundle isKindOfClass:NSString.class] ||
+       !bundle.length || bundle.length>128)return NULL;
+    static NSMutableDictionary<NSString *,NSValue *> *channels;
+    if(!channels)channels=[NSMutableDictionary new];
+    DF156Mailbox *box=[channels[bundle] pointerValue];
+    if(!box){
+        NSString *name=DF177KeyboardChannelName(bundle);
+        if(!name)return NULL;
+        box=calloc(1,sizeof(*box));
+        if(!box)return NULL;
+        DF156Init(box,name.UTF8String);
+        channels[bundle]=[NSValue valueWithPointer:box];
+    }
+    return box;
+}
+
+static inline NSDictionary *DF177ReadKeyboardState(NSString *bundle, NSNumber *pid) {
+    DF156Mailbox *box=DF177KeyboardChannel(bundle);
+    if(!box)return nil;
+    uint8_t bytes[DF156_MAX_BYTES];
+    size_t size=DF156Read(box,bytes);
+    if(!size)return nil;
+    id record=[NSJSONSerialization JSONObjectWithData:
+        [NSData dataWithBytes:bytes length:size] options:0 error:nil];
+    return DF177KeyboardRecordMatches(record,bundle,pid,
+        NSDate.date.timeIntervalSince1970)?record:nil;
+}
 
 static inline BOOL DF177AppTouchEnabled(void) {
     NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:DF177TouchPrefsPath];
@@ -88,50 +120,60 @@ static inline void DF177AppTouchNoteBegan(NSString *bundle) {
 static IMP DF177SendEventOriginal = NULL;
 static NSString *DF177TouchBundle = nil;
 
-// QA172 wakefix keyboard state sender. Sent only on change. The
-// visibility notification is the trigger and a window scan is the
-// state read, with a corrective scan on every Began touch (the
-// QA178 lesson: a bare poll can miss the keyboard window in the
-// app's window list; a visibility notification does not depend on
-// enumeration timing, and the event object names the window).
-static DF156Mailbox DF177KbBox;
-static BOOL DF177KbBoxReady = NO;
+// wakefix3: weak notification-observed identities survive incomplete scans.
+// These records are per bundle/PID; a failed write is retried next event.
+static NSHashTable *DF177KbKnownWindows;
+static BOOL DF177KbHasPublished = NO;
 static BOOL DF177KbVisible = NO;
 
+static inline BOOL DF177IsKeyboardWindow(id window) {
+    Class keyboard=NSClassFromString(@"UIRemoteKeyboardWindow");
+    return [window isKindOfClass:UIWindow.class] && keyboard &&
+           [window isKindOfClass:keyboard];
+}
+
 static inline BOOL DF177KbComputeVisible(void) {
+    if(!DF177KbKnownWindows)DF177KbKnownWindows=[NSHashTable weakObjectsHashTable];
+    NSMutableArray *scanned=[NSMutableArray array];
+    for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
+        if([scene isKindOfClass:UIWindowScene.class])
+            for(UIWindow *window in ((UIWindowScene *)scene).windows)
+                if(DF177IsKeyboardWindow(window))[scanned addObject:window];
     for (UIWindow *window in UIApplication.sharedApplication.windows) {
-        if (!window.hidden &&
-            [NSStringFromClass(window.class)
-                isEqualToString:@"UIRemoteKeyboardWindow"])
-            return YES;
+        if(DF177IsKeyboardWindow(window))[scanned addObject:window];
     }
-    return NO;
+    return DF177KeyboardSnapshot(DF177KbKnownWindows,scanned);
 }
 
 static inline void DF177KbSetVisible(BOOL visible) {
     if (!DF177AppTouchEnabled()) return;
-    if (visible == DF177KbVisible && DF177KbBoxReady) return;
-    DF177KbVisible = visible;
+    if (!DF177KeyboardBeginPublish(visible,DF177KbVisible,&DF177KbHasPublished)) return;
     @try {
-        if (!DF177KbBoxReady) {
-            DF156Init(&DF177KbBox, DF177KbMailboxName);
-            DF177KbBoxReady = YES;
-        }
-        NSDictionary *rec = @{@"version": @1,
+        DF156Mailbox *box=DF177KeyboardChannel(DF177TouchBundle);
+        if(!box)return;
+        NSDictionary *rec = @{@"version": @2,
                               @"bundle": DF177TouchBundle ?: @"",
+                              @"pid": @(getpid()),
                               @"kb": @(visible),
                               @"ts": @(NSDate.date.timeIntervalSince1970)};
         NSData *bytes = [NSJSONSerialization dataWithJSONObject:rec
                                                           options:0 error:nil];
         uint64_t generation = 0;
         arc4random_buf(&generation, sizeof(generation));
-        if (bytes && DF156Write(&DF177KbBox, bytes.bytes, bytes.length,
-                                generation ?: 1))
-            notify_post(DF177KbWakeName);
+        if (bytes && DF156Write(box, bytes.bytes, bytes.length,
+                                generation ?: 1) &&
+            notify_post(DF177KbWakeName)==NOTIFY_STATUS_OK) {
+            DF177KbVisible=visible;
+            DF177KbHasPublished=YES;
+        }
     } @catch (__unused NSException *e) {}
 }
 
 static inline void DF177KbRefreshFromScan(void) {
+    if(!NSThread.isMainThread){
+        dispatch_async(dispatch_get_main_queue(),^{DF177KbRefreshFromScan();});
+        return;
+    }
     DF177KbSetVisible(DF177KbComputeVisible());
 }
 
@@ -173,18 +215,24 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
         [nc addObserverForName:UIWindowDidBecomeVisibleNotification
                         object:nil queue:NSOperationQueue.mainQueue
                     usingBlock:^(__unused NSNotification *note) {
-            if ([NSStringFromClass([note.object class])
-                    isEqualToString:@"UIRemoteKeyboardWindow"])
-                DF177KbSetVisible(YES);
+            if(DF177IsKeyboardWindow(note.object)){
+                if(!DF177KbKnownWindows)
+                    DF177KbKnownWindows=[NSHashTable weakObjectsHashTable];
+                DF177ObserveKeyboardWindow(DF177KbKnownWindows,note.object,YES);
+                DF177KbRefreshFromScan();
+            }
         }];
         [nc addObserverForName:UIWindowDidBecomeHiddenNotification
                         object:nil queue:NSOperationQueue.mainQueue
                     usingBlock:^(__unused NSNotification *note) {
-            if ([NSStringFromClass([note.object class])
-                    isEqualToString:@"UIRemoteKeyboardWindow"])
+            if(DF177IsKeyboardWindow(note.object)){
+                DF177ObserveKeyboardWindow(DF177KbKnownWindows,note.object,NO);
                 DF177KbRefreshFromScan();
+            }
         }];
     }
+    // Initial snapshot also lets a host that starts later read retained state.
+    DF177KbRefreshFromScan();
 }
 #endif // DF177_APP_SIDE_SENDER
 #endif

@@ -6,6 +6,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <math.h>
 #import <notify.h>
+#include "DFDisconnectTimerPolicy.h"
 static NSString *const DFDisconnectClosePrefPath=
  @"/var/mobile/Library/Preferences/com.duoface.nativehost.disconnect-close.v1.plist";
 static const char *const DFDisconnectCloseChanged=

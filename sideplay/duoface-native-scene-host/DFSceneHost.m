@@ -10,6 +10,7 @@
 #import "DFSceneLifecycle.h"
 #import "DFSceneOrientationPolicy.h"
 #import "DFHostedMapRenderSize.h"
+#import "DFNativeMapLeasePolicy.h"
 #import "DFYouTubeHostState.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
@@ -838,6 +839,11 @@ static NSInteger DFObservedSceneForeground(id scene) {
     }
     if (![bundleID isKindOfClass:NSString.class] || bundleID.length==0) {
         if (error) *error=DFSceneError(102,@"bundleID không hợp lệ");
+        return nil;
+    }
+    if (DFNativeMapOwnsBundleNow(bundleID)) {
+        DFSceneLog(@"native-map-phone-host-refused",bundleID,@"fresh same-session native owner lease");
+        if (error) *error=DFSceneError(117,@"Ứng dụng đang nằm trong ô bản đồ CarPlay");
         return nil;
     }
     if (self.live[bundleID]) {

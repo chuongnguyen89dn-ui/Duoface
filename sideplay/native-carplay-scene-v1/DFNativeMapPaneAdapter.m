@@ -1,8 +1,8 @@
-// Independent DuoFace native Maps pane ADAPTER (stage 2, INERT).
+// Independent DuoFace native Maps pane adapter, guarded by the coordinator.
 // The original OmniCar native ARM64 adopt:slot: uses this class of UIKit
 // containment events; implementation below is new source-owned, does not
 // import vendor code/dylib/license or call private scene mutations.
-// Integration must wait for native-owner/host/controller parent verification.
+// Every adoption requires native-owner/host/controller parent verification.
 #import "DFNativeMapPaneAdapter.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -26,12 +26,20 @@ static BOOL DFMapFiniteFrame(CGRect r) {
            isfinite(r.size.width) && isfinite(r.size.height) &&
            r.size.width>=90 && r.size.height>=120;
 }
-static BOOL DFMapExactFBScene(UIViewController *owner) {
+static id DFMapOwnerScene(UIViewController *owner) {
+    id scene=DFMapObjectGetter(owner,@"scene");
+    if(!scene)scene=DFMapObjectGetter(DFMapObjectGetter(owner,@"sceneHandle"),@"sceneIfExists");
+    return scene;
+}
+static NSString *DFMapOwnerBundle(UIViewController *owner) {
     id info=DFMapObjectGetter(owner,@"applicationInfo");
     if(!info)info=DFMapObjectGetter(owner,@"proxyApplicationInfo");
     id bundle=DFMapObjectGetter(info,@"bundleIdentifier");
-    id scene=DFMapObjectGetter(owner,@"scene");
-    if(!scene)scene=DFMapObjectGetter(DFMapObjectGetter(owner,@"sceneHandle"),@"sceneIfExists");
+    return [bundle isKindOfClass:NSString.class]?bundle:nil;
+}
+static BOOL DFMapExactFBScene(UIViewController *owner) {
+    id bundle=DFMapOwnerBundle(owner);
+    id scene=DFMapOwnerScene(owner);
     id sid=DFMapObjectGetter(scene,@"identifier");
     if(![bundle isKindOfClass:NSString.class] ||
        ![@[@"com.google.Maps",@"com.apple.Maps",@"com.waze.iphone"]
@@ -54,6 +62,9 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
 @property(nonatomic,strong) UIWindow *oldWindow;
 @property(nonatomic,strong) UIViewController *assignedParent;
 @property(nonatomic,strong) UIView *assignedContainer;
+@property(nonatomic,weak) id nativeScene;
+@property(nonatomic,copy) NSString *nativeSceneIdentifier;
+@property(nonatomic,copy) NSString *nativeBundle;
 @property(nonatomic,assign) NSUInteger oldSubviewIndex;
 @property(nonatomic,assign) CGRect oldFrame;
 @property(nonatomic,assign) UIViewAutoresizing oldAutoresizing;
@@ -64,6 +75,40 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
 @property(nonatomic,assign) BOOL attached;
 @end
 @implementation DFNativeMapPaneAdapter
+- (void)clearOwnershipReferences {
+    self.attached=NO;
+    self.nativeOwner=nil;self.oldParent=nil;self.oldSuperview=nil;
+    self.oldWindow=nil;self.assignedParent=nil;self.assignedContainer=nil;
+    self.nativeScene=nil;self.nativeSceneIdentifier=nil;self.nativeBundle=nil;
+}
+- (BOOL)hasVerifiedNativeOwner {
+    if(!NSThread.isMainThread)return NO;
+    UIViewController *vc=self.nativeOwner;
+    id scene=DFMapOwnerScene(vc);
+    // CarPlay can reuse the same DB controller for another app/FBScene.
+    // UIKit pointer identity alone must not renew a lease or move that app.
+    return self.attached && self.nativeScene &&
+        scene==self.nativeScene && DFMapExactFBScene(vc) &&
+        [DFMapObjectGetter(scene,@"identifier") isEqual:self.nativeSceneIdentifier] &&
+        [DFMapOwnerBundle(vc) isEqual:self.nativeBundle] &&
+        vc.parentViewController==self.assignedParent &&
+        vc.viewIfLoaded.superview==self.assignedContainer &&
+        vc.viewIfLoaded.window==self.oldWindow &&
+        self.assignedContainer.window==self.oldWindow;
+}
+- (BOOL)discardDetachedNativeOwner {
+    if(!NSThread.isMainThread)return NO;
+    if(!self.attached)return YES;
+    UIView *container=self.assignedContainer;
+    UIView *view=self.nativeOwner.viewIfLoaded;
+    // UIKit has already moved/destroyed the native view. Release only our
+    // stale references; never move a replacement scene, even when the same
+    // DB controller was rebound. An occupied pane must remain deferred.
+    if(!container || container.subviews.count ||
+       (view && (view==container || [view isDescendantOfView:container])))return NO;
+    [self clearOwnershipReferences];
+    return YES;
+}
 + (NSString *)preflightNativeController:(UIViewController *)vc
                                   into:(UIViewController *)parent
                              container:(UIView *)container
@@ -125,6 +170,9 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     self.oldWindow=view.window;
     self.assignedParent=parent;
     self.assignedContainer=container;
+    self.nativeScene=DFMapOwnerScene(vc);
+    self.nativeSceneIdentifier=[DFMapObjectGetter(self.nativeScene,@"identifier") copy];
+    self.nativeBundle=[DFMapOwnerBundle(vc) copy];
     self.oldSubviewIndex=[view.superview.subviews indexOfObject:view];
     self.oldFrame=view.frame;
     self.oldAutoresizing=view.autoresizingMask;
@@ -155,7 +203,7 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
        vc.parentViewController!=self.assignedParent ||
        view.superview!=self.assignedContainer ||
        oldView.window!=self.oldWindow ||
-       !DFMapExactFBScene(vc)) {
+       ![self hasVerifiedNativeOwner]) {
         if(error)*error=@"restoration-owner-changed-no-unsafe-reparent";
         return NO;
     }
@@ -171,9 +219,7 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     view.alpha=self.oldAlpha;view.hidden=self.oldHidden;
     vc.additionalSafeAreaInsets=self.oldSafeInsets;
     [vc didMoveToParentViewController:parent];
-    self.attached=NO;
-    self.nativeOwner=nil;self.oldParent=nil;self.oldSuperview=nil;
-    self.oldWindow=nil;self.assignedParent=nil;self.assignedContainer=nil;
+    [self clearOwnershipReferences];
     return YES;
 }
 @end

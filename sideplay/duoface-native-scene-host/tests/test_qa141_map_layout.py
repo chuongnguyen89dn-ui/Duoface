@@ -1,5 +1,6 @@
 from pathlib import Path
 import plistlib, unittest
+from native_map_host_guard import without_native_map_guard
 ROOT=Path(__file__).resolve().parents[1]
 class Map141Contract(unittest.TestCase):
  def test_scoped_receiver_and_signed_build(self):
@@ -50,7 +51,7 @@ class Map141Contract(unittest.TestCase):
 }
 '''
   ]
-  normalized=current
+  normalized=without_native_map_guard(current)
   for addition in additions:
    self.assertEqual(normalized.count(addition),1,"Only reviewed QA160 additions allowed")
    normalized=normalized.replace(addition,b"",1)

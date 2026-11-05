@@ -847,14 +847,21 @@
  [self presentViewController:sheet animated:YES completion:nil];
 }
 - (void)nativeMapPaneCommand:(NSString *)operation slot:(NSInteger)slot {
+    [self nativeMapPaneCommand:operation slot:slot bundle:nil];
+}
+- (void)nativeMapPaneCommand:(NSString *)operation slot:(NSInteger)slot bundle:(NSString *)bundle {
     // An actual opt-in action from the iPhone app, never an automatic hook
     // on Maps navigation. CarPlay-only coordinator verifies one genuine
     // DBApplicationSceneViewController, real system Dock and same UIWindow.
     NSString *request=NSUUID.UUID.UUIDString;
     NSString *commandPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
-    NSDictionary *record=@{@"Version":@1,@"Operation":operation,
+    NSMutableDictionary *record=[@{@"Version":@1,@"Operation":operation,
         @"MapSlot":@(slot),@"RequestID":request,
-        @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+        @"Timestamp":@(NSDate.date.timeIntervalSince1970)} mutableCopy];
+    if([operation isEqual:@"Attach"]) {
+        if(!DFNativeMapAllowedBundle(bundle) || slot<0 || slot>1)return;
+        record[@"BundleID"]=bundle;
+    }
     if(![record writeToFile:commandPath atomically:YES]){
         [self nativeMapPaneAlert:@"Không gửi được lệnh" detail:@"Không thể ghi yêu cầu vào iPhone. Bản đồ trên xe không bị thay đổi."];
         return;
@@ -887,18 +894,30 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)showNativeMapPaneChoices {
+    NSArray<NSString *> *native=DFNativeMapCatalogBundles();
+    NSMutableArray<NSDictionary *> *maps=[NSMutableArray new];
+    for(NSDictionary *app in [self queryInstalledApps]) {
+        NSString *bundle=app[@"bundle"];
+        if(DFNativeMapAllowedBundle(bundle) && (!native || [native containsObject:bundle]))
+            [maps addObject:app];
+    }
+    NSString *detail=@"Chỉ dùng khi xe đang đỗ. Mở đúng ứng dụng bản đồ trực tiếp trên CarPlay, để trống ô DuoFace muốn ghép, rồi chọn ứng dụng và bên dưới đây. Cần bản đồ native đang hiện trên xe; DuoFace chưa tự mở hoặc giữ ứng dụng chạy nền. Việc vẽ bản đồ và dẫn đường cần kiểm tra trên xe.";
+    if(!maps.count)detail=@"Chưa thấy Google Maps, Apple Maps hoặc Waze sẵn có trong danh sách bản đồ. Kết nối CarPlay, mở ứng dụng bản đồ trên xe rồi mở lại mục này. Các ứng dụng CarPlay khác chưa hỗ trợ ghép ô.";
     UIAlertController *menu=[UIAlertController alertControllerWithTitle:@"Maps native — thử nghiệm"
-        message:@"Chỉ dùng khi xe đang đỗ. Mở Google Maps trực tiếp trên CarPlay và giữ bản đồ hiện trên xe. DuoFace thử chuyển controller native sang một ô, có thể bị hệ thống từ chối. Không đổi giấy phép/CarPlay Customize, không phóng to Maps iPhone."
+        message:detail
         preferredStyle:UIAlertControllerStyleAlert];
     __weak typeof(self) weakSelf=self;
-    [menu addAction:[UIAlertAction actionWithTitle:@"Bản đồ bên trái"
-        style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){
-            [weakSelf nativeMapPaneCommand:@"Attach" slot:0];
-        }]];
-    [menu addAction:[UIAlertAction actionWithTitle:@"Bản đồ bên phải"
-        style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){
-            [weakSelf nativeMapPaneCommand:@"Attach" slot:1];
-        }]];
+    for(NSDictionary *app in maps) {
+        NSString *bundle=app[@"bundle"],*name=app[@"name"];
+        for(NSInteger slot=0;slot<2;slot++) {
+            NSString *title=[NSString stringWithFormat:@"%@ — %@",name,
+                slot==0?@"bên trái":@"bên phải"];
+            [menu addAction:[UIAlertAction actionWithTitle:title
+                style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){
+                    [weakSelf nativeMapPaneCommand:@"Attach" slot:slot bundle:bundle];
+                }]];
+        }
+    }
     [menu addAction:[UIAlertAction actionWithTitle:@"Khôi phục giao diện Maps"
         style:UIAlertActionStyleDestructive handler:^(__unused UIAlertAction *a){
             [weakSelf nativeMapPaneCommand:@"Restore" slot:0];

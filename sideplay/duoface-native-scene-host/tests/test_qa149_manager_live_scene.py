@@ -1,12 +1,13 @@
 """QA149 static wiring and ownership boundaries, NOT physical CarPlay parity."""
 from pathlib import Path
 import unittest,hashlib
+from native_map_host_guard import without_native_map_guard
 
 R=Path(__file__).resolve().parents[1]
 solo=(R/"DFHomeStandalone144.m").read_text()
 dock=(R/"DFNativeDockSync147.h").read_text()
 fsm=(R/"DFManagerLifecycle149.h").read_text()
-host=(R/"DFSceneHost.m").read_bytes()
+host=without_native_map_guard((R/"DFSceneHost.m").read_bytes())
 
 class FirstPartyManagerLiveReceipt(unittest.TestCase):
  def test_manager_receipt_only_after_real_host_observation(self):

@@ -10,7 +10,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 INT=ROOT.parent/"jb-embedded-appbridge/package_integrated.py"
 class QA172Wakefix(unittest.TestCase):
  def test_kb_state_sender(self):
-  h=(ROOT/"DFAppTouch177.h").read_text()
+  h=(ROOT/"DFAppTouch177.h").read_text()+(ROOT/"DFKeyboardState177.h").read_text()
   for token in ('com.duoface.kbstate177.wake','com.duoface.ipc.v177.kbstate',
                 'DF177KbSetVisible','DF177KbRefreshFromScan',
                 'UIRemoteKeyboardWindow','UIWindowDidBecomeVisibleNotification',
@@ -33,8 +33,8 @@ class QA172Wakefix(unittest.TestCase):
   self.assertIn('touch177RecheckGeneration',body)
   self.assertIn('qa177-extend-while-hidden',body)
  def test_version_coherence(self):
-  self.assertIn('0.1.172~wakefix2',(ROOT/"build.sh").read_text())
-  self.assertIn('VERSION="0.0.172~wakefix2"',INT.read_text())
-  self.assertIn('Version: 0.1.172~wakefix2',(ROOT/"control").read_text())
-  self.assertIn('build=0.0.172~wakefix2',(ROOT/"DFDeepTrace.h").read_text())
+  self.assertIn('0.1.172~wakefix3',(ROOT/"build.sh").read_text())
+  self.assertIn('VERSION="0.0.172~wakefix3"',INT.read_text())
+  self.assertIn('Version: 0.1.172~wakefix3',(ROOT/"control").read_text())
+  self.assertIn('build=0.0.172~wakefix3',(ROOT/"DFDeepTrace.h").read_text())
 if __name__=="__main__":unittest.main()

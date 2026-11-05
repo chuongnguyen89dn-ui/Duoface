@@ -1,8 +1,8 @@
 Package: com.duoface.carplay.nativescenehost
 Name: DuoFace Native Dashboard Scene Host (Development)
-Version: 0.1.172~wakefix2
+Version: 0.1.172~wakefix3
 Architecture: iphoneos-arm64
 Section: Development
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: DuoFace QA172 wakefix2 (SUA LOI GOI LOGO): bo han cua so khien dung/ha cua wakefix1 (chi danh thuc duoc lan dau). Thay bang lop chan thuong truc nam ngay trong duong cham cua tung o, dung co che cua ban goc: logo dang an thi cham dau tien chi danh thuc logo/menu va bi nuot, khong chay vao app; logo dang hien thi cham di qua binh thuong. Tin hieu cham trong app chi gia han thoi gian hien logo, khong bay lai cua so phu; ban phim dang mo thi khong chan cham. Ngoai phan goi logo, ban nay GIONG HET wakefix1. Chua kiem chung tren xe that.
+Description: DuoFace QA172 wakefix3 private repair candidate: retain observed keyboard windows; isolate keyboard state by hosted app and process; ignore stale disconnect timers; bind supported native map choices to a fresh current-session owner lease. Full rootless package integrity audit included. Physical CarPlay behavior remains unverified.

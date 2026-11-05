@@ -2,11 +2,12 @@
 from pathlib import Path
 import hashlib
 import unittest
+from native_map_host_guard import without_native_map_guard
 
 BASE = Path(__file__).resolve().parents[1]
 SOLO = (BASE / "DFHomeStandalone144.m").read_text()
 PROBE = (BASE / "DFWorkspaceABIProbe150.h").read_text()
-SCENE = (BASE / "DFSceneHost.m").read_bytes()
+SCENE = without_native_map_guard((BASE / "DFSceneHost.m").read_bytes())
 DOCK = (BASE / "DFNativeDockSync147.h").read_text()
 
 

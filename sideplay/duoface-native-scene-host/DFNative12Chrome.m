@@ -335,7 +335,9 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL wakeGateEligible;
 @property(nonatomic,assign) int kbWake177Token;
 @property(nonatomic,assign) BOOL kbVisible177;
+@property(nonatomic,assign) BOOL kbStateKnown177;
 @property(nonatomic,assign) NSUInteger touch177RecheckGeneration;
+- (BOOL)df177RefreshKeyboardState;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
@@ -1290,32 +1292,56 @@ static void DFCLog(NSString *text) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(4.05*NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         DFNative12Chrome *owner=weakOwner;
-        if(owner && owner.borderGeneration==seq){
+        if(!owner || owner.borderGeneration!=seq)return;
+        [owner df177RefreshKeyboardState];
+        if(owner.kbStateKnown177 && !owner.kbVisible177){
             owner.borderUntil=0;
             [owner layoutControls];
         }
     });
 }
-// QA172 wakefix: one keyboard-state report arrived on the sibling
-// mailbox. Only a state CHANGE re-evaluates layout (shield arming);
-// the report itself never touches the visibility timers.
+// Read only snapshots belonging to exact currently hosted app processes.
+// Per-bundle retained mailboxes preserve both apps even when wakes coalesce.
+- (BOOL)df177RefreshKeyboardState {
+    BOOL visible=NO,known=YES;
+    NSUInteger count=0;
+    NSMutableSet *seen=[NSMutableSet set];
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    for(UIView *surface in self.hostedScenes){
+        if(![surface isKindOfClass:UIView.class])continue;
+        NSString *bundle=[host bundleIDForHostedView:surface];
+        if(!bundle.length || [seen containsObject:bundle])continue;
+        [seen addObject:bundle];count++;
+        NSNumber *pid=[host verifiedPIDForHostedView:surface];
+        NSDictionary *record=DF177ReadKeyboardState(bundle,pid);
+        if(!record)known=NO;
+        else if([record[@"kb"] boolValue])visible=YES;
+    }
+    known=known && count>0;
+    BOOL changed=(visible!=self.kbVisible177 || known!=self.kbStateKnown177);
+    self.kbVisible177=visible;self.kbStateKnown177=known;
+    return changed;
+}
+
+// A show/unknown report changes the gate's live predicate only; it must not
+// rearrange windows while the keyboard is opening. Re-layout after a proven
+// close is deferred until UIKit's notification dispatch has completed.
 - (void)df177HandleKbState {
     if(!DF177AppTouchEnabled())return;
-    static DF156Mailbox kbBox;
-    static BOOL kbBoxReady=NO;
-    if(!kbBoxReady){ DF156Init(&kbBox,DF177KbMailboxName); kbBoxReady=YES; }
-    uint8_t bytes[DF156_MAX_BYTES];
-    size_t size=DF156Read(&kbBox,bytes);
-    if(!size)return;
-    id parsed=[NSJSONSerialization JSONObjectWithData:
-        [NSData dataWithBytes:bytes length:size] options:0 error:nil];
-    if(![parsed isKindOfClass:NSDictionary.class])return;
-    BOOL kb=[parsed[@"kb"] boolValue];
-    if(kb==self.kbVisible177)return;
-    self.kbVisible177=kb;
+    if(![self df177RefreshKeyboardState])return;
     DFCLog([NSString stringWithFormat:
-        @"qa177-kb-state visible=%d",kb?1:0]);
-    [self layoutControls];
+        @"qa177-kb-state visible=%d known=%d source=owned-process-snapshots",
+        self.kbVisible177?1:0,self.kbStateKnown177?1:0]);
+    if(!self.kbVisible177 && self.kbStateKnown177){
+        __weak typeof(self) weakSelf=self;
+        dispatch_async(dispatch_get_main_queue(),^{
+            DFNative12Chrome *owner=weakSelf;
+            if(!owner || !owner.windows.count)return;
+            [owner df177RefreshKeyboardState];
+            if(owner.kbStateKnown177 && !owner.kbVisible177)
+                [owner layoutControls];
+        });
+    }
 }
 // QA177 H1: one app-side touch signal arrived. The mailbox holds the
 // cumulative count, so the qa177-app-touch line is materialized here
@@ -1373,8 +1399,9 @@ static void DFCLog(NSString *text) {
                    (int64_t)(4.1*NSEC_PER_SEC)),
                    dispatch_get_main_queue(),^{
         DFNative12Chrome *owner=weakSelf;
-        if(owner && owner.touch177RecheckGeneration==gen &&
-           !owner.kbVisible177)
+        if(!owner || owner.touch177RecheckGeneration!=gen)return;
+        [owner df177RefreshKeyboardState];
+        if(owner.kbStateKnown177 && !owner.kbVisible177)
             [owner layoutControls];
     });
     if(!wasVisible)
@@ -1579,7 +1606,8 @@ static void DFCLog(NSString *text) {
                 if(owner.focus>=0 ||
                    DFSlotCountForPreset(owner.preset)<=1)return NO;
                 if(owner.panActive || owner.logoTouchPending)return NO;
-                if(owner.kbVisible177 || !owner.wakeGateEligible)
+                if(owner.kbVisible177 || !owner.kbStateKnown177 ||
+                   !owner.wakeGateEligible)
                     return NO;
                 return NSDate.date.timeIntervalSince1970>
                        owner.controlsUntil;
@@ -1768,6 +1796,7 @@ static void DFCLog(NSString *text) {
     // must be able to report its keyboard state, so an unreported
     // keyboard can never lose a keystroke to the gate.
     {
+        [self df177RefreshKeyboardState];
         BOOL gateEligible=YES;
         DFSceneHost *host=[DFSceneHost sharedHost];
         for(UIView *surface in self.hostedScenes){
@@ -2657,6 +2686,7 @@ static void DFCLog(NSString *text) {
     if(self.touchWake177Token){ notify_cancel(self.touchWake177Token); self.touchWake177Token=0; }
     if(self.kbWake177Token){ notify_cancel(self.kbWake177Token); self.kbWake177Token=0; }
     self.kbVisible177=NO;
+    self.kbStateKnown177=NO;
     self.speedHUDWindow=nil;
     self.speedDismissWindow=nil;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");

@@ -213,10 +213,15 @@ void DFDisconnectClosePhysicalObserved(BOOL connected) {
  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(DFDisconnectCloseGrace*NSEC_PER_SEC)),
                 dispatch_get_main_queue(),^{
   BOOL stillDisconnected=(gProbe && !gProbe());
-  if(!DFDisconnectCloseMayExecute(generation,gGeneration,stillDisconnected,
-                   DFDisconnectCloseEnabled(),NSDate.date.timeIntervalSince1970-scheduledAt) ||
-     ![session isEqualToString:gSession]){
-    DFDiscCancel(@"grace-cancelled-reconnected-disabled-or-stale",YES);return;
+  DFDisconnectTimerAction action=DFDisconnectTimerDecide(
+      generation,gGeneration,[session isEqualToString:gSession],
+      DFDisconnectCloseMayExecute(generation,gGeneration,stillDisconnected,
+          DFDisconnectCloseEnabled(),NSDate.date.timeIntervalSince1970-scheduledAt));
+  // A stale timer must not clear a later session's candidates, generation or
+  // ACK. dispatch_after cannot be cancelled by DFDiscCancel itself.
+  if(action==DFDisconnectTimerIgnoreStale)return;
+  if(action==DFDisconnectTimerCancelCurrent){
+    DFDiscCancel(@"grace-cancelled-current-session-ineligible",YES);return;
   }
   gScheduled=NO;
   gCandidates=nil;gSession=nil; // one-shot; cannot act on another session
@@ -271,6 +276,13 @@ void DFDisconnectClosePhysicalObserved(BOOL connected) {
           __block NSUInteger count=0;
           [NSTimer scheduledTimerWithTimeInterval:.4 repeats:YES
             block:^(NSTimer *t){
+               // The request's one-shot path already cleared gSession. Guard
+               // each later verification tick by generation/connection/policy,
+               // or an old result can overwrite a new active session's ACK.
+               if(!DFDisconnectVerificationMayContinue(generation,gGeneration,
+                       gProbe && !gProbe(),DFDisconnectCloseEnabled())){
+                  [t invalidate];return;
+               }
                count++;
                NSNumber *current=DFDiscVerifiedCurrentPID(ownedBundle);
                errno=0;

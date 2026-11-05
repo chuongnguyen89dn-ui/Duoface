@@ -1,8 +1,9 @@
 """QA161 contract only: no physical first-pixel or touch-readiness claim."""
 from pathlib import Path
 import unittest,hashlib
+from native_map_host_guard import without_native_map_guard
 ROOT=Path(__file__).resolve().parents[1]
-HOST=(ROOT/"DFSceneHost.m").read_bytes()
+HOST=without_native_map_guard((ROOT/"DFSceneHost.m").read_bytes())
 SOLO=(ROOT/"DFHomeStandalone144.m").read_text()
 BUILD=(ROOT/"build.sh").read_text()
 PACK=(ROOT.parents[0]/"jb-embedded-appbridge"/"package_integrated.py").read_text()
@@ -23,8 +24,8 @@ class QA161SoloInitialReference(unittest.TestCase):
   self.assertIn("if (!self.scene || observedScene!=self.scene || !hosting || !attached)",host)
  def test_solo_opt_in_only_and_distinct_package(self):
   self.assertIn("setFastInitialPolling:YES forHostedView:",SOLO)
-  self.assertIn("0.1.172~wakefix2",BUILD)
-  self.assertIn('VERSION="0.0.172~wakefix2"',PACK)
+  self.assertIn("0.1.172~wakefix3",BUILD)
+  self.assertIn('VERSION="0.0.172~wakefix3"',PACK)
  def test_read_only_home_and_nonmedia_regressions(self):
   self.assertIn("qa160-native-home-page-snapshot-not-pixel",SOLO)
   self.assertIn("qa160-native-grid-icon-pressed",SOLO)

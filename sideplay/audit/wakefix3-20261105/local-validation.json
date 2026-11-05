@@ -1,0 +1,1446 @@
+{
+  "schema_version": 1,
+  "scope": "Local source and portable runtime validation, not signed iOS build or device acceptance",
+  "started_at_utc": "2026-11-05T14:23:23.397704+00:00",
+  "finished_at_utc": "2026-11-05T14:23:27.752675+00:00",
+  "base_commit": "97edf281e9e2d757a5b19d895b18888b3f821af2",
+  "working_tree_changes_present": true,
+  "workflow": ".github/workflows/duoface-172-wakefix3-signed-private.yml",
+  "workflow_sha256": "b932e728cdb7191faeafa7e38f0ec332e80a4ab7e73abdbd9a2309896b60cb21",
+  "source_snapshot": {
+    "file_count": 320,
+    "manifest_sha256": "f66cf4f72883b14a9d71fefccbe7f08fcbfed084b548741ceed9a5a6906028e4",
+    "changed_during_validation": []
+  },
+  "environment": {
+    "os": "Linux",
+    "machine": "x86_64",
+    "python": "3.12.14",
+    "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
+  },
+  "qa166_fixture": {
+    "name": "qa166-original-symbols.json",
+    "sha256": "5c241ce71cadf685787a5fd41332d5037b1a0dd93c8d841e4147e23d9ee0165b",
+    "git_blob": "b8db68f5314b386dad24835f32f74cdf4086e35e",
+    "git_blob_verified": true,
+    "environment_variable": "DF166_ORIGINAL_SYMBOL_FILE"
+  },
+  "summary": {
+    "python_unittest": {
+      "commands": 39,
+      "passed": 39,
+      "failed": 0,
+      "checks": 159,
+      "skipped": 0
+    },
+    "portable_compile": {
+      "commands": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "portable_runtime": {
+      "commands": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "bash_syntax": {
+      "commands": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "foundation_runtime_excluded": 7,
+    "ios_compile_excluded": 2,
+    "failed_commands": 0
+  },
+  "all_executed_checks_passed": true,
+  "results": [
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-1",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "001-bash_syntax-stage-only-step-1.log"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "darwin_mailbox_156",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 2
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.064,
+      "log_basename": "002-portable_compile-darwin_mailbox_156.log",
+      "workflow_command": "cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c -o \"$RUNNER_TEMP/mailbox156\"",
+      "local_compiler": "cc"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "darwin_mailbox_156",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 3
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "003-portable_runtime-darwin_mailbox_156.log"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "dock_lifecycle_147",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 6
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "004-portable_compile-dock_lifecycle_147.log",
+      "workflow_command": "cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/dock_lifecycle_147.c -o \"$RUNNER_TEMP/dock147\"",
+      "local_compiler": "cc"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "dock_lifecycle_147",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 7
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.002,
+      "log_basename": "005-portable_runtime-dock_lifecycle_147.log"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "manager_lifecycle_149",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 8
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.064,
+      "log_basename": "006-portable_compile-manager_lifecycle_149.log",
+      "workflow_command": "cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o \"$RUNNER_TEMP/manager149\"",
+      "local_compiler": "cc"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "manager_lifecycle_149",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 9
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.007,
+      "log_basename": "007-portable_runtime-manager_lifecycle_149.log"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa144_no_split_home_redirect.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 10
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "008-python_unittest-test_qa144_no_split_home_redirect.py.log",
+      "test_count": 5,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 5 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa145_controlled_home.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 11
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.064,
+      "log_basename": "009-python_unittest-test_qa145_controlled_home.py.log",
+      "test_count": 5,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 5 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa145_controlled_home.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa146_native_home_exit.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 12
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "010-python_unittest-test_qa146_native_home_exit.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa146_native_home_exit.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa147_mount_ack_reentrancy.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 13
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "011-python_unittest-test_qa147_mount_ack_reentrancy.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa148_real_pid_and_stop_identity.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 14
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "012-python_unittest-test_qa148_real_pid_and_stop_identity.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.002s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa149_manager_live_scene.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 15
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.066,
+      "log_basename": "013-python_unittest-test_qa149_manager_live_scene.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa149_manager_live_scene.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa150_workspace_preflight.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 16
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "014-python_unittest-test_qa150_workspace_preflight.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa150_workspace_preflight.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa151_workspace_owner_capture.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 17
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "015-python_unittest-test_qa151_workspace_owner_capture.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa152_workspace_prepare.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 18
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "016-python_unittest-test_qa152_workspace_prepare.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa153_phone_foreground_eviction.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 19
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "017-python_unittest-test_qa153_phone_foreground_eviction.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa157_solo_owned_pill.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 20
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.064,
+      "log_basename": "018-python_unittest-test_qa157_solo_owned_pill.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa157_solo_owned_pill.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa158_home_only.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 21
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.066,
+      "log_basename": "019-python_unittest-test_qa158_home_only.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa158_home_only.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa159_native_home.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 22
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "020-python_unittest-test_qa159_native_home.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa159_native_home.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa160_homegrid_latency.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 23
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.067,
+      "log_basename": "021-python_unittest-test_qa160_homegrid_latency.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa160_homegrid_latency.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa161_first_solo_geometry.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 24
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "022-python_unittest-test_qa161_first_solo_geometry.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa161_first_solo_geometry.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa162_gofa_speed8_integration.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 25
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "023-python_unittest-test_qa162_gofa_speed8_integration.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.002s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa162_gofa_speed8_integration.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa163_global_speed8_owner.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 26
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "024-python_unittest-test_qa163_global_speed8_owner.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa163_global_speed8_owner.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa164_speed8_fullscreen_drag.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 27
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "025-python_unittest-test_qa164_speed8_fullscreen_drag.py.log",
+      "test_count": 5,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 5 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa164_speed8_fullscreen_drag.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa165_native_gofa_standalone_roster.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 28
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "026-python_unittest-test_qa165_native_gofa_standalone_roster.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa165_native_gofa_standalone_roster.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa166_traffic_nav_evidence.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 33
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "027-python_unittest-test_qa166_traffic_nav_evidence.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.002s",
+        "OK"
+      ],
+      "workflow_command": "DF166_ORIGINAL_SYMBOL_FILE=\"$RUNNER_TEMP/qa166-original-symbols.json\" python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa166_traffic_nav_evidence.py' -v"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "gofa_notification_167_runtime",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 34
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "028-portable_compile-gofa_notification_167_runtime.log",
+      "workflow_command": "cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_notification_167_runtime.c -o \"$RUNNER_TEMP/gofa167\"",
+      "local_compiler": "cc"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "gofa_notification_167_runtime",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 35
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.002,
+      "log_basename": "029-portable_runtime-gofa_notification_167_runtime.log"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "native_maneuver_168_runtime",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 36
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.064,
+      "log_basename": "030-portable_compile-native_maneuver_168_runtime.log",
+      "workflow_command": "cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_maneuver_168_runtime.c -o \"$RUNNER_TEMP/nav168\"",
+      "local_compiler": "cc"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "native_maneuver_168_runtime",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 37
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.002,
+      "log_basename": "031-portable_runtime-native_maneuver_168_runtime.log"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa168_native_maneuver.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 38
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "032-python_unittest-test_qa168_native_maneuver.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa168_native_maneuver.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa169_bubble_visibility.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 39
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.064,
+      "log_basename": "033-python_unittest-test_qa169_bubble_visibility.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa169_bubble_visibility.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa170_transparent_x_real_gps.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 40
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "034-python_unittest-test_qa170_transparent_x_real_gps.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa170_transparent_x_real_gps.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa167_gofa_event_schema.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 41
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "035-python_unittest-test_qa167_gofa_event_schema.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa167_gofa_event_schema.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa171_gofa_diagnostics_export.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 42
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "036-python_unittest-test_qa171_gofa_diagnostics_export.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa171_gofa_diagnostics_export.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa172r_logo_recall.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 43
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.116,
+      "log_basename": "037-python_unittest-test_qa172r_logo_recall.py.log",
+      "test_count": 5,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 5 tests in 0.002s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172r_logo_recall.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa172w_wakefix.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 44
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "038-python_unittest-test_qa172w_wakefix.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.002s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172w_wakefix.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa172w2_wakefix2.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 45
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "039-python_unittest-test_qa172w2_wakefix2.py.log",
+      "test_count": 9,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 9 tests in 0.002s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172w2_wakefix2.py' -v"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "test_speed_protocol",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 46
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.667,
+      "log_basename": "040-portable_compile-test_speed_protocol.log",
+      "workflow_command": "clang++ -std=c++17 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/speed8/test_speed_protocol.cpp -o \"$RUNNER_TEMP/gofa-speed8-protocol\"",
+      "local_compiler": "c++"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "test_speed_protocol",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 47
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "041-portable_runtime-test_speed_protocol.log"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa154_staged_app_state.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 48
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "042-python_unittest-test_qa154_staged_app_state.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa155_integrated_relay.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 49
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "043-python_unittest-test_qa155_integrated_relay.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.002s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_bridged_content_window.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 50
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "044-python_unittest-test_bridged_content_window.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_bridged_content_window.py' -v"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "native_workspace_once_152",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 51
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "045-portable_compile-native_workspace_once_152.log",
+      "workflow_command": "cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o \"$RUNNER_TEMP/workspace152\"",
+      "local_compiler": "cc"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "native_workspace_once_152",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 52
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.002,
+      "log_basename": "046-portable_runtime-native_workspace_once_152.log"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_integrated_package_144.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 53
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.067,
+      "log_basename": "047-python_unittest-test_integrated_package_144.py.log",
+      "test_count": 4,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 4 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_qa141_map_layout.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 54
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.118,
+      "log_basename": "048-python_unittest-test_qa141_map_layout.py.log",
+      "test_count": 2,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 2 tests in 0.007s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_scoped_bks_132.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 55
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "049-python_unittest-test_scoped_bks_132.py.log",
+      "test_count": 6,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 6 tests in 0.000s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_native_owner_contract.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 56
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "050-python_unittest-test_native_owner_contract.py.log",
+      "test_count": 3,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 3 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v"
+    },
+    {
+      "kind": "portable_compile",
+      "name": "gofa_resize_141",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 63
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.064,
+      "log_basename": "051-portable_compile-gofa_resize_141.log",
+      "workflow_command": "cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_resize_141.c -o \"$RUNNER_TEMP/gofa141\"",
+      "local_compiler": "cc"
+    },
+    {
+      "kind": "portable_runtime",
+      "name": "gofa_resize_141",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 64
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.002,
+      "log_basename": "052-portable_runtime-gofa_resize_141.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-2",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 2,
+        "step_name": "Reproduce repaired keyboard ownership and stale-disconnect races"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "053-bash_syntax-stage-only-step-2.log"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_disconnect_timer_policy.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 2,
+        "step_name": "Reproduce repaired keyboard ownership and stale-disconnect races",
+        "line": 4
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "054-python_unittest-test_disconnect_timer_policy.py.log",
+      "test_count": 1,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 1 test in 0.041s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_disconnect_timer_policy.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_duodash_disconnect_workspace_110.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 2,
+        "step_name": "Reproduce repaired keyboard ownership and stale-disconnect races",
+        "line": 5
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.065,
+      "log_basename": "055-python_unittest-test_duodash_disconnect_workspace_110.py.log",
+      "test_count": 5,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 5 tests in 0.001s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_duodash_disconnect_workspace_110.py' -v"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_native_map_policy.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 2,
+        "step_name": "Reproduce repaired keyboard ownership and stale-disconnect races",
+        "line": 6
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "log_basename": "056-python_unittest-test_native_map_policy.py.log",
+      "test_count": 6,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 6 tests in 0.049s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_map_policy.py' -v"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-3",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 3,
+        "step_name": "Compile-check QA154 app-only relay source without packaging it"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "057-bash_syntax-stage-only-step-3.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-4",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 4,
+        "step_name": "Syntax-check independent Apple CarPlay maneuver adapter (iOS16)"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "058-bash_syntax-stage-only-step-4.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-5",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 5,
+        "step_name": "Prepare previous verified macOS iOS16 rootless toolchain"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "059-bash_syntax-stage-only-step-5.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-6",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 6,
+        "step_name": "Build baseline first-party modules without runtime source changes"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "060-bash_syntax-stage-only-step-6.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-7",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 7,
+        "step_name": "Recompile signed wakefix3 scene host and native components"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "061-bash_syntax-stage-only-step-7.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-8",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 8,
+        "step_name": "Assemble signed wakefix3 private candidate"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "062-bash_syntax-stage-only-step-8.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-9",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 9,
+        "step_name": "Audit every packaged file and compare invariant scopes with wakefix2"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "063-bash_syntax-stage-only-step-9.log"
+    },
+    {
+      "kind": "python_unittest",
+      "name": "test_audit_integrated_deb.py",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 9,
+        "step_name": "Audit every packaged file and compare invariant scopes with wakefix2",
+        "line": 2
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.114,
+      "log_basename": "064-python_unittest-test_audit_integrated_deb.py.log",
+      "test_count": 9,
+      "skipped_count": 0,
+      "failure_names": [],
+      "summary": [
+        "Ran 9 tests in 0.055s",
+        "OK"
+      ],
+      "workflow_command": "python3 -m unittest discover -s sideplay/tools/tests -p 'test_audit_integrated_deb.py' -v"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "stage-only-step-11",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 11,
+        "step_name": "Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "065-bash_syntax-stage-only-step-11.log"
+    },
+    {
+      "kind": "bash_syntax",
+      "name": "native-scene-host-build.sh",
+      "origin": {
+        "path": "sideplay/duoface-native-scene-host/build.sh"
+      },
+      "result": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.004,
+      "log_basename": "066-bash_syntax-native-scene-host-build.sh.log"
+    }
+  ],
+  "excluded": [
+    {
+      "kind": "foundation_runtime",
+      "command": "clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m -o \"$RUNNER_TEMP/ipc156\"",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 4
+      },
+      "reason": "Requires Apple Foundation/macOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "foundation_runtime",
+      "command": "clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m -o \"$RUNNER_TEMP/home141\"",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 57
+      },
+      "reason": "Requires Apple Foundation/macOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "foundation_runtime",
+      "command": "clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/safari_home_roster_runtime.m -o \"$RUNNER_TEMP/safari-roster\"",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 59
+      },
+      "reason": "Requires Apple Foundation/macOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "foundation_runtime",
+      "command": "clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/native_dashboard_context_runtime.m -o \"$RUNNER_TEMP/dashboard-context\"",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 1,
+        "step_name": "Verify independent selected Home and preserved scene-host contracts",
+        "line": 61
+      },
+      "reason": "Requires Apple Foundation/macOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "foundation_runtime",
+      "command": "clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/keyboard_state_177_runtime.m -o \"$RUNNER_TEMP/keyboard-state177\"",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 2,
+        "step_name": "Reproduce repaired keyboard ownership and stale-disconnect races",
+        "line": 2
+      },
+      "reason": "Requires Apple Foundation/macOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "foundation_runtime",
+      "command": "clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/native_map_lease_runtime.m -o \"$RUNNER_TEMP/native-map-lease\"",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 2,
+        "step_name": "Reproduce repaired keyboard ownership and stale-disconnect races",
+        "line": 7
+      },
+      "reason": "Requires Apple Foundation/macOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "foundation_runtime",
+      "command": "clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/native_map_catalog_runtime.m -o \"$RUNNER_TEMP/native-map-catalog\"",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 2,
+        "step_name": "Reproduce repaired keyboard ownership and stale-disconnect races",
+        "line": 9
+      },
+      "reason": "Requires Apple Foundation/macOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "ios_compile",
+      "command": "xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot \"$SDK\" \\",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 3,
+        "step_name": "Compile-check QA154 app-only relay source without packaging it",
+        "line": 3
+      },
+      "reason": "Requires Xcode/iPhoneOS SDK; unavailable on local Linux host."
+    },
+    {
+      "kind": "ios_compile",
+      "command": "xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot \"$SDK\" -fobjc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only sideplay/duoface-native-scene-host/DF168NativeManeuver.m sideplay/duoface-native-scene-host/DF168PublicCarPlayManeuverAdapter.m sideplay/duoface-native-scene-host/DFSpeedVisibility169.m",
+      "origin": {
+        "job": "stage-only",
+        "step_index": 4,
+        "step_name": "Syntax-check independent Apple CarPlay maneuver adapter (iOS16)",
+        "line": 3
+      },
+      "reason": "Requires Xcode/iPhoneOS SDK; unavailable on local Linux host."
+    }
+  ],
+  "not_performed": [
+    "macOS Foundation Objective-C runtime harnesses",
+    "iOS compilation, linking, signing, or integrated candidate package generation",
+    "Candidate DEB scan and baseline invariant comparison (require built package)",
+    "Physical iPhone/CarPlay behavior, install acceptance, rendering/touch, native navigation and keepalive"
+  ],
+  "logs": "Complete command logs retained in scratch only; log_basename identifies each trace.",
+  "workflow_amendment_validation": {
+    "validated_at_utc": "2026-11-05T14:37:54.234912+00:00",
+    "reason": "Full derived audit stays runner-local; only aggregate audit summary may be uploaded or archived.",
+    "workflow_sha256_before_amendment": "b932e728cdb7191faeafa7e38f0ec332e80a4ab7e73abdbd9a2309896b60cb21",
+    "workflow_sha256_after_amendment": "84af9944b3e63e5502a187494578db7ed4902c6535be76537799d70a066fe527",
+    "yaml_parse_pass": true,
+    "changed_run_blocks": [
+      {
+        "job": "stage-only",
+        "step_index": 9,
+        "step_name": "Audit every packaged file against source contracts and export aggregate summary only",
+        "bash_syntax_pass": true,
+        "log_basename": "changed-run-stage-only-9-syntax.log"
+      },
+      {
+        "job": "stage-only",
+        "step_index": 11,
+        "step_name": "Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp",
+        "bash_syntax_pass": true,
+        "log_basename": "changed-run-stage-only-11-syntax.log"
+      }
+    ],
+    "changed_embedded_python": [
+      {
+        "job": "stage-only",
+        "step_index": 9,
+        "heredoc": "PY_AUDIT",
+        "python_syntax_pass": true
+      }
+    ],
+    "artifact_upload_explicit_file_allowlist_pass": true,
+    "full_audit_directory_not_uploaded_or_archived": true,
+    "summary_field_and_scalar_allowlist_pass": true,
+    "full_baseline_report_dependency_removed": true,
+    "original_test_commands_unchanged": true,
+    "source_changes_since_original_tests_excluding_workflow": [],
+    "original_159_python_tests_and_8_portable_harnesses_not_rerun": true,
+    "scope": "Syntax and output allowlist checks only; this amendment did not execute the new audit summary against a candidate package."
+  },
+  "workflow_sha256_scope": "Original 39 Python suites, 8 portable harnesses and Bash syntax results refer to workflow_sha256 at execution; current workflow hash and change-scoped syntax checks are recorded under workflow_amendment_validation."
+}

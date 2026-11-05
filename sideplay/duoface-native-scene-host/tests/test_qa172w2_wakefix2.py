@@ -1,18 +1,29 @@
-import pathlib, unittest
+import pathlib, re, unittest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 CHROME = (ROOT / "DFNative12Chrome.m").read_text()
 TRACE = (ROOT / "DFDeepTrace.h").read_text()
 CTRL = (ROOT / "control").read_text()
 PKG = (ROOT.parent / "jb-embedded-appbridge" / "package_integrated.py").read_text()
 
+def app_touch_method(source):
+ """Select the implementation, never the earlier callback registration."""
+ start=source.index('- (void)df177HandleAppTouch {')
+ end=source.index('- (void)realAppTouched:',start)
+ return source[start:end]
+
+def has_immediate_layout(source):
+ body=app_touch_method(source)
+ immediate=body.split('dispatch_after(',1)[0]
+ return bool(re.search(r'\[\s*(?:self|owner)\s+layoutControls\s*\]',immediate))
+
 class QA172Wakefix2(unittest.TestCase):
  def test_version_coherence(self):
   for text in (TRACE, CTRL, PKG):
-   self.assertIn("wakefix2", text)
-   self.assertNotIn("wakefix2map1", text)
+   self.assertIn("wakefix3", text)
+   self.assertNotIn("wakefix3map1", text)
   self.assertNotIn("wakefix1", TRACE)
   self.assertNotIn("wakefix1", PKG)
-  self.assertIn("Version: 0.1.172~wakefix2", CTRL)
+  self.assertIn("Version: 0.1.172~wakefix3", CTRL)
 
  def test_shield_window_gone(self):
   for token in ("DFNativeWakeShieldView","wakeShieldViews",
@@ -33,12 +44,43 @@ class QA172Wakefix2(unittest.TestCase):
 
  def test_gate_respects_keyboard(self):
   self.assertIn("kbVisible177", CHROME)
-  relay = (ROOT / "DFAppTouch177.h").read_text()
+  relay = (ROOT / "DFAppTouch177.h").read_text()+(ROOT / "DFKeyboardState177.h").read_text()
   self.assertIn("com.duoface.ipc.v177.kbstate", relay)
 
  def test_app_touch_stays_timers_only(self):
-  body = CHROME.split("df177HandleAppTouch")[1].split("}")[0]
-  self.assertNotIn("layoutControls", body)
+  body=app_touch_method(CHROME)
+  self.assertIn('touch177RecheckGeneration',body)
+  self.assertIn('!owner.kbVisible177',body)
+  self.assertFalse(has_immediate_layout(CHROME))
+
+ def test_app_touch_guard_detects_real_method_regression(self):
+  # The old split matched a call site and checked only 11 characters.
+  # Inject into the real method: the check must now detect the regression.
+  marker='- (void)df177HandleAppTouch {'
+  broken=CHROME.replace(marker,marker+'\n    [self layoutControls];',1)
+  self.assertTrue(has_immediate_layout(broken))
+
+ def test_keyboard_is_owned_and_unknown_state_does_not_consume(self):
+  self.assertIn('verifiedPIDForHostedView:surface',CHROME)
+  self.assertIn('DF177ReadKeyboardState(bundle,pid)',CHROME)
+  self.assertIn('!owner.kbStateKnown177',CHROME)
+  begin=CHROME.index('- (void)df177HandleKbState {')
+  end=CHROME.index('- (void)df177HandleAppTouch {',begin)
+  body=CHROME[begin:end]
+  immediate=body.split('dispatch_async(',1)[0]
+  self.assertNotRegex(immediate,r'\[\s*self\s+layoutControls\s*\]')
+  self.assertIn('if(!self.kbVisible177 && self.kbStateKnown177)',body)
+  self.assertNotIn('BOOL wasVisible=',body)
+
+ def test_delayed_layout_requires_fresh_known_keyboard_state(self):
+  for begin,end in (('- (void)noteUserActivity {',
+                     '- (BOOL)df177RefreshKeyboardState {'),
+                    ('- (void)df177HandleAppTouch {',
+                     '- (void)realAppTouched:')):
+   body=CHROME[CHROME.index(begin):CHROME.index(end,CHROME.index(begin))]
+   delayed=body.split('dispatch_after(',1)[1]
+   self.assertIn('[owner df177RefreshKeyboardState];',delayed)
+   self.assertIn('if(owner.kbStateKnown177 && !owner.kbVisible177)',delayed)
 
 if __name__ == "__main__":
  unittest.main()

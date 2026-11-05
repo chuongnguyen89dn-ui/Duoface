@@ -2,10 +2,11 @@
 from pathlib import Path
 import unittest
 import hashlib
+from native_map_host_guard import without_native_map_guard
 R=Path(__file__).resolve().parents[1]
 CAP=(R/"DF151WorkspaceOwnerCapture.h").read_text()
 SOLO=(R/"DFHomeStandalone144.m").read_text()
-HOST=(R/"DFSceneHost.m").read_bytes()
+HOST=without_native_map_guard((R/"DFSceneHost.m").read_bytes())
 
 class WorkspaceCapture151(unittest.TestCase):
  def test_captures_only_dashboard_owner_from_original_initializer(self):

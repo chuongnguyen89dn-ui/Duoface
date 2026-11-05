@@ -57,18 +57,19 @@ class DuoDashManagedReconnect110(unittest.TestCase):
   native=MAP.read_text(encoding="utf-8")
   disc=f("DFDisconnectCloseCoordinator.m")
   header=f("DFNativeMapLeasePolicy.h")
-  for marker in ("DFNativeMapRememberedChoice", "DFNativeMapSaveChoice(self.slot)",
+  for marker in ("DFNativeMapRememberedChoice", "DFNativeMapSaveChoiceForBundle(self.slot,bundle)",
         "DFNativeMapWriteLease(self.boundSession,bundle,self.slot)",
         "DFPhysicalMapVerifyPane", "DFMapVerifiedBundle(self.owner)",
         "autoRestoreAfterReconnectIfVerified","self.lastAutoSession=[session copy]",
         'DFMapFindVC(root,0,[NSMutableSet new],owners)',
+        "DFNativeMapChoiceBundle(saved)", "DFMapUniqueOwnerForBundle(owners,bundle)",
         "DFNativeMapForgetChoice()", "DFNativeMapFreshLease"):
     self.assertIn(marker,native+disc+header,marker)
   self.assertIn('"com.google.Maps"',header)
   self.assertIn('"com.waze.iphone"',header)
   self.assertIn('"com.apple.Maps"',header)
   self.assertIn('@"Session":session',header)
-  self.assertIn('age>=0&&age<=5.0',header)
+  self.assertIn('DFNativeMapSampleFresh(now,[v[@"Timestamp"] doubleValue],5.0)',header)
   self.assertIn("DFDiscVerifiedCurrentPID(native)",disc)
   self.assertIn("if(![workspace[@\"RestoreOnReconnect\"] isEqual:@YES])return;",native)
   self.assertNotIn("setForeground:",native)

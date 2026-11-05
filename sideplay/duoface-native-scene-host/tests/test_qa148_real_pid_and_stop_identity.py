@@ -1,11 +1,12 @@
 """QA148 static ABI/ownership safeguards, not proof of iOS16 runtime support."""
 from pathlib import Path
 import unittest
+from native_map_host_guard import without_native_map_guard
 
 ROOT = Path(__file__).resolve().parents[1]
 SOLO = (ROOT / "DFHomeStandalone144.m").read_text()
 DOCK = (ROOT / "DFNativeDockSync147.h").read_text()
-HOST = (ROOT / "DFSceneHost.m").read_bytes()
+HOST = without_native_map_guard((ROOT / "DFSceneHost.m").read_bytes())
 
 
 class ProcessPIDAndNativeStopGuard(unittest.TestCase):
