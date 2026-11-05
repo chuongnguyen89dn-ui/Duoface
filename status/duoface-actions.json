@@ -1,14 +1,26 @@
 {
-  "checked_at_utc": "2026-11-04T23:45:31.219034+00:00",
+  "checked_at_utc": "2026-11-05T06:58:24.211333+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4346,
+  "total_actions_runs": 4350,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 9,
-      "success": 8,
+      "recent_runs": 10,
+      "success": 9,
       "failure": 0,
       "other": 1
+    },
+    "QA172 wakefix2 (wakefix2 base + permanent wake gate, no shield window) - private rootless signed DuoFace DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA172 wakefix2map1 (wakefix1 base + permanent wake gate + native map self-launch) - private rootless signed DuoFace DEB": {
+      "recent_runs": 2,
+      "success": 0,
+      "failure": 2,
+      "other": 0
     },
     "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB": {
       "recent_runs": 7,
@@ -119,19 +131,59 @@
       "other": 3
     },
     "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB": {
-      "recent_runs": 12,
+      "recent_runs": 8,
       "success": 1,
       "failure": 3,
-      "other": 8
+      "other": 4
     }
   },
   "latest_runs": [
     {
+      "id": 41983947080,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 114,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41983947080",
+      "created_at": "2026-11-05T06:58:10Z",
+      "head_sha": "9d150d5dbd4d6cedc250dedf5e06d75d616a11e2"
+    },
+    {
+      "id": 41943698677,
+      "name": "QA172 wakefix2 (wakefix2 base + permanent wake gate, no shield window) - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41943698677",
+      "created_at": "2026-11-05T00:45:33Z",
+      "head_sha": "97edf281e9e2d757a5b19d895b18888b3f821af2"
+    },
+    {
+      "id": 41942179477,
+      "name": "QA172 wakefix2map1 (wakefix1 base + permanent wake gate + native map self-launch) - private rootless signed DuoFace DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41942179477",
+      "created_at": "2026-11-05T00:33:15Z",
+      "head_sha": "c47b80e45aff01823379d2b3348f145f2f5f95f6"
+    },
+    {
+      "id": 41941626651,
+      "name": "QA172 wakefix2map1 (wakefix1 base + permanent wake gate + native map self-launch) - private rootless signed DuoFace DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41941626651",
+      "created_at": "2026-11-05T00:28:52Z",
+      "head_sha": "1637eb7a646c175eb004249cd1c166370aeb9c40"
+    },
+    {
       "id": 41936190579,
       "name": "DuoFace Actions status snapshot",
       "run_number": 113,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41936190579",
       "created_at": "2026-11-04T23:45:17Z",
       "head_sha": "9d9f62947b1e49ff75f92ce527475bd15bd63a7c"
@@ -385,46 +437,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41608140048",
       "created_at": "2026-11-03T09:05:10Z",
       "head_sha": "1af9046bc4f93383ae8f6c12de5edf211de2c994"
-    },
-    {
-      "id": 41607502823,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41607502823",
-      "created_at": "2026-11-03T09:00:19Z",
-      "head_sha": "71d154d3cb3c1627ee59942849ead5b87e55d911"
-    },
-    {
-      "id": 41607497909,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41607497909",
-      "created_at": "2026-11-03T09:00:17Z",
-      "head_sha": "a9b888edb37e9006516d2faf512c8bc0370b8d75"
-    },
-    {
-      "id": 41607067884,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41607067884",
-      "created_at": "2026-11-03T08:56:47Z",
-      "head_sha": "f0759956b6cfeb3f8cfa23df80359e01005b65b4"
-    },
-    {
-      "id": 41606594846,
-      "name": "QA183 keyboard suite - private rootless signed DuoFace DEB",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41606594846",
-      "created_at": "2026-11-03T08:53:01Z",
-      "head_sha": "d1ca2e5dd1586481e393d1942260256e64e1802a"
     }
   ]
 }
