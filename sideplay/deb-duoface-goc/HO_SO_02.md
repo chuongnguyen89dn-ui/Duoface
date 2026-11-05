@@ -1,0 +1,1606 @@
+  - `textFieldDidEndEditing:reason:` — types `v32@0:8@16q24`
+  - `textField:shouldChangeCharactersInRange:replacementString:` — types `B48@0:8@16{_NSRange=QQ}24@40`
+  - `textFieldDidChangeSelection:` — types `v24@0:8@16`
+  - `textFieldShouldClear:` — types `B24@0:8@16`
+  - `textFieldShouldReturn:` — types `B24@0:8@16`
+  - `textField:editMenuForCharactersInRange:suggestedActions:` — types `@48@0:8@16{_NSRange=QQ}24@40`
+  - `textField:willPresentEditMenuWithAnimator:` — types `v32@0:8@16@24`
+  - `textField:willDismissEditMenuWithAnimator:` — types `v32@0:8@16@24`
+
+#### Protocol CBSubscriptionOrderCoordinatorDelegate
+- Kế thừa protocols: NSObject
+- Instance methods (7):
+  - `orderCoordinatorDidUpdatePendingOrder:` — types `v24@0:8@16`
+  - `orderCoordinatorDidClearPendingOrder:` — types `v24@0:8@16`
+  - `orderCoordinatorDidCompletePaymentSuccessfully:` — types `v24@0:8@16`
+  - `orderCoordinator:shouldPresentAlert:` — types `v32@0:8@16@24`
+  - `orderCoordinator:shouldPresentSafari:` — types `v32@0:8@16@24`
+  - `orderCoordinator:setCheckoutLoading:` — types `v28@0:8@16B24`
+  - `orderCoordinator:setCheckStatusButtonChecking:` — types `v28@0:8@16B24`
+
+#### Protocol CBSubscriptionCheckoutCellDelegate
+- Kế thừa protocols: NSObject
+- Instance methods (1):
+  - `checkoutCellDidTapCheckout:` — types `v24@0:8@16`
+
+#### Protocol CBSubscriptionPendingOrderCellDelegate
+- Kế thừa protocols: NSObject
+- Instance methods (3):
+  - `pendingOrderCellDidTapResume:` — types `v24@0:8@16`
+  - `pendingOrderCellDidTapCheckStatus:` — types `v24@0:8@16`
+  - `pendingOrderCellDidTapCancel:` — types `v24@0:8@16`
+
+#### Protocol CBSubscriptionGiftcodeInputCellDelegate
+- Kế thừa protocols: NSObject
+- Instance methods (1):
+  - `giftcodeInputCellDidTapPaste:` — types `v24@0:8@16`
+
+#### Protocol CBSubscriptionGiftcodeRedeemCellDelegate
+- Kế thừa protocols: NSObject
+- Instance methods (1):
+  - `giftcodeRedeemCellDidTapRedeem:` — types `v24@0:8@16`
+
+#### Protocol CBSubscriptionHardwareIDCellDelegate
+- Kế thừa protocols: NSObject
+- Instance methods (1):
+  - `hardwareIDCellDidTapCopy:` — types `v24@0:8@16`
+
+#### Protocol SFSafariViewControllerDelegate
+- Kế thừa protocols: NSObject
+- Optional instance methods (6):
+  - `safariViewController:activityItemsForURL:title:` — types `@40@0:8@16@24@32`
+  - `safariViewController:excludedActivityTypesForURL:title:` — types `@40@0:8@16@24@32`
+  - `safariViewControllerDidFinish:` — types `v24@0:8@16`
+  - `safariViewController:didCompleteInitialLoad:` — types `v28@0:8@16B24`
+  - `safariViewController:initialLoadDidRedirectToURL:` — types `v32@0:8@16@24`
+  - `safariViewControllerWillOpenInBrowser:` — types `v24@0:8@16`
+
+### 4.2 DuoFaceDashboard.dylib — 36 class, 757 method, 5 protocol
+
+#### CBLocalization
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x37fec0` · instanceSize: 48 · flags: `0x194`
+- Ivars (5):
+  - `_activeLanguageCode` — type `@"NSString"` — offset 8
+  - `_cachedStringTables` — type `@"NSMutableDictionary"` — offset 16
+  - `_activeLanguageTable` — type `@"NSDictionary"` — offset 24
+  - `_viTable` — type `@"NSDictionary"` — offset 32
+  - `_enTable` — type `@"NSDictionary"` — offset 40
+- Instance methods (6):
+  - - `init` — types `@16@0:8` — IMP `0x7098`
+  - - `reloadLanguage` — types `v16@0:8` — IMP `0x7ea0`
+  - - `activeLanguageCode` — types `@16@0:8` — IMP `0x83b8`
+  - - `stringTableForLanguageCode:` — types `@24@0:8@16` — IMP `0x85e4`
+  - - `localizedStringForKey:` — types `@24@0:8@16` — IMP `0x89f8`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x8b0c`
+- Class methods (7):
+  - + `sharedInstance` — types `@16@0:8` — IMP `0x702c`
+  - + `speechVoiceLanguageCode` — types `@16@0:8` — IMP `0x71c0`
+  - + `supportedLanguages` — types `@16@0:8` — IMP `0x74b4`
+  - + `displayNameForLanguageCode:` — types `@24@0:8@16` — IMP `0x7b94`
+  - + `currentLanguageCode` — types `@16@0:8` — IMP `0x835c`
+  - + `setCurrentLanguageCode:` — types `v24@0:8@16` — IMP `0x83fc`
+  - + `localizedStringForKey:` — types `@24@0:8@16` — IMP `0x8974`
+
+#### CBAssistantManager
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x37ff10` · instanceSize: 152 · flags: `0x194`
+- Protocols: `SFSpeechRecognizerDelegate`, `AVSpeechSynthesizerDelegate`
+- Ivars (19):
+  - `_isListening` — type `B` — offset 8
+  - `_voiceFeedbackEnabled` — type `B` — offset 9
+  - `_preferredMapIndex` — type `q` — offset 16
+  - `_onStatusUpdate` — type `@?` — offset 24
+  - `_speechRecognizer` — type `@"SFSpeechRecognizer"` — offset 32
+  - `_recognitionRequest` — type `@"SFSpeechAudioBufferRecognitionRequest"` — offset 40
+  - `_recognitionTask` — type `@"SFSpeechRecognitionTask"` — offset 48
+  - `_audioEngine` — type `@"AVAudioEngine"` — offset 56
+  - `_speechSynthesizer` — type `@"AVSpeechSynthesizer"` — offset 64
+  - `_recordedPCMData` — type `@"NSMutableData"` — offset 72
+  - `_speakCompletion` — type `@?` — offset 80
+  - `_silenceTimer` — type `@"NSTimer"` — offset 88
+  - `_lastTranscribedText` — type `@"NSString"` — offset 96
+  - `_hudWindow` — type `@"UIWindow"` — offset 104
+  - `_hudCard` — type `@"UIVisualEffectView"` — offset 112
+  - `_micIconView` — type `@"UIImageView"` — offset 120
+  - `_statusLabel` — type `@"UILabel"` — offset 128
+  - `_transcriptLabel` — type `@"UILabel"` — offset 136
+  - `_pulseAnimation` — type `@"CABasicAnimation"` — offset 144
+- Properties (23):
+  - `speechRecognizer` — attributes `T@"SFSpeechRecognizer",&,N,V_speechRecognizer`
+  - `recognitionRequest` — attributes `T@"SFSpeechAudioBufferRecognitionRequest",&,N,V_recognitionRequest`
+  - `recognitionTask` — attributes `T@"SFSpeechRecognitionTask",&,N,V_recognitionTask`
+  - `audioEngine` — attributes `T@"AVAudioEngine",&,N,V_audioEngine`
+  - `speechSynthesizer` — attributes `T@"AVSpeechSynthesizer",&,N,V_speechSynthesizer`
+  - `recordedPCMData` — attributes `T@"NSMutableData",&,N,V_recordedPCMData`
+  - `isListening` — attributes `TB,N,V_isListening`
+  - `speakCompletion` — attributes `T@?,C,N,V_speakCompletion`
+  - `silenceTimer` — attributes `T@"NSTimer",&,N,V_silenceTimer`
+  - `lastTranscribedText` — attributes `T@"NSString",C,N,V_lastTranscribedText`
+  - `hudWindow` — attributes `T@"UIWindow",&,N,V_hudWindow`
+  - `hudCard` — attributes `T@"UIVisualEffectView",&,N,V_hudCard`
+  - `micIconView` — attributes `T@"UIImageView",&,N,V_micIconView`
+  - `statusLabel` — attributes `T@"UILabel",&,N,V_statusLabel`
+  - `transcriptLabel` — attributes `T@"UILabel",&,N,V_transcriptLabel`
+  - `pulseAnimation` — attributes `T@"CABasicAnimation",&,N,V_pulseAnimation`
+  - `preferredMapIndex` — attributes `Tq,N,V_preferredMapIndex`
+  - `voiceFeedbackEnabled` — attributes `TB,N,V_voiceFeedbackEnabled`
+  - `onStatusUpdate` — attributes `T@?,C,N,V_onStatusUpdate`
+  - `hash` — attributes `TQ,R`
+  - `superclass` — attributes `T#,R`
+  - `description` — attributes `T@"NSString",R,C`
+  - `debugDescription` — attributes `T@"NSString",R,C`
+- Instance methods (68):
+  - - `init` — types `@16@0:8` — IMP `0x2e990`
+  - - `dealloc` — types `v16@0:8` — IMP `0x2ecf8`
+  - - `cb_onLanguageChanged:` — types `v24@0:8@16` — IMP `0x2ed70`
+  - - `reloadPreferences` — types `v16@0:8` — IMP `0x2ee10`
+  - - `setupSpeechSynthesizer` — types `v16@0:8` — IMP `0x2ef58`
+  - - `setupSpeechRecognizer` — types `v16@0:8` — IMP `0x2efa0`
+  - - `speak:completion:` — types `v32@0:8@16@?24` — IMP `0x2f54c`
+  - - `stopSpeaking` — types `v16@0:8` — IMP `0x2f790`
+  - - `speechSynthesizer:didFinishSpeechUtterance:` — types `v32@0:8@16@24` — IMP `0x2f838`
+  - - `toggleListening` — types `v16@0:8` — IMP `0x2f8c8`
+  - - `startListening` — types `v16@0:8` — IMP `0x2f910`
+  - - `beginRecordingSession` — types `v16@0:8` — IMP `0x2f9dc`
+  - - `resetSilenceTimer` — types `v16@0:8` — IMP `0x303b4`
+  - - `listeningTimeout` — types `v16@0:8` — IMP `0x30484`
+  - - `finishListeningAndProcess` — types `v16@0:8` — IMP `0x304c8`
+  - - `stopListening` — types `v16@0:8` — IMP `0x308ac`
+  - - `transcribeAudioData:completion:` — types `v32@0:8@16@?24` — IMP `0x309a8`
+  - - `processVoiceCommand:` — types `v24@0:8@16` — IMP `0x31294`
+  - - `handleNavigationCommand:` — types `v24@0:8@16` — IMP `0x324b8`
+  - - `handleAppLaunchCommand:` — types `v24@0:8@16` — IMP `0x32a5c`
+  - - `handleMusicCommand:` — types `v24@0:8@16` — IMP `0x33088`
+  - - `triggerBridgeApp:` — types `v24@0:8@16` — IMP `0x33550`
+  - - `dismissCarBridgeApp` — types `v16@0:8` — IMP `0x337c8`
+  - - `showHUD` — types `v16@0:8` — IMP `0x339b0`
+  - - `startMicPulseAnimation` — types `v16@0:8` — IMP `0x34300`
+  - - `stopMicPulseAnimation` — types `v16@0:8` — IMP `0x344b8`
+  - - `updateHUDStatus:subtext:` — types `v32@0:8@16@24` — IMP `0x34524`
+  - - `stopListeningAndDismiss` — types `v16@0:8` — IMP `0x34704`
+  - - `dismissHUD` — types `v16@0:8` — IMP `0x34738`
+  - - `isListening` — types `B16@0:8` — IMP `0x348ac`
+  - - `setIsListening:` — types `v20@0:8B16` — IMP `0x348b4`
+  - - `preferredMapIndex` — types `q16@0:8` — IMP `0x348bc`
+  - - `setPreferredMapIndex:` — types `v24@0:8q16` — IMP `0x348c4`
+  - - `voiceFeedbackEnabled` — types `B16@0:8` — IMP `0x348cc`
+  - - `setVoiceFeedbackEnabled:` — types `v20@0:8B16` — IMP `0x348d4`
+  - - `onStatusUpdate` — types `@?16@0:8` — IMP `0x348dc`
+  - - `setOnStatusUpdate:` — types `v24@0:8@?16` — IMP `0x348e8`
+  - - `speechRecognizer` — types `@16@0:8` — IMP `0x348f0`
+  - - `setSpeechRecognizer:` — types `v24@0:8@16` — IMP `0x348f8`
+  - - `recognitionRequest` — types `@16@0:8` — IMP `0x34904`
+  - - `setRecognitionRequest:` — types `v24@0:8@16` — IMP `0x3490c`
+  - - `recognitionTask` — types `@16@0:8` — IMP `0x34918`
+  - - `setRecognitionTask:` — types `v24@0:8@16` — IMP `0x34920`
+  - - `audioEngine` — types `@16@0:8` — IMP `0x3492c`
+  - - `setAudioEngine:` — types `v24@0:8@16` — IMP `0x34934`
+  - - `speechSynthesizer` — types `@16@0:8` — IMP `0x34940`
+  - - `setSpeechSynthesizer:` — types `v24@0:8@16` — IMP `0x34948`
+  - - `recordedPCMData` — types `@16@0:8` — IMP `0x34954`
+  - - `setRecordedPCMData:` — types `v24@0:8@16` — IMP `0x3495c`
+  - - `speakCompletion` — types `@?16@0:8` — IMP `0x34968`
+  - - `setSpeakCompletion:` — types `v24@0:8@?16` — IMP `0x34974`
+  - - `silenceTimer` — types `@16@0:8` — IMP `0x3497c`
+  - - `setSilenceTimer:` — types `v24@0:8@16` — IMP `0x34984`
+  - - `lastTranscribedText` — types `@16@0:8` — IMP `0x34990`
+  - - `setLastTranscribedText:` — types `v24@0:8@16` — IMP `0x3499c`
+  - - `hudWindow` — types `@16@0:8` — IMP `0x349a4`
+  - - `setHudWindow:` — types `v24@0:8@16` — IMP `0x349ac`
+  - - `hudCard` — types `@16@0:8` — IMP `0x349b8`
+  - - `setHudCard:` — types `v24@0:8@16` — IMP `0x349c0`
+  - - `micIconView` — types `@16@0:8` — IMP `0x349cc`
+  - - `setMicIconView:` — types `v24@0:8@16` — IMP `0x349d4`
+  - - `statusLabel` — types `@16@0:8` — IMP `0x349e0`
+  - - `setStatusLabel:` — types `v24@0:8@16` — IMP `0x349e8`
+  - - `transcriptLabel` — types `@16@0:8` — IMP `0x349f4`
+  - - `setTranscriptLabel:` — types `v24@0:8@16` — IMP `0x349fc`
+  - - `pulseAnimation` — types `@16@0:8` — IMP `0x34a08`
+  - - `setPulseAnimation:` — types `v24@0:8@16` — IMP `0x34a10`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x34a1c`
+- Class methods (1):
+  - + `sharedInstance` — types `@16@0:8` — IMP `0x2e8f4`
+
+#### CBDashboardSettings
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x37ff60` · instanceSize: 144 · flags: `0x194`
+- Ivars (25):
+  - `_portalAppEnabled` — type `B` — offset 8
+  - `_screenBlankEnabled` — type `B` — offset 9
+  - `_splitScreenEnabled` — type `B` — offset 10
+  - `_assistantEnabled` — type `B` — offset 11
+  - `_voiceFeedbackEnabled` — type `B` — offset 12
+  - `_hideIconLabels` — type `B` — offset 13
+  - `_dockSystemMonitorEnabled` — type `B` — offset 14
+  - `_dockSystemMonitorShowAll` — type `B` — offset 15
+  - `_autoLaunchOnConnect` — type `B` — offset 16
+  - `_agreedToEULA` — type `B` — offset 17
+  - `_bridgedApps` — type `@"NSArray"` — offset 24
+  - `_appSettings` — type `@"NSDictionary"` — offset 32
+  - `_preferredMapIndex` — type `q` — offset 40
+  - `_splitLeftBundleID` — type `@"NSString"` — offset 48
+  - `_splitRightBundleID` — type `@"NSString"` — offset 56
+  - `_splitPreset` — type `q` — offset 64
+  - `_splitMode` — type `q` — offset 72
+  - `_splitApp1` — type `@"NSString"` — offset 80
+  - `_splitApp2` — type `@"NSString"` — offset 88
+  - `_splitApp3` — type `@"NSString"` — offset 96
+  - `_splitApp4` — type `@"NSString"` — offset 104
+  - `_splitRatio` — type `d` — offset 112
+  - `_gridCols` — type `q` — offset 120
+  - `_gridRows` — type `q` — offset 128
+  - `_autoLaunchBundleID` — type `@"NSString"` — offset 136
+- Properties (25):
+  - `bridgedApps` — attributes `T@"NSArray",&,N,V_bridgedApps`
+  - `appSettings` — attributes `T@"NSDictionary",&,N,V_appSettings`
+  - `portalAppEnabled` — attributes `TB,N,V_portalAppEnabled`
+  - `screenBlankEnabled` — attributes `TB,N,V_screenBlankEnabled`
+  - `splitScreenEnabled` — attributes `TB,N,V_splitScreenEnabled`
+  - `assistantEnabled` — attributes `TB,N,V_assistantEnabled`
+  - `preferredMapIndex` — attributes `Tq,N,V_preferredMapIndex`
+  - `voiceFeedbackEnabled` — attributes `TB,N,V_voiceFeedbackEnabled`
+  - `splitLeftBundleID` — attributes `T@"NSString",C,N,V_splitLeftBundleID`
+  - `splitRightBundleID` — attributes `T@"NSString",C,N,V_splitRightBundleID`
+  - `splitPreset` — attributes `Tq,N,V_splitPreset`
+  - `splitMode` — attributes `Tq,N,V_splitMode`
+  - `splitApp1` — attributes `T@"NSString",C,N,V_splitApp1`
+  - `splitApp2` — attributes `T@"NSString",C,N,V_splitApp2`
+  - `splitApp3` — attributes `T@"NSString",C,N,V_splitApp3`
+  - `splitApp4` — attributes `T@"NSString",C,N,V_splitApp4`
+  - `splitRatio` — attributes `Td,N,V_splitRatio`
+  - `gridCols` — attributes `Tq,N,V_gridCols`
+  - `gridRows` — attributes `Tq,N,V_gridRows`
+  - `hideIconLabels` — attributes `TB,N,V_hideIconLabels`
+  - `dockSystemMonitorEnabled` — attributes `TB,N,V_dockSystemMonitorEnabled`
+  - `dockSystemMonitorShowAll` — attributes `TB,N,V_dockSystemMonitorShowAll`
+  - `autoLaunchOnConnect` — attributes `TB,N,V_autoLaunchOnConnect`
+  - `autoLaunchBundleID` — attributes `T@"NSString",C,N,V_autoLaunchBundleID`
+  - `agreedToEULA` — attributes `TB,N,V_agreedToEULA`
+- Instance methods (56):
+  - - `init` — types `@16@0:8` — IMP `0x36054`
+  - - `scaleForBundleID:` — types `d24@0:8@16` — IMP `0x3618c`
+  - - `setScale:forBundleID:` — types `v32@0:8d16@24` — IMP `0x36194`
+  - - `setDockSystemMonitorEnabled:` — types `v20@0:8B16` — IMP `0x364d0`
+  - - `setDockSystemMonitorShowAll:` — types `v20@0:8B16` — IMP `0x36670`
+  - - `reload` — types `v16@0:8` — IMP `0x36810`
+  - - `reloadAppPrefs` — types `v16@0:8` — IMP `0x3681c`
+  - - `bridgedApps` — types `@16@0:8` — IMP `0x37e88`
+  - - `setBridgedApps:` — types `v24@0:8@16` — IMP `0x37e90`
+  - - `appSettings` — types `@16@0:8` — IMP `0x37e9c`
+  - - `setAppSettings:` — types `v24@0:8@16` — IMP `0x37ea4`
+  - - `portalAppEnabled` — types `B16@0:8` — IMP `0x37eb0`
+  - - `setPortalAppEnabled:` — types `v20@0:8B16` — IMP `0x37eb8`
+  - - `screenBlankEnabled` — types `B16@0:8` — IMP `0x37ec0`
+  - - `setScreenBlankEnabled:` — types `v20@0:8B16` — IMP `0x37ec8`
+  - - `splitScreenEnabled` — types `B16@0:8` — IMP `0x37ed0`
+  - - `setSplitScreenEnabled:` — types `v20@0:8B16` — IMP `0x37ed8`
+  - - `assistantEnabled` — types `B16@0:8` — IMP `0x37ee0`
+  - - `setAssistantEnabled:` — types `v20@0:8B16` — IMP `0x37ee8`
+  - - `preferredMapIndex` — types `q16@0:8` — IMP `0x37ef0`
+  - - `setPreferredMapIndex:` — types `v24@0:8q16` — IMP `0x37ef8`
+  - - `voiceFeedbackEnabled` — types `B16@0:8` — IMP `0x37f00`
+  - - `setVoiceFeedbackEnabled:` — types `v20@0:8B16` — IMP `0x37f08`
+  - - `splitLeftBundleID` — types `@16@0:8` — IMP `0x37f10`
+  - - `setSplitLeftBundleID:` — types `v24@0:8@16` — IMP `0x37f1c`
+  - - `splitRightBundleID` — types `@16@0:8` — IMP `0x37f24`
+  - - `setSplitRightBundleID:` — types `v24@0:8@16` — IMP `0x37f30`
+  - - `splitPreset` — types `q16@0:8` — IMP `0x37f38`
+  - - `setSplitPreset:` — types `v24@0:8q16` — IMP `0x37f40`
+  - - `splitMode` — types `q16@0:8` — IMP `0x37f48`
+  - - `setSplitMode:` — types `v24@0:8q16` — IMP `0x37f50`
+  - - `splitApp1` — types `@16@0:8` — IMP `0x37f58`
+  - - `setSplitApp1:` — types `v24@0:8@16` — IMP `0x37f64`
+  - - `splitApp2` — types `@16@0:8` — IMP `0x37f6c`
+  - - `setSplitApp2:` — types `v24@0:8@16` — IMP `0x37f78`
+  - - `splitApp3` — types `@16@0:8` — IMP `0x37f80`
+  - - `setSplitApp3:` — types `v24@0:8@16` — IMP `0x37f8c`
+  - - `splitApp4` — types `@16@0:8` — IMP `0x37f94`
+  - - `setSplitApp4:` — types `v24@0:8@16` — IMP `0x37fa0`
+  - - `splitRatio` — types `d16@0:8` — IMP `0x37fa8`
+  - - `setSplitRatio:` — types `v24@0:8d16` — IMP `0x37fb0`
+  - - `gridCols` — types `q16@0:8` — IMP `0x37fb8`
+  - - `setGridCols:` — types `v24@0:8q16` — IMP `0x37fc0`
+  - - `gridRows` — types `q16@0:8` — IMP `0x37fc8`
+  - - `setGridRows:` — types `v24@0:8q16` — IMP `0x37fd0`
+  - - `hideIconLabels` — types `B16@0:8` — IMP `0x37fd8`
+  - - `setHideIconLabels:` — types `v20@0:8B16` — IMP `0x37fe0`
+  - - `dockSystemMonitorEnabled` — types `B16@0:8` — IMP `0x37fe8`
+  - - `dockSystemMonitorShowAll` — types `B16@0:8` — IMP `0x37ff0`
+  - - `autoLaunchOnConnect` — types `B16@0:8` — IMP `0x37ff8`
+  - - `setAutoLaunchOnConnect:` — types `v20@0:8B16` — IMP `0x38000`
+  - - `autoLaunchBundleID` — types `@16@0:8` — IMP `0x38008`
+  - - `setAutoLaunchBundleID:` — types `v24@0:8@16` — IMP `0x38014`
+  - - `agreedToEULA` — types `B16@0:8` — IMP `0x3801c`
+  - - `setAgreedToEULA:` — types `v20@0:8B16` — IMP `0x38024`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x3802c`
+- Class methods (5):
+  - + `sharedInstance` — types `@16@0:8` — IMP `0x353dc`
+  - + `assistantIconImage` — types `@16@0:8` — IMP `0x35478`
+  - + `portalAppIconImage` — types `@16@0:8` — IMP `0x357ac`
+  - + `splitScreenIconImage` — types `@16@0:8` — IMP `0x35ae0`
+  - + `portalAppIdentifier` — types `@16@0:8` — IMP `0x36014`
+
+#### CBHttpClient
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x37ffb0` · instanceSize: 16 · flags: `0x194`
+- Ivars (1):
+  - `_networkQueue` — type `@"NSObject<OS_dispatch_queue>"` — offset 8
+- Properties (1):
+  - `networkQueue` — attributes `T@"NSObject<OS_dispatch_queue>",&,N,V_networkQueue`
+- Instance methods (6):
+  - - `init` — types `@16@0:8` — IMP `0x38a04`
+  - - `postJSON:toURL:timeout:customHeaders:completion:` — types `v56@0:8@16@24d32@40@?48` — IMP `0x38a6c`
+  - - `getJSONFromURL:timeout:customHeaders:completion:` — types `v48@0:8@16d24@32@?40` — IMP `0x39124`
+  - - `networkQueue` — types `@16@0:8` — IMP `0x3970c`
+  - - `setNetworkQueue:` — types `v24@0:8@16` — IMP `0x39714`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x39720`
+- Class methods (1):
+  - + `sharedClient` — types `@16@0:8` — IMP `0x38998`
+
+#### CBLicenseSyncManager
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x380000` · instanceSize: 32 · flags: `0x194`
+- Ivars (3):
+  - `_isSyncing` — type `B` — offset 8
+  - `_syncQueue` — type `@"NSObject<OS_dispatch_queue>"` — offset 16
+  - `_lastAttemptTimestamp` — type `Q` — offset 24
+- Properties (3):
+  - `isSyncing` — attributes `TB,N,V_isSyncing`
+  - `syncQueue` — attributes `T@"NSObject<OS_dispatch_queue>",&,N,V_syncQueue`
+  - `lastAttemptTimestamp` — attributes `TQ,N,V_lastAttemptTimestamp`
+- Instance methods (24):
+  - - `init` — types `@16@0:8` — IMP `0x39798`
+  - - `deviceHardwareHashHex` — types `@16@0:8` — IMP `0x39804`
+  - - `isLicenseCurrentlyValid` — types `B16@0:8` — IMP `0x3adb8`
+  - - `remainingLicenseSeconds` — types `Q16@0:8` — IMP `0x4d19c`
+  - - `isCarPlayScreenConnected` — types `B16@0:8` — IMP `0x5fb88`
+  - - `checkAndSyncLicenseIfNeeded` — types `v16@0:8` — IMP `0x5fbac`
+  - - `checkAndSyncLicenseIfNeededWithSource:` — types `v24@0:8@16` — IMP `0x5fc4c`
+  - - `forceSyncWithCompletion:` — types `v24@0:8@?16` — IMP `0x72468`
+  - - `resolvedBackendBaseURL` — types `@16@0:8` — IMP `0x730a0`
+  - - `resolvedLicenseServerEndpoint` — types `@16@0:8` — IMP `0x730b4`
+  - - `performSyncWithForce:isManualUserAction:completion:` — types `v32@0:8B16B20@?24` — IMP `0x73190`
+  - - `performSyncWithForce:isManualUserAction:source:completion:` — types `v40@0:8B16B20@24@?32` — IMP `0x73220`
+  - - `installAndVerifyLicensePayload:errorMsg:` — types `B32@0:8@16^@24` — IMP `0x74694`
+  - - `actualLicenseExpirationTimestamp` — types `Q16@0:8` — IMP `0x80c40`
+  - - `setActualLicenseExpirationTimestamp:` — types `v24@0:8Q16` — IMP `0x80e04`
+  - - `actualLicenseTierName` — types `@16@0:8` — IMP `0x80fa0`
+  - - `setActualLicenseTierName:` — types `v24@0:8@16` — IMP `0x810e8`
+  - - `isSyncing` — types `B16@0:8` — IMP `0x81270`
+  - - `setIsSyncing:` — types `v20@0:8B16` — IMP `0x81278`
+  - - `syncQueue` — types `@16@0:8` — IMP `0x81280`
+  - - `setSyncQueue:` — types `v24@0:8@16` — IMP `0x81288`
+  - - `lastAttemptTimestamp` — types `Q16@0:8` — IMP `0x81294`
+  - - `setLastAttemptTimestamp:` — types `v24@0:8Q16` — IMP `0x8129c`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x812a4`
+- Class methods (6):
+  - + `sharedInstance` — types `@16@0:8` — IMP `0x3972c`
+  - + `isCarPlayScreen:` — types `B24@0:8@16` — IMP `0x5f564`
+  - + `isCarPlayScreenConnectedExcludingScreen:` — types `B24@0:8@16` — IMP `0x5f7b8`
+  - + `isCarPlayScreenConnected` — types `B16@0:8` — IMP `0x5fb78`
+  - + `formatBaseURLString:` — types `@24@0:8@16` — IMP `0x725b8`
+  - + `resolvedBackendBaseURL` — types `@16@0:8` — IMP `0x72948`
+
+#### CBTouchCloneView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380078` · instanceSize: 8 · flags: `0x90`
+- Instance methods (5):
+  - - `sendTouchEventAtPoint:isDown:` — types `v36@0:8{CGPoint=dd}16B32` — IMP `0x82d4c`
+  - - `touchesBegan:withEvent:` — types `v32@0:8@16@24` — IMP `0x82ff8`
+  - - `touchesMoved:withEvent:` — types `v32@0:8@16@24` — IMP `0x83058`
+  - - `touchesEnded:withEvent:` — types `v32@0:8@16@24` — IMP `0x830b8`
+  - - `touchesCancelled:withEvent:` — types `v32@0:8@16@24` — IMP `0x83118`
+
+#### CBBridgedPortalAppView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x3800a0` · instanceSize: 32 · flags: `0x194`
+- Ivars (3):
+  - `_imageView` — type `@"UIImageView"` — offset 8
+  - `_touchCloneView` — type `@"CBTouchCloneView"` — offset 16
+  - `_displayLink` — type `@"CADisplayLink"` — offset 24
+- Properties (3):
+  - `imageView` — attributes `T@"UIImageView",&,N,V_imageView`
+  - `touchCloneView` — attributes `T@"CBTouchCloneView",&,N,V_touchCloneView`
+  - `displayLink` — attributes `T@"CADisplayLink",&,N,V_displayLink`
+- Instance methods (12):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x83238`
+  - - `start` — types `v16@0:8` — IMP `0x833bc`
+  - - `stop` — types `v16@0:8` — IMP `0x83488`
+  - - `captureFrame:` — types `v24@0:8@16` — IMP `0x834d4`
+  - - `dealloc` — types `v16@0:8` — IMP `0x83568`
+  - - `imageView` — types `@16@0:8` — IMP `0x835b4`
+  - - `setImageView:` — types `v24@0:8@16` — IMP `0x835c4`
+  - - `touchCloneView` — types `@16@0:8` — IMP `0x835d8`
+  - - `setTouchCloneView:` — types `v24@0:8@16` — IMP `0x835e8`
+  - - `displayLink` — types `@16@0:8` — IMP `0x835fc`
+  - - `setDisplayLink:` — types `v24@0:8@16` — IMP `0x8360c`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x83620`
+
+#### CBMultitaskingPillView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x3800f0` · instanceSize: 40 · flags: `0x194`
+- Ivars (4):
+  - `_onPillTapped` — type `@?` — offset 8
+  - `_blurView` — type `@"UIVisualEffectView"` — offset 16
+  - `_iconView` — type `@"UIImageView"` — offset 24
+  - `_titleLabel` — type `@"UILabel"` — offset 32
+- Properties (4):
+  - `onPillTapped` — attributes `T@?,C,N,V_onPillTapped`
+  - `blurView` — attributes `T@"UIVisualEffectView",&,N,V_blurView`
+  - `iconView` — attributes `T@"UIImageView",&,N,V_iconView`
+  - `titleLabel` — attributes `T@"UILabel",&,N,V_titleLabel`
+- Instance methods (12):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x83674`
+  - - `pillTapped` — types `v16@0:8` — IMP `0x83cb4`
+  - - `pillPanned:` — types `v24@0:8@16` — IMP `0x83eb0`
+  - - `onPillTapped` — types `@?16@0:8` — IMP `0x83fbc`
+  - - `setOnPillTapped:` — types `v24@0:8@?16` — IMP `0x83fcc`
+  - - `blurView` — types `@16@0:8` — IMP `0x83fd8`
+  - - `setBlurView:` — types `v24@0:8@16` — IMP `0x83fe8`
+  - - `iconView` — types `@16@0:8` — IMP `0x83ffc`
+  - - `setIconView:` — types `v24@0:8@16` — IMP `0x8400c`
+  - - `titleLabel` — types `@16@0:8` — IMP `0x84020`
+  - - `setTitleLabel:` — types `v24@0:8@16` — IMP `0x84030`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x84044`
+
+#### CBSlotPillHitButton
+- Superclass: `UIButton` · địa chỉ class struct (arm64): `0x380168` · instanceSize: 40 · flags: `0x90`
+- Ivars (1):
+  - `_hitInsets` — type `{UIEdgeInsets="top"d"left"d"bottom"d"right"d}` — offset 8
+- Properties (1):
+  - `hitInsets` — attributes `T{UIEdgeInsets=dddd},N,V_hitInsets`
+- Instance methods (3):
+  - - `pointInside:withEvent:` — types `B40@0:8{CGPoint=dd}16@32` — IMP `0x840ac`
+  - - `hitInsets` — types `{UIEdgeInsets=dddd}16@0:8` — IMP `0x84190`
+  - - `setHitInsets:` — types `v48@0:8{UIEdgeInsets=dddd}16` — IMP `0x841a8`
+
+#### CBSlotPillView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380190` · instanceSize: 96 · flags: `0x194`
+- Ivars (13):
+  - `_dotViews` — type `@"NSMutableArray"` — offset 8
+  - `_isFocusedMode` — type `B` — offset 16
+  - `_showsExpandButton` — type `B` — offset 17
+  - `_isCompactMode` — type `B` — offset 18
+  - `_onPillTapped` — type `@?` — offset 24
+  - `_onPillLongPressed` — type `@?` — offset 32
+  - `_onExpandTapped` — type `@?` — offset 40
+  - `_onRestoreTapped` — type `@?` — offset 48
+  - `_slotIndex` — type `q` — offset 56
+  - `_dotsButton` — type `@"UIButton"` — offset 64
+  - `_expandButton` — type `@"UIButton"` — offset 72
+  - `_restoreButton` — type `@"UIButton"` — offset 80
+  - `_separatorView` — type `@"UIView"` — offset 88
+- Properties (12):
+  - `onPillTapped` — attributes `T@?,C,N,V_onPillTapped`
+  - `onPillLongPressed` — attributes `T@?,C,N,V_onPillLongPressed`
+  - `onExpandTapped` — attributes `T@?,C,N,V_onExpandTapped`
+  - `onRestoreTapped` — attributes `T@?,C,N,V_onRestoreTapped`
+  - `slotIndex` — attributes `Tq,N,V_slotIndex`
+  - `isFocusedMode` — attributes `TB,N,V_isFocusedMode`
+  - `showsExpandButton` — attributes `TB,N,V_showsExpandButton`
+  - `isCompactMode` — attributes `TB,N,V_isCompactMode`
+  - `dotsButton` — attributes `T@"UIButton",&,N,V_dotsButton`
+  - `expandButton` — attributes `T@"UIButton",&,N,V_expandButton`
+  - `restoreButton` — attributes `T@"UIButton",&,N,V_restoreButton`
+  - `separatorView` — attributes `T@"UIView",&,N,V_separatorView`
+- Instance methods (36):
+  - - `initWithSlotIndex:` — types `@24@0:8q16` — IMP `0x841c0`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0x84c30`
+  - - `updateBoundsSize` — types `v16@0:8` — IMP `0x85184`
+  - - `setShowsExpandButton:` — types `v20@0:8B16` — IMP `0x852f0`
+  - - `setFocusedMode:` — types `v20@0:8B16` — IMP `0x85308`
+  - - `setCompactMode:` — types `v20@0:8B16` — IMP `0x85320`
+  - - `pointInside:withEvent:` — types `B40@0:8{CGPoint=dd}16@32` — IMP `0x85348`
+  - - `handleLongPress:` — types `v24@0:8@16` — IMP `0x853f0`
+  - - `dotsTapped:` — types `v24@0:8@16` — IMP `0x85580`
+  - - `expandTapped:` — types `v24@0:8@16` — IMP `0x85698`
+  - - `restoreTapped:` — types `v24@0:8@16` — IMP `0x857b0`
+  - - `bounceButton:` — types `v24@0:8@16` — IMP `0x85904`
+  - - `onPillTapped` — types `@?16@0:8` — IMP `0x85b1c`
+  - - `setOnPillTapped:` — types `v24@0:8@?16` — IMP `0x85b2c`
+  - - `onPillLongPressed` — types `@?16@0:8` — IMP `0x85b38`
+  - - `setOnPillLongPressed:` — types `v24@0:8@?16` — IMP `0x85b48`
+  - - `onExpandTapped` — types `@?16@0:8` — IMP `0x85b54`
+  - - `setOnExpandTapped:` — types `v24@0:8@?16` — IMP `0x85b64`
+  - - `onRestoreTapped` — types `@?16@0:8` — IMP `0x85b70`
+  - - `setOnRestoreTapped:` — types `v24@0:8@?16` — IMP `0x85b80`
+  - - `slotIndex` — types `q16@0:8` — IMP `0x85b8c`
+  - - `setSlotIndex:` — types `v24@0:8q16` — IMP `0x85b9c`
+  - - `isFocusedMode` — types `B16@0:8` — IMP `0x85bac`
+  - - `setIsFocusedMode:` — types `v20@0:8B16` — IMP `0x85bbc`
+  - - `showsExpandButton` — types `B16@0:8` — IMP `0x85bcc`
+  - - `isCompactMode` — types `B16@0:8` — IMP `0x85bdc`
+  - - `setIsCompactMode:` — types `v20@0:8B16` — IMP `0x85bec`
+  - - `dotsButton` — types `@16@0:8` — IMP `0x85bfc`
+  - - `setDotsButton:` — types `v24@0:8@16` — IMP `0x85c0c`
+  - - `expandButton` — types `@16@0:8` — IMP `0x85c20`
+  - - `setExpandButton:` — types `v24@0:8@16` — IMP `0x85c30`
+  - - `restoreButton` — types `@16@0:8` — IMP `0x85c44`
+  - - `setRestoreButton:` — types `v24@0:8@16` — IMP `0x85c54`
+  - - `separatorView` — types `@16@0:8` — IMP `0x85c68`
+  - - `setSeparatorView:` — types `v24@0:8@16` — IMP `0x85c78`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x85c8c`
+
+#### CBOverlayScrollView
+- Superclass: `UIScrollView` · địa chỉ class struct (arm64): `0x3801e0` · instanceSize: 8 · flags: `0x90`
+- Instance methods (4):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x9ff68`
+  - - `touchesShouldCancelInContentView:` — types `B24@0:8@16` — IMP `0xa0074`
+  - - `addSubview:` — types `v24@0:8@16` — IMP `0xa007c`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xa016c`
+
+#### CBMultitaskingOverlayView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380230` · instanceSize: 160 · flags: `0x194`
+- Protocols: `UIScrollViewDelegate`
+- Ivars (19):
+  - `_onCloseRequested` — type `@?` — offset 8
+  - `_onMultiSplitSelected` — type `@?` — offset 16
+  - `_dimBackground` — type `@"UIView"` — offset 24
+  - `_cardShadowContainer` — type `@"UIView"` — offset 32
+  - `_sheetCard` — type `@"UIVisualEffectView"` — offset 40
+  - `_allApps` — type `@"NSArray"` — offset 48
+  - `_appPickerScrollView` — type `@"UIScrollView"` — offset 56
+  - `_appPickerPageControl` — type `@"UIPageControl"` — offset 64
+  - `_slotBIDs` — type `@"NSMutableArray"` — offset 72
+  - `_currentPreset` — type `q` — offset 80
+  - `_currentRatio` — type `d` — offset 88
+  - `_targetSlotIndex` — type `q` — offset 96
+  - `_overlayMode` — type `q` — offset 104
+  - `_headerIcon` — type `@"UIImageView"` — offset 112
+  - `_titleLabel` — type `@"UILabel"` — offset 120
+  - `_appSegmentBtn` — type `@"UIButton"` — offset 128
+  - `_layoutSegmentBtn` — type `@"UIButton"` — offset 136
+  - `_recentSegmentBtn` — type `@"UIButton"` — offset 144
+  - `_runningApps` — type `@"NSArray"` — offset 152
+- Properties (23):
+  - `onCloseRequested` — attributes `T@?,C,N,V_onCloseRequested`
+  - `onMultiSplitSelected` — attributes `T@?,C,N,V_onMultiSplitSelected`
+  - `dimBackground` — attributes `T@"UIView",&,N,V_dimBackground`
+  - `cardShadowContainer` — attributes `T@"UIView",&,N,V_cardShadowContainer`
+  - `sheetCard` — attributes `T@"UIVisualEffectView",&,N,V_sheetCard`
+  - `allApps` — attributes `T@"NSArray",&,N,V_allApps`
+  - `appPickerScrollView` — attributes `T@"UIScrollView",&,N,V_appPickerScrollView`
+  - `appPickerPageControl` — attributes `T@"UIPageControl",&,N,V_appPickerPageControl`
+  - `slotBIDs` — attributes `T@"NSMutableArray",&,N,V_slotBIDs`
+  - `currentPreset` — attributes `Tq,N,V_currentPreset`
+  - `currentRatio` — attributes `Td,N,V_currentRatio`
+  - `targetSlotIndex` — attributes `Tq,N,V_targetSlotIndex`
+  - `overlayMode` — attributes `Tq,N,V_overlayMode`
+  - `headerIcon` — attributes `T@"UIImageView",&,N,V_headerIcon`
+  - `titleLabel` — attributes `T@"UILabel",&,N,V_titleLabel`
+  - `appSegmentBtn` — attributes `T@"UIButton",&,N,V_appSegmentBtn`
+  - `layoutSegmentBtn` — attributes `T@"UIButton",&,N,V_layoutSegmentBtn`
+  - `recentSegmentBtn` — attributes `T@"UIButton",&,N,V_recentSegmentBtn`
+  - `runningApps` — attributes `T@"NSArray",&,N,V_runningApps`
+  - `hash` — attributes `TQ,R`
+  - `superclass` — attributes `T#,R`
+  - `description` — attributes `T@"NSString",R,C`
+  - `debugDescription` — attributes `T@"NSString",R,C`
+- Instance methods (66):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xa0420`
+  - - `dealloc` — types `v16@0:8` — IMP `0xa0aec`
+  - - `cb_onLanguageChanged:` — types `v24@0:8@16` — IMP `0xa0b64`
+  - - `loadInstalledApps` — types `v16@0:8` — IMP `0xa0c48`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xa28e8`
+  - - `setupCardContent` — types `v16@0:8` — IMP `0xa2a58`
+  - - `setupAppPickerCardsInCardW:cardH:contentY:` — types `v40@0:8d16d24d32` — IMP `0xa3e5c`
+  - - `scrollViewDidScroll:` — types `v24@0:8@16` — IMP `0xa5d18`
+  - - `pageControlChanged:` — types `v24@0:8@16` — IMP `0xa5de4`
+  - - `setupPresetCardsInCardW:cardH:contentY:` — types `v40@0:8d16d24d32` — IMP `0xa5e78`
+  - - `setupRecentAppsCardsInCardW:cardH:contentY:` — types `v40@0:8d16d24d32` — IMP `0xa678c`
+  - - `addMoreAppsTapped:` — types `v24@0:8@16` — IMP `0xa7f20`
+  - - `dismissCustomAlert:` — types `v24@0:8@16` — IMP `0xa9024`
+  - - `restartSingleAppTapped:` — types `v24@0:8@16` — IMP `0xa91ec`
+  - - `closeSingleAppTapped:` — types `v24@0:8@16` — IMP `0xa9484`
+  - - `closeAllBridgedAppsTapped:` — types `v24@0:8@16` — IMP `0xa9838`
+  - - `switchToAppPickerMode` — types `v16@0:8` — IMP `0xa9a88`
+  - - `switchToLayoutChooserMode` — types `v16@0:8` — IMP `0xa9b2c`
+  - - `switchToRecentMode` — types `v16@0:8` — IMP `0xa9bd8`
+  - - `toggleMode` — types `v16@0:8` — IMP `0xa9ce0`
+  - - `saveSlotIndex:bid:toSettings:prefs:` — types `v48@0:8q16@24@32@40` — IMP `0xa9d1c`
+  - - `appSelected:` — types `v24@0:8@16` — IMP `0xa9ea8`
+  - - `presetSelected:` — types `v24@0:8@16` — IMP `0xaa4f0`
+  - - `showAppPickerForSlot:parentView:` — types `v32@0:8q16@24` — IMP `0xaa800`
+  - - `showLayoutChooserInParentView:` — types `v24@0:8@16` — IMP `0xaacf0`
+  - - `showRecentAppsInParentView:` — types `v24@0:8@16` — IMP `0xab1d4`
+  - - `dismissOverlay` — types `v16@0:8` — IMP `0xab70c`
+  - - `onCloseRequested` — types `@?16@0:8` — IMP `0xab8c0`
+  - - `setOnCloseRequested:` — types `v24@0:8@?16` — IMP `0xab8d0`
+  - - `onMultiSplitSelected` — types `@?16@0:8` — IMP `0xab8dc`
+  - - `setOnMultiSplitSelected:` — types `v24@0:8@?16` — IMP `0xab8ec`
+  - - `dimBackground` — types `@16@0:8` — IMP `0xab8f8`
+  - - `setDimBackground:` — types `v24@0:8@16` — IMP `0xab908`
+  - - `cardShadowContainer` — types `@16@0:8` — IMP `0xab91c`
+  - - `setCardShadowContainer:` — types `v24@0:8@16` — IMP `0xab92c`
+  - - `sheetCard` — types `@16@0:8` — IMP `0xab940`
+  - - `setSheetCard:` — types `v24@0:8@16` — IMP `0xab950`
+  - - `allApps` — types `@16@0:8` — IMP `0xab964`
+  - - `setAllApps:` — types `v24@0:8@16` — IMP `0xab974`
+  - - `appPickerScrollView` — types `@16@0:8` — IMP `0xab988`
+  - - `setAppPickerScrollView:` — types `v24@0:8@16` — IMP `0xab998`
+  - - `appPickerPageControl` — types `@16@0:8` — IMP `0xab9ac`
+  - - `setAppPickerPageControl:` — types `v24@0:8@16` — IMP `0xab9bc`
+  - - `slotBIDs` — types `@16@0:8` — IMP `0xab9d0`
+  - - `setSlotBIDs:` — types `v24@0:8@16` — IMP `0xab9e0`
+  - - `currentPreset` — types `q16@0:8` — IMP `0xab9f4`
+  - - `setCurrentPreset:` — types `v24@0:8q16` — IMP `0xaba04`
+  - - `currentRatio` — types `d16@0:8` — IMP `0xaba14`
+  - - `setCurrentRatio:` — types `v24@0:8d16` — IMP `0xaba24`
+  - - `targetSlotIndex` — types `q16@0:8` — IMP `0xaba34`
+  - - `setTargetSlotIndex:` — types `v24@0:8q16` — IMP `0xaba44`
+  - - `overlayMode` — types `q16@0:8` — IMP `0xaba54`
+  - - `setOverlayMode:` — types `v24@0:8q16` — IMP `0xaba64`
+  - - `headerIcon` — types `@16@0:8` — IMP `0xaba74`
+  - - `setHeaderIcon:` — types `v24@0:8@16` — IMP `0xaba84`
+  - - `titleLabel` — types `@16@0:8` — IMP `0xaba98`
+  - - `setTitleLabel:` — types `v24@0:8@16` — IMP `0xabaa8`
+  - - `appSegmentBtn` — types `@16@0:8` — IMP `0xababc`
+  - - `setAppSegmentBtn:` — types `v24@0:8@16` — IMP `0xabacc`
+  - - `layoutSegmentBtn` — types `@16@0:8` — IMP `0xabae0`
+  - - `setLayoutSegmentBtn:` — types `v24@0:8@16` — IMP `0xabaf0`
+  - - `recentSegmentBtn` — types `@16@0:8` — IMP `0xabb04`
+  - - `setRecentSegmentBtn:` — types `v24@0:8@16` — IMP `0xabb14`
+  - - `runningApps` — types `@16@0:8` — IMP `0xabb28`
+  - - `setRunningApps:` — types `v24@0:8@16` — IMP `0xabb38`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xabb4c`
+
+#### CBBridgedUIAppView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380280` · instanceSize: 48 · flags: `0x194`
+- Ivars (7):
+  - `_hosting` — type `B` — offset 8
+  - `_invalidated` — type `B` — offset 9
+  - `_audioOnlyBackgroundMode` — type `B` — offset 10
+  - `_bundleIdentifier` — type `@"NSString"` — offset 16
+  - `_appViewController` — type `@"SBAppViewController"` — offset 24
+  - `_wrapperView` — type `@"UIView"` — offset 32
+  - `_appScale` — type `d` — offset 40
+- Properties (7):
+  - `bundleIdentifier` — attributes `T@"NSString",C,N,V_bundleIdentifier`
+  - `appViewController` — attributes `T@"SBAppViewController",&,N,V_appViewController`
+  - `wrapperView` — attributes `T@"UIView",&,N,V_wrapperView`
+  - `appScale` — attributes `Td,N,V_appScale`
+  - `hosting` — attributes `TB,N,V_hosting`
+  - `invalidated` — attributes `TB,N,V_invalidated`
+  - `audioOnlyBackgroundMode` — attributes `TB,N,V_audioOnlyBackgroundMode`
+- Instance methods (29):
+  - - `initWithBundleIdentifier:` — types `@24@0:8@16` — IMP `0xac6f4`
+  - - `initWithBundleIdentifier:scale:` — types `@32@0:8@16d24` — IMP `0xac704`
+  - - `setAppScale:` — types `v24@0:8d16` — IMP `0xac83c`
+  - - `setAudioOnlyBackgroundMode:` — types `v20@0:8B16` — IMP `0xac858`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xac8f0`
+  - - `hitTest:withEvent:` — types `@40@0:8{CGPoint=dd}16@32` — IMP `0xac940`
+  - - `touchesBegan:withEvent:` — types `v32@0:8@16@24` — IMP `0xaca6c`
+  - - `calculateNativeSizeForSlotRect:` — types `{CGSize=dd}48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xacc28`
+  - - `updateLayout` — types `v16@0:8` — IMP `0xacc6c`
+  - - `updateSceneSettingsFrame` — types `v16@0:8` — IMP `0xad5bc`
+  - - `updateSceneFrame` — types `v16@0:8` — IMP `0xade4c`
+  - - `refreshSceneLayout` — types `v16@0:8` — IMP `0xade58`
+  - - `startInParentViewController:` — types `v24@0:8@16` — IMP `0xadf30`
+  - - `start` — types `v16@0:8` — IMP `0xaf00c`
+  - - `dismiss` — types `v16@0:8` — IMP `0xaf01c`
+  - - `dealloc` — types `v16@0:8` — IMP `0xaf1d8`
+  - - `bundleIdentifier` — types `@16@0:8` — IMP `0xaf224`
+  - - `setBundleIdentifier:` — types `v24@0:8@16` — IMP `0xaf234`
+  - - `appViewController` — types `@16@0:8` — IMP `0xaf240`
+  - - `setAppViewController:` — types `v24@0:8@16` — IMP `0xaf250`
+  - - `wrapperView` — types `@16@0:8` — IMP `0xaf264`
+  - - `setWrapperView:` — types `v24@0:8@16` — IMP `0xaf274`
+  - - `appScale` — types `d16@0:8` — IMP `0xaf288`
+  - - `hosting` — types `B16@0:8` — IMP `0xaf298`
+  - - `setHosting:` — types `v20@0:8B16` — IMP `0xaf2a8`
+  - - `invalidated` — types `B16@0:8` — IMP `0xaf2b8`
+  - - `setInvalidated:` — types `v20@0:8B16` — IMP `0xaf2c8`
+  - - `audioOnlyBackgroundMode` — types `B16@0:8` — IMP `0xaf2d8`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xaf2e8`
+
+#### CBWindow
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x3802d0` · instanceSize: 104 · flags: `0x194`
+- Ivars (9):
+  - `_boundDisplay` — type `@"CADisplay"` — offset 8
+  - `_boundDisplayConfig` — type `@"FBSDisplayConfiguration"` — offset 16
+  - `_isVisible` — type `B` — offset 24
+  - `_rootWindow` — type `@"UIWindow"` — offset 32
+  - `_rootViewController` — type `@"UIViewController"` — offset 40
+  - `_contentView` — type `@"UIVisualEffectView"` — offset 48
+  - `_multitaskingPill` — type `@"CBMultitaskingPillView"` — offset 56
+  - `_multitaskingOverlay` — type `@"CBMultitaskingOverlayView"` — offset 64
+  - `_appFrame` — type `{CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}` — offset 72
+- Properties (7):
+  - `appFrame` — attributes `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_appFrame`
+  - `rootWindow` — attributes `T@"UIWindow",&,N,V_rootWindow`
+  - `rootViewController` — attributes `T@"UIViewController",&,N,V_rootViewController`
+  - `contentView` — attributes `T@"UIVisualEffectView",&,N,V_contentView`
+  - `multitaskingPill` — attributes `T@"CBMultitaskingPillView",&,N,V_multitaskingPill`
+  - `multitaskingOverlay` — attributes `T@"CBMultitaskingOverlayView",&,N,V_multitaskingOverlay`
+  - `isVisible` — attributes `TB,N,V_isVisible`
+- Instance methods (28):
+  - - `initWithAppFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xaf4bc`
+  - - `getCarPlayDisplay` — types `@16@0:8` — IMP `0xb0ff0`
+  - - `createWindows` — types `v16@0:8` — IMP `0xb1064`
+  - - `multitaskingOverlay` — types `@16@0:8` — IMP `0xb1974`
+  - - `resizeWindows` — types `v16@0:8` — IMP `0xb1aac`
+  - - `show` — types `v16@0:8` — IMP `0xb1d98`
+  - - `hide:` — types `v24@0:8@?16` — IMP `0xb1ec0`
+  - - `isDisplayValid` — types `B16@0:8` — IMP `0xb20a4`
+  - - `destroyWindows` — types `v16@0:8` — IMP `0xb21f8`
+  - - `dismiss` — types `v16@0:8` — IMP `0xb258c`
+  - - `dealloc` — types `v16@0:8` — IMP `0xb2598`
+  - - `showAppPickerForSlot:` — types `v24@0:8q16` — IMP `0xb25e4`
+  - - `showLayoutChooser` — types `v16@0:8` — IMP `0xb2694`
+  - - `showRecentApps` — types `v16@0:8` — IMP `0xb273c`
+  - - `appFrame` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0xb27e4`
+  - - `setAppFrame:` — types `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xb27f0`
+  - - `rootWindow` — types `@16@0:8` — IMP `0xb2804`
+  - - `setRootWindow:` — types `v24@0:8@16` — IMP `0xb280c`
+  - - `rootViewController` — types `@16@0:8` — IMP `0xb2818`
+  - - `setRootViewController:` — types `v24@0:8@16` — IMP `0xb2820`
+  - - `contentView` — types `@16@0:8` — IMP `0xb282c`
+  - - `setContentView:` — types `v24@0:8@16` — IMP `0xb2834`
+  - - `multitaskingPill` — types `@16@0:8` — IMP `0xb2840`
+  - - `setMultitaskingPill:` — types `v24@0:8@16` — IMP `0xb2848`
+  - - `setMultitaskingOverlay:` — types `v24@0:8@16` — IMP `0xb2854`
+  - - `isVisible` — types `B16@0:8` — IMP `0xb2860`
+  - - `setIsVisible:` — types `v20@0:8B16` — IMP `0xb2868`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb2870`
+- Class methods (9):
+  - + `activeCarPlayWindow` — types `@16@0:8` — IMP `0xaf554`
+  - + `resetCachedBounds` — types `v16@0:8` — IMP `0xaf570`
+  - + `carPlayWindowScene` — types `@16@0:8` — IMP `0xaf690`
+  - + `carPlayUIScreen` — types `@16@0:8` — IMP `0xafe60`
+  - + `carPlayCADisplay` — types `@16@0:8` — IMP `0xafffc`
+  - + `carPlayScreenScale` — types `d16@0:8` — IMP `0xb059c`
+  - + `carPlayScreenBounds` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0xb0704`
+  - + `carPlayContentInsets` — types `{UIEdgeInsets=dddd}16@0:8` — IMP `0xb0c98`
+  - + `carPlayUsableBounds` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0xb0ef4`
+
+#### CBDockMetricItemView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380320` · instanceSize: 32 · flags: `0x194`
+- Ivars (3):
+  - `_iconImageView` — type `@"UIImageView"` — offset 8
+  - `_fallbackIconLabel` — type `@"UILabel"` — offset 16
+  - `_valueLabel` — type `@"UILabel"` — offset 24
+- Properties (3):
+  - `iconImageView` — attributes `T@"UIImageView",&,N,V_iconImageView`
+  - `fallbackIconLabel` — attributes `T@"UILabel",&,N,V_fallbackIconLabel`
+  - `valueLabel` — attributes `T@"UILabel",&,N,V_valueLabel`
+- Instance methods (11):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xb3364`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xb3700`
+  - - `setIconSystemName:fallbackEmoji:` — types `v32@0:8@16@24` — IMP `0xb3930`
+  - - `setValue:color:` — types `v32@0:8@16@24` — IMP `0xb3a60`
+  - - `iconImageView` — types `@16@0:8` — IMP `0xb3c64`
+  - - `setIconImageView:` — types `v24@0:8@16` — IMP `0xb3c74`
+  - - `fallbackIconLabel` — types `@16@0:8` — IMP `0xb3c88`
+  - - `setFallbackIconLabel:` — types `v24@0:8@16` — IMP `0xb3c98`
+  - - `valueLabel` — types `@16@0:8` — IMP `0xb3cac`
+  - - `setValueLabel:` — types `v24@0:8@16` — IMP `0xb3cbc`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb3cd0`
+
+#### CBDockSystemMonitorView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380370` · instanceSize: 66 · flags: `0x194`
+- Ivars (11):
+  - `_battItem` — type `@"CBDockMetricItemView"` — offset 8
+  - `_tempItem` — type `@"CBDockMetricItemView"` — offset 16
+  - `_cpuItem` — type `@"CBDockMetricItemView"` — offset 24
+  - `_ramItem` — type `@"CBDockMetricItemView"` — offset 32
+  - `_refreshTimer` — type `@"NSTimer"` — offset 40
+  - `_prevCpuUser` — type `I` — offset 48
+  - `_prevCpuSystem` — type `I` — offset 52
+  - `_prevCpuNice` — type `I` — offset 56
+  - `_prevCpuIdle` — type `I` — offset 60
+  - `_hasCpuHistory` — type `B` — offset 64
+  - `_showAll` — type `B` — offset 65
+- Properties (3):
+  - `isMonitoring` — attributes `TB,R,N`
+  - `showAll` — attributes `TB,N,V_showAll`
+  - `detailedMode` — attributes `TB,N`
+- Instance methods (19):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xb3d24`
+  - - `dealloc` — types `v16@0:8` — IMP `0xb4204`
+  - - `detailedMode` — types `B16@0:8` — IMP `0xb428c`
+  - - `setDetailedMode:` — types `v20@0:8B16` — IMP `0xb429c`
+  - - `setShowAll:` — types `v20@0:8B16` — IMP `0xb42a8`
+  - - `willMoveToWindow:` — types `v24@0:8@16` — IMP `0xb4344`
+  - - `handleTapGesture:` — types `v24@0:8@16` — IMP `0xb43ac`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xb4604`
+  - - `startMonitoring` — types `v16@0:8` — IMP `0xb49dc`
+  - - `stopMonitoring` — types `v16@0:8` — IMP `0xb4ad4`
+  - - `isMonitoring` — types `B16@0:8` — IMP `0xb4b20`
+  - - `handleBatteryNotification:` — types `v24@0:8@16` — IMP `0xb4b40`
+  - - `updateBatteryMetric` — types `v16@0:8` — IMP `0xb4b4c`
+  - - `updateMetrics` — types `v16@0:8` — IMP `0xb4dbc`
+  - - `readDeviceTemperature` — types `f16@0:8` — IMP `0xb5230`
+  - - `readCpuUsage` — types `f16@0:8` — IMP `0xb5414`
+  - - `readRamUsage:total:` — types `f32@0:8^Q16^Q24` — IMP `0xb553c`
+  - - `showAll` — types `B16@0:8` — IMP `0xb564c`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb565c`
+
+#### CBSplitSplashScreenView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x3803c0` · instanceSize: 112 · flags: `0x194`
+- Ivars (14):
+  - `_glowImageView` — type `@"UIImageView"` — offset 8
+  - `_horizonLineView` — type `@"UIView"` — offset 16
+  - `_horizonGradient` — type `@"CAGradientLayer"` — offset 24
+  - `_horizonDashedMask` — type `@"CAShapeLayer"` — offset 32
+  - `_logoImageView` — type `@"UIImageView"` — offset 40
+  - `_trackView` — type `@"UIView"` — offset 48
+  - `_progressView` — type `@"UIView"` — offset 56
+  - `_progressGradient` — type `@"CAGradientLayer"` — offset 64
+  - `_badgeLabel` — type `@"UILabel"` — offset 72
+  - `_isDismissing` — type `B` — offset 80
+  - `_hasStartedAnimation` — type `B` — offset 81
+  - `_animationStartTime` — type `d` — offset 88
+  - `_onWillDismiss` — type `@?` — offset 96
+  - `_onDismissed` — type `@?` — offset 104
+- Properties (3):
+  - `isDismissing` — attributes `TB,R,N`
+  - `onWillDismiss` — attributes `T@?,C,N,V_onWillDismiss`
+  - `onDismissed` — attributes `T@?,C,N,V_onDismissed`
+- Instance methods (13):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xb6358`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xb6fdc`
+  - - `startLoadingAnimation` — types `v16@0:8` — IMP `0xb73bc`
+  - - `handleTap:` — types `v24@0:8@16` — IMP `0xb75e4`
+  - - `isDismissing` — types `B16@0:8` — IMP `0xb766c`
+  - - `dismissAnimated:` — types `v20@0:8B16` — IMP `0xb767c`
+  - - `dismissAnimated:completion:` — types `v28@0:8B16@?20` — IMP `0xb768c`
+  - - `dealloc` — types `v16@0:8` — IMP `0xb7924`
+  - - `onWillDismiss` — types `@?16@0:8` — IMP `0xb7a08`
+  - - `setOnWillDismiss:` — types `v24@0:8@?16` — IMP `0xb7a18`
+  - - `onDismissed` — types `@?16@0:8` — IMP `0xb7a24`
+  - - `setOnDismissed:` — types `v24@0:8@?16` — IMP `0xb7a34`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb7a40`
+- Class methods (3):
+  - + `logoImage` — types `@16@0:8` — IMP `0xb56d8`
+  - + `appIconImage` — types `@16@0:8` — IMP `0xb5ebc`
+  - + `radialGlowImageForDiameter:` — types `@24@0:8d16` — IMP `0xb60a0`
+
+#### CBLicenseShieldIconView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380410` · instanceSize: 8 · flags: `0x90`
+- Instance methods (2):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xb7b34`
+  - - `drawRect:` — types `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0xb7bcc`
+
+#### CBLicenseWarningModalView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380460` · instanceSize: 96 · flags: `0x194`
+- Ivars (11):
+  - `_blurBackdrop` — type `@"UIVisualEffectView"` — offset 8
+  - `_scrimView` — type `@"UIView"` — offset 16
+  - `_cardView` — type `@"UIView"` — offset 24
+  - `_shieldIconView` — type `@"CBLicenseShieldIconView"` — offset 32
+  - `_titleLabel` — type `@"UILabel"` — offset 40
+  - `_bodyLabel` — type `@"UILabel"` — offset 48
+  - `_dismissButton` — type `@"UIButton"` — offset 56
+  - `_lastTapTimestamp` — type `d` — offset 64
+  - `_isDismissing` — type `B` — offset 72
+  - `_onDismiss` — type `@?` — offset 80
+  - `_modalType` — type `q` — offset 88
+- Properties (2):
+  - `onDismiss` — attributes `T@?,C,N,V_onDismiss`
+  - `modalType` — attributes `Tq,N,V_modalType`
+- Instance methods (12):
+  - - `initWithFrame:modalType:` — types `@56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48` — IMP `0xb8004`
+  - - `setupSubviews` — types `v16@0:8` — IMP `0xb80f0`
+  - - `setModalType:` — types `v24@0:8q16` — IMP `0xb8a48`
+  - - `updateContentForType:` — types `v24@0:8q16` — IMP `0xb8a60`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xb8d60`
+  - - `handleDismissButtonTap:` — types `v24@0:8@16` — IMP `0xb8fb8`
+  - - `showAnimated:` — types `v20@0:8B16` — IMP `0xb9028`
+  - - `dismissAnimated:` — types `v20@0:8B16` — IMP `0xb91e0`
+  - - `onDismiss` — types `@?16@0:8` — IMP `0xb9408`
+  - - `setOnDismiss:` — types `v24@0:8@?16` — IMP `0xb9418`
+  - - `modalType` — types `q16@0:8` — IMP `0xb9424`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb9434`
+
+#### CBBridgedApp
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x3804b0` · instanceSize: 32 · flags: `0x194`
+- Ivars (3):
+  - `_bundleIdentifier` — type `@"NSString"` — offset 8
+  - `_view` — type `@"UIView"` — offset 16
+  - `_delegate` — type `@"CBBridgeManager"` — offset 24
+- Properties (3):
+  - `bundleIdentifier` — attributes `T@"NSString",C,N,V_bundleIdentifier`
+  - `view` — attributes `T@"UIView",&,N,V_view`
+  - `delegate` — attributes `T@"CBBridgeManager",W,N,V_delegate`
+- Instance methods (12):
+  - - `initWithBundleIdentifier:frame:` — types `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24` — IMP `0xb94ec`
+  - - `start` — types `v16@0:8` — IMP `0xb956c`
+  - - `startInParentViewController:` — types `v24@0:8@16` — IMP `0xb957c`
+  - - `stop` — types `v16@0:8` — IMP `0xb9580`
+  - - `noteUserActivity` — types `v16@0:8` — IMP `0xb9584`
+  - - `bundleIdentifier` — types `@16@0:8` — IMP `0xb9588`
+  - - `setBundleIdentifier:` — types `v24@0:8@16` — IMP `0xb9594`
+  - - `view` — types `@16@0:8` — IMP `0xb959c`
+  - - `setView:` — types `v24@0:8@16` — IMP `0xb95a4`
+  - - `delegate` — types `@16@0:8` — IMP `0xb95b0`
+  - - `setDelegate:` — types `v24@0:8@16` — IMP `0xb95c8`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb95d4`
+
+#### CBBridgedPortalApp
+- Superclass: `CBBridgedApp` · địa chỉ class struct (arm64): `0x380500` · instanceSize: 16 · flags: `0x194`
+- Ivars (1):
+  - `_portalView` — type `@"CBBridgedPortalAppView"` — offset 8
+- Properties (1):
+  - `portalView` — attributes `T@"CBBridgedPortalAppView",&,N,V_portalView`
+- Instance methods (6):
+  - - `initWithBundleIdentifier:frame:` — types `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24` — IMP `0xb960c`
+  - - `start` — types `v16@0:8` — IMP `0xb96c8`
+  - - `stop` — types `v16@0:8` — IMP `0xb96e0`
+  - - `portalView` — types `@16@0:8` — IMP `0xb96f8`
+  - - `setPortalView:` — types `v24@0:8@16` — IMP `0xb9708`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb971c`
+
+#### CBUIAppContainerView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380550` · instanceSize: 16 · flags: `0x194`
+- Ivars (1):
+  - `_uiApp` — type `@"CBBridgedUIApp"` — offset 8
+- Properties (1):
+  - `uiApp` — attributes `T@"CBBridgedUIApp",W,N,V_uiApp`
+- Instance methods (6):
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xb9730`
+  - - `hitTest:withEvent:` — types `@40@0:8{CGPoint=dd}16@32` — IMP `0xb97cc`
+  - - `touchesBegan:withEvent:` — types `v32@0:8@16@24` — IMP `0xb9888`
+  - - `uiApp` — types `@16@0:8` — IMP `0xb98f8`
+  - - `setUiApp:` — types `v24@0:8@16` — IMP `0xb9918`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xb992c`
+
+#### CBBridgedUIApp
+- Superclass: `CBBridgedApp` · địa chỉ class struct (arm64): `0x3805a0` · instanceSize: 48 · flags: `0x194`
+- Ivars (5):
+  - `_notchIdleTimer` — type `@"NSTimer"` — offset 8
+  - `_lastActivityTime` — type `d` — offset 16
+  - `_appView` — type `@"CBBridgedUIAppView"` — offset 24
+  - `_notchPill` — type `@"CBSlotPillView"` — offset 32
+  - `_customScale` — type `d` — offset 40
+- Properties (3):
+  - `appView` — attributes `T@"CBBridgedUIAppView",&,N,V_appView`
+  - `notchPill` — attributes `T@"CBSlotPillView",&,N,V_notchPill`
+  - `customScale` — attributes `Td,N,V_customScale`
+- Instance methods (16):
+  - - `initWithBundleIdentifier:frame:` — types `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24` — IMP `0xb993c`
+  - - `renderSize` — types `{CGSize=dd}16@0:8` — IMP `0xb9d04`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xb9db0`
+  - - `noteUserActivity` — types `v16@0:8` — IMP `0xd2dd4`
+  - - `showNotchPillSession` — types `v16@0:8` — IMP `0xd2ea0`
+  - - `hideNotchPill` — types `v16@0:8` — IMP `0xe6494`
+  - - `start` — types `v16@0:8` — IMP `0xe6654`
+  - - `startInParentViewController:` — types `v24@0:8@16` — IMP `0xe6664`
+  - - `stop` — types `v16@0:8` — IMP `0xfe5dc`
+  - - `appView` — types `@16@0:8` — IMP `0xfe630`
+  - - `setAppView:` — types `v24@0:8@16` — IMP `0xfe640`
+  - - `notchPill` — types `@16@0:8` — IMP `0xfe654`
+  - - `setNotchPill:` — types `v24@0:8@16` — IMP `0xfe664`
+  - - `customScale` — types `d16@0:8` — IMP `0xfe678`
+  - - `setCustomScale:` — types `v24@0:8d16` — IMP `0xfe688`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xfe698`
+
+#### CBDividerButtonInfo
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x380618` · instanceSize: 40 · flags: `0x194`
+- Ivars (4):
+  - `_iconName` — type `@"NSString"` — offset 8
+  - `_relativePos` — type `d` — offset 16
+  - `_onSwap` — type `@?` — offset 24
+  - `_onRotate` — type `@?` — offset 32
+- Properties (4):
+  - `iconName` — attributes `T@"NSString",C,N,V_iconName`
+  - `relativePos` — attributes `Td,N,V_relativePos`
+  - `onSwap` — attributes `T@?,C,N,V_onSwap`
+  - `onRotate` — attributes `T@?,C,N,V_onRotate`
+- Instance methods (9):
+  - - `iconName` — types `@16@0:8` — IMP `0xfe754`
+  - - `setIconName:` — types `v24@0:8@16` — IMP `0xfe760`
+  - - `relativePos` — types `d16@0:8` — IMP `0xfe768`
+  - - `setRelativePos:` — types `v24@0:8d16` — IMP `0xfe770`
+  - - `onSwap` — types `@?16@0:8` — IMP `0xfe778`
+  - - `setOnSwap:` — types `v24@0:8@?16` — IMP `0xfe784`
+  - - `onRotate` — types `@?16@0:8` — IMP `0xfe78c`
+  - - `setOnRotate:` — types `v24@0:8@?16` — IMP `0xfe798`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0xfe7a0`
+
+#### CBDividerView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380640` · instanceSize: 48 · flags: `0x194`
+- Protocols: `UIGestureRecognizerDelegate`
+- Ivars (6):
+  - `_isVertical` — type `B` — offset 8
+  - `_isBlinking` — type `B` — offset 9
+  - `_moveButtons` — type `@"NSMutableArray"` — offset 16
+  - `_buttonConfigs` — type `@"NSMutableArray"` — offset 24
+  - `_onPanChanged` — type `@?` — offset 32
+  - `_onActivity` — type `@?` — offset 40
+- Properties (10):
+  - `isVertical` — attributes `TB,N,V_isVertical`
+  - `isBlinking` — attributes `TB,N,V_isBlinking`
+  - `moveButtons` — attributes `T@"NSMutableArray",&,N,V_moveButtons`
+  - `buttonConfigs` — attributes `T@"NSMutableArray",&,N,V_buttonConfigs`
+  - `onPanChanged` — attributes `T@?,C,N,V_onPanChanged`
+  - `onActivity` — attributes `T@?,C,N,V_onActivity`
+  - `hash` — attributes `TQ,R`
+  - `superclass` — attributes `T#,R`
+  - `description` — attributes `T@"NSString",R,C`
+  - `debugDescription` — attributes `T@"NSString",R,C`
+- Instance methods (27):
+  - - `initWithFrame:isVertical:` — types `@52@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16B48` — IMP `0xfe7dc`
+  - - `gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:` — types `B32@0:8@16@24` — IMP `0xfea48`
+  - - `configureWithButtonConfigs:` — types `v24@0:8@16` — IMP `0xfea50`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0xff410`
+  - - `updateGripLayout` — types `v16@0:8` — IMP `0xff460`
+  - - `pointInside:withEvent:` — types `B40@0:8{CGPoint=dd}16@32` — IMP `0xff728`
+  - - `hitTest:withEvent:` — types `@40@0:8{CGPoint=dd}16@32` — IMP `0xff974`
+  - - `moveButtonTouchDown:` — types `v24@0:8@16` — IMP `0xffbf8`
+  - - `moveButtonTouchUp:` — types `v24@0:8@16` — IMP `0xffeb4`
+  - - `moveButtonTouchCancelled:` — types `v24@0:8@16` — IMP `0x1002e0`
+  - - `handleMoveButtonLongPress:` — types `v24@0:8@16` — IMP `0x1005f4`
+  - - `startBlinking` — types `v16@0:8` — IMP `0x1009d4`
+  - - `stopBlinking` — types `v16@0:8` — IMP `0x1010bc`
+  - - `handlePan:` — types `v24@0:8@16` — IMP `0x10152c`
+  - - `isVertical` — types `B16@0:8` — IMP `0x101668`
+  - - `setIsVertical:` — types `v20@0:8B16` — IMP `0x101678`
+  - - `isBlinking` — types `B16@0:8` — IMP `0x101688`
+  - - `setIsBlinking:` — types `v20@0:8B16` — IMP `0x101698`
+  - - `moveButtons` — types `@16@0:8` — IMP `0x1016a8`
+  - - `setMoveButtons:` — types `v24@0:8@16` — IMP `0x1016b8`
+  - - `buttonConfigs` — types `@16@0:8` — IMP `0x1016cc`
+  - - `setButtonConfigs:` — types `v24@0:8@16` — IMP `0x1016dc`
+  - - `onPanChanged` — types `@?16@0:8` — IMP `0x1016f0`
+  - - `setOnPanChanged:` — types `v24@0:8@?16` — IMP `0x101700`
+  - - `onActivity` — types `@?16@0:8` — IMP `0x10170c`
+  - - `setOnActivity:` — types `v24@0:8@?16` — IMP `0x10171c`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x101728`
+
+#### CBSplitContainerView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380690` · instanceSize: 16 · flags: `0x194`
+- Ivars (1):
+  - `_splitApp` — type `@"CBBridgedSplitApp"` — offset 8
+- Properties (1):
+  - `splitApp` — attributes `T@"CBBridgedSplitApp",W,N,V_splitApp`
+- Instance methods (6):
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0x101790`
+  - - `hitTest:withEvent:` — types `@40@0:8{CGPoint=dd}16@32` — IMP `0x10182c`
+  - - `touchesBegan:withEvent:` — types `v32@0:8@16@24` — IMP `0x1018e8`
+  - - `splitApp` — types `@16@0:8` — IMP `0x101958`
+  - - `setSplitApp:` — types `v24@0:8@16` — IMP `0x101978`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x10198c`
+
+#### CBSlotPlaceholderView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x3806e0` · instanceSize: 48 · flags: `0x194`
+- Ivars (5):
+  - `_slotIndex` — type `q` — offset 8
+  - `_onTap` — type `@?` — offset 16
+  - `_iconView` — type `@"UIImageView"` — offset 24
+  - `_titleLabel` — type `@"UILabel"` — offset 32
+  - `_tapButton` — type `@"UIButton"` — offset 40
+- Properties (5):
+  - `slotIndex` — attributes `Tq,N,V_slotIndex`
+  - `onTap` — attributes `T@?,C,N,V_onTap`
+  - `iconView` — attributes `T@"UIImageView",&,N,V_iconView`
+  - `titleLabel` — attributes `T@"UILabel",&,N,V_titleLabel`
+  - `tapButton` — attributes `T@"UIButton",&,N,V_tapButton`
+- Instance methods (16):
+  - - `initWithSlotIndex:` — types `@24@0:8q16` — IMP `0x10199c`
+  - - `dealloc` — types `v16@0:8` — IMP `0x101ff0`
+  - - `updateLocalizedTexts` — types `v16@0:8` — IMP `0x102068`
+  - - `layoutSubviews` — types `v16@0:8` — IMP `0x1020cc`
+  - - `placeholderTapped:` — types `v24@0:8@16` — IMP `0x1022c8`
+  - - `slotIndex` — types `q16@0:8` — IMP `0x1024c4`
+  - - `setSlotIndex:` — types `v24@0:8q16` — IMP `0x1024d4`
+  - - `onTap` — types `@?16@0:8` — IMP `0x1024e4`
+  - - `setOnTap:` — types `v24@0:8@?16` — IMP `0x1024f4`
+  - - `iconView` — types `@16@0:8` — IMP `0x102500`
+  - - `setIconView:` — types `v24@0:8@16` — IMP `0x102510`
+  - - `titleLabel` — types `@16@0:8` — IMP `0x102524`
+  - - `setTitleLabel:` — types `v24@0:8@16` — IMP `0x102534`
+  - - `tapButton` — types `@16@0:8` — IMP `0x102548`
+  - - `setTapButton:` — types `v24@0:8@16` — IMP `0x102558`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x10256c`
+
+#### CBBridgedSplitApp
+- Superclass: `CBBridgedApp` · địa chỉ class struct (arm64): `0x380730` · instanceSize: 120 · flags: `0x194`
+- Ivars (14):
+  - `_dragStartRatio` — type `d` — offset 8
+  - `_isBlinking` — type `B` — offset 16
+  - `_blinkingIdleTimer` — type `@"NSTimer"` — offset 24
+  - `_lastActivityTime` — type `d` — offset 32
+  - `_isTransitioningFocus` — type `B` — offset 40
+  - `_splashScreenView` — type `@"CBSplitSplashScreenView"` — offset 48
+  - `_appViews` — type `@"NSMutableArray"` — offset 56
+  - `_placeholders` — type `@"NSMutableArray"` — offset 64
+  - `_containers` — type `@"NSMutableArray"` — offset 72
+  - `_dividers` — type `@"NSMutableArray"` — offset 80
+  - `_slotPills` — type `@"NSMutableArray"` — offset 88
+  - `_splitPreset` — type `q` — offset 96
+  - `_splitRatio` — type `d` — offset 104
+  - `_focusedSlotIndex` — type `q` — offset 112
+- Properties (10):
+  - `splashScreenView` — attributes `T@"CBSplitSplashScreenView",&,N,V_splashScreenView`
+  - `appViews` — attributes `T@"NSMutableArray",&,N,V_appViews`
+  - `placeholders` — attributes `T@"NSMutableArray",&,N,V_placeholders`
+  - `containers` — attributes `T@"NSMutableArray",&,N,V_containers`
+  - `dividers` — attributes `T@"NSMutableArray",&,N,V_dividers`
+  - `slotPills` — attributes `T@"NSMutableArray",&,N,V_slotPills`
+  - `splitPreset` — attributes `Tq,N,V_splitPreset`
+  - `splitRatio` — attributes `Td,N,V_splitRatio`
+  - `focusedSlotIndex` — attributes `Tq,N,V_focusedSlotIndex`
+  - `isTransitioningFocus` — attributes `TB,N,V_isTransitioningFocus`
+- Instance methods (49):
+  - - `initWithBundleIdentifier:frame:` — types `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24` — IMP `0x1025d4`
+  - - `initWithBundleIdentifier:frame:showSplash:` — types `@60@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24B56` — IMP `0x1025e4`
+  - - `handleDividerPan:isVertical:state:` — types `v44@0:8{CGPoint=dd}16B32q36` — IMP `0x103ee0`
+  - - `layoutSplitViews` — types `v16@0:8` — IMP `0x1044f8`
+  - - `focusSlot:animated:` — types `v28@0:8q16B24` — IMP `0x105890`
+  - - `restoreSplitAnimated:` — types `v20@0:8B16` — IMP `0x105e2c`
+  - - `toggleFocusForSlot:` — types `v24@0:8q16` — IMP `0x106518`
+  - - `rotateAllSlotsClockwise` — types `v16@0:8` — IMP `0x106560`
+  - - `configureDividerButtons` — types `v16@0:8` — IMP `0x1067a4`
+  - - `updateScale:forSlot:` — types `v32@0:8d16q24` — IMP `0x108dd8`
+  - - `moveSlot:direction:` — types `v32@0:8q16q24` — IMP `0x108f28`
+  - - `handleDividerSwapPressed:` — types `v24@0:8q16` — IMP `0x108fc8`
+  - - `swapSlot:withSlot:` — types `v32@0:8q16q24` — IMP `0x10915c`
+  - - `replaceAppInSlot:withBundleIdentifier:` — types `v32@0:8q16@24` — IMP `0x1098c0`
+  - - `restartSlot:` — types `v24@0:8q16` — IMP `0x109fe4`
+  - - `restartAppWithBundleIdentifier:` — types `v24@0:8@16` — IMP `0x10a8b8`
+  - - `removeAppWithBundleIdentifier:` — types `v24@0:8@16` — IMP `0x10a9f0`
+  - - `closeSlot:` — types `v24@0:8q16` — IMP `0x10ab28`
+  - - `closeAllSlots` — types `v16@0:8` — IMP `0x10b0b8`
+  - - `persistSlotOrder` — types `v16@0:8` — IMP `0x10b4ac`
+  - - `start` — types `v16@0:8` — IMP `0x10bb0c`
+  - - `startInParentViewController:` — types `v24@0:8@16` — IMP `0x10bb1c`
+  - - `stop` — types `v16@0:8` — IMP `0x10beec`
+  - - `noteUserActivity` — types `v16@0:8` — IMP `0x10c378`
+  - - `startBlinkingSession` — types `v16@0:8` — IMP `0x10c464`
+  - - `stopBlinkingSession` — types `v16@0:8` — IMP `0x11f558`
+  - - `startContainerBorderBlinking:` — types `v24@0:8@16` — IMP `0x11fa88`
+  - - `stopContainerBorderBlinking:` — types `v24@0:8@16` — IMP `0x11fcd4`
+  - - `splashScreenView` — types `@16@0:8` — IMP `0x11fddc`
+  - - `setSplashScreenView:` — types `v24@0:8@16` — IMP `0x11fdec`
+  - - `appViews` — types `@16@0:8` — IMP `0x11fe00`
+  - - `setAppViews:` — types `v24@0:8@16` — IMP `0x11fe10`
+  - - `placeholders` — types `@16@0:8` — IMP `0x11fe24`
+  - - `setPlaceholders:` — types `v24@0:8@16` — IMP `0x11fe34`
+  - - `containers` — types `@16@0:8` — IMP `0x11fe48`
+  - - `setContainers:` — types `v24@0:8@16` — IMP `0x11fe58`
+  - - `dividers` — types `@16@0:8` — IMP `0x11fe6c`
+  - - `setDividers:` — types `v24@0:8@16` — IMP `0x11fe7c`
+  - - `slotPills` — types `@16@0:8` — IMP `0x11fe90`
+  - - `setSlotPills:` — types `v24@0:8@16` — IMP `0x11fea0`
+  - - `splitPreset` — types `q16@0:8` — IMP `0x11feb4`
+  - - `setSplitPreset:` — types `v24@0:8q16` — IMP `0x11fec4`
+  - - `splitRatio` — types `d16@0:8` — IMP `0x11fed4`
+  - - `setSplitRatio:` — types `v24@0:8d16` — IMP `0x11fee4`
+  - - `focusedSlotIndex` — types `q16@0:8` — IMP `0x11fef4`
+  - - `setFocusedSlotIndex:` — types `v24@0:8q16` — IMP `0x11ff04`
+  - - `isTransitioningFocus` — types `B16@0:8` — IMP `0x11ff14`
+  - - `setIsTransitioningFocus:` — types `v20@0:8B16` — IMP `0x11ff24`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x11ff34`
+
+#### CBBridgedAssistantView
+- Superclass: `UIView` · địa chỉ class struct (arm64): `0x380780` · instanceSize: 40 · flags: `0x194`
+- Ivars (4):
+  - `_micIcon` — type `@"UIImageView"` — offset 8
+  - `_titleLabel` — type `@"UILabel"` — offset 16
+  - `_subtitleLabel` — type `@"UILabel"` — offset 24
+  - `_pulseAnimation` — type `@"CABasicAnimation"` — offset 32
+- Properties (4):
+  - `micIcon` — attributes `T@"UIImageView",&,N,V_micIcon`
+  - `titleLabel` — attributes `T@"UILabel",&,N,V_titleLabel`
+  - `subtitleLabel` — attributes `T@"UILabel",&,N,V_subtitleLabel`
+  - `pulseAnimation` — attributes `T@"CABasicAnimation",&,N,V_pulseAnimation`
+- Instance methods (15):
+  - - `initWithFrame:` — types `@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x120338`
+  - - `startSession` — types `v16@0:8` — IMP `0x120974`
+  - - `stopSession` — types `v16@0:8` — IMP `0x120d70`
+  - - `tapMicToggled` — types `v16@0:8` — IMP `0x120e28`
+  - - `startPulse` — types `v16@0:8` — IMP `0x120ed4`
+  - - `stopPulse` — types `v16@0:8` — IMP `0x1210ac`
+  - - `micIcon` — types `@16@0:8` — IMP `0x121128`
+  - - `setMicIcon:` — types `v24@0:8@16` — IMP `0x121138`
+  - - `titleLabel` — types `@16@0:8` — IMP `0x12114c`
+  - - `setTitleLabel:` — types `v24@0:8@16` — IMP `0x12115c`
+  - - `subtitleLabel` — types `@16@0:8` — IMP `0x121170`
+  - - `setSubtitleLabel:` — types `v24@0:8@16` — IMP `0x121180`
+  - - `pulseAnimation` — types `@16@0:8` — IMP `0x121194`
+  - - `setPulseAnimation:` — types `v24@0:8@16` — IMP `0x1211a4`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x1211b8`
+
+#### CBBridgedAssistantApp
+- Superclass: `CBBridgedApp` · địa chỉ class struct (arm64): `0x3807d0` · instanceSize: 16 · flags: `0x194`
+- Ivars (1):
+  - `_assistantView` — type `@"CBBridgedAssistantView"` — offset 8
+- Properties (1):
+  - `assistantView` — attributes `T@"CBBridgedAssistantView",&,N,V_assistantView`
+- Instance methods (6):
+  - - `initWithBundleIdentifier:frame:` — types `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24` — IMP `0x121220`
+  - - `start` — types `v16@0:8` — IMP `0x1212dc`
+  - - `stop` — types `v16@0:8` — IMP `0x1212f4`
+  - - `assistantView` — types `@16@0:8` — IMP `0x12130c`
+  - - `setAssistantView:` — types `v24@0:8@16` — IMP `0x12131c`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x121330`
+
+#### CBBridgeRequest
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x380820` · instanceSize: 24 · flags: `0x194`
+- Ivars (2):
+  - `_activate` — type `B` — offset 8
+  - `_bundleIdentifier` — type `@"NSString"` — offset 16
+- Properties (2):
+  - `bundleIdentifier` — attributes `T@"NSString",C,N,V_bundleIdentifier`
+  - `activate` — attributes `TB,N,V_activate`
+- Instance methods (6):
+  - - `initWithDictionary:` — types `@24@0:8@16` — IMP `0x121344`
+  - - `bundleIdentifier` — types `@16@0:8` — IMP `0x121430`
+  - - `setBundleIdentifier:` — types `v24@0:8@16` — IMP `0x12143c`
+  - - `activate` — types `B16@0:8` — IMP `0x121444`
+  - - `setActivate:` — types `v20@0:8B16` — IMP `0x12144c`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x121454`
+
+#### CBDashboardShared
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x380898` · instanceSize: 8 · flags: `0x90`
+- Instance methods (0):
+- Class methods (12):
+  - + `setCurrentDashboardRootVC:` — types `v24@0:8@16` — IMP `0x121460`
+  - + `currentDashboardRootVC` — types `@16@0:8` — IMP `0x121470`
+  - + `setCurrentAppDockVC:` — types `v24@0:8@16` — IMP `0x12148c`
+  - + `currentAppDockVC` — types `@16@0:8` — IMP `0x12149c`
+  - + `setCurrentRootStatusBarVC:` — types `v24@0:8@16` — IMP `0x1214b8`
+  - + `currentRootStatusBarVC` — types `@16@0:8` — IMP `0x1214c8`
+  - + `carApp` — types `@16@0:8` — IMP `0x1214e4`
+  - + `dashboard` — types `@16@0:8` — IMP `0x121580`
+  - + `rootVC` — types `@16@0:8` — IMP `0x121634`
+  - + `homeVC` — types `@16@0:8` — IMP `0x1216e0`
+  - + `folderController` — types `@16@0:8` — IMP `0x121758`
+  - + `appDockVC` — types `@16@0:8` — IMP `0x1217d8`
+
+#### CBBridgeManager
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x3808c0` · instanceSize: 144 · flags: `0x194`
+- Ivars (14):
+  - `_activated` — type `B` — offset 8
+  - `_isAutoResuming` — type `B` — offset 9
+  - `_autoResumeRetryCount` — type `q` — offset 16
+  - `_isApplyingSplitMode` — type `B` — offset 24
+  - `_sessionBridgedBundleIDs` — type `@"NSMutableSet"` — offset 32
+  - `_disconnectWatchdogToken` — type `Q` — offset 40
+  - `_autoResumeBundleID` — type `@"NSString"` — offset 48
+  - `_bundleIdentifier` — type `@"NSString"` — offset 56
+  - `_window` — type `@"CBWindow"` — offset 64
+  - `_currentApp` — type `@"CBBridgedApp"` — offset 72
+  - `_licenseWarningModal` — type `@"CBLicenseWarningModalView"` — offset 80
+  - `_licenseWatchdogTimer` — type `@"NSTimer"` — offset 88
+  - `_appFrame` — type `{CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}` — offset 96
+  - `_renderSize` — type `{CGSize="width"d"height"d}` — offset 128
+- Properties (8):
+  - `window` — attributes `T@"CBWindow",&,N,V_window`
+  - `currentApp` — attributes `T@"CBBridgedApp",&,N,V_currentApp`
+  - `licenseWarningModal` — attributes `T@"CBLicenseWarningModalView",&,N,V_licenseWarningModal`
+  - `bundleIdentifier` — attributes `T@"NSString",C,N,V_bundleIdentifier`
+  - `activated` — attributes `TB,N,V_activated`
+  - `appFrame` — attributes `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_appFrame`
+  - `renderSize` — attributes `T{CGSize=dd},N,V_renderSize`
+  - `autoResumeBundleID` — attributes `T@"NSString",C,N,V_autoResumeBundleID`
+- Instance methods (73):
+  - - `trackBridgedBundleID:` — types `v24@0:8@16` — IMP `0x280b60`
+  - - `runningBridgedApplications` — types `@16@0:8` — IMP `0x280d48`
+  - - `renderSizeForBundleID:` — types `{CGSize=dd}24@0:8@16` — IMP `0x24c920`
+  - - `supportsInterfaceOrientation:forBundleID:` — types `B32@0:8q16@24` — IMP `0x24d118`
+  - - `switchToSplitWithLeft:right:ratio:` — types `v40@0:8@16@24d32` — IMP `0x24d120`
+  - - `switchToMultiSplitMode:apps:ratio:` — types `v40@0:8q16@24d32` — IMP `0x24d228`
+  - - `handleSettingsChanged` — types `v16@0:8` — IMP `0x267764`
+  - - `showAppPickerForSlot:` — types `v24@0:8q16` — IMP `0x27fee4`
+  - - `showLayoutChooser` — types `v16@0:8` — IMP `0x280014`
+  - - `updateScale:forSlot:` — types `v32@0:8d16q24` — IMP `0x280130`
+  - - `showRecentApps` — types `v16@0:8` — IMP `0x280208`
+  - - `registerForNotifications` — types `v16@0:8` — IMP `0x1d07fc`
+  - - `receivedDashboardReadyNotification:` — types `v24@0:8@16` — IMP `0x1d0f10`
+  - - `receivedMetricsUpdatedNotification:` — types `v24@0:8@16` — IMP `0x1d1400`
+  - - `sendStateToApp:shouldBridge:` — types `v28@0:8@16B24` — IMP `0x1d1624`
+  - - `saveBridgeStateToDisk` — types `v16@0:8` — IMP `0x1fd280`
+  - - `clearBridgeStateOnDisk` — types `v16@0:8` — IMP `0x229748`
+  - - `syncDashboardPolicySignalToDisk` — types `v16@0:8` — IMP `0x229e8c`
+  - - `receivedAppRequestNotification:` — types `v24@0:8@16` — IMP `0x248e70`
+  - - `isUIAppBridging` — types `B16@0:8` — IMP `0x249154`
+  - - `shouldBridge:` — types `B24@0:8@16` — IMP `0x2491b0`
+  - - `isCurrentlyBridging:` — types `B24@0:8@16` — IMP `0x24960c`
+  - - `receivedStateChangeRequestNotificiation:` — types `v24@0:8@16` — IMP `0x24968c`
+  - - `receivedDockTapNotification:` — types `v24@0:8@16` — IMP `0x249868`
+  - - `notifyStateUpdated` — types `v16@0:8` — IMP `0x249a54`
+  - - `evictAppFromPhoneScreen:completion:` — types `v32@0:8@16@?24` — IMP `0x24a024`
+  - - `scheduleMandatoryDisconnectWatchdog` — types `v16@0:8` — IMP `0x1b9420`
+  - - `cancelMandatoryDisconnectWatchdog` — types `v16@0:8` — IMP `0x1cce6c`
+  - - `enforceMandatoryDisconnectKill` — types `v16@0:8` — IMP `0x1cceac`
+  - - `terminateApplicationWithBundleID:` — types `v24@0:8@16` — IMP `0x1cd780`
+  - - `restartApplicationWithBundleID:` — types `v24@0:8@16` — IMP `0x1cde94`
+  - - `terminateAllBridgedApplications` — types `v16@0:8` — IMP `0x1ce480`
+  - - `collectActiveAndSessionAppBundleIDs` — types `@16@0:8` — IMP `0x1cf0b0`
+  - - `killProcessesForBundleIdentifiers:` — types `v24@0:8@16` — IMP `0x1cf874`
+  - - `acquireCarPlaySleepAssertion` — types `v16@0:8` — IMP `0x19eaf8`
+  - - `releaseCarPlaySleepAssertion` — types `v16@0:8` — IMP `0x19eb90`
+  - - `effectiveAutoLaunchBundleID` — types `@16@0:8` — IMP `0x19ec10`
+  - - `scheduleAutoResumeFallback` — types `v16@0:8` — IMP `0x19ed98`
+  - - `performAutoResume` — types `v16@0:8` — IMP `0x19ee24`
+  - - `handleGenericScreenOrCarPlayNotification:` — types `v24@0:8@16` — IMP `0x1b816c`
+  - - `handleScreenDidDisconnect:` — types `v24@0:8@16` — IMP `0x1b82e0`
+  - - `handleScreenDidConnect:` — types `v24@0:8@16` — IMP `0x1b86c8`
+  - - `handleCarPlayConnectionChanged:` — types `v24@0:8@16` — IMP `0x1b8a1c`
+  - - `init` — types `@16@0:8` — IMP `0x12192c`
+  - - `renderSize` — types `{CGSize=dd}16@0:8` — IMP `0x13ae78`
+  - - `requestStateChangeWithDictionary:` — types `v24@0:8@16` — IMP `0x13aee8`
+  - - `requestStateChange:` — types `v24@0:8@16` — IMP `0x13b158`
+  - - `loadNewAppFromCurrentRequest:` — types `v24@0:8@16` — IMP `0x153544`
+  - - `presentLicenseWarningModalWithType:` — types `v24@0:8q16` — IMP `0x185110`
+  - - `dismissLicenseWarningModal` — types `v16@0:8` — IMP `0x185450`
+  - - `startLicenseWatchdogTimer` — types `v16@0:8` — IMP `0x185494`
+  - - `stopLicenseWatchdogTimer` — types `v16@0:8` — IMP `0x1854fc`
+  - - `licenseWatchdogTimerFired:` — types `v24@0:8@16` — IMP `0x185540`
+  - - `deactivateCurrentApp` — types `v16@0:8` — IMP `0x19d458`
+  - - `dismiss:` — types `v24@0:8@?16` — IMP `0x19d870`
+  - - `terminate` — types `v16@0:8` — IMP `0x19d910`
+  - - `appForBundleIdentifier:frame:` — types `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24` — IMP `0x19d984`
+  - - `window` — types `@16@0:8` — IMP `0x19daf0`
+  - - `setWindow:` — types `v24@0:8@16` — IMP `0x19daf8`
+  - - `currentApp` — types `@16@0:8` — IMP `0x19db04`
+  - - `setCurrentApp:` — types `v24@0:8@16` — IMP `0x19db0c`
+  - - `licenseWarningModal` — types `@16@0:8` — IMP `0x19db18`
+  - - `setLicenseWarningModal:` — types `v24@0:8@16` — IMP `0x19db20`
+  - - `bundleIdentifier` — types `@16@0:8` — IMP `0x19db2c`
+  - - `setBundleIdentifier:` — types `v24@0:8@16` — IMP `0x19db38`
+  - - `activated` — types `B16@0:8` — IMP `0x19db40`
+  - - `setActivated:` — types `v20@0:8B16` — IMP `0x19db48`
+  - - `appFrame` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0x19db50`
+  - - `setAppFrame:` — types `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x19db5c`
+  - - `setRenderSize:` — types `v32@0:8{CGSize=dd}16` — IMP `0x19db70`
+  - - `autoResumeBundleID` — types `@16@0:8` — IMP `0x19db7c`
+  - - `setAutoResumeBundleID:` — types `v24@0:8@16` — IMP `0x19db88`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x19db90`
+- Class methods (2):
+  - + `sharedInstance` — types `@16@0:8` — IMP `0x121884`
+  - + `sharedInstanceIfExists` — types `@16@0:8` — IMP `0x121920`
+
+#### CBAppMetadataItem
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x380938` · instanceSize: 32 · flags: `0x194`
+- Ivars (3):
+  - `_isUserApp` — type `B` — offset 8
+  - `_displayName` — type `@"NSString"` — offset 16
+  - `_icon` — type `@"UIImage"` — offset 24
+- Properties (3):
+  - `displayName` — attributes `T@"NSString",C,N,V_displayName`
+  - `icon` — attributes `T@"UIImage",&,N,V_icon`
+  - `isUserApp` — attributes `TB,N,V_isUserApp`
+- Instance methods (7):
+  - - `displayName` — types `@16@0:8` — IMP `0x280af8`
+  - - `setDisplayName:` — types `v24@0:8@16` — IMP `0x280b04`
+  - - `icon` — types `@16@0:8` — IMP `0x280b0c`
+  - - `setIcon:` — types `v24@0:8@16` — IMP `0x280b14`
+  - - `isUserApp` — types `B16@0:8` — IMP `0x280b20`
+  - - `setIsUserApp:` — types `v20@0:8B16` — IMP `0x280b28`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x280b30`
+
+#### CBBridgeManagerDashboard
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x380960` · instanceSize: 24 · flags: `0x194`
+- Ivars (3):
+  - `_activated` — type `B` — offset 8
+  - `_pending` — type `B` — offset 9
+  - `_pendingCompletion` — type `@?` — offset 16
+- Properties (3):
+  - `activated` — attributes `TB,N,V_activated`
+  - `pending` — attributes `TB,N,V_pending`
+  - `pendingCompletion` — attributes `T@?,C,N,V_pendingCompletion`
+- Instance methods (33):
+  - - `init` — types `@16@0:8` — IMP `0x282cc4`
+  - - `registerForNotifications` — types `v16@0:8` — IMP `0x282d2c`
+  - - `handleScreenDidDisconnect:` — types `v24@0:8@16` — IMP `0x283064`
+  - - `handleScreenDidConnect:` — types `v24@0:8@16` — IMP `0x283a3c`
+  - - `startBridging:` — types `v24@0:8@16` — IMP `0x2a33c0`
+  - - `startBridging:withCompletion:` — types `v32@0:8@16@?24` — IMP `0x2a33d0`
+  - - `stopBridging` — types `v16@0:8` — IMP `0x2a3434`
+  - - `stopBridgingWithCompletion:` — types `v24@0:8@?16` — IMP `0x2a3444`
+  - - `prepareAndRequestActivation:` — types `v24@0:8@16` — IMP `0x2a3478`
+  - - `prepareHomeScreenForBridge:` — types `v24@0:8@?16` — IMP `0x2a3600`
+  - - `closeOfficialTopApp:` — types `v24@0:8@?16` — IMP `0x2a37f0`
+  - - `requestActivation:` — types `v24@0:8@16` — IMP `0x2a3ad0`
+  - - `requestDismiss` — types `v16@0:8` — IMP `0x2a3d34`
+  - - `requestStateChange:` — types `v24@0:8@16` — IMP `0x2a3f04`
+  - - `handleSBStateChange:` — types `v24@0:8@16` — IMP `0x2a4418`
+  - - `handleStateDict:` — types `v24@0:8@16` — IMP `0x2a45f4`
+  - - `bridgeDidActivate:` — types `v24@0:8@16` — IMP `0x2a4738`
+  - - `bridgeDidDeactivate` — types `v16@0:8` — IMP `0x2a47ac`
+  - - `handleDockIconTap:` — types `v24@0:8@16` — IMP `0x2a47fc`
+  - - `setAppDockActiveBundleID:` — types `v24@0:8@16` — IMP `0x2a4934`
+  - - `setHomeButtonInApp:` — types `v20@0:8B16` — IMP `0x2a4a3c`
+  - - `updateCarPlayMetrics` — types `v16@0:8` — IMP `0x2a4c24`
+  - - `getAppFrame` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0x2a5fd8`
+  - - `getDockDimension` — types `d16@0:8` — IMP `0x2a6228`
+  - - `getDockWidth` — types `d16@0:8` — IMP `0x2a63c8`
+  - - `getDockEdge` — types `@16@0:8` — IMP `0x2a63d4`
+  - - `activated` — types `B16@0:8` — IMP `0x2a64c8`
+  - - `setActivated:` — types `v20@0:8B16` — IMP `0x2a64d0`
+  - - `pending` — types `B16@0:8` — IMP `0x2a64d8`
+  - - `setPending:` — types `v20@0:8B16` — IMP `0x2a64e0`
+  - - `pendingCompletion` — types `@?16@0:8` — IMP `0x2a64e8`
+  - - `setPendingCompletion:` — types `v24@0:8@?16` — IMP `0x2a64f4`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x2a64fc`
+- Class methods (6):
+  - + `sharedInstance` — types `@16@0:8` — IMP `0x282c28`
+  - + `isOfficialApp:` — types `B24@0:8@16` — IMP `0x283c4c`
+  - + `isBridgedApp:` — types `B24@0:8@16` — IMP `0x283ea8`
+  - + `isDashboardPolicySignalActive` — types `B16@0:8` — IMP `0x284068`
+  - + `shouldInterceptLaunchForApp:` — types `B24@0:8@16` — IMP `0x2a314c`
+  - + `bridgedApps` — types `@16@0:8` — IMP `0x2a3364`
+
+#### CBAppStateListener
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x3809b0` · instanceSize: 8 · flags: `0x90`
+- Instance methods (5):
+  - - `init` — types `@16@0:8` — IMP `0x2ab0a0`
+  - - `checkStateFile` — types `v16@0:8` — IMP `0x2ab1e4`
+  - - `sendStateRequest` — types `v16@0:8` — IMP `0x2ab7a4`
+  - - `handleAppDidBecomeActive:` — types `v24@0:8@16` — IMP `0x2ab948`
+  - - `handleAppStateNotification:` — types `v24@0:8@16` — IMP `0x2ab98c`
+- Class methods (1):
+  - + `sharedInstance` — types `@16@0:8` — IMP `0x2ab004`
+
+#### Protocols của Dashboard (5)
+
+#### Protocol NSObject
+- Instance methods (19):
+  - `isEqual:` — types `B24@0:8@16`
+  - `class` — types `#16@0:8`
+  - `self` — types `@16@0:8`
+  - `performSelector:` — types `@24@0:8:16`
+  - `performSelector:withObject:` — types `@32@0:8:16@24`
+  - `performSelector:withObject:withObject:` — types `@40@0:8:16@24@32`
+  - `isProxy` — types `B16@0:8`
+  - `isKindOfClass:` — types `B24@0:8#16`
+  - `isMemberOfClass:` — types `B24@0:8#16`
+  - `conformsToProtocol:` — types `B24@0:8@16`
+  - `respondsToSelector:` — types `B24@0:8:16`
+  - `retain` — types `@16@0:8`
+  - `release` — types `Vv16@0:8`
+  - `autorelease` — types `@16@0:8`
+  - `retainCount` — types `Q16@0:8`
+  - `zone` — types `^{_NSZone=}16@0:8`
+  - `hash` — types `Q16@0:8`
+  - `superclass` — types `#16@0:8`
+  - `description` — types `@16@0:8`
+- Optional instance methods (1):
+  - `debugDescription` — types `@16@0:8`
+- Instance properties: `hash`, `superclass`, `description`, `debugDescription`
+
+#### Protocol SFSpeechRecognizerDelegate
+- Kế thừa protocols: NSObject
+- Optional instance methods (1):
+  - `speechRecognizer:availabilityDidChange:` — types `v28@0:8@16B24`
+
+#### Protocol AVSpeechSynthesizerDelegate
+- Kế thừa protocols: NSObject
+- Optional instance methods (6):
+  - `speechSynthesizer:didStartSpeechUtterance:` — types `v32@0:8@16@24`
+  - `speechSynthesizer:didFinishSpeechUtterance:` — types `v32@0:8@16@24`
+  - `speechSynthesizer:didPauseSpeechUtterance:` — types `v32@0:8@16@24`
+  - `speechSynthesizer:didContinueSpeechUtterance:` — types `v32@0:8@16@24`
+  - `speechSynthesizer:didCancelSpeechUtterance:` — types `v32@0:8@16@24`
+  - `speechSynthesizer:willSpeakRangeOfSpeechString:utterance:` — types `v48@0:8@16{_NSRange=QQ}24@40`
+
+#### Protocol UIScrollViewDelegate
+- Kế thừa protocols: NSObject
+- Optional instance methods (14):
+  - `scrollViewDidScroll:` — types `v24@0:8@16`
+  - `scrollViewDidZoom:` — types `v24@0:8@16`
+  - `scrollViewWillBeginDragging:` — types `v24@0:8@16`
+  - `scrollViewWillEndDragging:withVelocity:targetContentOffset:` — types `v48@0:8@16{CGPoint=dd}24N^{CGPoint=dd}40`
+  - `scrollViewDidEndDragging:willDecelerate:` — types `v28@0:8@16B24`
+  - `scrollViewWillBeginDecelerating:` — types `v24@0:8@16`
+  - `scrollViewDidEndDecelerating:` — types `v24@0:8@16`
+  - `scrollViewDidEndScrollingAnimation:` — types `v24@0:8@16`
+  - `viewForZoomingInScrollView:` — types `@24@0:8@16`
+  - `scrollViewWillBeginZooming:withView:` — types `v32@0:8@16@24`
+  - `scrollViewDidEndZooming:withView:atScale:` — types `v40@0:8@16@24d32`
+  - `scrollViewShouldScrollToTop:` — types `B24@0:8@16`
+  - `scrollViewDidScrollToTop:` — types `v24@0:8@16`
+  - `scrollViewDidChangeAdjustedContentInset:` — types `v24@0:8@16`
+
+#### Protocol UIGestureRecognizerDelegate
+- Kế thừa protocols: NSObject
+- Optional instance methods (7):
+  - `gestureRecognizerShouldBegin:` — types `B24@0:8@16`
+  - `gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:` — types `B32@0:8@16@24`
+  - `gestureRecognizer:shouldRequireFailureOfGestureRecognizer:` — types `B32@0:8@16@24`
+  - `gestureRecognizer:shouldBeRequiredToFailByGestureRecognizer:` — types `B32@0:8@16@24`
+  - `gestureRecognizer:shouldReceiveTouch:` — types `B32@0:8@16@24`
+  - `gestureRecognizer:shouldReceivePress:` — types `B32@0:8@16@24`
+  - `gestureRecognizer:shouldReceiveEvent:` — types `B32@0:8@16@24`
+
+### 4.3 DuoFaceFullscreenBridge.dylib — 4 class, 61 method
+
+#### DFHostSnapshot
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x14df8` · instanceSize: 240 · flags: `0x184`
+- Ivars (11):
+  - `_manager` — type `@"CBBridgeManager"` — offset 8
+  - `_window` — type `@"CBWindow"` — offset 16
+  - `_app` — type `@"CBBridgedSplitApp"` — offset 24
+  - `_content` — type `@"UIView"` — offset 32
+  - `_appView` — type `@"UIView"` — offset 40
+  - `_renderSize` — type `{CGSize="width"d"height"d}` — offset 48
+  - `_managerFrame` — type `{CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}` — offset 64
+  - `_windowFrame` — type `{CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}` — offset 96
+  - `_contentFrame` — type `{CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}` — offset 128
+  - `_appViewFrame` — type `{CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}` — offset 160
+  - `_appViewTransform` — type `{CGAffineTransform="a"d"b"d"c"d"d"d"tx"d"ty"d}` — offset 192
+- Properties (11):
+  - `manager` — attributes `T@"CBBridgeManager",W,N,V_manager`
+  - `window` — attributes `T@"CBWindow",W,N,V_window`
+  - `app` — attributes `T@"CBBridgedSplitApp",W,N,V_app`
+  - `content` — attributes `T@"UIView",W,N,V_content`
+  - `appView` — attributes `T@"UIView",W,N,V_appView`
+  - `managerFrame` — attributes `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_managerFrame`
+  - `renderSize` — attributes `T{CGSize=dd},N,V_renderSize`
+  - `windowFrame` — attributes `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_windowFrame`
+  - `contentFrame` — attributes `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_contentFrame`
+  - `appViewFrame` — attributes `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_appViewFrame`
+  - `appViewTransform` — attributes `T{CGAffineTransform=dddddd},N,V_appViewTransform`
+- Instance methods (23):
+  - - `manager` — types `@16@0:8` — IMP `0x42b8`
+  - - `setManager:` — types `v24@0:8@16` — IMP `0x42d0`
+  - - `window` — types `@16@0:8` — IMP `0x42dc`
+  - - `setWindow:` — types `v24@0:8@16` — IMP `0x42f4`
+  - - `app` — types `@16@0:8` — IMP `0x4300`
+  - - `setApp:` — types `v24@0:8@16` — IMP `0x4318`
+  - - `content` — types `@16@0:8` — IMP `0x4324`
+  - - `setContent:` — types `v24@0:8@16` — IMP `0x433c`
+  - - `appView` — types `@16@0:8` — IMP `0x4348`
+  - - `setAppView:` — types `v24@0:8@16` — IMP `0x4360`
+  - - `managerFrame` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0x436c`
+  - - `setManagerFrame:` — types `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x4378`
+  - - `renderSize` — types `{CGSize=dd}16@0:8` — IMP `0x4384`
+  - - `setRenderSize:` — types `v32@0:8{CGSize=dd}16` — IMP `0x438c`
+  - - `windowFrame` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0x4394`
+  - - `setWindowFrame:` — types `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x43a0`
+  - - `contentFrame` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0x43ac`
+  - - `setContentFrame:` — types `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x43b8`
+  - - `appViewFrame` — types `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8` — IMP `0x43c4`
+  - - `setAppViewFrame:` — types `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — IMP `0x43d0`
+  - - `appViewTransform` — types `{CGAffineTransform=dddddd}16@0:8` — IMP `0x43dc`
+  - - `setAppViewTransform:` — types `v64@0:8{CGAffineTransform=dddddd}16` — IMP `0x43f0`
+  - - `.cxx_destruct` — types `v16@0:8` — IMP `0x4404`
+
+#### DFFullscreenTransport
+- Superclass: `NSObject` · địa chỉ class struct (arm64): `0x14e48` · instanceSize: 96 · flags: `0x184`
+- Ivars (14):
+  - `_host` — type `B` — offset 8
+  - `_pendingEnabled` — type `B` — offset 9
+  - `_ownsFullscreen` — type `B` — offset 10
+  - `_desiredExpanded` — type `B` — offset 11
+  - `_center` — type `@` — offset 16
+  - `_client` — type `@"NSString"` — offset 24
+  - `_sequence` — type `Q` — offset 32
+  - `_pendingID` — type `@"NSString"` — offset 40
+  - `_pendingCompletion` — type `@?` — offset 48
+  - `_stateChanged` — type `@?` — offset 56
+  - `_timer` — type `@"NSTimer"` — offset 64
+  - `_leaseOwner` — type `@"NSString"` — offset 72
+  - `_leaseDeadline` — type `d` — offset 80
+  - `_lastSequences` — type `@"NSMutableDictionary"` — offset 88
+- Properties (14):
+  - `center` — attributes `T@,&,N,V_center`
+  - `host` — attributes `TB,N,V_host`
+  - `client` — attributes `T@"NSString",C,N,V_client`
+  - `sequence` — attributes `TQ,N,V_sequence`
+  - `pendingID` — attributes `T@"NSString",C,N,V_pendingID`
+  - `pendingEnabled` — attributes `TB,N,V_pendingEnabled`
+  - `pendingCompletion` — attributes `T@?,C,N,V_pendingCompletion`
+  - `stateChanged` — attributes `T@?,C,N,V_stateChanged`
+  - `ownsFullscreen` — attributes `TB,N,V_ownsFullscreen`
+  - `desiredExpanded` — attributes `TB,N,V_desiredExpanded`
+  - `timer` — attributes `T@"NSTimer",&,N,V_timer`
+  - `leaseOwner` — attributes `T@"NSString",C,N,V_leaseOwner`
+  - `leaseDeadline` — attributes `Td,N,V_leaseDeadline`
+  - `lastSequences` — attributes `T@"NSMutableDictionary",&,N,V_lastSequences`
+- Instance methods (36):
+  - - `post:info:` — types `v32@0:8@16@24` — IMP `0x5c20`
+  - - `send:enabled:requestID:` — types `v36@0:8@16B24@28` — IMP `0x5cc4`
+  - - `publish:client:reason:` — types `v40@0:8@16@24@32` — IMP `0x5ee4`
+  - - `received:` — types `v24@0:8@16` — IMP `0x613c`
+  - - `handleCommand:` — types `v24@0:8@16` — IMP `0x6320`
+  - - `handleState:` — types `v24@0:8@16` — IMP `0x6924`
+  - - `tick` — types `v16@0:8` — IMP `0x6d60`
+  - - `center` — types `@16@0:8` — IMP `0x6e98`
+  - - `setCenter:` — types `v24@0:8@16` — IMP `0x6ea0`
+  - - `host` — types `B16@0:8` — IMP `0x6eac`
+  - - `setHost:` — types `v20@0:8B16` — IMP `0x6eb4`
+  - - `client` — types `@16@0:8` — IMP `0x6ebc`
+  - - `setClient:` — types `v24@0:8@16` — IMP `0x6ec4`
+  - - `sequence` — types `Q16@0:8` — IMP `0x6ecc`
+  - - `setSequence:` — types `v24@0:8Q16` — IMP `0x6ed4`
+  - - `pendingID` — types `@16@0:8` — IMP `0x6edc`
+  - - `setPendingID:` — types `v24@0:8@16` — IMP `0x6ee4`
+  - - `pendingEnabled` — types `B16@0:8` — IMP `0x6eec`
+  - - `setPendingEnabled:` — types `v20@0:8B16` — IMP `0x6ef4`
+  - - `pendingCompletion` — types `@?16@0:8` — IMP `0x6efc`
