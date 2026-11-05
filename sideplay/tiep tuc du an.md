@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-11-06 — Public index proves only combined external artifact
+
+- Publisher `carplaydsp` run `42129199958` build job `127601231752` got to Step 19 after prior steps passed. Public Sileo index verified (SHA, size, package identity, version, architecture) the integrated external DEB `debs/DuoDash_1.1.3_AiraWEngine_Fullscreen427_2.1.0_iphoneos-arm64.deb`. Then our restoration gate failed (`AssertionError: ('debs/com\\.Axs\\.airaw_...', 0, 'expected exactly one published archive')`); there is NO independent com.Axs.airaw DEB in existing public APT index. No public deployment.
+- Corrected only publisher's restore gate at `carplaydsp/main` commit `13a2b3c4df8ac55bd0c8dde1f400036ddafff9e7`: require exactly the existing integrated signed DuoDash/Airaw DEB; do not invent a second independent Airaw package. New publisher run `42129709941`, build job `127602929971`; validation run `42129709954`. Other project binaries untouched, existing signed DuoFace wakefix5 SHA unchanged.
+- Next verify build/index and public Pages release, then final SHA/one APT entry; if failure, use actual log and preserve other packages.
+
+---
+
 ## CHECKPOINT 2026-11-06 — Fifth publisher attempt YAML recovered via PR
 
 - Publisher `carplaydsp` run after `07c40eaefe2f58820c16b5ab31cedb35da39a1aa`: validation `42128909721` failed YAML parse (`yaml.scanner.ScannerError`, line 4781) because an incorrect long-file update duplicated the latter half of `.github/workflows/build.yml` and truncated a shell loop. No release occurred. Defect was in publisher workflow edit, **not** signed DuoFace source.
