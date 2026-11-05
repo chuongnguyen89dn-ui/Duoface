@@ -66,6 +66,14 @@
   "finished_at_utc": "2026-11-05T19:05:57.811602+00:00",
   "foundation_runtime_gates_pending": 13,
   "ios_compile_gates_pending": 2,
+  "macos_compile_followup": {
+    "cause": "Foundation includes POSIX read(); the new ACK test helper used the same name.",
+    "failed_job_id": 127575310504,
+    "failed_run_id": 42121665247,
+    "foundation_compile_result": "pending new macOS CI",
+    "local_wiring_tests_passed": 6,
+    "repair": "Rename only the test helper and its calls to DFTestReadAck. Production ACK policy unchanged."
+  },
   "passed": true,
   "portable_runtime_count": 8,
   "python_skipped_count": 0,
@@ -689,7 +697,7 @@
     "sideplay/native-carplay-scene-v1/DFNativeMapLaunchRuntime.m": "ff054fd87ce8b1f6d67284b0490304aea8abe886e266e81580eedfb588ff3d21",
     "sideplay/native-carplay-scene-v1/DFNativeMapOwnedBasePolicy.h": "194663d5ed04a9b2d10d873415aca34b7e422bd2ae4625219a00f4ca765100f3",
     "sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m": "ac1f9431dbf0484200905b9e2b761c51d22923bf21380580997bbd63e92f0c71",
-    "sideplay/native-carplay-scene-v1/tests/native_map_command_protocol_runtime.m": "b079bb092649eb05bde3283cd30653f913ac5b0134cd1b4e0d1831faabeaec1f",
+    "sideplay/native-carplay-scene-v1/tests/native_map_command_protocol_runtime.m": "8d8905eab62a73605fe2c82def4ff2d78c3612e769de52efb16de6a994dae0e1",
     "sideplay/native-carplay-scene-v1/tests/native_map_launch_policy_runtime.m": "1bdc4adc5061496a1ff4f8627785f8e4d00fa651e412b87008f910687345fa06",
     "sideplay/native-carplay-scene-v1/tests/native_map_launch_runtime.m": "f05957e83ff38827d3256c052ba351f40c9163118877b00f81925c36d47e5b49",
     "sideplay/native-carplay-scene-v1/tests/test_native_map_launch_coordinator.py": "5d6ebd23ec82a5bc511a334687f873734063dcdddb2198b7be3bb0f73263febb"

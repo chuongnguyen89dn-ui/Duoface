@@ -18,21 +18,21 @@ static NSDictionary *ack(NSString *status,NSString *operation,BOOL attached) {
     return DFNativeMapMakeAck(command(requestA,operation),status,
         @"test-owner-result",@"CarPlayApp",attached,1001.0);
 }
-static DFNativeMapAckState read(id value,NSString *operation) {
+static DFNativeMapAckState DFTestReadAck(id value,NSString *operation) {
     return DFNativeMapAckReadState(value,requestA,operation,1000.0,1002.0);
 }
 
 static void testPendingAndTerminal(void) {
     NSDictionary *pending=ack(DFNativeMapStatusPending,@"Attach",NO);
     expect(pending!=nil && [pending[@"Applied"] isEqual:@NO],@"Pending is explicitly unapplied");
-    expect(read(pending,@"Attach")==DFNativeMapAckPending,@"Pending must keep waiting");
-    expect(read(ack(DFNativeMapStatusApplied,@"Attach",YES),@"Attach")==DFNativeMapAckApplied,
+    expect(DFTestReadAck(pending,@"Attach")==DFNativeMapAckPending,@"Pending must keep waiting");
+    expect(DFTestReadAck(ack(DFNativeMapStatusApplied,@"Attach",YES),@"Attach")==DFNativeMapAckApplied,
         @"verified attached pane is terminal success");
-    expect(read(ack(DFNativeMapStatusRejected,@"Attach",NO),@"Attach")==DFNativeMapAckRejected,
+    expect(DFTestReadAck(ack(DFNativeMapStatusRejected,@"Attach",NO),@"Attach")==DFNativeMapAckRejected,
         @"server rejection is terminal failure");
-    expect(read(ack(DFNativeMapStatusCancelled,@"Attach",NO),@"Attach")==DFNativeMapAckCancelled,
+    expect(DFTestReadAck(ack(DFNativeMapStatusCancelled,@"Attach",NO),@"Attach")==DFNativeMapAckCancelled,
         @"server cancellation is a distinct terminal result");
-    expect(read(ack(DFNativeMapStatusApplied,@"Restore",NO),@"Restore")==DFNativeMapAckApplied,
+    expect(DFTestReadAck(ack(DFNativeMapStatusApplied,@"Restore",NO),@"Restore")==DFNativeMapAckApplied,
         @"Restore success requires detached pane, not attached pane");
     expect(ack(DFNativeMapStatusApplied,@"Attach",NO)==nil,
         @"writer cannot emit success for unattached Attach");
@@ -40,10 +40,10 @@ static void testPendingAndTerminal(void) {
         @"writer cannot emit successful Restore while still attached");
     NSMutableDictionary *falseAttach=[ack(DFNativeMapStatusApplied,@"Attach",YES) mutableCopy];
     falseAttach[@"PaneAttached"]=@NO;
-    expect(read(falseAttach,@"Attach")==DFNativeMapAckIgnore,@"reader rejects false Attach success");
+    expect(DFTestReadAck(falseAttach,@"Attach")==DFNativeMapAckIgnore,@"reader rejects false Attach success");
     NSMutableDictionary *falseRestore=[ack(DFNativeMapStatusApplied,@"Restore",NO) mutableCopy];
     falseRestore[@"PaneAttached"]=@YES;
-    expect(read(falseRestore,@"Restore")==DFNativeMapAckIgnore,@"reader rejects false Restore success");
+    expect(DFTestReadAck(falseRestore,@"Restore")==DFNativeMapAckIgnore,@"reader rejects false Restore success");
 
     // The actual producer and consumer agree after the same plist encoding
     // used by the retained ACK file, including true Boolean field types.
@@ -51,7 +51,7 @@ static void testPendingAndTerminal(void) {
         format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
     id decoded=bytes?[NSPropertyListSerialization propertyListWithData:bytes
         options:NSPropertyListImmutable format:NULL error:NULL]:nil;
-    expect(bytes!=nil && read(decoded,@"Attach")==DFNativeMapAckPending,
+    expect(bytes!=nil && DFTestReadAck(decoded,@"Attach")==DFNativeMapAckPending,
         @"shipping Pending record survives plist round trip");
     NSDictionary *original=command(requestA,@"Attach");
     (void)DFNativeMapMakeAck(original,DFNativeMapStatusApplied,@"attached",@"CarPlay",YES,1005.0);
@@ -60,38 +60,38 @@ static void testPendingAndTerminal(void) {
     for(NSString *status in @[DFNativeMapStatusRejected,DFNativeMapStatusCancelled]) {
         NSMutableDictionary *contradictory=[ack(status,@"Attach",YES) mutableCopy];
         contradictory[@"Applied"]=@YES;
-        expect(read(contradictory,@"Attach")==DFNativeMapAckIgnore,
+        expect(DFTestReadAck(contradictory,@"Attach")==DFNativeMapAckIgnore,
             @"terminal failure cannot also claim Applied");
     }
     NSMutableDictionary *contradictory=[pending mutableCopy];
     contradictory[@"Applied"]=@YES;contradictory[@"PaneAttached"]=@YES;
-    expect(read(contradictory,@"Attach")==DFNativeMapAckIgnore,@"Pending can never claim success");
+    expect(DFTestReadAck(contradictory,@"Attach")==DFNativeMapAckIgnore,@"Pending can never claim success");
     contradictory=[ack(DFNativeMapStatusApplied,@"Attach",YES) mutableCopy];
     contradictory[@"Applied"]=@NO;
-    expect(read(contradictory,@"Attach")==DFNativeMapAckIgnore,@"Applied status requires Applied Boolean");
+    expect(DFTestReadAck(contradictory,@"Attach")==DFNativeMapAckIgnore,@"Applied status requires Applied Boolean");
 }
 
 static void testLegacyTerminalCompatibility(void) {
     NSMutableDictionary *legacy=[ack(DFNativeMapStatusApplied,@"Attach",YES) mutableCopy];
     legacy[@"Version"]=@1;[legacy removeObjectForKey:@"Status"];
-    expect(read(legacy,@"Attach")==DFNativeMapAckApplied,@"old synchronous v1 terminal success supported");
+    expect(DFTestReadAck(legacy,@"Attach")==DFNativeMapAckApplied,@"old synchronous v1 terminal success supported");
     legacy[@"Applied"]=@NO;
-    expect(read(legacy,@"Attach")==DFNativeMapAckRejected,@"v1 false maps only to terminal rejection");
+    expect(DFTestReadAck(legacy,@"Attach")==DFNativeMapAckRejected,@"v1 false maps only to terminal rejection");
     legacy[@"Status"]=DFNativeMapStatusPending;
-    expect(read(legacy,@"Attach")==DFNativeMapAckIgnore,@"hybrid v1/Pending cannot be mistaken for terminal");
+    expect(DFTestReadAck(legacy,@"Attach")==DFNativeMapAckIgnore,@"hybrid v1/Pending cannot be mistaken for terminal");
     [legacy removeObjectForKey:@"Status"];legacy[@"Applied"]=@YES;legacy[@"PaneAttached"]=@NO;
-    expect(read(legacy,@"Attach")==DFNativeMapAckIgnore,@"v1 Attach needs the same attachment proof");
+    expect(DFTestReadAck(legacy,@"Attach")==DFNativeMapAckIgnore,@"v1 Attach needs the same attachment proof");
     legacy[@"Operation"]=@"Restore";
-    expect(read(legacy,@"Restore")==DFNativeMapAckApplied,@"v1 completed Restore remains supported");
+    expect(DFTestReadAck(legacy,@"Restore")==DFNativeMapAckApplied,@"v1 completed Restore remains supported");
     legacy[@"PaneAttached"]=@YES;
-    expect(read(legacy,@"Restore")==DFNativeMapAckIgnore,@"v1 cannot falsely claim restored while attached");
+    expect(DFTestReadAck(legacy,@"Restore")==DFNativeMapAckIgnore,@"v1 cannot falsely claim restored while attached");
 }
 
 static void testMalformedAndUnrelated(void) {
     NSDictionary *valid=ack(DFNativeMapStatusApplied,@"Attach",YES);
     for(id invalid in @[@[],@1,@"ACK",NSNull.null])
-        expect(read(invalid,@"Attach")==DFNativeMapAckIgnore,@"non-dictionary ACK ignored safely");
-    expect(read(nil,@"Attach")==DFNativeMapAckIgnore,@"absent ACK means wait, not rejection/success");
+        expect(DFTestReadAck(invalid,@"Attach")==DFNativeMapAckIgnore,@"non-dictionary ACK ignored safely");
+    expect(DFTestReadAck(nil,@"Attach")==DFNativeMapAckIgnore,@"absent ACK means wait, not rejection/success");
     NSDictionary<NSString *,NSArray *> *invalidFields=@{
         @"Version":@[@0,@3,@2.5,@"2",@YES,NSNull.null],
         @"RequestID":@[requestB,@1,NSNull.null],
@@ -106,16 +106,16 @@ static void testMalformedAndUnrelated(void) {
     for(NSString *key in invalidFields) {
         for(id value in invalidFields[key]) {
             NSMutableDictionary *bad=[valid mutableCopy];bad[key]=value;
-            expect(read(bad,@"Attach")==DFNativeMapAckIgnore,
+            expect(DFTestReadAck(bad,@"Attach")==DFNativeMapAckIgnore,
                 [NSString stringWithFormat:@"ignore malformed %@=%@",key,value]);
         }
         NSMutableDictionary *missing=[valid mutableCopy];[missing removeObjectForKey:key];
-        expect(read(missing,@"Attach")==DFNativeMapAckIgnore,
+        expect(DFTestReadAck(missing,@"Attach")==DFNativeMapAckIgnore,
             [NSString stringWithFormat:@"ignore missing %@",key]);
     }
     NSMutableDictionary *bad=[valid mutableCopy];
     bad[@"Reason"]=[@"a" stringByPaddingToLength:513 withString:@"a" startingAtIndex:0];
-    expect(read(bad,@"Attach")==DFNativeMapAckIgnore,@"bounded reason field");
+    expect(DFTestReadAck(bad,@"Attach")==DFNativeMapAckIgnore,@"bounded reason field");
     expect(DFNativeMapAckReadState(valid,requestB,@"Attach",1000,1002)==DFNativeMapAckIgnore,
         @"matching operation cannot override wrong request identity");
     expect(DFNativeMapAckReadState(valid,@"not-a-uuid",@"Attach",1000,1002)==DFNativeMapAckIgnore,
@@ -135,7 +135,7 @@ static void testTimestampBinding(void) {
     NSMutableDictionary *value=[ack(DFNativeMapStatusApplied,@"Attach",YES) mutableCopy];
     for(NSNumber *stamp in @[@0,@(-1),@999.999,@1002.001]) {
         value[@"Timestamp"]=stamp;
-        expect(read(value,@"Attach")==DFNativeMapAckIgnore,@"pre-request/future ACK rejected");
+        expect(DFTestReadAck(value,@"Attach")==DFNativeMapAckIgnore,@"pre-request/future ACK rejected");
     }
     value[@"Timestamp"]=@1001;
     expect(DFNativeMapAckReadState(value,requestA,@"Attach",1000,1009)==DFNativeMapAckApplied,
@@ -161,11 +161,11 @@ static void testBoundedPollingAndLifecycle(void) {
         @"explicit polling interval and independent hard bound");
     expect(DFNativeMapPollDecisionForRequest(requestA,requestA,generation,generation,YES,50,50.25,0)
         ==DFNativeMapPollContinue,@"current UI starts polling");
-    expect(read(ack(DFNativeMapStatusPending,@"Attach",NO),@"Attach")==DFNativeMapAckPending,
+    expect(DFTestReadAck(ack(DFNativeMapStatusPending,@"Attach",NO),@"Attach")==DFNativeMapAckPending,
         @"first Pending observation supplies no terminal result");
     expect(DFNativeMapPollDecisionForRequest(requestA,requestA,generation,generation,YES,50,56,23)
         ==DFNativeMapPollContinue,@"same request can still observe six-second completion");
-    expect(read(ack(DFNativeMapStatusApplied,@"Attach",YES),@"Attach")==DFNativeMapAckApplied,
+    expect(DFTestReadAck(ack(DFNativeMapStatusApplied,@"Attach",YES),@"Attach")==DFNativeMapAckApplied,
         @"later Applied for the same request terminates successfully");
     expect(DFNativeMapPollDecisionForRequest(requestA,requestA,generation,generation,YES,50,58,31)
         ==DFNativeMapPollTimedOut,@"eight-second monotonic deadline is terminal");
