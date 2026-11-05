@@ -1,5 +1,18 @@
 # QA172 wakefix3 — whole-DEB audit and source repairs
 
+## Verified result — 2026-11-05
+
+**Build/sign/package/static audit: PASS. Device acceptance: not tested.**
+
+- [Successful Actions run 42047069344](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42047069344), completed at 14:42:15 UTC.
+- Source commit: `d6ab38887a85bb3683add68e74dac6e0c106918e`; package archive commit: `f74cb0f4af45508b4bdecb77ddb1d0d9f90f5c6a`.
+- DEB: `com.duoface.jb.embedded_0.0.172~wakefix3_iphoneos-arm64.deb`, 1,252,836 bytes.
+- SHA256: `64e6e06f94bb5734e74ce936ba9999cc94934109c597b48821cea5414ab26e42`.
+- Local gates: 159 Python tests and eight portable C/C++ harnesses passed. CI additionally executed all seven Foundation harnesses, including 79 keyboard assertions, then passed both iOS syntax checks and the complete build.
+- A fresh scan of the downloaded artifact verified 1,250/1,250 code-page hashes in all 11 images / 14 slices. Private original-versus-candidate comparison passed 39 checks, with no unexpected changes. Paths/types/modes/owners, filters, architecture roster, iOS minima, dependency names, rpaths, entitlements and nonbinary resources/scripts remain unchanged. Seven dylib install IDs changed as intended.
+- [CI receipt](ci-validation.json), [comparison summary](candidate-comparison-summary.json) and the Actions archive preserve the result. Full extracted binary strings/symbols remain in the separately delivered private audit ZIP.
+- No Sileo publication or installation occurred. Automatic native app launch/navigation keepalive and actual CarPlay keyboard/touch/reconnect behavior remain device/implementation gates as described below.
+
 ## Status at source submission
 
 - Target repository: `chuongnguyen89dn-ui/Duoface`.
