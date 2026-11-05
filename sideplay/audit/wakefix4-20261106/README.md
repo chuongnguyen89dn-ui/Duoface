@@ -1,5 +1,8 @@
 # QA172 wakefix4 — hosted activity and native-map restoration
 
+**Current result: signed CI build and 39/39 complete-package comparison checks
+passed. Physical iPhone/CarPlay acceptance remains pending.**
+
 This continues the user-authorized sideplay repair from verified wakefix3 commit
 `6e5e199b95dba2b97568edaab4407630afeba3eb` on isolated branch
 `feature/sideplay-wakefix4-20261106`. The user asked to continue fixing the project;
@@ -33,8 +36,10 @@ covered by the retained workflow gates.
 - Native-map adoption is still limited to an already-observed matching native
   scene. Automatic native launch/keepalive is not implemented. Existing device
   evidence confirms an activation selector exists but does not establish a valid
-  activation object or usable receiver route. The saved original launch analysis
-  delegates through another helper and does not close that semantic gap.
+  target-runtime ABI or actual scene outcome. A subsequent bounded analysis of
+  the pinned original has now resolved the native launch-info/event/dashboard
+  route; integration feasibility is assessed separately from this immutable
+  signed candidate.
 - A rejected restoration leaves existing ownership intact. Cleanup of an empty
   abandoned pane and deferral for a pane containing a replacement scene retain
   the wakefix3 behavior; this does not prove every reconnect case is solved.
@@ -64,3 +69,37 @@ and booleans only.
 `SILEO_PUBLISHED=false`; `installed_by_this_work=false`; `DEVICE_TESTED=false`.
 Physical acceptance remains repeated app/hidden-control taps, keyboard cycling,
 unplug/reconnect and exact native-map ownership on the actual iPhone/CarPlay.
+
+
+## Verified signed build and complete package comparison
+
+- Source commit: `1740e1b992ce2fd3c41135df864460336eb51e35`.
+- [Actions run 42084544494](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42084544494): **completed / success**; job `127446005810`, every step successful. Archive commit: `8e825c378a61b0305e8fdcc98f8c237c07b5bc44`.
+- CI ran all 162 Python tests (39 suites, zero skipped), 8 portable runtime programs, 10 Foundation runtime programs and both iOS compile checks. Actual new harness output: app activity **108** checks; map restoration **25** assertions; pane binding **30** assertions. The retained keyboard harness ran **79** checks.
+- Artifact `13441788562`, `QA172-wakefix4-UNPUBLISHED`: ZIP size **1,258,447 bytes**, SHA256 `bfb50557919047781d5fa581297b2feea4cf2c63463efec4accf20cc1852f738`.
+- Exact DEB: `com.duoface.jb.embedded_0.0.172~wakefix4_iphoneos-arm64.deb`, **1,255,412 bytes**, SHA256 `da270030b01269905a06abe16362e1f7b1c9edcb0111cddf9b72359977ba24f3`. Downloaded bytes, CI provenance and archived Git bytes agree.
+- Independent full scan: **40 payload files + 3 control files**, **11 Mach-O images / 14 slices / 28 CodeDirectories**; **1,250/1,250 code-page hashes** match, no audit findings.
+- Full comparison against wakefix3 passed **39/39** checks. Paths/types/modes/owners, injection filters, resource/script bytes, architectures, library dependencies, minimum iOS, entitlements and signature profile are unchanged. Nine binary byte hashes changed; the only nonbinary byte change is package control metadata. Install IDs were already stable in wakefix3 and **remain unchanged**; this is not seven additional install-ID repairs.
+- Aggregate receipts: `ci-validation.json`, `candidate-comparison-summary.json`. Full extraction and detailed comparison remain in the private report.
+
+These checks establish source/build/package integrity. They do not establish
+on-device signature acceptance, keyboard geometry, map rendering/touch or
+navigation continuity. No Sileo publication, installation or physical test was
+performed.
+
+
+### Native launch research follow-up
+
+A bounded private trace of the exact original OmniCar DEB, SHA256
+`d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd`,
+resolved the previously missing launch helper chain. Its route constructs a
+native launch context from the selected app-info, wraps that context in a native
+event, and dispatches to the application's actual dashboard. This is evidence
+for an independent implementation; passing app-info directly to workspace
+activation was not the original route.
+
+The reviewed physical logs do not establish these factories' and dispatcher's
+current runtime ABI, event delivery or the resulting scene. Runtime signature
+checks, exact dashboard/root/display/session binding and bounded pending-state
+handling must be assessed before integration. The signed wakefix4 source and
+package do not contain a new launcher. Full trace output remains private.

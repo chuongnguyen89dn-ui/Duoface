@@ -1,0 +1,73 @@
+{
+  "archive_sha": "8e825c378a61b0305e8fdcc98f8c237c07b5bc44",
+  "artifact": {
+    "artifact_id": 13441788562,
+    "deb_bytes": 1255412,
+    "deb_filename": "com.duoface.jb.embedded_0.0.172~wakefix4_iphoneos-arm64.deb",
+    "deb_sha256": "da270030b01269905a06abe16362e1f7b1c9edcb0111cddf9b72359977ba24f3",
+    "job_id": 127446005810,
+    "run_id": 42084544494,
+    "source_sha": "1740e1b992ce2fd3c41135df864460336eb51e35",
+    "zip_bytes": 1258447,
+    "zip_sha256": "bfb50557919047781d5fa581297b2feea4cf2c63463efec4accf20cc1852f738"
+  },
+  "checks": {
+    "all_job_steps_passed": true,
+    "app_touch_assertions_passed": 108,
+    "archived_deb_bytes_match_download": true,
+    "archived_file_allowlist_verified": true,
+    "candidate_comparison_checks_passed": 39,
+    "deb_sha256_matches_packaging_provenance": true,
+    "download_sha256_matches_artifact_digest": true,
+    "foundation_runtime_programs_passed": 10,
+    "ios_compile_steps_passed": 2,
+    "keyboard_assertions_passed": 79,
+    "native_map_restore_assertions_passed": 25,
+    "physical_map_binding_assertions_passed": 30,
+    "portable_runtime_programs_passed": 8,
+    "python_suites_passed": 39,
+    "python_tests_passed": 162,
+    "python_tests_skipped": 0,
+    "signed_build_passed": true,
+    "whole_deb_static_audit_passed": true
+  },
+  "device_tested": false,
+  "full_deb_counts": {
+    "all_tar_entries": 57,
+    "code_directories": 28,
+    "code_pages": 1250,
+    "compiled_nibs": 2,
+    "control_regular_files": 3,
+    "fully_analyzed_regular_files": 43,
+    "links": 0,
+    "mach_o_files": 11,
+    "mach_o_slices": 14,
+    "payload_directories": 13,
+    "payload_regular_files": 40,
+    "plists": 12,
+    "png_files": 15,
+    "verified_code_pages": 1250
+  },
+  "installed_by_this_work": false,
+  "job_id": 127446005810,
+  "limits": [
+    "Internal signature hashes do not prove Apple trust-chain or AMFI acceptance.",
+    "Foundation graph tests do not execute a UIKit containment transaction.",
+    "Bundle/PID activity ownership is process evidence, not scene-specific input evidence."
+  ],
+  "native_automatic_launch_implemented": false,
+  "public_export_policy": "Requested DEB, packaging provenance and allowlisted aggregate receipts only. Full extraction stays private.",
+  "run": {
+    "conclusion": "success",
+    "created_at": "2026-11-05T18:28:21Z",
+    "head_sha": "1740e1b992ce2fd3c41135df864460336eb51e35",
+    "html_url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42084544494",
+    "id": 42084544494,
+    "status": "completed",
+    "updated_at": "2026-11-05T18:31:31Z"
+  },
+  "schema_version": 1,
+  "sileo_published": false,
+  "source_sha": "1740e1b992ce2fd3c41135df864460336eb51e35",
+  "workflow": ".github/workflows/duoface-172-wakefix4-signed-private.yml"
+}
