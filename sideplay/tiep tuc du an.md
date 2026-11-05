@@ -1,3 +1,12 @@
+## CHECKPOINT 2026-11-06 — Fifth publisher attempt YAML recovered via PR
+
+- Publisher `carplaydsp` run after `07c40eaefe2f58820c16b5ab31cedb35da39a1aa`: validation `42128909721` failed YAML parse (`yaml.scanner.ScannerError`, line 4781) because an incorrect long-file update duplicated the latter half of `.github/workflows/build.yml` and truncated a shell loop. No release occurred. Defect was in publisher workflow edit, **not** signed DuoFace source.
+- Reconstructed exact clean workflow from validated publisher commit `17421865fb06b2da17d302ab1f825dec1efdde3d` plus only a safe two-package external restore block. Created GitHub tree `83d972566768b61f3e753f92c5501ec21e6af6df`, commit `7fa237d10f23097777556ed36a766b93116ecc92`. Because direct update_ref and update_file temporarily failed API calls, recovered through `carplaydsp` PR #1 (`fix/sileo-publisher-yaml-recovery-20261106`), merged with commit `fc0f076e3043b1b94ccfd71881403287b7372316`. Verified `main` now has single workflow body, full file length 374766 characters, and exact `QA172_FILE` release pin.
+- Fresh publisher build run `42129199958` job `127601231752` and validation `42129199187` started; **no public deployment verified yet**. The external package restore uses existing public Sileo `Packages` and exact SHA/metadata, preserves other signed packages without rebuilding their source.
+- Next: inspect run completion; if build/Pages public verification fail, fix actual failing step on publisher only. Finally verify live `0.0.172~wakefix5` Sileo index and published DEB SHA, retain rollback. Device acceptance remains untested.
+
+---
+
 ## CHECKPOINT 2026-11-06 — Fourth Sileo run blocked at obsolete DauDat artifact API
 
 - Publisher run `42128297724` build job `127598075781`: prior 18 steps passed, including preservation of Showcase, three DuoDash packages, and the CarPlayAudit SHA-pinned public DEB; failed at Step 19 `Build APT repository` because the legacy `DauDat-CarPlay/actions/artifacts?name=DauDat-CarPlay` API endpoint returned `curl: (56) The requested URL returned error: 404`. Deployment skipped. Still **NOT publicly published**.
