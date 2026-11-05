@@ -4,6 +4,8 @@ Lập ngày 05/11/2026 theo lệnh của Nguyen: quét tận gốc từng deb (t
 
 Phương pháp: quét tĩnh CHỈ ĐỌC (bóc gói, cây file, bảng class/method, điểm hook, chuỗi, cơ chế). Không chạy bất kỳ binary/script nào trích từ deb. Chỗ không đọc được đều ghi ở mục "CHƯA XÁC ĐỊNH ĐƯỢC" cuối mỗi hồ sơ.
 
+Cách lưu: đường ghi GitHub qua connector có trần kích thước mỗi lần ghi, nên mỗi hồ sơ được chia thành nhiều file phần trong thư mục của deb đó: `HO_SO.md` là phần 1, tiếp theo `HO_SO_02.md`, `HO_SO_03.md`… Đọc theo thứ tự số là toàn bộ hồ sơ; nội dung không cắt bớt chữ nào.
+
 ## Các hồ sơ đã có
 
 | Thư mục | Gói (theo control của chính gói) | Nguồn quét | Quy mô |
