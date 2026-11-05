@@ -18,10 +18,10 @@ class QA172Wakefix(unittest.TestCase):
    self.assertIn(token,h)
  def test_chrome_shield_and_receivers(self):
   chrome=(ROOT/"DFNative12Chrome.m").read_text()
-  for token in ('wakeShieldWindow','level:1','df177HandleKbState',
+  for token in ('wakeGateViews','DFNativeWakeGateView','df177HandleKbState',
                 'notify_register_dispatch(DF177KbWakeName',
                 'notify_cancel(self.kbWake177Token)',
-                'qa177-recall source=shield-touch','qa177-kb-state',
+                'qa177-recall source=gate-touch','qa177-kb-state',
                 'DF155PilotAppID','kbVisible177'):
    self.assertIn(token,chrome)
  def test_app_touch_never_recalls_directly(self):
@@ -33,8 +33,8 @@ class QA172Wakefix(unittest.TestCase):
   self.assertIn('touch177RecheckGeneration',body)
   self.assertIn('qa177-extend-while-hidden',body)
  def test_version_coherence(self):
-  self.assertIn('0.1.172~wakefix1',(ROOT/"build.sh").read_text())
-  self.assertIn('VERSION="0.0.172~wakefix1"',INT.read_text())
-  self.assertIn('Version: 0.1.172~wakefix1',(ROOT/"control").read_text())
-  self.assertIn('build=0.0.172~wakefix1',(ROOT/"DFDeepTrace.h").read_text())
+  self.assertIn('0.1.172~wakefix2',(ROOT/"build.sh").read_text())
+  self.assertIn('VERSION="0.0.172~wakefix2"',INT.read_text())
+  self.assertIn('Version: 0.1.172~wakefix2',(ROOT/"control").read_text())
+  self.assertIn('build=0.0.172~wakefix2',(ROOT/"DFDeepTrace.h").read_text())
 if __name__=="__main__":unittest.main()

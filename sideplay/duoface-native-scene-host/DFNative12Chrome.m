@@ -264,6 +264,37 @@ static void DFCLog(NSString *text) {
 }
 @end
 
+// QA172 wakefix2map1: the wake gate, shaped after the reference design
+// where the container wrapping the app sits permanently in the touch
+// path and decides at hit-test time. wakefix1 instead armed/disarmed a
+// separate shield WINDOW from layoutControls through four state gates;
+// on the car it woke exactly once, then the shield silently never
+// re-armed. A window of its own could never work for the pass-through
+// half anyway: a UIWindow whose root view declines a touch still
+// returns itself from its own hitTest, so the touch would die in the
+// shield window instead of reaching the app. The gate therefore lives
+// INSIDE each slot's container, in the same window as the hosted
+// surface, as its topmost subview: hitTest returning nil there makes
+// UIKit continue the traversal to the surface right below, exactly as
+// if the gate were not there; returning self means the touch landed
+// here, touchesBegan fires the wake, and the app never sees it.
+@interface DFNativeWakeGateView : UIView
+@property(nonatomic,copy) BOOL (^shouldConsume)(void);
+@property(nonatomic,copy) void (^consumedTouch)(void);
+@end
+@implementation DFNativeWakeGateView
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if(self.shouldConsume && !self.shouldConsume())return nil;
+    return [super hitTest:point withEvent:event];
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    // Reached only when hitTest consumed the touch: this touch is a
+    // wake, never an app input.
+    if(self.consumedTouch)self.consumedTouch();
+    [super touchesBegan:touches withEvent:event];
+}
+@end
+
 @interface DFNative12Chrome () <DFAppPickerDelegate, UIGestureRecognizerDelegate>
 @property(nonatomic,strong) id display;
 @property(nonatomic,assign) Class configurationClass;
@@ -300,7 +331,8 @@ static void DFCLog(NSString *text) {
 // QA172 wakefix: transparent first-touch shield over the panes, the
 // app-reported keyboard state that gates it, and the coalesced
 // layout re-check for app-touch timer extensions.
-@property(nonatomic,strong) UIWindow *wakeShieldWindow;
+@property(nonatomic,strong) NSMutableArray *wakeGateViews;
+@property(nonatomic,assign) BOOL wakeGateEligible;
 @property(nonatomic,assign) int kbWake177Token;
 @property(nonatomic,assign) BOOL kbVisible177;
 @property(nonatomic,assign) NSUInteger touch177RecheckGeneration;
@@ -1174,40 +1206,9 @@ static void DFCLog(NSString *text) {
     load.duration=1.25;
     load.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     [fill addAnimation:load forKey:@"duoface-native-loading-line"];
-    // QA172 wakefix: the first-touch shield. A transparent window
-    // over the whole content area at level 1 (above the scene slots
-    // at 0.5, below pills/divider at 2). layoutControls owns its
-    // visibility: it is up only while the controls are idle, so the
-    // first touch lands on the shield and wakes the controls
-    // (DuoNavi semantics) instead of executing whatever sits under
-    // the touch inside the hosted app. The touch is consumed by
-    // window order alone; the observer below only triggers the
-    // wake, exactly like the activity observers on Chrome's own
-    // windows, and deliberately does not touch the scene's own
-    // event path (the touch-ownership contract stays untouched).
-    UIViewController *shieldRoot=[self emptyRoot:cr];
-    shieldRoot.view.backgroundColor=UIColor.clearColor;
-    self.wakeShieldWindow=[self makeWindow:cr root:shieldRoot level:1];
-    if(!self.wakeShieldWindow){[self stop];return NO;}
-    self.wakeShieldWindow.hidden=YES;
-    DFNativeActivityObserver *shieldObserver=[DFNativeActivityObserver new];
-    shieldObserver.cancelsTouchesInView=NO;
-    shieldObserver.delaysTouchesBegan=NO;
-    shieldObserver.delaysTouchesEnded=NO;
-    __weak typeof(self) weakShield=self;
-    shieldObserver.activity=^(UIWindow *touchedWindow){
-        // Never mutate layout during UIKit's touch dispatch.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            DFNative12Chrome *owner=weakShield;
-            if(!owner || touchedWindow!=owner.wakeShieldWindow ||
-               touchedWindow.hidden || owner.startupActive ||
-               owner.pickerVisible || owner.styleVisible ||
-               owner.appPickerVisible)return;
-            [owner noteUserActivity];
-            DFCLog(@"qa177-recall source=shield-touch");
-        });
-    };
-    [shieldRoot.view addGestureRecognizer:shieldObserver];
+    // QA172 wakefix2map1: no shield window any more. The wake gates
+    // are installed per slot container by layoutControls (see
+    // ensureWakeGates), inside the same window as each hosted surface.
     self.splashWindow=[self makeWindow:cr root:launch level:5];
     if(!self.splashWindow){[self stop];return NO;}
     [self layoutControls];
@@ -1549,6 +1550,59 @@ static void DFCLog(NSString *text) {
     self.menuContext.text=@"";self.menuContext.hidden=YES;
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
+// QA172 wakefix2map1: install one wake gate per slot container, as
+// the container's topmost subview, in the same window as the hosted
+// surface. The gate is created once per container and simply kept on
+// top; it carries no armed/disarmed state - the decision is computed
+// from the live controls state at every hit test.
+- (void)ensureWakeGates {
+    if(!self.wakeGateViews)self.wakeGateViews=[NSMutableArray array];
+    for(NSInteger i=0;i<(NSInteger)self.appSceneContainers.count;i++){
+        UIView *container=self.appSceneContainers[(NSUInteger)i];
+        if(![container isKindOfClass:UIView.class])continue;
+        DFNativeWakeGateView *gate=nil;
+        if(i<(NSInteger)self.wakeGateViews.count &&
+           [self.wakeGateViews[(NSUInteger)i]
+               isKindOfClass:DFNativeWakeGateView.class])
+            gate=self.wakeGateViews[(NSUInteger)i];
+        if(!gate){
+            gate=[[DFNativeWakeGateView alloc] initWithFrame:container.bounds];
+            gate.backgroundColor=UIColor.clearColor;
+            gate.autoresizingMask=UIViewAutoresizingFlexibleWidth|
+                                    UIViewAutoresizingFlexibleHeight;
+            __weak typeof(self) weakGate=self;
+            gate.shouldConsume=^BOOL{
+                DFNative12Chrome *owner=weakGate;
+                if(!owner)return NO;
+                if(owner.startupActive || owner.pickerVisible ||
+                   owner.styleVisible || owner.appPickerVisible)return NO;
+                if(owner.focus>=0 ||
+                   DFSlotCountForPreset(owner.preset)<=1)return NO;
+                if(owner.panActive || owner.logoTouchPending)return NO;
+                if(owner.kbVisible177 || !owner.wakeGateEligible)
+                    return NO;
+                return NSDate.date.timeIntervalSince1970>
+                       owner.controlsUntil;
+            };
+            gate.consumedTouch=^{
+                DFNative12Chrome *owner=weakGate;
+                if(!owner || owner.startupActive)return;
+                // Never mutate layout during UIKit's touch dispatch.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(!weakGate || weakGate.startupActive)return;
+                    [weakGate noteUserActivity];
+                    DFCLog(@"qa177-recall source=gate-touch");
+                });
+            };
+            while((NSInteger)self.wakeGateViews.count<=i)
+                [self.wakeGateViews addObject:NSNull.null];
+            self.wakeGateViews[(NSUInteger)i]=gate;
+        }
+        if(gate.superview!=container)[container addSubview:gate];
+        gate.frame=container.bounds;
+        [container bringSubviewToFront:gate];
+    }
+}
 - (void)layoutControls {
     // New user contract: transparent track and grip are independent touch
     // owners of the SAME immediate split-ratio gesture. If a modal/solo transition hides their UIWindow while
@@ -1708,31 +1762,26 @@ static void DFCLog(NSString *text) {
     self.dividerWindow.userInteractionEnabled=YES;
     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
-    // QA172 wakefix: arm the first-touch shield only while the
-    // controls are idle, never over a reported live keyboard, and
-    // never when a hosted app cannot report its keyboard state
-    // (anything outside the DF155 pilot scope plus YouTube's own
-    // relay bundle): an unreported keyboard must never lose a
-    // keystroke to the shield. Empty slots report no bundle and
-    // do not block arming.
-    if(self.wakeShieldWindow){
-        BOOL shieldBlocked=controlsVisible || unavailable ||
-            self.kbVisible177;
-        if(!shieldBlocked){
-            DFSceneHost *host=[DFSceneHost sharedHost];
-            for(UIView *surface in self.hostedScenes){
-                if(![surface isKindOfClass:UIView.class])continue;
-                NSString *hostedBundle=
-                    [host bundleIDForHostedView:surface];
-                if(hostedBundle.length &&
-                   !DF155PilotAppID(hostedBundle) &&
-                   ![hostedBundle isEqualToString:@"com.google.ios.youtube"]){
-                    shieldBlocked=YES;break;
-                }
+    // QA172 wakefix2map1: layout no longer arms or disarms anything
+    // (the wakefix1 state machine that woke only once). It refreshes
+    // the gates' placement and the eligibility fact: every hosted app
+    // must be able to report its keyboard state, so an unreported
+    // keyboard can never lose a keystroke to the gate.
+    {
+        BOOL gateEligible=YES;
+        DFSceneHost *host=[DFSceneHost sharedHost];
+        for(UIView *surface in self.hostedScenes){
+            if(![surface isKindOfClass:UIView.class])continue;
+            NSString *hostedBundle=
+                [host bundleIDForHostedView:surface];
+            if(hostedBundle.length &&
+               !DF155PilotAppID(hostedBundle) &&
+               ![hostedBundle isEqualToString:@"com.google.ios.youtube"]){
+                gateEligible=NO;break;
             }
         }
-        self.wakeShieldWindow.frame=cr;
-        self.wakeShieldWindow.hidden=shieldBlocked;
+        self.wakeGateEligible=gateEligible;
+        [self ensureWakeGates];
     }
     if(!CGRectIsNull(second)){
         BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
@@ -2615,7 +2664,7 @@ static void DFCLog(NSString *text) {
     for(UIWindow *w in self.windows)w.rootViewController=nil;
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
-    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;self.wakeShieldWindow=nil;
+    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;self.wakeGateViews=nil;
     self.styleChoices=nil;self.styleSelectionBadges=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
     self.styleHeaderTitle=nil;self.styleZoom=nil;self.styleModeBar=nil;
     self.appPickerVisible=NO;
