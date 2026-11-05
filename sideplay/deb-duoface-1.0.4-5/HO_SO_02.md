@@ -1,0 +1,3237 @@
+  - `- V42` — types: `@16@0:8`
+  - `- r42` — types: `v16@0:8`
+  - `- �82` — types: `v16@0:8`
+  - `- �92` — types: `v24@0:8@16`
+  - `- �42` — types: `v24@0:8@16`
+  - `- C92` — types: `v24@0:8@16`
+  - `- �82` — types: `v24@0:8@16`
+  - `- P�1` — types: `@16@0:8`
+  - `- D2` — types: `{CGSize=dd}16@0:8`
+  - `- F62` — types: `v24@0:8@16`
+  - `- �.2` — types: `v24@0:8@16`
+  - `- �52` — types: `v24@0:8@16`
+  - `- 152` — types: `v24@0:8q16`
+  - `- �52` — types: `v16@0:8`
+  - `- �52` — types: `v16@0:8`
+  - `- 62` — types: `v16@0:8`
+  - `- +62` — types: `v24@0:8@16`
+  - `- 52` — types: `v16@0:8`
+  - `- h62` — types: `v24@0:8@?16`
+  - `- q62` — types: `v16@0:8`
+  - `- �52` — types: `@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24`
+  - `- ��1` — types: `@16@0:8`
+  - `- {62` — types: `v24@0:8@16`
+  - `- T�1` — types: `@16@0:8`
+  - `- �62` — types: `v24@0:8@16`
+  - `- �62` — types: `@16@0:8`
+  - `- �62` — types: `v24@0:8@16`
+  - `- ߽1` — types: `@16@0:8`
+  - `- =�1` — types: `v24@0:8@16`
+  - `- 2` — types: `B16@0:8`
+  - `- �
+2` — types: `v20@0:8B16`
+  - `- ��1` — types: `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8`
+  - `- ��1` — types: `v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16`
+  - `- �62` — types: `v32@0:8{CGSize=dd}16`
+  - `- �62` — types: `@16@0:8`
+  - `- �62` — types: `v24@0:8@16`
+  - `- ��1` — types: `v16@0:8`
+- Class methods (2):
+  - `+ +�1` — types: `@16@0:8`
+  - `+ ��1` — types: `@16@0:8`
+
+#### class `CBAppMetadataItem`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_isUserApp` : `B` (size 1)
+  - `_displayName` : `@"NSString"` (size 8)
+  - `_icon` : `@"UIImage"` (size 8)
+- Properties:
+  - `displayName` — attrs: `T@"NSString",C,N,V_displayName`
+  - `icon` — attrs: `T@"UIImage",&,N,V_icon`
+  - `isUserApp` — attrs: `TB,N,V_isUserApp`
+- Instance methods (7):
+  - `- �<2` — types: `@16@0:8`
+  - `- �<2` — types: `v24@0:8@16`
+  - `- �<2` — types: `@16@0:8`
+  - `- �<2` — types: `v24@0:8@16`
+  - `- �<2` — types: `B16@0:8`
+  - `- �<2` — types: `v20@0:8B16`
+  - `- ��1` — types: `v16@0:8`
+
+#### class `CBBridgeManagerDashboard`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_activated` : `B` (size 1)
+  - `_pending` : `B` (size 1)
+  - `_pendingCompletion` : `@?` (size 8)
+- Properties:
+  - `activated` — attrs: `TB,N,V_activated`
+  - `pending` — attrs: `TB,N,V_pending`
+  - `pendingCompletion` — attrs: `T@?,C,N,V_pendingCompletion`
+- Instance methods (33):
+  - `- P�1` — types: `@16@0:8`
+  - `- �42` — types: `v16@0:8`
+  - `- �42` — types: `v24@0:8@16`
+  - `- C92` — types: `v24@0:8@16`
+  - `- @2` — types: `v24@0:8@16`
+  - `- �>2` — types: `v32@0:8@16@?24`
+  - `- A2` — types: `v16@0:8`
+  - `- �>2` — types: `v24@0:8@?16`
+  - `- �>2` — types: `v24@0:8@16`
+  - `- ?2` — types: `v24@0:8@?16`
+  - `- )?2` — types: `v24@0:8@?16`
+  - `- �>2` — types: `v24@0:8@16`
+  - `- �>2` — types: `v16@0:8`
+  - `- �.2` — types: `v24@0:8@16`
+  - `- �=2` — types: `v24@0:8@16`
+  - `- �?2` — types: `v24@0:8@16`
+  - `- �?2` — types: `v24@0:8@16`
+  - `- �=2` — types: `v16@0:8`
+  - `- *A2` — types: `v24@0:8@16`
+  - `- �?2` — types: `v24@0:8@16`
+  - `- 	@2` — types: `v20@0:8B16`
+  - `- >2` — types: `v16@0:8`
+  - `- �?2` — types: `{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8`
+  - `- �@2` — types: `d16@0:8`
+  - `- =A2` — types: `d16@0:8`
+  - `- JA2` — types: `@16@0:8`
+  - `- 2` — types: `B16@0:8`
+  - `- �
+2` — types: `v20@0:8B16`
+  - `- �>2` — types: `B16@0:8`
+  - `- �=2` — types: `v20@0:8B16`
+  - `- �?2` — types: `@?16@0:8`
+  - `- �=2` — types: `v24@0:8@?16`
+  - `- ��1` — types: `v16@0:8`
+- Class methods (6):
+  - `+ +�1` — types: `@16@0:8`
+  - `+ �@2` — types: `B24@0:8@16`
+  - `+ $>2` — types: `B24@0:8@16`
+  - `+ c>2` — types: `B16@0:8`
+  - `+ ` — types: `B24@0:8@16`
+  - `+ ��1` — types: `@16@0:8`
+
+#### class `CBAppStateListener`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Instance methods (5):
+  - `- P�1` — types: `@16@0:8`
+  - `- �C2` — types: `v16@0:8`
+  - `- D2` — types: `v16@0:8`
+  - `- �C2` — types: `v24@0:8@16`
+  - `- �C2` — types: `v24@0:8@16`
+- Class methods (1):
+  - `+ +�1` — types: `@16@0:8`
+
+### Protocols được định nghĩa trong binary (toàn bộ)
+#### protocol `NSObject`
+- instance_methods: `isEqual:`, `class`, `self`, `performSelector:`, `performSelector:withObject:`, `performSelector:withObject:withObject:`, `isProxy`, `isKindOfClass:`, `isMemberOfClass:`, `conformsToProtocol:`, `respondsToSelector:`, `retain`, `release`, `autorelease`, `retainCount`, `zone`, `hash`, `superclass`, `description`
+- opt_instance_methods: `debugDescription`
+- properties: `hash`, `superclass`, `description`, `debugDescription`
+#### protocol `UIScrollViewDelegate`
+- opt_instance_methods: `scrollViewDidScroll:`, `scrollViewDidZoom:`, `scrollViewWillBeginDragging:`, `scrollViewWillEndDragging:withVelocity:targetContentOffset:`, `scrollViewDidEndDragging:willDecelerate:`, `scrollViewWillBeginDecelerating:`, `scrollViewDidEndDecelerating:`, `scrollViewDidEndScrollingAnimation:`, `viewForZoomingInScrollView:`, `scrollViewWillBeginZooming:withView:`, `scrollViewDidEndZooming:withView:atScale:`, `scrollViewShouldScrollToTop:`, `scrollViewDidScrollToTop:`, `scrollViewDidChangeAdjustedContentInset:`
+#### protocol `CBVoiceSessionStateDelegate`
+- instance_methods: `voiceSessionManager:didChangeState:`
+#### protocol `UIGestureRecognizerDelegate`
+- opt_instance_methods: `gestureRecognizerShouldBegin:`, `gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:`, `gestureRecognizer:shouldRequireFailureOfGestureRecognizer:`, `gestureRecognizer:shouldBeRequiredToFailByGestureRecognizer:`, `gestureRecognizer:shouldReceiveTouch:`, `gestureRecognizer:shouldReceivePress:`, `gestureRecognizer:shouldReceiveEvent:`
+#### protocol `CBVoiceSTTStrategy`
+- instance_methods: `startSessionWithInputFormat:error:`, `consumeAudioBuffer:`, `stopSession`, `delegate`, `setDelegate:`
+- properties: `delegate`
+#### protocol `AVAudioPlayerDelegate`
+- opt_instance_methods: `audioPlayerDidFinishPlaying:successfully:`, `audioPlayerDecodeErrorDidOccur:error:`, `audioPlayerBeginInterruption:`, `audioPlayerEndInterruption:withOptions:`, `audioPlayerEndInterruption:withFlags:`, `audioPlayerEndInterruption:`
+#### protocol `NSURLSessionDelegate`
+- opt_instance_methods: `URLSession:didBecomeInvalidWithError:`, `URLSession:didReceiveChallenge:completionHandler:`, `URLSessionDidFinishEventsForBackgroundURLSession:`
+#### protocol `NSURLSessionTaskDelegate`
+- opt_instance_methods: `URLSession:didCreateTask:`, `URLSession:task:willBeginDelayedRequest:completionHandler:`, `URLSession:taskIsWaitingForConnectivity:`, `URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:`, `URLSession:task:didReceiveChallenge:completionHandler:`, `URLSession:task:needNewBodyStream:`, `URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:`, `URLSession:task:didFinishCollectingMetrics:`, `URLSession:task:didCompleteWithError:`
+#### protocol `NSURLSessionWebSocketDelegate`
+- opt_instance_methods: `URLSession:webSocketTask:didOpenWithProtocol:`, `URLSession:webSocketTask:didCloseWithCode:reason:`
+#### protocol `CBVoiceDirectiveHandler`
+- instance_methods: `canHandleDirectiveWithDomain:action:`, `executeDirective:completion:`
+- opt_instance_methods: `canHandleDirective:`
+#### protocol `CBVoiceTransportDelegate`
+- instance_methods: `voiceTransportDidConnect`, `voiceTransportDidReceiveDirective:`, `voiceTransportDidReceiveTTSAudioChunk:`, `voiceTransportDidReceiveTurnFinishWithFollowUp:timeoutSec:`, `voiceTransportDidCloseWithCode:`, `voiceTransportDidFailWithError:`, `voiceTransportDidReceiveError:`
+#### protocol `CBVoiceAudioCaptureDelegate`
+- instance_methods: `audioCaptureDidOutputPCMChunk:`, `audioCaptureDidTranscribeText:isFinal:`, `audioCaptureDidFailWithError:`
+#### protocol `CBVoiceTriggerDelegate`
+- instance_methods: `voiceTriggerDidRequestStart`, `voiceTriggerDidRequestStop`, `voiceTriggerDidRequestCancel`
+
+### Kho selector Objective-C tham chiếu (__objc_methname — 1937 selector duy nhất, toàn bộ)
+- `.cxx_destruct`
+- `CADisplay`
+- `CBFake`
+- `CGColor`
+- `CGPath`
+- `CGRectValue`
+- `JSONObjectWithData:options:error:`
+- `T#,R`
+- `T@"<CBVoiceAudioCaptureDelegate>",W,N`
+- `T@"<CBVoiceAudioCaptureDelegate>",W,N,V_delegate`
+- `T@"<CBVoiceSessionStateDelegate>",W,N,V_stateDelegate`
+- `T@"<CBVoiceTransportDelegate>",W,N,V_delegate`
+- `T@"CADisplayLink",&,N,V_displayLink`
+- `T@"CBAIBubbleView",&,N,V_aiBubbleView`
+- `T@"CBBridgeManager",W,N,V_delegate`
+- `T@"CBBridgedApp",&,N,V_currentApp`
+- `T@"CBBridgedPortalAppView",&,N,V_portalView`
+- `T@"CBBridgedSplitApp",W,N,V_splitApp`
+- `T@"CBBridgedUIApp",W,N,V_uiApp`
+- `T@"CBBridgedUIAppView",&,N,V_appView`
+- `T@"CBLicenseWarningModalView",&,N,V_licenseWarningModal`
+- `T@"CBMultitaskingOverlayView",&,N,V_multitaskingOverlay`
+- `T@"CBMultitaskingPillView",&,N,V_multitaskingPill`
+- `T@"CBSlotPillView",&,N,V_notchPill`
+- `T@"CBSplitSplashScreenView",&,N,V_splashScreenView`
+- `T@"CBTouchCloneView",&,N,V_touchCloneView`
+- `T@"CBVoiceSpeechResponse",&,N,V_speech`
+- `T@"CBWindow",&,N,V_window`
+- `T@"NSArray",&,N,V_aliases`
+- `T@"NSArray",&,N,V_allApps`
+- `T@"NSArray",&,N,V_bridgedApps`
+- `T@"NSArray",&,N,V_installedApps`
+- `T@"NSArray",&,N,V_runningApps`
+- `T@"NSDictionary",&,N,V_appInfo`
+- `T@"NSDictionary",&,N,V_appSettings`
+- `T@"NSDictionary",&,N,V_rawParams`
+- `T@"NSDictionary",R,N`
+- `T@"NSMutableArray",&,N,V_appViews`
+- `T@"NSMutableArray",&,N,V_buttonConfigs`
+- `T@"NSMutableArray",&,N,V_containers`
+- `T@"NSMutableArray",&,N,V_dividers`
+- `T@"NSMutableArray",&,N,V_moveButtons`
+- `T@"NSMutableArray",&,N,V_placeholders`
+- `T@"NSMutableArray",&,N,V_slotBIDs`
+- `T@"NSMutableArray",&,N,V_slotPills`
+- `T@"NSObject<OS_dispatch_queue>",&,N,V_syncQueue`
+- `T@"NSString",C,N,V_action`
+- `T@"NSString",C,N,V_autoLaunchBundleID`
+- `T@"NSString",C,N,V_autoResumeBundleID`
+- `T@"NSString",C,N,V_bundleID`
+- `T@"NSString",C,N,V_bundleIdentifier`
+- `T@"NSString",C,N,V_carModel`
+- `T@"NSString",C,N,V_category`
+- `T@"NSString",C,N,V_defaultMusicApp`
+- `T@"NSString",C,N,V_displayName`
+- `T@"NSString",C,N,V_domain`
+- `T@"NSString",C,N,V_executionTiming`
+- `T@"NSString",C,N,V_hwHash`
+- `T@"NSString",C,N,V_iconName`
+- `T@"NSString",C,N,V_lang`
+- `T@"NSString",C,N,V_name`
+- `T@"NSString",C,N,V_splitApp1`
+- `T@"NSString",C,N,V_splitApp2`
+- `T@"NSString",C,N,V_splitApp3`
+- `T@"NSString",C,N,V_splitApp4`
+- `T@"NSString",C,N,V_splitLeftBundleID`
+- `T@"NSString",C,N,V_splitRightBundleID`
+- `T@"NSString",C,N,V_text`
+- `T@"NSString",C,N,V_urlScheme`
+- `T@"NSString",R,C`
+- `T@"NSString",R,C,N`
+- `T@"SBAppViewController",&,N,V_appViewController`
+- `T@"UIButton",&,N,V_appSegmentBtn`
+- `T@"UIButton",&,N,V_dotsButton`
+- `T@"UIButton",&,N,V_expandButton`
+- `T@"UIButton",&,N,V_layoutSegmentBtn`
+- `T@"UIButton",&,N,V_recentSegmentBtn`
+- `T@"UIButton",&,N,V_restoreButton`
+- `T@"UIButton",&,N,V_tapButton`
+- `T@"UIImage",&,N,V_icon`
+- `T@"UIImageView",&,N,V_headerIcon`
+- `T@"UIImageView",&,N,V_iconImageView`
+- `T@"UIImageView",&,N,V_iconView`
+- `T@"UIImageView",&,N,V_imageView`
+- `T@"UILabel",&,N,V_fallbackIconLabel`
+- `T@"UILabel",&,N,V_titleLabel`
+- `T@"UILabel",&,N,V_valueLabel`
+- `T@"UIPageControl",&,N,V_appPickerPageControl`
+- `T@"UIScrollView",&,N,V_appPickerScrollView`
+- `T@"UIView",&,N,V_cardShadowContainer`
+- `T@"UIView",&,N,V_dimBackground`
+- `T@"UIView",&,N,V_separatorView`
+- `T@"UIView",&,N,V_view`
+- `T@"UIView",&,N,V_wrapperView`
+- `T@"UIViewController",&,N,V_rootViewController`
+- `T@"UIVisualEffectView",&,N,V_blurView`
+- `T@"UIVisualEffectView",&,N,V_contentView`
+- `T@"UIVisualEffectView",&,N,V_sheetCard`
+- `T@"UIWindow",&,N,V_rootWindow`
+- `T@?,C,N,V_onActivity`
+- `T@?,C,N,V_onBubbleTapped`
+- `T@?,C,N,V_onCloseRequested`
+- `T@?,C,N,V_onDismiss`
+- `T@?,C,N,V_onDismissed`
+- `T@?,C,N,V_onExpandTapped`
+- `T@?,C,N,V_onMultiSplitSelected`
+- `T@?,C,N,V_onPanChanged`
+- `T@?,C,N,V_onPillLongPressed`
+- `T@?,C,N,V_onPillTapped`
+- `T@?,C,N,V_onPositionChanged`
+- `T@?,C,N,V_onRestoreTapped`
+- `T@?,C,N,V_onRotate`
+- `T@?,C,N,V_onSwap`
+- `T@?,C,N,V_onTap`
+- `T@?,C,N,V_onWillDismiss`
+- `T@?,C,N,V_pendingCompletion`
+- `TB,N`
+- `TB,N,GisActivated,V_activated`
+- `TB,N,V_activate`
+- `TB,N,V_activated`
+- `TB,N,V_agreedToEULA`
+- `TB,N,V_aiBubbleIsLeft`
+- `TB,N,V_audioOnlyBackgroundMode`
+- `TB,N,V_audioStreamFollowing`
+- `TB,N,V_autoLaunchOnConnect`
+- `TB,N,V_dockSystemMonitorEnabled`
+- `TB,N,V_dockSystemMonitorShowAll`
+- `TB,N,V_expectFollowUp`
+- `TB,N,V_hideIconLabels`
+- `TB,N,V_hosting`
+- `TB,N,V_invalidated`
+- `TB,N,V_isBlinking`
+- `TB,N,V_isCompactMode`
+- `TB,N,V_isConnected`
+- `TB,N,V_isFocusedMode`
+- `TB,N,V_isPlaying`
+- `TB,N,V_isSyncing`
+- `TB,N,V_isTransitioningFocus`
+- `TB,N,V_isUserApp`
+- `TB,N,V_isVertical`
+- `TB,N,V_isVisible`
+- `TB,N,V_pending`
+- `TB,N,V_portalAppEnabled`
+- `TB,N,V_screenBlankEnabled`
+- `TB,N,V_showAll`
+- `TB,N,V_showsExpandButton`
+- `TB,N,V_splitScreenEnabled`
+- `TB,R,N`
+- `TB,V_isRecording`
+- `TQ,N,V_lastAttemptTimestamp`
+- `TQ,R`
+- `TQ,R,N`
+- `Td,N,V_aiBubbleNormalizedY`
+- `Td,N,V_appScale`
+- `Td,N,V_currentRatio`
+- `Td,N,V_customScale`
+- `Td,N,V_idleAlpha`
+- `Td,N,V_relativePos`
+- `Td,N,V_splitRatio`
+- `Tq,N,V_currentPreset`
+- `Tq,N,V_focusedSlotIndex`
+- `Tq,N,V_gridCols`
+- `Tq,N,V_gridRows`
+- `Tq,N,V_modalType`
+- `Tq,N,V_mode`
+- `Tq,N,V_overlayMode`
+- `Tq,N,V_slotIndex`
+- `Tq,N,V_splitMode`
+- `Tq,N,V_splitPreset`
+- `Tq,N,V_state`
+- `Tq,N,V_targetSlotIndex`
+- `Tq,N,V_timeoutSec`
+- `Tq,N,V_visualState`
+- `Tq,R,N`
+- `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_appFrame`
+- `T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_boundaryBounds`
+- `T{CGSize=dd},N,V_renderSize`
+- `T{UIEdgeInsets=dddd},N,V_hitInsets`
+- `URL`
+- `URLSession:didBecomeInvalidWithError:`
+- `URLSession:didCreateTask:`
+- `URLSession:didReceiveChallenge:completionHandler:`
+- `URLSession:task:didCompleteWithError:`
+- `URLSession:task:didFinishCollectingMetrics:`
+- `URLSession:task:didReceiveChallenge:completionHandler:`
+- `URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:`
+- `URLSession:task:needNewBodyStream:`
+- `URLSession:task:willBeginDelayedRequest:completionHandler:`
+- `URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:`
+- `URLSession:taskIsWaitingForConnectivity:`
+- `URLSession:webSocketTask:didCloseWithCode:reason:`
+- `URLSession:webSocketTask:didOpenWithProtocol:`
+- `URLSessionDidFinishEventsForBackgroundURLSession:`
+- `URLWithString:`
+- `UTF8String`
+- `UUID`
+- `UUIDString`
+- `_FBSScene`
+- `__supportedInterfaceOrientations`
+- `_accessibilityFrontMostApplication`
+- `_action`
+- `_activate`
+- `_activated`
+- `_activeBundleIdentifierForScene:`
+- `_activeLanguageCode`
+- `_activeLanguageTable`
+- `_activeStrategy`
+- `_agreedToEULA`
+- `_aiBubbleIsLeft`
+- `_aiBubbleNormalizedY`
+- `_aiBubbleView`
+- `_aliases`
+- `_allApps`
+- `_allWindowsIncludingInternalWindows:onlyVisibleWindows:`
+- `_animationStartTime`
+- `_appFrame`
+- `_appInfo`
+- `_appPickerPageControl`
+- `_appPickerScrollView`
+- `_appScale`
+- `_appSegmentBtn`
+- `_appSettings`
+- `_appView`
+- `_appViewController`
+- `_appViews`
+- `_applicationIconImageForBundleIdentifier:format:scale:`
+- `_applyUpdateWithContext:completion:`
+- `_audioBuffer`
+- `_audioConverter`
+- `_audioEngine`
+- `_audioOnlyBackgroundMode`
+- `_audioPlayer`
+- `_audioStreamFollowing`
+- `_auraPulseView`
+- `_autoLaunchBundleID`
+- `_autoLaunchOnConnect`
+- `_autoResumeBundleID`
+- `_autoResumeRetryCount`
+- `_badgeLabel`
+- `_battItem`
+- `_blinkingIdleTimer`
+- `_blurBackdrop`
+- `_blurView`
+- `_bodyLabel`
+- `_borderGradient`
+- `_boundDisplay`
+- `_boundDisplayConfig`
+- `_boundaryBounds`
+- `_bridgedApps`
+- `_bundleID`
+- `_bundleIdentifier`
+- `_bundleIdentifierDidBecomeVisible:previousBundleIdentifier:`
+- `_buttonConfigs`
+- `_cachedStringTables`
+- `_carModel`
+- `_carScreen`
+- `_car_isCarScreen`
+- `_cardShadowContainer`
+- `_cardView`
+- `_category`
+- `_chimeCompletion`
+- `_chimePlayer`
+- `_configureIconImageView:`
+- `_containers`
+- `_contentView`
+- `_converter`
+- `_coreContainer`
+- `_coreDotLayer`
+- `_cpuItem`
+- `_ctx`
+- `_currentApp`
+- `_currentDashboard`
+- `_currentPreset`
+- `_currentRatio`
+- `_currentTranscript`
+- `_customScale`
+- `_defaultMusicApp`
+- `_defaultSizeForInterfaceOrientation:`
+- `_delegate`
+- `_dimBackground`
+- `_disconnectWatchdogToken`
+- `_dismissButton`
+- `_displayLink`
+- `_displayName`
+- `_dividers`
+- `_dockButtonPressed:`
+- `_dockSystemMonitorEnabled`
+- `_dockSystemMonitorShowAll`
+- `_domain`
+- `_dotViews`
+- `_dotsButton`
+- `_dragStartRatio`
+- `_enTable`
+- `_ensureChimePlayerLoaded`
+- `_executionTiming`
+- `_expandButton`
+- `_expectFollowUp`
+- `_fallbackIconLabel`
+- `_focusedSlotIndex`
+- `_followUpTimeoutSec`
+- `_foregroundActiveScene`
+- `_glowImageView`
+- `_gridCols`
+- `_gridRows`
+- `_handleAudioSessionInterruption:`
+- `_handleAudioSessionRouteChange:`
+- `_handleTapGesture:`
+- `_handlers`
+- `_hasCpuHistory`
+- `_hasStartedAnimation`
+- `_headerIcon`
+- `_hideIconLabels`
+- `_hitInsets`
+- `_horizonDashedMask`
+- `_horizonGradient`
+- `_horizonLineView`
+- `_hosting`
+- `_hwHash`
+- `_icon`
+- `_iconContainerView`
+- `_iconImageView`
+- `_iconName`
+- `_iconView`
+- `_idleAlpha`
+- `_idleTimer`
+- `_imageView`
+- `_installedApps`
+- `_invalidated`
+- `_isApplyingSplitMode`
+- `_isAutoResuming`
+- `_isBlinking`
+- `_isCompactMode`
+- `_isConnected`
+- `_isDeactivated`
+- `_isDismissing`
+- `_isDragging`
+- `_isFocusedMode`
+- `_isPlaying`
+- `_isRecording`
+- `_isSessionActive`
+- `_isSuspended`
+- `_isSyncing`
+- `_isTransitioningFocus`
+- `_isUserApp`
+- `_isVertical`
+- `_isVisible`
+- `_labelView`
+- `_lang`
+- `_lastActivityTime`
+- `_lastAttemptTimestamp`
+- `_lastTapTime`
+- `_lastTapTimestamp`
+- `_lastToggleTime`
+- `_latestTranscript`
+- `_layout`
+- `_layoutSegmentBtn`
+- `_leftEyeLayer`
+- `_licenseWarningModal`
+- `_licenseWatchdogTimer`
+- `_loadFromProxy:`
+- `_logoImageView`
+- `_mainSceneSupportsInterfaceOrientation:`
+- `_mediaResumeToken`
+- `_modalType`
+- `_mode`
+- `_mouthLayer`
+- `_moveButtons`
+- `_multitaskingOverlay`
+- `_multitaskingPill`
+- `_name`
+- `_newApplicationLibrary`
+- `_notchIdleTimer`
+- `_notchPill`
+- `_notifyDidAddApplications:`
+- `_notifyDidRemoveApplications:`
+- `_onActivity`
+- `_onBubbleTapped`
+- `_onCloseRequested`
+- `_onDismiss`
+- `_onDismissed`
+- `_onExpandTapped`
+- `_onMultiSplitSelected`
+- `_onPanChanged`
+- `_onPillLongPressed`
+- `_onPillTapped`
+- `_onPositionChanged`
+- `_onRestoreTapped`
+- `_onRotate`
+- `_onSwap`
+- `_onTap`
+- `_onWillDismiss`
+- `_overlayMode`
+- `_pcmChunksSent`
+- `_pending`
+- `_pendingCompletion`
+- `_pendingConnectCompletion`
+- `_pendingContext`
+- `_pendingDirective`
+- `_pendingPCMChunksCount`
+- `_placeholders`
+- `_playCompletion`
+- `_portalAppEnabled`
+- `_portalView`
+- `_prevCpuIdle`
+- `_prevCpuNice`
+- `_prevCpuSystem`
+- `_prevCpuUser`
+- `_processDidExitWithContext:`
+- `_progressGradient`
+- `_progressView`
+- `_ramItem`
+- `_rawParams`
+- `_recentSegmentBtn`
+- `_referenceBounds`
+- `_refreshAppDock`
+- `_refreshTimer`
+- `_relativePos`
+- `_renderSize`
+- `_restoreButton`
+- `_rightEyeLayer`
+- `_rootViewController`
+- `_rootWindow`
+- `_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:`
+- `_runningApps`
+- `_screenBlankEnabled`
+- `_scrimView`
+- `_sendQueue`
+- `_separatorView`
+- `_sessionBridgedBundleIDs`
+- `_sessionGeneration`
+- `_sessionGenerationToken`
+- `_sessionKey`
+- `_setRotatableViewOrientation:duration:force:`
+- `_setUsesStaticScrollBar:`
+- `_setupIconModel`
+- `_sheetCard`
+- `_shieldIconView`
+- `_shouldBeBackgroundUnderLockForScene:withSettings:`
+- `_showAll`
+- `_showInternalApps`
+- `_showPrototypeApps`
+- `_showsExpandButton`
+- `_silenceTimer`
+- `_slotBIDs`
+- `_slotIndex`
+- `_slotPills`
+- `_speech`
+- `_speechTimeoutTimer`
+- `_splashScreenView`
+- `_splitApp`
+- `_splitApp1`
+- `_splitApp2`
+- `_splitApp3`
+- `_splitApp4`
+- `_splitLeftBundleID`
+- `_splitMode`
+- `_splitPreset`
+- `_splitRatio`
+- `_splitRightBundleID`
+- `_splitScreenEnabled`
+- `_state`
+- `_stateDelegate`
+- `_staticScrollBar`
+- `_syncQueue`
+- `_tapButton`
+- `_targetFormat`
+- `_targetSlotIndex`
+- `_tempItem`
+- `_text`
+- `_thinkingTimeoutTimer`
+- `_timeoutSec`
+- `_titleLabel`
+- `_touchCloneView`
+- `_trackView`
+- `_turnCount`
+- `_uiApp`
+- `_updateFrameAndTransform`
+- `_updateLabel`
+- `_urlScheme`
+- `_urlSession`
+- `_userInterfaceIdiom`
+- `_valueLabel`
+- `_viTable`
+- `_view`
+- `_visualState`
+- `_warmupChunksToDrop`
+- `_wasMediaPlayingBeforeSession`
+- `_webSocketTask`
+- `_window`
+- `_wipeSessionKey`
+- `_workQueue`
+- `_wrapperView`
+- `absoluteString`
+- `accessibilityIdentifier`
+- `acquireCarPlaySleepAssertion`
+- `action`
+- `activate`
+- `activated`
+- `activationState`
+- `activeCarPlayWindow`
+- `activeInputModes`
+- `activeInstance`
+- `activeLanguageCode`
+- `actualLicenseExpirationTimestamp`
+- `actualLicenseTierName`
+- `addAnimation:forKey:`
+- `addApplicationProxy:`
+- `addApplicationProxy:withOverrideURL:`
+- `addChildViewController:`
+- `addClip`
+- `addCompletionHandler:`
+- `addEntriesFromDictionary:`
+- `addGestureRecognizer:`
+- `addIcon:`
+- `addIconDataSource:`
+- `addLineToPoint:`
+- `addMoreAppsTapped:`
+- `addObject:`
+- `addObjectsFromArray:`
+- `addObserver:selector:name:object:`
+- `addObserverForName:object:queue:usingBlock:`
+- `addQuadCurveToPoint:controlPoint:`
+- `addSublayer:`
+- `addSubview:`
+- `addTarget:action:forControlEvents:`
+- `addTimer:forMode:`
+- `addToRunLoop:forMode:`
+- `agreedToEULA`
+- `aiBubbleIsLeft`
+- `aiBubbleNormalizedY`
+- `aiBubbleView`
+- `aliases`
+- `allApplicationProcesses`
+- `allApps`
+- `allHeaderFields`
+- `allInstalledApplications`
+- `allKeys`
+- `allObjects`
+- `allProcesses`
+- `allTouches`
+- `allWindowsIncludingInternalWindows:onlyVisibleWindows:`
+- `allowsExternalPlayback`
+- `alpha`
+- `animateWithDuration:animations:`
+- `animateWithDuration:animations:completion:`
+- `animateWithDuration:delay:options:animations:completion:`
+- `animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:`
+- `animationWithKeyPath:`
+- `announceErrorAndReset`
+- `anyObject`
+- `appDockVC`
+- `appDockViewController`
+- `appForBundleIdentifier:frame:`
+- `appFrame`
+- `appHistory`
+- `appIconImage`
+- `appInfo`
+- `appPickerPageControl`
+- `appPickerScrollView`
+- `appScale`
+- `appSegmentBtn`
+- `appSelected:`
+- `appSettings`
+- `appState`
+- `appView`
+- `appViewController`
+- `appViews`
+- `appWithBundleID:name:aliases:urlScheme:`
+- `appendAudioData:`
+- `appendAudioPCMBuffer:`
+- `appendData:`
+- `appendFormat:`
+- `application`
+- `applicationDidFinishLaunching:`
+- `applicationIdentifier`
+- `applicationInfoForBundleIdentifier:`
+- `applicationProxyForIdentifier:`
+- `applicationState`
+- `applicationType`
+- `applicationWithBundleIdentifier:`
+- `areWirelessRoutesAvailable`
+- `array`
+- `arrayWithArray:`
+- `arrayWithCapacity:`
+- `arrayWithObjects:count:`
+- `attributesOfItemAtPath:error:`
+- `audioCaptureDidFailWithError:`
+- `audioCaptureDidOutputPCMChunk:`
+- `audioCaptureDidTranscribeText:isFinal:`
+- `audioOnlyBackgroundMode`
+- `audioPlayerBeginInterruption:`
+- `audioPlayerDecodeErrorDidOccur:error:`
+- `audioPlayerDidFinishPlaying:successfully:`
+- `audioPlayerEndInterruption:`
+- `audioPlayerEndInterruption:withFlags:`
+- `audioPlayerEndInterruption:withOptions:`
+- `audioStreamFollowing`
+- `authorizationStatus`
+- `autoLaunchBundleID`
+- `autoLaunchOnConnect`
+- `autoResumeBundleID`
+- `automatesLifecycle`
+- `automaticMinimizationEnabled`
+- `autorelease`
+- `batteryLevel`
+- `batteryState`
+- `becomeFirstResponder`
+- `begin`
+- `beginAppearanceTransition:animated:`
+- `bestTranscription`
+- `bezierPath`
+- `bezierPathWithOvalInRect:`
+- `bezierPathWithRoundedRect:cornerRadius:`
+- `blackColor`
+- `blurView`
+- `boolValue`
+- `bounceButton:`
+- `boundaryBounds`
+- `bounds`
+- `bridgeDidActivate:`
+- `bridgeDidDeactivate`
+- `bridgedApps`
+- `bringSubviewToFront:`
+- `bufferedBytesCount`
+- `bundleID`
+- `bundleIdentifier`
+- `bundlePath`
+- `bundleURL`
+- `buttonConfigs`
+- `buttonWithType:`
+- `bytes`
+- `calculateNativeSizeForSlotRect:`
+- `callStackSymbols`
+- `canDispatchDirective:`
+- `canDisplayOnCarScreen`
+- `canHandleDirective:`
+- `canHandleDirectiveWithDomain:action:`
+- `canShowWhileLocked`
+- `canStartPictureInPictureAutomaticallyFromInline`
+- `cancel`
+- `cancelIdleTimer`
+- `cancelMandatoryDisconnectWatchdog`
+- `cancelPreviousPerformRequestsWithTarget:selector:object:`
+- `cancelSession`
+- `cancelSilenceTimer`
+- `cancelTimers`
+- `cancelWithCloseCode:reason:`
+- `capitalizedString`
+- `captureFrame:`
+- `carApp`
+- `carApplication`
+- `carModel`
+- `carPlayCADisplay`
+- `carPlayContentInsets`
+- `carPlayDeclaration`
+- `carPlayScreenBounds`
+- `carPlayScreenScale`
+- `carPlayUIScreen`
+- `carPlayUsableBounds`
+- `carPlayWindowScene`
+- `cardShadowContainer`
+- `caseInsensitiveCompare:`
+- `category`
+- `categoryOptions`
+- `cb_onLanguageChanged:`
+- `center`
+- `centerForIconAtIndex:`
+- `channelCount`
+- `checkAndSyncLicenseIfNeeded`
+- `checkAndSyncLicenseIfNeededWithSource:`
+- `checkStateFile`
+- `childViewControllers`
+- `claimedURLSchemes`
+- `class`
+- `cleanUpAfterLabelTracking`
+- `clearBridgeStateOnDisk`
+- `clearColor`
+- `clickedMenuButton`
+- `clientHandle`
+- `clientIdentity`
+- `clientProcess`
+- `closeAllBridgedAppsTapped:`
+- `closeAllSlots`
+- `closeFile`
+- `closeNormalClosure`
+- `closeOfficialTopApp:`
+- `closePath`
+- `closeSingleAppTapped:`
+- `closeSlot:`
+- `code`
+- `collectActiveAndSessionAppBundleIDs`
+- `colorWithRed:green:blue:alpha:`
+- `colorWithWhite:alpha:`
+- `commit`
+- `componentsJoinedByString:`
+- `componentsSeparatedByString:`
+- `configurationWithPaletteColors:`
+- `configurationWithPointSize:weight:`
+- `configureDividerButtons`
+- `configureLabelImageParametersBuilder:`
+- `configureWithButtonConfigs:`
+- `conformsToProtocol:`
+- `connectWithContext:completion:`
+- `connectedScenes`
+- `consumeAudioBuffer:`
+- `containers`
+- `containsObject:`
+- `containsString:`
+- `contentOffset`
+- `contentView`
+- `convertPoint:fromView:`
+- `convertPoint:toView:`
+- `convertRect:fromView:`
+- `convertRect:toView:`
+- `convertToBuffer:error:withInputFromBlock:`
+- `coordinateSpace`
+- `copy`
+- `count`
+- `countByEnumeratingWithState:objects:count:`
+- `createFileAtPath:contents:attributes:`
+- `createRequestWithOptions:`
+- `createWindows`
+- `currentApp`
+- `currentAppDockVC`
+- `currentCarPlayExternalDevice`
+- `currentContext`
+- `currentDashboardRootVC`
+- `currentDevice`
+- `currentExternalDevice`
+- `currentInputMode`
+- `currentLanguageCode`
+- `currentLocale`
+- `currentPage`
+- `currentPreset`
+- `currentRatio`
+- `currentRootStatusBarVC`
+- `currentRoute`
+- `currentRunLoop`
+- `customScale`
+- `dashboard`
+- `data`
+- `dataSourceWithIdentifier:`
+- `dataTaskWithRequest:completionHandler:`
+- `dataUsingEncoding:`
+- `dataWithBytes:length:`
+- `dataWithContentsOfFile:`
+- `dataWithJSONObject:options:error:`
+- `dataWithLength:`
+- `date`
+- `dateWithTimeIntervalSince1970:`
+- `deactivateAndUnduckAudioSession`
+- `deactivateApplication:`
+- `deactivateCurrentApp`
+- `deactivationReasons`
+- `dealloc`
+- `debugDescription`
+- `declarationForAppProxy:`
+- `defaultCenter`
+- `defaultManager`
+- `defaultMusicApp`
+- `defaultSessionConfiguration`
+- `defaultSizeForInterfaceOrientation:`
+- `defaultWorkspace`
+- `definition`
+- `delegate`
+- `description`
+- `destroyWindows`
+- `detailedMode`
+- `deviceHardwareHashHex`
+- `dictionary`
+- `dictionaryWithContentsOfFile:`
+- `dictionaryWithDictionary:`
+- `dictionaryWithObject:forKey:`
+- `dictionaryWithObjects:forKeys:count:`
+- `didMoveToParentViewController:`
+- `dimBackground`
+- `dimBubble`
+- `directionsModes`
+- `dismiss`
+- `dismiss:`
+- `dismissAnimated:`
+- `dismissAnimated:completion:`
+- `dismissCustomAlert:`
+- `dismissLicenseWarningModal`
+- `dismissOverlay`
+- `dispatchAppWithBundleID:launchURL:targetSlot:category:completion:`
+- `dispatchAppWithBundleID:launchURL:targetSlot:completion:`
+- `dispatchDirective:completion:`
+- `displayConfiguration`
+- `displayIdentity`
+- `displayLink`
+- `displayLinkWithTarget:selector:`
+- `displayName`
+- `displayNameForLanguageCode:`
+- `displayNameForLocation:`
+- `displays`
+- `dividers`
+- `dockSystemMonitorEnabled`
+- `dockSystemMonitorShowAll`
+- `domain`
+- `dotsButton`
+- `dotsTapped:`
+- `doubleValue`
+- `drawAtPoint:withAttributes:`
+- `drawInRect:`
+- `drawRect:`
+- `effectWithStyle:`
+- `effectiveAutoLaunchBundleID`
+- `effectivePolicyForAppDeclaration:`
+- `endAppearanceTransition`
+- `endAudio`
+- `enforceMandatoryDisconnectKill`
+- `ensurePlaybackAudioSession`
+- `ensurePlaybackAudioSessionWithDucking:`
+- `entity`
+- `ephemeralSessionConfiguration`
+- `errorWithDomain:code:userInfo:`
+- `evictAppFromPhoneScreen:`
+- `evictAppFromPhoneScreen:completion:`
+- `executeDirective:completion:`
+- `executeTransitionRequest:`
+- `executionTiming`
+- `expandButton`
+- `expandTapped:`
+- `expectFollowUp`
+- `externalDevices`
+- `fallbackIconLabel`
+- `fileExistsAtPath:`
+- `fileHandleForWritingAtPath:`
+- `fileSize`
+- `fill`
+- `finishTasksAndInvalidate`
+- `firstObject`
+- `flush`
+- `focusSlot:animated:`
+- `focusedSlotIndex`
+- `folderController`
+- `folderView`
+- `forceSyncWithCompletion:`
+- `format`
+- `formatBaseURLString:`
+- `formattedString`
+- `frame`
+- `frameForIconAtIndex:`
+- `frameLength`
+- `fromDictionary:`
+- `fromEnvelopeDictionary:`
+- `functionWithName:`
+- `generateIconImageWithInfo:`
+- `genre`
+- `genreID`
+- `gestureRecognizer:shouldBeRequiredToFailByGestureRecognizer:`
+- `gestureRecognizer:shouldReceiveEvent:`
+- `gestureRecognizer:shouldReceivePress:`
+- `gestureRecognizer:shouldReceiveTouch:`
+- `gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:`
+- `gestureRecognizer:shouldRequireFailureOfGestureRecognizer:`
+- `gestureRecognizerShouldBegin:`
+- `getAppFrame`
+- `getBytes:length:`
+- `getCarPlayDisplay`
+- `getDockDimension`
+- `getDockEdge`
+- `getDockWidth`
+- `getJSONFromURL:timeout:customHeaders:completion:`
+- `getWidthForOrientation:`
+- `gridCols`
+- `gridRows`
+- `handle`
+- `handleAppDidBecomeActive:`
+- `handleAppStateNotification:`
+- `handleBatteryNotification:`
+- `handleCarPlayConnectionChanged:`
+- `handleDismissButtonTap:`
+- `handleDividerPan:isVertical:state:`
+- `handleDividerSwapPressed:`
+- `handleDockIconTap:`
+- `handleGenericScreenOrCarPlayNotification:`
+- `handleLongPress:`
+- `handleMoveButtonLongPress:`
+- `handlePan:`
+- `handleSBStateChange:`
+- `handleScreenDidConnect:`
+- `handleScreenDidDisconnect:`
+- `handleSettingsChanged`
+- `handleSocketCloseWithCode:`
+- `handleStateDict:`
+- `handleTap:`
+- `handleTapGesture:`
+- `handlerForDirective:`
+- `hasPrefix:`
+- `hasSuffix:`
+- `hash`
+- `headerIcon`
+- `hiddenBundleIdentifiers`
+- `hide:`
+- `hideIconLabels`
+- `hideNotchPill`
+- `hitInsets`
+- `hitTest:withEvent:`
+- `homeButton`
+- `homeButtonUp:`
+- `homeVC`
+- `homeViewController`
+- `hostedScene`
+- `hosting`
+- `hwHash`
+- `icon`
+- `icon:displayNameForLocation:`
+- `icon:imageWithInfo:`
+- `iconColumnsForCurrentOrientation`
+- `iconDisplayName:forLocation:`
+- `iconImageFrame`
+- `iconImageInfo`
+- `iconImageInfoForGridSizeClass:`
+- `iconImageSize`
+- `iconImageView`
+- `iconImageWithInfo:`
+- `iconManager:launchIcon:`
+- `iconManager:launchIcon:location:`
+- `iconManager:launchIcon:location:animated:`
+- `iconManager:launchIcon:location:animated:completionHandler:`
+- `iconManager:launchIconForIconView:`
+- `iconManager:launchIconForIconView:withActions:`
+- `iconName`
+- `iconRowsForCurrentOrientation`
+- `iconTapped:`
+- `iconTapped:modifierFlags:`
+- `iconView`
+- `identifier`
+- `idleAlpha`
+- `idleModeEnabled`
+- `imageView`
+- `imageWithConfiguration:`
+- `imageWithContentsOfFile:`
+- `indexOfObject:`
+- `infoDictionary`
+- `init`
+- `initFromFormat:toFormat:`
+- `initWithAppFrame:`
+- `initWithApplicationForMainDisplay:`
+- `initWithArray:`
+- `initWithBase64EncodedString:options:`
+- `initWithBoundaryBounds:`
+- `initWithBundleIdentifier:`
+- `initWithBundleIdentifier:frame:`
+- `initWithBundleIdentifier:frame:showSplash:`
+- `initWithBundleIdentifier:scale:`
+- `initWithBytes:length:`
+- `initWithBytes:length:encoding:`
+- `initWithCADisplay:isMainDisplay:`
+- `initWithCapacity:`
+- `initWithCommonFormat:sampleRate:channels:interleaved:`
+- `initWithContentsOfFile:`
+- `initWithData:`
+- `initWithData:encoding:`
+- `initWithData:error:`
+- `initWithDictionary:`
+- `initWithDisplayConfiguration:`
+- `initWithEffect:`
+- `initWithFormat:arguments:`
+- `initWithFrame:`
+- `initWithFrame:isVertical:`
+- `initWithFrame:modalType:`
+- `initWithIdentifier:andApplicationSceneEntity:`
+- `initWithLeafIdentifier:`
+- `initWithLeafIdentifier:applicationBundleID:`
+- `initWithLocale:`
+- `initWithPCMFormat:frameCapacity:`
+- `initWithScreen:`
+- `initWithSlotIndex:`
+- `initWithString:attributes:`
+- `initWithTarget:action:`
+- `initWithURL:`
+- `initWithWindowScene:`
+- `inputMode`
+- `inputModeIdentifier`
+- `inputModePreference`
+- `inputNode`
+- `inputs`
+- `insertSubview:atIndex:`
+- `installAndVerifyLicensePayload:errorMsg:`
+- `installTapOnBus:bufferSize:format:block:`
+- `installedApps`
+- `instancesRespondToSelector:`
+- `int16ChannelData`
+- `intValue`
+- `integerValue`
+- `interceptUpdateForScene:withNewSettings:`
+- `interfaceOrientation`
+- `invalidate`
+- `invalidateAndCancel`
+- `invalidated`
+- `isActivated`
+- `isActive`
+- `isApplicationProcess`
+- `isAvailable`
+- `isBatteryMonitoringEnabled`
+- `isBlinking`
+- `isBridgedApp:`
+- `isCarPlayCapable`
+- `isCarPlayScreen:`
+- `isCarPlayScreenConnected`
+- `isCarPlayScreenConnectedExcludingScreen:`
+- `isCarPlaySupported`
+- `isCompactMode`
+- `isConnected`
+- `isCurrentlyBridging:`
+- `isDashboardPolicySignalActive`
+- `isDismissing`
+- `isDisplayValid`
+- `isEqual:`
+- `isEqualToSet:`
+- `isEqualToString:`
+- `isFinal`
+- `isFloating`
+- `isFocusedMode`
+- `isForeground`
+- `isHardwareKeyboardAttached`
+- `isHidden`
+- `isIdleTimerDisabled`
+- `isInHardwareKeyboardMode`
+- `isInstalled`
+- `isKeyWindow`
+- `isKeyboardSplit`
+- `isKindOfClass:`
+- `isLicenseCurrentlyValid`
+- `isMainDisplay`
+- `isMainThread`
+- `isMemberOfClass:`
+- `isMonitoring`
+- `isNowPlaying`
+- `isOccluded`
+- `isOfficialApp:`
+- `isPaused`
+- `isPictureInPictureActive`
+- `isPictureInPicturePossible`
+- `isPictureInPictureSupported`
+- `isPlaying`
+- `isPlayingMusic`
+- `isProxy`
+- `isRecording`
+- `isRootIdentity`
+- `isRouteDetectionEnabled`
+- `isRunning`
+- `isSyncing`
+- `isTransitioningFocus`
+- `isUIAppBridging`
+- `isUnderLock`
+- `isUserApp`
+- `isUserInteractionEnabled`
+- `isValid`
+- `isVertical`
+- `isViewLoaded`
+- `isVisible`
+- `isWirelessRouteActive`
+- `itemName`
+- `keyWindow`
+- `keyboardInputModeWithIdentifier:`
+- `keyboardName`
+- `keyboardScreenReferenceSize`
+- `keyboardSizeForInterfaceOrientation:`
+- `keyboardWidth`
+- `keyboardWidthForScreen:withOrientation:`
+- `keyplane`
+- `keyplaneName`
+- `killProcessesForBundleIdentifiers:`
+- `labelView`
+- `landscapeLayoutInsets`
+- `lang`
+- `lastAttemptTimestamp`
+- `lastObject`
+- `launchIcon:`
+- `launchIcon:location:animated:completionHandler:`
+- `launchIconForIconView:`
+- `launchIconForIconView:withActions:`
+- `layer`
+- `layoutIfNeeded`
+- `layoutInsetsForOrientation:`
+- `layoutSegmentBtn`
+- `layoutSplitViews`
+- `layoutSubviews`
+- `leafIconForIdentifier:`
+- `length`
+- `library`
+- `licenseWarningModal`
+- `licenseWatchdogTimerFired:`
+- `listenForIncomingMessagesForSession:task:generation:`
+- `loadAllIcons`
+- `loadInstalledApps`
+- `loadNewAppFromCurrentRequest:`
+- `locale`
+- `localeIdentifier`
+- `localeWithLocaleIdentifier:`
+- `localizedCaseInsensitiveCompare:`
+- `localizedCaseInsensitiveContainsString:`
+- `localizedDescription`
+- `localizedName`
+- `localizedStringForKey:`
+- `locationInView:`
+- `lock`
+- `logoImage`
+- `longLongValue`
+- `lowercaseString`
+- `mainBundle`
+- `mainDisplay`
+- `mainQueue`
+- `mainRunLoop`
+- `mainScreen`
+- `makeKeyAndVisible`
+- `makeKeyWindow`
+- `maxIconCount`
+- `maxNumberOfIcons`
+- `maximumIconCount`
+- `mirroredScreen`
+- `modalPresentationStyle`
+- `modalType`
+- `mode`
+- `modifyApplicationContext:`
+- `monospacedDigitSystemFontOfSize:weight:`
+- `moveButtonTouchCancelled:`
+- `moveButtonTouchDown:`
+- `moveButtonTouchUp:`
+- `moveButtons`
+- `moveSlot:direction:`
+- `moveToPoint:`
+- `multitaskingOverlay`
+- `multitaskingPill`
+- `mutableBytes`
+- `mutableCopy`
+- `name`
+- `nativeBounds`
+- `nativeScale`
+- `new`
+- `notchPill`
+- `noteUserActivity`
+- `notificationWithName:object:`
+- `notifyStateUpdated`
+- `numberOfColumnsForOrientation:`
+- `numberOfLandscapeColumns`
+- `numberOfLandscapeRows`
+- `numberOfPages`
+- `numberOfPortraitColumns`
+- `numberOfPortraitRows`
+- `numberOfRowsForOrientation:`
+- `numberWithBool:`
+- `numberWithDouble:`
+- `numberWithInt:`
+- `numberWithInteger:`
+- `numberWithUnsignedInt:`
+- `numberWithUnsignedLongLong:`
+- `object`
+- `objectAtIndexedSubscript:`
+- `objectForInfoDictionaryKey:`
+- `objectForKey:`
+- `objectForKeyedSubscript:`
+- `onActivity`
+- `onBubbleTapped`
+- `onCloseRequested`
+- `onDismiss`
+- `onDismissed`
+- `onExpandTapped`
+- `onMultiSplitSelected`
+- `onPanChanged`
+- `onPillLongPressed`
+- `onPillTapped`
+- `onPositionChanged`
+- `onRestoreTapped`
+- `onRotate`
+- `onSwap`
+- `onTap`
+- `onWillDismiss`
+- `opacity`
+- `openURL:options:completionHandler:`
+- `openURLInScene:`
+- `openURLOnDevice:`
+- `orientation`
+- `originForIconIndex:`
+- `outputFormatForBus:`
+- `outputs`
+- `overlayMode`
+- `pageControlChanged:`
+- `parameters`
+- `parentViewController`
+- `path`
+- `pathExtension`
+- `pathForCoreDotInState:`
+- `pathForLeftEyeInState:`
+- `pathForMouthInState:`
+- `pathForRightEyeInState:`
+- `pause`
+- `pauseForSource:`
+- `pending`
+- `pendingCompletion`
+- `performAutoResume`
+- `performSelector:`
+- `performSelector:withObject:`
+- `performSelector:withObject:afterDelay:`
+- `performSelector:withObject:withObject:`
+- `performSyncWithForce:isManualUserAction:completion:`
+- `performSyncWithForce:isManualUserAction:source:completion:`
+- `persistSlotOrder`
+- `phase`
+- `physicalMemory`
+- `pid`
+- `pillPanned:`
+- `pillTapped`
+- `placeholderTapped:`
+- `placeholders`
+- `play`
+- `playForSource:`
+- `playImmediatelyAtRate:`
+- `playListeningChimeWithCompletion:`
+- `playWithCompletion:`
+- `pointInside:withEvent:`
+- `pointScale`
+- `portName`
+- `portType`
+- `portalAppEnabled`
+- `portalAppIconImage`
+- `portalAppIdentifier`
+- `portalView`
+- `portraitLayoutInsets`
+- `postJSON:toURL:timeout:customHeaders:completion:`
+- `postNotification:`
+- `postNotificationName:object:`
+- `postNotificationName:object:userInfo:`
+- `postNotificationName:object:userInfo:deliverImmediately:`
+- `preferredLanguages`
+- `prepare`
+- `prepareAndRequestActivation:`
+- `prepareHomeScreenForBridge:`
+- `prepareToPlay`
+- `presentLicenseWarningModalWithType:`
+- `presentationLayer`
+- `presentedViewController`
+- `presentingViewController`
+- `presetSelected:`
+- `primaryLanguage`
+- `process`
+- `processInfo`
+- `radialGlowImageForDiameter:`
+- `rangeOfString:`
+- `rate`
+- `rawParams`
+- `rbsHandle`
+- `readCpuUsage`
+- `readDeviceTemperature`
+- `readRamUsage:total:`
+- `reason`
+- `receiveMessageWithCompletionHandler:`
+- `receivedAppRequestNotification:`
+- `receivedDashboardReadyNotification:`
+- `receivedDockTapNotification:`
+- `receivedMetricsUpdatedNotification:`
+- `receivedStateChangeRequestNotificiation:`
+- `recentSegmentBtn`
+- `recognitionTaskWithRequest:resultHandler:`
+- `refreshSceneLayout`
+- `registerForNotifications`
+- `registerHandler:`
+- `relativePos`
+- `release`
+- `releaseCarPlaySleepAssertion`
+- `reload`
+- `reloadAppPrefs`
+- `reloadLanguage`
+- `remainingLicenseSeconds`
+- `removeAllAnimations`
+- `removeAllObjects`
+- `removeAnimationForKey:`
+- `removeAppWithBundleIdentifier:`
+- `removeApplicationProxy:`
+- `removeFromParentViewController`
+- `removeFromSuperview`
+- `removeItemAtPath:error:`
+- `removeObject:`
+- `removeObjectForKey:`
+- `removeObserver:`
+- `removeTapOnBus:`
+- `renderSize`
+- `renderSizeForBundleID:`
+- `renderers`
+- `replaceAppInSlot:withBundleIdentifier:`
+- `requestActivation:`
+- `requestAuthorization:`
+- `requestDismiss`
+- `requestStateChange:`
+- `requestStateChangeWithDictionary:`
+- `requestWithURL:`
+- `requestWithURL:cachePolicy:timeoutInterval:`
+- `resetCachedBounds`
+- `resetSilenceTimerWithInterval:`
+- `resetToIdle`
+- `resignFirstResponder`
+- `resignKeyWindow`
+- `resizeWindows`
+- `resolveCurrentBCP47LanguageCode`
+- `resolvedBackendBaseURL`
+- `resolvedBundleID`
+- `resolvedLaunchURL`
+- `resolvedLicenseServerEndpoint`
+- `resolvedTargetSlot`
+- `respondsToSelector:`
+- `restartAppWithBundleIdentifier:`
+- `restartApplicationWithBundleID:`
+- `restartIdleTimer`
+- `restartSingleAppTapped:`
+- `restartSlot:`
+- `restoreButton`
+- `restoreSplitAnimated:`
+- `restoreTapped:`
+- `resume`
+- `retain`
+- `retainCount`
+- `role`
+- `rootFolder`
+- `rootVC`
+- `rootViewController`
+- `rootWindow`
+- `rotateAllSlotsClockwise`
+- `runningApps`
+- `runningBridgedApplications`
+- `safeAreaInsets`
+- `sampleRate`
+- `saveAIBubblePositionIsLeft:normalizedY:`
+- `saveBridgeStateToDisk`
+- `saveSlotIndex:bid:toSettings:prefs:`
+- `scale`
+- `scaleForBundleID:`
+- `scene`
+- `scene:didPrepareUpdateWithContext:`
+- `sceneHandle`
+- `sceneHandle:didDestroyScene:`
+- `sceneHandle:didUpdateSettingsWithDiff:previousSettings:`
+- `sceneIfExists`
+- `scheduleAutoResumeFallback`
+- `scheduleMandatoryDisconnectWatchdog`
+- `scheduledTimerWithTimeInterval:repeats:block:`
+- `scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:`
+- `screen`
+- `screenBlankEnabled`
+- `screenIDs`
+- `screenSize`
+- `screenType`
+- `screens`
+- `scrollViewDidChangeAdjustedContentInset:`
+- `scrollViewDidEndDecelerating:`
+- `scrollViewDidEndDragging:willDecelerate:`
+- `scrollViewDidEndScrollingAnimation:`
+- `scrollViewDidEndZooming:withView:atScale:`
+- `scrollViewDidScroll:`
+- `scrollViewDidScrollToTop:`
+- `scrollViewDidZoom:`
+- `scrollViewShouldScrollToTop:`
+- `scrollViewWillBeginDecelerating:`
+- `scrollViewWillBeginDragging:`
+- `scrollViewWillBeginZooming:withView:`
+- `scrollViewWillEndDragging:withVelocity:targetContentOffset:`
+- `seekToEndOfFile`
+- `self`
+- `sendActions:`
+- `sendEvent:`
+- `sendMessage:completionHandler:`
+- `sendPCMChunk:`
+- `sendStateRequest`
+- `sendStateToApp:shouldBridge:`
+- `sendTouchEventAtPoint:isDown:`
+- `sendTurnEndWithText:`
+- `separatorView`
+- `session`
+- `sessionWithConfiguration:`
+- `sessionWithConfiguration:delegate:delegateQueue:`
+- `set`
+- `setAccessibilityIdentifier:`
+- `setAction:`
+- `setActivate:`
+- `setActivated:`
+- `setActivated:animated:`
+- `setActivatingEntity:`
+- `setActive:error:`
+- `setActualLicenseExpirationTimestamp:`
+- `setActualLicenseTierName:`
+- `setAdjustsFontSizeToFitWidth:`
+- `setAgreedToEULA:`
+- `setAiBubbleIsLeft:`
+- `setAiBubbleNormalizedY:`
+- `setAiBubbleView:`
+- `setAliases:`
+- `setAlignment:`
+- `setAllApps:`
+- `setAllowsExternalPlayback:`
+- `setAlpha:`
+- `setAlwaysBounceHorizontal:`
+- `setAlwaysBounceVertical:`
+- `setAppDockActiveBundleID:`
+- `setAppFrame:`
+- `setAppInfo:`
+- `setAppPickerPageControl:`
+- `setAppPickerScrollView:`
+- `setAppScale:`
+- `setAppSegmentBtn:`
+- `setAppSettings:`
+- `setAppView:`
+- `setAppViewController:`
+- `setAppViews:`
+- `setAttributedText:`
+- `setAttributes:ofItemAtPath:error:`
+- `setAudioOnlyBackgroundMode:`
+- `setAudioStreamFollowing:`
+- `setAutoLaunchBundleID:`
+- `setAutoLaunchOnConnect:`
+- `setAutoResumeBundleID:`
+- `setAutomatesLifecycle:`
+- `setAutoresizingMask:`
+- `setAutoreverses:`
+- `setBackgroundColor:`
+- `setBatteryMonitoringEnabled:`
+- `setBlurView:`
+- `setBorderColor:`
+- `setBorderWidth:`
+- `setBounces:`
+- `setBoundaryBounds:`
+- `setBounds:`
+- `setBridgedApps:`
+- `setBundleID:`
+- `setBundleIdentifier:`
+- `setButtonConfigs:`
+- `setCanCancelContentTouches:`
+- `setCanDisplayOnCarScreen:`
+- `setCanShowWhileLocked:`
+- `setCanStartPictureInPictureAutomaticallyFromInline:`
+- `setCancelsTouchesInView:`
+- `setCarModel:`
+- `setCarPlaySupported:`
+- `setCardShadowContainer:`
+- `setCategory:`
+- `setCategory:withOptions:error:`
+- `setCenter:`
+- `setClipsToBounds:`
+- `setColors:`
+- `setCompactMode:`
+- `setCompletionBlock:`
+- `setCompletionHandler:`
+- `setContainers:`
+- `setContentInsetAdjustmentBehavior:`
+- `setContentMode:`
+- `setContentOffset:animated:`
+- `setContentReferenceSize:withContentOrientation:andContainerOrientation:`
+- `setContentReferenceSize:withInterfaceOrientation:`
+- `setContentSize:`
+- `setContentView:`
+- `setCornerCurve:`
+- `setCornerRadius:`
+- `setCountLimit:`
+- `setCurrentApp:`
+- `setCurrentAppDockVC:`
+- `setCurrentDashboardRootVC:`
+- `setCurrentLanguageCode:`
+- `setCurrentPage:`
+- `setCurrentPageIndicatorTintColor:`
+- `setCurrentPreset:`
+- `setCurrentRatio:`
+- `setCurrentRootStatusBarVC:`
+- `setCustomScale:`
+- `setDeactivationReasons:`
+- `setDefaultMusicApp:`
+- `setDelaysContentTouches:`
+- `setDelegate:`
+- `setDelegate:force:`
+- `setDetailedMode:`
+- `setDimBackground:`
+- `setDisableActions:`
+- `setDisplayLink:`
+- `setDisplayName:`
+- `setDisplayState:`
+- `setDividers:`
+- `setDockSystemMonitorEnabled:`
+- `setDockSystemMonitorShowAll:`
+- `setDomain:`
+- `setDotsButton:`
+- `setDuration:`
+- `setEffect:`
+- `setEndPoint:`
+- `setExecutionTiming:`
+- `setExpandButton:`
+- `setExpectFollowUp:`
+- `setFallbackIconLabel:`
+- `setFill`
+- `setFillColor:`
+- `setFocusedMode:`
+- `setFocusedSlotIndex:`
+- `setFont:`
+- `setForeground:`
+- `setFrame:`
+- `setFromValue:`
+- `setGridCols:`
+- `setGridRows:`
+- `setHTTPBody:`
+- `setHTTPMethod:`
+- `setHeaderIcon:`
+- `setHidden:`
+- `setHideIconLabels:`
+- `setHidesForSinglePage:`
+- `setHitInsets:`
+- `setHomeButtonInApp:`
+- `setHomeGrabberDisplayMode:`
+- `setHosting:`
+- `setHwHash:`
+- `setIcon:`
+- `setIconImageView:`
+- `setIconName:`
+- `setIconSystemName:fallbackEmoji:`
+- `setIconView:`
+- `setIdiomToEmulate:`
+- `setIdleAlpha:`
+- `setIdleModeEnabled:`
+- `setIdleTimerDisabled:`
+- `setIgnoresOcclusions:`
+- `setImage:`
+- `setImage:forState:`
+- `setImageView:`
+- `setInputMode:`
+- `setInstalledApps:`
+- `setInvalidated:`
+- `setIsBlinking:`
+- `setIsCompactMode:`
+- `setIsConnected:`
+- `setIsEmulatingIdiom:`
+- `setIsFocusedMode:`
+- `setIsPlaying:`
+- `setIsRecording:`
+- `setIsSyncing:`
+- `setIsTransitioningFocus:`
+- `setIsUserApp:`
+- `setIsVertical:`
+- `setIsVisible:`
+- `setKeyTimes:`
+- `setKeyboardName:`
+- `setKeyboardName:appearance:`
+- `setKeyboardWidth:`
+- `setKeyplaneName:`
+- `setLang:`
+- `setLastAttemptTimestamp:`
+- `setLaunchUsingTemplateUI:`
+- `setLayoutSegmentBtn:`
+- `setLength:`
+- `setLicenseWarningModal:`
+- `setLineBreakMode:`
+- `setLineDashPattern:`
+- `setLineSpacing:`
+- `setLineWidth:`
+- `setMask:`
+- `setMasksToBounds:`
+- `setMaxConcurrentOperationCount:`
+- `setMinimumPressDuration:`
+- `setMinimumScaleFactor:`
+- `setModalType:`
+- `setMode:`
+- `setMode:error:`
+- `setMoveButtons:`
+- `setMultitaskingOverlay:`
+- `setMultitaskingPill:`
+- `setMuted:`
+- `setName:`
+- `setNeedsDisplay`
+- `setNeedsLabelUpdate`
+- `setNeedsLayout`
+- `setNeedsUpdateConstraints`
+- `setNotchPill:`
+- `setNumberOfLines:`
+- `setNumberOfPages:`
+- `setObject:atIndexedSubscript:`
+- `setObject:forKey:`
+- `setObject:forKeyedSubscript:`
+- `setOccluded:`
+- `setOnActivity:`
+- `setOnBubbleTapped:`
+- `setOnCloseRequested:`
+- `setOnDismiss:`
+- `setOnDismissed:`
+- `setOnExpandTapped:`
+- `setOnMultiSplitSelected:`
+- `setOnPanChanged:`
+- `setOnPillLongPressed:`
+- `setOnPillTapped:`
+- `setOnPositionChanged:`
+- `setOnRestoreTapped:`
+- `setOnRotate:`
+- `setOnSwap:`
+- `setOnTap:`
+- `setOnWillDismiss:`
+- `setOpaque:`
+- `setOrientation:`
+- `setOrientation:animated:`
+- `setOverlayMode:`
+- `setPageIndicatorTintColor:`
+- `setPagingEnabled:`
+- `setPath:`
+- `setPaused:`
+- `setPending:`
+- `setPendingCompletion:`
+- `setPlaceholders:`
+- `setPortalAppEnabled:`
+- `setPortalView:`
+- `setPreferredFrameRateRange:`
+- `setPreferredFramesPerSecond:`
+- `setPreferredSampleRate:error:`
+- `setRate:`
+- `setRate:time:`
+- `setRate:time:atHostTime:`
+- `setRawParams:`
+- `setRecentSegmentBtn:`
+- `setRelativePos:`
+- `setRenderSize:`
+- `setRepeatCount:`
+- `setRequestedMode:`
+- `setRestoreButton:`
+- `setRootViewController:`
+- `setRootWindow:`
+- `setRouteDetectionEnabled:`
+- `setRunningApps:`
+- `setScale:forBundleID:`
+- `setScreen:`
+- `setScreenBlankEnabled:`
+- `setSeparatorView:`
+- `setShadowColor:`
+- `setShadowOffset:`
+- `setShadowOpacity:`
+- `setShadowPath:`
+- `setShadowRadius:`
+- `setSheetCard:`
+- `setShouldReportPartialResults:`
+- `setShowAll:`
+- `setShowsExpandButton:`
+- `setShowsHorizontalScrollIndicator:`
+- `setShowsTouchWhenHighlighted:`
+- `setShowsVerticalScrollIndicator:`
+- `setSlotBIDs:`
+- `setSlotIndex:`
+- `setSlotPills:`
+- `setSpeech:`
+- `setSplashScreenView:`
+- `setSplitApp1:`
+- `setSplitApp2:`
+- `setSplitApp3:`
+- `setSplitApp4:`
+- `setSplitApp:`
+- `setSplitLeftBundleID:`
+- `setSplitMode:`
+- `setSplitPreset:`
+- `setSplitRatio:`
+- `setSplitRightBundleID:`
+- `setSplitScreenEnabled:`
+- `setStartPoint:`
+- `setState:`
+- `setStateDelegate:`
+- `setStroke`
+- `setStrokeColor:`
+- `setSupportsMaps:`
+- `setSyncQueue:`
+- `setTag:`
+- `setTapButton:`
+- `setTargetSlotIndex:`
+- `setText:`
+- `setTextAlignment:`
+- `setTextColor:`
+- `setTimeoutIntervalForRequest:`
+- `setTimeoutIntervalForResource:`
+- `setTimeoutSec:`
+- `setTimingFunction:`
+- `setTintColor:`
+- `setTitle:forState:`
+- `setTitleColor:forState:`
+- `setTitleLabel:`
+- `setToValue:`
+- `setTouchCloneView:`
+- `setTransform:`
+- `setTranslation:inView:`
+- `setUiApp:`
+- `setUnderLock:`
+- `setUrlScheme:`
+- `setUserInteractionEnabled:`
+- `setUsesExternalPlaybackWhileExternalScreenIsActive:`
+- `setValue:color:`
+- `setValue:forHTTPHeaderField:`
+- `setValueLabel:`
+- `setValues:`
+- `setView:`
+- `setVisualState:`
+- `setVisualState:animated:`
+- `setVolume:`
+- `setWindow:`
+- `setWindowLevel:`
+- `setWindowScene:`
+- `setWithArray:`
+- `setWithObject:`
+- `setWithObjects:`
+- `setWrapperView:`
+- `setZPosition:`
+- `settings`
+- `setupAppPickerCardsInCardW:cardH:contentY:`
+- `setupAuraPulse`
+- `setupBrandingIcon`
+- `setupCardContent`
+- `setupCoreBubble`
+- `setupGestures`
+- `setupPresetCardsInCardW:cardH:contentY:`
+- `setupRecentAppsCardsInCardW:cardH:contentY:`
+- `setupSubviews`
+- `sharedApplication`
+- `sharedApplicationLibrary`
+- `sharedClient`
+- `sharedInputModeController`
+- `sharedInstance`
+- `sharedInstanceIfExists`
+- `sheetCard`
+- `shouldBeUnderLockForScene:`
+- `shouldBridge:`
+- `shouldExecuteImmediately`
+- `shouldInterceptLaunchForApp:`
+- `show`
+- `showAll`
+- `showAnimated:`
+- `showAppPickerForSlot:`
+- `showAppPickerForSlot:parentView:`
+- `showKeyboard`
+- `showKeyboardWithInputTraits:screenTraits:splitTraits:`
+- `showLayoutChooser`
+- `showLayoutChooserInParentView:`
+- `showNotchPillSession`
+- `showRecentApps`
+- `showRecentAppsInParentView:`
+- `showingApp`
+- `showsExpandButton`
+- `showsSoftwareKeyboard`
+- `size`
+- `sizeForInterfaceOrientation:`
+- `sizeWithAttributes:`
+- `slotBIDs`
+- `slotIndex`
+- `slotPills`
+- `snapToNearestEdgeAnimated:`
+- `softwareKeyboardAllowedForFirstResponder:`
+- `sortUsingComparator:`
+- `speakConnectionErrorWithCompletion:`
+- `speakingMouthKeyframes`
+- `speech`
+- `splashScreenView`
+- `splitApp`
+- `splitApp1`
+- `splitApp2`
+- `splitApp3`
+- `splitApp4`
+- `splitLeftBundleID`
+- `splitMode`
+- `splitPreset`
+- `splitRatio`
+- `splitRightBundleID`
+- `splitScreenEnabled`
+- `splitScreenIconImage`
+- `start`
+- `startAndReturnError:`
+- `startBlinking`
+- `startBlinkingSession`
+- `startBridging:`
+- `startBridging:withCompletion:`
+- `startContainerBorderBlinking:`
+- `startInParentViewController:`
+- `startLicenseWatchdogTimer`
+- `startLoadingAnimation`
+- `startMonitoring`
+- `startPictureInPicture`
+- `startRecording:`
+- `startSession`
+- `startSessionWithInputFormat:error:`
+- `startSpeechTimeoutTimer`
+- `startSpeechTimeoutTimerWithDuration:`
+- `startThinkingTimeoutTimer`
+- `state`
+- `stateDelegate`
+- `statusBarOrientation`
+- `statusBarView`
+- `statusBarViewController`
+- `statusCode`
+- `stop`
+- `stopAndClear`
+- `stopBlinking`
+- `stopBlinkingSession`
+- `stopBridging`
+- `stopBridgingWithCompletion:`
+- `stopContainerBorderBlinking:`
+- `stopLicenseWatchdogTimer`
+- `stopMonitoring`
+- `stopOrFinishSpeech`
+- `stopRecording`
+- `stopSession`
+- `string`
+- `stringByAppendingPathComponent:`
+- `stringByAppendingString:`
+- `stringByDeletingLastPathComponent`
+- `stringByPaddingToLength:withString:startingAtIndex:`
+- `stringByReplacingOccurrencesOfString:withString:`
+- `stringByTrimmingCharactersInSet:`
+- `stringTableForLanguageCode:`
+- `stringWithCapacity:`
+- `stringWithContentsOfFile:encoding:error:`
+- `stringWithFormat:`
+- `stringWithUTF8String:`
+- `stroke`
+- `sublayers`
+- `substringFromIndex:`
+- `substringToIndex:`
+- `subviews`
+- `superclass`
+- `superlayer`
+- `superview`
+- `supportedInterfaceOrientations`
+- `supportedLanguages`
+- `supportsInterfaceOrientation:forBundleID:`
+- `supportsSplit`
+- `swapSlot:withSlot:`
+- `switchToAppPickerMode`
+- `switchToLayoutChooserMode`
+- `switchToMultiSplitMode:apps:ratio:`
+- `switchToRecentMode`
+- `switchToSplitWithLeft:right:ratio:`
+- `syncCarPlayContextOnce:`
+- `syncDashboardPolicySignalToDisk`
+- `syncQueue`
+- `systemFontOfSize:`
+- `systemFontOfSize:weight:`
+- `systemImageNamed:`
+- `systemImageNamed:withConfiguration:`
+- `systemService:canActivateApplication:withResult:`
+- `systemService:isPasscodeLockedOrBlockedWithResult:`
+- `systemTealColor`
+- `tag`
+- `takeWithPriority:reason:forWindow:bundleIdentifier:pid:scene:heading:focusedFrame:`
+- `tapButton`
+- `targetSlotIndex`
+- `terminate`
+- `terminateAllBridgedApplications`
+- `terminateApplicationWithBundleID:`
+- `text`
+- `textColor`
+- `textInputMode`
+- `thermalState`
+- `timeIntervalSinceReferenceDate`
+- `timeoutSec`
+- `timerWithTimeInterval:repeats:block:`
+- `titleLabel`
+- `toDictionary`
+- `toggleFocusForSlot:`
+- `toggleMode`
+- `toggleSession`
+- `touchCloneView`
+- `touchesBegan:withEvent:`
+- `touchesCancelled:withEvent:`
+- `touchesEnded:withEvent:`
+- `touchesMoved:withEvent:`
+- `touchesShouldCancelInContentView:`
+- `trackBridgedBundleID:`
+- `traitsWithScreen:orientation:`
+- `transitionWithView:duration:options:animations:completion:`
+- `translationInView:`
+- `turnStartPayload`
+- `type`
+- `uiApp`
+- `unionSet:`
+- `uniqueId`
+- `unlock`
+- `unsignedIntValue`
+- `unsignedIntegerValue`
+- `unsignedLongLongValue`
+- `updateBatteryMetric`
+- `updateBoundaryBounds:`
+- `updateBoundsSize`
+- `updateCarPlayMetrics`
+- `updateContentForType:`
+- `updateGripLayout`
+- `updateKeyplaneName`
+- `updateLayout`
+- `updateLayoutToCurrentInterfaceOrientation`
+- `updateLocalizedTexts`
+- `updateMascotForVisualState:animated:`
+- `updateMetrics`
+- `updateScale:forSlot:`
+- `updateSceneFrame`
+- `updateSceneSettingsFrame`
+- `updateSettings:withTransitionContext:completion:`
+- `updateSettingsWithBlock:`
+- `urlScheme`
+- `userInfo`
+- `usesExternalPlaybackWhileExternalScreenIsActive`
+- `valueForHTTPHeaderField:`
+- `valueForKey:`
+- `valueLabel`
+- `valueWithCGRect:`
+- `view`
+- `viewDidAppear:`
+- `viewDidLayoutSubviews`
+- `viewForZoomingInScrollView:`
+- `viewSafeAreaInsetsDidChange`
+- `viewWillAppear:`
+- `viewWillDisappear:`
+- `viewWithTag:`
+- `visualState`
+- `voiceSessionManager:didChangeState:`
+- `voiceTransportDidCloseWithCode:`
+- `voiceTransportDidConnect`
+- `voiceTransportDidFailWithError:`
+- `voiceTransportDidReceiveDirective:`
+- `voiceTransportDidReceiveError:`
+- `voiceTransportDidReceiveTTSAudioChunk:`
+- `voiceTransportDidReceiveTurnFinishWithFollowUp:timeoutSec:`
+- `voiceTriggerDidRequestCancel`
+- `voiceTriggerDidRequestStart`
+- `voiceTriggerDidRequestStop`
+- `wakeBubble`
+- `weakObjectsHashTable`
+- `webSocketTaskWithRequest:`
+- `whiteColor`
+- `whitespaceAndNewlineCharacterSet`
+- `willMoveToParentViewController:`
+- `willMoveToSuperview:`
+- `willMoveToWindow:`
+- `window`
+- `windowLevel`
+- `windowScene`
+- `windows`
+- `workspace`
+- `wrapperView`
+- `writeData:`
+- `writeToFile:atomically:`
+- `writeToFile:atomically:encoding:error:`
+- `zone`
+
+### Chuỗi quan trọng trích từ binary
+- Đường dẫn file/thư mục (39):
+  - `/Library/Application Support/CarBridge/PortalAppIcon.png`
+  - `/Library/Application Support/CarBridge/duonavi-icon.png`
+  - `/Library/Application Support/CarBridge/duonavi-logo.png`
+  - `/Library/Application Support/DuoNavi/PortalAppIcon.png`
+  - `/Library/Application Support/DuoNavi/duonavi-icon.png`
+  - `/Library/Application Support/DuoNavi/duonavi-logo.png`
+  - `/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist`
+  - `/System/Library/Frameworks/AVFAudio.framework/AVFAudio`
+  - `/System/Library/Frameworks/AVFoundation.framework/AVFoundation`
+  - `/System/Library/Frameworks/AudioToolbox.framework/AudioToolbox`
+  - `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`
+  - `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`
+  - `/System/Library/Frameworks/CoreMedia.framework/CoreMedia`
+  - `/System/Library/Frameworks/Foundation.framework/Foundation`
+  - `/System/Library/Frameworks/IOKit.framework/IOKit`
+  - `/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit`
+  - `/System/Library/Frameworks/QuartzCore.framework/QuartzCore`
+  - `/System/Library/Frameworks/Security.framework/Security`
+  - `/System/Library/Frameworks/Speech.framework/Speech`
+  - `/System/Library/Frameworks/UIKit.framework/UIKit`
+  - `/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport`
+  - `/System/Library/PrivateFrameworks/BackBoardServices.framework/BackBoardServices`
+  - `/System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices`
+  - `/System/Library/PrivateFrameworks/MediaRemote.framework/MediaRemote`
+  - `/usr/bin/uiopen`
+  - `/usr/lib/libSystem.B.dylib`
+  - `/usr/lib/libobjc.A.dylib`
+  - `/usr/lib/libsqlite3.dylib`
+  - `/var/jb/Library/Application Support/CarBridge/PortalAppIcon.png`
+  - `/var/jb/Library/Application Support/CarBridge/duonavi-icon.png`
+  - `/var/jb/Library/Application Support/CarBridge/duonavi-logo.png`
+  - `/var/jb/Library/Application Support/DuoNavi/PortalAppIcon.png`
+  - `/var/jb/Library/Application Support/DuoNavi/duonavi-icon.png`
+  - `/var/jb/Library/Application Support/DuoNavi/duonavi-logo.png`
+  - `/var/jb/Library/Frameworks`
+  - `/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist`
+  - `/var/jb/usr/bin/uiopen`
+  - `/var/jb/usr/lib`
+  - `/var/tmp/carbridge_autoresume_bid`
+- Tên notification xuất hiện dạng chuỗi (24):
+  - `AVExternalDeviceCarPlayIsConnectedDidChangeNotification`
+  - `AVExternalDeviceScreenDidConnectNotification`
+  - `AVExternalDeviceScreenDidDisconnectNotification`
+  - `CARSessionDidConnectNotification`
+  - `CARSessionDidDisconnectNotification`
+  - `CARSessionStatusDidChangeNotification`
+  - `CBLanguageChangedNotification`
+  - `NSNotificationCenter`
+  - `UISceneDidEnterBackgroundNotification`
+  - `UISceneWillDeactivateNotification`
+  - `handleAppStateNotification:`
+  - `handleBatteryNotification:`
+  - `handleGenericScreenOrCarPlayNotification:`
+  - `postNotification:`
+  - `postNotificationName:object:`
+  - `postNotificationName:object:userInfo:`
+  - `postNotificationName:object:userInfo:deliverImmediately:`
+  - `receivedAppRequestNotification:`
+  - `receivedDashboardReadyNotification:`
+  - `receivedDockTapNotification:`
+  - `receivedMetricsUpdatedNotification:`
+  - `registerForNotifications`
+  - `setShowsNotifications:`
+  - `v16@?0@"NSNotification"8`
+- Token reverse-DNS nội bộ: `com.apple.`, `com.apple.audiobooks`, `com.apple.backboardd`, `com.apple.calendarnotificationservice`, `com.apple.carplay`, `com.apple.dashboard`, `com.apple.maps`, `com.apple.mobilephone`, `com.apple.mobilesms`, `com.apple.music`, `com.apple.news`, `com.apple.podcasts`, `com.apple.purplebuddy`, `com.apple.shortcuts.runtime`, `com.apple.springboard`, `com.apple.tv`, `com.apple.weather`, `com.apple.webkit.`, `com.duonavi.duonaviui`, `com.duonavi.license.sync`, `com.duonavi.voice.transport.send`, `com.duonavi.voice.transport.work`, `com.google.ios.youtube`, `com.google.maps`, `com.netflix.netflix`, `com.spotify.client`, `com.waze.iphone`
+
+## 4. DuoFaceVisualHook.dylib — dylib hiệu ứng viền/hình ảnh
+
+- Đường dẫn trong gói: `/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib`
+- Kích thước file: 77744 bytes
+- SHA256 file: `9837f20ded87a8d3747abc99788adb30be24d1fb406ef9bbd11236c5d9e3adfc`
+- Số slice (kiến trúc): 1 — arm64
+- Slice 1 (arm64): filetype=MH_DYLIB (dylib), UUID=`f35950bf697f373c997aecc71935762a`, LC_BUILD_VERSION platform=2 (2=iOS), min iOS=15.0.0, SDK=26.5.0, chained_fixups=True, encryption(cryptoff,cryptsize,cryptid)=(16384, 16384, 0) → cryptid=0 = KHÔNG mã hoá FairPlay
+- Install name (LC_ID_DYLIB): `@rpath/DuoFaceVisualHook.dylib`
+- Chữ ký mã: superblob CHỈ gồm CodeDirectory + Requirements (designated requirement dạng ldid: tên `.unsigned`, `subject.CN`) — **KHÔNG có blob entitlements (slot 5/7)** → không binary nào trong gói mang entitlements nhúng.
+- Hàm khởi tạo: không có __mod_init_func/__init_offsets riêng (khởi tạo qua +load/main thường)
+- Số hàm theo LC_FUNCTION_STARTS: 30 (gồm cả hàm C nội bộ không tên — symtab đã bị strip, xem mục chưa xác định)
+
+### Thư viện liên kết (LC_LOAD_DYLIB)
+- [load] `/System/Library/Frameworks/UIKit.framework/UIKit`
+- [load] `/System/Library/Frameworks/Foundation.framework/Foundation`
+- [load] `/System/Library/Frameworks/QuartzCore.framework/QuartzCore`
+- [load] `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`
+- [load] `/usr/lib/libSystem.B.dylib`
+- [load] `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`
+- [load] `/usr/lib/libobjc.A.dylib`
+
+### Sections (slice arm64)
+- `__TEXT,__text` addr=0x4000 size=9696
+- `__TEXT,__stubs` addr=0x65e0 size=348
+- `__TEXT,__objc_stubs` addr=0x6740 size=2464
+- `__TEXT,__init_offsets` addr=0x70e0 size=4
+- `__TEXT,__objc_methlist` addr=0x70e8 size=32
+- `__TEXT,__const` addr=0x7110 size=64
+- `__TEXT,__objc_methname` addr=0x7150 size=1394
+- `__TEXT,__objc_classname` addr=0x76c2 size=15
+- `__TEXT,__objc_methtype` addr=0x76d1 size=102
+- `__TEXT,__cstring` addr=0x7737 size=959
+- `__TEXT,__unwind_info` addr=0x7af8 size=136
+- `__DATA_CONST,__got` addr=0x8000 size=328
+- `__DATA_CONST,__const` addr=0x8148 size=144
+- `__DATA_CONST,__cfstring` addr=0x81d8 size=672
+- `__DATA_CONST,__objc_classlist` addr=0x8478 size=8
+- `__DATA_CONST,__objc_imageinfo` addr=0x8480 size=8
+- `__DATA_CONST,__objc_intobj` addr=0x8488 size=48
+- `__DATA_CONST,__objc_arraydata` addr=0x84b8 size=16
+- `__DATA_CONST,__objc_arrayobj` addr=0x84c8 size=24
+- `__DATA,__objc_const` addr=0xc000 size=216
+- `__DATA,__objc_selrefs` addr=0xc0d8 size=664
+- `__DATA,__objc_classrefs` addr=0xc370 size=136
+- `__DATA,__objc_superrefs` addr=0xc3f8 size=8
+- `__DATA,__objc_ivar` addr=0xc400 size=8
+- `__DATA,__objc_data` addr=0xc408 size=80
+- `__DATA,__bss` addr=0xc458 size=114
+
+### Symbols
+- Defined trong symtab: 145; Undefined (import): 64; Exports trie: ['_OBJC_CLASS_$_DFBorderEffect', '_OBJC_IVAR_$_DFBorderEffect._lastBounds', '_OBJC_IVAR_$_DFBorderEffect._layers', '_OBJC_METACLASS_$_DFBorderEffect']
+- Defined symbols (toàn bộ):
+  - `-[DFBorderEffect dealloc]`
+  - `-[DFBorderEffect init]`
+  - `_CGRectMake`
+  - `_DFActiveBorderViews`
+  - `_DFApplyButton`
+  - `_DFBorderHooksInstalled`
+  - `_DFBorderStartHook`
+  - `_DFBorderStopHook`
+  - `_DFConfigureLayer`
+  - `_DFDividerLayout`
+  - `_DFImage`
+  - `_DFImage.cache`
+  - `_DFImageAdded`
+  - `_DFInit`
+  - `_DFInstall`
+  - `_DFInstall.triedLibrary`
+  - `_DFInstallBorderRunner`
+  - `_DFLapSeconds`
+  - `_DFLayoutEffect`
+  - `_DFLineWidth`
+  - `_DFNativeBorderStart`
+  - `_DFNativeBorderStop`
+  - `_DFNativeSplitLayout`
+  - `_DFObjectIvar`
+  - `_DFPillLayout`
+  - `_DFRunnerAnimation`
+  - `_DFRunnerAssociation`
+  - `_DFSetButtonBackgroundColor`
+  - `_DFSetLayerBorderColor`
+  - `_DFSetLayerBorderWidth`
+  - `_DFSplashLayout`
+  - `_DFSplitLayoutHook`
+  - `_DFStartEffect`
+  - `_DFStopEffect`
+  - `_OBJC_CLASS_$_DFBorderEffect`
+  - `_OBJC_IVAR_$_DFBorderEffect._lastBounds`
+  - `_OBJC_IVAR_$_DFBorderEffect._layers`
+  - `_OBJC_METACLASS_$_DFBorderEffect`
+  - `__OBJC_$_INSTANCE_METHODS_DFBorderEffect`
+  - `__OBJC_$_INSTANCE_VARIABLES_DFBorderEffect`
+  - `__OBJC_CLASS_RO_$_DFBorderEffect`
+  - `__OBJC_METACLASS_RO_$_DFBorderEffect`
+  - `___DFBorderStartHook_block_invoke`
+  - `___DFBorderStopHook_block_invoke`
+  - `___DFImageAdded_block_invoke`
+  - `___DFInit_block_invoke`
+  - `___block_descriptor_32_e5_v8?0l`
+  - `___block_descriptor_40_e8_32o_e5_v8?0l`
+  - `___block_literal_global`
+  - `___block_literal_global.8`
+  - `___copy_helper_block_e8_32o`
+  - `___destroy_helper_block_e8_32o`
+  - `_dividerInstalled`
+  - `_fullscreenLogged`
+  - `_kOverlayKey`
+  - `_kVisualOnlyKey`
+  - `_objc_msgSend$CGColor`
+  - `_objc_msgSend$CGPath`
+  - `_objc_msgSend$addAnimation:forKey:`
+  - `_objc_msgSend$addObject:`
+  - `_objc_msgSend$addObjectsFromArray:`
+  - `_objc_msgSend$addSublayer:`
+  - `_objc_msgSend$addSubview:`
+  - `_objc_msgSend$allObjects`
+  - `_objc_msgSend$animationWithKeyPath:`
+  - `_objc_msgSend$arrayWithObject:`
+  - `_objc_msgSend$arrayWithObjects:count:`
+  - `_objc_msgSend$backgroundImageForState:`
+  - `_objc_msgSend$begin`
+  - `_objc_msgSend$bezierPathWithRoundedRect:cornerRadius:`
+  - `_objc_msgSend$blackColor`
+  - `_objc_msgSend$bounds`
+  - `_objc_msgSend$bringSubviewToFront:`
+  - `_objc_msgSend$clearColor`
+  - `_objc_msgSend$colorWithRed:green:blue:alpha:`
+  - `_objc_msgSend$commit`
+  - `_objc_msgSend$convertTime:fromLayer:`
+  - `_objc_msgSend$count`
+  - `_objc_msgSend$countByEnumeratingWithState:objects:count:`
+  - `_objc_msgSend$imageView`
+  - `_objc_msgSend$imageWithContentsOfFile:`
+  - `_objc_msgSend$initWithFrame:`
+  - `_objc_msgSend$isEqualToString:`
+  - `_objc_msgSend$isMainThread`
+  - `_objc_msgSend$lastObject`
+  - `_objc_msgSend$layer`
+  - `_objc_msgSend$numberWithDouble:`
+  - `_objc_msgSend$objectAtIndex:`
+  - `_objc_msgSend$objectForKey:`
+  - `_objc_msgSend$removeAllAnimations`
+  - `_objc_msgSend$removeAnimationForKey:`
+  - `_objc_msgSend$removeFromSuperlayer`
+  - `_objc_msgSend$removeLastObject`
+  - `_objc_msgSend$removeObject:`
+  - `_objc_msgSend$setAutoresizingMask:`
+  - `_objc_msgSend$setBackgroundColor:`
+  - `_objc_msgSend$setBackgroundImage:forState:`
+  - `_objc_msgSend$setBeginTime:`
+  - `_objc_msgSend$setBorderColor:`
+  - `_objc_msgSend$setBorderWidth:`
+  - `_objc_msgSend$setCalculationMode:`
+  - `_objc_msgSend$setClipsToBounds:`
+  - `_objc_msgSend$setContentMode:`
+  - `_objc_msgSend$setCornerRadius:`
+  - `_objc_msgSend$setDisableActions:`
+  - `_objc_msgSend$setDuration:`
+  - `_objc_msgSend$setFillColor:`
+  - `_objc_msgSend$setFrame:`
+  - `_objc_msgSend$setHidden:`
+  - `_objc_msgSend$setImage:`
+  - `_objc_msgSend$setIsAccessibilityElement:`
+  - `_objc_msgSend$setKeyTimes:`
+  - `_objc_msgSend$setLineCap:`
+  - `_objc_msgSend$setLineJoin:`
+  - `_objc_msgSend$setLineWidth:`
+  - `_objc_msgSend$setObject:forKey:`
+  - `_objc_msgSend$setPath:`
+  - `_objc_msgSend$setRemovedOnCompletion:`
+  - `_objc_msgSend$setRepeatCount:`
+  - `_objc_msgSend$setShadowColor:`
+  - `_objc_msgSend$setShadowOffset:`
+  - `_objc_msgSend$setShadowOpacity:`
+  - `_objc_msgSend$setShadowRadius:`
+  - `_objc_msgSend$setStrokeColor:`
+  - `_objc_msgSend$setStrokeEnd:`
+  - `_objc_msgSend$setStrokeStart:`
+  - `_objc_msgSend$setUserInteractionEnabled:`
+  - `_objc_msgSend$setValues:`
+  - `_objc_msgSend$stringByAppendingString:`
+  - `_objc_msgSend$subviews`
+  - `_objc_msgSend$text`
+  - `_objc_msgSend$weakObjectsHashTable`
+  - `_objc_msgSend$whiteColor`
+  - `_oldButtonSetBackgroundColor`
+  - `_oldDividerLayout`
+  - `_oldLayerSetBorderColor`
+  - `_oldLayerSetBorderWidth`
+  - `_oldPillLayout`
+  - `_oldSplashLayout`
+  - `_pickerLogged`
+  - `_pillInstalled`
+  - `_splashInstalled`
+  - `_splashLogged`
+  - `_swapLogged`
+  - `_visualSetterHooksInstalled`
+- Class Objective-C bên ngoài được tham chiếu (20):
+  - `_OBJC_CLASS_$_CAKeyframeAnimation`
+  - `_OBJC_CLASS_$_CAShapeLayer`
+  - `_OBJC_CLASS_$_CATransaction`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSConstantArray`
+  - `_OBJC_CLASS_$_NSConstantIntegerNumber`
+  - `_OBJC_CLASS_$_NSHashTable`
+  - `_OBJC_CLASS_$_NSMutableArray`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSThread`
+  - `_OBJC_CLASS_$_UIBezierPath`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIImage`
+  - `_OBJC_CLASS_$_UIImageView`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_METACLASS_$_NSObject`
+- Toàn bộ undefined/imported symbols:
+  - `_CACurrentMediaTime`
+  - `_CGRectEqualToRect`
+  - `_CGRectInset`
+  - `_CGRectIsEmpty`
+  - `_CGRectNull`
+  - `_CGSizeZero`
+  - `_NSLog`
+  - `_OBJC_CLASS_$_CAKeyframeAnimation`
+  - `_OBJC_CLASS_$_CAShapeLayer`
+  - `_OBJC_CLASS_$_CATransaction`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSConstantArray`
+  - `_OBJC_CLASS_$_NSConstantIntegerNumber`
+  - `_OBJC_CLASS_$_NSHashTable`
+  - `_OBJC_CLASS_$_NSMutableArray`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSThread`
+  - `_OBJC_CLASS_$_UIBezierPath`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIImage`
+  - `_OBJC_CLASS_$_UIImageView`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `__Block_object_assign`
+  - `__Block_object_dispose`
+  - `__NSConcreteGlobalBlock`
+  - `__NSConcreteStackBlock`
+  - `___CFConstantStringClassReference`
+  - `___kCFBooleanTrue`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__dyld_register_func_for_add_image`
+  - `__objc_empty_cache`
+  - `_class_getInstanceMethod`
+  - `_class_getInstanceVariable`
+  - `_dispatch_async`
+  - `_dlopen`
+  - `_dlsym`
+  - `_ivar_getTypeEncoding`
+  - `_kCAAnimationLinear`
+  - `_kCALineCapRound`
+  - `_kCALineJoinRound`
+  - `_memset`
+  - `_method_getTypeEncoding`
+  - `_objc_alloc`
+  - `_objc_alloc_init`
+  - `_objc_autorelease`
+  - `_objc_enumerationMutation`
+  - `_objc_getAssociatedObject`
+  - `_objc_getClass`
+  - `_objc_msgSend`
+  - `_objc_msgSendSuper2`
+  - `_objc_opt_class`
+  - `_objc_opt_isKindOfClass`
+  - `_objc_release`
+  - `_objc_retain`
+  - `_objc_setAssociatedObject`
+  - `_object_getIvar`
+  - `_strcmp`
+
+### Classes Objective-C (toàn bộ — metadata giống hệt ở cả 2 slice, đã kiểm parity)
+#### class `DFBorderEffect`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_layers` : `@"NSMutableArray"` (size 8)
+  - `_lastBounds` : `{CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}` (size 32)
+- Instance methods (2):
+  - `- �s` — types: `@16@0:8`
+  - `- dq` — types: `v16@0:8`
+
+### Kho selector Objective-C tham chiếu (__objc_methname — 85 selector duy nhất, toàn bộ)
+- `CGColor`
+- `CGPath`
+- `_lastBounds`
+- `_layers`
+- `addAnimation:forKey:`
+- `addObject:`
+- `addObjectsFromArray:`
+- `addSublayer:`
+- `addSubview:`
+- `allObjects`
+- `animationWithKeyPath:`
+- `arrayWithObject:`
+- `arrayWithObjects:count:`
+- `backgroundImageForState:`
+- `begin`
+- `bezierPathWithRoundedRect:cornerRadius:`
+- `blackColor`
+- `bounds`
+- `bringSubviewToFront:`
+- `clearColor`
+- `colorWithRed:green:blue:alpha:`
+- `commit`
+- `convertTime:fromLayer:`
+- `count`
+- `countByEnumeratingWithState:objects:count:`
+- `dealloc`
+- `imageView`
+- `imageWithContentsOfFile:`
+- `init`
+- `initWithFrame:`
+- `isEqualToString:`
+- `isMainThread`
+- `lastObject`
+- `layer`
+- `layoutSplitViews`
+- `layoutSubviews`
+- `numberWithDouble:`
+- `objectAtIndex:`
+- `objectForKey:`
+- `removeAllAnimations`
+- `removeAnimationForKey:`
+- `removeFromSuperlayer`
+- `removeLastObject`
+- `removeObject:`
+- `setAutoresizingMask:`
+- `setBackgroundColor:`
+- `setBackgroundImage:forState:`
+- `setBeginTime:`
+- `setBorderColor:`
+- `setBorderWidth:`
+- `setCalculationMode:`
+- `setClipsToBounds:`
+- `setContentMode:`
+- `setCornerRadius:`
+- `setDisableActions:`
+- `setDuration:`
+- `setFillColor:`
+- `setFrame:`
+- `setHidden:`
+- `setImage:`
+- `setIsAccessibilityElement:`
+- `setKeyTimes:`
+- `setLineCap:`
+- `setLineJoin:`
+- `setLineWidth:`
+- `setObject:forKey:`
+- `setPath:`
+- `setRemovedOnCompletion:`
+- `setRepeatCount:`
+- `setShadowColor:`
+- `setShadowOffset:`
+- `setShadowOpacity:`
+- `setShadowRadius:`
+- `setStrokeColor:`
+- `setStrokeEnd:`
+- `setStrokeStart:`
+- `setUserInteractionEnabled:`
+- `setValues:`
+- `startContainerBorderBlinking:`
+- `stopContainerBorderBlinking:`
+- `stringByAppendingString:`
+- `subviews`
+- `text`
+- `weakObjectsHashTable`
+- `whiteColor`
+
+### Chuỗi quan trọng trích từ binary
+- Đường dẫn file/thư mục (9):
+  - `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`
+  - `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`
+  - `/System/Library/Frameworks/Foundation.framework/Foundation`
+  - `/System/Library/Frameworks/QuartzCore.framework/QuartzCore`
+  - `/System/Library/Frameworks/UIKit.framework/UIKit`
+  - `/usr/lib/libSystem.B.dylib`
+  - `/usr/lib/libobjc.A.dylib`
+  - `/usr/lib/libsubstrate.dylib`
+  - `/var/jb/usr/lib/libsubstrate.dylib`
+- Tên notification xuất hiện dạng chuỗi (0):
+- Token reverse-DNS nội bộ: 
+
+## 5. DuoNaviUI — app cấu hình đi kèm (DuoNaviUI.app)
+
+- Đường dẫn trong gói: `/var/jb/Applications/DuoNaviUI.app/DuoNaviUI`
+- Kích thước file: 2435008 bytes
+- SHA256 file: `98607086f52c489a32fadff54f0868ca7d0bf07608573c2244319f0722ab995c`
+- Số slice (kiến trúc): 2 — arm64, arm64e
+- Slice 1 (arm64): filetype=MH_EXECUTE (executable), UUID=`cbcca51ec79335a8ad612643e2e90a26`, LC_BUILD_VERSION platform=2 (2=iOS), min iOS=15.0.0, SDK=16.5.0, chained_fixups=False, encryption(cryptoff,cryptsize,cryptid)=(16384, 933888, 0) → cryptid=0 = KHÔNG mã hoá FairPlay
+- Slice 2 (arm64e): filetype=MH_EXECUTE (executable), UUID=`bfe99745d4ae3886affbfffe81d84ac7`, LC_BUILD_VERSION platform=2 (2=iOS), min iOS=15.0.0, SDK=16.5.0, chained_fixups=True, encryption(cryptoff,cryptsize,cryptid)=(16384, 933888, 0) → cryptid=0 = KHÔNG mã hoá FairPlay
+- Install name (LC_ID_DYLIB): (không có — đây là file thực thi MH_EXECUTE)
+- Chữ ký mã: superblob CHỈ gồm CodeDirectory + Requirements (designated requirement dạng ldid: tên `.unsigned`, `subject.CN`) — **KHÔNG có blob entitlements (slot 5/7)** → không binary nào trong gói mang entitlements nhúng.
+- Hàm khởi tạo: không có __mod_init_func/__init_offsets riêng (khởi tạo qua +load/main thường)
+- Số hàm theo LC_FUNCTION_STARTS: 714 (gồm cả hàm C nội bộ không tên — symtab đã bị strip, xem mục chưa xác định)
+
+### Thư viện liên kết (LC_LOAD_DYLIB)
+- [load] `/usr/lib/libobjc.A.dylib`
+- [load] `/System/Library/Frameworks/Foundation.framework/Foundation`
+- [load] `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`
+- [load] `/System/Library/Frameworks/UIKit.framework/UIKit`
+- [load] `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`
+- [load] `/System/Library/Frameworks/QuartzCore.framework/QuartzCore`
+- [load] `/System/Library/Frameworks/Security.framework/Security`
+- [load] `/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit`
+- [load] `/System/Library/Frameworks/SafariServices.framework/SafariServices`
+- [load] `/System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices`
+- [load] `/usr/lib/libSystem.B.dylib`
+- [load] `/System/Library/Frameworks/CoreServices.framework/CoreServices`
+
+### Sections (slice arm64)
+- `__TEXT,__text` addr=0x100005754 size=660108
+- `__TEXT,__stubs` addr=0x1000a69e0 size=1164
+- `__TEXT,__stub_helper` addr=0x1000a6e6c size=1188
+- `__TEXT,__objc_methlist` addr=0x1000a7310 size=6264
+- `__TEXT,__objc_methname` addr=0x1000a8b88 size=27607
+- `__TEXT,__const` addr=0x1000af760 size=6164
+- `__TEXT,__gcc_except_tab` addr=0x1000b0f74 size=1632
+- `__TEXT,__cstring` addr=0x1000b15d4 size=53067
+- `__TEXT,__objc_classname` addr=0x1000be51f size=1098
+- `__TEXT,__objc_methtype` addr=0x1000be969 size=6693
+- `__TEXT,__ustring` addr=0x1000c038e size=161078
+- `__TEXT,__unwind_info` addr=0x1000e78c4 size=1848
+- `__DATA_CONST,__got` addr=0x1000e8000 size=312
+- `__DATA_CONST,__const` addr=0x1000e8138 size=4368
+- `__DATA_CONST,__cfstring` addr=0x1000e9248 size=162528
+- `__DATA_CONST,__objc_classlist` addr=0x100110d28 size=208
+- `__DATA_CONST,__objc_protolist` addr=0x100110df8 size=128
+- `__DATA_CONST,__objc_imageinfo` addr=0x100110e78 size=8
+- `__DATA,__la_symbol_ptr` addr=0x100114000 size=776
+- `__DATA,__objc_const` addr=0x100114308 size=23608
+- `__DATA,__objc_selrefs` addr=0x100119f40 size=6168
+- `__DATA,__objc_classrefs` addr=0x10011b758 size=744
+- `__DATA,__objc_superrefs` addr=0x10011ba40 size=176
+- `__DATA,__objc_ivar` addr=0x10011baf0 size=552
+- `__DATA,__objc_data` addr=0x10011bd18 size=2080
+- `__DATA,__data` addr=0x10011c538 size=1544
+- `__DATA,__thread_vars` addr=0x10011cb40 size=48
+- `__DATA,__thread_bss` addr=0x10011cb70 size=40
+- `__DATA,__bss` addr=0x10011cb98 size=1496
+
+### Symbols
+- Defined trong symtab: 1; Undefined (import): 218; Exports trie: (không có/rỗng)
+- Defined symbols (toàn bộ):
+  - `__mh_execute_header`
+- Class Objective-C bên ngoài được tham chiếu (80):
+  - `_OBJC_CLASS_$_CAGradientLayer`
+  - `_OBJC_CLASS_$_CAShapeLayer`
+  - `_OBJC_CLASS_$_LSApplicationWorkspace`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSCharacterSet`
+  - `_OBJC_CLASS_$_NSData`
+  - `_OBJC_CLASS_$_NSDate`
+  - `_OBJC_CLASS_$_NSDateFormatter`
+  - `_OBJC_CLASS_$_NSDictionary`
+  - `_OBJC_CLASS_$_NSError`
+  - `_OBJC_CLASS_$_NSFileHandle`
+  - `_OBJC_CLASS_$_NSFileManager`
+  - `_OBJC_CLASS_$_NSHTTPURLResponse`
+  - `_OBJC_CLASS_$_NSISO8601DateFormatter`
+  - `_OBJC_CLASS_$_NSIndexPath`
+  - `_OBJC_CLASS_$_NSIndexSet`
+  - `_OBJC_CLASS_$_NSJSONSerialization`
+  - `_OBJC_CLASS_$_NSLayoutConstraint`
+  - `_OBJC_CLASS_$_NSLocale`
+  - `_OBJC_CLASS_$_NSMutableArray`
+  - `_OBJC_CLASS_$_NSMutableAttributedString`
+  - `_OBJC_CLASS_$_NSMutableData`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSMutableSet`
+  - `_OBJC_CLASS_$_NSMutableString`
+  - `_OBJC_CLASS_$_NSMutableURLRequest`
+  - `_OBJC_CLASS_$_NSNotificationCenter`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSPredicate`
+  - `_OBJC_CLASS_$_NSSet`
+  - `_OBJC_CLASS_$_NSString`
+  - `_OBJC_CLASS_$_NSTimer`
+  - `_OBJC_CLASS_$_NSURL`
+  - `_OBJC_CLASS_$_NSURLSession`
+  - `_OBJC_CLASS_$_NSURLSessionConfiguration`
+  - `_OBJC_CLASS_$_SFSafariViewController`
+  - `_OBJC_CLASS_$_UIActivityIndicatorView`
+  - `_OBJC_CLASS_$_UIAlertAction`
+  - `_OBJC_CLASS_$_UIAlertController`
+  - `_OBJC_CLASS_$_UIApplication`
+  - `_OBJC_CLASS_$_UIBarButtonItem`
+  - `_OBJC_CLASS_$_UIBezierPath`
+  - `_OBJC_CLASS_$_UIBlurEffect`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIFont`
+  - `_OBJC_CLASS_$_UIImage`
+  - `_OBJC_CLASS_$_UIImageView`
+  - `_OBJC_CLASS_$_UIImpactFeedbackGenerator`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UINavigationController`
+  - `_OBJC_CLASS_$_UINotificationFeedbackGenerator`
+  - `_OBJC_CLASS_$_UIPasteboard`
+  - `_OBJC_CLASS_$_UIResponder`
+  - `_OBJC_CLASS_$_UIScreen`
+  - `_OBJC_CLASS_$_UISearchController`
+  - `_OBJC_CLASS_$_UISegmentedControl`
+  - `_OBJC_CLASS_$_UIStackView`
+  - `_OBJC_CLASS_$_UISwitch`
+  - `_OBJC_CLASS_$_UITabBarAppearance`
+  - `_OBJC_CLASS_$_UITabBarController`
+  - `_OBJC_CLASS_$_UITabBarItem`
+  - `_OBJC_CLASS_$_UITableView`
+  - `_OBJC_CLASS_$_UITableViewCell`
+  - `_OBJC_CLASS_$_UITableViewController`
+  - `_OBJC_CLASS_$_UITapGestureRecognizer`
+  - `_OBJC_CLASS_$_UITextField`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_CLASS_$_UIViewController`
+  - `_OBJC_CLASS_$_UIVisualEffectView`
+  - `_OBJC_CLASS_$_UIWindow`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `_OBJC_METACLASS_$_UIResponder`
+  - `_OBJC_METACLASS_$_UISwitch`
+  - `_OBJC_METACLASS_$_UITabBarController`
+  - `_OBJC_METACLASS_$_UITableViewCell`
+  - `_OBJC_METACLASS_$_UITableViewController`
+  - `_OBJC_METACLASS_$_UIView`
+  - `_OBJC_METACLASS_$_UIViewController`
+- Toàn bộ undefined/imported symbols:
+  - `_CACurrentMediaTime`
+  - `_CC_SHA256`
+  - `_CFDataGetBytePtr`
+  - `_CFDataGetLength`
+  - `_CFDataGetTypeID`
+  - `_CFGetTypeID`
+  - `_CFNotificationCenterAddObserver`
+  - `_CFNotificationCenterGetDarwinNotifyCenter`
+  - `_CFNotificationCenterPostNotification`
+  - `_CFNotificationCenterRemoveObserver`
+  - `_CFNumberGetTypeID`
+  - `_CFNumberGetValue`
+  - `_CFRelease`
+  - `_CFStringCreateWithCString`
+  - `_CFStringGetCString`
+  - `_CFStringGetTypeID`
+  - `_CGAffineTransformIdentity`
+  - `_CGAffineTransformMakeScale`
+  - `_CGColorSpaceCreateDeviceRGB`
+  - `_CGColorSpaceRelease`
+  - `_CGContextDrawRadialGradient`
+  - `_CGGradientCreateWithColors`
+  - `_CGGradientRelease`
+  - `_CGRectEqualToRect`
+  - `_IOObjectRelease`
+  - `_IORegistryEntryCreateCFProperty`
+  - `_IOServiceGetMatchingService`
+  - `_IOServiceMatching`
+  - `_NSClassFromString`
+  - `_NSFontAttributeName`
+  - `_NSForegroundColorAttributeName`
+  - `_NSKernAttributeName`
+  - `_NSLocalizedDescriptionKey`
+  - `_NSLog`
+  - `_NSStringFromClass`
+  - `_OBJC_CLASS_$_CAGradientLayer`
+  - `_OBJC_CLASS_$_CAShapeLayer`
+  - `_OBJC_CLASS_$_LSApplicationWorkspace`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSCharacterSet`
+  - `_OBJC_CLASS_$_NSData`
+  - `_OBJC_CLASS_$_NSDate`
+  - `_OBJC_CLASS_$_NSDateFormatter`
+  - `_OBJC_CLASS_$_NSDictionary`
+  - `_OBJC_CLASS_$_NSError`
+  - `_OBJC_CLASS_$_NSFileHandle`
+  - `_OBJC_CLASS_$_NSFileManager`
+  - `_OBJC_CLASS_$_NSHTTPURLResponse`
+  - `_OBJC_CLASS_$_NSISO8601DateFormatter`
+  - `_OBJC_CLASS_$_NSIndexPath`
+  - `_OBJC_CLASS_$_NSIndexSet`
+  - `_OBJC_CLASS_$_NSJSONSerialization`
+  - `_OBJC_CLASS_$_NSLayoutConstraint`
+  - `_OBJC_CLASS_$_NSLocale`
+  - `_OBJC_CLASS_$_NSMutableArray`
+  - `_OBJC_CLASS_$_NSMutableAttributedString`
+  - `_OBJC_CLASS_$_NSMutableData`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSMutableSet`
+  - `_OBJC_CLASS_$_NSMutableString`
+  - `_OBJC_CLASS_$_NSMutableURLRequest`
+  - `_OBJC_CLASS_$_NSNotificationCenter`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSPredicate`
+  - `_OBJC_CLASS_$_NSSet`
+  - `_OBJC_CLASS_$_NSString`
+  - `_OBJC_CLASS_$_NSTimer`
+  - `_OBJC_CLASS_$_NSURL`
+  - `_OBJC_CLASS_$_NSURLSession`
+  - `_OBJC_CLASS_$_NSURLSessionConfiguration`
+  - `_OBJC_CLASS_$_SFSafariViewController`
+  - `_OBJC_CLASS_$_UIActivityIndicatorView`
+  - `_OBJC_CLASS_$_UIAlertAction`
+  - `_OBJC_CLASS_$_UIAlertController`
+  - `_OBJC_CLASS_$_UIApplication`
+  - `_OBJC_CLASS_$_UIBarButtonItem`
+  - `_OBJC_CLASS_$_UIBezierPath`
+  - `_OBJC_CLASS_$_UIBlurEffect`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIFont`
+  - `_OBJC_CLASS_$_UIImage`
+  - `_OBJC_CLASS_$_UIImageView`
+  - `_OBJC_CLASS_$_UIImpactFeedbackGenerator`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UINavigationController`
+  - `_OBJC_CLASS_$_UINotificationFeedbackGenerator`
+  - `_OBJC_CLASS_$_UIPasteboard`
+  - `_OBJC_CLASS_$_UIResponder`
+  - `_OBJC_CLASS_$_UIScreen`
+  - `_OBJC_CLASS_$_UISearchController`
+  - `_OBJC_CLASS_$_UISegmentedControl`
+  - `_OBJC_CLASS_$_UIStackView`
+  - `_OBJC_CLASS_$_UISwitch`
+  - `_OBJC_CLASS_$_UITabBarAppearance`
+  - `_OBJC_CLASS_$_UITabBarController`
+  - `_OBJC_CLASS_$_UITabBarItem`
+  - `_OBJC_CLASS_$_UITableView`
+  - `_OBJC_CLASS_$_UITableViewCell`
+  - `_OBJC_CLASS_$_UITableViewController`
+  - `_OBJC_CLASS_$_UITapGestureRecognizer`
+  - `_OBJC_CLASS_$_UITextField`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_CLASS_$_UIViewController`
+  - `_OBJC_CLASS_$_UIVisualEffectView`
+  - `_OBJC_CLASS_$_UIWindow`
+  - `_OBJC_EHTYPE_$_NSException`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `_OBJC_METACLASS_$_UIResponder`
+  - `_OBJC_METACLASS_$_UISwitch`
+  - `_OBJC_METACLASS_$_UITabBarController`
+  - `_OBJC_METACLASS_$_UITableViewCell`
+  - `_OBJC_METACLASS_$_UITableViewController`
+  - `_OBJC_METACLASS_$_UIView`
+  - `_OBJC_METACLASS_$_UIViewController`
+  - `_SecItemAdd`
+  - `_SecItemCopyMatching`
+  - `_SecItemUpdate`
+  - `_UIApplicationDidBecomeActiveNotification`
+  - `_UIApplicationMain`
+  - `_UIFontWeightBlack`
+  - `_UIFontWeightBold`
+  - `_UIFontWeightHeavy`
+  - `_UIFontWeightMedium`
+  - `_UIFontWeightRegular`
+  - `_UIFontWeightSemibold`
+  - `_UIGraphicsBeginImageContextWithOptions`
+  - `_UIGraphicsEndImageContext`
+  - `_UIGraphicsGetCurrentContext`
+  - `_UIGraphicsGetImageFromCurrentImageContext`
+  - `_UIKeyboardFrameEndUserInfoKey`
+  - `_UIKeyboardWillHideNotification`
+  - `_UIKeyboardWillShowNotification`
+  - `_UITableViewAutomaticDimension`
+  - `__Block_object_assign`
+  - `__NSConcreteGlobalBlock`
+  - `__NSConcreteStackBlock`
+  - `__Unwind_Resume`
+  - `___CFConstantStringClassReference`
+  - `___NSArray0__`
+  - `___memcpy_chk`
+  - `___objc_personality_v0`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__objc_empty_cache`
+  - `__tlv_bootstrap`
+  - `_arc4random_buf`
+  - `_bzero`
+  - `_chmod`
+  - `_chown`
+  - `_dispatch_after`
+  - `_dispatch_async`
+  - `_dispatch_get_global_queue`
+  - `_dispatch_once`
+  - `_dispatch_queue_create`
+  - `_dispatch_time`
+  - `_fclose`
+  - `_fopen`
+  - `_fread`
+  - `_fwrite`
+  - `_kCACornerCurveContinuous`
+  - `_kCFAllocatorDefault`
+  - `_kIOMasterPortDefault`
+  - `_kSecAttrAccessible`
+  - `_kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`
+  - `_kSecAttrAccount`
+  - `_kSecAttrService`
+  - `_kSecClass`
+  - `_kSecClassGenericPassword`
+  - `_kSecMatchLimit`
+  - `_kSecMatchLimitOne`
+  - `_kSecReturnData`
+  - `_kSecValueData`
+  - `_mach_task_self_`
+  - `_memcpy`
+  - `_notify_post`
+  - `_objc_alloc`
+  - `_objc_alloc_init`
+  - `_objc_autorelease`
+  - `_objc_autoreleasePoolPop`
+  - `_objc_autoreleasePoolPush`
+  - `_objc_autoreleaseReturnValue`
+  - `_objc_begin_catch`
+  - `_objc_copyWeak`
+  - `_objc_destroyWeak`
+  - `_objc_end_catch`
+  - `_objc_enumerationMutation`
+  - `_objc_getClass`
+  - `_objc_getProperty`
+  - `_objc_initWeak`
+  - `_objc_loadWeakRetained`
+  - `_objc_msgSend`
+  - `_objc_msgSendSuper2`
+  - `_objc_release`
+  - `_objc_retain`
+  - `_objc_retainAutorelease`
+  - `_objc_retainAutoreleaseReturnValue`
+  - `_objc_retainAutoreleasedReturnValue`
+  - `_objc_retainBlock`
+  - `_objc_setProperty_nonatomic_copy`
+  - `_objc_storeStrong`
+  - `_objc_storeWeak`
+  - `_objc_sync_enter`
+  - `_objc_sync_exit`
+  - `_objc_unsafeClaimAutoreleasedReturnValue`
+  - `_posix_spawn`
+  - `_rename`
+  - `_sel_registerName`
+  - `_snprintf`
+  - `_strlen`
+  - `_strncasecmp`
+  - `_sysctl`
+  - `_sysctlbyname`
+  - `_time`
+  - `_vm_read_overwrite`
+  - `dyld_stub_binder`
+
+### Classes Objective-C (toàn bộ — metadata giống hệt ở cả 2 slice, đã kiểm parity)
+#### class `XXAppDelegate`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Protocols nhận: `UIApplicationDelegate`
+- Ivars:
+  - `_window` : `@"UIWindow"` (size 8)
+  - `_rootViewController` : `@"UIViewController"` (size 8)
+- Properties:
+  - `window` — attrs: `T@"UIWindow",&,N,V_window`
+  - `rootViewController` — attrs: `T@"UIViewController",&,N,V_rootViewController`
+  - `hash` — attrs: `TQ,R`
+  - `superclass` — attrs: `T#,R`
+  - `description` — attrs: `T@"NSString",R,C`
+  - `debugDescription` — attrs: `T@"NSString",R,C`
+- Instance methods (6):
+  - `- �
+` — types: `B32@0:8@16@24`
+  - `- ��
+` — types: `@16@0:8`
+  - `- ��
+` — types: `v24@0:8@16`
+  - `- ��
+` — types: `@16@0:8`
+  - `- ��
+` — types: `v24@0:8@16`
+  - `- ȗ
+` — types: `v16@0:8`
+
+#### class `XXRootViewController`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_isShowingExpiredModal` : `B` (size 1)
+  - `_isCheckingLicenseStatus` : `B` (size 1)
+  - `_appsNav` : `@"UINavigationController"` (size 8)
+  - `_splitNav` : `@"UINavigationController"` (size 8)
+  - `_settingsNav` : `@"UINavigationController"` (size 8)
+- Properties:
+  - `appsNav` — attrs: `T@"UINavigationController",&,N,V_appsNav`
+  - `splitNav` — attrs: `T@"UINavigationController",&,N,V_splitNav`
+  - `settingsNav` — attrs: `T@"UINavigationController",&,N,V_settingsNav`
+  - `isShowingExpiredModal` — attrs: `TB,N,V_isShowingExpiredModal`
+  - `isCheckingLicenseStatus` — attrs: `TB,N,V_isCheckingLicenseStatus`
+- Instance methods (19):
+  - `- ��
+` — types: `v16@0:8`
+  - `- V�
+` — types: `v20@0:8B16`
+  - `- ��
+` — types: `v16@0:8`
+  - `- Қ
+` — types: `v16@0:8`
+  - `- �
+` — types: `v16@0:8`
+  - `- �
+` — types: `v16@0:8`
+  - `- �
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- �
+` — types: `@16@0:8`
+  - `- ` — types: `v24@0:8@16`
+  - `-  �
+` — types: `@16@0:8`
+  - `- �
+` — types: `v24@0:8@16`
+  - `- )�
+` — types: `@16@0:8`
+  - `- �
+` — types: `v24@0:8@16`
+  - `- 5�
+` — types: `B16@0:8`
+  - `-  �
+` — types: `v20@0:8B16`
+  - `- K�
+` — types: `B16@0:8`
+  - `- ��
+` — types: `v20@0:8B16`
+  - `- ȗ
+` — types: `v16@0:8`
+
+#### class `CBAppModel`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_isSystem` : `B` (size 1)
+  - `_isEnabled` : `B` (size 1)
+  - `_bundleIdentifier` : `@"NSString"` (size 8)
+  - `_displayName` : `@"NSString"` (size 8)
+  - `_icon` : `@"UIImage"` (size 8)
+  - `_category` : `q` (size 8)
+- Properties:
+  - `bundleIdentifier` — attrs: `T@"NSString",C,N,V_bundleIdentifier`
+  - `displayName` — attrs: `T@"NSString",C,N,V_displayName`
+  - `icon` — attrs: `T@"UIImage",&,N,V_icon`
+  - `isSystem` — attrs: `TB,N,V_isSystem`
+  - `isEnabled` — attrs: `TB,N,V_isEnabled`
+  - `category` — attrs: `Tq,N,V_category`
+  - `isDefaultRecommendedCategory` — attrs: `TB,R,N`
+- Instance methods (15):
+  - `- G�
+` — types: `B16@0:8`
+  - `- d�
+` — types: `@16@0:8`
+  - `- x�
+` — types: `@16@0:8`
+  - `- ��
+` — types: `v24@0:8@16`
+  - `- ��
+` — types: `@16@0:8`
+  - `- ��
+` — types: `v24@0:8@16`
+  - `- ��
+` — types: `@16@0:8`
+  - `- ��
+` — types: `v24@0:8@16`
+  - `- >�
+` — types: `B16@0:8`
+  - `- Ƞ
+` — types: `v20@0:8B16`
+  - `- ՠ
+` — types: `B16@0:8`
+  - `- ߠ
+` — types: `v20@0:8B16`
+  - `- 5�
+` — types: `q16@0:8`
+  - `- ��
+` — types: `v24@0:8q16`
+  - `- ȗ
+` — types: `v16@0:8`
+
+#### class `CBAppManager`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_allApps` : `@"NSMutableArray"` (size 8)
+  - `_userApps` : `@"NSMutableArray"` (size 8)
+  - `_systemApps` : `@"NSMutableArray"` (size 8)
+  - `_enabledBundleIDs` : `@"NSMutableSet"` (size 8)
+  - `_completionHandlers` : `@"NSMutableArray"` (size 8)
+  - `_isLoading` : `B` (size 1)
+- Properties:
+  - `allApps` — attrs: `T@"NSArray",R,N`
+  - `userApps` — attrs: `T@"NSArray",R,N`
+  - `systemApps` — attrs: `T@"NSArray",R,N`
+  - `enabledBundleIDs` — attrs: `T@"NSSet",R,N`
+  - `isLoading` — attrs: `TB,R,N`
+- Instance methods (20):
+  - `- С
+` — types: `@16@0:8`
+  - `- �
+` — types: `@16@0:8`
+  - `- �
+` — types: `@16@0:8`
+  - `- #�
+` — types: `@16@0:8`
+  - `- .�
+` — types: `@16@0:8`
+  - `- ?�
+` — types: `B16@0:8`
+  - `- �
+` — types: `Q16@0:8`
+  - `- ߡ
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- �
+` — types: `v16@0:8`
+  - `- I�
+` — types: `B24@0:8@16`
+  - `- W�
+` — types: `v28@0:8@16B24`
+  - `- g�
+` — types: `v16@0:8`
+  - `- u�
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- פ
+` — types: `v16@0:8`
+  - `- 5�
+` — types: `v24@0:8@?16`
+  - `- ȗ
+` — types: `v16@0:8`
+- Class methods (1):
+  - `+ R�
+` — types: `@16@0:8`
+
+#### class `CBGeneralSettingsViewController`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_autoLaunchOnConnect` : `B` (size 1)
+  - `_screenBlankEnabled` : `B` (size 1)
+  - `_dockMonitorEnabled` : `B` (size 1)
+  - `_hideLabelsEnabled` : `B` (size 1)
+- Properties:
+  - `autoLaunchOnConnect` — attrs: `TB,N,V_autoLaunchOnConnect`
+  - `screenBlankEnabled` — attrs: `TB,N,V_screenBlankEnabled`
+  - `dockMonitorEnabled` — attrs: `TB,N,V_dockMonitorEnabled`
+  - `hideLabelsEnabled` — attrs: `TB,N,V_hideLabelsEnabled`
+- Instance methods (30):
+  - `- С
+` — types: `@16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v20@0:8B16`
+  - `- ��
+` — types: `v16@0:8`
+  - `- �
+` — types: `v16@0:8`
+  - `- �
+` — types: `v16@0:8`
+  - `- h�
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- �
+` — types: `v24@0:8@16`
+  - `- A�
+` — types: `v24@0:8@16`
+  - `- n�
+` — types: `v24@0:8@16`
+  - `- ��
+` — types: `v24@0:8@16`
+  - `- f�
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- ��
+` — types: `v16@0:8`
+  - `- ��
+` — types: `q24@0:8@16`
+  - `- ڪ
+` — types: `q32@0:8@16q24`
+  - `- ��
+` — types: `@32@0:8@16q24`
+  - `- �
+` — types: `@32@0:8@16q24`
+  - `- A�
+` — types: `@32@0:8@16@24`
+  - `- b�
+` — types: `v32@0:8@16@24`
+  - `- Ũ
+` — types: `B16@0:8`
+  - `- Ȧ
+` — types: `v20@0:8B16`
+  - `- .�
+` — types: `B16@0:8`
+  - `- �
+` — types: `v20@0:8B16`
+  - `- [�
+` — types: `B16@0:8`
+  - `- ��
+` — types: `v20@0:8B16`
+  - `- ��
+` — types: `B16@0:8`
+  - `- �
+` — types: `v20@0:8B16`
+
+#### class `CBAppSection`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_isUserSection` : `B` (size 1)
+  - `_title` : `@"NSString"` (size 8)
+  - `_footer` : `@"NSString"` (size 8)
+  - `_apps` : `@"NSArray"` (size 8)
+- Properties:
+  - `title` — attrs: `T@"NSString",C,N,V_title`
+  - `footer` — attrs: `T@"NSString",C,N,V_footer`
+  - `apps` — attrs: `T@"NSArray",&,N,V_apps`
+  - `isUserSection` — attrs: `TB,N,V_isUserSection`
+- Instance methods (9):
+  - `- =�
+` — types: `@16@0:8`
+  - `- �
+` — types: `v24@0:8@16`
+  - `- C�
+` — types: `@16@0:8`
+  - `- J�
+` — types: `v24@0:8@16`
+  - `- U�
+` — types: `@16@0:8`
+  - `- Z�
+` — types: `v24@0:8@16`
+  - `- c�
+` — types: `B16@0:8`
+  - `- q�
+` — types: `v20@0:8B16`
+  - `- ȗ
+` — types: `v16@0:8`
+
+#### class `CBAppSwitch`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Ivars:
+  - `_bundleIdentifier` : `@"NSString"` (size 8)
+- Properties:
+  - `bundleIdentifier` — attrs: `T@"NSString",C,N,V_bundleIdentifier`
+- Instance methods (3):
+  - `- x�
+` — types: `@16@0:8`
+  - `- ��
+` — types: `v24@0:8@16`
+  - `- ȗ
+` — types: `v16@0:8`
+
+#### class `CBAppsManagerViewController`
+- Superclass: không resolve được từ metadata trong file (class cha nằm ngoài binary — dạng bind)
+- Protocols nhận: `UITableViewDataSource`, `UITableViewDelegate`, `UISearchResultsUpdating`, `UISearchBarDelegate`
+- Ivars:
+  - `_tableView` : `@"UITableView"` (size 8)
