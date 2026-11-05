@@ -101,3 +101,19 @@ for actual commands, source file hashes and results.
 **13 Foundation runtime programs and 2 iOS compile checks remain pending
 macOS CI at this checkpoint**. Source review and portable tests do not substitute
 for those gates or for a real CarPlay device.
+
+
+### Runner provisioning follow-up
+
+Initial source `06b56ac1e11cba1507913d16c4cc5c38f6e0d82e` started
+[run 42119125234](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42119125234),
+which remained queued for more than 15 minutes with zero steps and no runner or
+log. A single infrastructure retry selects the documented standard
+`macos-15-intel` pool. The cause of the original queue is not established.
+
+Every workflow step and other workflow setting is byte-for-byte/logically
+unchanged; shell syntax was checked again. The product still targets
+`arm64-apple-ios16.0`. The local source/test results above remain applicable;
+Foundation/iOS/signing results still require the actual new CI receipt.
+The existing concurrency group cancels only the superseded wakefix5 attempt.
+Official runner reference: https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job

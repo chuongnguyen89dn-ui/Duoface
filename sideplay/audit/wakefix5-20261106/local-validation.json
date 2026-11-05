@@ -644,10 +644,21 @@
       "passed": true
     }
   ],
+  "runner_label_followup": {
+    "all_other_workflow_settings_identical": true,
+    "all_workflow_steps_identical": true,
+    "official_reference": "https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job",
+    "previous_runner": "macos-15",
+    "prior_source_sha": "06b56ac1e11cba1507913d16c4cc5c38f6e0d82e",
+    "product_target_unchanged": "arm64-apple-ios16.0",
+    "reason": "Original run42119125234 remained queued for more than15minutes with zero steps and no runner/log. Try a documented standard alternative pool once.",
+    "runner": "macos-15-intel",
+    "workflow_shell_syntax_rechecked": true
+  },
   "schema_version": 1,
   "scope": "Existing workflow Python gates, portable C/C++ runtime and syntax only; no local iOS build or device acceptance",
   "source_snapshot_sha256": {
-    ".github/workflows/duoface-172-wakefix5-signed-private.yml": "9aac3dbe125a45cd2f654f500478dca14e29a72f0e7cb43399a9c358402cec14",
+    ".github/workflows/duoface-172-wakefix5-signed-private.yml": "81301128975452bfc6ab333e1ce99c937d373fcf423518d53960b04258af72ab",
     "sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h": "ccfd32c65d55d1cfc272d3671143aea56eca7064bd7e037ad2d5361e857b8800",
     "sideplay/duoface-native-scene-host/DFDeepTrace.h": "c5623ffbb1f40ffaa43d80bf2d9e0a46d768c6072a7d88cb171b8fa71e4dfeba",
     "sideplay/duoface-native-scene-host/DFHomeStandalone144.m": "f663187d6ff77141779a94b23670623ab2f12a10f06e5820ee99c7f138636864",
@@ -686,5 +697,5 @@
   "started_at_utc": "2026-11-05T19:05:54.632717+00:00",
   "tracked_fixture_verified": "b1c88a09e31f7a867ccb858da1a7ae15485134b0",
   "workflow": ".github/workflows/duoface-172-wakefix5-signed-private.yml",
-  "workflow_sha256": "9aac3dbe125a45cd2f654f500478dca14e29a72f0e7cb43399a9c358402cec14"
+  "workflow_sha256": "81301128975452bfc6ab333e1ce99c937d373fcf423518d53960b04258af72ab"
 }
