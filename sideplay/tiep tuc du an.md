@@ -1,3 +1,17 @@
+## 05/11/2026 — Bàn giao thư viện hồ sơ deb gốc
+
+Đã bàn giao 6 hồ sơ deb gốc (quét tĩnh chỉ-đọc, mỗi deb một mục riêng trong `sideplay/` trên nhánh spec-main):
+
+- DuoNavi 1.0.3-12 → mục `sideplay/deb-duonavi-1.0.3-12/` (6 file phần)
+- DuoFace 1.0.4-5 → mục `sideplay/deb-duoface-1.0.4-5/` (4 file phần)
+- DuoFace gốc → mục `sideplay/deb-duoface-goc/` (3 file phần)
+- SidePlay 1.0.4-1 → mục `sideplay/deb-sideplay-1.0.4-1/` (2 file phần)
+- OmniCar 1.0.3 → mục `sideplay/deb-omnicar-1.0.3/` (5 file phần)
+- Gói repack com.duoface.independent (mục duodash-repack) → mục `sideplay/deb-duodash-repack/` (3 file phần)
+
+Mục lục chung: `sideplay/deb-MUC_LUC.md`. Bản đầy đủ trên máy Muse: `~/workspace/deb-ho-so/`.
+Chưa có hồ sơ: CarPlayPro Speed 0.9.97 và DuoDash chính hãng (không có file deb nguồn để quét).
+
 ## 2026-11-03 (trưa) — WO QA181 đã về; Muse duyệt kỹ thuật; Spec đề xuất sửa S1; chờ Nguyen chốt cuối
 
 - WO QA181 (Spec soạn, căn cứ LOI @ spec-main 1f98dbf): hook keyboardScreenReferenceSize chỉ trên Maps; cổng ABI P1 (số đối số = 2, kiểu trả về CGSize) sai thì không cài hook; D3 lấy cửa sổ phím từ receiver của hook làm kb dự phòng cho fit; cờ kill switch KeyboardRef181 (vắng = bật); log mở rộng trên dòng qa180-cycle (hookHits/hookAtMs/hookRecv/hookOrig/hookRet/kbSrc/ntfEndFrame); nghiệm thu (applied + already-fit) ≥ 90% trên ≥ 20 chu kỳ; H1 merge source QA180 vào spec-main + H2 trích 3 chu kỳ exhausted vào spec-knowledge — Muse đồng ý cả hai việc H, làm trong vòng triển khai. P3 được xác nhận một nửa từ log QA180: end frame phím {414,175} tại y=561 → đáy 736 trong khi key window cao 685 [ĐÃ ĐO] → giữ fit neo đáy là đúng; nửa còn lại đo ở QA181.
