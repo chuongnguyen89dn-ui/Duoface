@@ -1,0 +1,1688 @@
+  - `_DFInstallDashboardChromeHooks` @ 32416
+  - `_DFInstallHostGeometryHooks` @ 22072
+  - `_DFInstallPickerZoomMenuHooks` @ 33528
+  - `_DFPickerZoomMenuRefresh` @ 34804
+  - `_DFQueryFullscreenHost` @ 29648
+  - `_DFRequestHostFullscreen` @ 29896
+  - `_DFStartFullscreenAdapter` @ 49916
+  - `_DFStartFullscreenTransport` @ 28668
+  - `_OBJC_CLASS_$_DFFullscreenTransport` @ 102160
+  - `_OBJC_CLASS_$_DFHostSnapshot` @ 102080
+  - `_OBJC_CLASS_$_DFZoomAction` @ 102240
+  - `_OBJC_CLASS_$_DFZoomReceiver` @ 102320
+  - `_OBJC_METACLASS_$_DFFullscreenTransport` @ 102120
+  - `_OBJC_METACLASS_$_DFHostSnapshot` @ 102040
+  - `_OBJC_METACLASS_$_DFZoomAction` @ 102200
+  - `_OBJC_METACLASS_$_DFZoomReceiver` @ 102280
+- Undefined/imported symbols (slice arm64, 90):
+  - `_CGAffineTransformIsIdentity`
+  - `_CGRectGetHeight`
+  - `_CGRectGetMaxX`
+  - `_CGRectGetMaxY`
+  - `_CGRectGetMidY`
+  - `_CGRectGetMinX`
+  - `_CGRectGetMinY`
+  - `_CGRectGetWidth`
+  - `_MSHookMessageEx`
+  - `_NSClassFromString`
+  - `_NSFontAttributeName`
+  - `_NSLog`
+  - `_NSStringFromCGRect`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSAssertionHandler`
+  - `_OBJC_CLASS_$_NSBundle`
+  - `_OBJC_CLASS_$_NSCharacterSet`
+  - `_OBJC_CLASS_$_NSConstantArray`
+  - `_OBJC_CLASS_$_NSConstantIntegerNumber`
+  - `_OBJC_CLASS_$_NSDictionary`
+  - `_OBJC_CLASS_$_NSHashTable`
+  - `_OBJC_CLASS_$_NSMapTable`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSProcessInfo`
+  - `_OBJC_CLASS_$_NSString`
+  - `_OBJC_CLASS_$_NSThread`
+  - `_OBJC_CLASS_$_NSTimer`
+  - `_OBJC_CLASS_$_NSUUID`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIFont`
+  - `_OBJC_CLASS_$_UIImage`
+  - `_OBJC_CLASS_$_UIImageSymbolConfiguration`
+  - `_OBJC_CLASS_$_UIImageView`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UIScrollView`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_CLASS_$_UIVisualEffectView`
+  - `_OBJC_EHTYPE_$_NSException`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `_UIEdgeInsetsZero`
+  - `_UIFontWeightRegular`
+  - `__Block_object_assign`
+  - `__NSConcreteGlobalBlock`
+  - `__NSConcreteStackBlock`
+  - `__Unwind_Resume`
+  - `__ZSt9terminatev`
+  - `___CFConstantStringClassReference`
+  - `___cxa_begin_catch`
+  - `___gxx_personality_v0`
+  - `___objc_personality_v0`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__objc_empty_cache`
+  - `_class_getInstanceVariable`
+  - `_dispatch_after`
+  - `_dispatch_async`
+  - `_dispatch_time`
+  - `_objc_autorelease`
+  - `_objc_autoreleasePoolPop`
+  - `_objc_autoreleasePoolPush`
+  - `_objc_autoreleaseReturnValue`
+  - `_objc_begin_catch`
+  - `_objc_destroyWeak`
+  - `_objc_end_catch`
+  - `_objc_enumerationMutation`
+  - `_objc_exception_rethrow`
+  - `_objc_getAssociatedObject`
+  - `_objc_getClass`
+  - `_objc_loadWeakRetained`
+  - `_objc_msgSend`
+  - `_objc_opt_class`
+  - `_objc_opt_isKindOfClass`
+  - `_objc_opt_new`
+  - `_objc_opt_respondsToSelector`
+  - `_objc_release`
+  - `_objc_retain`
+  - `_objc_retainAutorelease`
+  - `_objc_retainAutoreleaseReturnValue`
+  - `_objc_retainAutoreleasedReturnValue`
+  - `_objc_retainBlock`
+  - `_objc_setAssociatedObject`
+  - `_objc_setProperty_nonatomic_copy`
+  - `_objc_storeStrong`
+  - `_objc_storeWeak`
+  - `_object_getClass`
+  - `_object_getIvar`
+
+### 4.3 DuoFaceVisualHook.dylib
+- Đường dẫn trong gói: `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib`
+- Bộ lọc nạp: DuoFaceVisualHook.plist — Filter.Bundles: 6 (xem mục 5)
+- Slice 0: **arm64**, symbols defined=121, undefined/imports=51
+  - Code signature: chỉ có CodeDirectory + requirements, **không có blob entitlements** (chi tiết: {"blob_type_0": ["0xfade0c02", 532], "blob_type_2": ["0xfade0c01", 140], "blob_type_4096": ["0xfade0c02", 784]}).
+  - Class ObjC: 0 · Category: 0 · Protocol khai báo: 0
+- Selector được tham chiếu qua `__objc_selrefs`: 0 (danh sách đầy đủ trong `analysis/selrefs/DuoFaceVisualHook.txt`).
+- Class ngoài binary được tham chiếu (`_OBJC_CLASS_$_*`): 13 — danh sách ở cuối mục này.
+- Thư viện liên kết: `/System/Library/Frameworks/UIKit.framework/UIKit`, `/System/Library/Frameworks/Foundation.framework/Foundation`, `/System/Library/Frameworks/QuartzCore.framework/QuartzCore`, `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`, `/usr/lib/libSystem.B.dylib`, `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`, `/usr/lib/libobjc.A.dylib`
+- Constructor: không có `__mod_init_func` dạng pointer cổ điển (có `__init_offsets`).
+- Imports liên quan hook/IPC: `_dlopen`, `_dlsym`, `_objc_msgSend`
+
+- Defined symbols (slice arm64, 121):
+  - `_DFInit` @ 16384
+  - `_DFImageAdded` @ 16432
+  - `___DFInit_block_invoke` @ 16484
+  - `_DFInstall` @ 16524
+  - `___DFImageAdded_block_invoke` @ 17328
+  - `_DFSetButtonBackgroundColor` @ 17368
+  - `_DFSetLayerBorderWidth` @ 17476
+  - `_DFSetLayerBorderColor` @ 17572
+  - `_DFInstallBorderRunner` @ 17688
+  - `_DFPillLayout` @ 19100
+  - `_DFDividerLayout` @ 19828
+  - `_DFSplashLayout` @ 20324
+  - `_DFSplitLayoutHook` @ 21028
+  - `_DFBorderStartHook` @ 21088
+  - `_DFBorderStopHook` @ 21256
+  - `_DFSessionStartHook` @ 21448
+  - `_DFSessionStopHook` @ 21864
+  - `_DFFocusSlotHook` @ 22280
+  - `_DFRestoreSplitHook` @ 22396
+  - `_DFUpdateFocusBorders` @ 22496
+  - `_DFFocusHidden` @ 22940
+  - `_DFKnownBorderViewsFor` @ 22992
+  - `_DFSetBorderVisible` @ 23104
+  - `_DFRemoveLegacyBorderEffects` @ 23392
+  - `_DFBorderLogoRed` @ 23980
+  - `___DFBorderStartHook_block_invoke` @ 24048
+  - `_DFTrackBorderView` @ 24280
+  - `___copy_helper_block_e8_32o40o` @ 24376
+  - `___destroy_helper_block_e8_32o40o` @ 24468
+  - `___DFBorderStopHook_block_invoke` @ 24536
+  - `_DFApplyButton` @ 24724
+  - `_DFObjectIvar` @ 25956
+  - `_DFImage` @ 26124
+  - `_objc_msgSend$CGColor` @ 26656
+  - `_objc_msgSend$addObject:` @ 26688
+  - `_objc_msgSend$addObjectsFromArray:` @ 26720
+  - `_objc_msgSend$addSubview:` @ 26752
+  - `_objc_msgSend$allObjects` @ 26784
+  - `_objc_msgSend$arrayWithArray:` @ 26816
+  - `_objc_msgSend$arrayWithObject:` @ 26848
+  - `_objc_msgSend$backgroundImageForState:` @ 26880
+  - `_objc_msgSend$begin` @ 26912
+  - `_objc_msgSend$blackColor` @ 26944
+  - `_objc_msgSend$boolValue` @ 26976
+  - `_objc_msgSend$bounds` @ 27008
+  - `_objc_msgSend$bringSubviewToFront:` @ 27040
+  - `_objc_msgSend$clearColor` @ 27072
+  - `_objc_msgSend$colorWithRed:green:blue:alpha:` @ 27104
+  - `_objc_msgSend$commit` @ 27136
+  - `_objc_msgSend$count` @ 27168
+  - `_objc_msgSend$countByEnumeratingWithState:objects:count:` @ 27200
+  - `_objc_msgSend$imageView` @ 27232
+  - `_objc_msgSend$imageWithContentsOfFile:` @ 27264
+  - `_objc_msgSend$initWithFrame:` @ 27296
+  - `_objc_msgSend$isEqualToString:` @ 27328
+  - `_objc_msgSend$isMainThread` @ 27360
+  - `_objc_msgSend$lastObject` @ 27392
+  - `_objc_msgSend$layer` @ 27424
+  - `_objc_msgSend$objectForKey:` @ 27456
+  - `_objc_msgSend$removeAllAnimations` @ 27488
+  - `_objc_msgSend$removeAnimationForKey:` @ 27520
+  - `_objc_msgSend$removeFromSuperlayer` @ 27552
+  - `_objc_msgSend$removeLastObject` @ 27584
+  - `_objc_msgSend$setAutoresizingMask:` @ 27616
+  - `_objc_msgSend$setBackgroundColor:` @ 27648
+  - `_objc_msgSend$setBackgroundImage:forState:` @ 27680
+  - `_objc_msgSend$setBorderColor:` @ 27712
+  - `_objc_msgSend$setBorderWidth:` @ 27744
+  - `_objc_msgSend$setClipsToBounds:` @ 27776
+  - `_objc_msgSend$setContentMode:` @ 27808
+  - `_objc_msgSend$setCornerRadius:` @ 27840
+  - `_objc_msgSend$setDisableActions:` @ 27872
+  - `_objc_msgSend$setFrame:` @ 27904
+  - `_objc_msgSend$setHidden:` @ 27936
+  - `_objc_msgSend$setImage:` @ 27968
+  - `_objc_msgSend$setIsAccessibilityElement:` @ 28000
+  - `_objc_msgSend$setObject:forKey:` @ 28032
+  - `_objc_msgSend$setShadowColor:` @ 28064
+  - `_objc_msgSend$setShadowOffset:` @ 28096
+  - `_objc_msgSend$setShadowOpacity:` @ 28128
+  - `_objc_msgSend$setShadowRadius:` @ 28160
+  - `_objc_msgSend$setUserInteractionEnabled:` @ 28192
+  - `_objc_msgSend$stringByAppendingString:` @ 28224
+  - `_objc_msgSend$sublayers` @ 28256
+  - `_objc_msgSend$subviews` @ 28288
+  - `_objc_msgSend$text` @ 28320
+  - `_objc_msgSend$weakObjectsHashTable` @ 28352
+  - `_objc_msgSend$zPosition` @ 28384
+  - `___block_descriptor_32_e5_v8?0l` @ 33056
+  - `___block_literal_global` @ 33088
+  - `___block_literal_global.1` @ 33120
+  - `___block_descriptor_48_e8_32o40o_e5_v8?0l` @ 33152
+  - `_pillInstalled` @ 49760
+  - `_dividerInstalled` @ 49761
+  - `_splashInstalled` @ 49762
+  - `_DFBorderHooksInstalled` @ 49763
+  - `_DFInstall.triedLibrary` @ 49764
+  - `_visualSetterHooksInstalled` @ 49765
+  - `_oldButtonSetBackgroundColor` @ 49768
+  - `_oldLayerSetBorderWidth` @ 49776
+  - `_oldLayerSetBorderColor` @ 49784
+  - `_oldPillLayout` @ 49792
+  - `_oldDividerLayout` @ 49800
+  - `_oldSplashLayout` @ 49808
+  - `_kVisualOnlyKey` @ 49816
+  - `_DFNativeSplitLayout` @ 49824
+  - `_DFNativeBorderStart` @ 49832
+  - `_DFNativeBorderStop` @ 49840
+  - `_DFNativeSessionStart` @ 49848
+  - `_DFNativeSessionStop` @ 49856
+  - `_DFNativeFocusSlot` @ 49864
+  - `_DFNativeRestoreSplit` @ 49872
+  - `_DFRunningAssociation` @ 49880
+  - `_DFFocusAssociation` @ 49881
+  - `_DFKnownBorderViewsKey` @ 49882
+  - `_pickerLogged` @ 49883
+  - `_fullscreenLogged` @ 49884
+  - `_kOverlayKey` @ 49885
+  - `_DFImage.cache` @ 49888
+  - `_swapLogged` @ 49896
+  - `_splashLogged` @ 49897
+- Undefined/imported symbols (slice arm64, 51):
+  - `_CGSizeZero`
+  - `_NSLog`
+  - `_OBJC_CLASS_$_CAShapeLayer`
+  - `_OBJC_CLASS_$_CATransaction`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSHashTable`
+  - `_OBJC_CLASS_$_NSMutableArray`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSThread`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIImage`
+  - `_OBJC_CLASS_$_UIImageView`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UIView`
+  - `__Block_object_assign`
+  - `__Block_object_dispose`
+  - `__NSConcreteGlobalBlock`
+  - `__NSConcreteStackBlock`
+  - `___CFConstantStringClassReference`
+  - `___NSArray0__struct`
+  - `___kCFBooleanFalse`
+  - `___kCFBooleanTrue`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__dyld_register_func_for_add_image`
+  - `_class_getInstanceMethod`
+  - `_class_getInstanceVariable`
+  - `_dispatch_async`
+  - `_dlopen`
+  - `_dlsym`
+  - `_free`
+  - `_ivar_getTypeEncoding`
+  - `_memset`
+  - `_method_copyArgumentType`
+  - `_method_getNumberOfArguments`
+  - `_method_getTypeEncoding`
+  - `_objc_alloc`
+  - `_objc_alloc_init`
+  - `_objc_enumerationMutation`
+  - `_objc_getAssociatedObject`
+  - `_objc_getClass`
+  - `_objc_msgSend`
+  - `_objc_opt_class`
+  - `_objc_opt_isKindOfClass`
+  - `_objc_release`
+  - `_objc_retain`
+  - `_objc_setAssociatedObject`
+  - `_object_getIvar`
+  - `_strcmp`
+
+### 4.4 DuoFaceLogoGripOnly.dylib
+- Đường dẫn trong gói: `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib`
+- Bộ lọc nạp: DuoFaceLogoGripOnly.plist — Filter.Bundles: 6 (xem mục 5)
+- Slice 0: **arm64**, symbols defined=62, undefined/imports=31
+  - Code signature: chỉ có CodeDirectory + requirements, **không có blob entitlements** (chi tiết: {"blob_type_0": ["0xfade0c02", 514], "blob_type_2": ["0xfade0c01", 144], "blob_type_4096": ["0xfade0c02", 754]}).
+  - Class ObjC: 1 · Category: 0 · Protocol khai báo: 0
+- Selector được tham chiếu qua `__objc_selrefs`: 0 (danh sách đầy đủ trong `analysis/selrefs/DuoFaceLogoGripOnly.txt`).
+- Class ngoài binary được tham chiếu (`_OBJC_CLASS_$_*`): 4 — danh sách ở cuối mục này.
+- Thư viện liên kết: `/System/Library/Frameworks/UIKit.framework/UIKit`, `/System/Library/Frameworks/Foundation.framework/Foundation`, `/System/Library/Frameworks/QuartzCore.framework/QuartzCore`, `/usr/lib/libSystem.B.dylib`, `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`, `/usr/lib/libobjc.A.dylib`
+- Constructor: không có `__mod_init_func` dạng pointer cổ điển (có `__init_offsets`).
+- Imports liên quan hook/IPC: `_dlopen`, `_dlsym`, `_objc_msgSend`
+
+#### Class `None` : —
+
+- Defined symbols (slice arm64, 62):
+  - `_DFGripOnlyInit` @ 16384
+  - `_DFGripOnlyImageAdded` @ 16432
+  - `___DFGripOnlyInit_block_invoke` @ 16484
+  - `_DFGripOnlyInstall` @ 16524
+  - `___DFGripOnlyImageAdded_block_invoke` @ 16748
+  - `_DFGripOnlySubstrate` @ 16788
+  - `_DFInstallLogoGripHooks` @ 17028
+  - `_DFGripOnlyLayout` @ 17656
+  - `_DFLogoGripDown` @ 18144
+  - `_DFLogoGripUp` @ 18304
+  - `_DFLogoGripCancel` @ 18616
+  - `_DFLogoGripHold` @ 18676
+  - `_DFLogoIsButton` @ 19068
+  - `_DFLogoSession` @ 19188
+  - `_DFLogoIndexForButton` @ 19328
+  - `_DFGripArray` @ 19432
+  - `_DFObjectIvar` @ 19548
+  - `_DFLogoMoveWithHold` @ 19760
+  - `_DFLogoConfigAtIndex` @ 21132
+  - `_DFLogoDividerIsVertical` @ 21344
+  - `_DFLogoSetRelativePos` @ 21436
+  - `_DFLogoRestorePositionBeforeLayout` @ 21488
+  - `_DFLogoSetNativeHoldThreshold` @ 21680
+  - `_objc_msgSend$bounds` @ 22464
+  - `_objc_msgSend$count` @ 22496
+  - `_objc_msgSend$countByEnumeratingWithState:objects:count:` @ 22528
+  - `_objc_msgSend$gestureRecognizers` @ 22560
+  - `_objc_msgSend$indexOfObjectIdenticalTo:` @ 22592
+  - `_objc_msgSend$locationInView:` @ 22624
+  - `_objc_msgSend$minimumPressDuration` @ 22656
+  - `_objc_msgSend$objectAtIndex:` @ 22688
+  - `_objc_msgSend$setMinimumPressDuration:` @ 22720
+  - `_objc_msgSend$state` @ 22752
+  - `_objc_msgSend$view` @ 22784
+  - `_kDFLogoHoldThreshold` @ 22832
+  - `___block_descriptor_32_e5_v8?0l` @ 32960
+  - `___block_literal_global` @ 32992
+  - `___block_literal_global.12` @ 33024
+  - `__OBJC_METACLASS_RO_$_DFLogoGripSession` @ 49152
+  - `__OBJC_$_INSTANCE_VARIABLES_DFLogoGripSession` @ 49224
+  - `__OBJC_CLASS_RO_$_DFLogoGripSession` @ 49520
+  - `_DFGripOnlyLayoutHookInstalled` @ 49896
+  - `_oldDFGripOnlyLayout` @ 49904
+  - `_DFGripOnlySubstrate.attempted` @ 49912
+  - `_DFGripOnlySubstrateHandle` @ 49920
+  - `_DFGripHooksInstalled` @ 49928
+  - `_oldDFGripTouchDown` @ 49936
+  - `_oldDFGripTouchUp` @ 49944
+  - `_oldDFGripTouchCancel` @ 49952
+  - `_oldDFGripLongPress` @ 49960
+  - `_kDFLogoGripStateKey` @ 49968
+  - `_OBJC_CLASS_$_DFLogoGripSession` @ 49856
+  - `_OBJC_IVAR_$_DFLogoGripSession.changedPosition` @ 49796
+  - `_OBJC_IVAR_$_DFLogoGripSession.dividerPanOwned` @ 49788
+  - `_OBJC_IVAR_$_DFLogoGripSession.hasPosition` @ 49800
+  - `_OBJC_IVAR_$_DFLogoGripSession.holdRecognized` @ 49780
+  - `_OBJC_IVAR_$_DFLogoGripSession.logoTouchActive` @ 49784
+  - `_OBJC_IVAR_$_DFLogoGripSession.panOnLogoMoved` @ 49792
+  - `_OBJC_IVAR_$_DFLogoGripSession.pressed` @ 49776
+  - `_OBJC_IVAR_$_DFLogoGripSession.savedButtonIndex` @ 49804
+  - `_OBJC_IVAR_$_DFLogoGripSession.savedRelativePos` @ 49808
+  - `_OBJC_METACLASS_$_DFLogoGripSession` @ 49816
+- Undefined/imported symbols (slice arm64, 31):
+  - `_NSLog`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UILongPressGestureRecognizer`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `__NSConcreteGlobalBlock`
+  - `___CFConstantStringClassReference`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__dyld_register_func_for_add_image`
+  - `__objc_empty_cache`
+  - `_class_getInstanceMethod`
+  - `_class_getInstanceVariable`
+  - `_dispatch_async`
+  - `_dlopen`
+  - `_dlsym`
+  - `_ivar_getTypeEncoding`
+  - `_memset`
+  - `_objc_alloc_init`
+  - `_objc_enumerationMutation`
+  - `_objc_getAssociatedObject`
+  - `_objc_getClass`
+  - `_objc_msgSend`
+  - `_objc_opt_class`
+  - `_objc_opt_isKindOfClass`
+  - `_objc_opt_respondsToSelector`
+  - `_objc_release`
+  - `_objc_setAssociatedObject`
+  - `_object_getIvar`
+
+### 4.5 DuoFaceSpeedOwner.dylib
+- Đường dẫn trong gói: `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib`
+- Bộ lọc nạp: DuoFaceSpeedOwner.plist — Filter.Executables: ("SpringBoard") (plist dạng OldStyle)
+- Slice 0: **arm64**, symbols defined=3, undefined/imports=52
+  - Code signature: chỉ có CodeDirectory + requirements, **không có blob entitlements** (chi tiết: {"blob_type_0": ["0xfade0c02", 492], "blob_type_2": ["0xfade0c01", 140], "blob_type_4096": ["0xfade0c02", 720]}).
+  - Class ObjC: 0 · Category: 0 · Protocol khai báo: 0
+- Selector được tham chiếu qua `__objc_selrefs`: 0 (danh sách đầy đủ trong `analysis/selrefs/DuoFaceSpeedOwner.txt`).
+- Class ngoài binary được tham chiếu (`_OBJC_CLASS_$_*`): 17 — danh sách ở cuối mục này.
+- Thư viện liên kết: `/usr/lib/libobjc.A.dylib`, `/System/Library/Frameworks/Foundation.framework/Foundation`, `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`, `/System/Library/Frameworks/UIKit.framework/UIKit`, `/usr/lib/libc++.1.dylib`, `/usr/lib/libSystem.B.dylib`, `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`
+- Constructor: không có `__mod_init_func` dạng pointer cổ điển (có `__init_offsets`).
+- Imports liên quan hook/IPC: `_objc_msgSend`
+
+- Defined symbols (slice arm64, 3):
+  - `radr://5614542` @ 90260802
+  - `_OBJC_CLASS_$_DFOwnerPollingDriver` @ 49776
+  - `_OBJC_METACLASS_$_DFOwnerPollingDriver` @ 49736
+- Undefined/imported symbols (slice arm64, 52):
+  - `_CGRectZero`
+  - `_NSClassFromString`
+  - `_NSLog`
+  - `_NSRunLoopCommonModes`
+  - `_NSSelectorFromString`
+  - `_NSStringFromClass`
+  - `_NSTemporaryDirectory`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSConstantDictionary`
+  - `_OBJC_CLASS_$_NSDate`
+  - `_OBJC_CLASS_$_NSDictionary`
+  - `_OBJC_CLASS_$_NSFileManager`
+  - `_OBJC_CLASS_$_NSJSONSerialization`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSProcessInfo`
+  - `_OBJC_CLASS_$_NSRunLoop`
+  - `_OBJC_CLASS_$_NSString`
+  - `_OBJC_CLASS_$_NSThread`
+  - `_OBJC_CLASS_$_NSTimer`
+  - `_OBJC_CLASS_$_UIScreen`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_CLASS_$_UIViewController`
+  - `_OBJC_CLASS_$_UIWindow`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `__NSConcreteGlobalBlock`
+  - `__Unwind_Resume`
+  - `___CFConstantStringClassReference`
+  - `___gxx_personality_v0`
+  - `___kCFBooleanFalse`
+  - `___kCFBooleanTrue`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__objc_empty_cache`
+  - `_class_getImageName`
+  - `_dispatch_async`
+  - `_fclose`
+  - `_fopen`
+  - `_fputc`
+  - `_fwrite`
+  - `_getpid`
+  - `_objc_autoreleaseReturnValue`
+  - `_objc_msgSend`
+  - `_objc_opt_class`
+  - `_objc_opt_isKindOfClass`
+  - `_objc_opt_new`
+  - `_objc_opt_respondsToSelector`
+  - `_objc_release`
+  - `_objc_retain`
+  - `_objc_retainAutorelease`
+  - `_objc_retainAutoreleasedReturnValue`
+
+### 4.6 DuoFaceSpeedHUD.dylib
+- Đường dẫn trong gói: `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib`
+- Bộ lọc nạp: DuoFaceSpeedHUD.plist — Filter.Executables: ("SpringBoard") (plist dạng OldStyle). LƯU Ý: đây là file DUY NHẤT được thay so với baseline speed7split theo BAO_CAO.json đi kèm trong repo.
+- Slice 0: **arm64**, symbols defined=9, undefined/imports=89
+  - Code signature: chỉ có CodeDirectory + requirements, **không có blob entitlements** (chi tiết: {"blob_type_0": ["0xfade0c02", 670], "blob_type_2": ["0xfade0c01", 140], "blob_type_4096": ["0xfade0c02", 1006]}).
+  - Class ObjC: 1 · Category: 0 · Protocol khai báo: 0
+- Selector được tham chiếu qua `__objc_selrefs`: 0 (danh sách đầy đủ trong `analysis/selrefs/DuoFaceSpeedHUD.txt`).
+- Class ngoài binary được tham chiếu (`_OBJC_CLASS_$_*`): 23 — danh sách ở cuối mục này.
+- Thư viện liên kết: `/usr/lib/libobjc.A.dylib`, `/System/Library/Frameworks/Foundation.framework/Foundation`, `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`, `/System/Library/Frameworks/UIKit.framework/UIKit`, `/usr/lib/libc++.1.dylib`, `/usr/lib/libSystem.B.dylib`, `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`
+- Constructor: không có `__mod_init_func` dạng pointer cổ điển (có `__init_offsets`).
+- Imports liên quan hook/IPC: `_notify_get_state`, `_notify_post`, `_notify_register_check`, `_notify_set_state`, `_objc_msgSend`, `_objc_msgSendSuper2`
+
+#### Class `None` : —
+
+- Defined symbols (slice arm64, 9):
+  - `radr://5614542` @ 90260802
+  - `_DFSpeedHUDPublish` @ 34120
+  - `_DFSpeedHUDReadBest` @ 34604
+  - `_OBJC_CLASS_$_DFSpeedNativeHUD` @ 84296
+  - `_OBJC_CLASS_$_DFSpeedSplit7Driver` @ 84416
+  - `_OBJC_METACLASS_$_DFSpeedNativeHUD` @ 84336
+  - `_OBJC_METACLASS_$_DFSpeedSplit7Driver` @ 84376
+  - `__ZN7DFSpeed18ReadPinnedGMapWireERNS_6SampleE` @ 36384
+  - `__ZN7DFSpeed23RequestPinnedGMapSourceENS_6SourceE` @ 35792
+- Undefined/imported symbols (slice arm64, 89):
+  - `_CFBooleanGetTypeID`
+  - `_CFBooleanGetValue`
+  - `_CFGetTypeID`
+  - `_CFPreferencesAppSynchronize`
+  - `_CFPreferencesCopyAppValue`
+  - `_CFRelease`
+  - `_CGPointZero`
+  - `_CGRectContainsPoint`
+  - `_CGRectGetMaxX`
+  - `_CGRectGetMaxY`
+  - `_CGRectGetMidX`
+  - `_CGRectGetMidY`
+  - `_CGRectGetMinX`
+  - `_CGRectGetMinY`
+  - `_CGRectInset`
+  - `_CGRectIsEmpty`
+  - `_CGRectZero`
+  - `_NSClassFromString`
+  - `_NSLog`
+  - `_NSRunLoopCommonModes`
+  - `_NSSelectorFromString`
+  - `_NSStringFromClass`
+  - `_NSTemporaryDirectory`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSDate`
+  - `_OBJC_CLASS_$_NSDictionary`
+  - `_OBJC_CLASS_$_NSFileManager`
+  - `_OBJC_CLASS_$_NSJSONSerialization`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSProcessInfo`
+  - `_OBJC_CLASS_$_NSRunLoop`
+  - `_OBJC_CLASS_$_NSString`
+  - `_OBJC_CLASS_$_NSThread`
+  - `_OBJC_CLASS_$_NSTimer`
+  - `_OBJC_CLASS_$_NSUserDefaults`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIFont`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UILongPressGestureRecognizer`
+  - `_OBJC_CLASS_$_UIPanGestureRecognizer`
+  - `_OBJC_CLASS_$_UIScreen`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_CLASS_$_UIWindow`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `_OBJC_METACLASS_$_UIView`
+  - `_UIFontWeightBold`
+  - `_UIFontWeightMedium`
+  - `_UIFontWeightSemibold`
+  - `__NSConcreteGlobalBlock`
+  - `__Unwind_Resume`
+  - `___CFConstantStringClassReference`
+  - `___gxx_personality_v0`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__objc_empty_cache`
+  - `_class_getImageName`
+  - `_dispatch_async`
+  - `_dispatch_once`
+  - `_fclose`
+  - `_fopen`
+  - `_fputc`
+  - `_fwrite`
+  - `_getpid`
+  - `_notify_get_state`
+  - `_notify_post`
+  - `_notify_register_check`
+  - `_notify_set_state`
+  - `_objc_alloc`
+  - `_objc_autoreleaseReturnValue`
+  - `_objc_destroyWeak`
+  - `_objc_enumerationMutation`
+  - `_objc_loadWeakRetained`
+  - `_objc_msgSend`
+  - `_objc_msgSendSuper2`
+  - `_objc_opt_class`
+  - `_objc_opt_isKindOfClass`
+  - `_objc_opt_new`
+  - `_objc_opt_respondsToSelector`
+  - `_objc_release`
+  - `_objc_retain`
+  - `_objc_retainAutorelease`
+  - `_objc_retainAutoreleasedReturnValue`
+  - `_objc_storeStrong`
+  - `_objc_storeWeak`
+  - `_strstr`
+
+### 4.7 DuoFaceUI (app executable)
+- Đường dẫn trong gói: `var/jb/Applications/DuoFaceUI.app/DuoFaceUI`
+- Bộ lọc nạp: App DuoFaceUI.app — CFBundleIdentifier com.duoface.duofaceui (không phải dylib Substrate)
+- Slice 0: **arm64**, symbols defined=79, undefined/imports=214
+  - Code signature: chỉ có CodeDirectory + requirements, **không có blob entitlements** (chi tiết: {"blob_type_0": ["0xfade0c02", 6038], "blob_type_2": ["0xfade0c01", 128], "blob_type_4096": ["0xfade0c02", 9602]}).
+  - Class ObjC: 27 · Category: 0 · Protocol khai báo: 16
+- Selector được tham chiếu qua `__objc_selrefs`: 772 (danh sách đầy đủ trong `analysis/selrefs/DuoFaceUI.txt`).
+- Class ngoài binary được tham chiếu (`_OBJC_CLASS_$_*`): 71 — danh sách ở cuối mục này.
+- Thư viện liên kết: `/usr/lib/libobjc.A.dylib`, `/System/Library/Frameworks/Foundation.framework/Foundation`, `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`, `/System/Library/Frameworks/UIKit.framework/UIKit`, `/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics`, `/System/Library/Frameworks/QuartzCore.framework/QuartzCore`, `/System/Library/Frameworks/Security.framework/Security`, `/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit`, `/System/Library/Frameworks/SafariServices.framework/SafariServices`, `/System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices`, `/usr/lib/libSystem.B.dylib`, `/System/Library/Frameworks/CoreServices.framework/CoreServices`
+- Constructor: không có `__mod_init_func` dạng pointer cổ điển.
+- Imports liên quan hook/IPC: `_CFNotificationCenterAddObserver`, `_CFNotificationCenterGetDarwinNotifyCenter`, `_CFNotificationCenterPostNotification`, `_CFNotificationCenterRemoveObserver`, `_notify_post`, `_objc_msgSend`, `_objc_msgSendSuper2`
+
+#### Class `XXAppDelegate` : —
+- Protocol tuân thủ: UIApplicationDelegate
+- Ivars: `_window` : `@"UIWindow"` (8 B); `_rootViewController` : `@"UIViewController"` (8 B)
+- Properties: `window` (T@"UIWindow",&,N,V_window); `rootViewController` (T@"UIViewController",&,N,V_rootViewController); `hash` (TQ,R); `superclass` (T#,R); `description` (T@"NSString",R,C); `debugDescription` (T@"NSString",R,C)
+- Instance methods (6):
+  - `application:didFinishLaunchingWithOptions:` — types=`B32@0:8@16@24` — imp=`0x100007314`
+  - `window` — types=`@16@0:8` — imp=`0x100007644`
+  - `setWindow:` — types=`v24@0:8@16` — imp=`0x100007654`
+  - `rootViewController` — types=`@16@0:8` — imp=`0x100007668`
+  - `setRootViewController:` — types=`v24@0:8@16` — imp=`0x100007678`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x10000768c`
+
+#### Class `XXRootViewController` : —
+- Ivars: `_isShowingExpiredModal` : `B` (1 B); `_appsNav` : `@"UINavigationController"` (8 B); `_splitNav` : `@"UINavigationController"` (8 B); `_settingsNav` : `@"UINavigationController"` (8 B)
+- Properties: `appsNav` (T@"UINavigationController",&,N,V_appsNav); `splitNav` (T@"UINavigationController",&,N,V_splitNav); `settingsNav` (T@"UINavigationController",&,N,V_settingsNav); `isShowingExpiredModal` (TB,N,V_isShowingExpiredModal)
+- Instance methods (17):
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x10000784c`
+  - `viewDidAppear:` — types=`v20@0:8B16` — imp=`0x100007e58`
+  - `dealloc` — types=`v16@0:8` — imp=`0x100007ff0`
+  - `handleAppsUpdated` — types=`v16@0:8` — imp=`0x100008068`
+  - `handleLanguageChanged` — types=`v16@0:8` — imp=`0x1000080e0`
+  - `handleAppDidBecomeActive` — types=`v16@0:8` — imp=`0x1000082e0`
+  - `checkAndPresentLicenseModalIfNeeded` — types=`v16@0:8` — imp=`0x100008348`
+  - `updateBadge` — types=`v16@0:8` — imp=`0x100008aec`
+  - `appsNav` — types=`@16@0:8` — imp=`0x100008be4`
+  - `setAppsNav:` — types=`v24@0:8@16` — imp=`0x100008bf4`
+  - `splitNav` — types=`@16@0:8` — imp=`0x100008c08`
+  - `setSplitNav:` — types=`v24@0:8@16` — imp=`0x100008c18`
+  - `settingsNav` — types=`@16@0:8` — imp=`0x100008c2c`
+  - `setSettingsNav:` — types=`v24@0:8@16` — imp=`0x100008c3c`
+  - `isShowingExpiredModal` — types=`B16@0:8` — imp=`0x100008c50`
+  - `setIsShowingExpiredModal:` — types=`v20@0:8B16` — imp=`0x100008c60`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100008c70`
+
+#### Class `CBAppModel` : —
+- Ivars: `_isSystem` : `B` (1 B); `_isEnabled` : `B` (1 B); `_bundleIdentifier` : `@"NSString"` (8 B); `_displayName` : `@"NSString"` (8 B); `_icon` : `@"UIImage"` (8 B); `_category` : `q` (8 B)
+- Properties: `bundleIdentifier` (T@"NSString",C,N,V_bundleIdentifier); `displayName` (T@"NSString",C,N,V_displayName); `icon` (T@"UIImage",&,N,V_icon); `isSystem` (TB,N,V_isSystem); `isEnabled` (TB,N,V_isEnabled); `category` (Tq,N,V_category); `isDefaultRecommendedCategory` (TB,R,N)
+- Instance methods (15):
+  - `isDefaultRecommendedCategory` — types=`B16@0:8` — imp=`0x100008cc4`
+  - `categoryDisplayName` — types=`@16@0:8` — imp=`0x100008d0c`
+  - `bundleIdentifier` — types=`@16@0:8` — imp=`0x100008dc4`
+  - `setBundleIdentifier:` — types=`v24@0:8@16` — imp=`0x100008dd0`
+  - `displayName` — types=`@16@0:8` — imp=`0x100008dd8`
+  - `setDisplayName:` — types=`v24@0:8@16` — imp=`0x100008de4`
+  - `icon` — types=`@16@0:8` — imp=`0x100008dec`
+  - `setIcon:` — types=`v24@0:8@16` — imp=`0x100008df4`
+  - `isSystem` — types=`B16@0:8` — imp=`0x100008e00`
+  - `setIsSystem:` — types=`v20@0:8B16` — imp=`0x100008e08`
+  - `isEnabled` — types=`B16@0:8` — imp=`0x100008e10`
+  - `setIsEnabled:` — types=`v20@0:8B16` — imp=`0x100008e18`
+  - `category` — types=`q16@0:8` — imp=`0x100008e20`
+  - `setCategory:` — types=`v24@0:8q16` — imp=`0x100008e28`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100008e30`
+
+#### Class `CBAppManager` : —
+- Ivars: `_allApps` : `@"NSMutableArray"` (8 B); `_userApps` : `@"NSMutableArray"` (8 B); `_systemApps` : `@"NSMutableArray"` (8 B); `_enabledBundleIDs` : `@"NSMutableSet"` (8 B); `_completionHandlers` : `@"NSMutableArray"` (8 B); `_isLoading` : `B` (1 B)
+- Properties: `allApps` (T@"NSArray",R,N); `userApps` (T@"NSArray",R,N); `systemApps` (T@"NSArray",R,N); `enabledBundleIDs` (T@"NSSet",R,N); `isLoading` (TB,R,N)
+- Instance methods (20):
+  - `init` — types=`@16@0:8` — imp=`0x100008ed8`
+  - `allApps` — types=`@16@0:8` — imp=`0x100009004`
+  - `userApps` — types=`@16@0:8` — imp=`0x100009024`
+  - `systemApps` — types=`@16@0:8` — imp=`0x100009044`
+  - `enabledBundleIDs` — types=`@16@0:8` — imp=`0x100009064`
+  - `isLoading` — types=`B16@0:8` — imp=`0x100009084`
+  - `enabledCount` — types=`Q16@0:8` — imp=`0x10000908c`
+  - `reloadPreferences` — types=`v16@0:8` — imp=`0x10000909c`
+  - `savePreferences` — types=`v16@0:8` — imp=`0x100009274`
+  - `syncEnabledFlags` — types=`v16@0:8` — imp=`0x100009490`
+  - `isAppEnabled:` — types=`B24@0:8@16` — imp=`0x1000095f0`
+  - `setApp:enabled:` — types=`v28@0:8@16B24` — imp=`0x10000960c`
+  - `enableAllApps` — types=`v16@0:8` — imp=`0x100009690`
+  - `enableAllUserApps` — types=`v16@0:8` — imp=`0x100009820`
+  - `enableDefaultRecommendedApps` — types=`v16@0:8` — imp=`0x1000099b0`
+  - `enableAllNavigationApps` — types=`v16@0:8` — imp=`0x100009b7c`
+  - `enableAllEntertainmentApps` — types=`v16@0:8` — imp=`0x100009d4c`
+  - `disableAllApps` — types=`v16@0:8` — imp=`0x100009f1c`
+  - `loadInstalledAppsWithCompletion:` — types=`v24@0:8@?16` — imp=`0x10000a05c`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x10000c370`
+- Class methods (1):
+  - `+sharedInstance` — types=`@16@0:8` — imp=`0x100008e6c`
+
+#### Class `CBGeneralSettingsViewController` : —
+- Ivars: `_autoLaunchOnConnect` : `B` (1 B); `_screenBlankEnabled` : `B` (1 B); `_dockMonitorEnabled` : `B` (1 B); `_hideLabelsEnabled` : `B` (1 B)
+- Properties: `autoLaunchOnConnect` (TB,N,V_autoLaunchOnConnect); `screenBlankEnabled` (TB,N,V_screenBlankEnabled); `dockMonitorEnabled` (TB,N,V_dockMonitorEnabled); `hideLabelsEnabled` (TB,N,V_hideLabelsEnabled)
+- Instance methods (30):
+  - `init` — types=`@16@0:8` — imp=`0x10000cf68`
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x10000cfa0`
+  - `openSubscriptionScreen` — types=`v16@0:8` — imp=`0x10000d2f4`
+  - `viewWillAppear:` — types=`v20@0:8B16` — imp=`0x10000d35c`
+  - `dealloc` — types=`v16@0:8` — imp=`0x10000d488`
+  - `handleLanguageChanged` — types=`v16@0:8` — imp=`0x10000d5c8`
+  - `handleAppDidBecomeActive` — types=`v16@0:8` — imp=`0x10000d6ac`
+  - `loadPreferences` — types=`v16@0:8` — imp=`0x10000d7c4`
+  - `savePreferences` — types=`v16@0:8` — imp=`0x10000da34`
+  - `autoLaunchToggleChanged:` — types=`v24@0:8@16` — imp=`0x10000dde0`
+  - `screenBlankToggleChanged:` — types=`v24@0:8@16` — imp=`0x10000de2c`
+  - `dockMonitorToggleChanged:` — types=`v24@0:8@16` — imp=`0x10000de78`
+  - `hideLabelsToggleChanged:` — types=`v24@0:8@16` — imp=`0x10000dec4`
+  - `showLanguageSelectionSheet` — types=`v16@0:8` — imp=`0x10000df10`
+  - `performRespring` — types=`v16@0:8` — imp=`0x10000e61c`
+  - `performResetDefaults` — types=`v16@0:8` — imp=`0x10000e89c`
+  - `numberOfSectionsInTableView:` — types=`q24@0:8@16` — imp=`0x10000ec00`
+  - `tableView:numberOfRowsInSection:` — types=`q32@0:8@16q24` — imp=`0x10000ec08`
+  - `tableView:titleForHeaderInSection:` — types=`@32@0:8@16q24` — imp=`0x10000ec28`
+  - `tableView:titleForFooterInSection:` — types=`@32@0:8@16q24` — imp=`0x10000ecd8`
+  - `tableView:cellForRowAtIndexPath:` — types=`@32@0:8@16@24` — imp=`0x10000ece0`
+  - `tableView:didSelectRowAtIndexPath:` — types=`v32@0:8@16@24` — imp=`0x100010364`
+  - `autoLaunchOnConnect` — types=`B16@0:8` — imp=`0x100010484`
+  - `setAutoLaunchOnConnect:` — types=`v20@0:8B16` — imp=`0x100010494`
+  - `screenBlankEnabled` — types=`B16@0:8` — imp=`0x1000104a4`
+  - `setScreenBlankEnabled:` — types=`v20@0:8B16` — imp=`0x1000104b4`
+  - `dockMonitorEnabled` — types=`B16@0:8` — imp=`0x1000104c4`
+  - `setDockMonitorEnabled:` — types=`v20@0:8B16` — imp=`0x1000104d4`
+  - `hideLabelsEnabled` — types=`B16@0:8` — imp=`0x1000104e4`
+  - `setHideLabelsEnabled:` — types=`v20@0:8B16` — imp=`0x1000104f4`
+
+#### Class `CBAppSection` : —
+- Ivars: `_isUserSection` : `B` (1 B); `_title` : `@"NSString"` (8 B); `_footer` : `@"NSString"` (8 B); `_apps` : `@"NSArray"` (8 B)
+- Properties: `title` (T@"NSString",C,N,V_title); `footer` (T@"NSString",C,N,V_footer); `apps` (T@"NSArray",&,N,V_apps); `isUserSection` (TB,N,V_isUserSection)
+- Instance methods (9):
+  - `title` — types=`@16@0:8` — imp=`0x100010e28`
+  - `setTitle:` — types=`v24@0:8@16` — imp=`0x100010e34`
+  - `footer` — types=`@16@0:8` — imp=`0x100010e3c`
+  - `setFooter:` — types=`v24@0:8@16` — imp=`0x100010e48`
+  - `apps` — types=`@16@0:8` — imp=`0x100010e50`
+  - `setApps:` — types=`v24@0:8@16` — imp=`0x100010e58`
+  - `isUserSection` — types=`B16@0:8` — imp=`0x100010e64`
+  - `setIsUserSection:` — types=`v20@0:8B16` — imp=`0x100010e6c`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100010e74`
+
+#### Class `CBAppSwitch` : —
+- Ivars: `_bundleIdentifier` : `@"NSString"` (8 B)
+- Properties: `bundleIdentifier` (T@"NSString",C,N,V_bundleIdentifier)
+- Instance methods (3):
+  - `bundleIdentifier` — types=`@16@0:8` — imp=`0x100010eb0`
+  - `setBundleIdentifier:` — types=`v24@0:8@16` — imp=`0x100010ec0`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100010ecc`
+
+#### Class `CBAppsManagerViewController` : —
+- Protocol tuân thủ: UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate
+- Ivars: `_tableView` : `@"UITableView"` (8 B); `_searchController` : `@"UISearchController"` (8 B); `_filterSegment` : `@"UISegmentedControl"` (8 B); `_spinner` : `@"UIActivityIndicatorView"` (8 B); `_emptyLabel` : `@"UILabel"` (8 B); `_sections` : `@"NSArray"` (8 B); `_currentFilterIndex` : `q` (8 B)
+- Properties: `tableView` (T@"UITableView",&,N,V_tableView); `searchController` (T@"UISearchController",&,N,V_searchController); `filterSegment` (T@"UISegmentedControl",&,N,V_filterSegment); `spinner` (T@"UIActivityIndicatorView",&,N,V_spinner); `emptyLabel` (T@"UILabel",&,N,V_emptyLabel); `sections` (T@"NSArray",&,N,V_sections); `currentFilterIndex` (Tq,N,V_currentFilterIndex); `hash` (TQ,R); `superclass` (T#,R); `description` (T@"NSString",R,C); `debugDescription` (T@"NSString",R,C)
+- Instance methods (38):
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x100010ee0`
+  - `viewWillAppear:` — types=`v20@0:8B16` — imp=`0x100011254`
+  - `viewDidLayoutSubviews` — types=`v16@0:8` — imp=`0x100011344`
+  - `dealloc` — types=`v16@0:8` — imp=`0x1000115bc`
+  - `setupNavigationItems` — types=`v16@0:8` — imp=`0x100011634`
+  - `setupFilterHeader` — types=`v16@0:8` — imp=`0x1000116f8`
+  - `setupTableView` — types=`v16@0:8` — imp=`0x100011f6c`
+  - `setupSearchController` — types=`v16@0:8` — imp=`0x10001235c`
+  - `handleAppsUpdated` — types=`v16@0:8` — imp=`0x1000124f0`
+  - `handleLanguageChanged` — types=`v16@0:8` — imp=`0x10001258c`
+  - `filterChanged:` — types=`v24@0:8@16` — imp=`0x100012708`
+  - `appForIndexPath:` — types=`@24@0:8@16` — imp=`0x10001274c`
+  - `refreshData` — types=`v16@0:8` — imp=`0x1000128b8`
+  - `updateSearchResultsForSearchController:` — types=`v24@0:8@16` — imp=`0x1000135ec`
+  - `searchBarCancelButtonClicked:` — types=`v24@0:8@16` — imp=`0x1000135f8`
+  - `showActionMenu` — types=`v16@0:8` — imp=`0x100013604`
+  - `appSwitchToggled:` — types=`v24@0:8@16` — imp=`0x100013ab4`
+  - `numberOfSectionsInTableView:` — types=`q24@0:8@16` — imp=`0x100013ba8`
+  - `tableView:numberOfRowsInSection:` — types=`q32@0:8@16q24` — imp=`0x100013bc0`
+  - `tableView:titleForHeaderInSection:` — types=`@32@0:8@16q24` — imp=`0x100013c6c`
+  - `tableView:titleForFooterInSection:` — types=`@32@0:8@16q24` — imp=`0x100013d00`
+  - `tableView:cellForRowAtIndexPath:` — types=`@32@0:8@16@24` — imp=`0x100013d94`
+  - `tableView:didSelectRowAtIndexPath:` — types=`v32@0:8@16@24` — imp=`0x1000143ec`
+  - `tableView` — types=`@16@0:8` — imp=`0x1000145e0`
+  - `setTableView:` — types=`v24@0:8@16` — imp=`0x1000145f0`
+  - `searchController` — types=`@16@0:8` — imp=`0x100014604`
+  - `setSearchController:` — types=`v24@0:8@16` — imp=`0x100014614`
+  - `filterSegment` — types=`@16@0:8` — imp=`0x100014628`
+  - `setFilterSegment:` — types=`v24@0:8@16` — imp=`0x100014638`
+  - `spinner` — types=`@16@0:8` — imp=`0x10001464c`
+  - `setSpinner:` — types=`v24@0:8@16` — imp=`0x10001465c`
+  - `emptyLabel` — types=`@16@0:8` — imp=`0x100014670`
+  - `setEmptyLabel:` — types=`v24@0:8@16` — imp=`0x100014680`
+  - `sections` — types=`@16@0:8` — imp=`0x100014694`
+  - `setSections:` — types=`v24@0:8@16` — imp=`0x1000146a4`
+  - `currentFilterIndex` — types=`q16@0:8` — imp=`0x1000146b8`
+  - `setCurrentFilterIndex:` — types=`v24@0:8q16` — imp=`0x1000146c8`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x1000146d8`
+
+#### Class `CBAppPickerViewController` : —
+- Protocol tuân thủ: UISearchResultsUpdating
+- Ivars: `_apps` : `@"NSArray"` (8 B); `_filteredApps` : `@"NSArray"` (8 B); `_disabledBundleIDs` : `@"NSSet"` (8 B); `_onSelectApp` : `@?` (8 B); `_searchController` : `@"UISearchController"` (8 B)
+- Properties: `apps` (T@"NSArray",&,N,V_apps); `filteredApps` (T@"NSArray",&,N,V_filteredApps); `disabledBundleIDs` (T@"NSSet",&,N,V_disabledBundleIDs); `onSelectApp` (T@?,C,N,V_onSelectApp); `searchController` (T@"UISearchController",&,N,V_searchController); `hash` (TQ,R); `superclass` (T#,R); `description` (T@"NSString",R,C); `debugDescription` (T@"NSString",R,C)
+- Instance methods (16):
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x100014768`
+  - `updateSearchResultsForSearchController:` — types=`v24@0:8@16` — imp=`0x100014d54`
+  - `tableView:numberOfRowsInSection:` — types=`q32@0:8@16q24` — imp=`0x100014ed0`
+  - `tableView:cellForRowAtIndexPath:` — types=`@32@0:8@16@24` — imp=`0x100014f1c`
+  - `tableView:didSelectRowAtIndexPath:` — types=`v32@0:8@16@24` — imp=`0x10001550c`
+  - `apps` — types=`@16@0:8` — imp=`0x1000156f8`
+  - `setApps:` — types=`v24@0:8@16` — imp=`0x100015708`
+  - `filteredApps` — types=`@16@0:8` — imp=`0x10001571c`
+  - `setFilteredApps:` — types=`v24@0:8@16` — imp=`0x10001572c`
+  - `disabledBundleIDs` — types=`@16@0:8` — imp=`0x100015740`
+  - `setDisabledBundleIDs:` — types=`v24@0:8@16` — imp=`0x100015750`
+  - `onSelectApp` — types=`@?16@0:8` — imp=`0x100015764`
+  - `setOnSelectApp:` — types=`v24@0:8@?16` — imp=`0x100015774`
+  - `searchController` — types=`@16@0:8` — imp=`0x100015780`
+  - `setSearchController:` — types=`v24@0:8@16` — imp=`0x100015790`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x1000157a4`
+
+#### Class `CBSplitViewController` : —
+- Ivars: `_splitEnabled` : `B` (1 B); `_availableApps` : `@"NSArray"` (8 B); `_splitPreset` : `q` (8 B); `_slotApp1` : `@"NSString"` (8 B); `_slotApp2` : `@"NSString"` (8 B); `_slotApp3` : `@"NSString"` (8 B); `_slotApp4` : `@"NSString"` (8 B); `_slotName1` : `@"NSString"` (8 B); `_slotName2` : `@"NSString"` (8 B); `_slotName3` : `@"NSString"` (8 B); `_slotName4` : `@"NSString"` (8 B)
+- Properties: `splitEnabled` (TB,N,V_splitEnabled); `splitPreset` (Tq,N,V_splitPreset); `slotApp1` (T@"NSString",C,N,V_slotApp1); `slotApp2` (T@"NSString",C,N,V_slotApp2); `slotApp3` (T@"NSString",C,N,V_slotApp3); `slotApp4` (T@"NSString",C,N,V_slotApp4); `slotName1` (T@"NSString",C,N,V_slotName1); `slotName2` (T@"NSString",C,N,V_slotName2); `slotName3` (T@"NSString",C,N,V_slotName3); `slotName4` (T@"NSString",C,N,V_slotName4); `availableApps` (T@"NSArray",&,N,V_availableApps)
+- Instance methods (42):
+  - `init` — types=`@16@0:8` — imp=`0x100015820`
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x100015858`
+  - `dealloc` — types=`v16@0:8` — imp=`0x100015ab4`
+  - `handleAppsLoaded` — types=`v16@0:8` — imp=`0x100015b2c`
+  - `handleLanguageChanged` — types=`v16@0:8` — imp=`0x100015ca8`
+  - `viewWillAppear:` — types=`v20@0:8B16` — imp=`0x100015d8c`
+  - `loadSettings` — types=`v16@0:8` — imp=`0x100015f20`
+  - `nameForBundleID:` — types=`@24@0:8@16` — imp=`0x1000164b8`
+  - `updateNames` — types=`v16@0:8` — imp=`0x1000166b4`
+  - `saveSettings` — types=`v16@0:8` — imp=`0x1000167b0`
+  - `presetTitleForIndex:` — types=`@24@0:8q16` — imp=`0x100016bbc`
+  - `slotCountForPreset:` — types=`q24@0:8q16` — imp=`0x100016c7c`
+  - `slotTitleForIndex:preset:` — types=`@32@0:8q16q24` — imp=`0x100016c9c`
+  - `numberOfSectionsInTableView:` — types=`q24@0:8@16` — imp=`0x100017038`
+  - `tableView:numberOfRowsInSection:` — types=`q32@0:8@16q24` — imp=`0x100017040`
+  - `tableView:titleForHeaderInSection:` — types=`@32@0:8@16q24` — imp=`0x100017094`
+  - `tableView:titleForFooterInSection:` — types=`@32@0:8@16q24` — imp=`0x100017110`
+  - `tableView:cellForRowAtIndexPath:` — types=`@32@0:8@16@24` — imp=`0x100017154`
+  - `tableView:didSelectRowAtIndexPath:` — types=`v32@0:8@16@24` — imp=`0x1000178fc`
+  - `availableApps` — types=`@16@0:8` — imp=`0x100017ef0`
+  - `setAvailableApps:` — types=`v24@0:8@16` — imp=`0x100017f00`
+  - `splitEnabled` — types=`B16@0:8` — imp=`0x100017f14`
+  - `setSplitEnabled:` — types=`v20@0:8B16` — imp=`0x100017f24`
+  - `splitPreset` — types=`q16@0:8` — imp=`0x100017f34`
+  - `setSplitPreset:` — types=`v24@0:8q16` — imp=`0x100017f44`
+  - `slotApp1` — types=`@16@0:8` — imp=`0x100017f54`
+  - `setSlotApp1:` — types=`v24@0:8@16` — imp=`0x100017f64`
+  - `slotApp2` — types=`@16@0:8` — imp=`0x100017f70`
+  - `setSlotApp2:` — types=`v24@0:8@16` — imp=`0x100017f80`
+  - `slotApp3` — types=`@16@0:8` — imp=`0x100017f8c`
+  - `setSlotApp3:` — types=`v24@0:8@16` — imp=`0x100017f9c`
+  - `slotApp4` — types=`@16@0:8` — imp=`0x100017fa8`
+  - `setSlotApp4:` — types=`v24@0:8@16` — imp=`0x100017fb8`
+  - `slotName1` — types=`@16@0:8` — imp=`0x100017fc4`
+  - `setSlotName1:` — types=`v24@0:8@16` — imp=`0x100017fd4`
+  - `slotName2` — types=`@16@0:8` — imp=`0x100017fe0`
+  - `setSlotName2:` — types=`v24@0:8@16` — imp=`0x100017ff0`
+  - `slotName3` — types=`@16@0:8` — imp=`0x100017ffc`
+  - `setSlotName3:` — types=`v24@0:8@16` — imp=`0x10001800c`
+  - `slotName4` — types=`@16@0:8` — imp=`0x100018018`
+  - `setSlotName4:` — types=`v24@0:8@16` — imp=`0x100018028`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100018034`
+
+#### Class `CBAssistantAboutViewController` : —
+- Ivars: `_assistantEnabled` : `B` (1 B); `_voiceFeedbackEnabled` : `B` (1 B); `_preferredMapIndex` : `q` (8 B)
+- Properties: `assistantEnabled` (TB,N,V_assistantEnabled); `preferredMapIndex` (Tq,N,V_preferredMapIndex); `voiceFeedbackEnabled` (TB,N,V_voiceFeedbackEnabled)
+- Instance methods (24):
+  - `init` — types=`@16@0:8` — imp=`0x10001886c`
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x1000188a4`
+  - `viewWillAppear:` — types=`v20@0:8B16` — imp=`0x100018a0c`
+  - `dealloc` — types=`v16@0:8` — imp=`0x100018ad0`
+  - `handleLanguageChanged` — types=`v16@0:8` — imp=`0x100018b48`
+  - `loadPreferences` — types=`v16@0:8` — imp=`0x100018c2c`
+  - `savePreferences` — types=`v16@0:8` — imp=`0x100018df0`
+  - `assistantToggleChanged:` — types=`v24@0:8@16` — imp=`0x100019048`
+  - `mapAppChanged:` — types=`v24@0:8@16` — imp=`0x100019094`
+  - `voiceFeedbackToggleChanged:` — types=`v24@0:8@16` — imp=`0x1000190e0`
+  - `performRespring` — types=`v16@0:8` — imp=`0x10001912c`
+  - `performResetDefaults` — types=`v16@0:8` — imp=`0x1000193ac`
+  - `numberOfSectionsInTableView:` — types=`q24@0:8@16` — imp=`0x100019710`
+  - `tableView:numberOfRowsInSection:` — types=`q32@0:8@16q24` — imp=`0x100019718`
+  - `tableView:titleForHeaderInSection:` — types=`@32@0:8@16q24` — imp=`0x100019738`
+  - `tableView:titleForFooterInSection:` — types=`@32@0:8@16q24` — imp=`0x1000197c8`
+  - `tableView:cellForRowAtIndexPath:` — types=`@32@0:8@16@24` — imp=`0x100019808`
+  - `tableView:didSelectRowAtIndexPath:` — types=`v32@0:8@16@24` — imp=`0x10001a790`
+  - `assistantEnabled` — types=`B16@0:8` — imp=`0x10001a840`
+  - `setAssistantEnabled:` — types=`v20@0:8B16` — imp=`0x10001a850`
+  - `preferredMapIndex` — types=`q16@0:8` — imp=`0x10001a860`
+  - `setPreferredMapIndex:` — types=`v24@0:8q16` — imp=`0x10001a870`
+  - `voiceFeedbackEnabled` — types=`B16@0:8` — imp=`0x10001a880`
+  - `setVoiceFeedbackEnabled:` — types=`v20@0:8B16` — imp=`0x10001a890`
+
+#### Class `CBSubscriptionViewController` : —
+- Protocol tuân thủ: UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, CBSubscriptionOrderCoordinatorDelegate, CBSubscriptionCheckoutCellDelegate, CBSubscriptionPendingOrderCellDelegate, CBSubscriptionGiftcodeInputCellDelegate, CBSubscriptionGiftcodeRedeemCellDelegate, CBSubscriptionHardwareIDCellDelegate
+- Ivars: `_isLoadingPlans` : `B` (1 B); `_plansLoadFailed` : `B` (1 B); `_isCheckoutLoading` : `B` (1 B); `_isGiftRedeeming` : `B` (1 B); `_tableView` : `@"UITableView"` (8 B); `_segmentedHeaderView` : `@"UIView"` (8 B); `_modeSegmentedControl` : `@"UISegmentedControl"` (8 B); `_currentMode` : `q` (8 B); `_plansData` : `@"NSArray"` (8 B); `_rawPlansData` : `@"NSArray"` (8 B); `_selectedTierIndex` : `q` (8 B); `_orderCoordinator` : `@"CBSubscriptionOrderCoordinator"` (8 B); `_giftCodeTextField` : `@"UITextField"` (8 B); `_giftRedeemCell` : `@"CBSubscriptionGiftcodeRedeemCell"` (8 B)
+- Properties: `tableView` (T@"UITableView",&,N,V_tableView); `segmentedHeaderView` (T@"UIView",&,N,V_segmentedHeaderView); `modeSegmentedControl` (T@"UISegmentedControl",&,N,V_modeSegmentedControl); `currentMode` (Tq,N,V_currentMode); `plansData` (T@"NSArray",&,N,V_plansData); `rawPlansData` (T@"NSArray",&,N,V_rawPlansData); `selectedTierIndex` (Tq,N,V_selectedTierIndex); `isLoadingPlans` (TB,N,V_isLoadingPlans); `plansLoadFailed` (TB,N,V_plansLoadFailed); `orderCoordinator` (T@"CBSubscriptionOrderCoordinator",&,N,V_orderCoordinator); `isCheckoutLoading` (TB,N,V_isCheckoutLoading); `giftCodeTextField` (T@"UITextField",W,N,V_giftCodeTextField); `giftRedeemCell` (T@"CBSubscriptionGiftcodeRedeemCell",W,N,V_giftRedeemCell); `isGiftRedeeming` (TB,N,V_isGiftRedeeming); `hash` (TQ,R); `superclass` (T#,R); `description` (T@"NSString",R,C); `debugDescription` (T@"NSString",R,C)
+- Instance methods (71):
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x10001ad14`
+  - `viewWillAppear:` — types=`v20@0:8B16` — imp=`0x10001b138`
+  - `viewWillDisappear:` — types=`v20@0:8B16` — imp=`0x10001b314`
+  - `dealloc` — types=`v16@0:8` — imp=`0x10001b384`
+  - `keyboardWillShow:` — types=`v24@0:8@16` — imp=`0x10001b464`
+  - `keyboardWillHide:` — types=`v24@0:8@16` — imp=`0x10001b6c4`
+  - `dismissKeyboard` — types=`v16@0:8` — imp=`0x10001b7a8`
+  - `setupTableView` — types=`v16@0:8` — imp=`0x10001b7ec`
+  - `setupTableHeader` — types=`v16@0:8` — imp=`0x10001bd64`
+  - `isVIPActiveWithSufficientDays` — types=`B16@0:8` — imp=`0x10001c320`
+  - `updateTableHeaderForCurrentState` — types=`v16@0:8` — imp=`0x10001c3f0`
+  - `modeSegmentChanged:` — types=`v24@0:8@16` — imp=`0x10001c508`
+  - `numberOfSectionsInTableView:` — types=`q24@0:8@16` — imp=`0x10001c604`
+  - `tableView:numberOfRowsInSection:` — types=`q32@0:8@16q24` — imp=`0x10001c678`
+  - `tableView:titleForHeaderInSection:` — types=`@32@0:8@16q24` — imp=`0x10001c834`
+  - `tableView:titleForFooterInSection:` — types=`@32@0:8@16q24` — imp=`0x10001c984`
+  - `tableView:cellForRowAtIndexPath:` — types=`@32@0:8@16@24` — imp=`0x10001cab0`
+  - `tableView:didSelectRowAtIndexPath:` — types=`v32@0:8@16@24` — imp=`0x10001d468`
+  - `fetchPlansFromServer` — types=`v16@0:8` — imp=`0x10001d6c4`
+  - `handleLanguageChanged` — types=`v16@0:8` — imp=`0x10001e03c`
+  - `formattedPriceForPlan:` — types=`@24@0:8@16` — imp=`0x10001e1c4`
+  - `displayNameForTier:` — types=`@24@0:8@16` — imp=`0x10001e3a0`
+  - `currentCheckoutButtonTitle` — types=`@16@0:8` — imp=`0x10001e710`
+  - `showPlansLoadFailureAlertWithError:` — types=`v24@0:8@16` — imp=`0x10001eb5c`
+  - `checkoutCellDidTapCheckout:` — types=`v24@0:8@16` — imp=`0x10001ee24`
+  - `pendingOrderCellDidTapResume:` — types=`v24@0:8@16` — imp=`0x10001f7d8`
+  - `pendingOrderCellDidTapCheckStatus:` — types=`v24@0:8@16` — imp=`0x10001f818`
+  - `pendingOrderCellDidTapCancel:` — types=`v24@0:8@16` — imp=`0x10001f858`
+  - `giftcodeInputCellDidTapPaste:` — types=`v24@0:8@16` — imp=`0x10001f898`
+  - `giftcodeRedeemCellDidTapRedeem:` — types=`v24@0:8@16` — imp=`0x10001fa2c`
+  - `hardwareIDCellDidTapCopy:` — types=`v24@0:8@16` — imp=`0x10001fa38`
+  - `redeemGiftCodeTapped` — types=`v16@0:8` — imp=`0x10001fc54`
+  - `setGiftRedeemLoading:` — types=`v20@0:8B16` — imp=`0x1000214c8`
+  - `textFieldShouldReturn:` — types=`B24@0:8@16` — imp=`0x100021524`
+  - `orderCoordinatorDidUpdatePendingOrder:` — types=`v24@0:8@16` — imp=`0x1000215f4`
+  - `orderCoordinatorDidClearPendingOrder:` — types=`v24@0:8@16` — imp=`0x100021634`
+  - `orderCoordinatorDidCompletePaymentSuccessfully:` — types=`v24@0:8@16` — imp=`0x100021674`
+  - `orderCoordinator:shouldPresentAlert:` — types=`v32@0:8@16@24` — imp=`0x100021784`
+  - `orderCoordinator:shouldPresentSafari:` — types=`v32@0:8@16@24` — imp=`0x100021868`
+  - `orderCoordinator:setCheckoutLoading:` — types=`v28@0:8@16B24` — imp=`0x10002194c`
+  - `orderCoordinator:setCheckStatusButtonChecking:` — types=`v28@0:8@16B24` — imp=`0x1000219a4`
+  - `showAlertWithTitle:message:` — types=`v32@0:8@16@24` — imp=`0x1000219a8`
+  - `tableView` — types=`@16@0:8` — imp=`0x100021b48`
+  - `setTableView:` — types=`v24@0:8@16` — imp=`0x100021b58`
+  - `segmentedHeaderView` — types=`@16@0:8` — imp=`0x100021b6c`
+  - `setSegmentedHeaderView:` — types=`v24@0:8@16` — imp=`0x100021b7c`
+  - `modeSegmentedControl` — types=`@16@0:8` — imp=`0x100021b90`
+  - `setModeSegmentedControl:` — types=`v24@0:8@16` — imp=`0x100021ba0`
+  - `currentMode` — types=`q16@0:8` — imp=`0x100021bb4`
+  - `setCurrentMode:` — types=`v24@0:8q16` — imp=`0x100021bc4`
+  - `plansData` — types=`@16@0:8` — imp=`0x100021bd4`
+  - `setPlansData:` — types=`v24@0:8@16` — imp=`0x100021be4`
+  - `rawPlansData` — types=`@16@0:8` — imp=`0x100021bf8`
+  - `setRawPlansData:` — types=`v24@0:8@16` — imp=`0x100021c08`
+  - `selectedTierIndex` — types=`q16@0:8` — imp=`0x100021c1c`
+  - `setSelectedTierIndex:` — types=`v24@0:8q16` — imp=`0x100021c2c`
+  - `isLoadingPlans` — types=`B16@0:8` — imp=`0x100021c3c`
+  - `setIsLoadingPlans:` — types=`v20@0:8B16` — imp=`0x100021c4c`
+  - `plansLoadFailed` — types=`B16@0:8` — imp=`0x100021c5c`
+  - `setPlansLoadFailed:` — types=`v20@0:8B16` — imp=`0x100021c6c`
+  - `orderCoordinator` — types=`@16@0:8` — imp=`0x100021c7c`
+  - `setOrderCoordinator:` — types=`v24@0:8@16` — imp=`0x100021c8c`
+  - `isCheckoutLoading` — types=`B16@0:8` — imp=`0x100021ca0`
+  - `setIsCheckoutLoading:` — types=`v20@0:8B16` — imp=`0x100021cb0`
+  - `giftCodeTextField` — types=`@16@0:8` — imp=`0x100021cc0`
+  - `setGiftCodeTextField:` — types=`v24@0:8@16` — imp=`0x100021ce0`
+  - `giftRedeemCell` — types=`@16@0:8` — imp=`0x100021cf4`
+  - `setGiftRedeemCell:` — types=`v24@0:8@16` — imp=`0x100021d14`
+  - `isGiftRedeeming` — types=`B16@0:8` — imp=`0x100021d28`
+  - `setIsGiftRedeeming:` — types=`v20@0:8B16` — imp=`0x100021d38`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100021d48`
+
+#### Class `CBLicenseExpiredModalViewController` : —
+- Ivars: `_onActivateTapped` : `@?` (8 B); `_onDismissTapped` : `@?` (8 B); `_blurBackdrop` : `@"UIVisualEffectView"` (8 B); `_dimmerOverlay` : `@"UIView"` (8 B); `_cardView` : `@"UIView"` (8 B); `_iconImageView` : `@"UIImageView"` (8 B); `_titleLabel` : `@"UILabel"` (8 B); `_messageLabel` : `@"UILabel"` (8 B); `_activateButton` : `@"UIButton"` (8 B); `_laterButton` : `@"UIButton"` (8 B)
+- Properties: `blurBackdrop` (T@"UIVisualEffectView",&,N,V_blurBackdrop); `dimmerOverlay` (T@"UIView",&,N,V_dimmerOverlay); `cardView` (T@"UIView",&,N,V_cardView); `iconImageView` (T@"UIImageView",&,N,V_iconImageView); `titleLabel` (T@"UILabel",&,N,V_titleLabel); `messageLabel` (T@"UILabel",&,N,V_messageLabel); `activateButton` (T@"UIButton",&,N,V_activateButton); `laterButton` (T@"UIButton",&,N,V_laterButton); `onActivateTapped` (T@?,C,N,V_onActivateTapped); `onDismissTapped` (T@?,C,N,V_onDismissTapped)
+- Instance methods (29):
+  - `viewDidLoad` — types=`v16@0:8` — imp=`0x10002251c`
+  - `viewWillAppear:` — types=`v20@0:8B16` — imp=`0x1000225f0`
+  - `setupBackdrop` — types=`v16@0:8` — imp=`0x1000228ac`
+  - `setupCardView` — types=`v16@0:8` — imp=`0x100022b14`
+  - `setupContent` — types=`v16@0:8` — imp=`0x100023168`
+  - `handleActivateTapped` — types=`v16@0:8` — imp=`0x100024528`
+  - `handleLaterTapped` — types=`v16@0:8` — imp=`0x100024644`
+  - `dismissWithCompletion:` — types=`v24@0:8@?16` — imp=`0x100024760`
+  - `onActivateTapped` — types=`@?16@0:8` — imp=`0x100024998`
+  - `setOnActivateTapped:` — types=`v24@0:8@?16` — imp=`0x1000249a8`
+  - `onDismissTapped` — types=`@?16@0:8` — imp=`0x1000249b4`
+  - `setOnDismissTapped:` — types=`v24@0:8@?16` — imp=`0x1000249c4`
+  - `blurBackdrop` — types=`@16@0:8` — imp=`0x1000249d0`
+  - `setBlurBackdrop:` — types=`v24@0:8@16` — imp=`0x1000249e0`
+  - `dimmerOverlay` — types=`@16@0:8` — imp=`0x1000249f4`
+  - `setDimmerOverlay:` — types=`v24@0:8@16` — imp=`0x100024a04`
+  - `cardView` — types=`@16@0:8` — imp=`0x100024a18`
+  - `setCardView:` — types=`v24@0:8@16` — imp=`0x100024a28`
+  - `iconImageView` — types=`@16@0:8` — imp=`0x100024a3c`
+  - `setIconImageView:` — types=`v24@0:8@16` — imp=`0x100024a4c`
+  - `titleLabel` — types=`@16@0:8` — imp=`0x100024a60`
+  - `setTitleLabel:` — types=`v24@0:8@16` — imp=`0x100024a70`
+  - `messageLabel` — types=`@16@0:8` — imp=`0x100024a84`
+  - `setMessageLabel:` — types=`v24@0:8@16` — imp=`0x100024a94`
+  - `activateButton` — types=`@16@0:8` — imp=`0x100024aa8`
+  - `setActivateButton:` — types=`v24@0:8@16` — imp=`0x100024ab8`
+  - `laterButton` — types=`@16@0:8` — imp=`0x100024acc`
+  - `setLaterButton:` — types=`v24@0:8@16` — imp=`0x100024adc`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100024af0`
+- Class methods (1):
+  - `+modalWithActivateHandler:dismissHandler:` — types=`@32@0:8@?16@?24` — imp=`0x100022470`
+
+#### Class `CBSubscriptionCheckoutCell` : —
+- Ivars: `_delegate` : `@"<CBSubscriptionCheckoutCellDelegate>"` (8 B); `_checkoutButton` : `@"UIButton"` (8 B); `_checkoutSpinner` : `@"UIActivityIndicatorView"` (8 B)
+- Properties: `checkoutButton` (T@"UIButton",&,N,V_checkoutButton); `checkoutSpinner` (T@"UIActivityIndicatorView",&,N,V_checkoutSpinner); `delegate` (T@"<CBSubscriptionCheckoutCellDelegate>",W,N,V_delegate)
+- Instance methods (10):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x100024bd0`
+  - `configureWithTitle:loading:` — types=`v28@0:8@16B24` — imp=`0x100025330`
+  - `checkoutTapped` — types=`v16@0:8` — imp=`0x100025424`
+  - `delegate` — types=`@16@0:8` — imp=`0x1000254d0`
+  - `setDelegate:` — types=`v24@0:8@16` — imp=`0x1000254f0`
+  - `checkoutButton` — types=`@16@0:8` — imp=`0x100025504`
+  - `setCheckoutButton:` — types=`v24@0:8@16` — imp=`0x100025514`
+  - `checkoutSpinner` — types=`@16@0:8` — imp=`0x100025528`
+  - `setCheckoutSpinner:` — types=`v24@0:8@16` — imp=`0x100025538`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x10002554c`
+
+#### Class `CBSubscriptionVIPStatusCell` : —
+- Instance methods (2):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x10002559c`
+  - `configureWithExpirationTimestamp:` — types=`v24@0:8Q16` — imp=`0x100025860`
+
+#### Class `CBSubscriptionHardwareIDCell` : —
+- Ivars: `_delegate` : `@"<CBSubscriptionHardwareIDCellDelegate>"` (8 B); `_hwLabel` : `@"UILabel"` (8 B); `_clipboardButton` : `@"UIButton"` (8 B)
+- Properties: `hwLabel` (T@"UILabel",&,N,V_hwLabel); `clipboardButton` (T@"UIButton",&,N,V_clipboardButton); `delegate` (T@"<CBSubscriptionHardwareIDCellDelegate>",W,N,V_delegate)
+- Instance methods (10):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x100025a00`
+  - `configureWithHardwareHash:` — types=`v24@0:8@16` — imp=`0x1000262a4`
+  - `copyTapped` — types=`v16@0:8` — imp=`0x10002644c`
+  - `delegate` — types=`@16@0:8` — imp=`0x1000264f8`
+  - `setDelegate:` — types=`v24@0:8@16` — imp=`0x100026518`
+  - `hwLabel` — types=`@16@0:8` — imp=`0x10002652c`
+  - `setHwLabel:` — types=`v24@0:8@16` — imp=`0x10002653c`
+  - `clipboardButton` — types=`@16@0:8` — imp=`0x100026550`
+  - `setClipboardButton:` — types=`v24@0:8@16` — imp=`0x100026560`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100026574`
+
+#### Class `CBSubscriptionGiftcodeInputCell` : —
+- Ivars: `_delegate` : `@"<CBSubscriptionGiftcodeInputCellDelegate>"` (8 B); `_textField` : `@"UITextField"` (8 B); `_pasteButton` : `@"UIButton"` (8 B)
+- Properties: `textField` (T@"UITextField",&,N,V_textField); `pasteButton` (T@"UIButton",&,N,V_pasteButton); `delegate` (T@"<CBSubscriptionGiftcodeInputCellDelegate>",W,N,V_delegate)
+- Instance methods (9):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x1000265c4`
+  - `pasteTapped` — types=`v16@0:8` — imp=`0x100026f18`
+  - `delegate` — types=`@16@0:8` — imp=`0x100026fc4`
+  - `setDelegate:` — types=`v24@0:8@16` — imp=`0x100026fe4`
+  - `textField` — types=`@16@0:8` — imp=`0x100026ff8`
+  - `setTextField:` — types=`v24@0:8@16` — imp=`0x100027008`
+  - `pasteButton` — types=`@16@0:8` — imp=`0x10002701c`
+  - `setPasteButton:` — types=`v24@0:8@16` — imp=`0x10002702c`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100027040`
+
+#### Class `CBSubscriptionGiftcodeRedeemCell` : —
+- Ivars: `_delegate` : `@"<CBSubscriptionGiftcodeRedeemCellDelegate>"` (8 B); `_redeemButton` : `@"UIButton"` (8 B); `_spinner` : `@"UIActivityIndicatorView"` (8 B)
+- Properties: `redeemButton` (T@"UIButton",&,N,V_redeemButton); `spinner` (T@"UIActivityIndicatorView",&,N,V_spinner); `delegate` (T@"<CBSubscriptionGiftcodeRedeemCellDelegate>",W,N,V_delegate)
+- Instance methods (10):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x100027090`
+  - `redeemTapped` — types=`v16@0:8` — imp=`0x10002783c`
+  - `setLoading:` — types=`v20@0:8B16` — imp=`0x1000278e8`
+  - `delegate` — types=`@16@0:8` — imp=`0x100027984`
+  - `setDelegate:` — types=`v24@0:8@16` — imp=`0x1000279a4`
+  - `redeemButton` — types=`@16@0:8` — imp=`0x1000279b8`
+  - `setRedeemButton:` — types=`v24@0:8@16` — imp=`0x1000279c8`
+  - `spinner` — types=`@16@0:8` — imp=`0x1000279dc`
+  - `setSpinner:` — types=`v24@0:8@16` — imp=`0x1000279ec`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100027a00`
+
+#### Class `CBSubscriptionPendingOrderCell` : —
+- Ivars: `_delegate` : `@"<CBSubscriptionPendingOrderCellDelegate>"` (8 B); `_titleLabel` : `@"UILabel"` (8 B); `_descLabel` : `@"UILabel"` (8 B); `_resumeBtn` : `@"UIButton"` (8 B); `_checkStatusButton` : `@"UIButton"` (8 B); `_cancelBtn` : `@"UIButton"` (8 B)
+- Properties: `titleLabel` (T@"UILabel",&,N,V_titleLabel); `descLabel` (T@"UILabel",&,N,V_descLabel); `resumeBtn` (T@"UIButton",&,N,V_resumeBtn); `checkStatusButton` (T@"UIButton",&,N,V_checkStatusButton); `cancelBtn` (T@"UIButton",&,N,V_cancelBtn); `delegate` (T@"<CBSubscriptionPendingOrderCellDelegate>",W,N,V_delegate)
+- Instance methods (18):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x100027a50`
+  - `configureWithTitle:description:` — types=`v32@0:8@16@24` — imp=`0x10002872c`
+  - `resumeTapped` — types=`v16@0:8` — imp=`0x1000287ec`
+  - `checkStatusTapped` — types=`v16@0:8` — imp=`0x100028898`
+  - `cancelTapped` — types=`v16@0:8` — imp=`0x100028944`
+  - `delegate` — types=`@16@0:8` — imp=`0x1000289f0`
+  - `setDelegate:` — types=`v24@0:8@16` — imp=`0x100028a10`
+  - `titleLabel` — types=`@16@0:8` — imp=`0x100028a24`
+  - `setTitleLabel:` — types=`v24@0:8@16` — imp=`0x100028a34`
+  - `descLabel` — types=`@16@0:8` — imp=`0x100028a48`
+  - `setDescLabel:` — types=`v24@0:8@16` — imp=`0x100028a58`
+  - `resumeBtn` — types=`@16@0:8` — imp=`0x100028a6c`
+  - `setResumeBtn:` — types=`v24@0:8@16` — imp=`0x100028a7c`
+  - `checkStatusButton` — types=`@16@0:8` — imp=`0x100028a90`
+  - `setCheckStatusButton:` — types=`v24@0:8@16` — imp=`0x100028aa0`
+  - `cancelBtn` — types=`@16@0:8` — imp=`0x100028ab4`
+  - `setCancelBtn:` — types=`v24@0:8@16` — imp=`0x100028ac4`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100028ad8`
+
+#### Class `CBSubscriptionPlanCardCell` : —
+- Ivars: `_nameLabel` : `@"UILabel"` (8 B); `_badgeLabel` : `@"UILabel"` (8 B); `_descLabel` : `@"UILabel"` (8 B); `_priceLabel` : `@"UILabel"` (8 B); `_checkIcon` : `@"UIImageView"` (8 B)
+- Properties: `nameLabel` (T@"UILabel",&,N,V_nameLabel); `badgeLabel` (T@"UILabel",&,N,V_badgeLabel); `descLabel` (T@"UILabel",&,N,V_descLabel); `priceLabel` (T@"UILabel",&,N,V_priceLabel); `checkIcon` (T@"UIImageView",&,N,V_checkIcon)
+- Instance methods (13):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x100028b64`
+  - `configureWithPlan:selected:formattedPrice:` — types=`v36@0:8@16B24@28` — imp=`0x100029554`
+  - `nameLabel` — types=`@16@0:8` — imp=`0x100029a58`
+  - `setNameLabel:` — types=`v24@0:8@16` — imp=`0x100029a68`
+  - `badgeLabel` — types=`@16@0:8` — imp=`0x100029a7c`
+  - `setBadgeLabel:` — types=`v24@0:8@16` — imp=`0x100029a8c`
+  - `descLabel` — types=`@16@0:8` — imp=`0x100029aa0`
+  - `setDescLabel:` — types=`v24@0:8@16` — imp=`0x100029ab0`
+  - `priceLabel` — types=`@16@0:8` — imp=`0x100029ac4`
+  - `setPriceLabel:` — types=`v24@0:8@16` — imp=`0x100029ad4`
+  - `checkIcon` — types=`@16@0:8` — imp=`0x100029ae8`
+  - `setCheckIcon:` — types=`v24@0:8@16` — imp=`0x100029af8`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100029b0c`
+
+#### Class `CBSubscriptionStatusCell` : —
+- Instance methods (2):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x100029b88`
+  - `configureWithLoading:failed:` — types=`v24@0:8B16B20` — imp=`0x100029e58`
+
+#### Class `CBSubscriptionVIPCardCell` : —
+- Ivars: `_badgeIcon` : `@"UIImageView"` (8 B); `_titleLabel` : `@"UILabel"` (8 B); `_statusPillLabel` : `@"UILabel"` (8 B); `_durationKeyLabel` : `@"UILabel"` (8 B); `_durationValueLabel` : `@"UILabel"` (8 B); `_serverExpiryKeyLabel` : `@"UILabel"` (8 B); `_serverExpiryValueLabel` : `@"UILabel"` (8 B); `_licenseValidationKeyLabel` : `@"UILabel"` (8 B); `_licenseValidationValueLabel` : `@"UILabel"` (8 B)
+- Properties: `badgeIcon` (T@"UIImageView",&,N,V_badgeIcon); `titleLabel` (T@"UILabel",&,N,V_titleLabel); `statusPillLabel` (T@"UILabel",&,N,V_statusPillLabel); `durationKeyLabel` (T@"UILabel",&,N,V_durationKeyLabel); `durationValueLabel` (T@"UILabel",&,N,V_durationValueLabel); `serverExpiryKeyLabel` (T@"UILabel",&,N,V_serverExpiryKeyLabel); `serverExpiryValueLabel` (T@"UILabel",&,N,V_serverExpiryValueLabel); `licenseValidationKeyLabel` (T@"UILabel",&,N,V_licenseValidationKeyLabel); `licenseValidationValueLabel` (T@"UILabel",&,N,V_licenseValidationValueLabel)
+- Instance methods (24):
+  - `initWithStyle:reuseIdentifier:` — types=`@32@0:8q16@24` — imp=`0x10002a0b8`
+  - `keyLabel` — types=`@16@0:8` — imp=`0x10002af0c`
+  - `valueLabel` — types=`@16@0:8` — imp=`0x10002afdc`
+  - `keyValuePairWithKeyLabel:valueLabel:` — types=`@32@0:8@16@24` — imp=`0x10002b0c0`
+  - `configureWithExpirationTimestamp:tierName:` — types=`v32@0:8Q16@24` — imp=`0x10002b184`
+  - `badgeIcon` — types=`@16@0:8` — imp=`0x10002b898`
+  - `setBadgeIcon:` — types=`v24@0:8@16` — imp=`0x10002b8a8`
+  - `titleLabel` — types=`@16@0:8` — imp=`0x10002b8bc`
+  - `setTitleLabel:` — types=`v24@0:8@16` — imp=`0x10002b8cc`
+  - `statusPillLabel` — types=`@16@0:8` — imp=`0x10002b8e0`
+  - `setStatusPillLabel:` — types=`v24@0:8@16` — imp=`0x10002b8f0`
+  - `durationKeyLabel` — types=`@16@0:8` — imp=`0x10002b904`
+  - `setDurationKeyLabel:` — types=`v24@0:8@16` — imp=`0x10002b914`
+  - `durationValueLabel` — types=`@16@0:8` — imp=`0x10002b928`
+  - `setDurationValueLabel:` — types=`v24@0:8@16` — imp=`0x10002b938`
+  - `serverExpiryKeyLabel` — types=`@16@0:8` — imp=`0x10002b94c`
+  - `setServerExpiryKeyLabel:` — types=`v24@0:8@16` — imp=`0x10002b95c`
+  - `serverExpiryValueLabel` — types=`@16@0:8` — imp=`0x10002b970`
+  - `setServerExpiryValueLabel:` — types=`v24@0:8@16` — imp=`0x10002b980`
+  - `licenseValidationKeyLabel` — types=`@16@0:8` — imp=`0x10002b994`
+  - `setLicenseValidationKeyLabel:` — types=`v24@0:8@16` — imp=`0x10002b9a4`
+  - `licenseValidationValueLabel` — types=`@16@0:8` — imp=`0x10002b9b8`
+  - `setLicenseValidationValueLabel:` — types=`v24@0:8@16` — imp=`0x10002b9c8`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x10002b9dc`
+
+#### Class `CBSubscriptionOrderCoordinator` : —
+- Protocol tuân thủ: SFSafariViewControllerDelegate
+- Ivars: `_delegate` : `@"<CBSubscriptionOrderCoordinatorDelegate>"` (8 B); `_activeOrderId` : `@"NSString"` (8 B); `_activePaymentUrl` : `@"NSString"` (8 B); `_activeTierName` : `@"NSString"` (8 B); `_activeAmountCrypto` : `@"NSString"` (8 B); `_activeCurrency` : `@"NSString"` (8 B); `_activeNetwork` : `@"NSString"` (8 B); `_pollTimer` : `@"NSTimer"` (8 B); `_safariVC` : `@"SFSafariViewController"` (8 B)
+- Properties: `pollTimer` (T@"NSTimer",&,N,V_pollTimer); `safariVC` (T@"SFSafariViewController",&,N,V_safariVC); `delegate` (T@"<CBSubscriptionOrderCoordinatorDelegate>",W,N,V_delegate); `activeOrderId` (T@"NSString",C,N,V_activeOrderId); `activePaymentUrl` (T@"NSString",C,N,V_activePaymentUrl); `activeTierName` (T@"NSString",C,N,V_activeTierName); `activeAmountCrypto` (T@"NSString",C,N,V_activeAmountCrypto); `activeCurrency` (T@"NSString",C,N,V_activeCurrency); `activeNetwork` (T@"NSString",C,N,V_activeNetwork); `hash` (TQ,R); `superclass` (T#,R); `description` (T@"NSString",R,C); `debugDescription` (T@"NSString",R,C)
+- Instance methods (36):
+  - `dealloc` — types=`v16@0:8` — imp=`0x10002baa8`
+  - `hasActivePendingOrder` — types=`B16@0:8` — imp=`0x10002baf4`
+  - `currentServerBaseURL` — types=`@16@0:8` — imp=`0x10002bb8c`
+  - `fetchActivePendingOrderFromServer` — types=`v16@0:8` — imp=`0x10002bba0`
+  - `startCheckoutForTier:forceNew:` — types=`v28@0:8@16B24` — imp=`0x10002c334`
+  - `resumePayment` — types=`v16@0:8` — imp=`0x10002cd98`
+  - `checkStatusManual` — types=`v16@0:8` — imp=`0x10002ce40`
+  - `cancelActiveOrderWithCompletion:` — types=`v24@0:8@?16` — imp=`0x10002d69c`
+  - `requestCancelPendingOrder` — types=`v16@0:8` — imp=`0x10002db7c`
+  - `openPaymentGatewayURL:` — types=`v24@0:8@16` — imp=`0x10002dff4`
+  - `safariViewControllerDidFinish:` — types=`v24@0:8@16` — imp=`0x10002e0cc`
+  - `startPollingOrderStatus:` — types=`v24@0:8@16` — imp=`0x10002e2b8`
+  - `stopPollingOrderStatus` — types=`v16@0:8` — imp=`0x10002e368`
+  - `pollTimerFired` — types=`v16@0:8` — imp=`0x10002e3fc`
+  - `checkOrderStatusOnce:` — types=`v24@0:8@16` — imp=`0x10002e4dc`
+  - `handlePaymentCompletedSuccess` — types=`v16@0:8` — imp=`0x10002e978`
+  - `showAlertWithTitle:message:` — types=`v32@0:8@16@24` — imp=`0x10002eee8`
+  - `delegate` — types=`@16@0:8` — imp=`0x10002efe8`
+  - `setDelegate:` — types=`v24@0:8@16` — imp=`0x10002f000`
+  - `activeOrderId` — types=`@16@0:8` — imp=`0x10002f00c`
+  - `setActiveOrderId:` — types=`v24@0:8@16` — imp=`0x10002f018`
+  - `activePaymentUrl` — types=`@16@0:8` — imp=`0x10002f020`
+  - `setActivePaymentUrl:` — types=`v24@0:8@16` — imp=`0x10002f02c`
+  - `activeTierName` — types=`@16@0:8` — imp=`0x10002f034`
+  - `setActiveTierName:` — types=`v24@0:8@16` — imp=`0x10002f040`
+  - `activeAmountCrypto` — types=`@16@0:8` — imp=`0x10002f048`
+  - `setActiveAmountCrypto:` — types=`v24@0:8@16` — imp=`0x10002f054`
+  - `activeCurrency` — types=`@16@0:8` — imp=`0x10002f05c`
+  - `setActiveCurrency:` — types=`v24@0:8@16` — imp=`0x10002f068`
+  - `activeNetwork` — types=`@16@0:8` — imp=`0x10002f070`
+  - `setActiveNetwork:` — types=`v24@0:8@16` — imp=`0x10002f07c`
+  - `pollTimer` — types=`@16@0:8` — imp=`0x10002f084`
+  - `setPollTimer:` — types=`v24@0:8@16` — imp=`0x10002f08c`
+  - `safariVC` — types=`@16@0:8` — imp=`0x10002f098`
+  - `setSafariVC:` — types=`v24@0:8@16` — imp=`0x10002f0a0`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x10002f0ac`
+
+#### Class `CBLocalization` : —
+- Ivars: `_activeLanguageCode` : `@"NSString"` (8 B); `_cachedStringTables` : `@"NSMutableDictionary"` (8 B); `_activeLanguageTable` : `@"NSDictionary"` (8 B); `_viTable` : `@"NSDictionary"` (8 B); `_enTable` : `@"NSDictionary"` (8 B)
+- Instance methods (6):
+  - `init` — types=`@16@0:8` — imp=`0x10002fa80`
+  - `reloadLanguage` — types=`v16@0:8` — imp=`0x100030888`
+  - `activeLanguageCode` — types=`@16@0:8` — imp=`0x100030da0`
+  - `stringTableForLanguageCode:` — types=`@24@0:8@16` — imp=`0x100030fcc`
+  - `localizedStringForKey:` — types=`@24@0:8@16` — imp=`0x1000313e0`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x1000314f4`
+- Class methods (7):
+  - `+sharedInstance` — types=`@16@0:8` — imp=`0x10002fa14`
+  - `+speechVoiceLanguageCode` — types=`@16@0:8` — imp=`0x10002fba8`
+  - `+supportedLanguages` — types=`@16@0:8` — imp=`0x10002fe9c`
+  - `+displayNameForLanguageCode:` — types=`@24@0:8@16` — imp=`0x10003057c`
+  - `+currentLanguageCode` — types=`@16@0:8` — imp=`0x100030d44`
+  - `+setCurrentLanguageCode:` — types=`v24@0:8@16` — imp=`0x100030de4`
+  - `+localizedStringForKey:` — types=`@24@0:8@16` — imp=`0x10003135c`
+
+#### Class `CBSplitSplashScreenView` : —
+- Ivars: `_glowImageView` : `@"UIImageView"` (8 B); `_horizonLineView` : `@"UIView"` (8 B); `_horizonGradient` : `@"CAGradientLayer"` (8 B); `_horizonDashedMask` : `@"CAShapeLayer"` (8 B); `_logoImageView` : `@"UIImageView"` (8 B); `_trackView` : `@"UIView"` (8 B); `_progressView` : `@"UIView"` (8 B); `_progressGradient` : `@"CAGradientLayer"` (8 B); `_badgeLabel` : `@"UILabel"` (8 B); `_isDismissing` : `B` (1 B); `_hasStartedAnimation` : `B` (1 B); `_animationStartTime` : `d` (8 B); `_onWillDismiss` : `@?` (8 B); `_onDismissed` : `@?` (8 B)
+- Properties: `isDismissing` (TB,R,N); `onWillDismiss` (T@?,C,N,V_onWillDismiss); `onDismissed` (T@?,C,N,V_onDismissed)
+- Instance methods (13):
+  - `initWithFrame:` — types=`@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16` — imp=`0x100056b94`
+  - `layoutSubviews` — types=`v16@0:8` — imp=`0x100057818`
+  - `startLoadingAnimation` — types=`v16@0:8` — imp=`0x100057bf8`
+  - `handleTap:` — types=`v24@0:8@16` — imp=`0x100057e20`
+  - `isDismissing` — types=`B16@0:8` — imp=`0x100057ea8`
+  - `dismissAnimated:` — types=`v20@0:8B16` — imp=`0x100057eb8`
+  - `dismissAnimated:completion:` — types=`v28@0:8B16@?20` — imp=`0x100057ec8`
+  - `dealloc` — types=`v16@0:8` — imp=`0x100058160`
+  - `onWillDismiss` — types=`@?16@0:8` — imp=`0x100058244`
+  - `setOnWillDismiss:` — types=`v24@0:8@?16` — imp=`0x100058254`
+  - `onDismissed` — types=`@?16@0:8` — imp=`0x100058260`
+  - `setOnDismissed:` — types=`v24@0:8@?16` — imp=`0x100058270`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x10005827c`
+- Class methods (3):
+  - `+logoImage` — types=`@16@0:8` — imp=`0x100055f14`
+  - `+appIconImage` — types=`@16@0:8` — imp=`0x1000566f8`
+  - `+radialGlowImageForDiameter:` — types=`@24@0:8d16` — imp=`0x1000568dc`
+
+#### Class `CBHttpClient` : —
+- Ivars: `_networkQueue` : `@"NSObject<OS_dispatch_queue>"` (8 B)
+- Properties: `networkQueue` (T@"NSObject<OS_dispatch_queue>",&,N,V_networkQueue)
+- Instance methods (6):
+  - `init` — types=`@16@0:8` — imp=`0x1000583dc`
+  - `postJSON:toURL:timeout:customHeaders:completion:` — types=`v56@0:8@16@24d32@40@?48` — imp=`0x100058444`
+  - `getJSONFromURL:timeout:customHeaders:completion:` — types=`v48@0:8@16d24@32@?40` — imp=`0x100058b2c`
+  - `networkQueue` — types=`@16@0:8` — imp=`0x100059114`
+  - `setNetworkQueue:` — types=`v24@0:8@16` — imp=`0x10005911c`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x100059128`
+- Class methods (1):
+  - `+sharedClient` — types=`@16@0:8` — imp=`0x100058370`
+
+#### Class `CBLicenseSyncManager` : —
+- Ivars: `_isSyncing` : `B` (1 B); `_syncQueue` : `@"NSObject<OS_dispatch_queue>"` (8 B); `_lastAttemptTimestamp` : `Q` (8 B)
+- Properties: `isSyncing` (TB,N,V_isSyncing); `syncQueue` (T@"NSObject<OS_dispatch_queue>",&,N,V_syncQueue); `lastAttemptTimestamp` (TQ,N,V_lastAttemptTimestamp)
+- Instance methods (24):
+  - `init` — types=`@16@0:8` — imp=`0x1000591a0`
+  - `deviceHardwareHashHex` — types=`@16@0:8` — imp=`0x10005920c`
+  - `isLicenseCurrentlyValid` — types=`B16@0:8` — imp=`0x10005a7c0`
+  - `remainingLicenseSeconds` — types=`Q16@0:8` — imp=`0x10006cba4`
+  - `isCarPlayScreenConnected` — types=`B16@0:8` — imp=`0x10007f590`
+  - `checkAndSyncLicenseIfNeeded` — types=`v16@0:8` — imp=`0x10007f5b4`
+  - `checkAndSyncLicenseIfNeededWithSource:` — types=`v24@0:8@16` — imp=`0x10007f654`
+  - `forceSyncWithCompletion:` — types=`v24@0:8@?16` — imp=`0x100091e70`
+  - `resolvedBackendBaseURL` — types=`@16@0:8` — imp=`0x100092a74`
+  - `resolvedLicenseServerEndpoint` — types=`@16@0:8` — imp=`0x100092a88`
+  - `performSyncWithForce:isManualUserAction:completion:` — types=`v32@0:8B16B20@?24` — imp=`0x100092b64`
+  - `performSyncWithForce:isManualUserAction:source:completion:` — types=`v40@0:8B16B20@24@?32` — imp=`0x100092bf4`
+  - `installAndVerifyLicensePayload:errorMsg:` — types=`B32@0:8@16^@24` — imp=`0x100094078`
+  - `actualLicenseExpirationTimestamp` — types=`Q16@0:8` — imp=`0x1000a0624`
+  - `setActualLicenseExpirationTimestamp:` — types=`v24@0:8Q16` — imp=`0x1000a07e8`
+  - `actualLicenseTierName` — types=`@16@0:8` — imp=`0x1000a0984`
+  - `setActualLicenseTierName:` — types=`v24@0:8@16` — imp=`0x1000a0acc`
+  - `isSyncing` — types=`B16@0:8` — imp=`0x1000a0c54`
+  - `setIsSyncing:` — types=`v20@0:8B16` — imp=`0x1000a0c5c`
+  - `syncQueue` — types=`@16@0:8` — imp=`0x1000a0c64`
+  - `setSyncQueue:` — types=`v24@0:8@16` — imp=`0x1000a0c6c`
+  - `lastAttemptTimestamp` — types=`Q16@0:8` — imp=`0x1000a0c78`
+  - `setLastAttemptTimestamp:` — types=`v24@0:8Q16` — imp=`0x1000a0c80`
+  - `.cxx_destruct` — types=`v16@0:8` — imp=`0x1000a0c88`
+- Class methods (6):
+  - `+sharedInstance` — types=`@16@0:8` — imp=`0x100059134`
+  - `+isCarPlayScreen:` — types=`B24@0:8@16` — imp=`0x10007ef6c`
+  - `+isCarPlayScreenConnectedExcludingScreen:` — types=`B24@0:8@16` — imp=`0x10007f1c0`
+  - `+isCarPlayScreenConnected` — types=`B16@0:8` — imp=`0x10007f580`
+  - `+formatBaseURLString:` — types=`@24@0:8@16` — imp=`0x100091f8c`
+  - `+resolvedBackendBaseURL` — types=`@16@0:8` — imp=`0x10009231c`
+
+#### Protocols khai báo trong binary
+- `NSObject`: instance=19, class=0, optional-inst=1, optional-class=0
+  - `-isEqual:` — types=`B24@0:8@16`
+  - `-class` — types=`#16@0:8`
+  - `-self` — types=`@16@0:8`
+  - `-performSelector:` — types=`@24@0:8:16`
+  - `-performSelector:withObject:` — types=`@32@0:8:16@24`
+  - `-performSelector:withObject:withObject:` — types=`@40@0:8:16@24@32`
+  - `-isProxy` — types=`B16@0:8`
+  - `-isKindOfClass:` — types=`B24@0:8#16`
+  - `-isMemberOfClass:` — types=`B24@0:8#16`
+  - `-conformsToProtocol:` — types=`B24@0:8@16`
+  - `-respondsToSelector:` — types=`B24@0:8:16`
+  - `-retain` — types=`@16@0:8`
+  - `-release` — types=`Vv16@0:8`
+  - `-autorelease` — types=`@16@0:8`
+  - `-retainCount` — types=`Q16@0:8`
+  - `-zone` — types=`^{_NSZone=}16@0:8`
+  - `-hash` — types=`Q16@0:8`
+  - `-superclass` — types=`#16@0:8`
+  - `-description` — types=`@16@0:8`
+- `UIApplicationDelegate`: instance=0, class=0, optional-inst=55, optional-class=0
+- `UITableViewDataSource`: instance=2, class=0, optional-inst=9, optional-class=0
+  - `-tableView:numberOfRowsInSection:` — types=`q32@0:8@16q24`
+  - `-tableView:cellForRowAtIndexPath:` — types=`@32@0:8@16@24`
+- `UIScrollViewDelegate`: instance=0, class=0, optional-inst=14, optional-class=0
+- `UITableViewDelegate`: instance=0, class=0, optional-inst=53, optional-class=0
+- `UISearchResultsUpdating`: instance=1, class=0, optional-inst=1, optional-class=0
+  - `-updateSearchResultsForSearchController:` — types=`v24@0:8@16`
+- `UIBarPositioningDelegate`: instance=0, class=0, optional-inst=1, optional-class=0
+- `UISearchBarDelegate`: instance=0, class=0, optional-inst=11, optional-class=0
+- `UITextFieldDelegate`: instance=0, class=0, optional-inst=12, optional-class=0
+- `CBSubscriptionOrderCoordinatorDelegate`: instance=7, class=0, optional-inst=0, optional-class=0
+  - `-orderCoordinatorDidUpdatePendingOrder:` — types=`v24@0:8@16`
+  - `-orderCoordinatorDidClearPendingOrder:` — types=`v24@0:8@16`
+  - `-orderCoordinatorDidCompletePaymentSuccessfully:` — types=`v24@0:8@16`
+  - `-orderCoordinator:shouldPresentAlert:` — types=`v32@0:8@16@24`
+  - `-orderCoordinator:shouldPresentSafari:` — types=`v32@0:8@16@24`
+  - `-orderCoordinator:setCheckoutLoading:` — types=`v28@0:8@16B24`
+  - `-orderCoordinator:setCheckStatusButtonChecking:` — types=`v28@0:8@16B24`
+- `CBSubscriptionCheckoutCellDelegate`: instance=1, class=0, optional-inst=0, optional-class=0
+  - `-checkoutCellDidTapCheckout:` — types=`v24@0:8@16`
+- `CBSubscriptionPendingOrderCellDelegate`: instance=3, class=0, optional-inst=0, optional-class=0
+  - `-pendingOrderCellDidTapResume:` — types=`v24@0:8@16`
+  - `-pendingOrderCellDidTapCheckStatus:` — types=`v24@0:8@16`
+  - `-pendingOrderCellDidTapCancel:` — types=`v24@0:8@16`
+- `CBSubscriptionGiftcodeInputCellDelegate`: instance=1, class=0, optional-inst=0, optional-class=0
+  - `-giftcodeInputCellDidTapPaste:` — types=`v24@0:8@16`
+- `CBSubscriptionGiftcodeRedeemCellDelegate`: instance=1, class=0, optional-inst=0, optional-class=0
+  - `-giftcodeRedeemCellDidTapRedeem:` — types=`v24@0:8@16`
+- `CBSubscriptionHardwareIDCellDelegate`: instance=1, class=0, optional-inst=0, optional-class=0
+  - `-hardwareIDCellDidTapCopy:` — types=`v24@0:8@16`
+- `SFSafariViewControllerDelegate`: instance=0, class=0, optional-inst=6, optional-class=0
+
+- Defined symbols (slice arm64, 79):
+  - `radr://5614542` @ 90260802
+  - `_CBAppsListUpdatedNotification` @ 4295918040
+  - `_CBLanguageChangedNotification` @ 4295920272
+  - `_CBLocTable_ar` @ 4295170196
+  - `_CBLocTable_de` @ 4295177652
+  - `_CBLocTable_en` @ 4295185116
+  - `_CBLocTable_es` @ 4295192572
+  - `_CBLocTable_fr` @ 4295200036
+  - `_CBLocTable_hi` @ 4295207508
+  - `_CBLocTable_id` @ 4295214940
+  - `_CBLocTable_it` @ 4295222396
+  - `_CBLocTable_ja` @ 4295229876
+  - `_CBLocTable_ko` @ 4295237324
+  - `_CBLocTable_ms` @ 4295244740
+  - `_CBLocTable_nl` @ 4295252188
+  - `_CBLocTable_pl` @ 4295259644
+  - `_CBLocTable_pt` @ 4295267116
+  - `_CBLocTable_ru` @ 4295274588
+  - `_CBLocTable_th` @ 4295282052
+  - `_CBLocTable_tr` @ 4295289468
+  - `_CBLocTable_vi` @ 4295296932
+  - `_CBLocTable_zh` @ 4295311884
+  - `_CBLocTable_zh_Hant` @ 4295304444
+  - `_OBJC_CLASS_$_CBAppManager` @ 4296130376
+  - `_OBJC_CLASS_$_CBAppModel` @ 4296130336
+  - `_OBJC_CLASS_$_CBAppPickerViewController` @ 4296130776
+  - `_OBJC_CLASS_$_CBAppSection` @ 4296130576
+  - `_OBJC_CLASS_$_CBAppSwitch` @ 4296130656
+  - `_OBJC_CLASS_$_CBAppsManagerViewController` @ 4296130696
+  - `_OBJC_CLASS_$_CBAssistantAboutViewController` @ 4296130936
+  - `_OBJC_CLASS_$_CBGeneralSettingsViewController` @ 4296130456
+  - `_OBJC_CLASS_$_CBHttpClient` @ 4296132136
+  - `_OBJC_CLASS_$_CBLicenseExpiredModalViewController` @ 4296131096
+  - `_OBJC_CLASS_$_CBLicenseSyncManager` @ 4296132216
+  - `_OBJC_CLASS_$_CBLocalization` @ 4296131976
+  - `_OBJC_CLASS_$_CBSplitSplashScreenView` @ 4296132056
+  - `_OBJC_CLASS_$_CBSplitViewController` @ 4296130856
+  - `_OBJC_CLASS_$_CBSubscriptionCheckoutCell` @ 4296131176
+  - `_OBJC_CLASS_$_CBSubscriptionGiftcodeInputCell` @ 4296131416
+  - `_OBJC_CLASS_$_CBSubscriptionGiftcodeRedeemCell` @ 4296131496
+  - `_OBJC_CLASS_$_CBSubscriptionHardwareIDCell` @ 4296131336
+  - `_OBJC_CLASS_$_CBSubscriptionOrderCoordinator` @ 4296131896
+  - `_OBJC_CLASS_$_CBSubscriptionPendingOrderCell` @ 4296131576
+  - `_OBJC_CLASS_$_CBSubscriptionPlanCardCell` @ 4296131656
+  - `_OBJC_CLASS_$_CBSubscriptionStatusCell` @ 4296131736
+  - `_OBJC_CLASS_$_CBSubscriptionVIPCardCell` @ 4296131816
+  - `_OBJC_CLASS_$_CBSubscriptionVIPStatusCell` @ 4296131256
+  - `_OBJC_CLASS_$_CBSubscriptionViewController` @ 4296131016
+  - `_OBJC_CLASS_$_XXAppDelegate` @ 4296130176
+  - `_OBJC_CLASS_$_XXRootViewController` @ 4296130216
+  - `_OBJC_METACLASS_$_CBAppManager` @ 4296130416
+  - `_OBJC_METACLASS_$_CBAppModel` @ 4296130296
+  - `_OBJC_METACLASS_$_CBAppPickerViewController` @ 4296130816
+  - `_OBJC_METACLASS_$_CBAppSection` @ 4296130536
+  - `_OBJC_METACLASS_$_CBAppSwitch` @ 4296130616
+  - `_OBJC_METACLASS_$_CBAppsManagerViewController` @ 4296130736
+  - `_OBJC_METACLASS_$_CBAssistantAboutViewController` @ 4296130976
+  - `_OBJC_METACLASS_$_CBGeneralSettingsViewController` @ 4296130496
+  - `_OBJC_METACLASS_$_CBHttpClient` @ 4296132176
+  - `_OBJC_METACLASS_$_CBLicenseExpiredModalViewController` @ 4296131136
+  - `_OBJC_METACLASS_$_CBLicenseSyncManager` @ 4296132256
+  - `_OBJC_METACLASS_$_CBLocalization` @ 4296132016
+  - `_OBJC_METACLASS_$_CBSplitSplashScreenView` @ 4296132096
+  - `_OBJC_METACLASS_$_CBSplitViewController` @ 4296130896
+  - `_OBJC_METACLASS_$_CBSubscriptionCheckoutCell` @ 4296131216
+  - `_OBJC_METACLASS_$_CBSubscriptionGiftcodeInputCell` @ 4296131456
+  - `_OBJC_METACLASS_$_CBSubscriptionGiftcodeRedeemCell` @ 4296131536
+  - `_OBJC_METACLASS_$_CBSubscriptionHardwareIDCell` @ 4296131376
+  - `_OBJC_METACLASS_$_CBSubscriptionOrderCoordinator` @ 4296131936
+  - `_OBJC_METACLASS_$_CBSubscriptionPendingOrderCell` @ 4296131616
+  - `_OBJC_METACLASS_$_CBSubscriptionPlanCardCell` @ 4296131696
+  - `_OBJC_METACLASS_$_CBSubscriptionStatusCell` @ 4296131776
+  - `_OBJC_METACLASS_$_CBSubscriptionVIPCardCell` @ 4296131856
+  - `_OBJC_METACLASS_$_CBSubscriptionVIPStatusCell` @ 4296131296
+  - `_OBJC_METACLASS_$_CBSubscriptionViewController` @ 4296131056
+  - `_OBJC_METACLASS_$_XXAppDelegate` @ 4296130136
+  - `_OBJC_METACLASS_$_XXRootViewController` @ 4296130256
+  - `__mh_execute_header` @ 4294967296
+  - `_main` @ 4294996628
+- Undefined/imported symbols (slice arm64, 214):
+  - `_CACurrentMediaTime`
+  - `_CFDataGetBytePtr`
+  - `_CFDataGetLength`
+  - `_CFDataGetTypeID`
+  - `_CFGetTypeID`
+  - `_CFNotificationCenterAddObserver`
+  - `_CFNotificationCenterGetDarwinNotifyCenter`
+  - `_CFNotificationCenterPostNotification`
+  - `_CFNotificationCenterRemoveObserver`
+  - `_CFNumberGetTypeID`
+  - `_CFNumberGetValue`
+  - `_CFRelease`
+  - `_CFStringCreateWithCString`
+  - `_CFStringGetCString`
+  - `_CFStringGetTypeID`
+  - `_CGAffineTransformIdentity`
+  - `_CGAffineTransformMakeScale`
+  - `_CGColorSpaceCreateDeviceRGB`
+  - `_CGColorSpaceRelease`
+  - `_CGContextDrawRadialGradient`
+  - `_CGGradientCreateWithColors`
+  - `_CGGradientRelease`
+  - `_CGRectEqualToRect`
+  - `_IOObjectRelease`
+  - `_IORegistryEntryCreateCFProperty`
+  - `_IOServiceGetMatchingService`
+  - `_IOServiceMatching`
+  - `_NSClassFromString`
+  - `_NSFontAttributeName`
+  - `_NSForegroundColorAttributeName`
+  - `_NSKernAttributeName`
+  - `_NSLocalizedDescriptionKey`
+  - `_NSLog`
+  - `_NSStringFromClass`
+  - `_OBJC_CLASS_$_CAGradientLayer`
+  - `_OBJC_CLASS_$_CAShapeLayer`
+  - `_OBJC_CLASS_$_LSApplicationWorkspace`
+  - `_OBJC_CLASS_$_NSArray`
+  - `_OBJC_CLASS_$_NSCharacterSet`
+  - `_OBJC_CLASS_$_NSData`
+  - `_OBJC_CLASS_$_NSDate`
+  - `_OBJC_CLASS_$_NSDateFormatter`
+  - `_OBJC_CLASS_$_NSDictionary`
+  - `_OBJC_CLASS_$_NSError`
+  - `_OBJC_CLASS_$_NSFileHandle`
+  - `_OBJC_CLASS_$_NSFileManager`
+  - `_OBJC_CLASS_$_NSHTTPURLResponse`
+  - `_OBJC_CLASS_$_NSISO8601DateFormatter`
+  - `_OBJC_CLASS_$_NSIndexPath`
+  - `_OBJC_CLASS_$_NSIndexSet`
+  - `_OBJC_CLASS_$_NSJSONSerialization`
+  - `_OBJC_CLASS_$_NSLayoutConstraint`
+  - `_OBJC_CLASS_$_NSLocale`
+  - `_OBJC_CLASS_$_NSMutableArray`
+  - `_OBJC_CLASS_$_NSMutableAttributedString`
+  - `_OBJC_CLASS_$_NSMutableDictionary`
+  - `_OBJC_CLASS_$_NSMutableSet`
+  - `_OBJC_CLASS_$_NSMutableString`
+  - `_OBJC_CLASS_$_NSMutableURLRequest`
+  - `_OBJC_CLASS_$_NSNotificationCenter`
+  - `_OBJC_CLASS_$_NSNumber`
+  - `_OBJC_CLASS_$_NSObject`
+  - `_OBJC_CLASS_$_NSPredicate`
+  - `_OBJC_CLASS_$_NSSet`
+  - `_OBJC_CLASS_$_NSString`
+  - `_OBJC_CLASS_$_NSTimer`
+  - `_OBJC_CLASS_$_NSURL`
+  - `_OBJC_CLASS_$_NSURLSession`
+  - `_OBJC_CLASS_$_NSURLSessionConfiguration`
+  - `_OBJC_CLASS_$_SFSafariViewController`
+  - `_OBJC_CLASS_$_UIActivityIndicatorView`
+  - `_OBJC_CLASS_$_UIAlertAction`
+  - `_OBJC_CLASS_$_UIAlertController`
+  - `_OBJC_CLASS_$_UIApplication`
+  - `_OBJC_CLASS_$_UIBarButtonItem`
+  - `_OBJC_CLASS_$_UIBezierPath`
+  - `_OBJC_CLASS_$_UIBlurEffect`
+  - `_OBJC_CLASS_$_UIButton`
+  - `_OBJC_CLASS_$_UIColor`
+  - `_OBJC_CLASS_$_UIFont`
+  - `_OBJC_CLASS_$_UIImage`
+  - `_OBJC_CLASS_$_UIImageView`
+  - `_OBJC_CLASS_$_UIImpactFeedbackGenerator`
+  - `_OBJC_CLASS_$_UILabel`
+  - `_OBJC_CLASS_$_UINavigationController`
+  - `_OBJC_CLASS_$_UINotificationFeedbackGenerator`
+  - `_OBJC_CLASS_$_UIPasteboard`
+  - `_OBJC_CLASS_$_UIResponder`
+  - `_OBJC_CLASS_$_UIScreen`
+  - `_OBJC_CLASS_$_UISearchController`
+  - `_OBJC_CLASS_$_UISegmentedControl`
+  - `_OBJC_CLASS_$_UIStackView`
+  - `_OBJC_CLASS_$_UISwitch`
+  - `_OBJC_CLASS_$_UITabBarAppearance`
+  - `_OBJC_CLASS_$_UITabBarController`
+  - `_OBJC_CLASS_$_UITabBarItem`
+  - `_OBJC_CLASS_$_UITableView`
+  - `_OBJC_CLASS_$_UITableViewCell`
+  - `_OBJC_CLASS_$_UITableViewController`
+  - `_OBJC_CLASS_$_UITapGestureRecognizer`
+  - `_OBJC_CLASS_$_UITextField`
+  - `_OBJC_CLASS_$_UIView`
+  - `_OBJC_CLASS_$_UIViewController`
+  - `_OBJC_CLASS_$_UIVisualEffectView`
+  - `_OBJC_CLASS_$_UIWindow`
+  - `_OBJC_EHTYPE_$_NSException`
+  - `_OBJC_METACLASS_$_NSObject`
+  - `_OBJC_METACLASS_$_UIResponder`
+  - `_OBJC_METACLASS_$_UISwitch`
+  - `_OBJC_METACLASS_$_UITabBarController`
+  - `_OBJC_METACLASS_$_UITableViewCell`
+  - `_OBJC_METACLASS_$_UITableViewController`
+  - `_OBJC_METACLASS_$_UIView`
+  - `_OBJC_METACLASS_$_UIViewController`
+  - `_SecItemAdd`
+  - `_SecItemCopyMatching`
+  - `_SecItemUpdate`
+  - `_UIApplicationDidBecomeActiveNotification`
+  - `_UIApplicationMain`
+  - `_UIFontWeightBlack`
+  - `_UIFontWeightBold`
+  - `_UIFontWeightHeavy`
+  - `_UIFontWeightMedium`
+  - `_UIFontWeightRegular`
+  - `_UIFontWeightSemibold`
+  - `_UIGraphicsBeginImageContextWithOptions`
+  - `_UIGraphicsEndImageContext`
+  - `_UIGraphicsGetCurrentContext`
+  - `_UIGraphicsGetImageFromCurrentImageContext`
+  - `_UIKeyboardFrameEndUserInfoKey`
+  - `_UIKeyboardWillHideNotification`
+  - `_UIKeyboardWillShowNotification`
+  - `_UITableViewAutomaticDimension`
+  - `__Block_object_assign`
+  - `__NSConcreteGlobalBlock`
+  - `__NSConcreteStackBlock`
+  - `__Unwind_Resume`
+  - `___CFConstantStringClassReference`
+  - `___NSArray0__`
+  - `___memcpy_chk`
+  - `___objc_personality_v0`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `__dispatch_main_q`
+  - `__objc_empty_cache`
+  - `__tlv_bootstrap`
+  - `_bzero`
+  - `_chmod`
+  - `_chown`
+  - `_dispatch_after`
+  - `_dispatch_async`
+  - `_dispatch_get_global_queue`
+  - `_dispatch_once`
+  - `_dispatch_queue_create`
+  - `_dispatch_time`
+  - `_fclose`
+  - `_fopen`
+  - `_fread`
+  - `_fwrite`
+  - `_kCACornerCurveContinuous`
+  - `_kCFAllocatorDefault`
+  - `_kIOMasterPortDefault`
+  - `_kSecAttrAccessible`
+  - `_kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`
+  - `_kSecAttrAccount`
+  - `_kSecAttrService`
+  - `_kSecClass`
+  - `_kSecClassGenericPassword`
+  - `_kSecMatchLimit`
+  - `_kSecMatchLimitOne`
+  - `_kSecReturnData`
+  - `_kSecValueData`
+  - `_mach_task_self_`
+  - `_memcpy`
+  - `_notify_post`
+  - `_objc_alloc`
+  - `_objc_alloc_init`
+  - `_objc_autorelease`
+  - `_objc_autoreleasePoolPop`
+  - `_objc_autoreleasePoolPush`
+  - `_objc_autoreleaseReturnValue`
+  - `_objc_begin_catch`
+  - `_objc_copyWeak`
+  - `_objc_destroyWeak`
+  - `_objc_end_catch`
+  - `_objc_enumerationMutation`
+  - `_objc_getClass`
+  - `_objc_getProperty`
+  - `_objc_initWeak`
+  - `_objc_loadWeakRetained`
+  - `_objc_msgSend`
+  - `_objc_msgSendSuper2`
+  - `_objc_release`
+  - `_objc_retain`
+  - `_objc_retainAutorelease`
+  - `_objc_retainAutoreleaseReturnValue`
+  - `_objc_retainAutoreleasedReturnValue`
+  - `_objc_retainBlock`
+  - `_objc_setProperty_nonatomic_copy`
+  - `_objc_storeStrong`
+  - `_objc_storeWeak`
+  - `_objc_sync_enter`
+  - `_objc_sync_exit`
+  - `_objc_unsafeClaimAutoreleasedReturnValue`
+  - `_posix_spawn`
+  - `_rename`
+  - `_sel_registerName`
+  - `_snprintf`
+  - `_strlen`
+  - `_sysctl`
+  - `_sysctlbyname`
+  - `_time`
+  - `_vm_read_overwrite`
+  - `dyld_stub_binder`
+
+### 4.8 duoface_cboptimize_helper
+- Đường dẫn trong gói: `var/jb/usr/libexec/duoface_cboptimize_helper`
+- Bộ lọc nạp: Executable dòng lệnh đi kèm script /var/jb/usr/bin/duoface-cboptimize (xem mục 7.6)
+- Slice 0: **arm64**, symbols defined=3, undefined/imports=36
+  - Code signature: chỉ có CodeDirectory + requirements, **không có blob entitlements** (chi tiết: {"blob_type_0": ["0xfade0c02", 732], "blob_type_2": ["0xfade0c01", 152]}).
+  - Class ObjC: 0 · Category: 0 · Protocol khai báo: 0
+- Slice 1: **arm64 (subtype 2 = arm64e)**, symbols defined=3, undefined/imports=35
+  - Code signature: chỉ có CodeDirectory + requirements, **không có blob entitlements** (chi tiết: {"blob_type_0": ["0xfade0c02", 604], "blob_type_2": ["0xfade0c01", 152]}).
+  - Class ObjC: 0 · Category: 0 · Protocol khai báo: 0
+- Class ngoài binary được tham chiếu (`_OBJC_CLASS_$_*`): 0 — danh sách ở cuối mục này.
+- Thư viện liên kết: `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`, `/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit`, `/System/Library/Frameworks/Security.framework/Security`, `/usr/lib/libSystem.B.dylib`, `/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation`, `/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit`, `/System/Library/Frameworks/Security.framework/Security`, `/usr/lib/libSystem.B.dylib`
+- Constructor: không có `__mod_init_func` dạng pointer cổ điển.
+
+- Defined symbols (slice arm64, 3):
+  - `radr://5614542` @ 90260802
+  - `__mh_execute_header` @ 4294967296
+  - `_main` @ 4294992812
+- Undefined/imported symbols (slice arm64, 36):
+  - `_CFDataGetBytePtr`
+  - `_CFDataGetLength`
+  - `_CFDataGetTypeID`
+  - `_CFGetTypeID`
+  - `_CFNumberGetTypeID`
+  - `_CFNumberGetValue`
+  - `_CFRelease`
+  - `_CFStringCreateWithCString`
+  - `_CFStringGetCString`
+  - `_CFStringGetTypeID`
+  - `_IOObjectRelease`
+  - `_IORegistryEntryCreateCFProperty`
+  - `_IOServiceGetMatchingService`
+  - `_IOServiceMatching`
+  - `___memcpy_chk`
+  - `___stack_chk_fail`
+  - `___stack_chk_guard`
+  - `___stderrp`
+  - `_access`
+  - `_fwrite`
+  - `_kCFAllocatorDefault`
+  - `_kIOMasterPortDefault`
+  - `_mach_task_self_`
+  - `_memcpy`
+  - `_posix_spawn`
+  - `_printf`
+  - `_putchar`
+  - `_setgid`
+  - `_setuid`
+  - `_snprintf`
+  - `_strcmp`
+  - `_strlen`
+  - `_sysctlbyname`
+  - `_vm_read_overwrite`
+  - `_waitpid`
+  - `dyld_stub_binder`
+
+## 5. BỘ LỌC SUBSTRATE TỔNG HỢP (dylib → tiến trình đích)
+
+| Dylib | Filter.Bundles | Filter.Executables |
+|---|---|---|
+| DuoFaceDashboard.dylib | com.apple.CarPlayApp, com.apple.CarPlay, com.apple.dashboard, com.apple.springboard, com.apple.SpringBoard, com.google.ios.youtube, com.google.ios.youtubemusic, com.netflix.Netflix, org.videolan.vlc-ios, com.apple.mobilesafari, tv.twitch, com.zhiliaoapp.musically, com.google.Maps, com.waze.iphone, com.spotify.client, com.apple.Preferences, com.apple.mobilenotes, com.apple.mobilephone, com.apple.Music, com.google.chrome.ios, com.apple.BarcodeScanner, com.apple.PrintKit.Print-Center, com.duoface.duofaceui (24) | — |
+| DuoFaceFullscreenBridge.dylib | com.apple.CarPlayApp, com.apple.CarPlay, com.apple.dashboard, com.apple.springboard | CarPlay, CarPlayApp, Dashboard, SpringBoard |
+| DuoFaceVisualHook.dylib | com.apple.CarPlayApp, com.apple.CarPlay, com.apple.dashboard, com.apple.springboard, com.apple.SpringBoard, com.duoface.duofaceui | — |
+| DuoFaceLogoGripOnly.dylib | com.apple.CarPlayApp, com.apple.CarPlay, com.apple.dashboard, com.apple.springboard, com.apple.SpringBoard, com.duoface.duofaceui | — |
+| DuoFaceSpeedOwner.dylib | — | SpringBoard |
+| DuoFaceSpeedHUD.dylib | — | SpringBoard |
+
+Nhận xét đo được: DuoFaceDashboard là dylib duy nhất nạp vào cả tiến trình hệ thống CarPlay/SpringBoard **và** các app được host (YouTube, Netflix, Maps, Waze, Spotify…); 2 dylib Speed* chỉ nạp vào SpringBoard; FullscreenBridge chỉ ở 4 tiến trình CarPlay/SpringBoard.
+
+## 6. CHUỖI QUAN TRỌNG THEO TỪNG BINARY
+
+Chỉ liệt kê chuỗi đo được trong binary; gộp theo nhóm: kênh thông báo/IPC dạng reverse-DNS của chính sản phẩm, URL/endpoint, đường dẫn file/log, chuỗi liên quan license (chỉ ghi sự tồn tại + tên, theo đúng phạm vi hồ sơ).
+
+### 6.1 DuoFaceDashboard
