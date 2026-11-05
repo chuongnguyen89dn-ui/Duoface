@@ -1,14 +1,20 @@
 {
-  "checked_at_utc": "2026-11-05T15:35:26.427120+00:00",
+  "checked_at_utc": "2026-11-05T22:06:38.958945+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4352,
+  "total_actions_runs": 4354,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 11,
-      "success": 10,
+      "recent_runs": 12,
+      "success": 11,
       "failure": 0,
       "other": 1
+    },
+    "QA172 wakefix4 activity ownership and native-map restoration - signed candidate": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
     },
     "QA172 wakefix3 keyboard, reconnect and native-map repair - private signed DEB": {
       "recent_runs": 1,
@@ -137,19 +143,39 @@
       "other": 3
     },
     "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB": {
-      "recent_runs": 6,
+      "recent_runs": 4,
       "success": 1,
       "failure": 3,
-      "other": 2
+      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 42118586704,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 116,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42118586704",
+      "created_at": "2026-11-05T22:06:21Z",
+      "head_sha": "f6a72f546eb5e178cef6df9f18178121b5615ffd"
+    },
+    {
+      "id": 42084544494,
+      "name": "QA172 wakefix4 activity ownership and native-map restoration - signed candidate",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42084544494",
+      "created_at": "2026-11-05T18:28:21Z",
+      "head_sha": "1740e1b992ce2fd3c41135df864460336eb51e35"
+    },
+    {
       "id": 42056468779,
       "name": "DuoFace Actions status snapshot",
       "run_number": 115,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42056468779",
       "created_at": "2026-11-05T15:35:10Z",
       "head_sha": "cadcb85d259bf550cf578bdeb5842b7dcac53f9d"
@@ -423,26 +449,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616950043",
       "created_at": "2026-11-03T10:09:54Z",
       "head_sha": "c3a5f46b3828e358510a7daf7559bc653b36c174"
-    },
-    {
-      "id": 41616945492,
-      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616945492",
-      "created_at": "2026-11-03T10:09:52Z",
-      "head_sha": "ee737de87d0afc19aa14e3104c1b55ef67c2c5f3"
-    },
-    {
-      "id": 41616931019,
-      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616931019",
-      "created_at": "2026-11-03T10:09:45Z",
-      "head_sha": "8e4ca48542b3c8bb5b68de7b20961a56d1fea1b3"
     }
   ]
 }
