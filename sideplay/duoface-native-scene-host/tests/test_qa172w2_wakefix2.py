@@ -16,14 +16,28 @@ def has_immediate_layout(source):
  immediate=body.split('dispatch_after(',1)[0]
  return bool(re.search(r'\[\s*(?:self|owner)\s+layoutControls\s*\]',immediate))
 
+def touch_admission_precedes_timers(source):
+ """The tested policy must gate the real handler and receive host evidence."""
+ immediate=app_touch_method(source).split('dispatch_after(',1)[0]
+ guard=re.search(r'if\s*\(\s*!DF177AppTouchRecordMatches\(parsed,liveProcesses,'
+                 r'\s*self\.touch177Session\.startedAt,now\)\)return;',immediate)
+ if not guard:return False
+ evidence=immediate[:guard.start()]
+ if not all(token in evidence for token in (
+     'for(UIView *surface in self.hostedScenes)',
+     'NSNumber *pid=[host verifiedPIDForHostedView:surface];',
+     'liveProcesses[hostedBundle]=pid;')):return False
+ changes=list(re.finditer(r'self\.(?:borderUntil|controlsUntil)\s*=',immediate))
+ return bool(changes) and all(change.start()>guard.end() for change in changes)
+
 class QA172Wakefix2(unittest.TestCase):
  def test_version_coherence(self):
   for text in (TRACE, CTRL, PKG):
-   self.assertIn("wakefix3", text)
+   self.assertIn("wakefix4", text)
    self.assertNotIn("wakefix3map1", text)
   self.assertNotIn("wakefix1", TRACE)
   self.assertNotIn("wakefix1", PKG)
-  self.assertIn("Version: 0.1.172~wakefix3", CTRL)
+  self.assertIn("Version: 0.1.172~wakefix4", CTRL)
 
  def test_shield_window_gone(self):
   for token in ("DFNativeWakeShieldView","wakeShieldViews",
@@ -59,6 +73,44 @@ class QA172Wakefix2(unittest.TestCase):
   marker='- (void)df177HandleAppTouch {'
   broken=CHROME.replace(marker,marker+'\n    [self layoutControls];',1)
   self.assertTrue(has_immediate_layout(broken))
+
+ def test_touch_sender_and_receiver_use_process_owned_v2(self):
+  sender=(ROOT/'DFAppTouch177.h').read_text()
+  begin=sender.index('static inline void DF177AppTouchNoteBegan(')
+  end=sender.index('static IMP DF177SendEventOriginal',begin)
+  body=sender[begin:end]
+  self.assertIn('@"version": @2',body)
+  self.assertIn('@"pid": @(getpid())',body)
+  self.assertTrue(touch_admission_precedes_timers(CHROME))
+  # A validator somewhere in the file is insufficient: removing the actual
+  # return, trusting the sender PID or mutating a timer first must be caught.
+  unguarded=CHROME.replace('if(!DF177AppTouchRecordMatches(parsed,liveProcesses,',
+                          'if(DF177AppTouchRecordMatches(parsed,liveProcesses,',1)
+  self.assertFalse(touch_admission_precedes_timers(unguarded))
+  body=app_touch_method(CHROME)
+  forged=body.replace('NSNumber *pid=[host verifiedPIDForHostedView:surface];',
+                      'NSNumber *pid=parsed[@"pid"];',1)
+  self.assertFalse(touch_admission_precedes_timers(CHROME.replace(body,forged,1)))
+  marker='- (void)df177HandleAppTouch {'
+  early=CHROME.replace(marker,marker+'\n    self.controlsUntil=1;',1)
+  self.assertFalse(touch_admission_precedes_timers(early))
+
+ def test_touch_callbacks_are_bound_to_active_chrome_session(self):
+  body=app_touch_method(CHROME)
+  immediate,delayed=body.split('dispatch_after(',1)
+  self.assertIn('NSUInteger session=self.touch177Session.generation;',immediate)
+  self.assertIn('!DF177AppTouchRecheckAllowed(owner.touch177Session,',delayed)
+  self.assertIn('session,owner,DF177CurrentTouchOwner,gen,',delayed)
+  self.assertLess(delayed.index('DF177AppTouchRecheckAllowed'),
+                  delayed.index('[owner df177RefreshKeyboardState]'))
+  start=CHROME[CHROME.index('- (BOOL)start {'):CHROME.index('CGRect cr=self.contentRect;',
+          CHROME.index('- (BOOL)start {'))]
+  stop=CHROME[CHROME.index('- (void)stop {'):]
+  self.assertIn('DF177AppTouchBeginSession(self.touch177Session,',start)
+  self.assertIn('DF177AppTouchEndSession(self.touch177Session)',stop)
+  for section in (start,stop):
+   self.assertIn('DF177AppTouchNextGeneration(self.touch177RecheckGeneration)',section)
+  self.assertIn('if(DF177CurrentTouchOwner==self)DF177CurrentTouchOwner=nil;',stop)
 
  def test_keyboard_is_owned_and_unknown_state_does_not_consume(self):
   self.assertIn('verifiedPIDForHostedView:surface',CHROME)

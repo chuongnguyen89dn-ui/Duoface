@@ -115,6 +115,27 @@ class NativeMapPolicy(unittest.TestCase):
         self.assertIn("DFNativeMapSampleFresh", revoke)
         self.assertIn("DFNativeMapClearLeaseForSession(self.boundSession)", revoke)
 
+    def test_restoration_rechecks_captured_destination_before_any_mutation(self):
+        adapter = (MAP / "DFNativeMapPaneAdapter.m").read_text()
+        self.assertIn('#import "DFNativeMapRestorePolicy.h"', adapter)
+        adopt = adapter.split("- (BOOL)adoptNativeController:", 1)[1].split(
+            "- (BOOL)restoreOriginalOwnerWithError:", 1)[0]
+        self.assertLess(adopt.index("self.oldParentView=self.oldParent.viewIfLoaded;"),
+                        adopt.index("[vc willMoveToParentViewController:nil]"))
+        preflight = adapter.split("+ (NSString *)preflightNativeController:", 1)[1].split(
+            "- (BOOL)adoptNativeController:", 1)[0]
+        self.assertIn("DFNativeMapRestoreDestinationMatches(", preflight)
+        restore = adapter.split("- (BOOL)restoreOriginalOwnerWithError:", 1)[1]
+        self.assertIn("(id<DFNativeMapRestoreView>)self.oldParentView", restore)
+        guard = restore.index("!DFNativeMapRestoreDestinationMatches(")
+        rejection = restore.index("return NO;", guard)
+        for mutation in ("willMoveToParentViewController:nil", "removeFromSuperview",
+                         "removeFromParentViewController", "addChildViewController:vc"):
+            self.assertLess(rejection, restore.index(mutation))
+        clear = adapter.split("- (void)clearOwnershipReferences {", 1)[1].split(
+            "- (BOOL)hasVerifiedNativeOwner", 1)[0]
+        self.assertIn("self.oldParentView=nil;", clear)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

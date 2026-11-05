@@ -4,6 +4,7 @@
 // import vendor code/dylib/license or call private scene mutations.
 // Every adoption requires native-owner/host/controller parent verification.
 #import "DFNativeMapPaneAdapter.h"
+#import "DFNativeMapRestorePolicy.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <math.h>
@@ -58,6 +59,7 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
 @interface DFNativeMapPaneAdapter ()
 @property(nonatomic,strong) UIViewController *nativeOwner;
 @property(nonatomic,strong) UIViewController *oldParent;
+@property(nonatomic,strong) UIView *oldParentView;
 @property(nonatomic,strong) UIView *oldSuperview;
 @property(nonatomic,strong) UIWindow *oldWindow;
 @property(nonatomic,strong) UIViewController *assignedParent;
@@ -77,7 +79,7 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
 @implementation DFNativeMapPaneAdapter
 - (void)clearOwnershipReferences {
     self.attached=NO;
-    self.nativeOwner=nil;self.oldParent=nil;self.oldSuperview=nil;
+    self.nativeOwner=nil;self.oldParent=nil;self.oldParentView=nil;self.oldSuperview=nil;
     self.oldWindow=nil;self.assignedParent=nil;self.assignedContainer=nil;
     self.nativeScene=nil;self.nativeSceneIdentifier=nil;self.nativeBundle=nil;
 }
@@ -126,7 +128,12 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     UIViewController *previous=vc.parentViewController;
     UIWindow *window=source.window;
     if(!previous || !previous.isViewLoaded || !window ||
-       previous.view.window!=window || !source.superview)
+       previous.view.window!=window || !source.superview ||
+       !DFNativeMapRestoreDestinationMatches(
+           (id<DFNativeMapRestoreController>)vc,
+           (id<DFNativeMapRestoreController>)previous,
+           (id<DFNativeMapRestoreView>)previous.viewIfLoaded,
+           (id<DFNativeMapRestoreView>)source.superview,window))
         return @"previous-parent-or-window-not-owned";
     if(!parent.isViewLoaded || ![container isDescendantOfView:parent.view] ||
        parent.view.window!=window || container.window!=window)
@@ -166,6 +173,7 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     UIView *view=vc.viewIfLoaded;
     self.nativeOwner=vc;
     self.oldParent=vc.parentViewController;
+    self.oldParentView=self.oldParent.viewIfLoaded;
     self.oldSuperview=view.superview;
     self.oldWindow=view.window;
     self.assignedParent=parent;
@@ -202,7 +210,11 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
        !oldView || !self.oldWindow ||
        vc.parentViewController!=self.assignedParent ||
        view.superview!=self.assignedContainer ||
-       oldView.window!=self.oldWindow ||
+       !DFNativeMapRestoreDestinationMatches(
+           (id<DFNativeMapRestoreController>)vc,
+           (id<DFNativeMapRestoreController>)parent,
+           (id<DFNativeMapRestoreView>)self.oldParentView,
+           (id<DFNativeMapRestoreView>)oldView,self.oldWindow) ||
        ![self hasVerifiedNativeOwner]) {
         if(error)*error=@"restoration-owner-changed-no-unsafe-reparent";
         return NO;

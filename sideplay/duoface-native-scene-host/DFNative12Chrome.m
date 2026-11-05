@@ -337,6 +337,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL kbVisible177;
 @property(nonatomic,assign) BOOL kbStateKnown177;
 @property(nonatomic,assign) NSUInteger touch177RecheckGeneration;
+@property(nonatomic,assign) DF177AppTouchSession touch177Session;
 - (BOOL)df177RefreshKeyboardState;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
@@ -381,6 +382,10 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSInteger restoringPhysical;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
+// Main-queue ownership of the app activity subscription. A replaced instance
+// cannot act on queued callbacks even if its old object is still retained.
+static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+
 @implementation DFNative12Chrome
 - (instancetype)initWithDisplay:(id)display
                   configuration:(Class)configurationClass
@@ -676,6 +681,18 @@ static void DFCLog(NSString *text) {
     DFCLog(@"home-own-windows-hidden-before-scene-invalidate");
 }
 - (BOOL)start {
+    self.touch177Session=DF177AppTouchBeginSession(self.touch177Session,
+        NSDate.date.timeIntervalSince1970);
+    DF177CurrentTouchOwner=self;
+    self.touch177RecheckGeneration=
+        DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
+    self.touch177Bundles=nil;
+    self.touch177LastBundle=nil;
+    // A reused instance needs subscriptions capturing this session, even if
+    // start is called before an earlier subscription has been torn down.
+    if(self.touchWake177Token){notify_cancel(self.touchWake177Token);self.touchWake177Token=0;}
+    if(self.kbWake177Token){notify_cancel(self.kbWake177Token);self.kbWake177Token=0;}
+    NSUInteger touchSession=self.touch177Session.generation;
     // Fetch the latest iPhone choices for each actual reconnect.
     self.workspace=DFCurrentWorkspace();
     // A previously stopped Chrome can be reused after reconnect. Do not
@@ -693,11 +710,9 @@ static void DFCLog(NSString *text) {
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneFailed:) name:DFSceneHostDidFailNotification object:nil];
-    // QA177 H1 (SpringBoard side; the ONLY change ported onto the
-    // QA171 base in this build): the app-side relays report Began
-    // touches through a DF156 mailbox + this wake. A signal means
-    // "the user touched the hosted app": recall the controls through
-    // the same noteUserActivity path as every other activity source.
+    // Relays report Began touches through a DF156 mailbox + this wake. Only
+    // fresh v2 activity from a verified current hosted process extends timers;
+    // receiving activity never immediately relays out the hosted keyboard.
     // Kill switch: AppTouchRecall177 in the qa177 prefs plist
     // (absent = ON), read live on every wake.
     if(DF177AppTouchEnabled() && !self.touchWake177Token){
@@ -705,7 +720,11 @@ static void DFCLog(NSString *text) {
         int touchToken=0;
         if(notify_register_dispatch(DF177TouchWakeName,&touchToken,
                dispatch_get_main_queue(),^(int t){
-            (void)t; [weakTouch df177HandleAppTouch];
+            (void)t;
+            DFNative12Chrome *owner=weakTouch;
+            if(owner && DF177AppTouchSessionMatches(owner.touch177Session,
+                touchSession,owner,DF177CurrentTouchOwner))
+                [owner df177HandleAppTouch];
         })==NOTIFY_STATUS_OK) self.touchWake177Token=touchToken;
     }
     // QA172 wakefix: the relays also report keyboard visibility on a
@@ -716,12 +735,16 @@ static void DFCLog(NSString *text) {
         int kbToken=0;
         if(notify_register_dispatch(DF177KbWakeName,&kbToken,
                dispatch_get_main_queue(),^(int t){
-            (void)t; [weakKb df177HandleKbState];
+            (void)t;
+            DFNative12Chrome *owner=weakKb;
+            if(owner && DF177AppTouchSessionMatches(owner.touch177Session,
+                touchSession,owner,DF177CurrentTouchOwner))
+                [owner df177HandleKbState];
         })==NOTIFY_STATUS_OK) self.kbWake177Token=kbToken;
     }
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
-       CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
+       CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145){[self stop];return NO;}
     NSMutableArray *menus=[NSMutableArray new],*zooms=[NSMutableArray new];
     for(NSInteger slot=0;slot<4;slot++) {
         CGRect frame=CGRectMake(cr.origin.x+10,cr.origin.y+3,76,22);
@@ -1327,16 +1350,21 @@ static void DFCLog(NSString *text) {
 // rearrange windows while the keyboard is opening. Re-layout after a proven
 // close is deferred until UIKit's notification dispatch has completed.
 - (void)df177HandleKbState {
-    if(!DF177AppTouchEnabled())return;
+    if(!DF177AppTouchEnabled() ||
+       !DF177AppTouchSessionMatches(self.touch177Session,
+           self.touch177Session.generation,self,DF177CurrentTouchOwner))return;
     if(![self df177RefreshKeyboardState])return;
     DFCLog([NSString stringWithFormat:
         @"qa177-kb-state visible=%d known=%d source=owned-process-snapshots",
         self.kbVisible177?1:0,self.kbStateKnown177?1:0]);
     if(!self.kbVisible177 && self.kbStateKnown177){
+        NSUInteger session=self.touch177Session.generation;
         __weak typeof(self) weakSelf=self;
         dispatch_async(dispatch_get_main_queue(),^{
             DFNative12Chrome *owner=weakSelf;
-            if(!owner || !owner.windows.count)return;
+            if(!owner || !owner.windows.count ||
+               !DF177AppTouchSessionMatches(owner.touch177Session,
+                   session,owner,DF177CurrentTouchOwner))return;
             [owner df177RefreshKeyboardState];
             if(owner.kbStateKnown177 && !owner.kbVisible177)
                 [owner layoutControls];
@@ -1351,7 +1379,9 @@ static void DFCLog(NSString *text) {
 // the tail of this method); hidden->visible recalls come from
 // host-side touches and log qa177-recall at their own call sites.
 - (void)df177HandleAppTouch {
-    if(!DF177AppTouchEnabled())return;
+    if(!DF177AppTouchEnabled() ||
+       !DF177AppTouchSessionMatches(self.touch177Session,
+           self.touch177Session.generation,self,DF177CurrentTouchOwner))return;
     static DF156Mailbox touchBox;
     static BOOL touchBoxReady=NO;
     if(!touchBoxReady){ DF156Init(&touchBox,DF177TouchMailboxName); touchBoxReady=YES; }
@@ -1360,11 +1390,19 @@ static void DFCLog(NSString *text) {
     if(!size)return;
     id parsed=[NSJSONSerialization JSONObjectWithData:
         [NSData dataWithBytes:bytes length:size] options:0 error:nil];
-    if(![parsed isKindOfClass:NSDictionary.class])return;
-    NSString *bundle=parsed[@"bundle"];
-    if(![bundle isKindOfClass:NSString.class] || !bundle.length)return;
-    uint64_t count=[parsed[@"count"] unsignedLongLongValue];
+    NSMutableDictionary *liveProcesses=[NSMutableDictionary dictionary];
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    for(UIView *surface in self.hostedScenes){
+        if(![surface isKindOfClass:UIView.class])continue;
+        NSString *hostedBundle=[host bundleIDForHostedView:surface];
+        NSNumber *pid=[host verifiedPIDForHostedView:surface];
+        if(hostedBundle.length && pid)liveProcesses[hostedBundle]=pid;
+    }
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(!DF177AppTouchRecordMatches(parsed,liveProcesses,
+        self.touch177Session.startedAt,now))return;
+    NSString *bundle=parsed[@"bundle"];
+    uint64_t count=[parsed[@"count"] unsignedLongLongValue];
     if(!self.touch177Bundles)self.touch177Bundles=[NSMutableDictionary dictionary];
     BOOL bundleChanged=![bundle isEqualToString:self.touch177LastBundle];
     self.touch177LastBundle=bundle;
@@ -1393,13 +1431,18 @@ static void DFCLog(NSString *text) {
     // controls, both of which call noteUserActivity directly.
     self.borderUntil=MAX(self.borderUntil,now+2.0);
     self.controlsUntil=MAX(self.controlsUntil,now+4.0);
-    NSUInteger gen=++self.touch177RecheckGeneration;
+    self.touch177RecheckGeneration=
+        DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
+    NSUInteger gen=self.touch177RecheckGeneration;
+    NSUInteger session=self.touch177Session.generation;
     __weak typeof(self) weakSelf=self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
                    (int64_t)(4.1*NSEC_PER_SEC)),
                    dispatch_get_main_queue(),^{
         DFNative12Chrome *owner=weakSelf;
-        if(!owner || owner.touch177RecheckGeneration!=gen)return;
+        if(!owner || !DF177AppTouchRecheckAllowed(owner.touch177Session,
+            session,owner,DF177CurrentTouchOwner,gen,
+            owner.touch177RecheckGeneration))return;
         [owner df177RefreshKeyboardState];
         if(owner.kbStateKnown177 && !owner.kbVisible177)
             [owner layoutControls];
@@ -2658,6 +2701,10 @@ static void DFCLog(NSString *text) {
     DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
 }
 - (void)stop {
+    self.touch177Session=DF177AppTouchEndSession(self.touch177Session);
+    self.touch177RecheckGeneration=
+        DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
+    if(DF177CurrentTouchOwner==self)DF177CurrentTouchOwner=nil;
     ++self.restoreGeneration;
     self.restorePending=NO;
     self.restoringPhysical=-1;

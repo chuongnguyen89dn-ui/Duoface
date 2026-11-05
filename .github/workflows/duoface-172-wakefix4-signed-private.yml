@@ -1,0 +1,443 @@
+name: QA172 wakefix4 activity ownership and native-map restoration - signed candidate
+on:
+  push:
+    branches: [feature/sideplay-wakefix4-20261106]
+    paths:
+      - 'sideplay/duoface-native-scene-host/DFAppTouchPolicy177.h'
+      - 'sideplay/duoface-native-scene-host/tests/app_touch_177_runtime.m'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapRestorePolicy.h'
+      - 'sideplay/native-carplay-scene-v1/tests/native_map_restore_policy_runtime.m'
+      - 'sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapCatalog.h'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.h'
+      - 'sideplay/duoface-native-scene-host/tests/native_map_freshness_runtime.c'
+      - 'sideplay/duoface-native-scene-host/tests/native_map_lease_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/native_map_catalog_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/native_map_host_guard.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_native_map_policy.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_duodash_disconnect_workspace_110.py'
+      - 'sideplay/duoface-native-scene-host/DFKeyboardState177.h'
+      - 'sideplay/duoface-native-scene-host/DFDisconnectTimerPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFDisconnectCloseCoordinator.m'
+      - 'sideplay/duoface-native-scene-host/DFDisconnectClosePolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFNativeMapFreshness.h'
+      - 'sideplay/duoface-native-scene-host/tests/keyboard_state_177_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/disconnect_timer_policy_runtime.c'
+      - 'sideplay/duoface-native-scene-host/tests/test_disconnect_timer_policy.py'
+      - 'sideplay/tools/audit_integrated_deb.py'
+      - 'sideplay/tools/tests/test_audit_integrated_deb.py'
+      - '.github/workflows/duoface-172-wakefix4-signed-private.yml'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.m'
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h'
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayPhysicalPaneBinding.h'
+      - 'sideplay/duoface-native-scene-host/DFNativeMapLeasePolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa172w_wakefix.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa144_no_split_home_redirect.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa145_controlled_home.py'
+      - '.github/workflows/duoface-169-speed8-bubble-visibility-signed-private.yml'
+      - '.github/workflows/duoface-168-native-carplay-maneuver-signed-private.yml'
+      - '.github/workflows/duoface-167-gofa-event-schema-signed-private.yml'
+      - 'sideplay/duoface-native-scene-host/DF167GOFAEventProtocol.h'
+      - 'sideplay/duoface-native-scene-host/DFGofaSpeedSource162.m'
+      - 'sideplay/duoface-native-scene-host/DFGofaNativeLocationTap165.m'
+      - 'sideplay/duoface-native-scene-host/DF165NativeSpeedUptime.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa170_transparent_x_real_gps.py'
+      - 'sideplay/duoface-native-scene-host/DFSpeedVisibility169.h'
+      - 'sideplay/duoface-native-scene-host/DFSpeedVisibility169.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa169_bubble_visibility.py'
+      - 'sideplay/duoface-native-scene-host/speed8/DFNative8SpeedHUDView.mm'
+      - 'sideplay/duoface-native-scene-host/speed8/DFNative8SpeedHUDView.h'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFAppTouch177.h'
+      - 'sideplay/duoface-native-scene-host/DFYouTubeOrientationRelay.m'
+      - 'sideplay/duoface-native-scene-host/DFDeepTrace.h'
+      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa172r_logo_recall.py'
+      - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DFSpeedNativeOverlay163.mm'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/DF168NativeManeuver.h'
+      - 'sideplay/duoface-native-scene-host/DF168NativeManeuver.m'
+      - 'sideplay/duoface-native-scene-host/DF168PublicCarPlayManeuverAdapter.m'
+      - 'sideplay/duoface-native-scene-host/tests/native_maneuver_168_runtime.c'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa168_native_maneuver.py'
+      - 'sideplay/duoface-native-scene-host/tests/gofa_notification_167_runtime.c'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa167_gofa_event_schema.py'
+      - 'sideplay/duoface-native-scene-host/DFGofaTrafficNavProbe166.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa166_traffic_nav_evidence.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa160_homegrid_latency.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa161_first_solo_geometry.py'
+      - 'sideplay/duoface-native-scene-host/DFHome145Consent.h'
+      - 'sideplay/duoface-native-scene-host/DFHomeStandalone144.m'
+      - 'sideplay/duoface-native-scene-host/DFSoloPill157.h'
+      - 'sideplay/duoface-native-scene-host/DFSoloPickerCarPlay157.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa157_solo_owned_pill.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa158_home_only.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa159_native_home.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa153_phone_foreground_eviction.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeDashboardContext.h'
+      - 'sideplay/duoface-native-scene-host/DFNativeHomeExitPolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/native_dashboard_context_runtime.m'
+      - 'sideplay/duoface-native-scene-host/DFSelectedHomeAdmission.h'
+      - 'sideplay/duoface-native-scene-host/tests/safari_home_roster_runtime.m'
+      - 'sideplay/duoface-native-scene-host/DFHomeAdmission141.m'
+      - 'sideplay/duoface-native-scene-host/DFHomePublisher136Core.m'
+      - 'sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m'
+      - 'sideplay/duoface-native-scene-host/DF154AppStateProtocol.h'
+      - 'sideplay/duoface-native-scene-host/DF156DarwinMailbox.h'
+      - 'sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c'
+      - 'sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m'
+      - 'sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m'
+      - 'sideplay/duoface-native-scene-host/DF155PilotAppScope.h'
+      - 'sideplay/duoface-native-scene-host/DF155GeneralAppStateRelay.plist'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa155_integrated_relay.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_bridged_content_window.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa147_mount_ack_reentrancy.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa141_map_layout.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa144_no_split_home_redirect.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa145_controlled_home.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa154_staged_app_state.py'
+      - 'sideplay/duoface-native-scene-host/DFWorkspaceABIProbe150.h'
+      - 'sideplay/duoface-native-scene-host/DF151WorkspaceOwnerCapture.h'
+      - 'sideplay/duoface-native-scene-host/DFNativePrepOnce152.h'
+      - 'sideplay/duoface-native-scene-host/DF152NativeWorkspacePrepare.h'
+      - 'sideplay/duoface-native-scene-host/DF153PhoneEviction.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa153_phone_foreground_eviction.py'
+      - 'sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa152_workspace_prepare.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa151_workspace_owner_capture.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa150_workspace_preflight.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeDockSync147.h'
+      - 'sideplay/duoface-native-scene-host/DFManagerLifecycle149.h'
+      - 'sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa149_manager_live_scene.py'
+      - 'sideplay/duoface-native-scene-host/DFDockLifecycle147.h'
+      - 'sideplay/duoface-native-scene-host/tests/dock_lifecycle_147.c'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa146_native_home_exit.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa148_real_pid_and_stop_identity.py'
+      - 'sideplay/duoface-native-scene-host/DFNativeDiagnostics.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa171_gofa_diagnostics_export.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa145_controlled_home.py'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFSpeedNativeOverlay163.mm'
+      - 'sideplay/duoface-native-scene-host/DFGofaSpeedSource162.m'
+      - 'sideplay/duoface-native-scene-host/DFGofaSpeedSource162.plist'
+      - 'sideplay/duoface-native-scene-host/speed8/**'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa162_gofa_speed8_integration.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa163_global_speed8_owner.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa164_speed8_fullscreen_drag.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa165_native_gofa_standalone_roster.py'
+      - 'sideplay/duoface-native-scene-host/DFGofaNativeLocationTap165.m'
+      - 'sideplay/duoface-native-scene-host/DFHomePublisher136Core.m'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa172-wakefix4-private-no-sileo
+  cancel-in-progress: true
+jobs:
+  stage-only:
+    runs-on: macos-15
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify independent selected Home and preserved scene-host contracts
+        run: |
+          set -euo pipefail
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/darwin_mailbox_156.c -o "$RUNNER_TEMP/mailbox156"
+          "$RUNNER_TEMP/mailbox156"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m -o "$RUNNER_TEMP/ipc156"
+          "$RUNNER_TEMP/ipc156"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/dock_lifecycle_147.c -o "$RUNNER_TEMP/dock147"
+          "$RUNNER_TEMP/dock147"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/manager_lifecycle_149.c -o "$RUNNER_TEMP/manager149"
+          "$RUNNER_TEMP/manager149"
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa144_no_split_home_redirect.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa145_controlled_home.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa146_native_home_exit.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa147_mount_ack_reentrancy.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa148_real_pid_and_stop_identity.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa149_manager_live_scene.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa150_workspace_preflight.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa151_workspace_owner_capture.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa152_workspace_prepare.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa153_phone_foreground_eviction.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa157_solo_owned_pill.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa158_home_only.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa159_native_home.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa160_homegrid_latency.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa161_first_solo_geometry.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa162_gofa_speed8_integration.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa163_global_speed8_owner.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa164_speed8_fullscreen_drag.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa165_native_gofa_standalone_roster.py' -v
+          # QA166 original-specific symbols on main: do not copy proprietary audit to branch
+          git fetch --depth=1 origin main
+          git show FETCH_HEAD:sideplay/audit/carplaypro-0.9.97/macho/007-SpeedAlerts.dylib-arm64.section-strings.json > "$RUNNER_TEMP/qa166-original-symbols.json"
+          test "$(git hash-object "$RUNNER_TEMP/qa166-original-symbols.json")" = b8db68f5314b386dad24835f32f74cdf4086e35e
+          DF166_ORIGINAL_SYMBOL_FILE="$RUNNER_TEMP/qa166-original-symbols.json" python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa166_traffic_nav_evidence.py' -v
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_notification_167_runtime.c -o "$RUNNER_TEMP/gofa167"
+          "$RUNNER_TEMP/gofa167"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_maneuver_168_runtime.c -o "$RUNNER_TEMP/nav168"
+          "$RUNNER_TEMP/nav168"
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa168_native_maneuver.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa169_bubble_visibility.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa170_transparent_x_real_gps.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa167_gofa_event_schema.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa171_gofa_diagnostics_export.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172r_logo_recall.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172w_wakefix.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa172w2_wakefix2.py' -v
+          clang++ -std=c++17 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/speed8/test_speed_protocol.cpp -o "$RUNNER_TEMP/gofa-speed8-protocol"
+          "$RUNNER_TEMP/gofa-speed8-protocol"
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa154_staged_app_state.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa155_integrated_relay.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_bridged_content_window.py' -v
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/native_workspace_once_152.c -o "$RUNNER_TEMP/workspace152"
+          "$RUNNER_TEMP/workspace152"
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa141_map_layout.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scoped_bks_132.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_owner_contract.py' -v
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m -o "$RUNNER_TEMP/home141"
+          "$RUNNER_TEMP/home141"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/safari_home_roster_runtime.m -o "$RUNNER_TEMP/safari-roster"
+          "$RUNNER_TEMP/safari-roster"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/native_dashboard_context_runtime.m -o "$RUNNER_TEMP/dashboard-context"
+          "$RUNNER_TEMP/dashboard-context"
+          cc -std=c11 -Wall -Wextra -Werror sideplay/duoface-native-scene-host/tests/gofa_resize_141.c -o "$RUNNER_TEMP/gofa141"
+          "$RUNNER_TEMP/gofa141"
+      - name: Reproduce repaired keyboard ownership and stale-disconnect races
+        run: |
+          set -euo pipefail
+          clang -fobjc-arc -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/keyboard_state_177_runtime.m -o "$RUNNER_TEMP/keyboard-state177"
+          "$RUNNER_TEMP/keyboard-state177"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation sideplay/duoface-native-scene-host/tests/app_touch_177_runtime.m -o "$RUNNER_TEMP/app-touch177"
+          "$RUNNER_TEMP/app-touch177"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I sideplay/native-carplay-scene-v1 sideplay/native-carplay-scene-v1/tests/native_map_restore_policy_runtime.m -o "$RUNNER_TEMP/native-map-restore"
+          "$RUNNER_TEMP/native-map-restore"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I sideplay/native-carplay-scene-v1 sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m -o "$RUNNER_TEMP/physical-map-binding"
+          "$RUNNER_TEMP/physical-map-binding"
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_disconnect_timer_policy.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_duodash_disconnect_workspace_110.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native_map_policy.py' -v
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/native_map_lease_runtime.m -o "$RUNNER_TEMP/native-map-lease"
+          "$RUNNER_TEMP/native-map-lease"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation sideplay/duoface-native-scene-host/tests/native_map_catalog_runtime.m -o "$RUNNER_TEMP/native-map-catalog"
+          "$RUNNER_TEMP/native-map-catalog"
+      - name: Compile-check QA154 app-only relay source without packaging it
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -fsyntax-only \
+            sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m
+      - name: Syntax-check independent Apple CarPlay maneuver adapter (iOS16)
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only sideplay/duoface-native-scene-host/DF168NativeManeuver.m sideplay/duoface-native-scene-host/DF168PublicCarPlayManeuverAdapter.m sideplay/duoface-native-scene-host/DFSpeedVisibility169.m
+      - name: Prepare previous verified macOS iOS16 rootless toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build baseline first-party modules without runtime source changes
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+      - name: Recompile signed wakefix4 scene host and native components
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.172~wakefix4_iphoneos-arm64.deb'
+          test -s "$HOST"
+          grep -Fq '<key>CFBundleVersion</key><string>172</string>' sideplay/duoface-native-scene-host/Info.plist
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.172~wakefix4'
+          mkdir -p "$RUNNER_TEMP/qa172r-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa172r-host"
+          ldid -e "$RUNNER_TEMP/qa172r-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" >/dev/null
+          ldid -e "$RUNNER_TEMP/qa172r-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" >/dev/null
+          ! strings -a "$RUNNER_TEMP/qa172r-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'selected-tap-redirect-to-existing-duoface-icon' >/dev/null
+          echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
+      - name: Assemble signed wakefix4 private candidate
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.172~wakefix4_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.172~wakefix4'
+          mkdir -p "$RUNNER_TEMP/qa172r-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa172r-merged"
+          for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFGofaMapResize141 DFGofaSpeedSource162 DFYouTubeOrientationRelay DFNativeMapPaneCoordinator DF155GeneralAppStateRelay; do
+            ldid -e "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
+          done
+          test -s "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.plist"
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'QA170 fallback real GOFA GPS started' >/dev/null
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'QA165 GOFA native location CALLBACK' >/dev/null
+
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'GOFA-process-only structural probe installed; alerts/nav NOT connected'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" | grep -F 'DuoFaceTrafficNav166.log'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" | grep -F 'com.duoface.trafficnav.v1.gofa.discovery'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'com.duoface.trafficnav.v1.gofa.discovery'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'com.duoface.speedhud.v1.gofa'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'qa164-speed8-bubble-window-owned-full-content-no-pane-clamp'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'QA165 GOFA native location CALLBACK'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'qa165-standalone-HUD-attached'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'NATIVE_DECLARATION_EXISTS_OS_HOME_ICON_NOT_MANAGED_BY_DUOFACE'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'GOFA GPS source status auth='
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'com.duoface.speedhud.v1.gofa'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F '[DuoFaceSpeed8] QA163 native owner attached'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'com.duoface.speedhud.v1.gofa'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'com.duoface.trafficnav.v2.gofa.cpnavigation' >/dev/null
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'com.duoface.speedhud.visibility.v1.plist' >/dev/null
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'com.duoface.speedhud.visibility.v1.plist' >/dev/null
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" | grep -F 'com.duoface.speedhud.visibility.v1.plist' >/dev/null
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'Bong bóng tốc độ' >/dev/null || true
+
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'com.duoface.trafficnav.v2.gofa.cpnavigation' >/dev/null
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib" | grep -F 'com.duoface.trafficnav.v2.gofa.cpnavigation' >/dev/null
+          test -s "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.plist"
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F '[DF154AppState]'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F 'com.duoface.ipc.v177.apptouch'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib" | grep -F 'com.duoface.ipc.v177.apptouch'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'qa177-recall'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'qa177-recall source=gate-touch'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'DFNativeWakeGateView'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib" | grep -F 'com.duoface.ipc.v177.kbstate'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib" | grep -F 'com.duoface.ipc.v177.kbstate'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'qa177-kb-state'
+          strings -a "$RUNNER_TEMP/qa172r-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib" | grep -F 'qa147-native-dock-active'
+          test "$(dpkg-deb -c "$OUT" | head -1 | awk '{print $1, $2}')" = "drwxr-xr-x root/root"
+          echo "QA172W_PRIVATE_OUTPUT=$OUT" >> "$GITHUB_ENV"
+          shasum -a 256 "$OUT"
+          echo 'QA172_WAKEFIX4_SIGNED_STATIC_PASS_NO_DEVICE_QA'
+      - name: Audit every packaged file against source contracts and export aggregate summary only
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/tools/tests -p 'test_audit_integrated_deb.py' -v
+          DEB_SHA="$(shasum -a 256 "$QA172W_PRIVATE_OUTPUT" | awk '{print $1}')"
+          if ! python3 sideplay/tools/audit_integrated_deb.py \
+            --deb "$QA172W_PRIVATE_OUTPUT" --out "$RUNNER_TEMP/wakefix4-audit" \
+            --expected-sha256 "$DEB_SHA" --source-sha "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" \
+            > "$RUNNER_TEMP/wakefix4-audit-console.log" 2>&1; then
+            echo 'WHOLE_DEB_STATIC_AUDIT_FAILED; detailed report remains runner-local'
+            exit 1
+          fi
+          python3 - "$RUNNER_TEMP/wakefix4-audit" "$RUNNER_TEMP/wakefix4-audit-summary.json" <<'PY_AUDIT'
+          import json, pathlib, plistlib, sys
+          current=pathlib.Path(sys.argv[1])
+          read=lambda p:json.loads(p.read_text())
+          new=read(current/'audit.json')
+          assert new['package']=='com.duoface.jb.embedded'
+          assert new['version']=='0.0.172~wakefix4'
+          assert new['static_integrity_pass'] and new['expected_sha256_verified']
+          expected_counts={'payload_regular_files':40,'control_regular_files':3,
+                           'mach_o_files':11,'mach_o_slices':14,'plists':12,
+                           'png_files':15,'compiled_nibs':2,'links':0}
+          assert {key:new['counts'][key] for key in expected_counts}==expected_counts, 'Package counts changed'
+          host=pathlib.Path('sideplay/duoface-native-scene-host')
+          filter_sources={name:host/(name+'.plist') for name in (
+              'DF155GeneralAppStateRelay','DFCarPlayDockOwner','DFGofaMapResize141',
+              'DFGofaSpeedSource162','DFTouchOwnerProbe','DFYouTubeOrientationRelay')}
+          filter_sources.update({
+              'DFNativeMapPaneCoordinator':pathlib.Path('sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.plist'),
+              'DFFirstPartyAdmission':pathlib.Path('sideplay/firstparty-carplay-admission/DFFirstPartyAdmission.plist'),
+              'DFNativeDashboardBridgeQA':pathlib.Path('sideplay/mytweak-native-bridgeqa/DFNativeDashboardBridgeQA.plist'),
+              'DFV1APreflight':pathlib.Path('sideplay/mytweak-independent-v1a/DFV1APreflight.plist')})
+          lib='var/jb/Library/MobileSubstrate/DynamicLibraries/'
+          expected_filters={lib+name+'.plist':plistlib.loads(path.read_bytes())['Filter'] for name,path in filter_sources.items()}
+          actual_filters={entry['path']:entry['filter'] for entry in new['injection_filters']}
+          assert len(actual_filters)==len(new['injection_filters'])==10
+          assert actual_filters==expected_filters, 'Injection filters differ from checked-in source'
+          app='var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost'
+          expected_binaries={app}|{lib+name+'.dylib' for name in filter_sources}
+          assert {binary['path'] for binary in new['binaries']}==expected_binaries
+          app_entitlements=plistlib.loads((host/'entitlements.plist').read_bytes())
+          assert not any(o['code']=='temporary_install_name' for o in new['observations'])
+          for binary in new['binaries']:
+              report=read(current/binary['report'])
+              assert report['slices'], 'Missing Mach-O slice'
+              expected_entitlements=app_entitlements if binary['path']==app else {}
+              for item in report['slices']:
+                  assert item['build_versions'] and all(v['platform']=='iOS' and v['minimum_os_raw']==(16<<16) for v in item['build_versions']), 'Minimum iOS differs from source target'
+                  signature=item['code_signature']
+                  assert signature['all_code_pages_match'] and signature['all_available_special_slots_match']
+                  assert signature.get('entitlements',{})==expected_entitlements, 'Entitlements differ from source'
+                  assert signature.get('der_entitlements',expected_entitlements)==expected_entitlements
+                  if binary['path'].endswith('.dylib'):
+                      assert item['install_name']=='@rpath/'+pathlib.PurePosixPath(binary['path']).name
+          # Deliberate export allowlist: no payload paths, symbols, strings, or dependencies.
+          summary={'package':new['package'],'version':new['version'],'deb_sha256':new['deb_sha256'],
+                   'counts':{key:new['counts'][key] for key in expected_counts},
+                   'static_integrity_pass':True,'expected_sha256_verified':True,
+                   'package_contract_pass':True,'injection_filters_match_source':True,
+                   'binary_roster_matches_source':True,'entitlements_match_source':True,
+                   'minimum_ios16_pass':True,'stable_dylib_install_names_pass':True,
+                   'code_signature_hashes_pass':True,'device_tested':False}
+          pathlib.Path(sys.argv[2]).write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print('WAKEFIX4_FULL_DEB_STATIC_AUDIT_PASS_AGGREGATE_SUMMARY_ONLY_DEVICE_UNTESTED')
+          PY_AUDIT
+          mkdir -p "$RUNNER_TEMP/wakefix4-deliverable"
+          cp "$QA172W_PRIVATE_OUTPUT" "$RUNNER_TEMP/wakefix4-deliverable/"
+          cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$RUNNER_TEMP/wakefix4-deliverable/"
+          cp "$RUNNER_TEMP/wakefix4-audit-summary.json" "$RUNNER_TEMP/wakefix4-deliverable/audit-summary.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA172-wakefix4-UNPUBLISHED
+          path: |
+            ${{ runner.temp }}/wakefix4-deliverable/com.duoface.jb.embedded_0.0.172~wakefix4_iphoneos-arm64.deb
+            ${{ runner.temp }}/wakefix4-deliverable/PACKAGING_PROVENANCE.json
+            ${{ runner.temp }}/wakefix4-deliverable/audit-summary.json
+          if-no-files-found: error
+      - name: Archive private signed candidate with SHA to actual DuoFace repo, NEVER carplaydsp
+        run: |
+          set -euo pipefail
+          BRANCH='feature/sideplay-wakefix4-20261106'
+          ART='com.duoface.jb.embedded_0.0.172~wakefix4_iphoneos-arm64.deb'
+          for n in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$OUT"
+            cp "$QA172W_PRIVATE_OUTPUT" "$OUT/$ART"
+            ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
+            cp "$RUNNER_TEMP/wakefix4-audit-summary.json" "$OUT/audit-summary.json"
+            printf 'BUILD=success\nSIGNED=true\nWHOLE_DEB_STATIC_AUDIT=pass\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nGOFA_REAL_ROAD_ALERTS_CONNECTED=false\nGOFA_REAL_NAVIGATION_TURNS_CONNECTED=false\nGOFA_RUNTIME_PROBE_VERIFIED=false\nDEVICE_TESTED=false\nDO_NOT_INSTALL_REPEATEDLY=true\nHOME_STANDALONE_OPTIN_DEFAULT_OFF=true\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$DIR" commit -m 'qa172 wakefix4: archive audited private repair candidate, device test pending [skip ci]'
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$DIR"
+              git fetch origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/SHA256SUMS.txt"
+              echo QA172W_PRIVATE_SIGNED_ARCHIVE_SAVED_NO_SILEO
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1

@@ -2,7 +2,8 @@
 // No device, private API, process mutation or real plist files used.
 #import <Foundation/Foundation.h>
 #import "DFCarPlayPhysicalPaneBinding.h"
-static void yes(BOOL cond,NSString *why){if(!cond){NSLog(@"PHYSICAL_MAP_FAIL %@",why);abort();}}
+static NSUInteger assertionCount=0;
+static void yes(BOOL cond,NSString *why){assertionCount++;if(!cond){NSLog(@"PHYSICAL_MAP_FAIL %@",why);abort();}}
 static NSDictionary *window(NSInteger p,NSInteger v,NSString *frame,BOOL occupied){
  return @{@"PhysicalSlot":@(p),@"VisualSlot":@(v),@"Frame":frame,
           @"WindowVisible":@YES,@"OnExternalScreen":@YES,@"HasLiveApp":@(occupied)};
@@ -31,6 +32,13 @@ int main(void){@autoreleasepool{
  NSDictionary *occupied=DFPhysicalMapVerifyPane(sample(windows),heartbeat,plan,1,now+.5);
  yes([occupied[@"Reason"] isEqual:@"target-duoface-slot-already-hosts-app"],
      @"cannot hide live YouTube/Maps slot");
+ NSArray *swapped=@[window(0,1,@"{{276, 0}, {231, 240}}",YES),
+                     window(1,0,@"{{45, 0}, {231, 240}}",NO)];
+ yes([DFPhysicalMapVerifyPane(sample(swapped),heartbeat,plan,0,now)[@"Verified"] boolValue],
+     @"valid swapped physical-to-visual mapping remains accepted");
+ yes([DFPhysicalMapVerifyPane(sample(swapped),heartbeat,plan,1,now)[@"Reason"]
+       isEqual:@"target-duoface-slot-already-hosts-app"],
+     @"swapped occupied physical pane remains protected");
  NSArray *mismatched=@[window(0,0,@"{{40, 0}, {231, 240}}",NO),
                       windows[1]];
  NSDictionary *m=DFPhysicalMapVerifyPane(sample(mismatched),heartbeat,plan,0,now+.5);
@@ -45,8 +53,19 @@ int main(void){@autoreleasepool{
                       window(1,0,@"{{276, 0}, {231, 240}}",NO)];
  yes(![DFPhysicalMapVerifyPane(sample(duplicate),heartbeat,plan,0,now)[@"Verified"] boolValue],
       @"duplicate physical visual mapping rejected");
+ NSArray *duplicatePhysical=@[window(0,0,@"{{45, 0}, {231, 240}}",NO),
+                              window(0,1,@"{{276, 0}, {231, 240}}",NO)];
+ yes(![DFPhysicalMapVerifyPane(sample(duplicatePhysical),heartbeat,plan,0,now)[@"Verified"] boolValue],
+     @"one physical window cannot impersonate both visual panes");
+ for(NSString *field in @[@"PhysicalSlot",@"VisualSlot"]){
+   for(id invalid in @[@0.5,@(-0.25),@1.5,@2,@(-1),@(NAN),@(INFINITY),@"0",NSNull.null]){
+     NSMutableDictionary *bad=[windows[0] mutableCopy];bad[field]=invalid;
+     yes(![DFPhysicalMapVerifyPane(sample(@[bad,windows[1]]),heartbeat,plan,0,now)[@"Verified"] boolValue],
+         [NSString stringWithFormat:@"%@ must be exactly numeric zero or one: %@",field,invalid]);
+   }
+ }
  NSMutableDictionary *disabled=[heartbeat mutableCopy];disabled[@"Active"]=@NO;
  yes(![DFPhysicalMapVerifyPane(sample(windows),disabled,plan,0,now)[@"Verified"] boolValue],
       @"disconnected CarPlay rejected");
- NSLog(@"DF_PHYSICAL_MAP_BINDING_RUNTIME_PASS");
+ NSLog(@"DF_PHYSICAL_MAP_BINDING_RUNTIME_PASS assertions=%lu",(unsigned long)assertionCount);
 }return 0;}

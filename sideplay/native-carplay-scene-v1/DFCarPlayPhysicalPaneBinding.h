@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <math.h>
+static inline BOOL DFPhysicalMapValidSlotNumber(id value) {
+ // integerValue truncates fractional input; validate before using an index.
+ return [value isKindOfClass:NSNumber.class] &&
+        ([value isEqual:@0] || [value isEqual:@1]);
+}
 static inline BOOL DFPhysicalMapValidRect(NSString *string,CGRect *out) {
  if(![string isKindOfClass:NSString.class] || string.length>200)return NO;
  NSScanner *scan=[NSScanner scannerWithString:string];
@@ -53,24 +58,25 @@ static inline NSDictionary *DFPhysicalMapVerifyPane(
    return @{ @"Verified":@NO,@"Reason":@"stale-physical-slot-or-session" };
  NSArray *windows=sample[@"Windows"];
  if(![windows isKindOfClass:NSArray.class] || windows.count!=2)return fail;
- NSMutableSet *seen=[NSMutableSet new];
+ NSMutableSet *seenVisual=[NSMutableSet new],*seenPhysical=[NSMutableSet new];
  CGRect rects[2];
  for(id entry in windows) {
     if(![entry isKindOfClass:NSDictionary.class] ||
-       ![entry[@"VisualSlot"] isKindOfClass:NSNumber.class] ||
-       ![entry[@"PhysicalSlot"] isKindOfClass:NSNumber.class] ||
+       !DFPhysicalMapValidSlotNumber(entry[@"VisualSlot"]) ||
+       !DFPhysicalMapValidSlotNumber(entry[@"PhysicalSlot"]) ||
        ![entry[@"OnExternalScreen"] isEqual:@YES] ||
        ![entry[@"WindowVisible"] isEqual:@YES])return fail;
     NSInteger v=[entry[@"VisualSlot"] integerValue];
     NSInteger physical=[entry[@"PhysicalSlot"] integerValue];
-    if(v<0||v>1||physical<0||physical>1||[seen containsObject:@(v)] ||
+    if([seenVisual containsObject:@(v)] || [seenPhysical containsObject:@(physical)] ||
        ![entry[@"HasLiveApp"] isKindOfClass:NSNumber.class] ||
        !DFPhysicalMapValidRect(entry[@"Frame"],&rects[v]))return fail;
     if(v==desiredSlot && [entry[@"HasLiveApp"] boolValue])
        return @{@"Verified":@NO,@"Reason":@"target-duoface-slot-already-hosts-app"};
-    [seen addObject:@(v)];
+    [seenVisual addObject:@(v)];
+    [seenPhysical addObject:@(physical)];
  }
- if(seen.count!=2)return fail;
+ if(seenVisual.count!=2 || seenPhysical.count!=2)return fail;
  NSDictionary *usable=dockPlan[@"usableRect"];
  CGRect safe=CGRectMake([usable[@"x"] doubleValue],[usable[@"y"] doubleValue],
              [usable[@"width"] doubleValue],[usable[@"height"] doubleValue]);

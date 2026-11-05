@@ -32,9 +32,9 @@ class QA172RLogoRecall(unittest.TestCase):
   for forbidden in ('hudHandover177','DFDestSize185','SplitSuper186'):
    self.assertNotIn(forbidden,chrome)
  def test_version_coherence(self):
-  self.assertIn('0.1.172~wakefix3',(ROOT/"build.sh").read_text())
-  self.assertIn('VERSION="0.0.172~wakefix3"',INT.read_text())
-  self.assertIn('Version: 0.1.172~wakefix3',(ROOT/"control").read_text())
+  self.assertIn('0.1.172~wakefix4',(ROOT/"build.sh").read_text())
+  self.assertIn('VERSION="0.0.172~wakefix4"',INT.read_text())
+  self.assertIn('Version: 0.1.172~wakefix4',(ROOT/"control").read_text())
   info=(ROOT/"Info.plist").read_text()
   self.assertIn('<key>CFBundleVersion</key><string>172</string>',info)
 if __name__=="__main__":unittest.main()

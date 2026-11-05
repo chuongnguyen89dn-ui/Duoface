@@ -11,7 +11,7 @@
 // Transport: the existing DF156 Darwin mailbox, direction app ->
 // SpringBoard — the same direction QA176's keyboard diagnostics used
 // successfully on device (app wrote, SpringBoard read, 9 records).
-// Payload is a bounded latest-value JSON record {bundle, count, ts};
+// Payload is a bounded latest-value v2 JSON record {bundle, pid, count, ts};
 // the mailbox name post is the wakeup. Sender throttled to one write
 // per kDF177TouchThrottleSeconds; the count is cumulative so a lost
 // wakeup loses nothing.
@@ -34,6 +34,7 @@
 #include <unistd.h>
 #import "DF156DarwinMailbox.h"
 #import "DFKeyboardState177.h"
+#import "DFAppTouchPolicy177.h"
 
 static NSString *const DF177TouchPrefsPath =
     @"/var/mobile/Library/Preferences/com.duoface.nativehost.qa177.plist";
@@ -105,7 +106,8 @@ static inline void DF177AppTouchNoteBegan(NSString *bundle) {
             DF156Init(&DF177TouchBox, DF177TouchMailboxName);
             DF177TouchBoxReady = YES;
         }
-        NSDictionary *rec = @{@"version": @1, @"bundle": bundle,
+        NSDictionary *rec = @{@"version": @2, @"bundle": bundle,
+                              @"pid": @(getpid()),
                               @"count": @(DF177TouchCount), @"ts": @(now)};
         NSData *bytes = [NSJSONSerialization dataWithJSONObject:rec
                                                           options:0 error:nil];
