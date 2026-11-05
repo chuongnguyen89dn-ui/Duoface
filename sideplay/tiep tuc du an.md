@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-11-06 — Third Sileo attempt and preserved CarPlayAudit diagnostic
+
+- Publisher run `42127914735`, job `127596761568`: steps 1–17 passed, including original independent-split source build, retained public DuoDash SHA checks and all DuoFace-related pinned side packages. Step 18 `Include SHA-pinned CarPlay residual audit diagnostic` failed because legacy `DuoDash-Diagnostic` source URL returned `curl: (56) The requested URL returned error: 404`. Deploy skipped; **0.0.172 not yet public**.
+- Safe remediation in publisher `carplaydsp/main` commit `17421865fb06b2da17d302ab1f825dec1efdde3d`: fetch existing signed public `debs/com.chuong.carplayaudit_0.5.0_iphoneos-arm64.deb` instead, first requiring a unique previous public APT entry with pinned SHA `b285673ca78e7906d58d4561768ac0b9261617c5f4a745ca3c5c7d2e0a7871a4` and exact package/version/architecture. Do not modify, remove or fabricate another project's binary.
+- New public publisher run `42128297724` (build job `127598075781`); validation `42128297718`. Initially queued/in-progress. Next check that index build/deploy/public verification pass; no physical device testing. DuoFace candidate source/DEB SHA unchanged.
+
+---
+
 ## CHECKPOINT 2026-11-06 — Publisher second dependency failure and retained-byte remediation
 
 - `carplaydsp` publisher run `42127289111` (job `127594593423`) failed in Step 7 **after** standalone CarPlaySplit build success: `curl: (56) The requested URL returned error: 404` on legacy `DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb`. Subsequent source-baseline/combined-package steps also depended on the old repo; deploy skipped. This is unrelated to signed `wakefix5`; no public release claimed.
