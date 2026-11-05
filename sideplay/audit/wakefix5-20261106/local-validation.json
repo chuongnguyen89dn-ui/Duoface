@@ -64,13 +64,26 @@
   ],
   "device_tested": false,
   "finished_at_utc": "2026-11-05T19:05:57.811602+00:00",
-  "foundation_runtime_gates_pending": 13,
-  "ios_compile_gates_pending": 2,
+  "foundation_runtime_gates_pending": 0,
+  "ios_compile_gates_pending": 0,
+  "local_checkpoint_deferred_gates": {
+    "foundation_runtime": 13,
+    "ios_compile": 2
+  },
+  "macos_ci_completion": {
+    "foundation_runtime_programs_passed": 13,
+    "ios_compile_steps_passed": 2,
+    "job_id": 127577713604,
+    "receipt": "ci-validation.json",
+    "run_conclusion": "success",
+    "run_id": 42122359843,
+    "source_sha": "88702ca96c122c81d06b44032d0e51f41249bc17"
+  },
   "macos_compile_followup": {
     "cause": "Foundation includes POSIX read(); the new ACK test helper used the same name.",
     "failed_job_id": 127575310504,
     "failed_run_id": 42121665247,
-    "foundation_compile_result": "pending new macOS CI",
+    "foundation_compile_result": "passed in CI run 42122359843",
     "local_wiring_tests_passed": 6,
     "repair": "Rename only the test helper and its calls to DFTestReadAck. Production ACK policy unchanged."
   },

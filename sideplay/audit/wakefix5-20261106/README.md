@@ -1,14 +1,21 @@
-# QA172 wakefix5 — bounded, explicit native-map launch
+# QA172 wakefix5 — guarded explicit native-map launch
 
-**Source checkpoint: implementation, independent review and local regression
-gates passed. Signed build, complete-package comparison and physical acceptance
-are not yet claimed.**
+**Verified candidate: source checks, macOS runtime gates, iOS compilation,
+signed build, complete-package audit, baseline comparison and independent
+binary linkage review passed. Physical iPhone/CarPlay acceptance is pending.**
 
 This continues the user-authorized sideplay repair on
 `feature/sideplay-native-launch-wakefix5-20261106`, based on completed wakefix4
 head `0a75a3f4f1d943e64deb50a3945cc80630e67e74`. The signed wakefix4 candidate
 remains immutable. Native host version is `0.1.172~wakefix5`; integrated package
 version is `0.0.172~wakefix5`.
+
+- [Draft PR #2](https://github.com/chuongnguyen89dn-ui/Duoface/pull/2).
+- Built source: `88702ca96c122c81d06b44032d0e51f41249bc17`.
+- [Successful CI run 42122359843](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42122359843); all 15 job steps passed.
+- Archive commit: `9f3b6e37f64920e425bf63e31bd106498aa4d7a0`.
+- DEB: `com.duoface.jb.embedded_0.0.172~wakefix5_iphoneos-arm64.deb`, 1,281,620 bytes.
+- SHA256: `90efffed61ee5a1a44db3e0371f9d205a54cdb3b55a76cc5ec27f63d26f12d47`.
 
 ## What this changes
 
@@ -25,7 +32,7 @@ object before use. It is restricted to the verified iOS 16 contract and an
 observed external CarPlay dashboard/root/window/screen with a genuine captured
 workspace owner. If that evidence is unavailable, it refuses with a reason.
 
-| Source-level problem | Shipping behavior |
+| Source-level problem | Candidate behavior |
 | --- | --- |
 | No native opening route when the explicitly selected map has no observed owner. | A fresh explicit Attach may submit one native event after verification. An existing unique owner goes directly through the retained adoption path; ambiguous or unready owners are refused. |
 | Native opening and scene adoption are asynchronous. | Preserve the original request, bundle, slot, physical session, target geometry and weak native identities. Observe the resulting scene within the original six-second request lifetime. Event submission alone never reports success. |
@@ -69,51 +76,68 @@ injected dylib or broaden its app scope.
 - GOFA's proprietary road-alert/turn-value feed remains unconnected and
   unverified. This change does not relabel GPS speed as that feed.
 
-## Verification and export policy
+## Verification
 
-Workflow: `.github/workflows/duoface-172-wakefix5-signed-private.yml`.
-It retains the proven regression/build/signing/package-audit pipeline and adds
-Foundation harnesses for the shipping ACK policy, bounded request lifecycle and
-native-shaped runtime dispatcher. The runtime harness supplies fake native
-objects to the same production dispatcher; it does not invoke a physical device.
-Source integration checks include negative controls against automatic launch,
-unclaimed dispatch, premature lease publication and bypassed request guards.
+The final CI ran on the standard `macos-15-intel` runner, targeting
+`arm64-apple-ios16.0`. The runtime harness supplies fake native objects to the
+same production dispatcher; it does not invoke a physical CarPlay device.
 
-Only the requested DEB, packaging provenance and explicitly allowlisted aggregate
-audit receipts are exported by CI. Detailed binary-derived strings, symbols and
-metadata remain private, following the earlier automatic approval rejection of
-publishing the full extraction to this public repository. Full audit output is
-not redirected into public CI artifacts or logs.
+| Gate | Actual result |
+| --- | ---: |
+| Python regression tests | 176 / 41 suites; 0 skipped |
+| Portable C/C++ runtime programs | 8 passed |
+| Objective-C/Foundation runtime programs | 13 passed |
+| iOS compile-check steps | 2 passed |
+| Signed build, assembly and full package audit | Passed |
+| wakefix4 → wakefix5 comparison | 39/39 passed |
+| Independent direct-byte linkage review | 21/21 passed |
 
-At this checkpoint: `SILEO_PUBLISHED=false`, `installed_by_this_work=false`,
-`DEVICE_TESTED=false`. Actual local, CI and complete-package results are recorded
-in subsequent receipts rather than inferred from this source checkpoint.
+The new runtime programs recorded **118 ACK assertions, 240 pending-policy
+assertions and 464 native-dispatch assertions**. Retained programs recorded
+79 keyboard, 108 app-activity, 25 restoration and 30 physical-binding assertions.
 
+The full DEB scan covered all **40 payload + 3 control files**,
+57 tar entries, 11 Mach-O images / 14 slices and
+28 CodeDirectories. All **1,292/1,292 CodeDirectory page-hash
+entries** match; this is not a count of unique physical code pages.
 
-## Local verification checkpoint
+Seven binary hashes changed. The only changed nonbinary content is the expected
+control `Version` field. Paths, modes, owners, resources, scripts, filters,
+architectures, dependency load contracts, install IDs, iOS minima, toolchain
+metadata and entitlements remain unchanged. The separate linkage parser confirms
+the context class and all four versioned helper exports are defined only in Dock;
+Map resolves them dynamically without a hard Map → Dock dependency.
 
-The frozen source passed **176 Python tests in 41 suites, zero skipped**,
-**8 portable C/C++ runtime programs**, and workflow/build-script syntax checks.
-The unchanged tracked GOFA fixture omitted by the sparse checkout was restored
-and its exact Git blob verified before testing. See `local-validation.json`
-for actual commands, source file hashes and results.
+The downloaded ZIP matches GitHub's artifact SHA256. The DEB matches packaging
+provenance and the archived Git blob byte-for-byte; the archive contains only its
+five expected deliverable/receipt files.
 
-**13 Foundation runtime programs and 2 iOS compile checks remain pending
-macOS CI at this checkpoint**. Source review and portable tests do not substitute
-for those gates or for a real CarPlay device.
+## CI follow-up history
 
+The initial source attempt, run `42119125234`, received no runner and executed
+zero steps; the run ended in failure with the job cancelled. The queue cause was
+not established. The workflow was moved once to the documented standard Intel
+runner, preserving its steps and the arm64 iOS 16 product target.
 
-### Runner provisioning follow-up
+Run `42121665247` then exposed a genuine compile failure in the new ACK test:
+its helper named `read` collided with POSIX `read` included through Foundation.
+Renaming that test helper to `DFTestReadAck` fixed the collision without changing
+the production policy or weakening the assertions. Final run `42122359843`
+passed the actual Foundation, iOS, build, signature and package gates.
 
-Initial source `06b56ac1e11cba1507913d16c4cc5c38f6e0d82e` started
-[run 42119125234](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42119125234),
-which remained queued for more than 15 minutes with zero steps and no runner or
-log. A single infrastructure retry selects the documented standard
-`macos-15-intel` pool. The cause of the original queue is not established.
+## Evidence and export policy
 
-Every workflow step and other workflow setting is byte-for-byte/logically
-unchanged; shell syntax was checked again. The product still targets
-`arm64-apple-ios16.0`. The local source/test results above remain applicable;
-Foundation/iOS/signing results still require the actual new CI receipt.
-The existing concurrency group cancels only the superseded wakefix5 attempt.
-Official runner reference: https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job
+`local-validation.json` preserves the original local-run evidence and records
+its later CI resolution. `ci-validation.json` is the final actual CI/artifact
+receipt. `candidate-comparison-summary.json` contains aggregate comparison
+results. The detailed full-package and independent-linkage reports remain private.
+
+Public exports are limited to the requested DEB, existing packaging provenance
+and explicitly allowlisted aggregate receipts. Full binary-derived strings,
+symbols and metadata are not exported through the repository, CI artifacts or
+CI audit logs.
+
+`SILEO_PUBLISHED=false`, `installed_by_this_work=false`, `DEVICE_TESTED=false`.
+The draft PR has not been merged. Internal signature hash agreement does not
+establish Apple trust-chain or AMFI acceptance, and a Foundation fake-object test
+does not establish rendering, touch, navigation or physical scene lifetime.
