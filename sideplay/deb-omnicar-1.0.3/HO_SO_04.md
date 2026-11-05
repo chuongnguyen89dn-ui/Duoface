@@ -1,0 +1,2555 @@
+- copy
+- count
+- countByEnumeratingWithState:objects:count:
+- createDirectoryAtPath:withIntermediateDirectories:attributes:error:
+- currentCalendar
+- currentDevice
+- currentLocale
+- currentRoute
+- data
+- dataTaskWithURL:completionHandler:
+- dataWithLength:
+- date
+- dateByAddingTimeInterval:
+- dateByAddingUnit:value:toDate:options:
+- dateFromString:
+- dateWithTimeIntervalSinceNow:
+- day
+- dealloc
+- debugDescription
+- decodeMore
+- decodeQueue
+- decoding
+- defaultCenter
+- defaultManager
+- description
+- dictionary
+- dictionaryWithContentsOfFile:
+- dictionaryWithObjects:forKeys:count:
+- didMoveToWindow
+- dismiss
+- dismissBecause:
+- displayLink
+- displayLinkWithTarget:selector:
+- displayScale
+- done
+- doubleValue
+- drawAtPoint:withAttributes:
+- drawInRect:
+- drawRect:
+- duration
+- effectWithStyle:
+- endReason
+- ephemeralSessionConfiguration
+- eventsMatchingPredicate:
+- failedFrames
+- fileExistsAtPath:
+- fileModificationDate
+- fileSize
+- fileSystemRepresentation
+- fileURLWithPath:
+- fill
+- finish:
+- finishTasksAndInvalidate
+- finished
+- firstObject
+- fontDescriptor
+- fontDescriptorWithDesign:
+- fontWithDescriptor:size:
+- fps
+- frame
+- frameCount
+- framesDir
+- functionWithControlPoints::::
+- functionWithName:
+- hasEnded
+- hasPrefix:
+- hash
+- heightAnchor
+- hot
+- hud
+- image
+- imageFits
+- imageView
+- imageWithActions:
+- imageWithCGImage:
+- imageWithConfiguration:
+- imageWithContentsOfFile:
+- imageWithTintColor:renderingMode:
+- inA
+- inB
+- init
+- initWithArrangedSubviews:
+- initWithContentsOfURL:error:
+- initWithDoubleValue:unit:
+- initWithEffect:
+- initWithFrame:
+- initWithImage:
+- initWithScreen:scene:style:occasion:framesDir:frameCount:fps:
+- initWithSize:format:
+- initWithTarget:action:
+- initWithWindowScene:
+- insertSubview:atIndex:
+- integerValue
+- invalidate
+- isAllDay
+- isBatteryMonitoringEnabled
+- isDateInToday:
+- isEqual:
+- isEqualToString:
+- isKindOfClass:
+- isLeapMonth
+- isLowPowerModeEnabled
+- isMemberOfClass:
+- isProxy
+- isReadableFileAtPath:
+- lastObject
+- lastPathComponent
+- layer
+- layerClass
+- layoutIfNeeded
+- layoutSubviews
+- leadingAnchor
+- length
+- localeWithLocaleIdentifier:
+- localizedDescription
+- localizedStringFromDate:dateStyle:timeStyle:
+- location
+- locationManager:didChangeAuthorizationStatus:
+- locationManager:didDetermineState:forRegion:
+- locationManager:didEnterRegion:
+- locationManager:didExitRegion:
+- locationManager:didFailRangingBeaconsForConstraint:error:
+- locationManager:didFailWithError:
+- locationManager:didFinishDeferredUpdatesWithError:
+- locationManager:didRangeBeacons:inRegion:
+- locationManager:didRangeBeacons:satisfyingConstraint:
+- locationManager:didStartMonitoringForRegion:
+- locationManager:didUpdateHeading:
+- locationManager:didUpdateLocations:
+- locationManager:didUpdateToLocation:fromLocation:
+- locationManager:didVisit:
+- locationManager:monitoringDidFailForRegion:withError:
+- locationManager:rangingBeaconsDidFailForRegion:withError:
+- locationManagerDidChangeAuthorization:
+- locationManagerDidPauseLocationUpdates:
+- locationManagerDidResumeLocationUpdates:
+- locationManagerShouldDisplayHeadingCalibration:
+- logoEffect
+- loop
+- lowercaseString
+- mainBundle
+- mainQueue
+- mainRunLoop
+- mainScreen
+- manager
+- max
+- maximumFramesPerSecond
+- month
+- moveItemAtPath:toPath:error:
+- moveToPoint:
+- mutableBytes
+- mutableCopy
+- name
+- nativeBounds
+- needle
+- newlineCharacterSet
+- nextEvent
+- number
+- numberOfTouches
+- numberWithBool:
+- numberWithDouble:
+- numberWithInt:
+- numberWithInteger:
+- numberWithLong:
+- numberWithUnsignedInteger:
+- object
+- objectAtIndexedSubscript:
+- objectForKeyedSubscript:
+- occasion
+- orderedSet
+- orderedSetWithArray:
+- outA
+- outB
+- outEase
+- outputs
+- owner
+- performSelector:
+- performSelector:withObject:
+- performSelector:withObject:withObject:
+- persistentIdentifier
+- play
+- playIntro
+- portType
+- postNotificationName:object:userInfo:
+- predicateForEventsWithStartDate:endDate:calendars:
+- preferredFormat
+- preferredLanguages
+- processInfo
+- processName
+- queuedFrames
+- reason
+- red
+- refreshWeather
+- release
+- reload
+- removeAllAnimations
+- removeAllObjects
+- removeFromSuperview
+- removeItemAtPath:error:
+- removeObject:
+- removeObjectAtIndex:
+- respondsToSelector:
+- resume
+- retain
+- retainCount
+- rise
+- role
+- scale
+- screen
+- screens
+- self
+- session
+- sessionWithConfiguration:
+- set
+- setActive:error:
+- setActive:withOptions:error:
+- setAdditive:
+- setAdjustsFontSizeToFitWidth:
+- setAlignment:
+- setAlpha:
+- setAnchorPoint:
+- setArc:
+- setAttributes:ofItemAtPath:error:
+- setAutoresizingMask:
+- setAutoreverses:
+- setAxis:
+- setBackgroundColor:
+- setBatteryMonitoringEnabled:
+- setBatteryPercent:
+- setBorderColor:
+- setBorderWidth:
+- setBounds:
+- setBuffer:
+- setCalendar:
+- setCarName:
+- setCategory:withOptions:error:
+- setCenter:
+- setClipsToBounds:
+- setColors:
+- setConstant:
+- setContentCompressionResistancePriority:forAxis:
+- setContentMode:
+- setContentScaleFactor:
+- setContents:
+- setContentsGravity:
+- setCornerCurve:
+- setCornerRadius:
+- setCustomSpacing:afterView:
+- setDate:
+- setDateFormat:
+- setDecodeQueue:
+- setDecoding:
+- setDelegate:
+- setDesiredAccuracy:
+- setDisableActions:
+- setDisplayLink:
+- setDone:
+- setDuration:
+- setEndPoint:
+- setEndReason:
+- setFailedFrames:
+- setFill
+- setFill:
+- setFillColor:
+- setFillRule:
+- setFinished:
+- setFont:
+- setFps:
+- setFrame:
+- setFrameCount:
+- setFramesDir:
+- setFromValue:
+- setHidden:
+- setHot:
+- setHud:
+- setImage:
+- setImageFits:
+- setImageView:
+- setInA:
+- setInB:
+- setLineCap:
+- setLineDashPattern:
+- setLineJoin:
+- setLineWidth:
+- setLocale:
+- setLocalizedDateFormatFromTemplate:
+- setLocations:
+- setLogoEffect:
+- setLoop:
+- setManager:
+- setMask:
+- setMaskView:
+- setMasksToBounds:
+- setMax:
+- setMaximumFractionDigits:
+- setMinimumScaleFactor:
+- setName:
+- setNeedle:
+- setNeedsDisplay
+- setNeedsLayout
+- setNextEvent:
+- setNumber:
+- setNumberFormatter:
+- setNumberOfLines:
+- setNumberOfLoops:
+- setObject:forKeyedSubscript:
+- setOccasion:
+- setOpacity:
+- setOpaque:
+- setOutA:
+- setOutB:
+- setOutEase:
+- setOwner:
+- setPath:
+- setPosition:
+- setPreferredFrameRateRange:
+- setQueuedFrames:
+- setRasterizationScale:
+- setRed:
+- setRepeatCount:
+- setRequestCachePolicy:
+- setRise:
+- setRootViewController:
+- setScale:
+- setScreen:
+- setShadowColor:
+- setShadowOffset:
+- setShadowOpacity:
+- setShadowRadius:
+- setShouldRasterize:
+- setShown:
+- setShownAt:
+- setShownFrames:
+- setSpacing:
+- setStartPoint:
+- setStartTime:
+- setStartView:
+- setStrokeColor:
+- setStrokeEnd:
+- setStrokeStart:
+- setStyle:
+- setTempo:
+- setText:
+- setTextAlignment:
+- setTextColor:
+- setTimeOffset:
+- setTimeZone:
+- setTimeoutIntervalForRequest:
+- setTimeoutIntervalForResource:
+- setTimingFunction:
+- setTintColor:
+- setToValue:
+- setTransform:
+- setTranslatesAutoresizingMaskIntoConstraints:
+- setType:
+- setUnitStyle:
+- setUserInteractionEnabled:
+- setView:
+- setVolume:
+- setVolume:fadeDuration:
+- setWaitsForConnectivity:
+- setWeather:
+- setWindow:
+- setWindowLevel:
+- sharedInstance
+- shown
+- shownAt
+- shownFrames
+- size
+- sizeThatFits:
+- sizeToFit
+- sizeWithAttributes:
+- sortedArrayUsingSelector:
+- ss_addCanvas
+- ss_addMote:layer:to:
+- ss_applyEngine:
+- ss_applyHud:
+- ss_applyMotes:
+- ss_applySky:
+- ss_applyTime:
+- ss_applyWelcome:
+- ss_buildBriefing
+- ss_buildEngine
+- ss_buildFestive
+- ss_buildHud
+- ss_buildLiquid
+- ss_buildParticles
+- ss_buildScene
+- ss_buildSky
+- ss_buildWelcome
+- ss_clearScene
+- ss_drawCanvas:size:
+- ss_drawFireworks:t:
+- ss_drawParticles:t:
+- ss_fade:from:to:alpha:
+- ss_gaugeAt:radius:label:unit:max:red:in:
+- ss_host
+- ss_label:at:size:weight:color:left:in:maxWidth:
+- ss_now
+- ss_sceneColors
+- ss_setGauge:value:
+- ss_startLink
+- ss_step
+- ss_stopLink
+- start
+- startCountdown
+- startDate
+- startTime
+- startUpdatingLocation
+- startView
+- statusCode
+- step:
+- stop
+- stopUpdatingLocation
+- stringByAppendingPathComponent:
+- stringByAppendingString:
+- stringByDeletingLastPathComponent
+- stringByDeletingPathExtension
+- stringByTrimmingCharactersInSet:
+- stringFromDate:
+- stringFromMeasurement:
+- stringWithContentsOfFile:encoding:error:
+- stringWithFormat:
+- stringWithUTF8String:
+- style
+- substringFromIndex:
+- substringToIndex:
+- subviews
+- superclass
+- systemFontOfSize:weight:
+- systemImageNamed:
+- systemImageNamed:withConfiguration:
+- systemVersion
+- tapped:
+- tearDown
+- tempo
+- thermalState
+- tick
+- timeIntervalSince1970
+- timeIntervalSinceDate:
+- timeIntervalSinceNow
+- timeZoneForSecondsFromGMT:
+- timestamp
+- title
+- topAnchor
+- trailingAnchor
+- traitCollection
+- transitionWithView:duration:options:animations:completion:
+- unsignedIntValue
+- unsignedIntegerValue
+- unsignedLongLongValue
+- userInfo
+- userInterfaceIdiom
+- usesMetricSystem
+- valueForKey:
+- valueWithCGPoint:
+- view
+- weather
+- whiteColor
+- whitespaceAndNewlineCharacterSet
+- widthAnchor
+- window
+- windowLevel
+- windowScene
+- writeToFile:atomically:
+- writeToURL:error:
+- zone
+
+### CFString constants (498)
+- `StartupScreen`
+- `weather: location failed: %@`
+- `startupScreenPlayFull`
+- `startupScreenTapToSkip`
+- `startupScreenScaleMode`
+- `startupScreenGreetingName`
+- `startupScreenLogoEffect`
+- `startupScreenTempo`
+- `/var/mobile/Library/OmniCar/StartupScreen/Logo/logo.png`
+- `no logo at %@, showing the car glyph`
+- `splash window shown: style=%ld frame=%@ level=%.0f scene=%@ frames=%lu fps=%.0f loop=%d`
+- `no frame shown after 10s (failed=%lu), giving up`
+- `no frame after 10s`
+- `%05lu.jpg`
+- `cannot decode %@`
+- `video ended`
+- `first frame shown, playing for up to %.0fs`
+- `com.anlai.omnicar/startupscreen.audio.play`
+- `%.0fs timer`
+- `tap`
+- `press (knob / button)`
+- `skip`
+- `%@ after %.1fs`
+- `dismissing after %lu frames: %@`
+- `com.anlai.omnicar/startupscreen.audio.stop`
+- `torn down`
+- `torn down after %.1fs`
+- `com.apple.springboard`
+- `com.anlai.omnicar/startupscreen.weather.request`
+- `weather: warming the cache at startup`
+- `com.apple.CarPlayApp`
+- `startupScreen`
+- `existing screen: %@`
+- `videos dir %@ readable=%d`
+- `/var/mobile/Library/OmniCar/StartupScreen/Videos`
+- `sceneConnect`
+- `sceneActivate`
+- `screen connected: %@`
+- `screen disconnected: %@`
+- `startupScreenCarName`
+- `diagCar`
+- `configuration`
+- `session`
+- `modelName`
+- `name`
+- `vehicleName`
+- `accessoryName`
+- `nil`
+- `(null)`
+- `startupScreenDuration`
+- `text`
+- `Kết nối CarPlay`
+- `CarPlay connected`
+- `ok`
+- `P·i·n· ·i·P·h·o·n·e· ·%·l·d`
+- `i·P·h·o·n·e· ·b·a·t·t·e·r·y· ·%`
+- `Pin iPhone %ld%%`
+- `iPhone battery %ld%%`
+- `Nhiệt độ máy: ổn`
+- `Phone temperature: OK`
+- `Nhiệt độ máy: nóng`
+- `Phone temperature: hot`
+- `Nhiệt độ máy: rất nóng`
+- `Phone temperature: very hot`
+- `liteMode`
+- `Chế độ nhẹ: bật`
+- `Lite mode: on`
+- `Chế độ nhẹ: tắt`
+- `Lite mode: off`
+- `Chế độ nhẹ: tự động`
+- `Lite mode: auto`
+- `carProfilesEnabled`
+- `carProfiles`
+- `carProfileCurrent`
+- `Hồ sơ xe: %@`
+- `Car profile: %@`
+- `calendar: no access (status %ld), no event card`
+- `Lịch hẹn`
+- `Event`
+- `title`
+- `date`
+- `location`
+- `calendar: %@`
+- `weather: no last known location, using the cache`
+- `weather: SpringBoard answered (%@)`
+- `cache loaded`
+- `nothing usable in the cache`
+- `weather: no location access here, asking SpringBoard`
+- `weather: no answer yet, asking SpringBoard again`
+- `weather: SpringBoard did not answer in 10s`
+- `https://api.open-meteo.com/v1/forecast?latitude=%.2f&longitude=%.2f&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=1`
+- `weather: %@ in %.1fs (http %ld, %@)`
+- `updated`
+- `failed`
+- `no error`
+- `startupScreenSound`
+- `.frames`
+- `audio.m4a`
+- `audio: no soundtrack for %@`
+- `startupScreenSoundSkipCall`
+- `audio: skipped, a phone call is in progress`
+- `startupScreenSoundVolume`
+- `audio: cannot open %@: %@`
+- `audio: playing %@ ok=%d volume=%.2f route=%@`
+- `startupScreenStyle`
+- `startupScreenVideoName`
+- `cannot list %@: %@`
+- `.`
+- `startupScreenSoundFile`
+- `/var/mobile/Library/OmniCar/StartupScreen/Sounds`
+- `audio: startup sound %@ is missing`
+- `lat`
+- `lon`
+- `/var/mobile/Library/OmniCar/StartupScreen/location.plist`
+- `weather: request while another is being answered, ignored`
+- `weather: SpringBoard location status %d, last fix %@`
+- `%.0fs old`
+- `none`
+- `last CoreLocation`
+- `fresh CoreLocation`
+- `weather: no fresh fix in 6s, using the last one`
+- `nav app's (%.0f min old)`
+- `weather: no position from the nav app yet, trying the IP`
+- `weather: SpringBoard has no position at all, answering without weather`
+- `IP (%@)`
+- `https://ipapi.co/json/`
+- `latitude`
+- `longitude`
+- `city`
+- `weather: IP location failed (%@)`
+- `no coordinates in the answer`
+- `?`
+- `weather: SpringBoard fetching with the %@ position`
+- `window shown: %@ level=%.0f scene=%@ %p %@ screen=%@`
+- `(nil)`
+- `window`
+- `car display detected via %@: screen=%@ scene=%@`
+- `disabled in settings`
+- `style %ld this time (setting %ld, occasion %ld)`
+- `info.plist`
+- `count`
+- `fps`
+- `no video found in %@ -> liquid style`
+- `no frames for %@ (open Settings > OmniCar > Startup Screen to convert it) -> liquid style`
+- `playing %@ (%lu frames @ %.0ffps)`
+- `showing style %ld`
+- `startupScreenOccasions`
+- `startupScreenOccasionLog`
+- `occasion %ld already shown %ld times today`
+- `com.anlai.omnicar`
+- `startupScreenBirthday`
+- `-`
+- `en_US_POSIX`
+- `yyyy-MM-dd`
+- `startupScreenRandomSet`
+- `<%@ %p main=%d idiom=%ld bounds=%@>`
+- `%@: %@ role=%@`
+- `%@: idiom=%ld screen=%@`
+- `current`
+- `daily`
+- `temperature_2m`
+- `temp`
+- `weather_code`
+- `code`
+- `is_day`
+- `isDay`
+- `temperature_2m_max`
+- `temperature_2m_min`
+- `precipitation_probability_max`
+- `high`
+- `low`
+- `rain`
+- `/var/mobile/Library/OmniCar/StartupScreen/weather.plist`
+- `play.rectangle.fill`
+- `car.fill`
+- `cloud.fill`
+- `↑ `
+- `↓ `
+- `   `
+- `%@ %ld%%`
+- `Khả năng mưa`
+- `Chance of rain`
+- `Cập nhật lúc %@`
+- `Updated %@`
+- `shadowOpacity`
+- `ssGlow`
+- `888`
+- `0`
+- `VÒNG TUA`
+- `RPM`
+- `x1000 rpm`
+- `TỐC ĐỘ`
+- `SPEED`
+- `km/h`
+- `mph`
+- `fuelpump.fill`
+- `minus.plus.batteryblock.fill`
+- `minus.plus.batteryblock`
+- `bolt.fill`
+- `exclamationmark.triangle.fill`
+- `engine.combustion.fill`
+- `exclamationmark.circle.fill`
+- `headlight.high.beam.fill`
+- `light.max`
+- `ABS`
+- `OmniCar`
+- `Xe của bạn đã sẵn sàng, %@`
+- `Your car is ready, %@`
+- `Xe của bạn đã sẵn sàng`
+- `Your car is ready`
+- `%ld`
+- `100%`
+- `0%`
+- `·`
+- `!`
+- `SẴN SÀNG`
+- `READY`
+- `%ld%%`
+- `%@ · %@`
+- `👋`
+- `↑ %@  ↓ %@`
+- `%ld%% khả năng mưa`
+- `%ld%% chance of rain`
+- ` · `
+- `Thời tiết hôm nay`
+- `Today's weather`
+- `Nhớ cắm sạc trên xe`
+- `Plug it in on the way`
+- `Đủ pin cho chuyến đi`
+- `Enough for the trip`
+- `🪫`
+- `🔋`
+- `%@ %@`
+- `Lịch hẹn kế tiếp`
+- `Next on your calendar`
+- `··a·n·g· ·d·`
+- `Happening now`
+- `Còn %ld phút`
+- `In %ld min`
+- `Còn %ld giờ %ld phút`
+- `In %ld h %ld min`
+- `📅`
+- `Thắt dây an toàn`
+- `Buckle up`
+- `Chúc bạn thượng lộ bình an`
+- `Have a safe trip`
+- `🛡`
+- `position`
+- `ssDrift`
+- `/Library/PreferenceBundles/OmniCarPrefs.bundle/PackageIcon.png`
+- `/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@3x.png`
+- `transform.translation.y`
+- `ssBreathe`
+- `Sức mạnh của CarPlay`
+- `The power of CarPlay`
+- `transform.translation.x`
+- `ssSweep`
+- `Chúc Mừng Năm Mới`
+- `Happy Lunar New Year`
+- `An khang thịnh vượng · thượng lộ bình an, %@`
+- `Health, luck and safe travels, %@`
+- `An khang thịnh vượng · thượng lộ bình an`
+- `Health, luck and safe travels`
+- `🎂`
+- `Chúc mừng sinh nhật, %@!`
+- `Happy birthday, %@!`
+- `Chúc mừng sinh nhật!`
+- `Happy birthday!`
+- `Hôm nay lái xe vui nhé`
+- `Enjoy the drive today`
+- `🎄`
+- `Giáng Sinh An Lành`
+- `Merry Christmas`
+- `Merry Christmas, %@`
+- `Happy holidays, %@`
+- `Happy holidays`
+- `T·r·u·n·g· ·T·h·`
+- `Happy Mid-Autumn Festival`
+- `Trăng tròn, đường thông, %@ nhé`
+- `Full moon and clear roads, %@`
+- `Trăng tròn, đường thông`
+- `Full moon and clear roads`
+- `Chúc mừng năm mới %ld`
+- `Happy New Year %ld`
+- `Thượng lộ bình an, %@`
+- `Safe travels, %@`
+- `Thượng lộ bình an`
+- `Safe travels`
+- `Họp nhóm`
+- `Team meeting`
+- `OmniCarStartupWeather.plist`
+- `%@, %@`
+- `EEEEdMMMM`
+- `sun.max.fill`
+- `moon.stars.fill`
+- `Trời quang`
+- `Clear`
+- `cloud.sun.fill`
+- `cloud.moon.fill`
+- `Ít mây`
+- `Partly cloudy`
+- `Nhiều mây`
+- `Cloudy`
+- `cloud.fog.fill`
+- `Sương mù`
+- `Fog`
+- `cloud.drizzle.fill`
+- `Mưa phùn`
+- `Drizzle`
+- `cloud.heavyrain.fill`
+- `Mưa to`
+- `Heavy rain`
+- `cloud.sun.rain.fill`
+- `cloud.rain.fill`
+- `Có mưa`
+- `Rain`
+- `cloud.snow.fill`
+- `Có tuyết`
+- `Snow`
+- `cloud.bolt.rain.fill`
+- `Dông`
+- `Thunderstorm`
+- `--`
+- `Chào buổi sáng`
+- `Good morning`
+- `Chào buổi chiều`
+- `Good afternoon`
+- `Chào buổi tối`
+- `Good evening`
+- `P·i·n· ·i·P·h·o·n·e· ·8·2`
+- `i·P·h·o·n·e· ·b·a·t·t·e·r·y· `
+- `·&`
+- `🌙`
+- `⛅`
+- `🌫`
+- `🌦`
+- `🌧`
+- `⛈`
+- `🌨`
+- `·&`
+- `enabled`
+- `Enabled`
+- `wireless`
+- `1`
+- `wired`
+- `transport`
+- `wifi`
+- `wi-fi`
+- `usb`
+- `/var/mobile/Documents/OmniCar.log`
+- `[OmniCar/%@] %@`
+- `yyyy-MM-dd HH:mm:ss.SSS`
+- `%@ [%@:%d] %@: %@
+`
+- `com.anlai.omnicar/log`
+- `line`
+- `+`
+- ` `
+- `%@=%@`
+- `%@%@@%@`
+- `diagHooks.`
+- `total`
+- `missing`
+- `ios`
+- `iOS %@: lop CarPlay %@`
+- `, `
+- `iOS %@: %lu/%lu hook KHONG co tren iOS nay (tinh nang lien quan se khong chay): %@`
+- `iOS %@: du %lu hook`
+- `THIEU METHOD (iOS %@): %@ -> bo qua`
+- `DashBoard`
+- `DB`
+- `CAR`
+- `_CAR`
+- `launchInfoForApplication:`
+- `launchInfoForApplication:withActivationSettings:`
+- `Core`
+- `THIEU METHOD: %@ khong tao duoc launchInfo`
+- `features`
+- `rescueFeatures`
+- `%@ dang tat boi che do cuu (tu %@): khong cai hook trong CarPlay`
+- `rescueDate`
+- `%@ bat lai sau che do cuu`
+- `SpringBoard`
+- `CarPlay`
+- `build %s (%s) loaded into %@`
+- `%@%s@%@`
+- `diagLoaded.`
+- `version`
+- `1.0.3`
+- `build`
+- `fbebb21`
+- `.old`
+- `NSDistributedNotificationCenter`
+- `OmniCar-CarPlay-crash.txt`
+- `early`
+- `suspects`
+- `CARPLAY SAP LAN TRUOC:
+%@`
+- `
+`
+- `omc-crash `
+- `age=`
+- `suspect=`
+- `last=`
+- `age`
+- `suspect`
+- `diagLastCrash`
+- `CarPlay sap som %ld/%d lan lien (nghi: %@)`
+- `connected`
+- `disconnected`
+- `CHE DO CUU: CarPlay sap %d lan lien trong %ds dau -> tat %@`
+- `uncaught %@: %@
+%@
+`
+- `points`
+- `pixels`
+- `scale`
+- `maxFPS`
+- `CARSessionStatus`
+- `currentSession`
+- `CarKit loi: %@`
+- `man xe %@ pt, %@ px, %@ fps, session=%d`
+- `do hieu nang: bat dau, %lu tweak khac trong CarPlay: %@`
+- `CarPlay do %.1fs (OmniCar gan nhat: %@)`
+- `heat`
+- `hangs`
+- `frames`
+- `che do nhe tu dong: %@%@`
+- `BAT`
+- `tat`
+- ` vi `
+- `start`
+- `seconds`
+- `late`
+- `worstMs`
+- `freezes`
+- `hangMaxMs`
+- `hangWho`
+- `cpuAvg`
+- `cpuMax`
+- `memMB`
+- `memMaxMB`
+- `availMinMB`
+- `sysFreeMinMB`
+- `thermalMax`
+- `lowPower`
+- `tweaks`
+- `liteCount`
+- `liteReason`
+- `diagPerf`
+- `%.0fx%.0f`
+- `_`
+- `description`
+- `debugDescription`
+- `hash`
+- `superclass`
+- `...`
+- `model`
+- `vehicleIdentifier`
+- `identifier`
+- `uniqueIdentifier`
+- `accessoryID`
+- `deviceID`
+- `serialNumber`
+- `%@|%@`
+- `values`
+- `ho so xe moi: %@ (%@)`
+- `nap ho so xe %@ (%@)`
+- `Xe`
+- `Car`
+- `lastSeen`
+- `do hieu nang: %.0fs, tre %.0f/%.0f khung, do %.0f lan (max %.0f ms), CPU tb %.0f%%, RAM %.0f MB`
+- `OmniCar-crashguard.plist`
+- `trustedTime`
+- `splitScreenLastLeft`
+- `splitScreenLastRight`
+- `splitScreenSplitRatio`
+- `splitScreenSplitDirection`
+- `splitScreenPaneOrientation`
+- `splitScreenAutoLaunch`
+- `splitScreenPinnedApp`
+- `speedBubbleSizeCar`
+- `speedBubbleLook`
+- `appBridgeZoom`
+- `vi`
+- `en`
+- `es`
+- `pt-BR`
+- `de`
+- `fr`
+- `it`
+- `ru`
+- `zh-Hans`
+- `ja`
+- `ko`
+- `ar`
+- `th`
+- `id`
+- `language`
+- `zh`
+- `2027-04-30`
+- `%@/%@.lproj/Car.strings`
+- `/Library/PreferenceBundles/OmniCarPrefs.bundle`
+
+
+#### Hook & IPC của OmniCarStartupScreen (bằng chứng: disassembly)
+
+- **Đúng 1 hook Substrate** (đã đếm call-site tới stub `_MSHookMessageEx`: 1): `UIWindow` — `setHidden:` → IMP sub_8054, đăng ký trong init `sub_74a8`. Mục đích suy từ ngữ cảnh: giữ cửa sổ startup không bị ẩn trong lúc phát video chào.
+- IPC Darwin qua **CFNotificationCenter (Darwin notify center)** — binary import trực tiếp `_CFNotificationCenterGetDarwinNotifyCenter`/`AddObserver`/`PostNotification`:
+  - `CFNotificationCenterAddObserver("com.anlai.omnicar/startupscreen.audio.play")` (sub_74a8)
+  - `CFNotificationCenterAddObserver("com.anlai.omnicar/startupscreen.audio.stop")` (sub_74a8)
+  - `CFNotificationCenterAddObserver("com.anlai.omnicar/startupscreen.weather.request")` (sub_74a8)
+  - `notify_register_dispatch("com.anlai.omnicar/location")` (sub_74a8)
+  - `notify_register_dispatch` + `notify_post`: `com.anlai.omnicar/startupscreen.weather.ready` (sub_6434), `notify_post("com.anlai.omnicar/startupscreen.weather.request")` (sub_6434), `notify_post("com.anlai.omnicar/car.connected")` (sub_1e618)
+  - Chuỗi kênh phụ: `com.anlai.omnicar/startupscreen.style`, `com.anlai.omnicar.startupscreen.decode` (dạng chấm, có thể là nhãn queue/XPC — chưa xác định).
+- Class nghiệp vụ: họ `SS*` (SSStartupView, SSCanvasView, SSGauge, SSFade, SSLinkTarget...) + `OMCStartupScreenController` nằm ở Prefs bundle (cấu hình), phần hiển thị chạy trong dylib này.
+
+
+---
+
+### 4.8. OmniCarPrefs (PreferenceBundle)
+
+- Đường dẫn cài đặt: `/var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs`
+- Kích thước file: 1,303,344 bytes · SHA256 (bản fat): `15bca4bee19bd9e04300e2c8070f665869df93c0f8913278e87b147ebf895a76`
+- Slices: arm64 @off 16384, size 631360 · arm64e @off 655360, size 647984 (cả hai slice cùng danh sách thư viện + entitlements; bảng dưới đây trích slice arm64)
+- Filter/điểm nạp: — (nạp bởi Preferences/Settings qua PreferenceLoader)
+- Số hàm theo LC_FUNCTION_STARTS (arm64): 976
+- Symbol C/ObjC **định nghĩa** (export, 100):
+
+```
+_L
+_OBJC_CLASS_$_OMCAppBridgeAppsController
+_OBJC_CLASS_$_OMCAppBridgeAppsLinkCell
+_OBJC_CLASS_$_OMCCarProfilesController
+_OBJC_CLASS_$_OMCCardPage
+_OBJC_CLASS_$_OMCFeatureListController
+_OBJC_CLASS_$_OMCFeatureStatusCell
+_OBJC_CLASS_$_OMCHSPreview
+_OBJC_CLASS_$_OMCHeaderCard
+_OBJC_CLASS_$_OMCHomeScreenController
+_OBJC_CLASS_$_OMCOnboardingController
+_OBJC_CLASS_$_OMCRootListController
+_OBJC_CLASS_$_OMCSSStyleTileCell
+_OBJC_CLASS_$_OMCSpeedBubbleController
+_OBJC_CLASS_$_OMCSplitPreview
+_OBJC_CLASS_$_OMCSplitScreenAppLinkCell
+_OBJC_CLASS_$_OMCSplitScreenAppPickerController
+_OBJC_CLASS_$_OMCSplitScreenController
+_OBJC_CLASS_$_OMCStartupScreenController
+_OBJC_CLASS_$_OMCWhatsNewController
+_OBJC_CLASS_$_SPPBubbleView
+_OBJC_CLASS_$_SPPGlassView
+_OBJC_CLASS_$_SPPIconView
+_OBJC_CLASS_$_SPPSignView
+_OBJC_CLASS_$_SPPSoundDelegate
+_OBJC_CLASS_$_SSCanvasView
+_OBJC_CLASS_$_SSFade
+_OBJC_CLASS_$_SSGauge
+_OBJC_CLASS_$_SSLinkTarget
+_OBJC_CLASS_$_SSStartupView
+_OBJC_METACLASS_$_OMCAppBridgeAppsController
+_OBJC_METACLASS_$_OMCAppBridgeAppsLinkCell
+_OBJC_METACLASS_$_OMCCarProfilesController
+_OBJC_METACLASS_$_OMCCardPage
+_OBJC_METACLASS_$_OMCFeatureListController
+_OBJC_METACLASS_$_OMCFeatureStatusCell
+_OBJC_METACLASS_$_OMCHSPreview
+_OBJC_METACLASS_$_OMCHeaderCard
+_OBJC_METACLASS_$_OMCHomeScreenController
+_OBJC_METACLASS_$_OMCOnboardingController
+_OBJC_METACLASS_$_OMCRootListController
+_OBJC_METACLASS_$_OMCSSStyleTileCell
+_OBJC_METACLASS_$_OMCSpeedBubbleController
+_OBJC_METACLASS_$_OMCSplitPreview
+_OBJC_METACLASS_$_OMCSplitScreenAppLinkCell
+_OBJC_METACLASS_$_OMCSplitScreenAppPickerController
+_OBJC_METACLASS_$_OMCSplitScreenController
+_OBJC_METACLASS_$_OMCStartupScreenController
+_OBJC_METACLASS_$_OMCWhatsNewController
+_OBJC_METACLASS_$_SPPBubbleView
+_OBJC_METACLASS_$_SPPGlassView
+_OBJC_METACLASS_$_SPPIconView
+_OBJC_METACLASS_$_SPPSignView
+_OBJC_METACLASS_$_SPPSoundDelegate
+_OBJC_METACLASS_$_SSCanvasView
+_OBJC_METACLASS_$_SSFade
+_OBJC_METACLASS_$_SSGauge
+_OBJC_METACLASS_$_SSLinkTarget
+_OBJC_METACLASS_$_SSStartupView
+_OMCAccentColor
+_OMCBackgroundColor
+_OMCCardColor
+_OMCColorFromHex
+_OMCConflictingTweaks
+_OMCCurrentLanguage
+_OMCDiagChecks
+_OMCDiagSections
+_OMCDiagSummary
+_OMCEnabled
+_OMCExpired
+_OMCFeatureDisplayName
+_OMCIcon
+_OMCLanguage
+_OMCLanguageName
+_OMCLanguages
+_OMCLoadStrings
+_OMCLocalizeSpecifiers
+_OMCLogoMeshImage
+_OMCProfileKeys
+_OMCRescueFeatures
+_OMCRescueRestore
+_OMCRespring
+_OMCShareReport
+_OMCStyleCell
+_OMCStyleGlassCard
+_OMCStyleHeaderFooter
+_OMCStyleTable
+_OMCSupportedLanguages
+_OMCSwitchColor
+_OMCTr
+_SPPPlayTone
+_SPPSpeak
+_SPPVoiceIsFun
+_SPPVoiceLine
+_SPPVoiceTemplate
+_SSApplySampleData
+_SSPeriodForDate
+_SSWeatherLoadCache
+_SSWeatherParse
+_SSWeatherSaveCache
+```
+- Symbol **import** (undefined, 0): danh sách đầy đủ chính là bảng import của chained-fixups — các symbol tiêu biểu được nhắc trong phần hook/IPC; toàn bộ 0 tên nằm trong file nm đi kèm hồ sơ thô.
+
+- Install name (LC_ID_DYLIB): ('/var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs', '0.0.0', '0.0.0')
+- LC_BUILD_VERSION: platform=2 minos=15.0.0 sdk=16.4.0
+- LC_SOURCE_VERSION: 0.0.0.0.0
+- UUID (arm64 slice): 27a4d56154a731eb8b0cc287a366f51c
+- Encryption info (cryptid): 0
+- RPATH: /var/jb/Library/Frameworks, /var/jb/usr/lib, @loader_path/.jbroot/Library/Frameworks, @loader_path/.jbroot/usr/lib
+- Linked libraries (arm64 slice):
+  - [LOAD] /usr/lib/libobjc.A.dylib (current 228.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/Foundation.framework/Foundation (current 1971.0.0, compat 300.0.0)
+  - [LOAD] /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (current 1971.0.0, compat 150.0.0)
+  - [LOAD] /System/Library/Frameworks/UIKit.framework/UIKit (current 6441.1.101, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/AVFoundation.framework/AVFoundation (current 2.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/AVKit.framework/AVKit (current 1.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/UniformTypeIdentifiers.framework/UniformTypeIdentifiers (current 709.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/CoreImage.framework/CoreImage (current 5.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/CoreMedia.framework/CoreMedia (current 1.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/CoreVideo.framework/CoreVideo (current 1.5.0, compat 1.2.0)
+  - [LOAD] /System/Library/Frameworks/ImageIO.framework/ImageIO (current 1.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/PrivateFrameworks/Preferences.framework/Preferences (current 0.0.0, compat 0.0.0)
+  - [LOAD] /usr/lib/libSystem.B.dylib (current 1319.100.3, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/AVFAudio.framework/AVFAudio (current 1.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/AudioToolbox.framework/AudioToolbox (current 1000.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (current 1690.5.4, compat 64.0.0)
+  - [LOAD] /System/Library/Frameworks/QuartzCore.framework/QuartzCore (current 1.11.0, compat 1.2.0)
+- Entitlements: KHÔNG có blob entitlements trong code signature.
+- Số import (chained fixups): 339
+
+### Classes định nghĩa trong binary (29)
+
+#### @interface OMCCardPage : (import) _OBJC_CLASS_$_PSViewController
+- Protocols: UITableViewDataSource, UITableViewDelegate
+- instanceSize: 16, flags: 0x184
+- Ivars:
+  - _table : @"UITableView" (offset 8, align 3, size 8)
+- Properties:
+  - table  [T@"UITableView",&,N,V_table]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (28):
+  - loadView  [types: v16@0:8] @ 0x44a8
+  - viewDidLoad  [types: v16@0:8] @ 0x452c
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x45c4
+  - traitCollectionDidChange:  [types: v24@0:8@16] @ 0x46a8
+  - prefForKey:def:  [types: @32@0:8@16@24] @ 0x475c
+  - intForKey:def:  [types: q32@0:8@16q24] @ 0x47c8
+  - storeValue:forKey:  [types: v32@0:8@16@24] @ 0x4820
+  - prefChanged:  [types: v24@0:8@16] @ 0x4868
+  - prefChanging:  [types: v24@0:8@16] @ 0x486c
+  - cellWithId:  [types: @24@0:8@16] @ 0x4870
+  - boxInCell:  [types: @24@0:8@16] @ 0x4a58
+  - setAccessory:onCell:  [types: v32@0:8@16@24] @ 0x4b3c
+  - switchForKey:def:  [types: @28@0:8@16B24] @ 0x4b44
+  - omcSwitchChanged:  [types: v24@0:8@16] @ 0x4c4c
+  - segmentForKey:titles:def:  [types: @40@0:8@16@24q32] @ 0x4cfc
+  - omcSegmentChanged:  [types: v24@0:8@16] @ 0x4dd8
+  - sliderForKey:min:max:def:format:width:  [types: @64@0:8@16q24q32q40@48d56] @ 0x4ea4
+  - omcSliderMoved:  [types: v24@0:8@16] @ 0x51ac
+  - omcSliderDone:  [types: v24@0:8@16] @ 0x5320
+  - toast:  [types: v24@0:8@16] @ 0x5414
+  - reloadSection:  [types: v24@0:8q16] @ 0x5730
+  - tableView:numberOfRowsInSection:  [types: q32@0:8@16q24] @ 0x57b4
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x57bc
+  - tableView:willDisplayHeaderView:forSection:  [types: v40@0:8@16@24q32] @ 0x57c8
+  - tableView:willDisplayFooterView:forSection:  [types: v40@0:8@16@24q32] @ 0x57d4
+  - table  [types: @16@0:8] @ 0x57e0
+  - setTable:  [types: v24@0:8@16] @ 0x57f0
+  - .cxx_destruct  [types: v16@0:8] @ 0x5830
+
+#### @interface OMCCarProfilesController : (import) _OBJC_CLASS_$_PSViewController
+- Protocols: UITableViewDataSource, UITableViewDelegate
+- instanceSize: 32, flags: 0x184
+- Ivars:
+  - _table : @"UITableView" (offset 8, align 3, size 8)
+  - _keys : @"NSArray" (offset 16, align 3, size 8)
+  - _profiles : @"NSDictionary" (offset 24, align 3, size 8)
+- Properties:
+  - table  [T@"UITableView",&,N,V_table]
+  - keys  [T@"NSArray",&,N,V_keys]
+  - profiles  [T@"NSDictionary",&,N,V_profiles]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (21):
+  - loadView  [types: v16@0:8] @ 0x5844
+  - viewDidLoad  [types: v16@0:8] @ 0x58bc
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x59e4
+  - reload  [types: v16@0:8] @ 0x5a2c
+  - enabledChanged:  [types: v24@0:8@16] @ 0x5ce0
+  - numberOfSectionsInTableView:  [types: q24@0:8@16] @ 0x5d6c
+  - tableView:numberOfRowsInSection:  [types: q32@0:8@16q24] @ 0x5d74
+  - tableView:titleForHeaderInSection:  [types: @32@0:8@16q24] @ 0x5dc0
+  - tableView:titleForFooterInSection:  [types: @32@0:8@16q24] @ 0x5df4
+  - tableView:willDisplayHeaderView:forSection:  [types: v40@0:8@16@24q32] @ 0x5e70
+  - tableView:willDisplayFooterView:forSection:  [types: v40@0:8@16@24q32] @ 0x5e7c
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x5e88
+  - tableView:canEditRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x6500
+  - tableView:commitEditingStyle:forRowAtIndexPath:  [types: v40@0:8@16q24@32] @ 0x6560
+  - table  [types: @16@0:8] @ 0x66c0
+  - setTable:  [types: v24@0:8@16] @ 0x66d0
+  - keys  [types: @16@0:8] @ 0x6710
+  - setKeys:  [types: v24@0:8@16] @ 0x6720
+  - profiles  [types: @16@0:8] @ 0x6760
+  - setProfiles:  [types: v24@0:8@16] @ 0x6770
+  - .cxx_destruct  [types: v16@0:8] @ 0x67b0
+
+#### @interface OMCFeatureListController : (import) _OBJC_CLASS_$_PSListController
+- instanceSize: 16, flags: 0x80
+- Instance methods (8):
+  - specifiers  [types: @16@0:8] @ 0x10d04
+  - viewDidLoad  [types: v16@0:8] @ 0x10e14
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x10f84
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x11080
+  - tableView:willDisplayHeaderView:forSection:  [types: v40@0:8@16@24q32] @ 0x110d0
+  - tableView:willDisplayFooterView:forSection:  [types: v40@0:8@16@24q32] @ 0x1117c
+  - traitCollectionDidChange:  [types: v24@0:8@16] @ 0x11228
+  - showMessage:  [types: v24@0:8@16] @ 0x112ec
+
+#### @interface OMCOnboardingController : (import) _OBJC_CLASS_$_UIViewController
+- Protocols: UIScrollViewDelegate, UIAdaptivePresentationControllerDelegate
+- instanceSize: 80, flags: 0x184
+- Ivars:
+  - _closed : B (offset 8, align 0, size 1)
+  - _pager : @"UIScrollView" (offset 16, align 3, size 8)
+  - _dots : @"UIPageControl" (offset 24, align 3, size 8)
+  - _skipButton : @"UIButton" (offset 32, align 3, size 8)
+  - _nextButton : @"UIButton" (offset 40, align 3, size 8)
+  - _page : q (offset 48, align 3, size 8)
+  - _pageCount : q (offset 56, align 3, size 8)
+  - _laidOutWidth : d (offset 64, align 3, size 8)
+  - _completion : @? (offset 72, align 3, size 8)
+- Properties:
+  - pager  [T@"UIScrollView",&,N,V_pager]
+  - dots  [T@"UIPageControl",&,N,V_dots]
+  - skipButton  [T@"UIButton",&,N,V_skipButton]
+  - nextButton  [T@"UIButton",&,N,V_nextButton]
+  - page  [Tq,N,V_page]
+  - pageCount  [Tq,N,V_pageCount]
+  - laidOutWidth  [Td,N,V_laidOutWidth]
+  - closed  [TB,N,V_closed]
+  - completion  [T@?,C,N,V_completion]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (41):
+  - viewDidLoad  [types: v16@0:8] @ 0x114f4
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x12290
+  - viewWillDisappear:  [types: v20@0:8B16] @ 0x122fc
+  - viewDidLayoutSubviews  [types: v16@0:8] @ 0x12368
+  - labelWithFont:color:alignment:  [types: @40@0:8@16@24q32] @ 0x12404
+  - bodyLabelWithText:  [types: @24@0:8@16] @ 0x124a0
+  - pageWithSymbol:title:body:extra:note:  [types: @56@0:8@16@24@32@40@48] @ 0x126fc
+  - welcomePage  [types: @16@0:8] @ 0x13170
+  - splitPage  [types: @16@0:8] @ 0x13370
+  - speedPage  [types: @16@0:8] @ 0x13424
+  - tipsPage  [types: @16@0:8] @ 0x13800
+  - updateControls  [types: v16@0:8] @ 0x138b4
+  - showPage:animated:  [types: v28@0:8q16B24] @ 0x13988
+  - scrollViewDidScroll:  [types: v24@0:8@16] @ 0x13a10
+  - dotsChanged:  [types: v24@0:8@16] @ 0x13adc
+  - nextTapped  [types: v16@0:8] @ 0x13b0c
+  - openApps  [types: v16@0:8] @ 0x13b68
+  - speedBubbleToggled:  [types: v24@0:8@16] @ 0x13c98
+  - finish  [types: v16@0:8] @ 0x13cf8
+  - markDone  [types: v16@0:8] @ 0x13da4
+  - runCompletion  [types: v16@0:8] @ 0x13de4
+  - presentationControllerDidDismiss:  [types: v24@0:8@16] @ 0x13e5c
+  - pager  [types: @16@0:8] @ 0x13e80
+  - setPager:  [types: v24@0:8@16] @ 0x13e90
+  - dots  [types: @16@0:8] @ 0x13ed0
+  - setDots:  [types: v24@0:8@16] @ 0x13ee0
+  - skipButton  [types: @16@0:8] @ 0x13f20
+  - setSkipButton:  [types: v24@0:8@16] @ 0x13f30
+  - nextButton  [types: @16@0:8] @ 0x13f70
+  - setNextButton:  [types: v24@0:8@16] @ 0x13f80
+  - page  [types: q16@0:8] @ 0x13fc0
+  - setPage:  [types: v24@0:8q16] @ 0x13fd0
+  - pageCount  [types: q16@0:8] @ 0x13fe0
+  - setPageCount:  [types: v24@0:8q16] @ 0x13ff0
+  - laidOutWidth  [types: d16@0:8] @ 0x14000
+  - setLaidOutWidth:  [types: v24@0:8d16] @ 0x14010
+  - closed  [types: B16@0:8] @ 0x14020
+  - setClosed:  [types: v20@0:8B16] @ 0x14030
+  - completion  [types: @?16@0:8] @ 0x14040
+  - setCompletion:  [types: v24@0:8@?16] @ 0x14050
+  - .cxx_destruct  [types: v16@0:8] @ 0x1405c
+- Class methods (2):
+  - shouldShow  [types: B16@0:8] @ 0x113ac
+  - guideNavigationControllerWithCompletion:  [types: @24@0:8@?16] @ 0x11418
+
+#### @interface OMCHeaderCard : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 104, flags: 0x184
+- Ivars:
+  - _card : @"UIView" (offset 8, align 3, size 8)
+  - _clip : @"UIView" (offset 16, align 3, size 8)
+  - _dot : @"UIView" (offset 24, align 3, size 8)
+  - _gradient : @"CAGradientLayer" (offset 32, align 3, size 8)
+  - _sheen : @"CAGradientLayer" (offset 40, align 3, size 8)
+  - _logo : @"UIImageView" (offset 48, align 3, size 8)
+  - _glass : @"UIVisualEffectView" (offset 56, align 3, size 8)
+  - _nameLabel : @"UILabel" (offset 64, align 3, size 8)
+  - _versionLabel : @"UILabel" (offset 72, align 3, size 8)
+  - _taglineLabel : @"UILabel" (offset 80, align 3, size 8)
+  - _statusLabel : @"UILabel" (offset 88, align 3, size 8)
+  - _toggle : @"UISwitch" (offset 96, align 3, size 8)
+- Properties:
+  - card  [T@"UIView",&,N,V_card]
+  - clip  [T@"UIView",&,N,V_clip]
+  - dot  [T@"UIView",&,N,V_dot]
+  - gradient  [T@"CAGradientLayer",&,N,V_gradient]
+  - sheen  [T@"CAGradientLayer",&,N,V_sheen]
+  - logo  [T@"UIImageView",&,N,V_logo]
+  - glass  [T@"UIVisualEffectView",&,N,V_glass]
+  - nameLabel  [T@"UILabel",&,N,V_nameLabel]
+  - versionLabel  [T@"UILabel",&,N,V_versionLabel]
+  - taglineLabel  [T@"UILabel",&,N,V_taglineLabel]
+  - statusLabel  [T@"UILabel",&,N,V_statusLabel]
+  - toggle  [T@"UISwitch",&,N,V_toggle]
+- Instance methods (28):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x140d8
+  - updateWithTagline:status:enabled:  [types: v36@0:8@16@24B32] @ 0x14b28
+  - layoutSubviews  [types: v16@0:8] @ 0x14c38
+  - card  [types: @16@0:8] @ 0x14f84
+  - setCard:  [types: v24@0:8@16] @ 0x14f94
+  - clip  [types: @16@0:8] @ 0x14fd4
+  - setClip:  [types: v24@0:8@16] @ 0x14fe4
+  - dot  [types: @16@0:8] @ 0x15024
+  - setDot:  [types: v24@0:8@16] @ 0x15034
+  - gradient  [types: @16@0:8] @ 0x15074
+  - setGradient:  [types: v24@0:8@16] @ 0x15084
+  - sheen  [types: @16@0:8] @ 0x150c4
+  - setSheen:  [types: v24@0:8@16] @ 0x150d4
+  - logo  [types: @16@0:8] @ 0x15114
+  - setLogo:  [types: v24@0:8@16] @ 0x15124
+  - glass  [types: @16@0:8] @ 0x15164
+  - setGlass:  [types: v24@0:8@16] @ 0x15174
+  - nameLabel  [types: @16@0:8] @ 0x151b4
+  - setNameLabel:  [types: v24@0:8@16] @ 0x151c4
+  - versionLabel  [types: @16@0:8] @ 0x15204
+  - setVersionLabel:  [types: v24@0:8@16] @ 0x15214
+  - taglineLabel  [types: @16@0:8] @ 0x15254
+  - setTaglineLabel:  [types: v24@0:8@16] @ 0x15264
+  - statusLabel  [types: @16@0:8] @ 0x152a4
+  - setStatusLabel:  [types: v24@0:8@16] @ 0x152b4
+  - toggle  [types: @16@0:8] @ 0x152f4
+  - setToggle:  [types: v24@0:8@16] @ 0x15304
+  - .cxx_destruct  [types: v16@0:8] @ 0x15344
+
+#### @interface OMCFeatureStatusCell : (import) _OBJC_CLASS_$_PSTableCell
+- instanceSize: 8, flags: 0x80
+- Instance methods (2):
+  - initWithStyle:reuseIdentifier:specifier:  [types: @40@0:8q16@24@32] @ 0x1544c
+  - refreshCellContentsWithSpecifier:  [types: v24@0:8@16] @ 0x15484
+
+#### @interface OMCRootListController : (import) _OBJC_CLASS_$_PSListController
+- instanceSize: 32, flags: 0x184
+- Ivars:
+  - _headerCard : @"OMCHeaderCard" (offset 16, align 3, size 8)
+  - _supportState : @"NSString" (offset 24, align 3, size 8)
+- Properties:
+  - headerCard  [T@"OMCHeaderCard",&,N,V_headerCard]
+  - supportState  [T@"NSString",C,N,V_supportState]
+- Instance methods (30):
+  - specifiers  [types: @16@0:8] @ 0x155d0
+  - currentSupportState  [types: @16@0:8] @ 0x15660
+  - applySupportState  [types: v16@0:8] @ 0x1586c
+  - insertFeatureSpecifiers  [types: v16@0:8] @ 0x15d38
+  - viewDidLoad  [types: v16@0:8] @ 0x165cc
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x16744
+  - traitCollectionDidChange:  [types: v24@0:8@16] @ 0x16838
+  - viewDidAppear:  [types: v20@0:8B16] @ 0x168fc
+  - applyLanguage  [types: v16@0:8] @ 0x169bc
+  - languageButton  [types: @16@0:8] @ 0x16b90
+  - setLanguage:  [types: v24@0:8@16] @ 0x16f54
+  - headerView  [types: @16@0:8] @ 0x16fb8
+  - updateHeaderStatus  [types: v16@0:8] @ 0x170cc
+  - updateHeaderStatusEnabled:  [types: v20@0:8B16] @ 0x170f4
+  - masterToggled:  [types: v24@0:8@16] @ 0x171f8
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x17290
+  - tableView:willDisplayHeaderView:forSection:  [types: v40@0:8@16@24q32] @ 0x172e0
+  - tableView:willDisplayFooterView:forSection:  [types: v40@0:8@16@24q32] @ 0x1738c
+  - showMessage:  [types: v24@0:8@16] @ 0x17438
+  - sendLog  [types: v16@0:8] @ 0x174f8
+  - showGuide  [types: v16@0:8] @ 0x17500
+  - showWhatsNew  [types: v16@0:8] @ 0x17654
+  - rescueRestore  [types: v16@0:8] @ 0x176c4
+  - respring  [types: v16@0:8] @ 0x1772c
+  - performRespring  [types: v16@0:8] @ 0x17924
+  - headerCard  [types: @16@0:8] @ 0x17928
+  - setHeaderCard:  [types: v24@0:8@16] @ 0x17938
+  - supportState  [types: @16@0:8] @ 0x17978
+  - setSupportState:  [types: v24@0:8@16] @ 0x17988
+  - .cxx_destruct  [types: v16@0:8] @ 0x17994
+
+#### @interface OMCWhatsNewController : (import) _OBJC_CLASS_$_UIViewController
+- instanceSize: 24, flags: 0x184
+- Ivars:
+  - _version : @"NSString" (offset 8, align 3, size 8)
+  - _items : @"NSArray" (offset 16, align 3, size 8)
+- Properties:
+  - version  [T@"NSString",C,N,V_version]
+  - items  [T@"NSArray",C,N,V_items]
+- Instance methods (11):
+  - viewDidLoad  [types: v16@0:8] @ 0x19e08
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x1aa9c
+  - labelWithFont:color:  [types: @32@0:8@16@24] @ 0x1ab08
+  - tileWithSymbol:side:pointSize:radius:  [types: @48@0:8@16d24d32d40] @ 0x1ab94
+  - rowForItem:  [types: @24@0:8@16] @ 0x1af38
+  - close  [types: v16@0:8] @ 0x1b2b4
+  - version  [types: @16@0:8] @ 0x1b30c
+  - setVersion:  [types: v24@0:8@16] @ 0x1b31c
+  - items  [types: @16@0:8] @ 0x1b328
+  - setItems:  [types: v24@0:8@16] @ 0x1b338
+  - .cxx_destruct  [types: v16@0:8] @ 0x1b344
+- Class methods (3):
+  - shouldShow  [types: B16@0:8] @ 0x19808
+  - markSeen  [types: v16@0:8] @ 0x19b8c
+  - whatsNewNavigationController  [types: @16@0:8] @ 0x19bc8
+
+#### @interface OMCAppBridgeAppsLinkCell : (import) _OBJC_CLASS_$_PSTableCell
+- instanceSize: 8, flags: 0x80
+- Instance methods (2):
+  - initWithStyle:reuseIdentifier:specifier:  [types: @40@0:8q16@24@32] @ 0x1b384
+  - refreshCellContentsWithSpecifier:  [types: v24@0:8@16] @ 0x1b3bc
+
+#### @interface OMCHSPreview : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 72, flags: 0x184
+- Ivars:
+  - _names : B (offset 8, align 0, size 1)
+  - _video : B (offset 9, align 0, size 1)
+  - _items : @"NSArray" (offset 16, align 3, size 8)
+  - _wallpaper : @"UIImage" (offset 24, align 3, size 8)
+  - _size : q (offset 32, align 3, size 8)
+  - _blur : q (offset 40, align 3, size 8)
+  - _dim : q (offset 48, align 3, size 8)
+  - _cols : q (offset 56, align 3, size 8)
+  - _rows : q (offset 64, align 3, size 8)
+- Properties:
+  - items  [T@"NSArray",C,N,V_items]
+  - wallpaper  [T@"UIImage",&,N,V_wallpaper]
+  - size  [Tq,N,V_size]
+  - blur  [Tq,N,V_blur]
+  - dim  [Tq,N,V_dim]
+  - cols  [Tq,N,V_cols]
+  - rows  [Tq,N,V_rows]
+  - names  [TB,N,V_names]
+  - video  [TB,N,V_video]
+- Instance methods (22):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x1b588
+  - drawIcon:in:  [types: v56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24] @ 0x1b670
+  - drawRect:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x1bc48
+  - items  [types: @16@0:8] @ 0x1c784
+  - setItems:  [types: v24@0:8@16] @ 0x1c794
+  - wallpaper  [types: @16@0:8] @ 0x1c7a0
+  - setWallpaper:  [types: v24@0:8@16] @ 0x1c7b0
+  - size  [types: q16@0:8] @ 0x1c7f0
+  - setSize:  [types: v24@0:8q16] @ 0x1c800
+  - blur  [types: q16@0:8] @ 0x1c810
+  - setBlur:  [types: v24@0:8q16] @ 0x1c820
+  - dim  [types: q16@0:8] @ 0x1c830
+  - setDim:  [types: v24@0:8q16] @ 0x1c840
+  - cols  [types: q16@0:8] @ 0x1c850
+  - setCols:  [types: v24@0:8q16] @ 0x1c860
+  - rows  [types: q16@0:8] @ 0x1c870
+  - setRows:  [types: v24@0:8q16] @ 0x1c880
+  - names  [types: B16@0:8] @ 0x1c890
+  - setNames:  [types: v20@0:8B16] @ 0x1c8a0
+  - video  [types: B16@0:8] @ 0x1c8b0
+  - setVideo:  [types: v20@0:8B16] @ 0x1c8c0
+  - .cxx_destruct  [types: v16@0:8] @ 0x1c8d0
+
+#### @interface OMCAppBridgeAppsController : (import) _OBJC_CLASS_$_PSViewController
+- Protocols: UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+- instanceSize: 152, flags: 0x184
+- Ivars:
+  - _table : @"UITableView" (offset 8, align 3, size 8)
+  - _preview : @"OMCHSPreview" (offset 16, align 3, size 8)
+  - _phoneApps : @"NSArray" (offset 24, align 3, size 8)
+  - _carplayApps : @"NSArray" (offset 32, align 3, size 8)
+  - _guessApps : @"NSArray" (offset 40, align 3, size 8)
+  - _included : @"NSArray" (offset 48, align 3, size 8)
+  - _other : @"NSArray" (offset 56, align 3, size 8)
+  - _shown : @"NSMutableSet" (offset 64, align 3, size 8)
+  - _iosOff : @"NSSet" (offset 72, align 3, size 8)
+  - _chosen : @"NSMutableSet" (offset 80, align 3, size 8)
+  - _hidden : @"NSMutableSet" (offset 88, align 3, size 8)
+  - _open : @"NSMutableSet" (offset 96, align 3, size 8)
+  - _query : @"NSString" (offset 104, align 3, size 8)
+  - _wallpaper : @"UIImage" (offset 112, align 3, size 8)
+  - _photo : @"UIImage" (offset 120, align 3, size 8)
+  - _videoThumb : @"UIImage" (offset 128, align 3, size 8)
+  - _wallStyle : q (offset 136, align 3, size 8)
+  - _icons : @"NSCache" (offset 144, align 3, size 8)
+- Properties:
+  - table  [T@"UITableView",&,N,V_table]
+  - preview  [T@"OMCHSPreview",&,N,V_preview]
+  - phoneApps  [T@"NSArray",&,N,V_phoneApps]
+  - carplayApps  [T@"NSArray",&,N,V_carplayApps]
+  - guessApps  [T@"NSArray",&,N,V_guessApps]
+  - included  [T@"NSArray",&,N,V_included]
+  - other  [T@"NSArray",&,N,V_other]
+  - shown  [T@"NSMutableSet",&,N,V_shown]
+  - iosOff  [T@"NSSet",&,N,V_iosOff]
+  - chosen  [T@"NSMutableSet",&,N,V_chosen]
+  - hidden  [T@"NSMutableSet",&,N,V_hidden]
+  - open  [T@"NSMutableSet",&,N,V_open]
+  - query  [T@"NSString",C,N,V_query]
+  - wallpaper  [T@"UIImage",&,N,V_wallpaper]
+  - photo  [T@"UIImage",&,N,V_photo]
+  - videoThumb  [T@"UIImage",&,N,V_videoThumb]
+  - wallStyle  [Tq,N,V_wallStyle]
+  - icons  [T@"NSCache",&,N,V_icons]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (105):
+  - layoutPage  [types: B16@0:8] @ 0x1c910
+  - shows:  [types: B24@0:8q16] @ 0x1c918
+  - loadView  [types: v16@0:8] @ 0x1c944
+  - viewDidLoad  [types: v16@0:8] @ 0x1c9c8
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x1cbf4
+  - resetAdvancedOnce  [types: v16@0:8] @ 0x1cc4c
+  - loadState  [types: v16@0:8] @ 0x1cdd8
+  - carplayGuessed  [types: B16@0:8] @ 0x1dd2c
+  - carplayIDs  [types: @16@0:8] @ 0x1dd54
+  - locked:  [types: B24@0:8@16] @ 0x1dfb4
+  - hides:  [types: B24@0:8@16] @ 0x1e268
+  - removable:  [types: B24@0:8@16] @ 0x1e304
+  - rebuildRows  [types: v16@0:8] @ 0x1e3a8
+  - iconFor:  [types: @24@0:8@16] @ 0x1e7f4
+  - alert:  [types: v24@0:8@16] @ 0x1e884
+  - storeChoices  [types: v16@0:8] @ 0x1e920
+  - reloadLists  [types: v16@0:8] @ 0x1eb78
+  - searchBar:textDidChange:  [types: v32@0:8@16@24] @ 0x1ee74
+  - searchBarSearchButtonClicked:  [types: v24@0:8@16] @ 0x1eeb4
+  - resetTapped  [types: v16@0:8] @ 0x1eebc
+  - resetLayout  [types: v16@0:8] @ 0x1f150
+  - updatePreview  [types: v16@0:8] @ 0x1f30c
+  - isOpen:  [types: B24@0:8q16] @ 0x1f714
+  - reloadCard:  [types: v24@0:8q16] @ 0x1f76c
+  - wallName:  [types: @24@0:8q16] @ 0x1f7e8
+  - summaryFor:  [types: @24@0:8q16] @ 0x1f858
+  - updateHeaders  [types: v16@0:8] @ 0x1f890
+  - headerCellFor:inTable:  [types: @32@0:8q16@24] @ 0x1fa34
+  - numberOfSectionsInTableView:  [types: q24@0:8@16] @ 0x1fd80
+  - tableView:numberOfRowsInSection:  [types: q32@0:8@16q24] @ 0x1fd88
+  - tableView:titleForFooterInSection:  [types: @32@0:8@16q24] @ 0x1fe48
+  - tableView:titleForHeaderInSection:  [types: @32@0:8@16q24] @ 0x1ffa4
+  - tableView:willDisplayHeaderView:forSection:  [types: v40@0:8@16@24q32] @ 0x20084
+  - tableView:heightForHeaderInSection:  [types: d32@0:8@16q24] @ 0x20090
+  - tableView:heightForFooterInSection:  [types: d32@0:8@16q24] @ 0x200c4
+  - tableView:willDisplayFooterView:forSection:  [types: v40@0:8@16@24q32] @ 0x200f8
+  - tableView:heightForRowAtIndexPath:  [types: d32@0:8@16@24] @ 0x20104
+  - appAt:  [types: @24@0:8@16] @ 0x20244
+  - tableView:canEditRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x20338
+  - tableView:canMoveRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x20370
+  - tableView:shouldIndentWhileEditingRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x20378
+  - tableView:editingStyleForRowAtIndexPath:  [types: q32@0:8@16@24] @ 0x203b0
+  - tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x20440
+  - tableView:commitEditingStyle:forRowAtIndexPath:  [types: v40@0:8@16q24@32] @ 0x2044c
+  - cellWithId:inTable:  [types: @32@0:8@16@24] @ 0x205ac
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x206e4
+  - appCell:inTable:  [types: @32@0:8@16@24] @ 0x21214
+  - tableView:didSelectRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x214b0
+  - num:def:  [types: q32@0:8@16q24] @ 0x215e4
+  - setAccessory:onCell:  [types: v32@0:8@16@24] @ 0x21640
+  - sliderFor:min:max:def:unit:  [types: @56@0:8@16q24q32q40@48] @ 0x21694
+  - stepperFor:values:  [types: @32@0:8@16@24] @ 0x21970
+  - showStep:  [types: v24@0:8@16] @ 0x21c68
+  - stepped:  [types: v24@0:8@16] @ 0x21da8
+  - namesSwitched:  [types: v24@0:8@16] @ 0x21ef0
+  - sliderMoved:  [types: v24@0:8@16] @ 0x21f50
+  - sliderDone:  [types: v24@0:8@16] @ 0x220a8
+  - smallButton:tint:action:bundle:  [types: @48@0:8@16@24:32@40] @ 0x22164
+  - boxInCell:  [types: @24@0:8@16] @ 0x22284
+  - layoutTilesIn:width:  [types: d32@0:8@16d24] @ 0x22368
+  - tileTapped:  [types: v24@0:8@16] @ 0x22ee0
+  - useStyle:  [types: v24@0:8q16] @ 0x22f0c
+  - pickPhoto  [types: v16@0:8] @ 0x231e0
+  - writeJPEG:to:  [types: B32@0:8@16@24] @ 0x23328
+  - useWallpaper:  [types: v24@0:8@16] @ 0x23504
+  - useVideo:  [types: v24@0:8@16] @ 0x237a4
+  - imagePickerController:didFinishPickingMediaWithInfo:  [types: v32@0:8@16@24] @ 0x2435c
+  - imagePickerControllerDidCancel:  [types: v24@0:8@16] @ 0x24488
+  - table  [types: @16@0:8] @ 0x24498
+  - setTable:  [types: v24@0:8@16] @ 0x244a8
+  - preview  [types: @16@0:8] @ 0x244e8
+  - setPreview:  [types: v24@0:8@16] @ 0x244f8
+  - phoneApps  [types: @16@0:8] @ 0x24538
+  - setPhoneApps:  [types: v24@0:8@16] @ 0x24548
+  - carplayApps  [types: @16@0:8] @ 0x24588
+  - setCarplayApps:  [types: v24@0:8@16] @ 0x24598
+  - guessApps  [types: @16@0:8] @ 0x245d8
+  - setGuessApps:  [types: v24@0:8@16] @ 0x245e8
+  - included  [types: @16@0:8] @ 0x24628
+  - setIncluded:  [types: v24@0:8@16] @ 0x24638
+  - other  [types: @16@0:8] @ 0x24678
+  - setOther:  [types: v24@0:8@16] @ 0x24688
+  - shown  [types: @16@0:8] @ 0x246c8
+  - setShown:  [types: v24@0:8@16] @ 0x246d8
+  - iosOff  [types: @16@0:8] @ 0x24718
+  - setIosOff:  [types: v24@0:8@16] @ 0x24728
+  - chosen  [types: @16@0:8] @ 0x24768
+  - setChosen:  [types: v24@0:8@16] @ 0x24778
+  - hidden  [types: @16@0:8] @ 0x247b8
+  - setHidden:  [types: v24@0:8@16] @ 0x247c8
+  - open  [types: @16@0:8] @ 0x24808
+  - setOpen:  [types: v24@0:8@16] @ 0x24818
+  - query  [types: @16@0:8] @ 0x24858
+  - setQuery:  [types: v24@0:8@16] @ 0x24868
+  - wallpaper  [types: @16@0:8] @ 0x24874
+  - setWallpaper:  [types: v24@0:8@16] @ 0x24884
+  - photo  [types: @16@0:8] @ 0x248c4
+  - setPhoto:  [types: v24@0:8@16] @ 0x248d4
+  - videoThumb  [types: @16@0:8] @ 0x24914
+  - setVideoThumb:  [types: v24@0:8@16] @ 0x24924
+  - wallStyle  [types: q16@0:8] @ 0x24964
+  - setWallStyle:  [types: v24@0:8q16] @ 0x24974
+  - icons  [types: @16@0:8] @ 0x24984
+  - setIcons:  [types: v24@0:8@16] @ 0x24994
+  - .cxx_destruct  [types: v16@0:8] @ 0x249d4
+
+#### @interface OMCHomeScreenController : OMCAppBridgeAppsController
+- instanceSize: 152, flags: 0x80
+- Instance methods (1):
+  - layoutPage  [types: B16@0:8] @ 0x24b40
+
+#### @interface OMCSpeedBubbleController : OMCCardPage
+- Protocols: UITextFieldDelegate
+- instanceSize: 64, flags: 0x184
+- Ivars:
+  - _live : @"SPPBubbleView" (offset 8, align 3, size 8)
+  - _liveMap : @"UIImageView" (offset 16, align 3, size 8)
+  - _liveTimer : @"NSTimer" (offset 24, align 3, size 8)
+  - _liveStart : d (offset 32, align 3, size 8)
+  - _styleStrip : @"UIScrollView" (offset 40, align 3, size 8)
+  - _stripOffset : d (offset 48, align 3, size 8)
+  - _warnRows : @"NSArray" (offset 56, align 3, size 8)
+- Properties:
+  - live  [T@"SPPBubbleView",&,N,V_live]
+  - liveMap  [T@"UIImageView",&,N,V_liveMap]
+  - liveTimer  [T@"NSTimer",&,N,V_liveTimer]
+  - liveStart  [Td,N,V_liveStart]
+  - styleStrip  [T@"UIScrollView",&,N,V_styleStrip]
+  - stripOffset  [Td,N,V_stripOffset]
+  - warnRows  [T@"NSArray",&,N,V_warnRows]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (67):
+  - viewDidLoad  [types: v16@0:8] @ 0x25bd4
+  - viewDidAppear:  [types: v20@0:8B16] @ 0x25ea8
+  - viewWillDisappear:  [types: v20@0:8B16] @ 0x25ffc
+  - on  [types: B16@0:8] @ 0x26068
+  - style  [types: q16@0:8] @ 0x260b4
+  - source  [types: q16@0:8] @ 0x260dc
+  - showIcon  [types: B16@0:8] @ 0x26128
+  - warnMode  [types: q16@0:8] @ 0x26174
+  - ranged:def:count:  [types: q40@0:8@16q24q32] @ 0x261a8
+  - color  [types: q16@0:8] @ 0x261d8
+  - warnFx  [types: q16@0:8] @ 0x261ec
+  - voiceSound  [types: B16@0:8] @ 0x26200
+  - tone  [types: q16@0:8] @ 0x2622c
+  - voiceLine  [types: q16@0:8] @ 0x26240
+  - voiceText  [types: @16@0:8] @ 0x26254
+  - shownLimit  [types: i16@0:8] @ 0x262c4
+  - sourceHint  [types: @16@0:8] @ 0x262cc
+  - sourceName:  [types: @24@0:8q16] @ 0x26360
+  - configure:style:speed:limit:  [types: v40@0:8@16q24i32i36] @ 0x2636c
+  - tickLive  [types: v16@0:8] @ 0x267d8
+  - prefChanged:  [types: v24@0:8@16] @ 0x26a6c
+  - numberOfSectionsInTableView:  [types: q24@0:8@16] @ 0x26bb0
+  - tableView:numberOfRowsInSection:  [types: q32@0:8@16q24] @ 0x26bb8
+  - tableView:titleForHeaderInSection:  [types: @32@0:8@16q24] @ 0x26c28
+  - tableView:titleForFooterInSection:  [types: @32@0:8@16q24] @ 0x26c8c
+  - tableView:heightForRowAtIndexPath:  [types: d32@0:8@16@24] @ 0x26ffc
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x27428
+  - tableView:didSelectRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x28518
+  - warnSwitchChanged:  [types: v24@0:8@16] @ 0x2867c
+  - buildWarnRows  [types: @16@0:8] @ 0x28730
+  - optionIndex:  [types: q24@0:8@16] @ 0x28910
+  - optionText:  [types: @24@0:8@16] @ 0x2897c
+  - optionChosen:  [types: B24@0:8@16] @ 0x28a4c
+  - playIcon:  [types: @20@0:8B16] @ 0x28aec
+  - warnCell:width:  [types: @32@0:8@16d24] @ 0x28bf4
+  - layoutFxIn:width:  [types: v32@0:8@16d24] @ 0x29798
+  - fxTapped:  [types: v24@0:8@16] @ 0x29dec
+  - playPreview  [types: v16@0:8] @ 0x29e88
+  - pickOption:  [types: v24@0:8@16] @ 0x29f20
+  - customBegan:  [types: v24@0:8@16] @ 0x2a000
+  - customEnded:  [types: v24@0:8@16] @ 0x2a048
+  - textFieldShouldReturn:  [types: B24@0:8@16] @ 0x2a0a8
+  - textField:shouldChangeCharactersInRange:replacementString:  [types: B48@0:8@16{_NSRange=QQ}24@40] @ 0x2a0d8
+  - customPlay  [types: v16@0:8] @ 0x2a154
+  - layoutColorsIn:width:  [types: v32@0:8@16d24] @ 0x2a200
+  - colorTapped:  [types: v24@0:8@16] @ 0x2aa94
+  - layoutStylesIn:width:  [types: v32@0:8@16d24] @ 0x2ab30
+  - styleTapped:  [types: v24@0:8@16] @ 0x2b70c
+  - layoutSourcesIn:width:  [types: v32@0:8@16d24] @ 0x2b7e8
+  - sourceTapped:  [types: v24@0:8@16] @ 0x2bd3c
+  - tryOnCar  [types: v16@0:8] @ 0x2be64
+  - resetLayout  [types: v16@0:8] @ 0x2bed8
+  - live  [types: @16@0:8] @ 0x2bfec
+  - setLive:  [types: v24@0:8@16] @ 0x2bffc
+  - liveMap  [types: @16@0:8] @ 0x2c03c
+  - setLiveMap:  [types: v24@0:8@16] @ 0x2c04c
+  - liveTimer  [types: @16@0:8] @ 0x2c08c
+  - setLiveTimer:  [types: v24@0:8@16] @ 0x2c09c
+  - liveStart  [types: d16@0:8] @ 0x2c0dc
+  - setLiveStart:  [types: v24@0:8d16] @ 0x2c0ec
+  - styleStrip  [types: @16@0:8] @ 0x2c0fc
+  - setStyleStrip:  [types: v24@0:8@16] @ 0x2c10c
+  - stripOffset  [types: d16@0:8] @ 0x2c14c
+  - setStripOffset:  [types: v24@0:8d16] @ 0x2c15c
+  - warnRows  [types: @16@0:8] @ 0x2c16c
+  - setWarnRows:  [types: v24@0:8@16] @ 0x2c17c
+  - .cxx_destruct  [types: v16@0:8] @ 0x2c1bc
+
+#### @interface SPPGlassView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 32, flags: 0x184
+- Ivars:
+  - _fill : @"CAGradientLayer" (offset 8, align 3, size 8)
+  - _sheen : @"CAGradientLayer" (offset 16, align 3, size 8)
+  - _corner : d (offset 24, align 3, size 8)
+- Properties:
+  - fill  [T@"CAGradientLayer",&,N,V_fill]
+  - sheen  [T@"CAGradientLayer",&,N,V_sheen]
+  - corner  [Td,N,V_corner]
+- Instance methods (10):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x2c6fc
+  - setTop:bottom:  [types: v32@0:8@16@24] @ 0x2ca78
+  - setCorner:  [types: v24@0:8d16] @ 0x2cb5c
+  - layoutSubviews  [types: v16@0:8] @ 0x2cb6c
+  - fill  [types: @16@0:8] @ 0x2cd34
+  - setFill:  [types: v24@0:8@16] @ 0x2cd44
+  - sheen  [types: @16@0:8] @ 0x2cd84
+  - setSheen:  [types: v24@0:8@16] @ 0x2cd94
+  - corner  [types: d16@0:8] @ 0x2cdd4
+  - .cxx_destruct  [types: v16@0:8] @ 0x2cde4
+
+#### @interface SPPIconView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 40, flags: 0x184
+- Ivars:
+  - _imageView : @"UIImageView" (offset 8, align 3, size 8)
+  - _shape : q (offset 16, align 3, size 8)
+  - _tileCorner : d (offset 24, align 3, size 8)
+  - _tileMask : Q (offset 32, align 3, size 8)
+- Properties:
+  - imageView  [T@"UIImageView",&,N,V_imageView]
+  - shape  [Tq,N,V_shape]
+  - tileCorner  [Td,N,V_tileCorner]
+  - tileMask  [TQ,N,V_tileMask]
+- Instance methods (11):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x2ce24
+  - setShape:  [types: v24@0:8q16] @ 0x2d088
+  - layoutSubviews  [types: v16@0:8] @ 0x2d098
+  - imageView  [types: @16@0:8] @ 0x2d330
+  - setImageView:  [types: v24@0:8@16] @ 0x2d340
+  - shape  [types: q16@0:8] @ 0x2d380
+  - tileCorner  [types: d16@0:8] @ 0x2d390
+  - setTileCorner:  [types: v24@0:8d16] @ 0x2d3a0
+  - tileMask  [types: Q16@0:8] @ 0x2d3b0
+  - setTileMask:  [types: v24@0:8Q16] @ 0x2d3c0
+  - .cxx_destruct  [types: v16@0:8] @ 0x2d3d0
+
+#### @interface SPPSignView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 24, flags: 0x184
+- Ivars:
+  - _muted : B (offset 8, align 0, size 1)
+  - _label : @"UILabel" (offset 16, align 3, size 8)
+- Properties:
+  - label  [T@"UILabel",&,N,V_label]
+  - muted  [TB,N,V_muted]
+- Instance methods (8):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x2d3e4
+  - applyColors  [types: v16@0:8] @ 0x2d840
+  - setMuted:  [types: v20@0:8B16] @ 0x2d980
+  - layoutSubviews  [types: v16@0:8] @ 0x2da08
+  - label  [types: @16@0:8] @ 0x2dbbc
+  - setLabel:  [types: v24@0:8@16] @ 0x2dbcc
+  - muted  [types: B16@0:8] @ 0x2dc0c
+  - .cxx_destruct  [types: v16@0:8] @ 0x2dc1c
+
+#### @interface SPPBubbleView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 200, flags: 0x184
+- Ivars:
+  - _showIcon : B (offset 8, align 0, size 1)
+  - _speed : i (offset 12, align 2, size 4)
+  - _limit : i (offset 16, align 2, size 4)
+  - _style : q (offset 24, align 3, size 8)
+  - _iconImage : @"UIImage" (offset 32, align 3, size 8)
+  - _color : q (offset 40, align 3, size 8)
+  - _log : @? (offset 48, align 3, size 8)
+  - _builtStyle : q (offset 56, align 3, size 8)
+  - _outlineCorner : d (offset 64, align 3, size 8)
+  - _speedLabel : @"UILabel" (offset 72, align 3, size 8)
+  - _glass : @"SPPGlassView" (offset 80, align 3, size 8)
+  - _iconView : @"SPPIconView" (offset 88, align 3, size 8)
+  - _sign : @"SPPSignView" (offset 96, align 3, size 8)
+  - _unitLabel : @"UILabel" (offset 104, align 3, size 8)
+  - _deco : @"UIView" (offset 112, align 3, size 8)
+  - _parts : @"NSMutableDictionary" (offset 120, align 3, size 8)
+  - _bits : @"NSMutableDictionary" (offset 128, align 3, size 8)
+  - _tickLabels : @"NSArray" (offset 136, align 3, size 8)
+  - _flashView : @"UIView" (offset 144, align 3, size 8)
+  - _contentSize : {CGSize="width"d"height"d} (offset 152, align 3, size 16)
+  - _outlineRect : {CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}} (offset 168, align 3, size 32)
+- Properties:
+  - builtStyle  [Tq,N,V_builtStyle]
+  - outlineRect  [T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_outlineRect]
+  - outlineCorner  [Td,N,V_outlineCorner]
+  - contentSize  [T{CGSize=dd},N,V_contentSize]
+  - glass  [T@"SPPGlassView",&,N,V_glass]
+  - iconView  [T@"SPPIconView",&,N,V_iconView]
+  - sign  [T@"SPPSignView",&,N,V_sign]
+  - speedLabel  [T@"UILabel",&,N,V_speedLabel]
+  - unitLabel  [T@"UILabel",&,N,V_unitLabel]
+  - deco  [T@"UIView",&,N,V_deco]
+  - parts  [T@"NSMutableDictionary",&,N,V_parts]
+  - bits  [T@"NSMutableDictionary",&,N,V_bits]
+  - tickLabels  [T@"NSArray",&,N,V_tickLabels]
+  - flashView  [T@"UIView",&,N,V_flashView]
+  - style  [Tq,N,V_style]
+  - speed  [Ti,N,V_speed]
+  - limit  [Ti,N,V_limit]
+  - showIcon  [TB,N,V_showIcon]
+  - iconImage  [T@"UIImage",&,N,V_iconImage]
+  - color  [Tq,N,V_color]
+  - log  [T@?,C,N,V_log]
+- Instance methods (59):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x2dc30
+  - speedState  [types: i16@0:8] @ 0x2dcc0
+  - stateColor  [types: @16@0:8] @ 0x2dd78
+  - speedRatio  [types: d16@0:8] @ 0x2ddfc
+  - bit:  [types: @24@0:8@16] @ 0x2de78
+  - addBit:to:  [types: @32@0:8@16@24] @ 0x2dee4
+  - shapePart:in:stroke:width:  [types: @48@0:8@16@24@32d40] @ 0x2df84
+  - buildStyle:  [types: v24@0:8q16] @ 0x2e0a8
+  - setOverLimitWarning:  [types: v20@0:8B16] @ 0x30830
+  - numberColor  [types: @16@0:8] @ 0x30b48
+  - applyColor:  [types: v20@0:8i16] @ 0x30c98
+  - stackNumberAt:top:width:  [types: v40@0:8d16d24d32] @ 0x3128c
+  - stackHeight  [types: d16@0:8] @ 0x313bc
+  - renderStyle  [types: v16@0:8] @ 0x3146c
+  - render  [types: {CGSize=dd}16@0:8] @ 0x34c00
+  - rebuild  [types: v16@0:8] @ 0x34c70
+  - setColor:  [types: v24@0:8q16] @ 0x34c78
+  - style  [types: q16@0:8] @ 0x34c98
+  - setStyle:  [types: v24@0:8q16] @ 0x34ca8
+  - speed  [types: i16@0:8] @ 0x34cb8
+  - setSpeed:  [types: v20@0:8i16] @ 0x34cc8
+  - limit  [types: i16@0:8] @ 0x34cd8
+  - setLimit:  [types: v20@0:8i16] @ 0x34ce8
+  - showIcon  [types: B16@0:8] @ 0x34cf8
+  - setShowIcon:  [types: v20@0:8B16] @ 0x34d08
+  - iconImage  [types: @16@0:8] @ 0x34d18
+  - setIconImage:  [types: v24@0:8@16] @ 0x34d28
+  - color  [types: q16@0:8] @ 0x34d68
+  - log  [types: @?16@0:8] @ 0x34d78
+  - setLog:  [types: v24@0:8@?16] @ 0x34d88
+  - builtStyle  [types: q16@0:8] @ 0x34d94
+  - setBuiltStyle:  [types: v24@0:8q16] @ 0x34da4
+  - outlineRect  [types: {CGRect={CGPoint=dd}{CGSize=dd}}16@0:8] @ 0x34db4
+  - setOutlineRect:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x34dcc
+  - outlineCorner  [types: d16@0:8] @ 0x34de4
+  - setOutlineCorner:  [types: v24@0:8d16] @ 0x34df4
+  - speedLabel  [types: @16@0:8] @ 0x34e04
+  - setSpeedLabel:  [types: v24@0:8@16] @ 0x34e14
+  - contentSize  [types: {CGSize=dd}16@0:8] @ 0x34e54
+  - setContentSize:  [types: v32@0:8{CGSize=dd}16] @ 0x34e68
+  - glass  [types: @16@0:8] @ 0x34e7c
+  - setGlass:  [types: v24@0:8@16] @ 0x34e8c
+  - iconView  [types: @16@0:8] @ 0x34ecc
+  - setIconView:  [types: v24@0:8@16] @ 0x34edc
+  - sign  [types: @16@0:8] @ 0x34f1c
+  - setSign:  [types: v24@0:8@16] @ 0x34f2c
+  - unitLabel  [types: @16@0:8] @ 0x34f6c
+  - setUnitLabel:  [types: v24@0:8@16] @ 0x34f7c
+  - deco  [types: @16@0:8] @ 0x34fbc
+  - setDeco:  [types: v24@0:8@16] @ 0x34fcc
+  - parts  [types: @16@0:8] @ 0x3500c
+  - setParts:  [types: v24@0:8@16] @ 0x3501c
+  - bits  [types: @16@0:8] @ 0x3505c
+  - setBits:  [types: v24@0:8@16] @ 0x3506c
+  - tickLabels  [types: @16@0:8] @ 0x350ac
+  - setTickLabels:  [types: v24@0:8@16] @ 0x350bc
+  - flashView  [types: @16@0:8] @ 0x350fc
+  - setFlashView:  [types: v24@0:8@16] @ 0x3510c
+  - .cxx_destruct  [types: v16@0:8] @ 0x3514c
+
+#### @interface SPPSoundDelegate : (import) _OBJC_CLASS_$_NSObject
+- Protocols: AVAudioPlayerDelegate, AVSpeechSynthesizerDelegate
+- instanceSize: 8, flags: 0x80
+- Properties:
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (4):
+  - audioPlayerDidFinishPlaying:successfully:  [types: v28@0:8@16B24] @ 0x35538
+  - audioPlayerDecodeErrorDidOccur:error:  [types: v32@0:8@16@24] @ 0x355d0
+  - speechSynthesizer:didFinishSpeechUtterance:  [types: v32@0:8@16@24] @ 0x355f8
+  - speechSynthesizer:didCancelSpeechUtterance:  [types: v32@0:8@16@24] @ 0x355fc
+
+#### @interface OMCSplitScreenAppLinkCell : (import) _OBJC_CLASS_$_PSTableCell
+- instanceSize: 8, flags: 0x80
+- Instance methods (2):
+  - initWithStyle:reuseIdentifier:specifier:  [types: @40@0:8q16@24@32] @ 0x36118
+  - refreshCellContentsWithSpecifier:  [types: v24@0:8@16] @ 0x36150
+
+#### @interface OMCSplitScreenAppPickerController : (import) _OBJC_CLASS_$_PSViewController
+- Protocols: UITableViewDataSource, UITableViewDelegate
+- instanceSize: 40, flags: 0x184
+- Ivars:
+  - _fromCar : B (offset 8, align 0, size 1)
+  - _table : @"UITableView" (offset 16, align 3, size 8)
+  - _carPlayApps : @"NSArray" (offset 24, align 3, size 8)
+  - _phoneApps : @"NSArray" (offset 32, align 3, size 8)
+- Properties:
+  - table  [T@"UITableView",&,N,V_table]
+  - carPlayApps  [T@"NSArray",&,N,V_carPlayApps]
+  - phoneApps  [T@"NSArray",&,N,V_phoneApps]
+  - fromCar  [TB,N,V_fromCar]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (19):
+  - loadView  [types: v16@0:8] @ 0x363b0
+  - viewDidLoad  [types: v16@0:8] @ 0x36438
+  - currentValue  [types: @16@0:8] @ 0x36cc8
+  - rowsInSection:  [types: @24@0:8q16] @ 0x36d64
+  - numberOfSectionsInTableView:  [types: q24@0:8@16] @ 0x36da8
+  - tableView:numberOfRowsInSection:  [types: q32@0:8@16q24] @ 0x36db0
+  - tableView:titleForHeaderInSection:  [types: @32@0:8@16q24] @ 0x36dfc
+  - tableView:titleForFooterInSection:  [types: @32@0:8@16q24] @ 0x36e6c
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x36f18
+  - tableView:didSelectRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x37444
+  - table  [types: @16@0:8] @ 0x37754
+  - setTable:  [types: v24@0:8@16] @ 0x37764
+  - carPlayApps  [types: @16@0:8] @ 0x377a4
+  - setCarPlayApps:  [types: v24@0:8@16] @ 0x377b4
+  - phoneApps  [types: @16@0:8] @ 0x377f4
+  - setPhoneApps:  [types: v24@0:8@16] @ 0x37804
+  - fromCar  [types: B16@0:8] @ 0x37844
+  - setFromCar:  [types: v20@0:8B16] @ 0x37854
+  - .cxx_destruct  [types: v16@0:8] @ 0x37864
+
+#### @interface OMCSplitPreview : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 40, flags: 0x184
+- Ivars:
+  - _on : B (offset 8, align 0, size 1)
+  - _left : @"NSString" (offset 16, align 3, size 8)
+  - _pinned : @"NSString" (offset 24, align 3, size 8)
+  - _offText : @"NSString" (offset 32, align 3, size 8)
+- Properties:
+  - left  [T@"NSString",C,N,V_left]
+  - pinned  [T@"NSString",C,N,V_pinned]
+  - on  [TB,N,V_on]
+  - offText  [T@"NSString",C,N,V_offText]
+- Instance methods (11):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x37944
+  - drawRect:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x37a48
+  - left  [types: @16@0:8] @ 0x3820c
+  - setLeft:  [types: v24@0:8@16] @ 0x3821c
+  - pinned  [types: @16@0:8] @ 0x38228
+  - setPinned:  [types: v24@0:8@16] @ 0x38238
+  - on  [types: B16@0:8] @ 0x38244
+  - setOn:  [types: v20@0:8B16] @ 0x38254
+  - offText  [types: @16@0:8] @ 0x38264
+  - setOffText:  [types: v24@0:8@16] @ 0x38274
+  - .cxx_destruct  [types: v16@0:8] @ 0x38280
+
+#### @interface OMCSplitScreenController : OMCCardPage
+- Protocols: UITextFieldDelegate
+- instanceSize: 32, flags: 0x184
+- Ivars:
+  - _showGestures : B (offset 8, align 0, size 1)
+  - _showSiri : B (offset 9, align 0, size 1)
+  - _preview : @"OMCSplitPreview" (offset 16, align 3, size 8)
+  - _editing : q (offset 24, align 3, size 8)
+- Properties:
+  - preview  [T@"OMCSplitPreview",&,N,V_preview]
+  - editing  [Tq,N,V_editing]
+  - showGestures  [TB,N,V_showGestures]
+  - showSiri  [TB,N,V_showSiri]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (37):
+  - viewDidLoad  [types: v16@0:8] @ 0x382d4
+  - on  [types: B16@0:8] @ 0x38370
+  - stringForKey:  [types: @24@0:8@16] @ 0x383bc
+  - layoutOf:  [types: q24@0:8q16] @ 0x3842c
+  - boxCount:  [types: q24@0:8q16] @ 0x384b4
+  - appsOf:  [types: @24@0:8q16] @ 0x384c4
+  - nameOf:  [types: @24@0:8q16] @ 0x38644
+  - urls  [types: @16@0:8] @ 0x38718
+  - prefChanged:  [types: v24@0:8@16] @ 0x3876c
+  - numberOfSectionsInTableView:  [types: q24@0:8@16] @ 0x387c8
+  - tableView:numberOfRowsInSection:  [types: q32@0:8@16q24] @ 0x387d0
+  - tableView:titleForHeaderInSection:  [types: @32@0:8@16q24] @ 0x38898
+  - tableView:titleForFooterInSection:  [types: @32@0:8@16q24] @ 0x388fc
+  - favRow:fav:part:  [types: v40@0:8q16^q24^q32] @ 0x38980
+  - helpKind:index:  [types: q32@0:8q16^q24] @ 0x389e8
+  - tableView:heightForRowAtIndexPath:  [types: d32@0:8@16@24] @ 0x38a6c
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x38cc0
+  - chip:key:  [types: @32@0:8@16@24] @ 0x3a4d4
+  - chipTapped:  [types: v24@0:8@16] @ 0x3a820
+  - editorCell:fav:width:  [types: @40@0:8q16q24d32] @ 0x3a8f0
+  - nameEdited:  [types: v24@0:8@16] @ 0x3b4d8
+  - textFieldShouldReturn:  [types: B24@0:8@16] @ 0x3b5dc
+  - layoutPicked:  [types: v24@0:8@16] @ 0x3b610
+  - pickAppForKey:title:  [types: v32@0:8@16@24] @ 0x3b6e0
+  - boxTapped:  [types: v24@0:8@16] @ 0x3b7dc
+  - doneEditing  [types: v16@0:8] @ 0x3b86c
+  - copyURL:  [types: v24@0:8@16] @ 0x3b8bc
+  - tableView:didSelectRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x3b974
+  - preview  [types: @16@0:8] @ 0x3bb00
+  - setPreview:  [types: v24@0:8@16] @ 0x3bb10
+  - editing  [types: q16@0:8] @ 0x3bb50
+  - setEditing:  [types: v24@0:8q16] @ 0x3bb60
+  - showGestures  [types: B16@0:8] @ 0x3bb70
+  - setShowGestures:  [types: v20@0:8B16] @ 0x3bb80
+  - showSiri  [types: B16@0:8] @ 0x3bb90
+  - setShowSiri:  [types: v20@0:8B16] @ 0x3bba0
+  - .cxx_destruct  [types: v16@0:8] @ 0x3bbb0
+
+#### @interface OMCSSStyleTileCell : (import) _OBJC_CLASS_$_UICollectionViewCell
+- instanceSize: 48, flags: 0x184
+- Ivars:
+  - _card : @"UIView" (offset 8, align 3, size 8)
+  - _fill : @"CAGradientLayer" (offset 16, align 3, size 8)
+  - _styleColors : @"NSArray" (offset 24, align 3, size 8)
+  - _glyph : @"UIImageView" (offset 32, align 3, size 8)
+  - _title : @"UILabel" (offset 40, align 3, size 8)
+- Properties:
+  - card  [T@"UIView",&,N,V_card]
+  - fill  [T@"CAGradientLayer",&,N,V_fill]
+  - styleColors  [T@"NSArray",C,N,V_styleColors]
+  - glyph  [T@"UIImageView",&,N,V_glyph]
+  - title  [T@"UILabel",&,N,V_title]
+- Instance methods (14):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x3be94
+  - showStyle:chosen:dark:  [types: v32@0:8q16B24B28] @ 0x3c458
+  - setChosen:dark:  [types: v24@0:8B16B20] @ 0x3c840
+  - card  [types: @16@0:8] @ 0x3cda4
+  - setCard:  [types: v24@0:8@16] @ 0x3cdb4
+  - fill  [types: @16@0:8] @ 0x3cdf4
+  - setFill:  [types: v24@0:8@16] @ 0x3ce04
+  - styleColors  [types: @16@0:8] @ 0x3ce44
+  - setStyleColors:  [types: v24@0:8@16] @ 0x3ce54
+  - glyph  [types: @16@0:8] @ 0x3ce60
+  - setGlyph:  [types: v24@0:8@16] @ 0x3ce70
+  - title  [types: @16@0:8] @ 0x3ceb0
+  - setTitle:  [types: v24@0:8@16] @ 0x3cec0
+  - .cxx_destruct  [types: v16@0:8] @ 0x3cf00
+
+#### @interface OMCStartupScreenController : OMCFeatureListController
+- Protocols: UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIDocumentPickerDelegate, UICollectionViewDataSource, UICollectionViewDelegate
+- instanceSize: 120, flags: 0x184
+- Ivars:
+  - _extracting : B (offset 16, align 0, size 1)
+  - _pickKind : q (offset 24, align 3, size 8)
+  - _previewHeader : @"UIView" (offset 32, align 3, size 8)
+  - _previewShadow : @"UIView" (offset 40, align 3, size 8)
+  - _preview : @"SSStartupView" (offset 48, align 3, size 8)
+  - _previewWidth : d (offset 56, align 3, size 8)
+  - _galleryTitle : @"UILabel" (offset 64, align 3, size 8)
+  - _galleryHint : @"UILabel" (offset 72, align 3, size 8)
+  - _gallery : @"UICollectionView" (offset 80, align 3, size 8)
+  - _birthdayView : @"UIStackView" (offset 88, align 3, size 8)
+  - _birthdayPicker : @"UIDatePicker" (offset 96, align 3, size 8)
+  - _birthdayClear : @"UIButton" (offset 104, align 3, size 8)
+  - _soundPlayer : @"AVAudioPlayer" (offset 112, align 3, size 8)
+- Properties:
+  - extracting  [TB,N,V_extracting]
+  - pickKind  [Tq,N,V_pickKind]
+  - previewHeader  [T@"UIView",&,N,V_previewHeader]
+  - previewShadow  [T@"UIView",&,N,V_previewShadow]
+  - preview  [T@"SSStartupView",&,N,V_preview]
+  - previewWidth  [Td,N,V_previewWidth]
+  - galleryTitle  [T@"UILabel",&,N,V_galleryTitle]
+  - galleryHint  [T@"UILabel",&,N,V_galleryHint]
+  - gallery  [T@"UICollectionView",&,N,V_gallery]
+  - birthdayView  [T@"UIStackView",&,N,V_birthdayView]
+  - birthdayPicker  [T@"UIDatePicker",&,N,V_birthdayPicker]
+  - birthdayClear  [T@"UIButton",&,N,V_birthdayClear]
+  - soundPlayer  [T@"AVAudioPlayer",&,N,V_soundPlayer]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (83):
+  - currentStyle  [types: q16@0:8] @ 0x3cf7c
+  - currentSound  [types: @16@0:8] @ 0x3cff4
+  - randomSet  [types: @16@0:8] @ 0x3d180
+  - occasionPreviewTitle  [types: @16@0:8] @ 0x3d3ac
+  - specifiers  [types: @16@0:8] @ 0x3d7f0
+  - nameFooterForStyle:  [types: @24@0:8q16] @ 0x3dfb8
+  - setPreferenceValue:specifier:  [types: v32@0:8@16@24] @ 0x3e17c
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x3e25c
+  - decorateCell:  [types: v24@0:8@16] @ 0x3e2b8
+  - redecorateVisibleCells  [types: v16@0:8] @ 0x3e598
+  - viewDidLoad  [types: v16@0:8] @ 0x3e6ac
+  - viewWillAppear:  [types: v20@0:8B16] @ 0x3ef88
+  - viewWillDisappear:  [types: v20@0:8B16] @ 0x3f080
+  - viewDidLayoutSubviews  [types: v16@0:8] @ 0x3f0ec
+  - scrollGalleryToStyle:animated:  [types: v28@0:8q16B24] @ 0x3f46c
+  - pageIsDark  [types: B16@0:8] @ 0x3f550
+  - collectionView:numberOfItemsInSection:  [types: q32@0:8@16q24] @ 0x3f590
+  - collectionView:cellForItemAtIndexPath:  [types: @32@0:8@16@24] @ 0x3f598
+  - collectionView:didSelectItemAtIndexPath:  [types: v32@0:8@16@24] @ 0x3f644
+  - randomPreviewStyle  [types: q16@0:8] @ 0x3f96c
+  - updatePreview  [types: v16@0:8] @ 0x3fa30
+  - showPreviewStyle:occasion:  [types: v32@0:8q16q24] @ 0x3fa5c
+  - toggleRandomStyle:  [types: v24@0:8@16] @ 0x3ff10
+  - birthdayAccessory  [types: @16@0:8] @ 0x40084
+  - updateBirthdayAccessory  [types: v16@0:8] @ 0x40378
+  - birthdayChanged:  [types: v24@0:8@16] @ 0x40638
+  - clearBirthday  [types: v16@0:8] @ 0x407cc
+  - birthdayDidChange  [types: v16@0:8] @ 0x40800
+  - previewOccasion  [types: v16@0:8] @ 0x40974
+  - viewDidAppear:  [types: v20@0:8B16] @ 0x40a14
+  - videoFiles  [types: @16@0:8] @ 0x40b78
+  - refreshVideoList  [types: v16@0:8] @ 0x40da4
+  - selectedVideo  [types: @16@0:8] @ 0x41060
+  - setSelectedVideo:  [types: v24@0:8@16] @ 0x41104
+  - hasFramesForVideo:  [types: B24@0:8@16] @ 0x41148
+  - extractAudioFromAsset:seconds:toDir:  [types: B40@0:8@16d24@32] @ 0x412b4
+  - extractFramesForVideos:completion:  [types: v32@0:8@16@?24] @ 0x414e0
+  - extractFramesForVideo:error:progress:  [types: B40@0:8@16^@24@?32] @ 0x41cc4
+  - importFromPhotos  [types: v16@0:8] @ 0x42558
+  - imagePickerController:didFinishPickingMediaWithInfo:  [types: v32@0:8@16@24] @ 0x42668
+  - imagePickerControllerDidCancel:  [types: v24@0:8@16] @ 0x42958
+  - importFromFiles  [types: v16@0:8] @ 0x42968
+  - documentPicker:didPickDocumentsAtURLs:  [types: v32@0:8@16@24] @ 0x42a4c
+  - copyVideoAtURL:name:  [types: v32@0:8@16@24] @ 0x42b34
+  - addVideo  [types: v16@0:8] @ 0x42ffc
+  - previewVideo  [types: v16@0:8] @ 0x43364
+  - deleteVideo  [types: v16@0:8] @ 0x43570
+  - chooseLogo  [types: v16@0:8] @ 0x439a4
+  - logoFromPhotos  [types: v16@0:8] @ 0x43d0c
+  - logoFromFiles  [types: v16@0:8] @ 0x43e08
+  - saveLogoImage:  [types: v24@0:8@16] @ 0x43eec
+  - deleteLogo  [types: v16@0:8] @ 0x44368
+  - chooseSound  [types: v16@0:8] @ 0x444e8
+  - copySoundAtURL:  [types: v24@0:8@16] @ 0x445cc
+  - previewSound  [types: v16@0:8] @ 0x449c0
+  - deleteSound  [types: v16@0:8] @ 0x44cf8
+  - extracting  [types: B16@0:8] @ 0x44e8c
+  - setExtracting:  [types: v20@0:8B16] @ 0x44e9c
+  - pickKind  [types: q16@0:8] @ 0x44eac
+  - setPickKind:  [types: v24@0:8q16] @ 0x44ebc
+  - previewHeader  [types: @16@0:8] @ 0x44ecc
+  - setPreviewHeader:  [types: v24@0:8@16] @ 0x44edc
+  - previewShadow  [types: @16@0:8] @ 0x44f1c
+  - setPreviewShadow:  [types: v24@0:8@16] @ 0x44f2c
+  - preview  [types: @16@0:8] @ 0x44f6c
+  - setPreview:  [types: v24@0:8@16] @ 0x44f7c
+  - previewWidth  [types: d16@0:8] @ 0x44fbc
+  - setPreviewWidth:  [types: v24@0:8d16] @ 0x44fcc
+  - galleryTitle  [types: @16@0:8] @ 0x44fdc
+  - setGalleryTitle:  [types: v24@0:8@16] @ 0x44fec
+  - galleryHint  [types: @16@0:8] @ 0x4502c
+  - setGalleryHint:  [types: v24@0:8@16] @ 0x4503c
+  - gallery  [types: @16@0:8] @ 0x4507c
+  - setGallery:  [types: v24@0:8@16] @ 0x4508c
+  - birthdayView  [types: @16@0:8] @ 0x450cc
+  - setBirthdayView:  [types: v24@0:8@16] @ 0x450dc
+  - birthdayPicker  [types: @16@0:8] @ 0x4511c
+  - setBirthdayPicker:  [types: v24@0:8@16] @ 0x4512c
+  - birthdayClear  [types: @16@0:8] @ 0x4516c
+  - setBirthdayClear:  [types: v24@0:8@16] @ 0x4517c
+  - soundPlayer  [types: @16@0:8] @ 0x451bc
+  - setSoundPlayer:  [types: v24@0:8@16] @ 0x451cc
+  - .cxx_destruct  [types: v16@0:8] @ 0x4520c
+
+#### @interface SSFade : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 72, flags: 0x184
+- Ivars:
+  - _outEase : B (offset 8, align 0, size 1)
+  - _view : @"UIView" (offset 16, align 3, size 8)
+  - _inA : d (offset 24, align 3, size 8)
+  - _inB : d (offset 32, align 3, size 8)
+  - _outA : d (offset 40, align 3, size 8)
+  - _outB : d (offset 48, align 3, size 8)
+  - _alpha : d (offset 56, align 3, size 8)
+  - _rise : d (offset 64, align 3, size 8)
+- Properties:
+  - view  [T@"UIView",&,N,V_view]
+  - inA  [Td,N,V_inA]
+  - inB  [Td,N,V_inB]
+  - outA  [Td,N,V_outA]
+  - outB  [Td,N,V_outB]
+  - alpha  [Td,N,V_alpha]
+  - rise  [Td,N,V_rise]
+  - outEase  [TB,N,V_outEase]
+- Instance methods (18):
+  - applyTime:  [types: v24@0:8d16] @ 0x45d6c
+  - view  [types: @16@0:8] @ 0x45f18
+  - setView:  [types: v24@0:8@16] @ 0x45f20
+  - inA  [types: d16@0:8] @ 0x45f50
+  - setInA:  [types: v24@0:8d16] @ 0x45f58
+  - inB  [types: d16@0:8] @ 0x45f60
+  - setInB:  [types: v24@0:8d16] @ 0x45f68
+  - outA  [types: d16@0:8] @ 0x45f70
+  - setOutA:  [types: v24@0:8d16] @ 0x45f78
+  - outB  [types: d16@0:8] @ 0x45f80
+  - setOutB:  [types: v24@0:8d16] @ 0x45f88
+  - alpha  [types: d16@0:8] @ 0x45f90
+  - setAlpha:  [types: v24@0:8d16] @ 0x45f98
+  - rise  [types: d16@0:8] @ 0x45fa0
+  - setRise:  [types: v24@0:8d16] @ 0x45fa8
+  - outEase  [types: B16@0:8] @ 0x45fb0
+  - setOutEase:  [types: v20@0:8B16] @ 0x45fb8
+  - .cxx_destruct  [types: v16@0:8] @ 0x45fc0
+
+#### @interface SSGauge : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 72, flags: 0x184
+- Ivars:
+  - _hot : B (offset 8, align 0, size 1)
+  - _arc : @"CAShapeLayer" (offset 16, align 3, size 8)
+  - _fill : @"CAGradientLayer" (offset 24, align 3, size 8)
+  - _needle : @"CALayer" (offset 32, align 3, size 8)
+  - _number : @"UILabel" (offset 40, align 3, size 8)
+  - _max : d (offset 48, align 3, size 8)
+  - _red : d (offset 56, align 3, size 8)
+  - _shown : q (offset 64, align 3, size 8)
+- Properties:
+  - arc  [T@"CAShapeLayer",&,N,V_arc]
+  - fill  [T@"CAGradientLayer",&,N,V_fill]
+  - needle  [T@"CALayer",&,N,V_needle]
+  - number  [T@"UILabel",&,N,V_number]
+  - max  [Td,N,V_max]
+  - red  [Td,N,V_red]
+  - shown  [Tq,N,V_shown]
+  - hot  [TB,N,V_hot]
+- Instance methods (17):
+  - arc  [types: @16@0:8] @ 0x45fcc
+  - setArc:  [types: v24@0:8@16] @ 0x45fd4
+  - fill  [types: @16@0:8] @ 0x46004
+  - setFill:  [types: v24@0:8@16] @ 0x4600c
+  - needle  [types: @16@0:8] @ 0x4603c
+  - setNeedle:  [types: v24@0:8@16] @ 0x46044
+  - number  [types: @16@0:8] @ 0x46074
+  - setNumber:  [types: v24@0:8@16] @ 0x4607c
+  - max  [types: d16@0:8] @ 0x460ac
+  - setMax:  [types: v24@0:8d16] @ 0x460b4
+  - red  [types: d16@0:8] @ 0x460bc
+  - setRed:  [types: v24@0:8d16] @ 0x460c4
+  - shown  [types: q16@0:8] @ 0x460cc
+  - setShown:  [types: v24@0:8q16] @ 0x460d4
+  - hot  [types: B16@0:8] @ 0x460dc
+  - setHot:  [types: v20@0:8B16] @ 0x460e4
+  - .cxx_destruct  [types: v16@0:8] @ 0x460ec
+
+#### @interface SSLinkTarget : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 16, flags: 0x184
+- Ivars:
+  - _owner : @"SSStartupView" (offset 8, align 3, size 8)
+- Properties:
+  - owner  [T@"SSStartupView",W,N,V_owner]
+- Instance methods (4):
+  - step:  [types: v24@0:8@16] @ 0x46134
+  - owner  [types: @16@0:8] @ 0x46194
+  - setOwner:  [types: v24@0:8@16] @ 0x461ac
+  - .cxx_destruct  [types: v16@0:8] @ 0x461b8
+
+#### @interface SSCanvasView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 16, flags: 0x184
+- Ivars:
+  - _owner : @"SSStartupView" (offset 8, align 3, size 8)
+- Properties:
+  - owner  [T@"SSStartupView",W,N,V_owner]
+- Instance methods (4):
+  - drawRect:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x461c0
+  - owner  [types: @16@0:8] @ 0x4621c
+  - setOwner:  [types: v24@0:8@16] @ 0x4623c
+  - .cxx_destruct  [types: v16@0:8] @ 0x46250
+
+#### @interface SSStartupView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 600, flags: 0x184
+- Ivars:
+  - _unit : d (offset 8, align 3, size 8)
+  - _stack : @"UIStackView" (offset 16, align 3, size 8)
+  - _logoView : @"UIImageView" (offset 24, align 3, size 8)
+  - _posterView : @"UIImageView" (offset 32, align 3, size 8)
+  - _timeLabel : @"UILabel" (offset 40, align 3, size 8)
+  - _titleLabel : @"UILabel" (offset 48, align 3, size 8)
+  - _dateLabel : @"UILabel" (offset 56, align 3, size 8)
+  - _tempLabel : @"UILabel" (offset 64, align 3, size 8)
+  - _condLabel : @"UILabel" (offset 72, align 3, size 8)
+  - _rangeLabel : @"UILabel" (offset 80, align 3, size 8)
+  - _rainLabel : @"UILabel" (offset 88, align 3, size 8)
+  - _updatedLabel : @"UILabel" (offset 96, align 3, size 8)
+  - _iconView : @"UIImageView" (offset 104, align 3, size 8)
+  - _row : @"UIStackView" (offset 112, align 3, size 8)
+  - _cardStack : @"UIStackView" (offset 120, align 3, size 8)
+  - _card : @"UIVisualEffectView" (offset 128, align 3, size 8)
+  - _iconW : @"NSLayoutConstraint" (offset 136, align 3, size 8)
+  - _iconH : @"NSLayoutConstraint" (offset 144, align 3, size 8)
+  - _stackMaxWidth : @"NSLayoutConstraint" (offset 152, align 3, size 8)
+  - _cardInsets : @"NSArray" (offset 160, align 3, size 8)
+  - _sceneStyle : q (offset 168, align 3, size 8)
+  - _sky : q (offset 176, align 3, size 8)
+  - _sceneSize : {CGSize="width"d"height"d} (offset 184, align 3, size 16)
+  - _sceneBuilt : B (offset 200, align 0, size 1)
+  - _k : d (offset 208, align 3, size 8)
+  - _ox : d (offset 216, align 3, size 8)
+  - _oy : d (offset 224, align 3, size 8)
+  - _restTime : d (offset 232, align 3, size 8)
+  - _linkEnd : d (offset 240, align 3, size 8)
+  - _tempoScale : d (offset 248, align 3, size 8)
+  - _t0 : d (offset 256, align 3, size 8)
+  - _playing : B (offset 264, align 0, size 1)
+  - _link : @"CADisplayLink" (offset 272, align 3, size 8)
+  - _scene : @"UIView" (offset 280, align 3, size 8)
+  - _glass : @"UIView" (offset 288, align 3, size 8)
+  - _canvas : @"SSCanvasView" (offset 296, align 3, size 8)
+  - _fades : @"NSMutableArray" (offset 304, align 3, size 8)
+  - _motes : @"NSMutableData" (offset 312, align 3, size 8)
+  - _moteLayers : @"NSMutableArray" (offset 320, align 3, size 8)
+  - _gauges : @"NSMutableArray" (offset 328, align 3, size 8)
+  - _particles : @"NSMutableData" (offset 336, align 3, size 8)
+  - _dot : d (offset 344, align 3, size 8)
+  - _bursts : @"NSMutableData" (offset 352, align 3, size 8)
+  - _outline : @"CAShapeLayer" (offset 360, align 3, size 8)
+  - _wheels : @"CAShapeLayer" (offset 368, align 3, size 8)
+  - _flash : @"CALayer" (offset 376, align 3, size 8)
+  - _horizon : @"CALayer" (offset 384, align 3, size 8)
+  - _rays : @"CALayer" (offset 392, align 3, size 8)
+  - _wiper : @"CALayer" (offset 400, align 3, size 8)
+  - _lightning : @"CALayer" (offset 408, align 3, size 8)
+  - _radar : @"CALayer" (offset 416, align 3, size 8)
+  - _wetMask : @"CAShapeLayer" (offset 424, align 3, size 8)
+  - _wiperLength : d (offset 432, align 3, size 8)
+  - _cleared : d (offset 440, align 3, size 8)
+  - _wiperPivot : {CGPoint="x"d"y"d} (offset 448, align 3, size 16)
+  - _rings : @"NSMutableArray" (offset 464, align 3, size 8)
+  - _percentLabel : @"UILabel" (offset 472, align 3, size 8)
+  - _percentShown : q (offset 480, align 3, size 8)
+  - _imageFits : B (offset 488, align 0, size 1)
+  - _style : q (offset 496, align 3, size 8)
+  - _image : @"UIImage" (offset 504, align 3, size 8)
+  - _logoEffect : q (offset 512, align 3, size 8)
+  - _name : @"NSString" (offset 520, align 3, size 8)
+  - _weather : @"NSDictionary" (offset 528, align 3, size 8)
+  - _date : @"NSDate" (offset 536, align 3, size 8)
+  - _carName : @"NSString" (offset 544, align 3, size 8)
+  - _tempo : q (offset 552, align 3, size 8)
+  - _occasion : q (offset 560, align 3, size 8)
+  - _hud : @"NSArray" (offset 568, align 3, size 8)
+  - _nextEvent : @"NSDictionary" (offset 576, align 3, size 8)
+  - _batteryPercent : q (offset 584, align 3, size 8)
+  - _duration : d (offset 592, align 3, size 8)
+- Properties:
+  - style  [Tq,N,V_style]
+  - image  [T@"UIImage",&,N,V_image]
+  - imageFits  [TB,N,V_imageFits]
+  - logoEffect  [Tq,N,V_logoEffect]
+  - name  [T@"NSString",C,N,V_name]
+  - weather  [T@"NSDictionary",C,N,V_weather]
+  - date  [T@"NSDate",&,N,V_date]
+  - carName  [T@"NSString",C,N,V_carName]
+  - tempo  [Tq,N,V_tempo]
+  - occasion  [Tq,N,V_occasion]
+  - hud  [T@"NSArray",C,N,V_hud]
+  - nextEvent  [T@"NSDictionary",C,N,V_nextEvent]
+  - batteryPercent  [Tq,N,V_batteryPercent]
+  - duration  [Td,N,V_duration]
+- Instance methods (70):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x4626c
+  - dealloc  [types: v16@0:8] @ 0x46320
+  - clearContent  [types: v16@0:8] @ 0x46370
+  - reload  [types: v16@0:8] @ 0x46630
+  - ss_sceneColors  [types: @16@0:8] @ 0x471bc
+  - buildGreetingWithDate:period:  [types: v32@0:8@16q24] @ 0x47460
+  - buildWeatherWithPeriod:  [types: v24@0:8q16] @ 0x47918
+  - layoutSubviews  [types: v16@0:8] @ 0x48b38
+  - applyUnit:  [types: v24@0:8d16] @ 0x48d4c
+  - playIntro  [types: v16@0:8] @ 0x493a4
+  - ss_now  [types: d16@0:8] @ 0x49a70
+  - didMoveToWindow  [types: v16@0:8] @ 0x49ac4
+  - ss_startLink  [types: v16@0:8] @ 0x49b30
+  - ss_stopLink  [types: v16@0:8] @ 0x49cb8
+  - ss_step  [types: v16@0:8] @ 0x49cec
+  - ss_applyTime:  [types: v24@0:8d16] @ 0x49d78
+  - ss_clearScene  [types: v16@0:8] @ 0x49f4c
+  - ss_buildScene  [types: v16@0:8] @ 0x4a1ac
+  - ss_host  [types: @16@0:8] @ 0x4a3c8
+  - ss_addCanvas  [types: v16@0:8] @ 0x4a430
+  - ss_label:at:size:weight:color:left:in:maxWidth:  [types: @84@0:8@16{CGPoint=dd}24d40d48@56B64@68d76] @ 0x4a504
+  - ss_fade:from:to:alpha:  [types: @48@0:8@16d24d32d40] @ 0x4a7f0
+  - ss_addMote:layer:to:  [types: v88@0:8{?=qdddddd}16@72@80] @ 0x4a89c
+  - ss_applyMotes:  [types: v24@0:8d16] @ 0x4a92c
+  - ss_buildSky  [types: v16@0:8] @ 0x4ad60
+  - ss_applySky:  [types: v24@0:8d16] @ 0x4c2ec
+  - ss_gaugeAt:radius:label:unit:max:red:in:  [types: @80@0:8{CGPoint=dd}16d32@40@48d56d64@72] @ 0x4c6d4
+  - ss_buildEngine  [types: v16@0:8] @ 0x4d0f4
+  - ss_setGauge:value:  [types: v32@0:8@16d24] @ 0x4db9c
+  - ss_applyEngine:  [types: v24@0:8d16] @ 0x4dd94
+  - ss_buildWelcome  [types: v16@0:8] @ 0x4dfc0
+  - ss_applyWelcome:  [types: v24@0:8d16] @ 0x4e7b4
+  - ss_buildParticles  [types: v16@0:8] @ 0x4e98c
+  - ss_drawParticles:t:  [types: v32@0:8^{CGContext=}16d24] @ 0x4f264
+  - ss_buildHud  [types: v16@0:8] @ 0x4f70c
+  - ss_applyHud:  [types: v24@0:8d16] @ 0x5049c
+  - ss_buildBriefing  [types: v16@0:8] @ 0x50734
+  - ss_buildLiquid  [types: v16@0:8] @ 0x517f0
+  - ss_buildFestive  [types: v16@0:8] @ 0x5272c
+  - ss_drawFireworks:t:  [types: v32@0:8^{CGContext=}16d24] @ 0x53b88
+  - ss_drawCanvas:size:  [types: v40@0:8^{CGContext=}16{CGSize=dd}24] @ 0x53f48
+  - style  [types: q16@0:8] @ 0x53fe0
+  - setStyle:  [types: v24@0:8q16] @ 0x53ff0
+  - image  [types: @16@0:8] @ 0x54000
+  - setImage:  [types: v24@0:8@16] @ 0x54010
+  - imageFits  [types: B16@0:8] @ 0x54050
+  - setImageFits:  [types: v20@0:8B16] @ 0x54060
+  - logoEffect  [types: q16@0:8] @ 0x54070
+  - setLogoEffect:  [types: v24@0:8q16] @ 0x54080
+  - name  [types: @16@0:8] @ 0x54090
+  - setName:  [types: v24@0:8@16] @ 0x540a0
+  - weather  [types: @16@0:8] @ 0x540ac
+  - setWeather:  [types: v24@0:8@16] @ 0x540bc
+  - date  [types: @16@0:8] @ 0x540c8
+  - setDate:  [types: v24@0:8@16] @ 0x540d8
+  - carName  [types: @16@0:8] @ 0x54118
+  - setCarName:  [types: v24@0:8@16] @ 0x54128
+  - tempo  [types: q16@0:8] @ 0x54134
+  - setTempo:  [types: v24@0:8q16] @ 0x54144
+  - occasion  [types: q16@0:8] @ 0x54154
+  - setOccasion:  [types: v24@0:8q16] @ 0x54164
+  - hud  [types: @16@0:8] @ 0x54174
+  - setHud:  [types: v24@0:8@16] @ 0x54184
+  - nextEvent  [types: @16@0:8] @ 0x54190
+  - setNextEvent:  [types: v24@0:8@16] @ 0x541a0
+  - batteryPercent  [types: q16@0:8] @ 0x541ac
+  - setBatteryPercent:  [types: v24@0:8q16] @ 0x541bc
+  - duration  [types: d16@0:8] @ 0x541cc
+  - setDuration:  [types: v24@0:8d16] @ 0x541dc
+  - .cxx_destruct  [types: v16@0:8] @ 0x541ec
+- Class methods (1):
+  - layerClass  [types: #16@0:8] @ 0x46260
+
+### Protocols định nghĩa (15)
+
+#### @protocol NSObject
+- Required instance methods:
+  - isEqual:  [types: B24@0:8@16] @ 0x606c0
+  - class  [types: #16@0:8] @ 0x606cc
+  - self  [types: @16@0:8] @ 0x606d8
+  - performSelector:  [types: @24@0:8:16] @ 0x606e4
+  - performSelector:withObject:  [types: @32@0:8:16@24] @ 0x606f0
+  - performSelector:withObject:withObject:  [types: @40@0:8:16@24@32] @ 0x606fc
+  - isProxy  [types: B16@0:8] @ 0x60708
+  - isKindOfClass:  [types: B24@0:8#16] @ 0x60714
+  - isMemberOfClass:  [types: B24@0:8#16] @ 0x60720
+  - conformsToProtocol:  [types: B24@0:8@16] @ 0x6072c
+  - respondsToSelector:  [types: B24@0:8:16] @ 0x60738
+  - retain  [types: @16@0:8] @ 0x60744
+  - release  [types: Vv16@0:8] @ 0x60750
+  - autorelease  [types: @16@0:8] @ 0x6075c
+  - retainCount  [types: Q16@0:8] @ 0x60768
+  - zone  [types: ^{_NSZone=}16@0:8] @ 0x60774
+  - hash  [types: Q16@0:8] @ 0x60780
+  - superclass  [types: #16@0:8] @ 0x6078c
+  - description  [types: @16@0:8] @ 0x60798
+- Optional instance methods:
+  - debugDescription  [types: @16@0:8] @ 0x60850
+- Properties:
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+
+#### @protocol UITableViewDataSource
+- Required instance methods:
+  - tableView:numberOfRowsInSection:  [types: q32@0:8@16q24] @ 0x610d8
+  - tableView:cellForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x610e4
+- Optional instance methods:
+  - numberOfSectionsInTableView:  [types: q24@0:8@16] @ 0x60d20
+  - tableView:titleForHeaderInSection:  [types: @32@0:8@16q24] @ 0x60d2c
+  - tableView:titleForFooterInSection:  [types: @32@0:8@16q24] @ 0x60d38
+  - tableView:canEditRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60d44
+  - tableView:canMoveRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60d50
+  - sectionIndexTitlesForTableView:  [types: @24@0:8@16] @ 0x60d5c
+  - tableView:sectionForSectionIndexTitle:atIndex:  [types: q40@0:8@16@24q32] @ 0x60d68
+  - tableView:commitEditingStyle:forRowAtIndexPath:  [types: v40@0:8@16q24@32] @ 0x60d74
+  - tableView:moveRowAtIndexPath:toIndexPath:  [types: v40@0:8@16@24@32] @ 0x60d80
+
+#### @protocol UIScrollViewDelegate
+- Optional instance methods:
+  - scrollViewDidScroll:  [types: v24@0:8@16] @ 0x60be0
+  - scrollViewDidZoom:  [types: v24@0:8@16] @ 0x60bec
+  - scrollViewWillBeginDragging:  [types: v24@0:8@16] @ 0x60bf8
+  - scrollViewWillEndDragging:withVelocity:targetContentOffset:  [types: v48@0:8@16{CGPoint=dd}24N^{CGPoint=dd}40] @ 0x60c04
+  - scrollViewDidEndDragging:willDecelerate:  [types: v28@0:8@16B24] @ 0x60c10
+  - scrollViewWillBeginDecelerating:  [types: v24@0:8@16] @ 0x60c1c
+  - scrollViewDidEndDecelerating:  [types: v24@0:8@16] @ 0x60c28
+  - scrollViewDidEndScrollingAnimation:  [types: v24@0:8@16] @ 0x60c34
+  - viewForZoomingInScrollView:  [types: @24@0:8@16] @ 0x60c40
+  - scrollViewWillBeginZooming:withView:  [types: v32@0:8@16@24] @ 0x60c4c
+  - scrollViewDidEndZooming:withView:atScale:  [types: v40@0:8@16@24d32] @ 0x60c58
+  - scrollViewShouldScrollToTop:  [types: B24@0:8@16] @ 0x60c64
+  - scrollViewDidScrollToTop:  [types: v24@0:8@16] @ 0x60c70
+  - scrollViewDidChangeAdjustedContentInset:  [types: v24@0:8@16] @ 0x60c7c
+
+#### @protocol UITableViewDelegate
+- Optional instance methods:
+  - tableView:willDisplayCell:forRowAtIndexPath:  [types: v40@0:8@16@24@32] @ 0x60d98
+  - tableView:willDisplayHeaderView:forSection:  [types: v40@0:8@16@24q32] @ 0x60da4
+  - tableView:willDisplayFooterView:forSection:  [types: v40@0:8@16@24q32] @ 0x60db0
+  - tableView:didEndDisplayingCell:forRowAtIndexPath:  [types: v40@0:8@16@24@32] @ 0x60dbc
+  - tableView:didEndDisplayingHeaderView:forSection:  [types: v40@0:8@16@24q32] @ 0x60dc8
+  - tableView:didEndDisplayingFooterView:forSection:  [types: v40@0:8@16@24q32] @ 0x60dd4
+  - tableView:heightForRowAtIndexPath:  [types: d32@0:8@16@24] @ 0x60de0
+  - tableView:heightForHeaderInSection:  [types: d32@0:8@16q24] @ 0x60dec
+  - tableView:heightForFooterInSection:  [types: d32@0:8@16q24] @ 0x60df8
+  - tableView:estimatedHeightForRowAtIndexPath:  [types: d32@0:8@16@24] @ 0x60e04
+  - tableView:estimatedHeightForHeaderInSection:  [types: d32@0:8@16q24] @ 0x60e10
+  - tableView:estimatedHeightForFooterInSection:  [types: d32@0:8@16q24] @ 0x60e1c
+  - tableView:viewForHeaderInSection:  [types: @32@0:8@16q24] @ 0x60e28
+  - tableView:viewForFooterInSection:  [types: @32@0:8@16q24] @ 0x60e34
+  - tableView:accessoryTypeForRowWithIndexPath:  [types: q32@0:8@16@24] @ 0x60e40
+  - tableView:accessoryButtonTappedForRowWithIndexPath:  [types: v32@0:8@16@24] @ 0x60e4c
+  - tableView:shouldHighlightRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60e58
+  - tableView:didHighlightRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x60e64
+  - tableView:didUnhighlightRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x60e70
+  - tableView:willSelectRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x60e7c
+  - tableView:willDeselectRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x60e88
+  - tableView:didSelectRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x60e94
+  - tableView:didDeselectRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x60ea0
+  - tableView:canPerformPrimaryActionForRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60eac
+  - tableView:performPrimaryActionForRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x60eb8
+  - tableView:editingStyleForRowAtIndexPath:  [types: q32@0:8@16@24] @ 0x60ec4
+  - tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x60ed0
+  - tableView:editActionsForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x60edc
+  - tableView:leadingSwipeActionsConfigurationForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x60ee8
+  - tableView:trailingSwipeActionsConfigurationForRowAtIndexPath:  [types: @32@0:8@16@24] @ 0x60ef4
+  - tableView:shouldIndentWhileEditingRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60f00
+  - tableView:willBeginEditingRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x60f0c
+  - tableView:didEndEditingRowAtIndexPath:  [types: v32@0:8@16@24] @ 0x60f18
+  - tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:  [types: @40@0:8@16@24@32] @ 0x60f24
+  - tableView:indentationLevelForRowAtIndexPath:  [types: q32@0:8@16@24] @ 0x60f30
+  - tableView:shouldShowMenuForRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60f3c
+  - tableView:canPerformAction:forRowAtIndexPath:withSender:  [types: B48@0:8@16:24@32@40] @ 0x60f48
