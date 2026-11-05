@@ -1,0 +1,3005 @@
+  - closeFloat:  [types: v20@0:8B16] @ 0x1fb1c
+  - popOutBlockReason:  [types: @24@0:8@16] @ 0x20054
+  - canPopOutPane:  [types: B24@0:8@16] @ 0x201bc
+  - panePopOut:  [types: v24@0:8@16] @ 0x201f0
+  - popOutPane:  [types: v24@0:8@16] @ 0x20244
+  - floatPanned:  [types: v24@0:8@16] @ 0x20a30
+  - showSoloCoverForBundle:  [types: v24@0:8@16] @ 0x20d8c
+  - hideSoloCover  [types: v16@0:8] @ 0x21390
+  - baseViewControllerPresented  [types: v16@0:8] @ 0x214b8
+  - closeApp:  [types: v24@0:8@16] @ 0x215a4
+  - closeGoingHome:  [types: v20@0:8B16] @ 0x21618
+  - publishCarPlayApps  [types: v16@0:8] @ 0x21b1c
+  - dashboardInvalidated  [types: v16@0:8] @ 0x22724
+  - setupBarForPane:  [types: v24@0:8@16] @ 0x22adc
+  - paneForView:  [types: @24@0:8@16] @ 0x23914
+  - handleShiftForPane:  [types: d24@0:8@16] @ 0x23ab4
+  - layoutBarForPane:  [types: v24@0:8@16] @ 0x23b9c
+  - setBarVisible:forPane:  [types: v28@0:8B16@20] @ 0x241fc
+  - urlLayout:  [types: v20@0:8i16] @ 0x24dc8
+  - urlRatio:  [types: v24@0:8d16] @ 0x24e44
+  - urlSwap  [types: v16@0:8] @ 0x24f98
+  - urlZoomPane:  [types: v20@0:8i16] @ 0x24ff0
+  - handleDoubleTapped:  [types: v24@0:8@16] @ 0x25048
+  - toggleZoomForPane:  [types: v24@0:8@16] @ 0x251b0
+  - handleTapped:  [types: v24@0:8@16] @ 0x253e4
+  - hideBarsForTouchOn:  [types: v24@0:8@16] @ 0x25558
+  - bridgeOutsideTouched  [types: v16@0:8] @ 0x257e8
+  - popupOpen  [types: B16@0:8] @ 0x257ec
+  - closePopups  [types: v16@0:8] @ 0x25894
+  - shieldExemptRects  [types: @16@0:8] @ 0x25a4c
+  - shieldExemptPoint:  [types: B32@0:8{CGPoint=dd}16] @ 0x26070
+  - refreshShieldHoles  [types: v16@0:8] @ 0x261b0
+  - panelOpen  [types: B16@0:8] @ 0x26394
+  - updatePopupShield  [types: v16@0:8] @ 0x26424
+  - handlePanned:  [types: v24@0:8@16] @ 0x26834
+  - beginPaneDrag:at:  [types: v40@0:8@16{CGPoint=dd}24] @ 0x26a98
+  - movePaneDragTo:from:  [types: v40@0:8{CGPoint=dd}16@32] @ 0x27494
+  - endPaneDrag:  [types: v24@0:8@16] @ 0x27a18
+  - clearPaneDragMarks  [types: v16@0:8] @ 0x27e34
+  - cancelPaneDrag  [types: v16@0:8] @ 0x27fcc
+  - hideTrayWindowIfIdle  [types: v16@0:8] @ 0x28180
+  - bridgeHandleDrag:  [types: v24@0:8@16] @ 0x28260
+  - floatDragPhase:at:  [types: v36@0:8i16{CGPoint=dd}20] @ 0x284e8
+  - paneSolo:  [types: v24@0:8@16] @ 0x287b8
+  - runSoloForPane:  [types: v24@0:8@16] @ 0x288c0
+  - paneBackground:  [types: v24@0:8@16] @ 0x28a30
+  - runBackgroundForPane:  [types: v24@0:8@16] @ 0x28b38
+  - showBackgroundToastFor:slot:  [types: v28@0:8@16i24] @ 0x28c48
+  - paneChoose:  [types: v24@0:8@16] @ 0x29f28
+  - paneClose:  [types: v24@0:8@16] @ 0x2a0e0
+  - runCloseForPane:  [types: v24@0:8@16] @ 0x2a1e8
+  - addCoverToPane:  [types: v24@0:8@16] @ 0x2a2e8
+  - removeCoverFromPane:  [types: v24@0:8@16] @ 0x2a668
+  - showLoaderInPane:bundle:  [types: v32@0:8@16@24] @ 0x2a7b8
+  - loaderCancelTapped:  [types: v24@0:8@16] @ 0x2b980
+  - removeLoaderFromPane:animated:  [types: v28@0:8@16B24] @ 0x2bbb4
+  - markDismissSlot:  [types: v20@0:8i16] @ 0x2be00
+  - beginResize  [types: v16@0:8] @ 0x2c128
+  - endResize  [types: v16@0:8] @ 0x2c25c
+  - newDividerAt:  [types: @20@0:8i16] @ 0x2c4c0
+  - layoutKnobOf:  [types: v24@0:8@16] @ 0x2c848
+  - dividerPanned:  [types: v24@0:8@16] @ 0x2d05c
+  - dividerPan:state:location:translation:  [types: v64@0:8@16q24{CGPoint=dd}32{CGPoint=dd}48] @ 0x2d210
+  - mainStackDividerPan:state:location:translation:ended:  [types: v68@0:8@16q24{CGPoint=dd}32{CGPoint=dd}48B64] @ 0x2db68
+  - saveRatio  [types: v16@0:8] @ 0x2e360
+  - dividerDoubleTapped:  [types: v24@0:8@16] @ 0x2e6e8
+  - dividerDoubleTapOn:  [types: v24@0:8@16] @ 0x2e73c
+  - ratioPresets  [types: @16@0:8] @ 0x2e9a0
+  - fractionsMatch:  [types: B24@0:8@16] @ 0x2e9f0
+  - dividerTapped:  [types: v24@0:8@16] @ 0x2eb64
+  - dividerTapOn:at:  [types: v40@0:8@16{CGPoint=dd}24] @ 0x2ebf0
+  - remoteKnobTouch:  [types: v24@0:8@16] @ 0x2edfc
+  - showRatioMenuForDivider:  [types: v24@0:8@16] @ 0x2f614
+  - hideRatioMenu  [types: v16@0:8] @ 0x30ce0
+  - ratioPresetTapped:  [types: v24@0:8@16] @ 0x31194
+  - removePickerFromPane:  [types: v24@0:8@16] @ 0x313ac
+  - showPickerForSlot:  [types: v20@0:8i16] @ 0x31530
+  - pickerPaneTapped:  [types: v24@0:8@16] @ 0x31960
+  - refreshPickerSheetSoon  [types: v16@0:8] @ 0x31a0c
+  - panesInReadingOrder  [types: @16@0:8] @ 0x31ba0
+  - refreshPickerSheet  [types: v16@0:8] @ 0x31eac
+  - markPickerPanes  [types: v16@0:8] @ 0x322cc
+  - removePickerSheet  [types: v16@0:8] @ 0x32498
+  - pickerMapForPane:height:  [types: @32@0:8@16d24] @ 0x329a0
+  - pickerMapTapped:  [types: v24@0:8@16] @ 0x33420
+  - buildPickerSheetForPane:  [types: v24@0:8@16] @ 0x334cc
+  - pickerAppTapped:  [types: v24@0:8@16] @ 0x362a0
+  - pickerCancel:  [types: v24@0:8@16] @ 0x364d0
+  - tabParent  [types: @16@0:8] @ 0x366dc
+  - fullscreenAppBundle  [types: @16@0:8] @ 0x367f0
+  - viewIsRaised:  [types: B24@0:8@16] @ 0x36a18
+  - raiseView:  [types: v24@0:8@16] @ 0x36bd8
+  - refreshAppTabSoon  [types: v16@0:8] @ 0x36d3c
+  - refreshAppTab  [types: v16@0:8] @ 0x36e04
+  - removeAppTab  [types: v16@0:8] @ 0x36f04
+  - panelSections:  [types: @24@0:8^@16] @ 0x36f08
+  - trayWindowForParent:  [types: @24@0:8@16] @ 0x3782c
+  - showLayoutPanelForApp:  [types: v24@0:8@16] @ 0x37e8c
+  - panelChoiceTapped:  [types: v24@0:8@16] @ 0x3a4d0
+  - panelChoiceTappedUnsafe:  [types: v24@0:8@16] @ 0x3a5e8
+  - favoriteApps:  [types: @24@0:8@16] @ 0x3a86c
+  - openFavorite:  [types: v24@0:8q16] @ 0x3aa60
+  - openSetupLayout:apps:  [types: v28@0:8i16@20] @ 0x3ab7c
+  - exitKeepBundle  [types: @16@0:8] @ 0x3ae10
+  - showPickerForFocusedPane  [types: v16@0:8] @ 0x3b04c
+  - exitTapped  [types: v16@0:8] @ 0x3b138
+  - showTipSoon  [types: v16@0:8] @ 0x3b374
+  - layoutPickerDotsForPage:  [types: v24@0:8q16] @ 0x3b630
+  - scrollViewDidScroll:  [types: v24@0:8@16] @ 0x3b920
+  - scrollViewWillBeginDragging:  [types: v24@0:8@16] @ 0x3bb58
+  - restartTrayTimer  [types: v16@0:8] @ 0x3bc20
+  - collapseAppTray  [types: v16@0:8] @ 0x3bd78
+  - setFullscreenBridgeHidden:bundle:  [types: v28@0:8B16@20] @ 0x3c33c
+  - layoutChosenID:  [types: v20@0:8i16] @ 0x3c61c
+  - hostedPanes  [types: @16@0:8] @ 0x3c778
+  - bridgedPane  [types: @16@0:8] @ 0x3c910
+  - hostPost:info:  [types: v32@0:8@16@24] @ 0x3c968
+  - hostFrameForPane:  [types: {CGRect={CGPoint=dd}{CGSize=dd}}24@0:8@16] @ 0x3ca0c
+  - hostBarInfoForPane:  [types: @24@0:8@16] @ 0x3cd60
+  - anyBarVisible  [types: B16@0:8] @ 0x3d058
+  - hostPassInsetsForPane:  [types: {UIEdgeInsets=dddd}24@0:8@16] @ 0x3d1e4
+  - hostFrameInfo:pane:live:handle:  [types: @64@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16@48B56B60] @ 0x3d39c
+  - holeForPane:  [types: {CGRect={CGPoint=dd}{CGSize=dd}}24@0:8@16] @ 0x3dca8
+  - sendHostFrameForPane:live:  [types: v28@0:8@16B24] @ 0x3dfac
+  - pushHostFramesLive:  [types: v20@0:8B16] @ 0x3e238
+  - publishShield  [types: v16@0:8] @ 0x3e374
+  - hostApp:inPane:  [types: v32@0:8@16@24] @ 0x3e490
+  - hostClose:terminate:  [types: v28@0:8@16B24] @ 0x3ebd0
+  - publishKnobsSoon  [types: v16@0:8] @ 0x3ed08
+  - publishKnobsNow  [types: v16@0:8] @ 0x3ed84
+  - hostCloseAll  [types: v16@0:8] @ 0x3f25c
+  - hostedApp:state:  [types: v32@0:8@16@24] @ 0x3f35c
+  - bridgeHandleTapped:  [types: v24@0:8@16] @ 0x3f65c
+  - bridgeBarAction:forBundle:  [types: v32@0:8@16@24] @ 0x3f7f4
+  - hostSolo:  [types: v24@0:8@16] @ 0x3f9c0
+  - endHostedSolo  [types: v16@0:8] @ 0x3fe5c
+  - dismissStuckBaseSoon  [types: v16@0:8] @ 0x3ff28
+  - homePressedDuringSplit:  [types: v20@0:8B16] @ 0x40298
+  - launchPhoneAppIfNeeded:  [types: B24@0:8@16] @ 0x403d0
+  - atHomeScreen  [types: B16@0:8] @ 0x404fc
+  - dockClusterInParent:  [types: {CGRect={CGPoint=dd}{CGSize=dd}}24@0:8@16] @ 0x405fc
+  - launcherCenterInParent:size:shift:  [types: {CGPoint=dd}40@0:8@16^d24^d32] @ 0x409b0
+  - refreshHomeButton  [types: v16@0:8] @ 0x41be4
+  - setDockShift:  [types: v24@0:8d16] @ 0x426f8
+  - raiseLauncher  [types: v16@0:8] @ 0x42900
+  - dockHostForRect:inParent:  [types: @56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16@48] @ 0x42a64
+  - removeHomeButton  [types: v16@0:8] @ 0x434a8
+  - homeButtonTapped  [types: v16@0:8] @ 0x43514
+  - homeButtonTappedUnsafe  [types: v16@0:8] @ 0x4360c
+  - openRememberedPairForConnect  [types: v16@0:8] @ 0x43720
+  - openRememberedPair  [types: v16@0:8] @ 0x43cdc
+  - installIconLongPress  [types: v16@0:8] @ 0x440e0
+  - installLongPressIn:depth:  [types: v28@0:8@16i24] @ 0x44344
+  - iconLongPressed:  [types: v24@0:8@16] @ 0x44620
+  - iconLongPressedUnsafe:  [types: v24@0:8@16] @ 0x44738
+  - carScreenAppeared  [types: v16@0:8] @ 0x44cdc
+  - autoLaunchAttempt:  [types: v20@0:8i16] @ 0x44dc4
+  - toast:  [types: v24@0:8@16] @ 0x44fd4
+  - toast:duration:  [types: v32@0:8@16d24] @ 0x44fe0
+  - active  [types: B16@0:8] @ 0x4580c
+  - setActive:  [types: v20@0:8B16] @ 0x45814
+  - cancelledLaunches  [types: @16@0:8] @ 0x4581c
+  - setCancelledLaunches:  [types: v24@0:8@16] @ 0x45824
+  - soloCover  [types: @16@0:8] @ 0x45854
+  - setSoloCover:  [types: v24@0:8@16] @ 0x4585c
+  - trayCover  [types: @16@0:8] @ 0x4588c
+  - setTrayCover:  [types: v24@0:8@16] @ 0x45894
+  - trayWindow  [types: @16@0:8] @ 0x458c4
+  - setTrayWindow:  [types: v24@0:8@16] @ 0x458cc
+  - trayOverlay  [types: B16@0:8] @ 0x458fc
+  - setTrayOverlay:  [types: v20@0:8B16] @ 0x45904
+  - zoomedSlot  [types: @16@0:8] @ 0x4590c
+  - setZoomedSlot:  [types: v24@0:8@16] @ 0x45914
+  - lastBridgeTapBundle  [types: @16@0:8] @ 0x45944
+  - setLastBridgeTapBundle:  [types: v24@0:8@16] @ 0x4594c
+  - lastBridgeTapAt  [types: d16@0:8] @ 0x45954
+  - setLastBridgeTapAt:  [types: v24@0:8d16] @ 0x4595c
+  - pickerSheet  [types: @16@0:8] @ 0x45964
+  - setPickerSheet:  [types: v24@0:8@16] @ 0x4596c
+  - pickerShield  [types: @16@0:8] @ 0x4599c
+  - setPickerShield:  [types: v24@0:8@16] @ 0x459a4
+  - pickerSheetPane  [types: @16@0:8] @ 0x459d4
+  - setPickerSheetPane:  [types: v24@0:8@16] @ 0x459ec
+  - pickerSheetKey  [types: @16@0:8] @ 0x459f8
+  - setPickerSheetKey:  [types: v24@0:8@16] @ 0x45a00
+  - pickerSheetOverlay  [types: B16@0:8] @ 0x45a08
+  - setPickerSheetOverlay:  [types: v20@0:8B16] @ 0x45a10
+  - pickerSheetQueued  [types: B16@0:8] @ 0x45a18
+  - setPickerSheetQueued:  [types: v20@0:8B16] @ 0x45a20
+  - pickerDots  [types: @16@0:8] @ 0x45a28
+  - setPickerDots:  [types: v24@0:8@16] @ 0x45a40
+  - container  [types: @16@0:8] @ 0x45a4c
+  - setContainer:  [types: v24@0:8@16] @ 0x45a54
+  - slots  [types: @16@0:8] @ 0x45a84
+  - setSlots:  [types: v24@0:8@16] @ 0x45a8c
+  - fractions  [types: @16@0:8] @ 0x45abc
+  - setFractions:  [types: v24@0:8@16] @ 0x45ac4
+  - layoutKind  [types: q16@0:8] @ 0x45af4
+  - setLayoutKind:  [types: v24@0:8q16] @ 0x45afc
+  - pending  [types: @16@0:8] @ 0x45b04
+  - setPending:  [types: v24@0:8@16] @ 0x45b0c
+  - focusedSlot  [types: i16@0:8] @ 0x45b3c
+  - setFocusedSlot:  [types: v20@0:8i16] @ 0x45b44
+  - allowBackground  [types: q16@0:8] @ 0x45b4c
+  - setAllowBackground:  [types: v24@0:8q16] @ 0x45b54
+  - dividers  [types: @16@0:8] @ 0x45b5c
+  - setDividers:  [types: v24@0:8@16] @ 0x45b64
+  - loggedArea  [types: B16@0:8] @ 0x45b94
+  - setLoggedArea:  [types: v20@0:8B16] @ 0x45b9c
+  - nextLaunchAt  [types: d16@0:8] @ 0x45ba4
+  - setNextLaunchAt:  [types: v24@0:8d16] @ 0x45bac
+  - soloHostedBundle  [types: @16@0:8] @ 0x45bb4
+  - setSoloHostedBundle:  [types: v24@0:8@16] @ 0x45bbc
+  - soloHostedFrame  [types: {CGRect={CGPoint=dd}{CGSize=dd}}16@0:8] @ 0x45bc4
+  - setSoloHostedFrame:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x45bd0
+  - ignoreHomeOnce  [types: B16@0:8] @ 0x45bdc
+  - setIgnoreHomeOnce:  [types: v20@0:8B16] @ 0x45be4
+  - soloReturnedVC  [types: @16@0:8] @ 0x45bec
+  - setSoloReturnedVC:  [types: v24@0:8@16] @ 0x45c04
+  - dismissStuckPending  [types: B16@0:8] @ 0x45c10
+  - setDismissStuckPending:  [types: v20@0:8B16] @ 0x45c18
+  - resizing  [types: B16@0:8] @ 0x45c20
+  - setResizing:  [types: v20@0:8B16] @ 0x45c28
+  - dragGhost  [types: @16@0:8] @ 0x45c30
+  - setDragGhost:  [types: v24@0:8@16] @ 0x45c38
+  - dragTarget  [types: i16@0:8] @ 0x45c68
+  - setDragTarget:  [types: v20@0:8i16] @ 0x45c70
+  - ratioMenu  [types: @16@0:8] @ 0x45c78
+  - setRatioMenu:  [types: v24@0:8@16] @ 0x45c80
+  - ratioKnob  [types: @16@0:8] @ 0x45cb0
+  - setRatioKnob:  [types: v24@0:8@16] @ 0x45cc8
+  - ratioTimer  [types: @16@0:8] @ 0x45cd4
+  - setRatioTimer:  [types: v24@0:8@16] @ 0x45cdc
+  - ratioOverlay  [types: B16@0:8] @ 0x45d0c
+  - setRatioOverlay:  [types: v20@0:8B16] @ 0x45d14
+  - ratioHidesBridge  [types: B16@0:8] @ 0x45d1c
+  - setRatioHidesBridge:  [types: v20@0:8B16] @ 0x45d24
+  - floatPane  [types: @16@0:8] @ 0x45d2c
+  - setFloatPane:  [types: v24@0:8@16] @ 0x45d34
+  - floatFrame  [types: {CGRect={CGPoint=dd}{CGSize=dd}}16@0:8] @ 0x45d64
+  - setFloatFrame:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x45d70
+  - floatClosing  [types: B16@0:8] @ 0x45d7c
+  - setFloatClosing:  [types: v20@0:8B16] @ 0x45d84
+  - floatLarge  [types: B16@0:8] @ 0x45d8c
+  - setFloatLarge:  [types: v20@0:8B16] @ 0x45d94
+  - floatReturnLayout  [types: i16@0:8] @ 0x45d9c
+  - setFloatReturnLayout:  [types: v20@0:8i16] @ 0x45da4
+  - floatReturnSlot  [types: i16@0:8] @ 0x45dac
+  - setFloatReturnSlot:  [types: v20@0:8i16] @ 0x45db4
+  - floatReturnFractions  [types: @16@0:8] @ 0x45dbc
+  - setFloatReturnFractions:  [types: v24@0:8@16] @ 0x45dc4
+  - tray  [types: @16@0:8] @ 0x45dcc
+  - setTray:  [types: v24@0:8@16] @ 0x45dd4
+  - popupShield  [types: @16@0:8] @ 0x45e04
+  - setPopupShield:  [types: v24@0:8@16] @ 0x45e0c
+  - shieldPosted  [types: B16@0:8] @ 0x45e3c
+  - setShieldPosted:  [types: v20@0:8B16] @ 0x45e44
+  - popupsClosedAt  [types: d16@0:8] @ 0x45e4c
+  - setPopupsClosedAt:  [types: v24@0:8d16] @ 0x45e54
+  - trayHidesBridge  [types: B16@0:8] @ 0x45e5c
+  - setTrayHidesBridge:  [types: v20@0:8B16] @ 0x45e64
+  - trayTimer  [types: @16@0:8] @ 0x45e6c
+  - setTrayTimer:  [types: v24@0:8@16] @ 0x45e74
+  - layoutApp  [types: @16@0:8] @ 0x45ea4
+  - setLayoutApp:  [types: v24@0:8@16] @ 0x45eac
+  - panelChoices  [types: @16@0:8] @ 0x45eb4
+  - setPanelChoices:  [types: v24@0:8@16] @ 0x45ebc
+  - suppressReopen  [types: B16@0:8] @ 0x45eec
+  - setSuppressReopen:  [types: v20@0:8B16] @ 0x45ef4
+  - homeButton  [types: @16@0:8] @ 0x45efc
+  - setHomeButton:  [types: v24@0:8@16] @ 0x45f04
+  - launcherHost  [types: @16@0:8] @ 0x45f34
+  - setLauncherHost:  [types: v24@0:8@16] @ 0x45f4c
+  - dockTreeLogged  [types: B16@0:8] @ 0x45f58
+  - setDockTreeLogged:  [types: v20@0:8B16] @ 0x45f60
+  - launcherWhere  [types: @16@0:8] @ 0x45f68
+  - setLauncherWhere:  [types: v24@0:8@16] @ 0x45f70
+  - homeInk  [types: @16@0:8] @ 0x45f78
+  - setHomeInk:  [types: v24@0:8@16] @ 0x45f80
+  - homeGlyph  [types: {CGRect={CGPoint=dd}{CGSize=dd}}16@0:8] @ 0x45fb0
+  - setHomeGlyph:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x45fbc
+  - launcherBare  [types: B16@0:8] @ 0x45fc8
+  - setLauncherBare:  [types: v20@0:8B16] @ 0x45fd0
+  - lastLauncherCalc  [types: d16@0:8] @ 0x45fd8
+  - setLastLauncherCalc:  [types: v24@0:8d16] @ 0x45fe0
+  - lastIconScan  [types: d16@0:8] @ 0x45fe8
+  - setLastIconScan:  [types: v24@0:8d16] @ 0x45ff0
+  - autoLaunchDone  [types: B16@0:8] @ 0x45ff8
+  - setAutoLaunchDone:  [types: v20@0:8B16] @ 0x46000
+  - .cxx_destruct  [types: v16@0:8] @ 0x46008
+- Class methods (1):
+  - shared  [types: @16@0:8] @ 0xfdf4
+
+#### @interface SCPHomeWallView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 56, flags: 0x184
+- Ivars:
+  - _image : @"UIImageView" (offset 8, align 3, size 8)
+  - _dim : @"UIView" (offset 16, align 3, size 8)
+  - _player : @"AVQueuePlayer" (offset 24, align 3, size 8)
+  - _looper : @"AVPlayerLooper" (offset 32, align 3, size 8)
+  - _videoLayer : @"AVPlayerLayer" (offset 40, align 3, size 8)
+  - _loadedKey : @"NSString" (offset 48, align 3, size 8)
+- Properties:
+  - image  [T@"UIImageView",&,N,V_image]
+  - dim  [T@"UIView",&,N,V_dim]
+  - player  [T@"AVQueuePlayer",&,N,V_player]
+  - looper  [T@"AVPlayerLooper",&,N,V_looper]
+  - videoLayer  [T@"AVPlayerLayer",&,N,V_videoLayer]
+  - loadedKey  [T@"NSString",C,N,V_loadedKey]
+- Instance methods (20):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0x491ac
+  - layoutSubviews  [types: v16@0:8] @ 0x49350
+  - stopVideo  [types: v16@0:8] @ 0x4941c
+  - startVideo:  [types: v24@0:8@16] @ 0x494d0
+  - updatePlayback  [types: v16@0:8] @ 0x498bc
+  - didMoveToWindow  [types: v16@0:8] @ 0x49ae4
+  - applySettings:source:  [types: v32@0:8@16@24] @ 0x49b2c
+  - image  [types: @16@0:8] @ 0x4a49c
+  - setImage:  [types: v24@0:8@16] @ 0x4a4ac
+  - dim  [types: @16@0:8] @ 0x4a4ec
+  - setDim:  [types: v24@0:8@16] @ 0x4a4fc
+  - player  [types: @16@0:8] @ 0x4a53c
+  - setPlayer:  [types: v24@0:8@16] @ 0x4a54c
+  - looper  [types: @16@0:8] @ 0x4a58c
+  - setLooper:  [types: v24@0:8@16] @ 0x4a59c
+  - videoLayer  [types: @16@0:8] @ 0x4a5dc
+  - setVideoLayer:  [types: v24@0:8@16] @ 0x4a5ec
+  - loadedKey  [types: @16@0:8] @ 0x4a62c
+  - setLoadedKey:  [types: v24@0:8@16] @ 0x4a63c
+  - .cxx_destruct  [types: v16@0:8] @ 0x4a648
+
+#### @interface SCPPrefs : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 8, flags: 0x80
+- Class methods (21):
+  - enabled  [types: B16@0:8] @ 0x4da2c
+  - tipCount  [types: q16@0:8] @ 0x4da60
+  - setTipCount:  [types: v24@0:8q16] @ 0x4db2c
+  - english  [types: B16@0:8] @ 0x4dc00
+  - lastLeftApp  [types: @16@0:8] @ 0x4dd78
+  - lastRightApp  [types: @16@0:8] @ 0x4dd84
+  - autoLaunch  [types: B16@0:8] @ 0x4dd90
+  - showRecent  [types: B16@0:8] @ 0x4ddf8
+  - showFavorites  [types: B16@0:8] @ 0x4de60
+  - paneOrientation  [types: q16@0:8] @ 0x4dec8
+  - splitRatio  [types: d16@0:8] @ 0x4df3c
+  - splitDirection  [types: q16@0:8] @ 0x4dfc4
+  - carPlayApps  [types: @16@0:8] @ 0x4e02c
+  - setCarPlayApps:  [types: v24@0:8@16] @ 0x4e0a4
+  - favorite:  [types: @24@0:8q16] @ 0x4e138
+  - recentLayouts  [types: @16@0:8] @ 0x4e504
+  - addRecentLayout:apps:  [types: v32@0:8q16@24] @ 0x4e750
+  - ratioForPairLeft:right:  [types: d32@0:8@16@24] @ 0x4eb34
+  - setRatio:forPairLeft:right:  [types: v40@0:8d16@24@32] @ 0x4ecc4
+  - setSplitRatio:  [types: v24@0:8d16] @ 0x4ee4c
+  - setLastPairLeft:right:  [types: v32@0:8@16@24] @ 0x4eea4
+
+### Protocols định nghĩa (3)
+
+#### @protocol NSFastEnumeration
+- Required instance methods:
+  - countByEnumeratingWithState:objects:count:  [types: Q40@0:8^{?=Q^@^Q[5Q]}16^@24Q32] @ 0x5e3e0
+
+#### @protocol NSObject
+- Required instance methods:
+  - isEqual:  [types: B24@0:8@16] @ 0x5e3f8
+  - class  [types: #16@0:8] @ 0x5e404
+  - self  [types: @16@0:8] @ 0x5e410
+  - performSelector:  [types: @24@0:8:16] @ 0x5e41c
+  - performSelector:withObject:  [types: @32@0:8:16@24] @ 0x5e428
+  - performSelector:withObject:withObject:  [types: @40@0:8:16@24@32] @ 0x5e434
+  - isProxy  [types: B16@0:8] @ 0x5e440
+  - isKindOfClass:  [types: B24@0:8#16] @ 0x5e44c
+  - isMemberOfClass:  [types: B24@0:8#16] @ 0x5e458
+  - conformsToProtocol:  [types: B24@0:8@16] @ 0x5e464
+  - respondsToSelector:  [types: B24@0:8:16] @ 0x5e470
+  - retain  [types: @16@0:8] @ 0x5e47c
+  - release  [types: Vv16@0:8] @ 0x5e488
+  - autorelease  [types: @16@0:8] @ 0x5e494
+  - retainCount  [types: Q16@0:8] @ 0x5e4a0
+  - zone  [types: ^{_NSZone=}16@0:8] @ 0x5e4ac
+  - hash  [types: Q16@0:8] @ 0x5e4b8
+  - superclass  [types: #16@0:8] @ 0x5e4c4
+  - description  [types: @16@0:8] @ 0x5e4d0
+- Optional instance methods:
+  - debugDescription  [types: @16@0:8] @ 0x5e4e8
+- Properties:
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+
+#### @protocol UIScrollViewDelegate
+- Optional instance methods:
+  - scrollViewDidScroll:  [types: v24@0:8@16] @ 0x5e500
+  - scrollViewDidZoom:  [types: v24@0:8@16] @ 0x5e50c
+  - scrollViewWillBeginDragging:  [types: v24@0:8@16] @ 0x5e518
+  - scrollViewWillEndDragging:withVelocity:targetContentOffset:  [types: v48@0:8@16{CGPoint=dd}24N^{CGPoint=dd}40] @ 0x5e524
+  - scrollViewDidEndDragging:willDecelerate:  [types: v28@0:8@16B24] @ 0x5e530
+  - scrollViewWillBeginDecelerating:  [types: v24@0:8@16] @ 0x5e53c
+  - scrollViewDidEndDecelerating:  [types: v24@0:8@16] @ 0x5e548
+  - scrollViewDidEndScrollingAnimation:  [types: v24@0:8@16] @ 0x5e554
+  - viewForZoomingInScrollView:  [types: @24@0:8@16] @ 0x5e560
+  - scrollViewWillBeginZooming:withView:  [types: v32@0:8@16@24] @ 0x5e56c
+  - scrollViewDidEndZooming:withView:atScale:  [types: v40@0:8@16@24d32] @ 0x5e578
+  - scrollViewShouldScrollToTop:  [types: B24@0:8@16] @ 0x5e584
+  - scrollViewDidScrollToTop:  [types: v24@0:8@16] @ 0x5e590
+  - scrollViewDidChangeAdjustedContentInset:  [types: v24@0:8@16] @ 0x5e59c
+
+### __objc_classrefs (77 refs)
+- SCPCButton
+- SCPCTouchWatch
+- SCPCarDividerView
+- SCPCarPane
+- SCPCarSplit
+- SCPCarSplitView
+- SCPCarTabView
+- SCPHomeWallView
+- SCPHostedAppVC
+- SCPNoopLayoutAssertion
+- SCPPrefs
+- _OBJC_CLASS_$_AVPlayerItem
+- _OBJC_CLASS_$_AVPlayerLayer
+- _OBJC_CLASS_$_AVPlayerLooper
+- _OBJC_CLASS_$_AVQueuePlayer
+- _OBJC_CLASS_$_CABasicAnimation
+- _OBJC_CLASS_$_CAGradientLayer
+- _OBJC_CLASS_$_CALayer
+- _OBJC_CLASS_$_CAMediaTimingFunction
+- _OBJC_CLASS_$_CAShapeLayer
+- _OBJC_CLASS_$_CATransaction
+- _OBJC_CLASS_$_CIContext
+- _OBJC_CLASS_$_CIFilter
+- _OBJC_CLASS_$_CIImage
+- _OBJC_CLASS_$_NSArray
+- _OBJC_CLASS_$_NSBundle
+- _OBJC_CLASS_$_NSCharacterSet
+- _OBJC_CLASS_$_NSDate
+- _OBJC_CLASS_$_NSDateFormatter
+- _OBJC_CLASS_$_NSDictionary
+- _OBJC_CLASS_$_NSFileManager
+- _OBJC_CLASS_$_NSLocale
+- _OBJC_CLASS_$_NSMapTable
+- _OBJC_CLASS_$_NSMutableArray
+- _OBJC_CLASS_$_NSMutableDictionary
+- _OBJC_CLASS_$_NSMutableOrderedSet
+- _OBJC_CLASS_$_NSMutableSet
+- _OBJC_CLASS_$_NSMutableString
+- _OBJC_CLASS_$_NSNotificationCenter
+- _OBJC_CLASS_$_NSNull
+- _OBJC_CLASS_$_NSNumber
+- _OBJC_CLASS_$_NSObject
+- _OBJC_CLASS_$_NSOperationQueue
+- _OBJC_CLASS_$_NSProcessInfo
+- _OBJC_CLASS_$_NSRunLoop
+- _OBJC_CLASS_$_NSSet
+- _OBJC_CLASS_$_NSSortDescriptor
+- _OBJC_CLASS_$_NSString
+- _OBJC_CLASS_$_NSTimeZone
+- _OBJC_CLASS_$_NSTimer
+- _OBJC_CLASS_$_NSURL
+- _OBJC_CLASS_$_NSURLComponents
+- _OBJC_CLASS_$_NSValue
+- _OBJC_CLASS_$_UIAction
+- _OBJC_CLASS_$_UIActivityIndicatorView
+- _OBJC_CLASS_$_UIApplication
+- _OBJC_CLASS_$_UIBezierPath
+- _OBJC_CLASS_$_UIBlurEffect
+- _OBJC_CLASS_$_UIButton
+- _OBJC_CLASS_$_UIColor
+- _OBJC_CLASS_$_UIDevice
+- _OBJC_CLASS_$_UIFont
+- _OBJC_CLASS_$_UIGraphicsImageRenderer
+- _OBJC_CLASS_$_UIGraphicsImageRendererFormat
+- _OBJC_CLASS_$_UIImage
+- _OBJC_CLASS_$_UIImageView
+- _OBJC_CLASS_$_UILabel
+- _OBJC_CLASS_$_UILongPressGestureRecognizer
+- _OBJC_CLASS_$_UIPanGestureRecognizer
+- _OBJC_CLASS_$_UIScreen
+- _OBJC_CLASS_$_UIScrollView
+- _OBJC_CLASS_$_UITapGestureRecognizer
+- _OBJC_CLASS_$_UIView
+- _OBJC_CLASS_$_UIViewController
+- _OBJC_CLASS_$_UIVisualEffectView
+- _OBJC_CLASS_$_UIWindow
+- _OBJC_CLASS_$_UIWindowScene
+
+### __objc_superrefs (6 refs)
+- SCPCButton
+- SCPCarDividerView
+- SCPCarSplit
+- SCPCarSplitView
+- SCPHomeWallView
+- SCPHostedAppVC
+
+### Selector refs — các selector binary tham chiếu (901)
+- .cxx_destruct
+- CGColor
+- CGContext
+- CGImage
+- CGPath
+- CGRectValue
+- URLWithString:
+- UTF8String
+- _applicationIconImageForBundleIdentifier:format:scale:
+- _handleHomeEvent:
+- _launchAppWithInfo:forURL:
+- _loadFromProxy:
+- _newApplicationLibrary
+- accessibilityIdentifier
+- accessibilityTraits
+- actionWithHandler:
+- activate
+- activateWithCount:
+- activateWithLayout:
+- active
+- addAction:forControlEvents:
+- addAnimation:forKey:
+- addArcWithCenter:radius:startAngle:endAngle:clockwise:
+- addChildViewController:
+- addClip
+- addCoverToPane:
+- addElement:
+- addEntriesFromDictionary:
+- addGestureRecognizer:
+- addLineToPoint:
+- addObject:
+- addObjectsFromArray:
+- addObserverForName:object:queue:usingBlock:
+- addRecentLayout:apps:
+- addSublayer:
+- addSubview:
+- addTarget:action:forControlEvents:
+- addToRunLoop:forMode:
+- adopt:slot:
+- adoptViewController:
+- afterPaneRemoved:
+- allKeys
+- allPanes
+- allValues
+- allowBackground
+- alpha
+- animateWithDuration:animations:
+- animateWithDuration:animations:completion:
+- animateWithDuration:delay:options:animations:completion:
+- animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
+- animationWithKeyPath:
+- anyBarVisible
+- appAreaInParent:
+- appendFormat:
+- appendPath:
+- applicationDidFinishLaunching:
+- applicationInfo
+- applySettings:source:
+- array
+- arrayByAddingObject:
+- arrayByAddingObjectsFromArray:
+- arrayWithArray:
+- arrayWithObjects:
+- arrayWithObjects:count:
+- atHomeScreen
+- attributesOfItemAtPath:error:
+- autoLaunch
+- autoLaunchAttempt:
+- autoLaunchDone
+- autoSlot
+- autorelease
+- backgroundSceneWithCompletion:
+- bar
+- barTimer
+- baseViewControllerPresented
+- begin
+- beginPaneDrag:at:
+- beginResize
+- bezierPath
+- bezierPathWithArcCenter:radius:startAngle:endAngle:clockwise:
+- bezierPathWithOvalInRect:
+- bezierPathWithRect:
+- bezierPathWithRoundedRect:cornerRadius:
+- blackColor
+- boolValue
+- boundingRectWithSize:options:attributes:context:
+- bounds
+- bridgeBarAction:forBundle:
+- bridgeHandleDrag:
+- bridgeHandleTapped:
+- bridgeOutsideTouched
+- bridgedPane
+- bringSubviewToFront:
+- buildPickerSheetForPane:
+- bundleID
+- bundleIdentifier
+- buttonWithType:
+- callStackReturnAddresses
+- callStackSymbols
+- canPopOutPane:
+- cancelPaneDrag
+- cancelledLaunches
+- carPlayApps
+- carScreenAppeared
+- center
+- class
+- clearColor
+- clearPaneDragMarks
+- closeApp:
+- closeFloat:
+- closeGoingHome:
+- closePath
+- closePopups
+- closeSlot:background:
+- collapseAppTray
+- colorWithAlphaComponent:
+- colorWithDynamicProvider:
+- colorWithRed:green:blue:alpha:
+- colorWithWhite:alpha:
+- commit
+- compare:
+- componentsJoinedByString:
+- componentsSeparatedByCharactersInSet:
+- componentsSeparatedByString:
+- componentsWithURL:resolvingAgainstBaseURL:
+- conformsToProtocol:
+- connectedScenes
+- container
+- containsObject:
+- containsString:
+- contentOffset
+- contentView
+- contextWithOptions:
+- convertPoint:fromView:
+- convertPoint:toView:
+- convertRect:fromCoordinateSpace:
+- convertRect:fromView:
+- convertRect:toCoordinateSpace:
+- convertRect:toView:
+- coordinateSpace
+- copy
+- cornerRadius
+- count
+- countByEnumeratingWithState:objects:count:
+- cover
+- createCGImage:fromRect:
+- currentDevice
+- dashboardInvalidated
+- date
+- dateFromString:
+- deactivateSceneWithReasonMask:
+- debugDescription
+- defaultCenter
+- defaultManager
+- description
+- detachVC:background:
+- dictionary
+- dictionaryWithContentsOfFile:
+- dictionaryWithObject:forKey:
+- dictionaryWithObjects:forKeys:count:
+- didMoveToParentViewController:
+- didMoveToWindow
+- dim
+- disableLooping
+- dismissBaseViewControllerAnimated:completion:
+- dismissStuckBaseSoon
+- dismissStuckPending
+- displayLinkWithTarget:selector:
+- displayNameFor:
+- dividerDoubleTapOn:
+- dividerDoubleTapped:
+- dividerFrameAt:
+- dividerPan:state:location:translation:
+- dividerPanned:
+- dividerRunsHorizontally:
+- dividerTapOn:at:
+- dividerTapped:
+- dividers
+- dividersVisible
+- dockClusterInParent:
+- dockHostForRect:inParent:
+- dockTreeLogged
+- doubleValue
+- dragGhost
+- dragTarget
+- drawInRect:
+- effectWithStyle:
+- enabled
+- endHostedSolo
+- endPaneDrag:
+- endResize
+- english
+- ensureContainer
+- ensureFloatPane
+- exchangeObjectAtIndex:withObjectAtIndex:
+- exempt
+- exitKeepBundle
+- exitTapped
+- extent
+- favorite:
+- favoriteApps:
+- fileExistsAtPath:
+- fileModificationDate
+- fileSize
+- fileSystemRepresentation
+- fileURLWithPath:
+- fill
+- filterWithName:
+- firstObject
+- fitFloatFrame
+- flashFocusOnPane:
+- floatClosing
+- floatDockBack
+- floatDragPhase:at:
+- floatFrame
+- floatHandleDoubleTapped:
+- floatLarge
+- floatPane
+- floatPanned:
+- floatReturnFractions
+- floatReturnLayout
+- floatReturnSlot
+- floatSizeLarge:
+- focusedSlot
+- foregroundSceneWithSettings:completion:
+- fractionAt:
+- fractions
+- fractionsMatch:
+- frame
+- frameForSlot:
+- fullscreenAppBundle
+- functionWithName:
+- handle
+- handleDoubleTapped:
+- handlePanned:
+- handleShiftForPane:
+- handleTapped:
+- hasPrefix:
+- hasSuffix:
+- hash
+- hideBarsForTouchOn:
+- hideRatioMenu
+- hideSoloCover
+- hideTrayWindowIfIdle
+- hitTest:withEvent:
+- holeForPane:
+- homeButton
+- homeButtonTapped
+- homeButtonTappedUnsafe
+- homeGlyph
+- homeInk
+- homePressedDuringSplit:
+- host
+- hostApp:inPane:
+- hostBar
+- hostBarInfoForPane:
+- hostClose:terminate:
+- hostCloseAll
+- hostFrame
+- hostFrameForPane:
+- hostFrameInfo:pane:live:handle:
+- hostHandle
+- hostHole
+- hostPassInsetsForPane:
+- hostPost:info:
+- hostSolo:
+- hostedApp:state:
+- hostedPanes
+- iconImageInfo
+- iconLongPressed:
+- iconLongPressedUnsafe:
+- identifier
+- ignoreHomeOnce
+- image
+- imageByClampingToExtent
+- imageByCroppingToRect:
+- imageForState:
+- imageOrientation
+- imageWithActions:
+- imageWithCGImage:
+- imageWithCGImage:scale:orientation:
+- imageWithContentsOfFile:
+- imageWithRenderingMode:
+- index
+- indexOfObject:
+- indexOfObjectIdenticalTo:
+- init
+- initWithActivityIndicatorStyle:
+- initWithEffect:
+- initWithEnvironment:
+- initWithFrame:
+- initWithImage:
+- initWithSize:
+- initWithSize:format:
+- initWithTarget:action:
+- innerCornersForSlot:
+- insertObject:atIndex:
+- insertPaneAt:
+- insertSublayer:above:
+- insertSublayer:atIndex:
+- insertSublayer:below:
+- insertSubview:aboveSubview:
+- insertSubview:atIndex:
+- insertSubview:belowSubview:
+- installIconLongPress
+- installLongPressIn:depth:
+- intValue
+- integerValue
+- invalidate
+- isAdoptableViewController:
+- isCarPlayApp:
+- isDescendantOfView:
+- isEqual:
+- isEqualToArray:
+- isEqualToDictionary:
+- isEqualToSet:
+- isEqualToString:
+- isHidden
+- isHighlighted
+- isIconVisible:
+- isKindOfClass:
+- isLowPowerModeEnabled
+- isMemberOfClass:
+- isProxy
+- isUserInteractionEnabled
+- isViewLoaded
+- keyEnumerator
+- killAppSoon:
+- knob
+- lastBridgeTapAt
+- lastBridgeTapBundle
+- lastIconScan
+- lastLauncherCalc
+- lastLeftApp
+- lastObject
+- lastPathComponent
+- lastRightApp
+- launchFailed:slot:
+- launchInfoForApplication:
+- launchInfoForApplication:withActivationSettings:
+- launchPhoneAppIfNeeded:
+- launcherBare
+- launcherCenterInParent:size:shift:
+- launcherHost
+- launcherWhere
+- layer
+- layoutApp
+- layoutBarForPane:
+- layoutChosenID:
+- layoutID
+- layoutKind
+- layoutKnobOf:
+- layoutPickerDotsForPage:
+- layoutSubviews
+- leftMainStackFrameForSlot:inArea:
+- length
+- loadedKey
+- loader
+- loaderCancelTapped:
+- localeWithLocaleIdentifier:
+- localizedCaseInsensitiveCompare:
+- locationInView:
+- loggedArea
+- looper
+- lowercaseString
+- mainBundle
+- mainQueue
+- mainRight
+- mainRunLoop
+- mainScreen
+- mainStack
+- mainStackDividerPan:state:location:translation:ended:
+- mainStackFrameForSlot:inArea:
+- markDismissSlot:
+- markPickerPanes
+- mask
+- maskedCorners
+- maxLabelSizeForIconImageSize:
+- maximumFramesPerSecond
+- minusSet:
+- moveItemAtPath:toPath:error:
+- movePaneDragTo:from:
+- moveToPoint:
+- mutableCopy
+- name
+- nativeBounds
+- neighbourCornersForSlot:
+- newDividerAt:
+- newPane
+- newlineCharacterSet
+- nextLaunchAt
+- normalizeFractions
+- null
+- numberOfLandscapeColumns
+- numberOfLandscapeRows
+- numberOfPortraitColumns
+- numberOfPortraitRows
+- numberWithBool:
+- numberWithDouble:
+- numberWithInt:
+- numberWithInteger:
+- numberWithLong:
+- numberWithUnsignedInteger:
+- numberWithUnsignedLongLong:
+- object
+- objectAtIndexedSubscript:
+- objectForKey:
+- objectForKeyedSubscript:
+- opacity
+- openApp:slot:
+- openAppsInOrder:
+- openFavorite:
+- openPairLeft:right:
+- openRememberedPair
+- openRememberedPairForConnect
+- openSetupLayout:apps:
+- orderedSet
+- orderedSetWithArray:
+- outputImage
+- outside
+- paneAtSlot:
+- paneBackground:
+- paneChoose:
+- paneClose:
+- paneCount
+- paneForBundle:
+- paneForView:
+- paneOrientation
+- panePopOut:
+- paneSize:forBundle:
+- paneSolo:
+- panelChoiceTapped:
+- panelChoiceTappedUnsafe:
+- panelChoices
+- panelOpen
+- panelSections:
+- panesInReadingOrder
+- parentViewController
+- path
+- pathComponents
+- pause
+- pending
+- pendingSlotForBundle:
+- performSelector:
+- performSelector:withObject:
+- performSelector:withObject:withObject:
+- picker
+- pickerAppTapped:
+- pickerCancel:
+- pickerDots
+- pickerMapForPane:height:
+- pickerMapTapped:
+- pickerPaneTapped:
+- pickerSheet
+- pickerSheetKey
+- pickerSheetOverlay
+- pickerSheetPane
+- pickerSheetQueued
+- pickerShield
+- play
+- player
+- playerItemWithURL:
+- playerLayerWithPlayer:
+- playerLooperWithPlayer:templateItem:
+- pointInside:withEvent:
+- popButton
+- popOutBlockReason:
+- popOutPane:
+- popupOpen
+- popupShield
+- popupsClosedAt
+- postNotificationName:object:userInfo:
+- preferredFormat
+- preferredLanguages
+- presentBaseViewController:animated:launchSource:completion:
+- processInfo
+- processName
+- protectsViewController:
+- proxyApplicationInfo
+- publishBusy
+- publishCarPlayApps
+- publishKnobsNow
+- publishKnobsSoon
+- publishShield
+- purgePending
+- pushHostFramesLive:
+- pushSceneSizes
+- queryItems
+- queuePlayerWithItems:
+- raise
+- raiseLauncher
+- raiseView:
+- rangeOfString:
+- rangeOfString:options:
+- rate
+- ratioForPairLeft:right:
+- ratioHidesBridge
+- ratioKnob
+- ratioMenu
+- ratioOverlay
+- ratioPresetTapped:
+- ratioPresets
+- ratioTimer
+- reason
+- rebuildDividers
+- recentLayouts
+- recoverPending:attempt:
+- refreshAppTab
+- refreshAppTabSoon
+- refreshHomeButton
+- refreshPickerSheet
+- refreshPickerSheetSoon
+- refreshShieldHoles
+- reindexPanes
+- relayoutAnimated:
+- relayoutAnimated:pushScenes:
+- release
+- rememberPair
+- rememberRecent
+- remoteKnobTouch:
+- removeAllObjects
+- removeAnimationForKey:
+- removeAppTab
+- removeCoverFromPane:
+- removeFromParentViewController
+- removeFromSuperlayer
+- removeFromSuperview
+- removeHomeButton
+- removeItemAtPath:error:
+- removeLastObject
+- removeLoaderFromPane:animated:
+- removeObject:
+- removeObjectAtIndex:
+- removeObjectForKey:
+- removePaneAt:background:
+- removePickerFromPane:
+- removePickerSheet
+- repairPresentedViewController:
+- requireGestureRecognizerToFail:
+- resetFractions
+- resizing
+- respondsToSelector:
+- restartTrayTimer
+- retain
+- retainCount
+- reverseObjectEnumerator
+- rootDidLayout
+- runBackgroundForPane:
+- runCloseForPane:
+- runSoloForPane:
+- safeAreaInsetsForAppInfo:proxyAppInfo:
+- saveRatio
+- scale
+- scene:destroyedForViewController:ownScene:
+- sceneFrameForAppInfo:proxyAppInfo:
+- sceneHostView
+- sceneManager:didDestroyScene:
+- sceneOfViewController:
+- sceneSize
+- scheduledTimerWithTimeInterval:repeats:block:
+- scheme
+- screen
+- screens
+- scrollViewDidChangeAdjustedContentInset:
+- scrollViewDidEndDecelerating:
+- scrollViewDidEndDragging:willDecelerate:
+- scrollViewDidEndScrollingAnimation:
+- scrollViewDidEndZooming:withView:atScale:
+- scrollViewDidScroll:
+- scrollViewDidScrollToTop:
+- scrollViewDidZoom:
+- scrollViewShouldScrollToTop:
+- scrollViewWillBeginDecelerating:
+- scrollViewWillBeginDragging:
+- scrollViewWillBeginZooming:withView:
+- scrollViewWillEndDragging:withVelocity:targetContentOffset:
+- self
+- sendHostFrameForPane:live:
+- sendLaunch:bundle:tries:
+- sendSubviewToBack:
+- set
+- setAccessibilityIdentifier:
+- setAccessibilityLabel:
+- setAccessibilityTraits:
+- setActive:
+- setAdditionalSafeAreaInsets:
+- setAllowBackground:
+- setAlpha:
+- setAlwaysBounceHorizontal:
+- setAutoLaunchDone:
+- setAutoresizingMask:
+- setAutoreverses:
+- setBackgroundColor:
+- setBar:
+- setBarTimer:
+- setBarVisible:forPane:
+- setBorderColor:
+- setBorderWidth:
+- setBounds:
+- setBundleID:
+- setCancelledLaunches:
+- setCancelsTouchesInView:
+- setCarPlayApps:
+- setCenter:
+- setClipsToBounds:
+- setColor:
+- setColors:
+- setContainer:
+- setContentMode:
+- setContentSize:
+- setCornerCurve:
+- setCornerRadius:
+- setCover:
+- setDateFormat:
+- setDelegate:
+- setDim:
+- setDisableActions:
+- setDismissStuckPending:
+- setDividers:
+- setDockShift:
+- setDockTreeLogged:
+- setDragGhost:
+- setDragTarget:
+- setDuration:
+- setEffect:
+- setEndPoint:
+- setExempt:
+- setFill
+- setFillColor:
+- setFillRule:
+- setFloatClosing:
+- setFloatFrame:
+- setFloatLarge:
+- setFloatPane:
+- setFloatReturnFractions:
+- setFloatReturnLayout:
+- setFloatReturnSlot:
+- setFocusedSlot:
+- setFont:
+- setFractions:
+- setFrame:
+- setFromValue:
+- setFullscreenBridgeHidden:bundle:
+- setHandle:
+- setHidden:
+- setHighlighted:
+- setHoles:
+- setHomeButton:
+- setHomeGlyph:
+- setHomeInk:
+- setHost:
+- setHostBar:
+- setHostFrame:
+- setHostHandle:
+- setHostHole:
+- setIgnoreHomeOnce:
+- setImage:
+- setImage:forState:
+- setIndex:
+- setKnob:
+- setLabelHidden:
+- setLastBridgeTapAt:
+- setLastBridgeTapBundle:
+- setLastIconScan:
+- setLastLauncherCalc:
+- setLastPairLeft:right:
+- setLauncherBare:
+- setLauncherHost:
+- setLauncherWhere:
+- setLayoutApp:
+- setLayoutKind:
+- setLineCap:
+- setLineCapStyle:
+- setLineDashPattern:
+- setLineJoinStyle:
+- setLineWidth:
+- setLoadedKey:
+- setLoader:
+- setLocale:
+- setLocations:
+- setLoggedArea:
+- setLooper:
+- setMask:
+- setMaskedCorners:
+- setMaximumNumberOfTouches:
+- setMinimumPressDuration:
+- setMuted:
+- setName:
+- setNeedsLayout
+- setNextLaunchAt:
+- setNumberOfLines:
+- setNumberOfTapsRequired:
+- setObject:atIndexedSubscript:
+- setObject:forKeyedSubscript:
+- setOpacity:
+- setOpaque:
+- setOutside:
+- setPagingEnabled:
+- setPaneCount:
+- setPanelChoices:
+- setPath:
+- setPending:
+- setPicker:
+- setPickerDots:
+- setPickerSheet:
+- setPickerSheetKey:
+- setPickerSheetOverlay:
+- setPickerSheetPane:
+- setPickerSheetQueued:
+- setPickerShield:
+- setPlayer:
+- setPopButton:
+- setPopupShield:
+- setPopupsClosedAt:
+- setPreventsDisplaySleepDuringVideoPlayback:
+- setRatio:forPairLeft:right:
+- setRatioHidesBridge:
+- setRatioKnob:
+- setRatioMenu:
+- setRatioOverlay:
+- setRatioTimer:
+- setRepeatCount:
+- setResizing:
+- setScale:
+- setSceneSize:
+- setShadowColor:
+- setShadowOffset:
+- setShadowOpacity:
+- setShadowPath:
+- setShadowRadius:
+- setShieldPosted:
+- setShowsHorizontalScrollIndicator:
+- setShowsVerticalScrollIndicator:
+- setSlot:
+- setSlots:
+- setSoloButton:
+- setSoloCover:
+- setSoloHostedBundle:
+- setSoloHostedFrame:
+- setSoloReturnedVC:
+- setSplitRatio:
+- setStartPoint:
+- setStroke
+- setStrokeColor:
+- setSuppressReopen:
+- setTag:
+- setText:
+- setTextAlignment:
+- setTextColor:
+- setTimeZone:
+- setTimingFunction:
+- setTintColor:
+- setTipCount:
+- setTitle:forState:
+- setTitleColor:forState:
+- setToValue:
+- setTouched:
+- setTransform:
+- setTray:
+- setTrayCover:
+- setTrayHidesBridge:
+- setTrayOverlay:
+- setTrayTimer:
+- setTrayWindow:
+- setType:
+- setUserInteractionEnabled:
+- setValue:forKey:
+- setVc:
+- setVideoGravity:
+- setVideoLayer:
+- setView:
+- setWindowLevel:
+- setWithArray:
+- setZoomedSlot:
+- setupBarForPane:
+- shared
+- sharedApplication
+- sharedService
+- shieldExemptPoint:
+- shieldExemptRects
+- shieldPosted
+- showBackgroundToastFor:slot:
+- showFavorites
+- showLayoutPanelForApp:
+- showLoaderInPane:bundle:
+- showPickerForFocusedPane
+- showPickerForSlot:
+- showPickersForEmptySlots
+- showRatioMenuForDivider:
+- showRecent
+- showSoloCoverForBundle:
+- showTipSoon
+- size
+- sizeThatFits:
+- sizeToFit
+- slot
+- slotIsPinned:
+- slotOccupied:
+- slots
+- soloBundle:
+- soloButton
+- soloCover
+- soloHostedBundle
+- soloHostedFrame
+- soloReturnedVC
+- sortDescriptorWithKey:ascending:selector:
+- sortUsingComparator:
+- sortUsingDescriptors:
+- sortedArrayUsingComparator:
+- sortedArrayUsingSelector:
+- splitDirection
+- splitRatio
+- startAnimating
+- startVideo:
+- state
+- stopVideo
+- string
+- stringByAppendingPathComponent:
+- stringByAppendingString:
+- stringByDeletingPathExtension
+- stringByPaddingToLength:withString:startingAtIndex:
+- stringFromDate:
+- stringWithContentsOfFile:encoding:error:
+- stringWithFormat:
+- stringWithUTF8String:
+- stroke
+- sublayers
+- substringFromIndex:
+- substringToIndex:
+- subviews
+- superclass
+- superview
+- suppressReopen
+- swapSlot:with:
+- switchToLayout:
+- systemFontOfSize:
+- systemFontOfSize:weight:
+- systemVersion
+- tabParent
+- tag
+- thermalState
+- timeIntervalSince1970
+- timeIntervalSinceDate:
+- timeIntervalSinceNow
+- timeZoneForSecondsFromGMT:
+- tipCount
+- titleLabel
+- toast:
+- toast:duration:
+- toggleFloatSize
+- toggleZoomForPane:
+- touched
+- touchesBegan:withEvent:
+- touchesCancelled:withEvent:
+- touchesEnded:withEvent:
+- transform
+- transitionWithView:duration:options:animations:completion:
+- translationInView:
+- tray
+- trayCover
+- trayHidesBridge
+- trayOverlay
+- trayTimer
+- trayWindow
+- trayWindowForParent:
+- type
+- unsignedIntegerValue
+- unsignedLongLongValue
+- updatePlayback
+- updatePopupShield
+- urlLayout:
+- urlRatio:
+- urlSwap
+- urlZoomPane:
+- userInfo
+- userInterfaceStyle
+- validSlot:
+- value
+- valueForKey:
+- valueWithCGRect:
+- vc
+- verifySceneOfPane:expected:retry:
+- vertical
+- videoLayer
+- view
+- viewDidAppear:
+- viewDidDisappear:
+- viewDidLayoutSubviews
+- viewDidLoad
+- viewForZoomingInScrollView:
+- viewIsRaised:
+- viewWithTag:
+- wantsViewController:
+- whiteColor
+- willMoveToParentViewController:
+- window
+- windowLevel
+- windows
+- writeToFile:atomically:
+- zone
+- zoomedSlot
+
+### CFString constants (831)
+- `com.apple.CarPlayApp`
+- `splitScreen`
+- `SplitScreen`
+- `DashBoard +_newApplicationLibrary`
+- `DBApplicationInfo -_loadFromProxy:`
+- `DBDashboardHomeViewController -initWithEnvironment:`
+- `DBDashboardHomeViewController -viewDidLayoutSubviews`
+- `DBApplicationLaunchInfo +launchInfoForApplication:`
+- `DBApplicationLaunchInfo +launchInfoForApplication:withActivationSettings:`
+- `SBIconListGridLayoutConfiguration -iconImageInfo`
+- `%s -isIconVisible:`
+- `SBIconListGridLayoutConfiguration -numberOfLandscapeColumns`
+- `SBIconListGridLayoutConfiguration -numberOfLandscapeRows`
+- `SBIconView -setLabelHidden:`
+- `maxLabelSizeForIconImageSize:`
+- `HomeScreen: ten app du phong qua +[%@ maxLabelSizeForIconImageSize:]`
+- `HomeScreen: khong co +maxLabelSizeForIconImageSize: (%@), ten app chi qua setLabelHidden:`
+- `khong co lop icon`
+- `AppIcons: khong co lop DashBoard, icon app iPhone khong chen duoc`
+- `HomeScreen: khong co SBIconListGridLayoutConfiguration, Co icon khong doi duoc tren iOS nay`
+- `bundleIdentifier`
+- `%@%@%lu>%ld`
+- `L`
+- `P`
+- `c`
+- `r`
+- `HomeScreen: luoi %@ %@ %lu -> %ld`
+- `ngang`
+- `doc`
+- `cot`
+- `hang`
+- `numberOfLandscapeColumns`
+- `numberOfPortraitColumns`
+- `numberOfLandscapeRows`
+- `numberOfPortraitRows`
+- `LOI trong %s: %@
+%@`
+- `loaded into CarPlay`
+- `DBDashboard -sceneFrameForAppInfo:proxyAppInfo:`
+- `DBDashboard -safeAreaInsetsForAppInfo:proxyAppInfo:`
+- `DBDashboard -_handleHomeEvent:`
+- `DBDashboard -invalidate`
+- `DBDashboard -_launchAppWithInfo:forURL:`
+- `DBDashboardRootViewController -presentBaseViewController:animated:launchSource:completion:`
+- `DBDashboardRootViewController -dismissBaseViewControllerAnimated:completion:`
+- `DBApplicationSceneViewController -backgroundSceneWithCompletion:`
+- `DBApplicationSceneViewController -deactivateSceneWithReasonMask:`
+- `DBApplicationSceneViewController -sceneManager:didDestroyScene:`
+- `com.anlai.omnicar/appbridge.state`
+- `identifier`
+- `state`
+- `com.anlai.omnicar/appbridge.handletap`
+- `com.anlai.omnicar/appbridge.handledrag`
+- `com.anlai.omnicar/appbridge.baraction`
+- `action`
+- `com.anlai.omnicar/appbridge.bardismiss`
+- `com.anlai.omnicar/appbridge.knobtouch`
+- `com.anlai.omnicar/splitscreen.native`
+- `CarSplit: yeu cau %@`
+- `close`
+- `closeApp`
+- `open`
+- `slot`
+- `pair`
+- `left`
+- `right`
+- `fav`
+- `index`
+- `picker`
+- `layout`
+- `id`
+- `ratio`
+- `swap`
+- `zoom`
+- `pane`
+- `com.anlai.omnicar/splitscreen.ack`
+- `CarSplit: DashBoard mo %@ toan man -> tat split`
+- `CarSplit: DashBoard trinh bay %@ toan man (nguon %llu)`
+- `currentBaseViewController`
+- `CarSplit: DashBoard ve man chinh -> tat split`
+- `CarSplit: chan background scene cua app trong ngan`
+- `CarSplit: chan deactivate scene (mask=%llu) cua app trong ngan`
+- `CarSplit: bo khai bao trung %@ (tranh assert cua iOS 15)`
+- `:`
+- `com.apple.springboard`
+- `loaded into SpringBoard`
+- `SpringBoard ready, dang ky notification`
+- `com.anlai.omnicar/splitscreen.ready`
+- `man xe san sang -> gui lai yeu cau %@`
+- `com.anlai.omnicar/splitscreen.kill`
+- `com.anlai.omnicar/url`
+- `url`
+- `-> split CarPlay: %@`
+- `sharedService`
+- `terminateApplication:forReason:andReport:withDescription:`
+- `OmniCar Split Screen close`
+- `tat han %@ (FBSSystemService)`
+- `tat han %@ loi %@`
+- `sharedInstance`
+- `applicationWithBundleIdentifier:`
+- `processState`
+- `pid`
+- `tat han %@ (kill pid %d)`
+- `tat han %@: khong thay process`
+- `omnicar`
+- `splitscreen`
+- `URL %@ bo qua: tinh nang dang tat`
+- `yeu cau tu URL: %@ %@`
+- `n`
+- `pin`
+- `app`
+- `splitScreenPinnedApp`
+- `com.anlai.omnicar`
+- `appBridge`
+- `appBridgeApps`
+- `_carPlayDeclaration`
+- `tags`
+- `OmniCarAppBridge`
+- `AppIcons: %@ da co declaration that (app CarPlay) -> khong chen`
+- `AppIcons: khong co lop CRCarPlayAppDeclaration`
+- `setSupportsTemplates:`
+- `setSupportsMaps:`
+- `setBundleIdentifier:`
+- `bundleURL`
+- `setBundlePath:`
+- `_tags`
+- `isValid`
+- `_valid`
+- `AppIcons: chen %@: valid=%d hidden=%d installed=%d fullScreen=%d path=%@`
+- `isHidden`
+- `isInstalled`
+- `presentsFullScreen`
+- `applicationInfoForBundleIdentifier:`
+- `AppIcons: %@ khong cai / khong hop le -> bo qua`
+- `addApplicationProxy:withOverrideURL:`
+- `AppIcons: them %lu / %lu app da chon vao thu vien %@`
+- `AppIcons: chua co thu vien de cap nhat`
+- `removeApplicationProxy:`
+- `AppIcons: danh sach doi -> bo %lu app, ve lai man chinh`
+- `_handleAppLibraryRefresh`
+- `AppIcons: refresh loi %@`
+- `AppIcons: cap nhat thu vien loi %@`
+- `an khoi man chinh (isIconVisible: NO):`
+- `hien lai (iOS da bo trong Tuy chinh, isIconVisible: YES):`
+- `HomeScreen: %@ -> %@ layout`
+- `HomeScreen: %@, khong co iconModel (%@) -> _handleAppLibraryRefresh`
+- `nil`
+- `HomeScreen: %@: xep lai man chinh loi %@`
+- `homeScreenHiddenApps`
+- `homeScreenShownApps`
+- `danh sach app doi (bo %lu, them lai %lu)`
+- `1.0.3`
+- `splitScreenIconsPending`
+- `AppIcons: lan truoc CarPlay sap sau khi chen icon -> tat chen icon o ban %@ (doi danh sach app de thu lai)`
+- `splitScreenIconsCrashed`
+- `AppIcons: dang tat vi tung sap o ban %@`
+- `AppIcons: man xe hien binh thuong sau khi chen icon`
+- `AppIcons: danh sach app doi -> cho phep chen icon lai`
+- `sharedApplicationLibrary`
+- `thu vien app (sharedApplicationLibrary)`
+- `cau hinh thu vien`
+- `_configuration`
+- `allInstalledApplications`
+- `DIAG allInstalledApplications: %lu muc`
+- `carPlayDeclaration`
+- `app info`
+- `declaration`
+- `DashBoard`
+- `DBDashboardHomeViewController`
+- `DBIconModel`
+- `DBIconView`
+- `DBApplicationIcon`
+- `SBApplicationIcon`
+- `FBSApplicationLibraryConfiguration`
+- `lop `
+- `DIAG lop %@: khong co`
+- `icon man chinh`
+- `icon.application`
+- `application`
+- `_currentDashboard`
+- `dashboard`
+- `DIAG thu vien app loi %@`
+- `AppIcons: khong dat duoc %@ cua %@: %@`
+- `applicationProxyForIdentifier:`
+- `appState`
+- `library`
+- `com.apple.mobilephone`
+- `com.apple.Music`
+- `com.apple.Maps`
+- `com.apple.MobileSMS`
+- `com.apple.InCallService`
+- `com.apple.CarPlay`
+- `NowPlaying`
+- `applicationBundleID`
+- `leafIdentifier`
+- `HomeScreen: %@ %@`
+- `iconModel`
+- `_iconModel`
+- `DIAG %@: nil`
+- `(description loi)`
+- `DIAG %@ description: %@`
+- `DIAG %@: khong co lop`
+- `DIAG %@: %@ | ivars: %@`
+- ` < `
+- `DIAG %@: -%@`
+- `DIAG %@: +%@`
+- `DIAG %@ (lop cha %@): ivars %@ | -%@`
+- `%s(%s)`
+- ` `
+- `IconListView`
+- `model`
+- `folder`
+- `lists`
+- `icons`
+- `icon list view`
+- `icon model`
+- `com.apple.CarPlayTemplateUIHost`
+- `displayName`
+- `localizedName`
+- `_launchAppWithInfo:forURL:`
+- `HomeScreen: khong mo duoc %@ (info %@, dashboard %@)`
+- `CarSplit: het han cho %@ (DashBoard khong trinh bay app)`
+- `contentView`
+- `appDockViewController`
+- `view`
+- `statusBarInsets`
+- `CarSplit: content=%@ dock=%@ statusBarInsets={%.0f,%.0f,%.0f,%.0f} -> vung app=%@`
+- `CarSplit: chua co DBDashboardRootViewController (xe chua ket noi?)`
+- `baseContainerView`
+- `CarSplit: container trong %@ frame=%@`
+- `Đã đủ 3 ô, không đưa về được`
+- `Already 3 panes, can't dock back`
+- `CarSplit: dua %@ tu cua so noi ve o %d (bo cuc %d%@)`
+- `, nhu truoc`
+- `CarSplit: loi dua ve o %@
+%@`
+- `CarSplit: bo cuc %d o`
+- `CarSplit: doi bo cuc %d -> %d`
+- `%@ về nền`
+- `%@ moved to the background`
+- `, `
+- `stackedContainerView`
+- `CarSplit: vung app doi %@ -> %@`
+- `applicationInfo`
+- `proxyApplicationInfo`
+- `CarSplit: dang mo %@ toan man -> ve man chinh truoc%@`
+- `, mo lai %@ vao ngan trai`
+- `SplitScreen: mo split`
+- `CarSplit: bat split CarPlay (%d o)`
+- `CarSplit: %@ khong co giao dien CarPlay -> bo qua`
+- `App này không hỗ trợ CarPlay`
+- `This app doesn't support CarPlay`
+- `Ô này đang ghim`
+- `This pane is pinned`
+- `CarSplit: o %d dang ghim -> mo %@ vao o %d`
+- `%·@· ···a·n·g· `
+- `%@ is already open in %@`
+- `cửa sổ nổi`
+- `the floating window`
+- `ô khác`
+- `another pane`
+- `CarSplit: mo %@ vao ngan %d sau %.1fs (launchInfo=%@)`
+- `Không mở được %@ trong ô`
+- `Couldn't open %@ in the pane`
+- `CarSplit: DashBoard con trinh bay %@ -> doi ve Home xong roi moi mo %@`
+- `CarSplit: DashBoard van trinh bay %@ sau 3s -> mo %@ luon`
+- `workspaceOwner`
+- `_entityIdentifierToViewControllerMap`
+- `CarSplit: DashBoard khong trinh bay %@ -> lay VC co san`
+- `CarSplit: %@ chua toi sau %ds, doi them`
+- `%@(%@ fullScreen=%d)`
+- `?`
+- `CarSplit: khong tim thay VC cua %@ sau khi mo; DashBoard dang giu: %@`
+- `CarSplit: %@ vua mo lai -> khong tat`
+- `CarSplit: tat han %@`
+- `CarSplit: mo cap left=%@ right=%@`
+- `CarSplit: %@ da bi huy luc dang mo -> dua ve nen`
+- `%·@· ·t·h·a·y· ·%`
+- `%@ replaced %@ in pane %d`
+- `CarSplit: bo qua dua VC vao o %d (chi co %d o)`
+- `CarSplit: dua %@ (%@) vao o %d`
+- `CarSplit: app toan man %@ bi an (con sot tu split) -> hien lai`
+- `backgroundSceneWithCompletion:`
+- `CarSplit: background loi %@`
+- `CarSplit: scene %@ bi huy khong phai cua %@ (%@) -> giu ngan %d`
+- `CarSplit: scene cua %@ bi huy (app thoat/crash) -> dong ngan %d`
+- `CarSplit: bo phong to o %d`
+- `CarSplit: scene %@ -> %@`
+- `foregroundSceneWithSettings:completion:`
+- `CarSplit: foregroundScene loi %@`
+- `sceneHostView`
+- `CarSplit: sceneHostView %@ -> %@`
+- `CarSplit: khong doc duoc kich thuoc scene %@`
+- `CarSplit: scene %@ that = %@ (can %@)%@`
+- ` -> ve nen roi len lai`
+- ` -> van sai`
+- `CarSplit: doi cho o %d va %d`
+- `CarSplit: dong o %d (%@), con %d o`
+- `activeBaseApplicationBundleID`
+- `CarSplit: chi giu %@ (app iPhone) -> App Bridge toan man`
+- `CarSplit: chi giu %@ -> mo toan man`
+- `presentBaseViewController:animated:launchSource:completion:`
+- `CarSplit: tra %@ cho DashBoard trinh bay toan man`
+- `CarSplit: scene %@ -> toan man %@`
+- `CarSplit: foregroundScene toan man loi %@`
+- `CarSplit: sceneHostView %@ -> %@ (toan man)`
+- `Không mở lại được %@`
+- `Couldn't reopen %@`
+- `CarSplit: mo lai %@ toan man (dashboard=%d, info=%d)`
+- `CarSplit: mo cua so noi %@`
+- `CarSplit: cua so noi %@ %@`
+- `lon`
+- `nho`
+- `CarSplit: loi doi co cua so noi %@`
+- `CarSplit: dong cua so noi (%@), con %d o`
+- `Ô chưa có app`
+- `This pane has no app`
+- `Cần ít nhất 2 ô`
+- `Needs at least 2 panes`
+- `CarSplit: hinh trong hinh doi cho %@ (o %d) <-> %@ (cua so noi)`
+- `CarSplit: dua %@ tu o %d ra cua so noi`
+- `CarSplit: loi hinh trong hinh %@
+%@`
+- `CarSplit: tha cua so noi o %@`
+- `CarSplit: tat split (goHome=%d)`
+- `SplitScreen: dong split`
+- `CarSplit: %lu app CarPlay cho Settings, %lu app iPhone da chon (App Bridge)`
+- `CarSplit: DashBoard invalidate -> bo split`
+- `hm_apps`
+- `Đổi app`
+- `Change app`
+- `hm_full`
+- `Toàn màn`
+- `Full screen`
+- `hm_float`
+- `Cửa sổ nổi`
+- `Float`
+- `hm_min`
+- `Chạy nền`
+- `Background`
+- `hm_close`
+- `Tắt app`
+- `Quit app`
+- `hm_split`
+- `C·h·i·a·`
+- `Split`
+- `C·a·r·S·p·l·i·t·:· ·l·o·i· ·c·h·a·m`
+- `CarSplit: %@ o %d (%@)`
+- `phong to`
+- `thu nho`
+- `C·a·r·S·p·l·i·t·:· ·l·o·i· ·c·h`
+- `CarSplit: cham cho khac -> dong bang (%@%@%@%@)`
+- `bo cuc `
+- `ti le `
+- `chon app `
+- `thanh nut`
+- `CarSplit: loi keo doi cho %@`
+- `CarSplit: keo o %d (%@) de doi cho`
+- `phase`
+- `x`
+- `y`
+- `CarSplit: tha cua so noi (app iPhone) o %@`
+- `CarSplit: loi nut chay 1 man hinh %@`
+- `CarSplit: [chay 1 man hinh] o %d -> chi giu %@`
+- `CarSplit: loi nut chay nen %@`
+- `CarSplit: [chay nen] o %d (%@)`
+- `%·@· ···a·n·g· ·`
+- `%@ is running in the background`
+- `Mở lại`
+- `Reopen`
+- `CarSplit: [mo lai] %@ vao o %d`
+- `CarSplit: loi nut doi app %@`
+- `CarSplit: loi nut dong %@`
+- `CarSplit: [tat han app] %@`
+- `transform.rotation.z`
+- `spin`
+- `Huỷ mở app`
+- `Cancel opening`
+- `CarSplit: the dang mo %@ con sot -> bo`
+- `transform.scale`
+- `pulse`
+- `CarSplit: huy mo %@ o o %d`
+- `CarSplit: loi huy mo app %@`
+- `CarSplit: loi keo vach %@`
+- `CarSplit: keo vach %d sat mep -> dong o %d (%@)`
+- `CarSplit: keo vach sat mep (1 lon + 2) -> dong o %d (%@)`
+- `%.2f`
+- `CarSplit: ti le cac o = %@`
+- ` / `
+- `CarSplit: cham 2 lan vach %d -> doi cho o %d va %d`
+- `CarSplit: loi doi cho %@`
+- `CarSplit: loi cham tay nam %@
+%@`
+- `CarSplit: cham tron SpringBoard vach %d bo qua (vach %@, active %d)`
+- `co`
+- `khong`
+- `CarSplit: cham tron SpringBoard vach %d tai %@`
+- `CarSplit: loi cham tron tu SpringBoard %@`
+- `CarSplit: cham tay nam vach %d -> thanh ti le (%lu muc)`
+- `CarSplit: loi chon ti le %@
+%@`
+- `+`
+- `CarSplit: loi bang chon app %@
+%@`
+- `%p/%d/%lu/%d/%@`
+- `Chọn app cho cửa sổ nổi`
+- `Choose an app for the floating window`
+- `Chọn app cho ô %d`
+- `Choose an app for pane %d`
+- `Chạm 1 app để mở vào ô này`
+- `Tap an app to open it here`
+- `name`
+- `check`
+- `Không có app`
+- `No apps`
+- `CarSplit: popup chon %ld app cho o %d (%s, %d o cho)`
+- `CarSplit: chon %@ cho o %d`
+- `CarSplit: loi chon app %@
+%@`
+- `CarSplit: loi huy bang chon %@
+%@`
+- `2· `
+- `2 panes`
+- `3· `
+- `3 panes`
+- `1 lớn + 2`
+- `1 large + 2`
+- `2· ·+· ·1`
+- `2 + 1 large`
+- `layouts`
+- `apps`
+- ` + `
+- `recent`
+- `favorite`
+- `displayConfiguration`
+- `_display`
+- `initWithCADisplay:isMainDisplay:`
+- `initWithDisplayConfiguration:`
+- `CarSplit: khong tao duoc cua so bang bo cuc (config %@, window %@) -> bang nam trong view goc, an o app iPhone`
+- `CarSplit: cua so bang bo cuc %@ muc %.0f`
+- `Bố cục`
+- `Layouts`
+- `Gần đây`
+- `Recent`
+- `Yêu thích`
+- `Favorites`
+- `Đổi bố cục`
+- `Change layout`
+- `Chia màn xong sẽ hiện ở đây`
+- `Your splits will show up here`
+- `exit`
+- `Thoát chia màn`
+- `Exit split`
+- `Đóng`
+- `Close`
+- `,`
+- `CarSplit: bang bo cuc cho %@ (%@, %lu lua chon: %@)`
+- `doi bo cuc`
+- `cap lan truoc`
+- ` | `
+- `CarSplit: loi chon bo cuc %@
+%@`
+- `CarSplit: mo lai %@ (bo cuc %d, app %@, thay cho %@)`
+- `-`
+- `third`
+- `CarSplit: bo cuc yeu thich %ld: %@`
+- `CarSplit: nut thoat (chua chia) -> dong bang`
+- `CarSplit: nut thoat -> thoat chia man%@`
+- `, %@ ve toan man`
+- `CarSplit: loi nut thoat %@
+%@`
+- `Mẹo: chạm 2 lần vào vạch chia để đổi chỗ 2 ô`
+- `Tip: double-tap a divider to swap the two panes`
+- `Mẹo: giữ và kéo ••• thả lên ô khác để đổi chỗ`
+- `T·i·p·:· ·d·r·a·g· ·" " "  ·o·n·t·o· ·a·n·o·`
+- `Mẹo: kéo vạch chia sát mép để đóng ô đó`
+- `Tip: drag a divider to the edge to close that pane`
+- `AppBridge: %@ app toan man %@ (bang bo cuc)`
+- `an`
+- `hien lai`
+- `com.anlai.omnicar/appbridge.frame`
+- `w`
+- `h`
+- `live`
+- `handle`
+- `CarSplit: chon bo cuc %d cho %@`
+- `man chinh (moi o trong)`
+- `bar`
+- `pop`
+- `popDim`
+- `single`
+- `pt`
+- `pl`
+- `pb`
+- `pr`
+- `corners`
+- `hx`
+- `front`
+- `ox`
+- `oy`
+- `ow`
+- `oh`
+- `ax`
+- `ay`
+- `aw`
+- `ah`
+- `com.anlai.omnicar/appbridge.shield`
+- `on`
+- `AppBridge: host %@ vao o %d`
+- `com.anlai.omnicar/appbridge.open`
+- `com.anlai.omnicar/appbridge.close`
+- `terminate`
+- `com.anlai.omnicar/appbridge.knobs`
+- `knobs`
+- `com.anlai.omnicar/appbridge.closeall`
+- `except`
+- `ready`
+- `AppBridge: app toan man %@ %@`
+- `AppBridge: %@ %@ -> dong o %d`
+- `failed`
+- `Không mở được %@ trên xe`
+- `Couldn't show %@ on the car`
+- `AppBridge: thanh nut %@ cua %@`
+- `replace`
+- `full`
+- `bg`
+- `AppBridge: %@ toan man %@`
+- `AppBridge: dong app toan man %@`
+- `CarSplit: DashBoard con giu %@ sau Home -> dong de hien man chinh`
+- `dismissBaseViewControllerAnimated:completion:`
+- `AppBridge: cham icon %@ tren man chinh`
+- `goc tren phai vung app (khong co dock doc)`
+- `tren nut Home, %.0fpt%@`
+- ` (day cum icon len)`
+- `goc tren phai vung app (dock khong con cho)`
+- `CarSplit: nut Split Screen dat %@ | dai dock=%@ cum icon=%@ nut Home=%@ day len %.1f`
+- `goc`
+- `CarSplit: nut Split Screen tren dock %.0fpt, hinh %@ (luoi nut Home %@)`
+- `CarSplit: nut Split Screen gan vao %@ %@`
+- `(tabParent)`
+- `DIAG cay dai dock:
+%@`
+- `CarSplit: loi nut Split Screen %@
+%@`
+- `CarSplit: bam nut Split Screen tren dock (%@)`
+- `dang chia -> doi bo cuc`
+- `man chinh`
+- `CarSplit: chua co cach chia gan day / yeu thich -> khong tu mo`
+- `CarSplit: tu mo khi cam xe: bo cuc %d, app %@ (dang mo %@)`
+- `CarSplit: mo lai cach chia gan nhat %@`
+- `CarSplit: chua co cach chia gan day -> Bo cuc yeu thich 1`
+- `CarSplit: gan giu icon vao %@`
+- `CarSplit: loi giu icon %@
+%@`
+- `icon`
+- `CarSplit: giu icon %@ -> khong chia man duoc`
+- `App này không chia màn hình được`
+- `This app can't be split`
+- `CarSplit: giu icon %@ -> bang bo cuc`
+- `CarSplit: cam xe -> se tu mo split`
+- `CarSplit: tu mo split khi cam xe`
+- `CarSplit: man chinh CarPlay co %lu app: %@`
+- `DIAG icon %@: %@ scale %.0f (%.0fx%.0f px)`
+- `com.apple.CarPlaySettings`
+- `rootViewController`
+- `CarSplit: LOI trong tac vu chay sau: %@
+%@`
+- `CarSplit: man xe %@`
+- `ban (an lop phu)`
+- `ranh`
+- `eventWithType:context:`
+- `handleEvent:`
+- `_UIScene`
+- `_UITouchPassthrough`
+- `scene`
+- `_scene`
+- `sceneHandle`
+- `settings`
+- `frame`
+- `omcAccent`
+- `%@/%.0f/%d`
+- `fullscreen`
+- `float`
+- `dock`
+- `hm_`
+- `omcDot`
+- `omcRing`
+- `SCPCPass_%@`
+- `defaultWorkspace`
+- `Home`
+- `_UIStatusBar`
+- `_UIBattery`
+- `%@%@ %@%@%@
+`
+- ` hidden`
+- ` noTouch`
+- `0x0`
+- `size`
+- `cols`
+- `rows`
+- `names`
+- `HomeScreen: hinh nen dong %@`
+- `chay`
+- `dung (an / chia man / may nong / che do nhe)`
+- `dim`
+- `path`
+- `video`
+- `%@|%@|%@|%d`
+- `blur`
+- `HomeScreen: khong doc duoc hinh nen %@`
+- `HomeScreen: hinh nen rieng %@ duoi luoi icon CarPlay`
+- `(video)`
+- `(anh)`
+- `HomeScreen: bo hinh nen rieng -> hinh nen CarPlay`
+- `%ldx%ld`
+- `luoi `
+- `CIGaussianBlur`
+- `style`
+- `/var/mobile/Library/OmniCar`
+- `HomeScreen/video.mp4`
+- `HomeScreen/wallpaper.jpg`
+- `HomeScreen: DIAG cay man chinh CarPlay:
+%@`
+- `%@%@ %@%@
+`
+- `layoutIconsNow`
+- `HomeScreen: co icon %ld%% -> xep lai %lu luoi icon (%@)`
+- `khong thay *IconListView`
+- `HomeScreen: ten app %@ (%lu icon)`
+- `hien`
+- `IconView`
+- `setLabelHidden:`
+- `isLabelHidden`
+- `HomeScreen: ghi danh sach app loi %@`
+- `homeScreenCarApps`
+- `off`
+- `HomeScreen: %lu app tren man chinh cho Cai dat: %@`
+- `homeScreenWallpaper`
+- `homeScreenWallpaperStyle`
+- `homeScreenIconSize`
+- `homeScreenGridCols`
+- `homeScreenGridRows`
+- `homeScreenShowNames`
+- `homeScreenBlur`
+- `homeScreenDim`
+- `splitScreenTipCount`
+- `language`
+- `vi`
+- `en`
+- `splitScreenLastLeft`
+- `splitScreenLastRight`
+- `splitScreenAutoLaunch`
+- `splitScreenShowRecent`
+- `splitScreenShowFavorites`
+- `splitScreenPaneOrientation`
+- `splitScreenSplitRatio`
+- `splitScreenSplitDirection`
+- `splitScreenCarPlayApps`
+- `splitScreenFav%ld%@`
+- `Left`
+- `Right`
+- `Third`
+- `Layout`
+- `Name`
+- `%@ %ld`
+- `splitScreenRecentLayouts`
+- `splitScreenPairRatios`
+- `splitScreenMigrated`
+- `com.anlai97.carduo`
+- `Enabled`
+- `splitScreenEnabled`
+- `AutoLaunch`
+- `ShowRecent`
+- `ShowFavorites`
+- `TipCount`
+- `SplitRatio`
+- `SplitDirection`
+- `PaneOrientation`
+- `LastLeft`
+- `LastRight`
+- `CarPlayApps`
+- `RecentLayouts`
+- `PairRatios`
+- `Fav`
+- `prefs: chep %lu khoa tu CarDuo`
+- `%@|%@`
+- `%@ %@`
+- `THIEU METHOD: %@ khong co %@ -> bo qua`
+- `enabled`
+- `liteMode`
+- `diagCar`
+- `session`
+- `configuration`
+- `wireless`
+- `1`
+- `0`
+- `wired`
+- `transport`
+- `wifi`
+- `wi-fi`
+- `usb`
+- `/var/mobile/Documents/OmniCar.log`
+- `[OmniCar/%@] %@`
+- `yyyy-MM-dd HH:mm:ss.SSS`
+- `%@ [%@:%d] %@: %@
+`
+- `com.anlai.omnicar/log`
+- `line`
+- `%@=%@`
+- `%@%@@%@`
+- `diagHooks.`
+- `total`
+- `missing`
+- `ios`
+- `iOS %@: lop CarPlay %@`
+- `iOS %@: %lu/%lu hook KHONG co tren iOS nay (tinh nang lien quan se khong chay): %@`
+- `iOS %@: du %lu hook`
+- `THIEU METHOD (iOS %@): %@ -> bo qua`
+- `DB`
+- `CAR`
+- `_CAR`
+- `launchInfoForApplication:`
+- `launchInfoForApplication:withActivationSettings:`
+- `Core`
+- `THIEU METHOD: %@ khong tao duoc launchInfo`
+- `features`
+- `rescueFeatures`
+- `%@ dang tat boi che do cuu (tu %@): khong cai hook trong CarPlay`
+- `rescueDate`
+- `%@ bat lai sau che do cuu`
+- `SpringBoard`
+- `CarPlay`
+- `build %s (%s) loaded into %@`
+- `%@%s@%@`
+- `diagLoaded.`
+- `version`
+- `build`
+- `fbebb21`
+- `date`
+- `.old`
+- `NSDistributedNotificationCenter`
+- `OmniCar-CarPlay-crash.txt`
+- `early`
+- `suspects`
+- `CARPLAY SAP LAN TRUOC:
+%@`
+- `
+`
+- `omc-crash `
+- `age=`
+- `suspect=`
+- `last=`
+- `age`
+- `suspect`
+- `diagLastCrash`
+- `CarPlay sap som %ld/%d lan lien (nghi: %@)`
+- `connected`
+- `disconnected`
+- `CHE DO CUU: CarPlay sap %d lan lien trong %ds dau -> tat %@`
+- `uncaught %@: %@
+%@
+`
+- `points`
+- `pixels`
+- `scale`
+- `maxFPS`
+- `CARSessionStatus`
+- `currentSession`
+- `CarKit loi: %@`
+- `man xe %@ pt, %@ px, %@ fps, session=%d`
+- `do hieu nang: bat dau, %lu tweak khac trong CarPlay: %@`
+- `OmniCar`
+- `CarPlay do %.1fs (OmniCar gan nhat: %@)`
+- `heat`
+- `hangs`
+- `frames`
+- `che do nhe tu dong: %@%@`
+- `BAT`
+- `tat`
+- ` vi `
+- `start`
+- `updated`
+- `seconds`
+- `fps`
+- `late`
+- `worstMs`
+- `freezes`
+- `hangMaxMs`
+- `hangWho`
+- `cpuAvg`
+- `cpuMax`
+- `memMB`
+- `memMaxMB`
+- `availMinMB`
+- `sysFreeMinMB`
+- `thermalMax`
+- `lowPower`
+- `tweaks`
+- `liteCount`
+- `liteReason`
+- `diagPerf`
+- `%.0fx%.0f`
+- `_`
+- `description`
+- `debugDescription`
+- `hash`
+- `superclass`
+- `...`
+- `carProfilesEnabled`
+- `modelName`
+- `vehicleName`
+- `accessoryName`
+- `vehicleIdentifier`
+- `uniqueIdentifier`
+- `accessoryID`
+- `deviceID`
+- `serialNumber`
+- `carProfiles`
+- `carProfileCurrent`
+- `values`
+- `ho so xe moi: %@ (%@)`
+- `nap ho so xe %@ (%@)`
+- `Xe`
+- `Car`
+- `lastSeen`
+- `(null)`
+- `do hieu nang: %.0fs, tre %.0f/%.0f khung, do %.0f lan (max %.0f ms), CPU tb %.0f%%, RAM %.0f MB`
+- `OmniCar-crashguard.plist`
+- `trustedTime`
+- `speedBubbleSizeCar`
+- `speedBubbleLook`
+- `startupScreenVideoName`
+- `startupScreenStyle`
+- `startupScreenCarName`
+- `startupScreenTempo`
+- `appBridgeZoom`
+- `es`
+- `pt-BR`
+- `de`
+- `fr`
+- `it`
+- `ru`
+- `zh-Hans`
+- `ja`
+- `ko`
+- `ar`
+- `th`
+- `zh`
+- `2027-04-30`
+- `en_US_POSIX`
+- `yyyy-MM-dd`
+- `%@/%@.lproj/Car.strings`
+- `/Library/PreferenceBundles/OmniCarPrefs.bundle`
+
+
+#### Bảng hook của OmniCarSplitScreen (bằng chứng: call-site `MSHookMessageEx` trong disassembly; † = đã đọc tay chốt class)
+
+SplitScreen có 4 hàm init (0x44a8, 0x58b4, 0x843c, 0x52048). Nhóm hook nằm ở `sub_44a8` và `sub_58b4` — cả hai đều chạy phía **CarPlayApp** (các class `DB*` là class nội bộ của tiến trình CarPlay/DashBoard), mở đầu bằng kiểm tra CrashGuard (`_OMCCrashGuard`) và guard bundle id (`[NSBundle mainBundle] bundleIdentifier`). Class đích lấy qua hàm nội bộ `_OMCCarClass(const char*)` (bọc `objc_getClass` có kiểm tra), một số hook lấy **metaclass** qua `_object_getClass`.
+
+**Hàm `sub_44a8`:**
+
+| # | Class đích | Selector | IMP |
+|---|---|---|---|
+| 1 | DashBoard (**metaclass** †) | `_newApplicationLibrary` | sub_4af0 |
+| 2 | DBApplicationInfo | `_loadFromProxy:` | sub_4bcc |
+| 3 | DBDashboardHomeViewController | `initWithEnvironment:` | sub_4c70 |
+| 4 | DBDashboardHomeViewController | `viewDidLayoutSubviews` | sub_4cb4 |
+| 5 | DBDashboardHomeViewController | `viewDidAppear:` | sub_4d24 |
+| 6 | DBDashboardHomeViewController | `viewDidDisappear:` | sub_4d90 |
+| 7 | DBApplicationLaunchInfo (**metaclass** †) | `launchInfoForApplication:` | sub_4dfc |
+| 8 | DBApplicationLaunchInfo (**metaclass** †) | `launchInfoForApplication:withActivationSettings:` | sub_4f30 |
+| 9 | SBIconListGridLayoutConfiguration | `iconImageInfo` | sub_5104 |
+| 10 | SBIconListGridLayoutConfiguration | `numberOfPortraitColumns` | sub_51a0 |
+| 11 | SBIconListGridLayoutConfiguration | `numberOfPortraitRows` | sub_51d8 |
+| 12 | SBIconListGridLayoutConfiguration | `numberOfLandscapeColumns` | sub_5210 |
+| 13 | SBIconListGridLayoutConfiguration | `numberOfLandscapeRows` | sub_5248 |
+| 14 | SBIconView | `setLabelHidden:` | sub_5280 |
+| 15 | SBIconView † | `isIconVisible:` | sub_5338 |
+| 16 | DBIconView (**metaclass**, có guard `objc_opt_respondsToSelector` †) | `maxLabelSizeForIconImageSize:` | sub_5438 |
+
+† #15: x0 không bị ghi đè giữa hai call-site liên tiếp 0x4728→0x4748 (đọc tay) nên class giữ nguyên SBIconView — mức bằng chứng trung bình.
+† #1/#7/#8/#16: x0 đi qua `_object_getClass` ngay trước lời gọi hook — hook vào metaclass (tức class method).
+
+**Hàm `sub_58b4`:**
+
+| # | Class đích | Selector | IMP |
+|---|---|---|---|
+| 17 | DBDashboard | `sceneFrameForAppInfo:proxyAppInfo:` | sub_5cf0 |
+| 18 | DBDashboard | `safeAreaInsetsForAppInfo:proxyAppInfo:` | sub_5e84 |
+| 19 | DBDashboard | `_handleHomeEvent:` | sub_601c |
+| 20 | DBDashboard | `invalidate` | sub_611c |
+| 21 | DBDashboard | `_launchAppWithInfo:forURL:` | sub_61d0 |
+| 22 | DBDashboardRootViewController | `presentBaseViewController:animated:launchSource:completion:` | sub_636c |
+| 23 | DBDashboardRootViewController | `dismissBaseViewControllerAnimated:completion:` | sub_66dc |
+| 24 | DBDashboardRootViewController | `viewDidLayoutSubviews` | sub_68e8 |
+| 25 | DBDashboardRootViewController | `viewDidAppear:` | sub_6988 |
+| 26 | DBApplicationSceneViewController | `backgroundSceneWithCompletion:` | sub_69fc |
+| 27 | DBApplicationSceneViewController | `deactivateSceneWithReasonMask:` | sub_6b44 |
+| 28 | DBApplicationSceneViewController | `sceneManager:didDestroyScene:` | sub_6c78 |
+| 29 | FBSDisplayLayoutPublisher | `addElement:` | sub_6e10 |
+
+**Hàm `sub_843c`:** #30 — SpringBoard `applicationDidFinishLaunching:` → sub_8540 (nhóm phía SpringBoard).
+
+**Thêm method động:** `class_addMethod(?, "hitTest:withEvent:", sub_481c8, ?)` tại sub_3782c (class cửa sổ tạo động); `class_addMethod(?, "tick:", ?, "v@:@")` tại sub_54448.
+
+**IPC đã xác minh:** `notify_register_dispatch("com.anlai.omnicar/prefschanged")` (sub_44a8, sub_48c8c); `notify_register_check`/`notify_post` cho `car.busy`, `lite`; `notify_post` cho `car.connected`, `prefschanged`, `rescue` (trong `_OMCCrashGuard` sub_50e24 — khi phát hiện crash guard, nó phát cả `rescue` lẫn `prefschanged`).
+
+**Hình học chia màn (sceneBox/zoom):** các class tự định nghĩa `SCPCarSplit`, `SCPCarSplitView`, `SCPCarPane`, `SCPHostedAppVC`, `SCPCarDividerView`, `SCPCarTabView`, `SCPHomeWallView`, `SCPPrefs` (bảng class bên dưới) cùng các hook #17 (`sceneFrameForAppInfo:proxyAppInfo:` — khung scene tính theo ô) và pref key `appBridgeZoom` là nơi hình học được quyết định: **một chủ ghi duy nhất phía CarPlayApp/SpringBoard** — khung scene = đúng kích thước ô (× hệ số zoom tuỳ chọn). Đây là kết luận từ bộ hook + class, không phải từ một symbol tên "sceneBox" (không tồn tại chuỗi đó).
+
+
+---
+
+### 4.7. OmniCarStartupScreen.dylib
+
+- Đường dẫn cài đặt: `/var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarStartupScreen.dylib`
+- Kích thước file: 567,792 bytes · SHA256 (bản fat): `2cd8b29434f7f81e07a222298952696a0fced9139e543c6877aaa7f8b0d72037`
+- Slices: arm64 @off 16384, size 272864 · arm64e @off 294912, size 272880 (cả hai slice cùng danh sách thư viện + entitlements; bảng dưới đây trích slice arm64)
+- Filter/điểm nạp: Filter Bundles: `com.apple.CarPlayApp`, `com.apple.springboard`
+- Số hàm theo LC_FUNCTION_STARTS (arm64): 352
+- Symbol C/ObjC **định nghĩa** (export, 41):
+
+```
+_OBJC_CLASS_$_SSCanvasView
+_OBJC_CLASS_$_SSFade
+_OBJC_CLASS_$_SSGauge
+_OBJC_CLASS_$_SSLinkTarget
+_OBJC_CLASS_$_SSLocationOnce
+_OBJC_CLASS_$_SSSplash
+_OBJC_CLASS_$_SSSplashWindow
+_OBJC_CLASS_$_SSStartupView
+_OBJC_METACLASS_$_SSCanvasView
+_OBJC_METACLASS_$_SSFade
+_OBJC_METACLASS_$_SSGauge
+_OBJC_METACLASS_$_SSLinkTarget
+_OBJC_METACLASS_$_SSLocationOnce
+_OBJC_METACLASS_$_SSSplash
+_OBJC_METACLASS_$_SSSplashWindow
+_OBJC_METACLASS_$_SSStartupView
+_OMCCarClass
+_OMCCarLaunchInfo
+_OMCCarWireless
+_OMCCheckHooks
+_OMCCrashGuard
+_OMCCurrentLanguage
+_OMCEnabled
+_OMCExpired
+_OMCFeatureEnabled
+_OMCHasMethod
+_OMCLiteActive
+_OMCLogRelayStart
+_OMCLogWrite
+_OMCLogoMeshImage
+_OMCMissingSelector
+_OMCPref
+_OMCPrefsSync
+_OMCProfileKeys
+_OMCSupportedLanguages
+_OMCTr
+_SSApplySampleData
+_SSPeriodForDate
+_SSWeatherLoadCache
+_SSWeatherParse
+_SSWeatherSaveCache
+```
+- Symbol **import** (undefined, 0): danh sách đầy đủ chính là bảng import của chained-fixups — các symbol tiêu biểu được nhắc trong phần hook/IPC; toàn bộ 0 tên nằm trong file nm đi kèm hồ sơ thô.
+
+- Install name (LC_ID_DYLIB): ('@rpath/OmniCarStartupScreen.dylib', '0.0.0', '0.0.0')
+- LC_BUILD_VERSION: platform=2 minos=15.0.0 sdk=16.4.0
+- LC_SOURCE_VERSION: 0.0.0.0.0
+- UUID (arm64 slice): 3c07343522df3ee2acfad109a37ef1b7
+- Encryption info (cryptid): 0
+- RPATH: /var/jb/Library/Frameworks, /var/jb/usr/lib, @loader_path/.jbroot/Library/Frameworks, @loader_path/.jbroot/usr/lib
+- Linked libraries (arm64 slice):
+  - [LOAD] /usr/lib/libobjc.A.dylib (current 228.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/Foundation.framework/Foundation (current 1971.0.0, compat 300.0.0)
+  - [LOAD] /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (current 1971.0.0, compat 150.0.0)
+  - [LOAD] /System/Library/Frameworks/UIKit.framework/UIKit (current 6441.1.101, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/AVFoundation.framework/AVFoundation (current 2.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/ImageIO.framework/ImageIO (current 1.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/QuartzCore.framework/QuartzCore (current 1.11.0, compat 1.2.0)
+  - [LOAD] /System/Library/Frameworks/CoreLocation.framework/CoreLocation (current 2785.1.32, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/CallKit.framework/CallKit (current 1.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/EventKit.framework/EventKit (current 1833.4.5, compat 1.0.0)
+  - [LOAD] /usr/lib/libSystem.B.dylib (current 1319.100.3, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/AVFAudio.framework/AVFAudio (current 1.0.0, compat 1.0.0)
+  - [LOAD] /System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (current 1690.5.4, compat 64.0.0)
+  - [LOAD] @rpath/CydiaSubstrate.framework/CydiaSubstrate (current 0.0.0, compat 0.0.0)
+- Entitlements: KHÔNG có blob entitlements trong code signature.
+- Số import (chained fixups): 287
+
+### Classes định nghĩa trong binary (8)
+
+#### @interface SSLocationOnce : (import) _OBJC_CLASS_$_NSObject
+- Protocols: CLLocationManagerDelegate
+- instanceSize: 24, flags: 0x184
+- Ivars:
+  - _manager : @"CLLocationManager" (offset 8, align 3, size 8)
+  - _done : @? (offset 16, align 3, size 8)
+- Properties:
+  - manager  [T@"CLLocationManager",&,N,V_manager]
+  - done  [T@?,C,N,V_done]
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+- Instance methods (8):
+  - locationManager:didUpdateLocations:  [types: v32@0:8@16@24] @ 0x44a8
+  - locationManager:didFailWithError:  [types: v32@0:8@16@24] @ 0x44e8
+  - finish:  [types: v24@0:8@16] @ 0x45ac
+  - manager  [types: @16@0:8] @ 0x463c
+  - setManager:  [types: v24@0:8@16] @ 0x4644
+  - done  [types: @?16@0:8] @ 0x4674
+  - setDone:  [types: v24@0:8@?16] @ 0x467c
+  - .cxx_destruct  [types: v16@0:8] @ 0x4684
+
+#### @interface SSSplashWindow : (import) _OBJC_CLASS_$_UIWindow
+- instanceSize: 8, flags: 0x80
+
+#### @interface SSSplash : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 152, flags: 0x184
+- Ivars:
+  - _loop : B (offset 8, align 0, size 1)
+  - _decoding : B (offset 9, align 0, size 1)
+  - _finished : B (offset 10, align 0, size 1)
+  - _window : @"UIWindow" (offset 16, align 3, size 8)
+  - _style : q (offset 24, align 3, size 8)
+  - _imageView : @"UIImageView" (offset 32, align 3, size 8)
+  - _startView : @"SSStartupView" (offset 40, align 3, size 8)
+  - _screen : @"UIScreen" (offset 48, align 3, size 8)
+  - _framesDir : @"NSString" (offset 56, align 3, size 8)
+  - _frameCount : Q (offset 64, align 3, size 8)
+  - _fps : d (offset 72, align 3, size 8)
+  - _buffer : @"NSMutableArray" (offset 80, align 3, size 8)
+  - _decodeQueue : @"NSObject<OS_dispatch_queue>" (offset 88, align 3, size 8)
+  - _queuedFrames : Q (offset 96, align 3, size 8)
+  - _shownFrames : Q (offset 104, align 3, size 8)
+  - _failedFrames : Q (offset 112, align 3, size 8)
+  - _startTime : d (offset 120, align 3, size 8)
+  - _displayLink : @"CADisplayLink" (offset 128, align 3, size 8)
+  - _endReason : @"NSString" (offset 136, align 3, size 8)
+  - _shownAt : d (offset 144, align 3, size 8)
+- Properties:
+  - window  [T@"UIWindow",&,N,V_window]
+  - style  [Tq,N,V_style]
+  - imageView  [T@"UIImageView",&,N,V_imageView]
+  - startView  [T@"SSStartupView",&,N,V_startView]
+  - screen  [T@"UIScreen",W,N,V_screen]
+  - framesDir  [T@"NSString",C,N,V_framesDir]
+  - frameCount  [TQ,N,V_frameCount]
+  - fps  [Td,N,V_fps]
+  - loop  [TB,N,V_loop]
+  - buffer  [T@"NSMutableArray",&,N,V_buffer]
+  - decodeQueue  [T@"NSObject<OS_dispatch_queue>",&,N,V_decodeQueue]
+  - decoding  [TB,N,V_decoding]
+  - queuedFrames  [TQ,N,V_queuedFrames]
+  - shownFrames  [TQ,N,V_shownFrames]
+  - failedFrames  [TQ,N,V_failedFrames]
+  - startTime  [Td,N,V_startTime]
+  - displayLink  [T@"CADisplayLink",&,N,V_displayLink]
+  - finished  [TB,N,V_finished]
+  - endReason  [T@"NSString",C,N,V_endReason]
+  - shownAt  [Td,N,V_shownAt]
+- Instance methods (51):
+  - initWithScreen:scene:style:occasion:framesDir:frameCount:fps:  [types: @72@0:8@16@24q32q40@48Q56d64] @ 0x46b4
+  - start  [types: v16@0:8] @ 0x5c24
+  - decodeMore  [types: v16@0:8] @ 0x6030
+  - refreshWeather  [types: v16@0:8] @ 0x6434
+  - tick  [types: v16@0:8] @ 0x68fc
+  - startCountdown  [types: v16@0:8] @ 0x6c18
+  - tapped:  [types: v24@0:8@16] @ 0x6e18
+  - dismiss  [types: v16@0:8] @ 0x6e58
+  - dismissBecause:  [types: v24@0:8@16] @ 0x6e64
+  - tearDown  [types: v16@0:8] @ 0x7034
+  - window  [types: @16@0:8] @ 0x71e4
+  - setWindow:  [types: v24@0:8@16] @ 0x71ec
+  - style  [types: q16@0:8] @ 0x721c
+  - setStyle:  [types: v24@0:8q16] @ 0x7224
+  - imageView  [types: @16@0:8] @ 0x722c
+  - setImageView:  [types: v24@0:8@16] @ 0x7234
+  - startView  [types: @16@0:8] @ 0x7264
+  - setStartView:  [types: v24@0:8@16] @ 0x726c
+  - screen  [types: @16@0:8] @ 0x729c
+  - setScreen:  [types: v24@0:8@16] @ 0x72b4
+  - framesDir  [types: @16@0:8] @ 0x72c0
+  - setFramesDir:  [types: v24@0:8@16] @ 0x72c8
+  - frameCount  [types: Q16@0:8] @ 0x72d0
+  - setFrameCount:  [types: v24@0:8Q16] @ 0x72d8
+  - fps  [types: d16@0:8] @ 0x72e0
+  - setFps:  [types: v24@0:8d16] @ 0x72e8
+  - loop  [types: B16@0:8] @ 0x72f0
+  - setLoop:  [types: v20@0:8B16] @ 0x72f8
+  - buffer  [types: @16@0:8] @ 0x7300
+  - setBuffer:  [types: v24@0:8@16] @ 0x7308
+  - decodeQueue  [types: @16@0:8] @ 0x7338
+  - setDecodeQueue:  [types: v24@0:8@16] @ 0x7340
+  - decoding  [types: B16@0:8] @ 0x7370
+  - setDecoding:  [types: v20@0:8B16] @ 0x7378
+  - queuedFrames  [types: Q16@0:8] @ 0x7380
+  - setQueuedFrames:  [types: v24@0:8Q16] @ 0x7388
+  - shownFrames  [types: Q16@0:8] @ 0x7390
+  - setShownFrames:  [types: v24@0:8Q16] @ 0x7398
+  - failedFrames  [types: Q16@0:8] @ 0x73a0
+  - setFailedFrames:  [types: v24@0:8Q16] @ 0x73a8
+  - startTime  [types: d16@0:8] @ 0x73b0
+  - setStartTime:  [types: v24@0:8d16] @ 0x73b8
+  - displayLink  [types: @16@0:8] @ 0x73c0
+  - setDisplayLink:  [types: v24@0:8@16] @ 0x73c8
+  - finished  [types: B16@0:8] @ 0x73f8
+  - setFinished:  [types: v20@0:8B16] @ 0x7400
+  - endReason  [types: @16@0:8] @ 0x7408
+  - setEndReason:  [types: v24@0:8@16] @ 0x7410
+  - shownAt  [types: d16@0:8] @ 0x7418
+  - setShownAt:  [types: v24@0:8d16] @ 0x7420
+  - .cxx_destruct  [types: v16@0:8] @ 0x7428
+
+#### @interface SSFade : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 72, flags: 0x184
+- Ivars:
+  - _outEase : B (offset 8, align 0, size 1)
+  - _view : @"UIView" (offset 16, align 3, size 8)
+  - _inA : d (offset 24, align 3, size 8)
+  - _inB : d (offset 32, align 3, size 8)
+  - _outA : d (offset 40, align 3, size 8)
+  - _outB : d (offset 48, align 3, size 8)
+  - _alpha : d (offset 56, align 3, size 8)
+  - _rise : d (offset 64, align 3, size 8)
+- Properties:
+  - view  [T@"UIView",&,N,V_view]
+  - inA  [Td,N,V_inA]
+  - inB  [Td,N,V_inB]
+  - outA  [Td,N,V_outA]
+  - outB  [Td,N,V_outB]
+  - alpha  [Td,N,V_alpha]
+  - rise  [Td,N,V_rise]
+  - outEase  [TB,N,V_outEase]
+- Instance methods (18):
+  - applyTime:  [types: v24@0:8d16] @ 0xc130
+  - view  [types: @16@0:8] @ 0xc2dc
+  - setView:  [types: v24@0:8@16] @ 0xc2e4
+  - inA  [types: d16@0:8] @ 0xc314
+  - setInA:  [types: v24@0:8d16] @ 0xc31c
+  - inB  [types: d16@0:8] @ 0xc324
+  - setInB:  [types: v24@0:8d16] @ 0xc32c
+  - outA  [types: d16@0:8] @ 0xc334
+  - setOutA:  [types: v24@0:8d16] @ 0xc33c
+  - outB  [types: d16@0:8] @ 0xc344
+  - setOutB:  [types: v24@0:8d16] @ 0xc34c
+  - alpha  [types: d16@0:8] @ 0xc354
+  - setAlpha:  [types: v24@0:8d16] @ 0xc35c
+  - rise  [types: d16@0:8] @ 0xc364
+  - setRise:  [types: v24@0:8d16] @ 0xc36c
+  - outEase  [types: B16@0:8] @ 0xc374
+  - setOutEase:  [types: v20@0:8B16] @ 0xc37c
+  - .cxx_destruct  [types: v16@0:8] @ 0xc384
+
+#### @interface SSGauge : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 72, flags: 0x184
+- Ivars:
+  - _hot : B (offset 8, align 0, size 1)
+  - _arc : @"CAShapeLayer" (offset 16, align 3, size 8)
+  - _fill : @"CAGradientLayer" (offset 24, align 3, size 8)
+  - _needle : @"CALayer" (offset 32, align 3, size 8)
+  - _number : @"UILabel" (offset 40, align 3, size 8)
+  - _max : d (offset 48, align 3, size 8)
+  - _red : d (offset 56, align 3, size 8)
+  - _shown : q (offset 64, align 3, size 8)
+- Properties:
+  - arc  [T@"CAShapeLayer",&,N,V_arc]
+  - fill  [T@"CAGradientLayer",&,N,V_fill]
+  - needle  [T@"CALayer",&,N,V_needle]
+  - number  [T@"UILabel",&,N,V_number]
+  - max  [Td,N,V_max]
+  - red  [Td,N,V_red]
+  - shown  [Tq,N,V_shown]
+  - hot  [TB,N,V_hot]
+- Instance methods (17):
+  - arc  [types: @16@0:8] @ 0xc390
+  - setArc:  [types: v24@0:8@16] @ 0xc398
+  - fill  [types: @16@0:8] @ 0xc3c8
+  - setFill:  [types: v24@0:8@16] @ 0xc3d0
+  - needle  [types: @16@0:8] @ 0xc400
+  - setNeedle:  [types: v24@0:8@16] @ 0xc408
+  - number  [types: @16@0:8] @ 0xc438
+  - setNumber:  [types: v24@0:8@16] @ 0xc440
+  - max  [types: d16@0:8] @ 0xc470
+  - setMax:  [types: v24@0:8d16] @ 0xc478
+  - red  [types: d16@0:8] @ 0xc480
+  - setRed:  [types: v24@0:8d16] @ 0xc488
+  - shown  [types: q16@0:8] @ 0xc490
+  - setShown:  [types: v24@0:8q16] @ 0xc498
+  - hot  [types: B16@0:8] @ 0xc4a0
+  - setHot:  [types: v20@0:8B16] @ 0xc4a8
+  - .cxx_destruct  [types: v16@0:8] @ 0xc4b0
+
+#### @interface SSLinkTarget : (import) _OBJC_CLASS_$_NSObject
+- instanceSize: 16, flags: 0x184
+- Ivars:
+  - _owner : @"SSStartupView" (offset 8, align 3, size 8)
+- Properties:
+  - owner  [T@"SSStartupView",W,N,V_owner]
+- Instance methods (4):
+  - step:  [types: v24@0:8@16] @ 0xc4f8
+  - owner  [types: @16@0:8] @ 0xc558
+  - setOwner:  [types: v24@0:8@16] @ 0xc570
+  - .cxx_destruct  [types: v16@0:8] @ 0xc57c
+
+#### @interface SSCanvasView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 16, flags: 0x184
+- Ivars:
+  - _owner : @"SSStartupView" (offset 8, align 3, size 8)
+- Properties:
+  - owner  [T@"SSStartupView",W,N,V_owner]
+- Instance methods (4):
+  - drawRect:  [types: v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0xc584
+  - owner  [types: @16@0:8] @ 0xc5e0
+  - setOwner:  [types: v24@0:8@16] @ 0xc600
+  - .cxx_destruct  [types: v16@0:8] @ 0xc614
+
+#### @interface SSStartupView : (import) _OBJC_CLASS_$_UIView
+- instanceSize: 600, flags: 0x184
+- Ivars:
+  - _unit : d (offset 8, align 3, size 8)
+  - _stack : @"UIStackView" (offset 16, align 3, size 8)
+  - _logoView : @"UIImageView" (offset 24, align 3, size 8)
+  - _posterView : @"UIImageView" (offset 32, align 3, size 8)
+  - _timeLabel : @"UILabel" (offset 40, align 3, size 8)
+  - _titleLabel : @"UILabel" (offset 48, align 3, size 8)
+  - _dateLabel : @"UILabel" (offset 56, align 3, size 8)
+  - _tempLabel : @"UILabel" (offset 64, align 3, size 8)
+  - _condLabel : @"UILabel" (offset 72, align 3, size 8)
+  - _rangeLabel : @"UILabel" (offset 80, align 3, size 8)
+  - _rainLabel : @"UILabel" (offset 88, align 3, size 8)
+  - _updatedLabel : @"UILabel" (offset 96, align 3, size 8)
+  - _iconView : @"UIImageView" (offset 104, align 3, size 8)
+  - _row : @"UIStackView" (offset 112, align 3, size 8)
+  - _cardStack : @"UIStackView" (offset 120, align 3, size 8)
+  - _card : @"UIVisualEffectView" (offset 128, align 3, size 8)
+  - _iconW : @"NSLayoutConstraint" (offset 136, align 3, size 8)
+  - _iconH : @"NSLayoutConstraint" (offset 144, align 3, size 8)
+  - _stackMaxWidth : @"NSLayoutConstraint" (offset 152, align 3, size 8)
+  - _cardInsets : @"NSArray" (offset 160, align 3, size 8)
+  - _sceneStyle : q (offset 168, align 3, size 8)
+  - _sky : q (offset 176, align 3, size 8)
+  - _sceneSize : {CGSize="width"d"height"d} (offset 184, align 3, size 16)
+  - _sceneBuilt : B (offset 200, align 0, size 1)
+  - _k : d (offset 208, align 3, size 8)
+  - _ox : d (offset 216, align 3, size 8)
+  - _oy : d (offset 224, align 3, size 8)
+  - _restTime : d (offset 232, align 3, size 8)
+  - _linkEnd : d (offset 240, align 3, size 8)
+  - _tempoScale : d (offset 248, align 3, size 8)
+  - _t0 : d (offset 256, align 3, size 8)
+  - _playing : B (offset 264, align 0, size 1)
+  - _link : @"CADisplayLink" (offset 272, align 3, size 8)
+  - _scene : @"UIView" (offset 280, align 3, size 8)
+  - _glass : @"UIView" (offset 288, align 3, size 8)
+  - _canvas : @"SSCanvasView" (offset 296, align 3, size 8)
+  - _fades : @"NSMutableArray" (offset 304, align 3, size 8)
+  - _motes : @"NSMutableData" (offset 312, align 3, size 8)
+  - _moteLayers : @"NSMutableArray" (offset 320, align 3, size 8)
+  - _gauges : @"NSMutableArray" (offset 328, align 3, size 8)
+  - _particles : @"NSMutableData" (offset 336, align 3, size 8)
+  - _dot : d (offset 344, align 3, size 8)
+  - _bursts : @"NSMutableData" (offset 352, align 3, size 8)
+  - _outline : @"CAShapeLayer" (offset 360, align 3, size 8)
+  - _wheels : @"CAShapeLayer" (offset 368, align 3, size 8)
+  - _flash : @"CALayer" (offset 376, align 3, size 8)
+  - _horizon : @"CALayer" (offset 384, align 3, size 8)
+  - _rays : @"CALayer" (offset 392, align 3, size 8)
+  - _wiper : @"CALayer" (offset 400, align 3, size 8)
+  - _lightning : @"CALayer" (offset 408, align 3, size 8)
+  - _radar : @"CALayer" (offset 416, align 3, size 8)
+  - _wetMask : @"CAShapeLayer" (offset 424, align 3, size 8)
+  - _wiperLength : d (offset 432, align 3, size 8)
+  - _cleared : d (offset 440, align 3, size 8)
+  - _wiperPivot : {CGPoint="x"d"y"d} (offset 448, align 3, size 16)
+  - _rings : @"NSMutableArray" (offset 464, align 3, size 8)
+  - _percentLabel : @"UILabel" (offset 472, align 3, size 8)
+  - _percentShown : q (offset 480, align 3, size 8)
+  - _imageFits : B (offset 488, align 0, size 1)
+  - _style : q (offset 496, align 3, size 8)
+  - _image : @"UIImage" (offset 504, align 3, size 8)
+  - _logoEffect : q (offset 512, align 3, size 8)
+  - _name : @"NSString" (offset 520, align 3, size 8)
+  - _weather : @"NSDictionary" (offset 528, align 3, size 8)
+  - _date : @"NSDate" (offset 536, align 3, size 8)
+  - _carName : @"NSString" (offset 544, align 3, size 8)
+  - _tempo : q (offset 552, align 3, size 8)
+  - _occasion : q (offset 560, align 3, size 8)
+  - _hud : @"NSArray" (offset 568, align 3, size 8)
+  - _nextEvent : @"NSDictionary" (offset 576, align 3, size 8)
+  - _batteryPercent : q (offset 584, align 3, size 8)
+  - _duration : d (offset 592, align 3, size 8)
+- Properties:
+  - style  [Tq,N,V_style]
+  - image  [T@"UIImage",&,N,V_image]
+  - imageFits  [TB,N,V_imageFits]
+  - logoEffect  [Tq,N,V_logoEffect]
+  - name  [T@"NSString",C,N,V_name]
+  - weather  [T@"NSDictionary",C,N,V_weather]
+  - date  [T@"NSDate",&,N,V_date]
+  - carName  [T@"NSString",C,N,V_carName]
+  - tempo  [Tq,N,V_tempo]
+  - occasion  [Tq,N,V_occasion]
+  - hud  [T@"NSArray",C,N,V_hud]
+  - nextEvent  [T@"NSDictionary",C,N,V_nextEvent]
+  - batteryPercent  [Tq,N,V_batteryPercent]
+  - duration  [Td,N,V_duration]
+- Instance methods (70):
+  - initWithFrame:  [types: @48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16] @ 0xc630
+  - dealloc  [types: v16@0:8] @ 0xc6e4
+  - clearContent  [types: v16@0:8] @ 0xc734
+  - reload  [types: v16@0:8] @ 0xc9f4
+  - ss_sceneColors  [types: @16@0:8] @ 0xd580
+  - buildGreetingWithDate:period:  [types: v32@0:8@16q24] @ 0xd824
+  - buildWeatherWithPeriod:  [types: v24@0:8q16] @ 0xdcdc
+  - layoutSubviews  [types: v16@0:8] @ 0xeefc
+  - applyUnit:  [types: v24@0:8d16] @ 0xf110
+  - playIntro  [types: v16@0:8] @ 0xf768
+  - ss_now  [types: d16@0:8] @ 0xfe34
+  - didMoveToWindow  [types: v16@0:8] @ 0xfe88
+  - ss_startLink  [types: v16@0:8] @ 0xfef4
+  - ss_stopLink  [types: v16@0:8] @ 0x1007c
+  - ss_step  [types: v16@0:8] @ 0x100b0
+  - ss_applyTime:  [types: v24@0:8d16] @ 0x1013c
+  - ss_clearScene  [types: v16@0:8] @ 0x10310
+  - ss_buildScene  [types: v16@0:8] @ 0x10570
+  - ss_host  [types: @16@0:8] @ 0x1078c
+  - ss_addCanvas  [types: v16@0:8] @ 0x107f4
+  - ss_label:at:size:weight:color:left:in:maxWidth:  [types: @84@0:8@16{CGPoint=dd}24d40d48@56B64@68d76] @ 0x108c8
+  - ss_fade:from:to:alpha:  [types: @48@0:8@16d24d32d40] @ 0x10bb4
+  - ss_addMote:layer:to:  [types: v88@0:8{?=qdddddd}16@72@80] @ 0x10c60
+  - ss_applyMotes:  [types: v24@0:8d16] @ 0x10cf0
+  - ss_buildSky  [types: v16@0:8] @ 0x11124
+  - ss_applySky:  [types: v24@0:8d16] @ 0x126b0
+  - ss_gaugeAt:radius:label:unit:max:red:in:  [types: @80@0:8{CGPoint=dd}16d32@40@48d56d64@72] @ 0x12a98
+  - ss_buildEngine  [types: v16@0:8] @ 0x134b8
+  - ss_setGauge:value:  [types: v32@0:8@16d24] @ 0x13f60
+  - ss_applyEngine:  [types: v24@0:8d16] @ 0x14158
+  - ss_buildWelcome  [types: v16@0:8] @ 0x14384
+  - ss_applyWelcome:  [types: v24@0:8d16] @ 0x14b78
+  - ss_buildParticles  [types: v16@0:8] @ 0x14d50
+  - ss_drawParticles:t:  [types: v32@0:8^{CGContext=}16d24] @ 0x15628
+  - ss_buildHud  [types: v16@0:8] @ 0x15ad0
+  - ss_applyHud:  [types: v24@0:8d16] @ 0x16860
+  - ss_buildBriefing  [types: v16@0:8] @ 0x16af8
+  - ss_buildLiquid  [types: v16@0:8] @ 0x17bb4
+  - ss_buildFestive  [types: v16@0:8] @ 0x18af0
+  - ss_drawFireworks:t:  [types: v32@0:8^{CGContext=}16d24] @ 0x19f4c
+  - ss_drawCanvas:size:  [types: v40@0:8^{CGContext=}16{CGSize=dd}24] @ 0x1a30c
+  - style  [types: q16@0:8] @ 0x1a3a4
+  - setStyle:  [types: v24@0:8q16] @ 0x1a3b4
+  - image  [types: @16@0:8] @ 0x1a3c4
+  - setImage:  [types: v24@0:8@16] @ 0x1a3d4
+  - imageFits  [types: B16@0:8] @ 0x1a414
+  - setImageFits:  [types: v20@0:8B16] @ 0x1a424
+  - logoEffect  [types: q16@0:8] @ 0x1a434
+  - setLogoEffect:  [types: v24@0:8q16] @ 0x1a444
+  - name  [types: @16@0:8] @ 0x1a454
+  - setName:  [types: v24@0:8@16] @ 0x1a464
+  - weather  [types: @16@0:8] @ 0x1a470
+  - setWeather:  [types: v24@0:8@16] @ 0x1a480
+  - date  [types: @16@0:8] @ 0x1a48c
+  - setDate:  [types: v24@0:8@16] @ 0x1a49c
+  - carName  [types: @16@0:8] @ 0x1a4dc
+  - setCarName:  [types: v24@0:8@16] @ 0x1a4ec
+  - tempo  [types: q16@0:8] @ 0x1a4f8
+  - setTempo:  [types: v24@0:8q16] @ 0x1a508
+  - occasion  [types: q16@0:8] @ 0x1a518
+  - setOccasion:  [types: v24@0:8q16] @ 0x1a528
+  - hud  [types: @16@0:8] @ 0x1a538
+  - setHud:  [types: v24@0:8@16] @ 0x1a548
+  - nextEvent  [types: @16@0:8] @ 0x1a554
+  - setNextEvent:  [types: v24@0:8@16] @ 0x1a564
+  - batteryPercent  [types: q16@0:8] @ 0x1a570
+  - setBatteryPercent:  [types: v24@0:8q16] @ 0x1a580
+  - duration  [types: d16@0:8] @ 0x1a590
+  - setDuration:  [types: v24@0:8d16] @ 0x1a5a0
+  - .cxx_destruct  [types: v16@0:8] @ 0x1a5b0
+- Class methods (1):
+  - layerClass  [types: #16@0:8] @ 0xc624
+
+### Protocols định nghĩa (2)
+
+#### @protocol NSObject
+- Required instance methods:
+  - isEqual:  [types: B24@0:8@16] @ 0x269c0
+  - class  [types: #16@0:8] @ 0x269cc
+  - self  [types: @16@0:8] @ 0x269d8
+  - performSelector:  [types: @24@0:8:16] @ 0x269e4
+  - performSelector:withObject:  [types: @32@0:8:16@24] @ 0x269f0
+  - performSelector:withObject:withObject:  [types: @40@0:8:16@24@32] @ 0x269fc
+  - isProxy  [types: B16@0:8] @ 0x26a08
+  - isKindOfClass:  [types: B24@0:8#16] @ 0x26a14
+  - isMemberOfClass:  [types: B24@0:8#16] @ 0x26a20
+  - conformsToProtocol:  [types: B24@0:8@16] @ 0x26a2c
+  - respondsToSelector:  [types: B24@0:8:16] @ 0x26a38
+  - retain  [types: @16@0:8] @ 0x26a44
+  - release  [types: Vv16@0:8] @ 0x26a50
+  - autorelease  [types: @16@0:8] @ 0x26a5c
+  - retainCount  [types: Q16@0:8] @ 0x26a68
+  - zone  [types: ^{_NSZone=}16@0:8] @ 0x26a74
+  - hash  [types: Q16@0:8] @ 0x26a80
+  - superclass  [types: #16@0:8] @ 0x26a8c
+  - description  [types: @16@0:8] @ 0x26a98
+- Optional instance methods:
+  - debugDescription  [types: @16@0:8] @ 0x26ba8
+- Properties:
+  - hash  [TQ,R]
+  - superclass  [T#,R]
+  - description  [T@"NSString",R,C]
+  - debugDescription  [T@"NSString",?,R,C]
+
+#### @protocol CLLocationManagerDelegate
+- Optional instance methods:
+  - locationManager:didUpdateToLocation:fromLocation:  [types: v40@0:8@16@24@32] @ 0x26ab0
+  - locationManager:didUpdateLocations:  [types: v32@0:8@16@24] @ 0x26abc
+  - locationManager:didUpdateHeading:  [types: v32@0:8@16@24] @ 0x26ac8
+  - locationManagerShouldDisplayHeadingCalibration:  [types: B24@0:8@16] @ 0x26ad4
+  - locationManager:didDetermineState:forRegion:  [types: v40@0:8@16q24@32] @ 0x26ae0
+  - locationManager:didRangeBeacons:inRegion:  [types: v40@0:8@16@24@32] @ 0x26aec
+  - locationManager:rangingBeaconsDidFailForRegion:withError:  [types: v40@0:8@16@24@32] @ 0x26af8
+  - locationManager:didRangeBeacons:satisfyingConstraint:  [types: v40@0:8@16@24@32] @ 0x26b04
+  - locationManager:didFailRangingBeaconsForConstraint:error:  [types: v40@0:8@16@24@32] @ 0x26b10
+  - locationManager:didEnterRegion:  [types: v32@0:8@16@24] @ 0x26b1c
+  - locationManager:didExitRegion:  [types: v32@0:8@16@24] @ 0x26b28
+  - locationManager:didFailWithError:  [types: v32@0:8@16@24] @ 0x26b34
+  - locationManager:monitoringDidFailForRegion:withError:  [types: v40@0:8@16@24@32] @ 0x26b40
+  - locationManager:didChangeAuthorizationStatus:  [types: v28@0:8@16i24] @ 0x26b4c
+  - locationManagerDidChangeAuthorization:  [types: v24@0:8@16] @ 0x26b58
+  - locationManager:didStartMonitoringForRegion:  [types: v32@0:8@16@24] @ 0x26b64
+  - locationManagerDidPauseLocationUpdates:  [types: v24@0:8@16] @ 0x26b70
+  - locationManagerDidResumeLocationUpdates:  [types: v24@0:8@16] @ 0x26b7c
+  - locationManager:didFinishDeferredUpdatesWithError:  [types: v32@0:8@16@24] @ 0x26b88
+  - locationManager:didVisit:  [types: v32@0:8@16@24] @ 0x26b94
+
+### __objc_classrefs (71 refs)
+- SSCanvasView
+- SSFade
+- SSGauge
+- SSLinkTarget
+- SSLocationOnce
+- SSSplash
+- SSSplashWindow
+- SSStartupView
+- _OBJC_CLASS_$_AVAudioPlayer
+- _OBJC_CLASS_$_AVAudioSession
+- _OBJC_CLASS_$_CABasicAnimation
+- _OBJC_CLASS_$_CADisplayLink
+- _OBJC_CLASS_$_CAGradientLayer
+- _OBJC_CLASS_$_CALayer
+- _OBJC_CLASS_$_CAMediaTimingFunction
+- _OBJC_CLASS_$_CAShapeLayer
+- _OBJC_CLASS_$_CATransaction
+- _OBJC_CLASS_$_CLLocationManager
+- _OBJC_CLASS_$_CXCallObserver
+- _OBJC_CLASS_$_EKEventStore
+- _OBJC_CLASS_$_NSArray
+- _OBJC_CLASS_$_NSBundle
+- _OBJC_CLASS_$_NSCalendar
+- _OBJC_CLASS_$_NSCharacterSet
+- _OBJC_CLASS_$_NSDate
+- _OBJC_CLASS_$_NSDateFormatter
+- _OBJC_CLASS_$_NSDictionary
+- _OBJC_CLASS_$_NSFileManager
+- _OBJC_CLASS_$_NSHTTPURLResponse
+- _OBJC_CLASS_$_NSJSONSerialization
+- _OBJC_CLASS_$_NSLayoutConstraint
+- _OBJC_CLASS_$_NSLocale
+- _OBJC_CLASS_$_NSMeasurement
+- _OBJC_CLASS_$_NSMeasurementFormatter
+- _OBJC_CLASS_$_NSMutableArray
+- _OBJC_CLASS_$_NSMutableData
+- _OBJC_CLASS_$_NSMutableDictionary
+- _OBJC_CLASS_$_NSMutableOrderedSet
+- _OBJC_CLASS_$_NSMutableSet
+- _OBJC_CLASS_$_NSNotificationCenter
+- _OBJC_CLASS_$_NSNumber
+- _OBJC_CLASS_$_NSNumberFormatter
+- _OBJC_CLASS_$_NSObject
+- _OBJC_CLASS_$_NSOperationQueue
+- _OBJC_CLASS_$_NSProcessInfo
+- _OBJC_CLASS_$_NSRunLoop
+- _OBJC_CLASS_$_NSString
+- _OBJC_CLASS_$_NSTimeZone
+- _OBJC_CLASS_$_NSURL
+- _OBJC_CLASS_$_NSURLSession
+- _OBJC_CLASS_$_NSURLSessionConfiguration
+- _OBJC_CLASS_$_NSUnitTemperature
+- _OBJC_CLASS_$_NSValue
+- _OBJC_CLASS_$_UIBezierPath
+- _OBJC_CLASS_$_UIBlurEffect
+- _OBJC_CLASS_$_UIColor
+- _OBJC_CLASS_$_UIDevice
+- _OBJC_CLASS_$_UIFont
+- _OBJC_CLASS_$_UIGraphicsImageRenderer
+- _OBJC_CLASS_$_UIGraphicsImageRendererFormat
+- _OBJC_CLASS_$_UIImage
+- _OBJC_CLASS_$_UIImageSymbolConfiguration
+- _OBJC_CLASS_$_UIImageView
+- _OBJC_CLASS_$_UILabel
+- _OBJC_CLASS_$_UIScreen
+- _OBJC_CLASS_$_UIStackView
+- _OBJC_CLASS_$_UITapGestureRecognizer
+- _OBJC_CLASS_$_UIView
+- _OBJC_CLASS_$_UIViewController
+- _OBJC_CLASS_$_UIVisualEffectView
+- _OBJC_CLASS_$_UIWindowScene
+
+### __objc_superrefs (2 refs)
+- SSSplash
+- SSStartupView
+
+### Selector refs — các selector binary tham chiếu (559)
+- .cxx_destruct
+- CGColor
+- CGContext
+- CGImage
+- CGPath
+- JSONObjectWithData:options:error:
+- URLWithString:
+- UTF8String
+- activateConstraints:
+- addAnimation:forKey:
+- addArcWithCenter:radius:startAngle:endAngle:clockwise:
+- addGestureRecognizer:
+- addLineToPoint:
+- addObject:
+- addObjectsFromArray:
+- addObserverForName:object:queue:usingBlock:
+- addQuadCurveToPoint:controlPoint:
+- addSublayer:
+- addSubview:
+- addToRunLoop:forMode:
+- alpha
+- animateWithDuration:animations:
+- animateWithDuration:animations:completion:
+- animateWithDuration:delay:options:animations:completion:
+- animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
+- animationWithKeyPath:
+- appendBytes:length:
+- applyTime:
+- applyUnit:
+- arc
+- array
+- arrayByAddingObject:
+- arrayWithArray:
+- arrayWithObjects:count:
+- attributesOfItemAtPath:error:
+- authorizationStatus
+- authorizationStatusForEntityType:
+- autorelease
+- batteryLevel
+- batteryPercent
+- batteryState
+- begin
+- bezierPath
+- bezierPathWithArcCenter:radius:startAngle:endAngle:clockwise:
+- bezierPathWithOvalInRect:
+- blackColor
+- boolValue
+- bottomAnchor
+- bounds
+- buffer
+- buildGreetingWithDate:period:
+- buildWeatherWithPeriod:
+- bundleIdentifier
+- bytes
+- calendarWithIdentifier:
+- callStackReturnAddresses
+- callStackSymbols
+- calls
+- carName
+- category
+- categoryOptions
+- celsius
+- centerXAnchor
+- centerYAnchor
+- class
+- clearColor
+- clearContent
+- colorWithRed:green:blue:alpha:
+- colorWithWhite:alpha:
+- commit
+- compare:
+- compareStartDateWithEvent:
+- component:fromDate:
+- components:fromDate:
+- componentsJoinedByString:
+- componentsSeparatedByCharactersInSet:
+- componentsSeparatedByString:
+- configurationByApplyingConfiguration:
+- configurationPreferringMulticolor
+- configurationWithPointSize:
+- configurationWithPointSize:weight:
+- conformsToProtocol:
+- constraintEqualToAnchor:
+- constraintEqualToAnchor:constant:
+- constraintEqualToConstant:
+- constraintLessThanOrEqualToAnchor:constant:
+- containsObject:
+- containsString:
+- contentMode
+- contentView
+- contentsOfDirectoryAtPath:error:
+- coordinate
