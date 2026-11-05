@@ -1,0 +1,3145 @@
+  - tableView:performAction:forRowAtIndexPath:withSender:  [types: v48@0:8@16:24@32@40] @ 0x60f54
+  - tableView:canFocusRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60f60
+  - tableView:shouldUpdateFocusInContext:  [types: B32@0:8@16@24] @ 0x60f6c
+  - tableView:didUpdateFocusInContext:withAnimationCoordinator:  [types: v40@0:8@16@24@32] @ 0x60f78
+  - indexPathForPreferredFocusedViewInTableView:  [types: @24@0:8@16] @ 0x60f84
+  - tableView:selectionFollowsFocusForRowAtIndexPath:  [types: B32@0:8@16@24] @ 0x60f90
+  - tableView:shouldSpringLoadRowAtIndexPath:withContext:  [types: B40@0:8@16@24@32] @ 0x60f9c
+  - tableView:shouldBeginMultipleSelectionInteractionAtIndexPath:  [types: B32@0:8@16@24] @ 0x60fa8
+  - tableView:didBeginMultipleSelectionInteractionAtIndexPath:  [types: v32@0:8@16@24] @ 0x60fb4
+  - tableViewDidEndMultipleSelectionInteraction:  [types: v24@0:8@16] @ 0x60fc0
+  - tableView:contextMenuConfigurationForRowAtIndexPath:point:  [types: @48@0:8@16@24{CGPoint=dd}32] @ 0x60fcc
+  - tableView:previewForHighlightingContextMenuWithConfiguration:  [types: @32@0:8@16@24] @ 0x60fd8
+  - tableView:previewForDismissingContextMenuWithConfiguration:  [types: @32@0:8@16@24] @ 0x60fe4
+  - tableView:willPerformPreviewActionForMenuWithConfiguration:animator:  [types: v40@0:8@16@24@32] @ 0x60ff0
+  - tableView:willDisplayContextMenuWithConfiguration:animator:  [types: v40@0:8@16@24@32] @ 0x60ffc
+  - tableView:willEndContextMenuInteractionWithConfiguration:animator:  [types: v40@0:8@16@24@32] @ 0x61008
+
+#### @protocol UIAdaptivePresentationControllerDelegate
+- Optional instance methods:
+  - adaptivePresentationStyleForPresentationController:  [types: q24@0:8@16] @ 0x60868
+  - adaptivePresentationStyleForPresentationController:traitCollection:  [types: q32@0:8@16@24] @ 0x60874
+  - presentationController:prepareAdaptivePresentationController:  [types: v32@0:8@16@24] @ 0x60880
+  - presentationController:viewControllerForAdaptivePresentationStyle:  [types: @32@0:8@16q24] @ 0x6088c
+  - presentationController:willPresentWithAdaptiveStyle:transitionCoordinator:  [types: v40@0:8@16q24@32] @ 0x60898
+  - presentationControllerShouldDismiss:  [types: B24@0:8@16] @ 0x608a4
+  - presentationControllerWillDismiss:  [types: v24@0:8@16] @ 0x608b0
+  - presentationControllerDidDismiss:  [types: v24@0:8@16] @ 0x608bc
+  - presentationControllerDidAttemptToDismiss:  [types: v24@0:8@16] @ 0x608c8
+
+#### @protocol UIBarPositioningDelegate
+- Optional instance methods:
+  - positionForBar:  [types: q24@0:8@16] @ 0x608e0
+
+#### @protocol UISearchBarDelegate
+- Optional instance methods:
+  - searchBarShouldBeginEditing:  [types: B24@0:8@16] @ 0x60c90
+  - searchBarTextDidBeginEditing:  [types: v24@0:8@16] @ 0x60c9c
+  - searchBarShouldEndEditing:  [types: B24@0:8@16] @ 0x60ca8
+  - searchBarTextDidEndEditing:  [types: v24@0:8@16] @ 0x60cb4
+  - searchBar:textDidChange:  [types: v32@0:8@16@24] @ 0x60cc0
+  - searchBar:shouldChangeTextInRange:replacementText:  [types: B48@0:8@16{_NSRange=QQ}24@40] @ 0x60ccc
+  - searchBarSearchButtonClicked:  [types: v24@0:8@16] @ 0x60cd8
+  - searchBarBookmarkButtonClicked:  [types: v24@0:8@16] @ 0x60ce4
+  - searchBarCancelButtonClicked:  [types: v24@0:8@16] @ 0x60cf0
+  - searchBarResultsListButtonClicked:  [types: v24@0:8@16] @ 0x60cfc
+  - searchBar:selectedScopeButtonIndexDidChange:  [types: v32@0:8@16q24] @ 0x60d08
+
+#### @protocol UIImagePickerControllerDelegate
+- Optional instance methods:
+  - imagePickerController:didFinishPickingImage:editingInfo:  [types: v40@0:8@16@24@32] @ 0x60b60
+  - imagePickerController:didFinishPickingMediaWithInfo:  [types: v32@0:8@16@24] @ 0x60b6c
+  - imagePickerControllerDidCancel:  [types: v24@0:8@16] @ 0x60b78
+
+#### @protocol UINavigationControllerDelegate
+- Optional instance methods:
+  - navigationController:willShowViewController:animated:  [types: v36@0:8@16@24B32] @ 0x60b90
+  - navigationController:didShowViewController:animated:  [types: v36@0:8@16@24B32] @ 0x60b9c
+  - navigationControllerSupportedInterfaceOrientations:  [types: Q24@0:8@16] @ 0x60ba8
+  - navigationControllerPreferredInterfaceOrientationForPresentation:  [types: q24@0:8@16] @ 0x60bb4
+  - navigationController:interactionControllerForAnimationController:  [types: @32@0:8@16@24] @ 0x60bc0
+  - navigationController:animationControllerForOperation:fromViewController:toViewController:  [types: @48@0:8@16q24@32@40] @ 0x60bcc
+
+#### @protocol UITextFieldDelegate
+- Optional instance methods:
+  - textFieldShouldBeginEditing:  [types: B24@0:8@16] @ 0x61020
+  - textFieldDidBeginEditing:  [types: v24@0:8@16] @ 0x6102c
+  - textFieldShouldEndEditing:  [types: B24@0:8@16] @ 0x61038
+  - textFieldDidEndEditing:  [types: v24@0:8@16] @ 0x61044
+  - textFieldDidEndEditing:reason:  [types: v32@0:8@16q24] @ 0x61050
+  - textField:shouldChangeCharactersInRange:replacementString:  [types: B48@0:8@16{_NSRange=QQ}24@40] @ 0x6105c
+  - textFieldDidChangeSelection:  [types: v24@0:8@16] @ 0x61068
+  - textFieldShouldClear:  [types: B24@0:8@16] @ 0x61074
+  - textFieldShouldReturn:  [types: B24@0:8@16] @ 0x61080
+  - textField:editMenuForCharactersInRange:suggestedActions:  [types: @48@0:8@16{_NSRange=QQ}24@40] @ 0x6108c
+  - textField:willPresentEditMenuWithAnimator:  [types: v32@0:8@16@24] @ 0x61098
+  - textField:willDismissEditMenuWithAnimator:  [types: v32@0:8@16@24] @ 0x610a4
+
+#### @protocol AVAudioPlayerDelegate
+- Optional instance methods:
+  - audioPlayerDidFinishPlaying:successfully:  [types: v28@0:8@16B24] @ 0x607b0
+  - audioPlayerDecodeErrorDidOccur:error:  [types: v32@0:8@16@24] @ 0x607bc
+  - audioPlayerBeginInterruption:  [types: v24@0:8@16] @ 0x607c8
+  - audioPlayerEndInterruption:withOptions:  [types: v32@0:8@16Q24] @ 0x607d4
+  - audioPlayerEndInterruption:withFlags:  [types: v32@0:8@16Q24] @ 0x607e0
+  - audioPlayerEndInterruption:  [types: v24@0:8@16] @ 0x607ec
+
+#### @protocol AVSpeechSynthesizerDelegate
+- Optional instance methods:
+  - speechSynthesizer:didStartSpeechUtterance:  [types: v32@0:8@16@24] @ 0x60800
+  - speechSynthesizer:didFinishSpeechUtterance:  [types: v32@0:8@16@24] @ 0x6080c
+  - speechSynthesizer:didPauseSpeechUtterance:  [types: v32@0:8@16@24] @ 0x60818
+  - speechSynthesizer:didContinueSpeechUtterance:  [types: v32@0:8@16@24] @ 0x60824
+  - speechSynthesizer:didCancelSpeechUtterance:  [types: v32@0:8@16@24] @ 0x60830
+  - speechSynthesizer:willSpeakRangeOfSpeechString:utterance:  [types: v48@0:8@16{_NSRange=QQ}24@40] @ 0x6083c
+
+#### @protocol UIDocumentPickerDelegate
+- Optional instance methods:
+  - documentPicker:didPickDocumentsAtURLs:  [types: v32@0:8@16@24] @ 0x60b30
+  - documentPickerWasCancelled:  [types: v24@0:8@16] @ 0x60b3c
+  - documentPicker:didPickDocumentAtURL:  [types: v32@0:8@16@24] @ 0x60b48
+
+#### @protocol UICollectionViewDataSource
+- Required instance methods:
+  - collectionView:numberOfItemsInSection:  [types: q32@0:8@16q24] @ 0x610b8
+  - collectionView:cellForItemAtIndexPath:  [types: @32@0:8@16@24] @ 0x610c4
+- Optional instance methods:
+  - numberOfSectionsInCollectionView:  [types: q24@0:8@16] @ 0x608f8
+  - collectionView:viewForSupplementaryElementOfKind:atIndexPath:  [types: @40@0:8@16@24@32] @ 0x60904
+  - collectionView:canMoveItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x60910
+  - collectionView:moveItemAtIndexPath:toIndexPath:  [types: v40@0:8@16@24@32] @ 0x6091c
+  - indexTitlesForCollectionView:  [types: @24@0:8@16] @ 0x60928
+  - collectionView:indexPathForIndexTitle:atIndex:  [types: @40@0:8@16@24q32] @ 0x60934
+
+#### @protocol UICollectionViewDelegate
+- Optional instance methods:
+  - collectionView:shouldHighlightItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x60948
+  - collectionView:didHighlightItemAtIndexPath:  [types: v32@0:8@16@24] @ 0x60954
+  - collectionView:didUnhighlightItemAtIndexPath:  [types: v32@0:8@16@24] @ 0x60960
+  - collectionView:shouldSelectItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x6096c
+  - collectionView:shouldDeselectItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x60978
+  - collectionView:didSelectItemAtIndexPath:  [types: v32@0:8@16@24] @ 0x60984
+  - collectionView:didDeselectItemAtIndexPath:  [types: v32@0:8@16@24] @ 0x60990
+  - collectionView:canPerformPrimaryActionForItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x6099c
+  - collectionView:performPrimaryActionForItemAtIndexPath:  [types: v32@0:8@16@24] @ 0x609a8
+  - collectionView:willDisplayCell:forItemAtIndexPath:  [types: v40@0:8@16@24@32] @ 0x609b4
+  - collectionView:willDisplaySupplementaryView:forElementKind:atIndexPath:  [types: v48@0:8@16@24@32@40] @ 0x609c0
+  - collectionView:didEndDisplayingCell:forItemAtIndexPath:  [types: v40@0:8@16@24@32] @ 0x609cc
+  - collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:  [types: v48@0:8@16@24@32@40] @ 0x609d8
+  - collectionView:shouldShowMenuForItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x609e4
+  - collectionView:canPerformAction:forItemAtIndexPath:withSender:  [types: B48@0:8@16:24@32@40] @ 0x609f0
+  - collectionView:performAction:forItemAtIndexPath:withSender:  [types: v48@0:8@16:24@32@40] @ 0x609fc
+  - collectionView:transitionLayoutForOldLayout:newLayout:  [types: @40@0:8@16@24@32] @ 0x60a08
+  - collectionView:canFocusItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x60a14
+  - collectionView:shouldUpdateFocusInContext:  [types: B32@0:8@16@24] @ 0x60a20
+  - collectionView:didUpdateFocusInContext:withAnimationCoordinator:  [types: v40@0:8@16@24@32] @ 0x60a2c
+  - indexPathForPreferredFocusedViewInCollectionView:  [types: @24@0:8@16] @ 0x60a38
+  - collectionView:selectionFollowsFocusForItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x60a44
+  - collectionView:targetIndexPathForMoveOfItemFromOriginalIndexPath:atCurrentIndexPath:toProposedIndexPath:  [types: @48@0:8@16@24@32@40] @ 0x60a50
+  - collectionView:targetIndexPathForMoveFromItemAtIndexPath:toProposedIndexPath:  [types: @40@0:8@16@24@32] @ 0x60a5c
+  - collectionView:targetContentOffsetForProposedContentOffset:  [types: {CGPoint=dd}40@0:8@16{CGPoint=dd}24] @ 0x60a68
+  - collectionView:canEditItemAtIndexPath:  [types: B32@0:8@16@24] @ 0x60a74
+  - collectionView:shouldSpringLoadItemAtIndexPath:withContext:  [types: B40@0:8@16@24@32] @ 0x60a80
+  - collectionView:shouldBeginMultipleSelectionInteractionAtIndexPath:  [types: B32@0:8@16@24] @ 0x60a8c
+  - collectionView:didBeginMultipleSelectionInteractionAtIndexPath:  [types: v32@0:8@16@24] @ 0x60a98
+  - collectionViewDidEndMultipleSelectionInteraction:  [types: v24@0:8@16] @ 0x60aa4
+  - collectionView:contextMenuConfigurationForItemsAtIndexPaths:point:  [types: @48@0:8@16@24{CGPoint=dd}32] @ 0x60ab0
+  - collectionView:contextMenuConfiguration:highlightPreviewForItemAtIndexPath:  [types: @40@0:8@16@24@32] @ 0x60abc
+  - collectionView:contextMenuConfiguration:dismissalPreviewForItemAtIndexPath:  [types: @40@0:8@16@24@32] @ 0x60ac8
+  - collectionView:willPerformPreviewActionForMenuWithConfiguration:animator:  [types: v40@0:8@16@24@32] @ 0x60ad4
+  - collectionView:willDisplayContextMenuWithConfiguration:animator:  [types: v40@0:8@16@24@32] @ 0x60ae0
+  - collectionView:willEndContextMenuInteractionWithConfiguration:animator:  [types: v40@0:8@16@24@32] @ 0x60aec
+  - collectionView:sceneActivationConfigurationForItemAtIndexPath:point:  [types: @48@0:8@16@24{CGPoint=dd}32] @ 0x60af8
+  - collectionView:contextMenuConfigurationForItemAtIndexPath:point:  [types: @48@0:8@16@24{CGPoint=dd}32] @ 0x60b04
+  - collectionView:previewForHighlightingContextMenuWithConfiguration:  [types: @32@0:8@16@24] @ 0x60b10
+  - collectionView:previewForDismissingContextMenuWithConfiguration:  [types: @32@0:8@16@24] @ 0x60b1c
+
+### __objc_classrefs (129 refs)
+- OMCFeatureStatusCell
+- OMCHSPreview
+- OMCHeaderCard
+- OMCOnboardingController
+- OMCSSStyleTileCell
+- OMCSplitPreview
+- OMCWhatsNewController
+- SPPBubbleView
+- SPPGlassView
+- SPPIconView
+- SPPSignView
+- SPPSoundDelegate
+- SSCanvasView
+- SSFade
+- SSGauge
+- SSLinkTarget
+- SSStartupView
+- _OBJC_CLASS_$_AVAssetExportSession
+- _OBJC_CLASS_$_AVAssetImageGenerator
+- _OBJC_CLASS_$_AVAssetReader
+- _OBJC_CLASS_$_AVAssetReaderTrackOutput
+- _OBJC_CLASS_$_AVAudioPlayer
+- _OBJC_CLASS_$_AVAudioSession
+- _OBJC_CLASS_$_AVMutableComposition
+- _OBJC_CLASS_$_AVPlayer
+- _OBJC_CLASS_$_AVPlayerViewController
+- _OBJC_CLASS_$_AVSpeechSynthesisVoice
+- _OBJC_CLASS_$_AVSpeechSynthesizer
+- _OBJC_CLASS_$_AVSpeechUtterance
+- _OBJC_CLASS_$_AVURLAsset
+- _OBJC_CLASS_$_CABasicAnimation
+- _OBJC_CLASS_$_CADisplayLink
+- _OBJC_CLASS_$_CAGradientLayer
+- _OBJC_CLASS_$_CALayer
+- _OBJC_CLASS_$_CAMediaTimingFunction
+- _OBJC_CLASS_$_CAShapeLayer
+- _OBJC_CLASS_$_CATransaction
+- _OBJC_CLASS_$_CIContext
+- _OBJC_CLASS_$_CIImage
+- _OBJC_CLASS_$_NSArray
+- _OBJC_CLASS_$_NSAttributedString
+- _OBJC_CLASS_$_NSBundle
+- _OBJC_CLASS_$_NSCache
+- _OBJC_CLASS_$_NSCalendar
+- _OBJC_CLASS_$_NSCharacterSet
+- _OBJC_CLASS_$_NSData
+- _OBJC_CLASS_$_NSDate
+- _OBJC_CLASS_$_NSDateFormatter
+- _OBJC_CLASS_$_NSDictionary
+- _OBJC_CLASS_$_NSFileManager
+- _OBJC_CLASS_$_NSIndexPath
+- _OBJC_CLASS_$_NSIndexSet
+- _OBJC_CLASS_$_NSLayoutConstraint
+- _OBJC_CLASS_$_NSLocale
+- _OBJC_CLASS_$_NSMeasurement
+- _OBJC_CLASS_$_NSMeasurementFormatter
+- _OBJC_CLASS_$_NSMutableArray
+- _OBJC_CLASS_$_NSMutableAttributedString
+- _OBJC_CLASS_$_NSMutableData
+- _OBJC_CLASS_$_NSMutableDictionary
+- _OBJC_CLASS_$_NSMutableParagraphStyle
+- _OBJC_CLASS_$_NSMutableSet
+- _OBJC_CLASS_$_NSMutableString
+- _OBJC_CLASS_$_NSNumber
+- _OBJC_CLASS_$_NSNumberFormatter
+- _OBJC_CLASS_$_NSObject
+- _OBJC_CLASS_$_NSProcessInfo
+- _OBJC_CLASS_$_NSPropertyListSerialization
+- _OBJC_CLASS_$_NSRunLoop
+- _OBJC_CLASS_$_NSScanner
+- _OBJC_CLASS_$_NSSet
+- _OBJC_CLASS_$_NSSortDescriptor
+- _OBJC_CLASS_$_NSString
+- _OBJC_CLASS_$_NSTimeZone
+- _OBJC_CLASS_$_NSTimer
+- _OBJC_CLASS_$_NSURL
+- _OBJC_CLASS_$_NSUnitTemperature
+- _OBJC_CLASS_$_NSValue
+- _OBJC_CLASS_$_PSListController
+- _OBJC_CLASS_$_PSSpecifier
+- _OBJC_CLASS_$_PSTableCell
+- _OBJC_CLASS_$_UIAction
+- _OBJC_CLASS_$_UIActivityViewController
+- _OBJC_CLASS_$_UIAlertAction
+- _OBJC_CLASS_$_UIAlertController
+- _OBJC_CLASS_$_UIBarButtonItem
+- _OBJC_CLASS_$_UIBezierPath
+- _OBJC_CLASS_$_UIBlurEffect
+- _OBJC_CLASS_$_UIButton
+- _OBJC_CLASS_$_UIButtonConfiguration
+- _OBJC_CLASS_$_UICollectionView
+- _OBJC_CLASS_$_UICollectionViewFlowLayout
+- _OBJC_CLASS_$_UIColor
+- _OBJC_CLASS_$_UIControl
+- _OBJC_CLASS_$_UIDatePicker
+- _OBJC_CLASS_$_UIDevice
+- _OBJC_CLASS_$_UIDocumentPickerViewController
+- _OBJC_CLASS_$_UIFont
+- _OBJC_CLASS_$_UIFontMetrics
+- _OBJC_CLASS_$_UIGraphicsImageRenderer
+- _OBJC_CLASS_$_UIGraphicsImageRendererFormat
+- _OBJC_CLASS_$_UIImage
+- _OBJC_CLASS_$_UIImagePickerController
+- _OBJC_CLASS_$_UIImageSymbolConfiguration
+- _OBJC_CLASS_$_UIImageView
+- _OBJC_CLASS_$_UIImpactFeedbackGenerator
+- _OBJC_CLASS_$_UILabel
+- _OBJC_CLASS_$_UIMenu
+- _OBJC_CLASS_$_UINavigationController
+- _OBJC_CLASS_$_UINotificationFeedbackGenerator
+- _OBJC_CLASS_$_UIPageControl
+- _OBJC_CLASS_$_UIPasteboard
+- _OBJC_CLASS_$_UIScreen
+- _OBJC_CLASS_$_UIScrollView
+- _OBJC_CLASS_$_UISearchBar
+- _OBJC_CLASS_$_UISegmentedControl
+- _OBJC_CLASS_$_UISelectionFeedbackGenerator
+- _OBJC_CLASS_$_UISlider
+- _OBJC_CLASS_$_UIStackView
+- _OBJC_CLASS_$_UIStepper
+- _OBJC_CLASS_$_UISwitch
+- _OBJC_CLASS_$_UITableView
+- _OBJC_CLASS_$_UITableViewCell
+- _OBJC_CLASS_$_UITableViewHeaderFooterView
+- _OBJC_CLASS_$_UITapGestureRecognizer
+- _OBJC_CLASS_$_UITextField
+- _OBJC_CLASS_$_UIView
+- _OBJC_CLASS_$_UIViewController
+- _OBJC_CLASS_$_UIVisualEffectView
+
+### __objc_superrefs (23 refs)
+- OMCAppBridgeAppsController
+- OMCAppBridgeAppsLinkCell
+- OMCCarProfilesController
+- OMCCardPage
+- OMCFeatureListController
+- OMCFeatureStatusCell
+- OMCHSPreview
+- OMCHeaderCard
+- OMCOnboardingController
+- OMCRootListController
+- OMCSSStyleTileCell
+- OMCSpeedBubbleController
+- OMCSplitPreview
+- OMCSplitScreenAppLinkCell
+- OMCSplitScreenAppPickerController
+- OMCSplitScreenController
+- OMCStartupScreenController
+- OMCWhatsNewController
+- SPPBubbleView
+- SPPGlassView
+- SPPIconView
+- SPPSignView
+- SSStartupView
+
+### Selector refs — các selector binary tham chiếu (1388)
+- .cxx_destruct
+- CGColor
+- CGContext
+- CGImage
+- CGPath
+- CGRectValue
+- JPEGRepresentationOfImage:colorSpace:options:
+- URLAssetWithURL:options:
+- _applicationIconImageForBundleIdentifier:format:scale:
+- accessoryView
+- actionWithTitle:image:identifier:handler:
+- actionWithTitle:style:handler:
+- activateConstraints:
+- adaptivePresentationStyleForPresentationController:
+- adaptivePresentationStyleForPresentationController:traitCollection:
+- addAction:
+- addAnimation:forKey:
+- addArcWithCenter:radius:startAngle:endAngle:clockwise:
+- addArrangedSubview:
+- addBit:to:
+- addClip
+- addEntriesFromDictionary:
+- addGestureRecognizer:
+- addLineToPoint:
+- addMutableTrackWithMediaType:preferredTrackID:
+- addObject:
+- addObjectsFromArray:
+- addOutput:
+- addQuadCurveToPoint:controlPoint:
+- addSublayer:
+- addSubview:
+- addTarget:action:forControlEvents:
+- addToRunLoop:forMode:
+- addVideo
+- adjustedContentInset
+- alert:
+- alertControllerWithTitle:message:preferredStyle:
+- allKeys
+- allObjects
+- alpha
+- alphanumericCharacterSet
+- animateWithDuration:animations:
+- animateWithDuration:delay:options:animations:completion:
+- animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
+- animationForKey:
+- animationWithKeyPath:
+- appAt:
+- appCell:inTable:
+- appearanceWhenContainedInInstancesOfClasses:
+- appendAttributedString:
+- appendBytes:length:
+- appendFormat:
+- appendPath:
+- appendString:
+- applyColor:
+- applyColors
+- applyLanguage
+- applySupportState
+- applyTime:
+- applyUnit:
+- appsOf:
+- arc
+- array
+- arrayByAddingObject:
+- arrayByAddingObjectsFromArray:
+- arrayWithObject:
+- arrayWithObjects:count:
+- ascender
+- assetImageGeneratorWithAsset:
+- assetReaderTrackOutputWithTrack:outputSettings:
+- assetReaderWithAsset:error:
+- attributesOfFileSystemForPath:error:
+- attributesOfItemAtPath:error:
+- audioPlayerBeginInterruption:
+- audioPlayerDecodeErrorDidOccur:error:
+- audioPlayerDidFinishPlaying:successfully:
+- audioPlayerEndInterruption:
+- audioPlayerEndInterruption:withFlags:
+- audioPlayerEndInterruption:withOptions:
+- autorelease
+- batteryLevel
+- batteryPercent
+- batteryState
+- becomeFirstResponder
+- begin
+- beginUpdates
+- bezierPath
+- bezierPathWithArcCenter:radius:startAngle:endAngle:clockwise:
+- bezierPathWithOvalInRect:
+- bezierPathWithRoundedRect:cornerRadius:
+- birthdayAccessory
+- birthdayChanged:
+- birthdayClear
+- birthdayDidChange
+- birthdayPicker
+- birthdayView
+- bit:
+- bits
+- blackColor
+- blur
+- bodyLabelWithText:
+- boldSystemFontOfSize:
+- boolValue
+- borderColor
+- bottomAnchor
+- boundingRectWithSize:options:attributes:context:
+- bounds
+- boxCount:
+- boxInCell:
+- boxTapped:
+- buildGreetingWithDate:period:
+- buildStyle:
+- buildWarnRows
+- buildWeatherWithPeriod:
+- builtStyle
+- bundleForClass:
+- bundlePath
+- buttonWithType:
+- bytes
+- calendarWithIdentifier:
+- carName
+- carPlayApps
+- card
+- carplayApps
+- carplayGuessed
+- carplayIDs
+- category
+- categoryOptions
+- cellForItemAtIndexPath:
+- cellForRowAtIndexPath:
+- cellType
+- cellWithId:
+- cellWithId:inTable:
+- celsius
+- centerXAnchor
+- centerYAnchor
+- characterSetWithCharactersInString:
+- chip:key:
+- chipTapped:
+- chooseLogo
+- chooseSound
+- chosen
+- class
+- clearBirthday
+- clearColor
+- clearContent
+- clip
+- close
+- closePath
+- closed
+- collectionView:canEditItemAtIndexPath:
+- collectionView:canFocusItemAtIndexPath:
+- collectionView:canMoveItemAtIndexPath:
+- collectionView:canPerformAction:forItemAtIndexPath:withSender:
+- collectionView:canPerformPrimaryActionForItemAtIndexPath:
+- collectionView:cellForItemAtIndexPath:
+- collectionView:contextMenuConfiguration:dismissalPreviewForItemAtIndexPath:
+- collectionView:contextMenuConfiguration:highlightPreviewForItemAtIndexPath:
+- collectionView:contextMenuConfigurationForItemAtIndexPath:point:
+- collectionView:contextMenuConfigurationForItemsAtIndexPaths:point:
+- collectionView:didBeginMultipleSelectionInteractionAtIndexPath:
+- collectionView:didDeselectItemAtIndexPath:
+- collectionView:didEndDisplayingCell:forItemAtIndexPath:
+- collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:
+- collectionView:didHighlightItemAtIndexPath:
+- collectionView:didSelectItemAtIndexPath:
+- collectionView:didUnhighlightItemAtIndexPath:
+- collectionView:didUpdateFocusInContext:withAnimationCoordinator:
+- collectionView:indexPathForIndexTitle:atIndex:
+- collectionView:moveItemAtIndexPath:toIndexPath:
+- collectionView:numberOfItemsInSection:
+- collectionView:performAction:forItemAtIndexPath:withSender:
+- collectionView:performPrimaryActionForItemAtIndexPath:
+- collectionView:previewForDismissingContextMenuWithConfiguration:
+- collectionView:previewForHighlightingContextMenuWithConfiguration:
+- collectionView:sceneActivationConfigurationForItemAtIndexPath:point:
+- collectionView:selectionFollowsFocusForItemAtIndexPath:
+- collectionView:shouldBeginMultipleSelectionInteractionAtIndexPath:
+- collectionView:shouldDeselectItemAtIndexPath:
+- collectionView:shouldHighlightItemAtIndexPath:
+- collectionView:shouldSelectItemAtIndexPath:
+- collectionView:shouldShowMenuForItemAtIndexPath:
+- collectionView:shouldSpringLoadItemAtIndexPath:withContext:
+- collectionView:shouldUpdateFocusInContext:
+- collectionView:targetContentOffsetForProposedContentOffset:
+- collectionView:targetIndexPathForMoveFromItemAtIndexPath:toProposedIndexPath:
+- collectionView:targetIndexPathForMoveOfItemFromOriginalIndexPath:atCurrentIndexPath:toProposedIndexPath:
+- collectionView:transitionLayoutForOldLayout:newLayout:
+- collectionView:viewForSupplementaryElementOfKind:atIndexPath:
+- collectionView:willDisplayCell:forItemAtIndexPath:
+- collectionView:willDisplayContextMenuWithConfiguration:animator:
+- collectionView:willDisplaySupplementaryView:forElementKind:atIndexPath:
+- collectionView:willEndContextMenuInteractionWithConfiguration:animator:
+- collectionView:willPerformPreviewActionForMenuWithConfiguration:animator:
+- collectionViewDidEndMultipleSelectionInteraction:
+- color
+- colorTapped:
+- colorWithAlphaComponent:
+- colorWithDynamicProvider:
+- colorWithHue:saturation:brightness:alpha:
+- colorWithRed:green:blue:alpha:
+- colorWithWhite:alpha:
+- cols
+- commit
+- compare:
+- compare:options:
+- completion
+- component:fromDate:
+- components:fromDate:
+- componentsJoinedByString:
+- componentsSeparatedByCharactersInSet:
+- componentsSeparatedByString:
+- composition
+- configuration
+- configurationByApplyingConfiguration:
+- configurationPreferringMulticolor
+- configurationWithPointSize:
+- configurationWithPointSize:weight:
+- configure:style:speed:limit:
+- conformsToProtocol:
+- constraintEqualToAnchor:
+- constraintEqualToAnchor:constant:
+- constraintEqualToConstant:
+- constraintLessThanOrEqualToAnchor:constant:
+- containsObject:
+- containsString:
+- contentLayoutGuide
+- contentMode
+- contentOffset
+- contentSize
+- contentView
+- contentsOfDirectoryAtPath:error:
+- contextWithOptions:
+- copy
+- copyCGImageAtTime:actualTime:error:
+- copyItemAtPath:toPath:error:
+- copyNextSampleBuffer
+- copySoundAtURL:
+- copyURL:
+- copyVideoAtURL:name:
+- corner
+- count
+- countByEnumeratingWithState:objects:count:
+- createDirectoryAtPath:withIntermediateDirectories:attributes:error:
+- currentCalendar
+- currentDevice
+- currentLocale
+- currentPage
+- currentRoute
+- currentSound
+- currentStyle
+- currentSupportState
+- currentValue
+- customBegan:
+- customEnded:
+- customPlay
+- data
+- dataWithContentsOfFile:
+- dataWithLength:
+- date
+- dateByAddingUnit:value:toDate:options:
+- dateBySettingHour:minute:second:ofDate:options:
+- dateFromString:
+- dateWithTimeIntervalSinceNow:
+- day
+- dealloc
+- debugDescription
+- deco
+- decorateCell:
+- defaultManager
+- deleteLogo
+- deleteRowsAtIndexPaths:withRowAnimation:
+- deleteSound
+- deleteVideo
+- dequeueReusableCellWithIdentifier:
+- dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- description
+- deselectRowAtIndexPath:animated:
+- detailTextLabel
+- dictionary
+- dictionaryWithContentsOfFile:
+- dictionaryWithObject:forKey:
+- dictionaryWithObjects:forKeys:count:
+- didMoveToWindow
+- dim
+- dismissViewControllerAnimated:completion:
+- displayLinkWithTarget:selector:
+- displayScale
+- documentPicker:didPickDocumentAtURL:
+- documentPicker:didPickDocumentsAtURLs:
+- documentPickerWasCancelled:
+- doneEditing
+- dot
+- dots
+- dotsChanged:
+- doubleValue
+- drawAtPoint:withAttributes:
+- drawIcon:in:
+- drawInRect:
+- drawRect:
+- drawWithRect:options:attributes:context:
+- duration
+- editing
+- editorCell:fav:width:
+- effectWithStyle:
+- enabledChanged:
+- endEditing:
+- endUpdates
+- enumerateKeysAndObjectsUsingBlock:
+- enumerateObjectsUsingBlock:
+- error
+- exportAsynchronouslyWithCompletionHandler:
+- exportSessionWithAsset:presetName:
+- extent
+- extractAudioFromAsset:seconds:toDir:
+- extractFramesForVideo:error:progress:
+- extractFramesForVideos:completion:
+- extracting
+- favRow:fav:part:
+- fileExistsAtPath:
+- fileSize
+- fileSystemRepresentation
+- fileURLWithPath:
+- fill
+- filledButtonConfiguration
+- finish
+- firstObject
+- flashView
+- font
+- fontDescriptor
+- fontDescriptorByAddingAttributes:
+- fontDescriptorWithDesign:
+- fontWithDescriptor:size:
+- frame
+- frameLayoutGuide
+- fromCar
+- functionWithControlPoints::::
+- functionWithName:
+- fxTapped:
+- gallery
+- galleryHint
+- galleryTitle
+- generalPasteboard
+- getHue:saturation:brightness:alpha:
+- glass
+- glyph
+- gradient
+- guessApps
+- guideNavigationControllerWithCompletion:
+- hasFramesForVideo:
+- hasPrefix:
+- hasSuffix:
+- hash
+- headerCard
+- headerCellFor:inTable:
+- headerView
+- heightAnchor
+- helpKind:index:
+- hidden
+- hides:
+- hot
+- hud
+- iconFor:
+- iconImage
+- iconView
+- icons
+- identifier
+- image
+- imageByApplyingCGOrientation:
+- imageByApplyingTransform:
+- imageFits
+- imageNamed:inBundle:compatibleWithTraitCollection:
+- imagePickerController:didFinishPickingImage:editingInfo:
+- imagePickerController:didFinishPickingMediaWithInfo:
+- imagePickerControllerDidCancel:
+- imageView
+- imageWithActions:
+- imageWithCGImage:
+- imageWithCVPixelBuffer:
+- imageWithConfiguration:
+- imageWithContentsOfFile:
+- imageWithRenderingMode:
+- imageWithTintColor:renderingMode:
+- impactOccurred
+- importFromFiles
+- importFromPhotos
+- inA
+- inB
+- included
+- indexOfObject:
+- indexPathForItem:inSection:
+- indexPathForPreferredFocusedViewInCollectionView:
+- indexPathForPreferredFocusedViewInTableView:
+- indexPathForRow:inSection:
+- indexPathsForVisibleItems
+- indexSetWithIndex:
+- indexTitlesForCollectionView:
+- initForOpeningContentTypes:asCopy:
+- initWithActivityItems:applicationActivities:
+- initWithArrangedSubviews:
+- initWithContentsOfURL:error:
+- initWithData:encoding:
+- initWithData:fileTypeHint:error:
+- initWithDoubleValue:unit:
+- initWithEffect:
+- initWithFrame:
+- initWithFrame:collectionViewLayout:
+- initWithFrame:style:
+- initWithImage:
+- initWithImage:style:target:action:
+- initWithItems:
+- initWithRootViewController:
+- initWithSize:
+- initWithSize:format:
+- initWithString:attributes:
+- initWithStyle:
+- initWithStyle:reuseIdentifier:
+- initWithStyle:reuseIdentifier:specifier:
+- initWithTarget:action:
+- initWithTitle:style:target:action:
+- insertFeatureSpecifiers
+- insertObject:atIndex:
+- insertRowsAtIndexPaths:withRowAnimation:
+- insertSublayer:atIndex:
+- insertSubview:atIndex:
+- insertTimeRange:ofTrack:atTime:error:
+- instancesRespondToSelector:
+- intForKey:def:
+- integerValue
+- invalidate
+- invertedSet
+- iosOff
+- isDateInToday:
+- isDecelerating
+- isDragging
+- isEqual:
+- isEqualToString:
+- isExecutableFileAtPath:
+- isFirstResponder
+- isHidden
+- isKindOfClass:
+- isLeapMonth
+- isLowPowerModeEnabled
+- isMemberOfClass:
+- isOn
+- isOpen:
+- isProxy
+- isSourceTypeAvailable:
+- isSpeaking
+- isSubclassOfClass:
+- item
+- items
+- keys
+- label
+- labelColor
+- labelWithFont:color:
+- labelWithFont:color:alignment:
+- laidOutWidth
+- languageButton
+- lastPathComponent
+- layer
+- layerClass
+- layoutColorsIn:width:
+- layoutFxIn:width:
+- layoutIfNeeded
+- layoutMargins
+- layoutOf:
+- layoutPage
+- layoutPicked:
+- layoutSourcesIn:width:
+- layoutStylesIn:width:
+- layoutSubviews
+- layoutTilesIn:width:
+- leadingAnchor
+- left
+- length
+- limit
+- lineHeight
+- live
+- liveMap
+- liveStart
+- liveTimer
+- loadSpecifiersFromPlistName:target:
+- loadState
+- loadView
+- localTimeZone
+- localeWithLocaleIdentifier:
+- localizedCaseInsensitiveCompare:
+- localizedCaseInsensitiveContainsString:
+- localizedDescription
+- localizedStandardCompare:
+- localizedStringFromDate:dateStyle:timeStyle:
+- locked:
+- log
+- logo
+- logoEffect
+- logoFromFiles
+- logoFromPhotos
+- longValue
+- lowercaseString
+- mainRunLoop
+- mainScreen
+- markDone
+- markSeen
+- mask
+- masterToggled:
+- max
+- menuWithTitle:children:
+- metricsForTextStyle:
+- monospacedDigitSystemFontOfSize:weight:
+- monospacedSystemFontOfSize:weight:
+- month
+- moveItemAtPath:toPath:error:
+- moveToPoint:
+- mutableBytes
+- mutableCopy
+- muted
+- name
+- nameEdited:
+- nameFooterForStyle:
+- nameLabel
+- nameOf:
+- names
+- namesSwitched:
+- navigationBar
+- navigationController
+- navigationController:animationControllerForOperation:fromViewController:toViewController:
+- navigationController:didShowViewController:animated:
+- navigationController:interactionControllerForAnimationController:
+- navigationController:willShowViewController:animated:
+- navigationControllerPreferredInterfaceOrientationForPresentation:
+- navigationControllerSupportedInterfaceOrientations:
+- navigationItem
+- needle
+- nextButton
+- nextEvent
+- nextTapped
+- notificationOccurred:
+- num:def:
+- number
+- numberColor
+- numberOfRowsInSection:
+- numberOfSections
+- numberOfSectionsInCollectionView:
+- numberOfSectionsInTableView:
+- numberWithBool:
+- numberWithDouble:
+- numberWithInt:
+- numberWithInteger:
+- numberWithLong:
+- numberWithUnsignedInteger:
+- objectAtIndexedSubscript:
+- objectForKey:
+- objectForKeyedSubscript:
+- occasion
+- occasionPreviewTitle
+- offText
+- omcSegmentChanged:
+- omcSliderDone:
+- omcSliderMoved:
+- omcSwitchChanged:
+- on
+- open
+- openApps
+- optionChosen:
+- optionIndex:
+- optionText:
+- other
+- outA
+- outB
+- outEase
+- outlineCorner
+- outlineRect
+- outputs
+- owner
+- page
+- pageCount
+- pageIsDark
+- pageWithSymbol:title:body:extra:note:
+- pager
+- parts
+- path
+- pathExtension
+- pathForResource:ofType:
+- pathsForResourcesOfType:inDirectory:
+- performBatchUpdates:completion:
+- performRespring
+- performSelector:
+- performSelector:withObject:
+- performSelector:withObject:withObject:
+- phoneApps
+- photo
+- pickAppForKey:title:
+- pickKind
+- pickOption:
+- pickPhoto
+- pinned
+- plainButtonConfiguration
+- play
+- playIcon:
+- playIntro
+- playPreview
+- player
+- playerWithURL:
+- popViewControllerAnimated:
+- popoverPresentationController
+- portType
+- positionForBar:
+- prefChanged:
+- prefChanging:
+- prefForKey:def:
+- preferenceSpecifierNamed:target:set:get:detail:cell:edit:
+- preferredFontForTextStyle:
+- preferredFormat
+- preferredLanguages
+- preferredTransform
+- presentViewController:animated:completion:
+- presentationController
+- presentationController:prepareAdaptivePresentationController:
+- presentationController:viewControllerForAdaptivePresentationStyle:
+- presentationController:willPresentWithAdaptiveStyle:transitionCoordinator:
+- presentationControllerDidAttemptToDismiss:
+- presentationControllerDidDismiss:
+- presentationControllerShouldDismiss:
+- presentationControllerWillDismiss:
+- presentedViewController
+- preview
+- previewHeader
+- previewOccasion
+- previewShadow
+- previewSound
+- previewVideo
+- previewWidth
+- processInfo
+- profiles
+- propertyForKey:
+- propertyListWithData:options:format:error:
+- pushViewController:animated:
+- query
+- randomPreviewStyle
+- randomSet
+- rangeOfString:
+- rangeOfString:options:
+- ranged:def:count:
+- rebuild
+- rebuildRows
+- red
+- redecorateVisibleCells
+- refreshCellContentsWithSpecifier:
+- refreshVideoList
+- registerClass:forCellWithReuseIdentifier:
+- release
+- reload
+- reloadCard:
+- reloadData
+- reloadLists
+- reloadSection:
+- reloadSections:withRowAnimation:
+- reloadSpecifier:
+- reloadSpecifiers
+- removable:
+- removeAllAnimations
+- removeAllObjects
+- removeAnimationForKey:
+- removeFromSuperlayer
+- removeFromSuperview
+- removeItemAtPath:error:
+- removeObject:
+- removeObjectForKey:
+- render
+- renderStyle
+- rescueRestore
+- resetAdvancedOnce
+- resetLayout
+- resetTapped
+- resignFirstResponder
+- respondsToSelector:
+- respring
+- retain
+- retainCount
+- rightBarButtonItem
+- rise
+- row
+- rowForItem:
+- rows
+- rowsInSection:
+- runCompletion
+- safeAreaInsets
+- safeAreaLayoutGuide
+- saveLogoImage:
+- scale
+- scaledFontForFont:
+- scanHexInt:
+- scannerWithString:
+- scheduledTimerWithTimeInterval:repeats:block:
+- screen
+- scrollGalleryToStyle:animated:
+- scrollToItemAtIndexPath:atScrollPosition:animated:
+- scrollViewDidChangeAdjustedContentInset:
+- scrollViewDidEndDecelerating:
+- scrollViewDidEndDragging:willDecelerate:
+- scrollViewDidEndScrollingAnimation:
+- scrollViewDidEndZooming:withView:atScale:
+- scrollViewDidScroll:
+- scrollViewDidScrollToTop:
+- scrollViewDidZoom:
+- scrollViewShouldScrollToTop:
+- scrollViewWillBeginDecelerating:
+- scrollViewWillBeginDragging:
+- scrollViewWillBeginZooming:withView:
+- scrollViewWillEndDragging:withVelocity:targetContentOffset:
+- searchBar:selectedScopeButtonIndexDidChange:
+- searchBar:shouldChangeTextInRange:replacementText:
+- searchBar:textDidChange:
+- searchBarBookmarkButtonClicked:
+- searchBarCancelButtonClicked:
+- searchBarResultsListButtonClicked:
+- searchBarSearchButtonClicked:
+- searchBarShouldBeginEditing:
+- searchBarShouldEndEditing:
+- searchBarTextDidBeginEditing:
+- searchBarTextDidEndEditing:
+- secondaryLabelColor
+- section
+- sectionIndexTitlesForTableView:
+- segmentForKey:titles:def:
+- selectedSegmentIndex
+- selectedVideo
+- selectionChanged
+- self
+- sendLog
+- set
+- setAccessibilityLabel:
+- setAccessibilityTraits:
+- setAccessory:onCell:
+- setAccessoryType:
+- setAccessoryView:
+- setActive:
+- setActive:error:
+- setActive:withOptions:error:
+- setAdditive:
+- setAdjustsFontForContentSizeCategory:
+- setAdjustsFontSizeToFitWidth:
+- setAlignment:
+- setAllowsSelectionDuringEditing:
+- setAlpha:
+- setAlwaysBounceHorizontal:
+- setAlwaysCopiesSampleData:
+- setAnchorPoint:
+- setAnimationDuration:
+- setAppliesPreferredTrackTransform:
+- setArc:
+- setAttributedText:
+- setAttributes:ofItemAtPath:error:
+- setAutoresizingMask:
+- setAutoreverses:
+- setAxis:
+- setBackgroundColor:
+- setBackgroundImage:forState:
+- setBackgroundView:
+- setBarButtonItem:
+- setBaseBackgroundColor:
+- setBaseForegroundColor:
+- setBatteryMonitoringEnabled:
+- setBatteryPercent:
+- setBirthdayClear:
+- setBirthdayPicker:
+- setBirthdayView:
+- setBits:
+- setBlur:
+- setBorderColor:
+- setBorderStyle:
+- setBorderWidth:
+- setBounds:
+- setBuiltStyle:
+- setCalendar:
+- setCarName:
+- setCarPlayApps:
+- setCard:
+- setCarplayApps:
+- setCategory:error:
+- setCategory:withOptions:error:
+- setCenter:
+- setChosen:
+- setChosen:dark:
+- setClearButtonMode:
+- setClip:
+- setClipsToBounds:
+- setClosed:
+- setColor:
+- setColors:
+- setCols:
+- setCompletion:
+- setConfiguration:
+- setConstant:
+- setContentCompressionResistancePriority:forAxis:
+- setContentHorizontalAlignment:
+- setContentHuggingPriority:forAxis:
+- setContentInsetAdjustmentBehavior:
+- setContentInsets:
+- setContentMode:
+- setContentOffset:
+- setContentOffset:animated:
+- setContentScaleFactor:
+- setContentSize:
+- setContents:
+- setContentsGravity:
+- setCorner:
+- setCornerCurve:
+- setCornerRadius:
+- setCornerStyle:
+- setCurrentPage:
+- setCurrentPageIndicatorTintColor:
+- setCustomSpacing:afterView:
+- setDataSource:
+- setDate:
+- setDateFormat:
+- setDatePickerMode:
+- setDeco:
+- setDelegate:
+- setDim:
+- setDirectionalLayoutMargins:
+- setDisableActions:
+- setDistribution:
+- setDot:
+- setDots:
+- setDuration:
+- setEditing:
+- setEditingAccessoryView:
+- setEnabled:
+- setEndPoint:
+- setExtracting:
+- setFill
+- setFill:
+- setFillColor:
+- setFillRule:
+- setFlashView:
+- setFont:
+- setFrame:
+- setFromCar:
+- setFromValue:
+- setGallery:
+- setGalleryHint:
+- setGalleryTitle:
+- setGlass:
+- setGlyph:
+- setGradient:
+- setGuessApps:
+- setHeadIndent:
+- setHeaderCard:
+- setHidden:
+- setHot:
+- setHud:
+- setIconImage:
+- setIconView:
+- setIcons:
+- setImage:
+- setImage:forState:
+- setImageFits:
+- setImagePadding:
+- setImageView:
+- setInA:
+- setInB:
+- setIncluded:
+- setIndentationLevel:
+- setIndentationWidth:
+- setIosOff:
+- setIsAccessibilityElement:
+- setItemSize:
+- setItems:
+- setKeyboardDismissMode:
+- setKeys:
+- setLabel:
+- setLaidOutWidth:
+- setLanguage:
+- setLayoutMarginsRelativeArrangement:
+- setLeft:
+- setLeftView:
+- setLeftViewMode:
+- setLimit:
+- setLineBreakMode:
+- setLineCap:
+- setLineDashPattern:
+- setLineJoin:
+- setLineSpacing:
+- setLineWidth:
+- setLive:
+- setLiveMap:
+- setLiveStart:
+- setLiveTimer:
+- setLocale:
+- setLocalizedDateFormatFromTemplate:
+- setLocations:
+- setLog:
+- setLogo:
+- setLogoEffect:
+- setMask:
+- setMaskView:
+- setMaskedCorners:
+- setMasksToBounds:
+- setMax:
+- setMaximumFractionDigits:
+- setMaximumValue:
+- setMediaTypes:
+- setMenu:
+- setMessage:
+- setMinificationFilter:
+- setMinimumInteritemSpacing:
+- setMinimumLineSpacing:
+- setMinimumScaleFactor:
+- setMinimumTrackTintColor:
+- setMinimumValue:
+- setModalPresentationStyle:
+- setMuted:
+- setName:
+- setNameLabel:
+- setNames:
+- setNavigationBarHidden:animated:
+- setNeedle:
+- setNeedsDisplay
+- setNeedsLayout
+- setNextButton:
+- setNextEvent:
+- setNumber:
+- setNumberFormatter:
+- setNumberOfLines:
+- setNumberOfPages:
+- setObject:atIndexedSubscript:
+- setObject:forKey:
+- setObject:forKeyedSubscript:
+- setOccasion:
+- setOffText:
+- setOn:
+- setOnTintColor:
+- setOpacity:
+- setOpaque:
+- setOpen:
+- setOther:
+- setOutA:
+- setOutB:
+- setOutEase:
+- setOutlineCorner:
+- setOutlineRect:
+- setOutputFileType:
+- setOutputURL:
+- setOverLimitWarning:
+- setOwner:
+- setPage:
+- setPageCount:
+- setPageIndicatorTintColor:
+- setPager:
+- setPagingEnabled:
+- setParagraphSpacing:
+- setParts:
+- setPath:
+- setPhoneApps:
+- setPhoto:
+- setPickKind:
+- setPinned:
+- setPlaceholder:
+- setPlayer:
+- setPosition:
+- setPreferenceValue:specifier:
+- setPreferredDatePickerStyle:
+- setPreferredFrameRateRange:
+- setPreferredRange:
+- setPreferredTransform:
+- setPreservesSuperviewLayoutMargins:
+- setPreview:
+- setPreviewHeader:
+- setPreviewShadow:
+- setPreviewWidth:
+- setProfiles:
+- setProperty:forKey:
+- setQuery:
+- setRasterizationScale:
+- setRed:
+- setRepeatCount:
+- setReturnKeyType:
+- setRightBarButtonItem:
+- setRightBarButtonItems:
+- setRightView:
+- setRightViewMode:
+- setRise:
+- setRowHeight:
+- setRows:
+- setScale:
+- setScrollDirection:
+- setSearchBarStyle:
+- setSectionInset:
+- setSelectedSegmentIndex:
+- setSelectedVideo:
+- setSelectionStyle:
+- setShadowColor:
+- setShadowOffset:
+- setShadowOpacity:
+- setShadowPath:
+- setShadowRadius:
+- setShape:
+- setSheen:
+- setShouldOptimizeForNetworkUse:
+- setShouldRasterize:
+- setShowGestures:
+- setShowIcon:
+- setShowSiri:
+- setShown:
+- setShowsHorizontalScrollIndicator:
+- setShowsVerticalScrollIndicator:
+- setSign:
+- setSize:
+- setSkipButton:
+- setSoundPlayer:
+- setSourceRect:
+- setSourceType:
+- setSourceView:
+- setSpacing:
+- setSpecifier:
+- setSpeed:
+- setSpeedLabel:
+- setStartPoint:
+- setState:
+- setStatusLabel:
+- setStepValue:
+- setString:
+- setStripOffset:
+- setStroke
+- setStrokeColor:
+- setStrokeEnd:
+- setStrokeStart:
+- setStyle:
+- setStyleColors:
+- setStyleStrip:
+- setSupportState:
+- setTable:
+- setTableHeaderView:
+- setTag:
+- setTaglineLabel:
+- setTempo:
+- setText:
+- setTextAlignment:
+- setTextColor:
+- setTickLabels:
+- setTileCorner:
+- setTileMask:
+- setTimeOffset:
+- setTimeRange:
+- setTimeZone:
+- setTimingFunction:
+- setTintColor:
+- setTitle:
+- setTitle:forState:
+- setTitleColor:forState:
+- setTitleDictionary:
+- setToValue:
+- setToggle:
+- setTop:bottom:
+- setTransform:
+- setTranslatesAutoresizingMaskIntoConstraints:
+- setType:
+- setUnitLabel:
+- setUnitStyle:
+- setUserInteractionEnabled:
+- setUsesApplicationAudioSession:
+- setValue:
+- setValues:titles:
+- setVersion:
+- setVersionLabel:
+- setVideo:
+- setVideoExportPreset:
+- setVideoThumb:
+- setView:
+- setVoice:
+- setVolume:
+- setWallStyle:
+- setWallpaper:
+- setWarnRows:
+- setWeather:
+- setWithArray:
+- setWithObject:
+- shape
+- shapePart:in:stroke:width:
+- sharedInstance
+- sheen
+- shouldShow
+- showGestures
+- showGuide
+- showIcon
+- showMessage:
+- showPage:animated:
+- showPreviewStyle:occasion:
+- showSiri
+- showStep:
+- showStyle:chosen:dark:
+- showWhatsNew
+- shown
+- shownLimit
+- shows:
+- sign
+- size
+- sizeThatFits:
+- sizeToFit
+- sizeWithAttributes:
+- skipButton
+- sliderDone:
+- sliderFor:min:max:def:unit:
+- sliderForKey:min:max:def:format:width:
+- sliderMoved:
+- smallButton:tint:action:bundle:
+- sortDescriptorWithKey:ascending:selector:
+- sortUsingComparator:
+- sortUsingDescriptors:
+- sortUsingSelector:
+- sortedArrayUsingComparator:
+- sortedArrayUsingSelector:
+- soundPlayer
+- source
+- sourceHint
+- sourceName:
+- sourceTapped:
+- speakUtterance:
+- specifier
+- specifiers
+- speechSynthesizer:didCancelSpeechUtterance:
+- speechSynthesizer:didContinueSpeechUtterance:
+- speechSynthesizer:didFinishSpeechUtterance:
+- speechSynthesizer:didPauseSpeechUtterance:
+- speechSynthesizer:didStartSpeechUtterance:
+- speechSynthesizer:willSpeakRangeOfSpeechString:utterance:
+- speechUtteranceWithString:
+- speed
+- speedBubbleToggled:
+- speedLabel
+- speedPage
+- speedRatio
+- speedState
+- splitPage
+- ss_addCanvas
+- ss_addMote:layer:to:
+- ss_applyEngine:
+- ss_applyHud:
+- ss_applyMotes:
+- ss_applySky:
+- ss_applyTime:
+- ss_applyWelcome:
+- ss_buildBriefing
+- ss_buildEngine
+- ss_buildFestive
+- ss_buildHud
+- ss_buildLiquid
+- ss_buildParticles
+- ss_buildScene
+- ss_buildSky
+- ss_buildWelcome
+- ss_clearScene
+- ss_drawCanvas:size:
+- ss_drawFireworks:t:
+- ss_drawParticles:t:
+- ss_fade:from:to:alpha:
+- ss_gaugeAt:radius:label:unit:max:red:in:
+- ss_host
+- ss_label:at:size:weight:color:left:in:maxWidth:
+- ss_now
+- ss_sceneColors
+- ss_setGauge:value:
+- ss_startLink
+- ss_step
+- ss_stopLink
+- stackHeight
+- stackNumberAt:top:width:
+- startReading
+- stateColor
+- status
+- statusLabel
+- step:
+- stepped:
+- stepperFor:values:
+- stop
+- stopSpeakingAtBoundary:
+- storeChoices
+- storeValue:forKey:
+- string
+- stringByAppendingFormat:
+- stringByAppendingPathComponent:
+- stringByAppendingString:
+- stringByDeletingLastPathComponent
+- stringByDeletingPathExtension
+- stringByReplacingOccurrencesOfString:withString:
+- stringByTrimmingCharactersInSet:
+- stringForKey:
+- stringFromDate:
+- stringFromMeasurement:
+- stringValue
+- stringWithContentsOfFile:encoding:error:
+- stringWithFormat:
+- stringWithUTF8String:
+- stripOffset
+- stroke
+- strokeColor
+- style
+- styleColors
+- styleStrip
+- styleTapped:
+- subarrayWithRange:
+- sublayers
+- substringFromIndex:
+- substringToIndex:
+- subviews
+- summaryFor:
+- superclass
+- superview
+- supportState
+- switchForKey:def:
+- systemBackgroundColor
+- systemFontOfSize:
+- systemFontOfSize:weight:
+- systemGreenColor
+- systemImageNamed:
+- systemImageNamed:withConfiguration:
+- systemLayoutSizeFittingSize:
+- systemRedColor
+- systemVersion
+- table
+- tableView:accessoryButtonTappedForRowWithIndexPath:
+- tableView:accessoryTypeForRowWithIndexPath:
+- tableView:canEditRowAtIndexPath:
+- tableView:canFocusRowAtIndexPath:
+- tableView:canMoveRowAtIndexPath:
+- tableView:canPerformAction:forRowAtIndexPath:withSender:
+- tableView:canPerformPrimaryActionForRowAtIndexPath:
+- tableView:cellForRowAtIndexPath:
+- tableView:commitEditingStyle:forRowAtIndexPath:
+- tableView:contextMenuConfigurationForRowAtIndexPath:point:
+- tableView:didBeginMultipleSelectionInteractionAtIndexPath:
+- tableView:didDeselectRowAtIndexPath:
+- tableView:didEndDisplayingCell:forRowAtIndexPath:
+- tableView:didEndDisplayingFooterView:forSection:
+- tableView:didEndDisplayingHeaderView:forSection:
+- tableView:didEndEditingRowAtIndexPath:
+- tableView:didHighlightRowAtIndexPath:
+- tableView:didSelectRowAtIndexPath:
+- tableView:didUnhighlightRowAtIndexPath:
+- tableView:didUpdateFocusInContext:withAnimationCoordinator:
+- tableView:editActionsForRowAtIndexPath:
+- tableView:editingStyleForRowAtIndexPath:
+- tableView:estimatedHeightForFooterInSection:
+- tableView:estimatedHeightForHeaderInSection:
+- tableView:estimatedHeightForRowAtIndexPath:
+- tableView:heightForFooterInSection:
+- tableView:heightForHeaderInSection:
+- tableView:heightForRowAtIndexPath:
+- tableView:indentationLevelForRowAtIndexPath:
+- tableView:leadingSwipeActionsConfigurationForRowAtIndexPath:
+- tableView:moveRowAtIndexPath:toIndexPath:
+- tableView:numberOfRowsInSection:
+- tableView:performAction:forRowAtIndexPath:withSender:
+- tableView:performPrimaryActionForRowAtIndexPath:
+- tableView:previewForDismissingContextMenuWithConfiguration:
+- tableView:previewForHighlightingContextMenuWithConfiguration:
+- tableView:sectionForSectionIndexTitle:atIndex:
+- tableView:selectionFollowsFocusForRowAtIndexPath:
+- tableView:shouldBeginMultipleSelectionInteractionAtIndexPath:
+- tableView:shouldHighlightRowAtIndexPath:
+- tableView:shouldIndentWhileEditingRowAtIndexPath:
+- tableView:shouldShowMenuForRowAtIndexPath:
+- tableView:shouldSpringLoadRowAtIndexPath:withContext:
+- tableView:shouldUpdateFocusInContext:
+- tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:
+- tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:
+- tableView:titleForFooterInSection:
+- tableView:titleForHeaderInSection:
+- tableView:trailingSwipeActionsConfigurationForRowAtIndexPath:
+- tableView:viewForFooterInSection:
+- tableView:viewForHeaderInSection:
+- tableView:willBeginEditingRowAtIndexPath:
+- tableView:willDeselectRowAtIndexPath:
+- tableView:willDisplayCell:forRowAtIndexPath:
+- tableView:willDisplayContextMenuWithConfiguration:animator:
+- tableView:willDisplayFooterView:forSection:
+- tableView:willDisplayHeaderView:forSection:
+- tableView:willEndContextMenuInteractionWithConfiguration:animator:
+- tableView:willPerformPreviewActionForMenuWithConfiguration:animator:
+- tableView:willSelectRowAtIndexPath:
+- tableViewDidEndMultipleSelectionInteraction:
+- tag
+- taglineLabel
+- tempo
+- tertiaryLabelColor
+- text
+- textAlignment
+- textField:editMenuForCharactersInRange:suggestedActions:
+- textField:shouldChangeCharactersInRange:replacementString:
+- textField:willDismissEditMenuWithAnimator:
+- textField:willPresentEditMenuWithAnimator:
+- textFieldDidBeginEditing:
+- textFieldDidChangeSelection:
+- textFieldDidEndEditing:
+- textFieldDidEndEditing:reason:
+- textFieldShouldBeginEditing:
+- textFieldShouldClear:
+- textFieldShouldEndEditing:
+- textFieldShouldReturn:
+- textLabel
+- thermalState
+- tickLabels
+- tickLive
+- tileCorner
+- tileMask
+- tileTapped:
+- tileWithSymbol:side:pointSize:radius:
+- timeIntervalSince1970
+- timeIntervalSinceDate:
+- timeIntervalSinceNow
+- timeZoneForSecondsFromGMT:
+- tipsPage
+- title
+- titleDictionary
+- titleLabel
+- toast:
+- toggle
+- toggleRandomStyle:
+- tone
+- topAnchor
+- tracksWithMediaType:
+- trailingAnchor
+- traitCollection
+- traitCollectionDidChange:
+- tryOnCar
+- unitLabel
+- unsignedIntValue
+- unsignedIntegerValue
+- unsignedShortValue
+- updateBirthdayAccessory
+- updateControls
+- updateHeaderStatus
+- updateHeaderStatusEnabled:
+- updateHeaders
+- updatePreview
+- updateWithTagline:status:enabled:
+- uppercaseString
+- urls
+- useStyle:
+- useVideo:
+- useWallpaper:
+- userInterfaceStyle
+- usesMetricSystem
+- value
+- valueWithCGPoint:
+- valueWithCGRect:
+- version
+- versionLabel
+- video
+- videoFiles
+- videoThumb
+- view
+- viewDidAppear:
+- viewDidLayoutSubviews
+- viewDidLoad
+- viewForZoomingInScrollView:
+- viewWillAppear:
+- viewWillDisappear:
+- viewWithTag:
+- visibleCells
+- voiceLine
+- voiceSound
+- voiceText
+- voiceWithLanguage:
+- wallName:
+- wallStyle
+- wallpaper
+- warnCell:width:
+- warnFx
+- warnMode
+- warnRows
+- warnSwitchChanged:
+- weather
+- welcomePage
+- whatsNewNavigationController
+- whiteColor
+- whitespaceAndNewlineCharacterSet
+- whitespaceCharacterSet
+- widthAnchor
+- window
+- writeJPEG:to:
+- writeToFile:atomically:
+- writeToFile:atomically:encoding:error:
+- writeToFile:options:error:
+- writeToURL:error:
+- zone
+
+### CFString constants (1218)
+- `com.anlai.omnicar`
+- `empty`
+- `PROFILES`
+- `carProfiles`
+- `lastSeen`
+- `carProfilesEnabled`
+- `PROFILES_CARS`
+- `PROFILES_FOOTER`
+- `PROFILES_CARS_FOOTER`
+- `switch`
+- `PROFILES_ENABLE`
+- `car.2.fill`
+- `car`
+- `PROFILES_NONE`
+- `name`
+- `PROFILES_LAST_SEEN`
+- `car.fill`
+- `carProfileCurrent`
+- `/var/mobile/Documents/OmniCar.log`
+- `CarBridge`
+- `carbridge`
+- `DuoDash`
+- `duodash`
+- `TrueDash`
+- `truedash`
+- `CarPlayEnable`
+- `carplayenable`
+- `/Library/MobileSubstrate/DynamicLibraries`
+- `/usr/lib/TweakInject`
+- `dylib`
+- `id`
+- ` %@`
+- `active`
+- `rescueFeatures`
+- `Enabled`
+- `rescueDate`
+- `title`
+- `DIAG_DEVICE`
+- `rows`
+- `OmniCar`
+- `1.0.3 (fbebb21)`
+- `iOS`
+- `%@ (%@)`
+- `DIAG_MODEL`
+- `DIAG_JAILBREAK`
+- `DIAG_THERMAL`
+- `diagCar`
+- `pixels`
+- `modelName`
+- `vehicleName`
+- `accessoryName`
+- `model`
+- `manufacturerName`
+- `manufacturer`
+- `vehicleManufacturer`
+- `accessoryManufacturer`
+- `%@ %@`
+- `DIAG_CAR`
+- `DIAG_CAR_NAME`
+- `DIAG_UNKNOWN`
+- `DIAG_CAR_CONNECTION`
+- `DIAG_CAR_RESOLUTION`
+- `%@ px`
+- `DIAG_CAR_POINTS`
+- `%@ pt @%@x`
+- `points`
+- `?`
+- `scale`
+- `DIAG_CAR_RATIO`
+- `DIAG_CAR_FPS`
+- `%@`
+- `maxFPS`
+- `DIAG_CAR_VIDEO`
+- `DIAG_CAR_LAST`
+- `date`
+- `footer`
+- `DIAG_CAR_FOOTER`
+- `DIAG_CAR_NONE`
+- `DIAG_CAR_NONE_FOOTER`
+- `%@/OmniCar%@.dylib`
+- `DIAG_NOT_INSTALLED`
+- `FEATURE_ON`
+- `FEATURE_OFF`
+- `missing`
+- `total`
+- `%@ (%@, iOS %@): %@`
+- `process`
+- `ios`
+- `, `
+- `DIAG_HOOKS_MISSING`
+- `DIAG_HOOKS_OK`
+- ` · `
+- `%@
+%@`
+- `DIAG_HOOKS_FOOTER_MISSING`
+- `
+`
+- `DIAG_FEATURES_FOOTER`
+- `1.0.3`
+- `FEATURES_GROUP`
+- `DIAG_RESCUED`
+- `RESCUE_GROUP`
+- `DIAG_RESCUE_FOOTER`
+- `DIAG_CONFLICT_ACTIVE`
+- `DIAG_CONFLICT_INSTALLED`
+- `DIAG_CONFLICTS_NONE`
+- `DIAG_CONFLICTS`
+- `DIAG_CONFLICTS_FOOTER`
+- `i·O·S· ·%·@`
+- `CHK_IOS`
+- `bad`
+- `CHK_IOS_OLD`
+- `ok`
+- `warn`
+- `CHK_IOS_NEW`
+- `/var/jb`
+- `CHK_JB`
+- `CHK_JB_ROOTFUL`
+- `ellekit`
+- `mobilesubstrate`
+- `com.opa334.libhooker`
+- `org.coolstar.libhooker`
+- `com.ex.substitute`
+- `/usr/lib/ellekit/libinjector.dylib`
+- `/usr/lib/libellekit.dylib`
+- `/usr/lib/libsubstrate.dylib`
+- `/usr/lib/TweakInject.dylib`
+- `CHK_LOADER`
+- `ElleKit`
+- `CHK_LOADER_NONE`
+- `CHK_LOADER_FIX`
+- `%@/OmniCar%@.plist`
+- `CHK_PACKAGE`
+- `CHK_PACKAGE_NONE`
+- `CHK_PACKAGE_FIX`
+- `CHK_PACKAGE_BROKEN`
+- `CHK_PACKAGE_OK`
+- `SpringBoard`
+- `CHK_RUNNING`
+- `CHK_RUNNING_OK`
+- `old`
+- `CHK_RUNNING_OLD`
+- `CHK_RUNNING_RESPRING`
+- `respring`
+- `CHK_RUNNING_NONE`
+- `CHK_RUNNING_NONE_FIX`
+- `CHK_MASTER`
+- `STATUS_OFF`
+- `CHK_MASTER_FIX`
+- `/var`
+- `CHK_STORAGE_FREE`
+- `CHK_STORAGE`
+- `CHK_STORAGE_FIX`
+- `%.0f%%`
+- ` · %@`
+- `CHK_BATTERY_CHARGING`
+- `CHK_BATTERY`
+- `CHK_LOWPOWER`
+- `CHK_LOWPOWER_FIX`
+- `CHK_THERMAL_FIX`
+- `CHK_CONFLICT`
+- `CHK_CONFLICT_ACTIVE`
+- `CONFLICTS_FOOTER`
+- `CHK_CONFLICT_IDLE`
+- `connected`
+- `%@ · %@`
+- `CHK_CAR_UNKNOWN`
+- `CHK_CAR_CONNECTED`
+- `CHK_CAR`
+- `disconnected`
+- `info`
+- `CHK_CAR_LAST`
+- `CHK_CAR_NEVER`
+- `CHK_CAR_NEVER_FIX`
+- `CarPlay`
+- `none`
+- `CHK_CP_RUNNING`
+- `CHK_CP_RECONNECT`
+- `CHK_CP_NONE`
+- `%@ (%lu)`
+- `CHK_HOOKS`
+- `CHK_HOOKS_MISSING`
+- `CHK_HOOKS_MISSING_FIX`
+- `CHK_HOOKS_OK`
+- `diagLastCrash`
+- `suspect`
+- `CHK_CRASH_SUSPECT`
+- `CHK_CRASH_AT`
+- `CHK_CRASH`
+- `CHK_CRASH_FIX`
+- `CHK_CRASH_NONE`
+- `CHK_RESCUE_ON`
+- `CHK_RESCUE_FIX`
+- `rescue`
+- `%@ · %@ · %@ FPS`
+- `CHK_SCREEN_VIDEO`
+- `splitScreen`
+- `splitScreenCarPlayApps`
+- `CHK_SPLIT_APPS`
+- `CHK_SPLIT_FEW`
+- `appBridge`
+- `appBridgeApps`
+- `CHK_BRIDGE_NONE`
+- `CHK_BRIDGE_NONE_FIX`
+- `CHK_BRIDGE_APPS`
+- `CHK_BRIDGE_GONE`
+- `speedBubble`
+- `Vietmap Live`
+- `GOFA`
+- `Waze`
+- `Wyn`
+- `vn.vietmap.live`
+- `com.lumi.GOFA`
+- `com.waze.iphone`
+- `com.wynauto.wyn`
+- `speedBubbleSource`
+- `CHK_BUBBLE_SOURCE`
+- `CHK_BUBBLE_MISSING`
+- `startupScreen`
+- `/var/mobile/Library/OmniCar/StartupScreen/Videos`
+- `.frames`
+- `info.plist`
+- `CHK_START_NONE`
+- `CHK_START_NONE_FIX`
+- `count`
+- `CHK_START_FRAMES_FIX`
+- `%@ · %@ fps`
+- `fps`
+- `checks`
+- `CHK_PERF_GROUP`
+- `status`
+- `CHK_SUM_BAD`
+- `CHK_SUM_WARN`
+- `CHK_SUM_OK`
+- `CHK_SUM_COUNTS`
+- `subtitle`
+- `SBSRelaunchAction`
+- `FBSSystemService`
+- `actionWithReason:options:targetURL:`
+- `RestartRenderServer`
+- `sharedService`
+- `sendActions:withResult:`
+- `/var/jb/usr/bin/killall`
+- `/usr/bin/killall`
+- `SEND_LOG_FAILED`
+- `OK`
+- `APPS`
+- `HOME_SCREEN`
+- `homeScreen`
+- `OMCRootListController`
+- `plist`
+- `Feature`
+- `featureLabel`
+- `items`
+- `key`
+- `cell`
+- `PSSwitchCell`
+- `/var/lib/dpkg/status`
+- `
+
+`
+- `: `
+- ` `
+- `Package`
+- `Status`
+- ` installed`
+- `Name`
+- `version`
+- `Version`
+- `label`
+- `value`
+- `·`
+- `rootless`
+- `rootful / roothide`
+- `/var/jb/.installed_dopamine`
+- `/var/jb/basebin`
+- ` (Dopamine)`
+- `/var/jb/.installed_palera1n`
+- `/cores/binpack`
+- ` (palera1n)`
+- `DIAG_THERMAL_NOMINAL`
+- `DIAG_THERMAL_FAIR`
+- `DIAG_THERMAL_SERIOUS`
+- `DIAG_THERMAL_CRITICAL`
+- `x`
+- `configuration`
+- `session`
+- `nil`
+- `(null)`
+- `wireless`
+- `1`
+- `0`
+- `DIAG_CAR_WIRELESS`
+- `DIAG_CAR_WIRED`
+- `wired`
+- `transport`
+- `wifi`
+- `wi-fi`
+- `usb`
+- `×`
+- `%.2f:1`
+- `%ld:%ld (%@)`
+- `4·8·0·p· ·(·8·`
+- `7·2·0·p· ·(·1·2`
+- `1·0·8·0·p· ·(·1·9`
+- `diagHooks.`
+- `@`
+- `fix`
+- `action`
+- `build`
+- `fbebb21`
+- `Filter`
+- `Bundles`
+- `com.apple.springboard`
+- `com.apple.CarPlayApp`
+- `perf`
+- `AVExternalDevice`
+- `currentCarPlayExternalDevice`
+- `%@%@@%@`
+- `diagLoaded.`
+- `LSApplicationWorkspace`
+- `defaultWorkspace`
+- `applicationIsInstalled:`
+- `startupScreenVideoName`
+- `.`
+- `diagPerf`
+- `start`
+- `CHK_PERF_DRIVE`
+- `CHK_PERF_NONE_FIX`
+- `seconds`
+- `updated`
+- `CHK_PERF_LIVE`
+- `CHK_PERF_AT`
+- `frames`
+- `late`
+- `CHK_PERF_SMOOTH`
+- `CHK_PERF_FEW`
+- `CHK_PERF_SMOOTH_VALUE`
+- `worstMs`
+- `hangs`
+- `freezes`
+- `CHK_PERF_HANG_VALUE`
+- `hangMaxMs`
+- `CHK_PERF_HANG_NONE`
+- `CHK_PERF_HANG`
+- `CHK_PERF_HANG_FIX`
+- `cpuAvg`
+- `CHK_PERF_CPU`
+- `CHK_PERF_CPU_VALUE`
+- `cpuMax`
+- `CHK_PERF_CPU_FIX`
+- `availMinMB`
+- `sysFreeMinMB`
+- `CHK_PERF_RAM_VALUE`
+- `memMaxMB`
+- `CHK_PERF_RAM_USED`
+- `CHK_PERF_RAM`
+- `CHK_PERF_RAM_FIX`
+- `thermalMax`
+- `CHK_PERF_HEAT`
+- `CHK_PERF_HEAT_FIX`
+- `lowPower`
+- `CHK_PERF_LOWPOWER`
+- `CHK_PERF_LOWPOWER_ON`
+- `tweaks`
+- ` +%lu`
+- `%·l·u· ·`
+- `CHK_PERF_TWEAKS_NONE`
+- `CHK_PERF_TWEAKS`
+- `CHK_PERF_TWEAKS_FIX`
+- `CHK_PERF_LOG`
+- `%.1f MB`
+- `memMB`
+- `CHK_PERF_GENERIC_FIX`
+- `.old`
+- `en_US_POSIX`
+- `yyyy-MM-dd HH:mm:ss`
+- `OmniCar report %@
+`
+- `master switch: %@, language: %@
+`
+- `on`
+- `off`
+- `
+== %@ (%@) ==
+`
+- `OK  `
+- `WARN`
+- `BAD `
+- `INFO`
+- `-- %@
+`
+- `[%@] %@: %@%@
+`
+- ` -> `
+- `
+== %@ ==
+`
+- `%@: %@
+`
+- `(%@)
+`
+- `
+== Car (raw) ==
+%@
+`
+- `
+== Performance, last drive (raw) ==
+%@
+`
+- `
+== Installed packages ==
+`
+- `%@ %@ (%@)
+`
+- `OmniCar.log.old`
+- `OmniCar.log`
+- `yyyyMMdd-HHmm`
+- `OmniCar-log-%@.txt`
+- `
+==== %@ (%@) ====
+%@
+`
+- `(empty / not found)`
+- `onboardingDone`
+- `ONB_SKIP`
+- `ONB_NEXT`
+- `" `
+- `ONB_P1_BUTTON`
+- `square.grid.2x2.fill`
+- `ONB_P1_TITLE`
+- `ONB_P1_BODY`
+- `ONB_P1_NOTE`
+- `rectangle.split.2x1.fill`
+- `ONB_P2_TITLE`
+- `ONB_P2_BODY`
+- `ONB_P2_NOTE`
+- `speedometer`
+- `ONB_P3_SWITCH`
+- `speedBubbleEnabled`
+- `ONB_P3_TITLE`
+- `ONB_P3_BODY`
+- `ONB_P3_NOTE`
+- `lifepreserver`
+- `ONB_P4_TITLE`
+- `ONB_P4_BODY`
+- `ONB_P4_NOTE`
+- `ONB_DONE`
+- `OMCAppBridgeAppsController`
+- `#B7A6FF`
+- `#8FD3FF`
+- `#9DF2D8`
+- `logo`
+- `featureKey`
+- `featureDefault`
+- `Root`
+- `%@|%@`
+- `,`
+- `|`
+- `omcGroup`
+- `conflicts`
+- `rescueGroup`
+- `RESCUE_FOOTER`
+- `footerText`
+- `conflictsGroup`
+- `conflictsRow`
+- `featureOrder`
+- `features`
+- `featureController`
+- `OMCFeatureListController`
+- `cellClass`
+- `featureIcon`
+- `icon`
+- `featureSymbol`
+- `symbol`
+- `default`
+- `arrow.clockwise`
+- `RESPRING`
+- `globe`
+- `LANGUAGE`
+- `language`
+- `HEADER_TAGLINE`
+- `STATUS_EXPIRED`
+- `STATUS_ON`
+- `enabled`
+- `RESCUE_RESTORED`
+- `RESPRING_CONFIRM`
+- `CANCEL`
+- `vi`
+- `Tiếng Việt`
+- `en`
+- `English`
+- `es`
+- `E·s·p·a`
+- `pt-BR`
+- `Português (Brasil)`
+- `de`
+- `Deutsch`
+- `fr`
+- `F·r·a·n·`
+- `it`
+- `Italiano`
+- `ru`
+- ` ·C·A·A`
+- `zh-Hans`
+- `简体中文`
+- `ja`
+- `日本語`
+- `ko`
+- `한국어`
+- `ar`
+- `'·D·9·1`
+- `th`
+- `D··`
+- `Bahasa Indonesia`
+- `/%@.lproj`
+- `/en.lproj`
+- `strings`
+- `Car.strings`
+- `#`
+- `dynamicTitles`
+- `symbolColor`
+- `#0A59F7`
+- `iconImage`
+- `isDestructive`
+- `#FFC2D6`
+- `#FF7FA8`
+- `#2BC79A`
+- `#5AB8FF`
+- `#8B7CFF`
+- `#0E0F16`
+- `#F4F5FB`
+- `whatsNewSeen`
+- `sparkles`
+- `WN_TITLE`
+- `WN_CONTINUE`
+- `titleKey`
+- `textKey`
+- `WhatsNew`
+- `APPBRIDGE_APPS_COUNT`
+- `%ld`
+- `APPBRIDGE_APPS_NONE`
+- `▶︎ video`
+- `9:41`
+- `com.apple.Maps`
+- `com.apple.Music`
+- `APPS_TITLE`
+- `APPS_RESET`
+- `appBridgeAdvancedReset`
+- `appBridgeEnabled`
+- `appBridgeFps`
+- `homeScreenCarApps`
+- `homeScreenHiddenApps`
+- `homeScreenShownApps`
+- `/var/mobile/Library/OmniCar`
+- `HomeScreen/photo.jpg`
+- `HomeScreen/video.mp4`
+- `HomeScreen/video.jpg`
+- `homeScreenWallpaper`
+- `homeScreenWallpaperStyle`
+- `HomeScreen/wallpaper.jpg`
+- `carplay`
+- `HOMESCREEN_RESET_CONFIRM`
+- `APPS_RESET_CONFIRM`
+- `homeScreenGridCols`
+- `homeScreenGridRows`
+- `homeScreenIconSize`
+- `homeScreenShowNames`
+- `homeScreenBlur`
+- `homeScreenDim`
+- `com.apple.mobilephone`
+- `com.apple.MobileSMS`
+- `com.apple.podcasts`
+- `APPS_WALL_%ld`
+- `head`
+- `HOMESCREEN_WALLPAPER`
+- `photo.fill`
+- `#FF8A65`
+- `chevron.down`
+- `chevron.right`
+- `APPS_CARPLAY_FOOTER`
+- `APPS_CARPLAY_GUESS_FOOTER`
+- `APPS_OTHER_FOOTER`
+- `APPBRIDGE_APPS_OTHER_FOOTER`
+- `HOMESCREEN_ICON_SIZE_FOOTER`
+- `APPS_WALL_FOOTER`
+- `%@ · %lu`
+- `APPS_INCLUDED`
+- `APPS_OTHER`
+- `HOMESCREEN_GRID`
+- `APPS_REMOVE`
+- `preview`
+- `tools`
+- `APPBRIDGE_APPS_SEARCH`
+- `APPBRIDGE_APPS_NO_MATCH`
+- `HOMESCREEN_COLS`
+- `rectangle.split.3x1.fill`
+- `HOMESCREEN_ROWS`
+- `rectangle.split.1x2.fill`
+- `HOMESCREEN_ICON_SIZE`
+- `plus.magnifyingglass`
+- `HOMESCREEN_NAMES`
+- `textformat`
+- `grid%ld`
+- `%`
+- `tiles`
+- `wall`
+- `APPS_FROM_PHOTOS`
+- `HOMESCREEN_BLUR`
+- `HOMESCREEN_DIM`
+- `drop.fill`
+- `moon.fill`
+- `#4A4F80`
+- `app`
+- `APPS_IOS_REMOVED`
+- `APPBRIDGE`
+- `%ld%@`
+- `HOMESCREEN_AUTO`
+- `HOMESCREEN_WALLPAPER_DEFAULT`
+- `play.circle.fill`
+- `JPEG`
+- `APPS_VIDEO_FAILED`
+- `omnicar-wallpaper.mp4`
+- `APPS_VIDEO_WORKING`
+- `%@/%.0f`
+- `NowPlaying`
+- `play.fill`
+- `Settings`
+- `gearshape.fill`
+- `com.apple.CarPlay`
+- `app.fill`
+- `#9AA0A8`
+- `#FF3D71`
+- `#2E7CF6`
+- `#636A73`
+- `applicationProxyForIdentifier:`
+- `localizedName`
+- `allInstalledApplications`
+- `com.anlai.omnicar.app`
+- `com.apple.CarPlaySettings`
+- `com.apple.CarPlayTemplateUIHost`
+- `com.apple.webapp`
+- `bundleIdentifier`
+- `applicationType`
+- `User`
+- `System`
+- `appTags`
+- `hidden`
+- `isLaunchProhibited`
+- `isPlaceholder`
+- `system`
+- `entitlements`
+- `com.apple.developer.carplay`
+- `com.apple.developer.playable-content`
+- `entitlementValueForKey:ofClass:`
+- `com.apple.developer.carplay-audio`
+- `com.apple.developer.carplay-communication`
+- `com.apple.developer.carplay-messaging`
+- `com.apple.developer.carplay-calling`
+- `com.apple.developer.carplay-maps`
+- `com.apple.developer.carplay-charging`
+- `com.apple.developer.carplay-parking`
+- `com.apple.developer.carplay-fueling`
+- `com.apple.developer.carplay-quick-ordering`
+- `com.apple.developer.carplay-driving-task`
+- `com.apple.developer.carplay-public-safety`
+- `com.apple.iBooks`
+- `com.apple.news`
+- `com.apple.mobilecal`
+- `com.apple.InCallService`
+- `appState`
+- `isInstalled`
+- `speedBubbleAppVietmap`
+- `speedBubbleAppGOFA`
+- `speedBubbleSourceV2`
+- `speedBubbleWarnModeV2`
+- `speedBubbleWarnMode`
+- `SPEEDBUBBLE`
+- `speedBubbleLook`
+- `speedBubbleShowAppIcon`
+- `speedBubbleColor`
+- `speedBubbleWarnFx`
+- `speedBubbleWarnSound`
+- `speedBubbleWarnTone`
+- `speedBubbleWarnVoice`
+- `speedBubbleWarnVoiceText`
+- `ⓘ  `
+- `SPEEDBUBBLE_SRC_HINT_%ld`
+- `speedBubbleWarnOver`
+- `SPEEDBUBBLE_APPEARANCE`
+- `SPEEDBUBBLE_SOURCE`
+- `SPEEDBUBBLE_WARN`
+- `SPEEDBUBBLE_SIZE_GROUP`
+- `SPEEDBUBBLE_COLOR_FOOTER`
+- `SPEEDBUBBLE_WARN_OFF_FOOTER`
+- `%ld km/h`
+- `SPEEDBUBBLE_WARN_TH_OVER`
+- `SPEEDBUBBLE_WARN_TH_UNDER`
+- `SPEEDBUBBLE_WARN_TH_AT`
+- `SPEEDBUBBLE_FX_DESC_%ld`
+- `SPEEDBUBBLE_VOICE_DESC`
+- `SPEEDBUBBLE_TONE_DESC_%ld`
+- `SPEEDBUBBLE_WARN_FOOTER`
+- ` + `
+- `SPEEDBUBBLE_GESTURES_FOOTER`
+- `fx`
+- `kind`
+- `h:`
+- `tone:`
+- `voice:`
+- `custom`
+- `sound`
+- `#9B87F8`
+- `#5DB4F6`
+- `SPEEDBUBBLE_TRY`
+- `enable`
+- `SPEEDBUBBLE_ENABLE`
+- `SPEEDBUBBLE_ENABLE_SUB`
+- `styles`
+- `color`
+- `SPEEDBUBBLE_SHOW_APP_ICON`
+- `app.badge.fill`
+- `sources`
+- `hint`
+- `reset`
+- `SPEEDBUBBLE_RESET_LAYOUT`
+- `sizecar`
+- `sizephone`
+- `SPEEDBUBBLE_SIZE_CAR_SHORT`
+- `SPEEDBUBBLE_SIZE_PHONE_SHORT`
+- `iphone`
+- `speedBubbleSizeCar`
+- `speedBubbleSizePhone`
+- `%ld%%`
+- `rim`
+- `tone:%ld`
+- `h:fun`
+- `h:serious`
+- `voice:%ld`
+- `h:custom`
+- `over`
+- `:`
+- `SPEEDBUBBLE_TONE_%ld`
+- `play.circle`
+- `SPEEDBUBBLE_WARN_SHORT_1`
+- `SPEEDBUBBLE_WARN_SHORT_2`
+- `SPEEDBUBBLE_SOUND_SUB`
+- `rectangle.dashed`
+- `speaker.wave.2.fill`
+- `#FF5A5F`
+- `SPEEDBUBBLE_SOUND_TONE`
+- `SPEEDBUBBLE_SOUND_VOICE`
+- `SPEEDBUBBLE_VOICE_GROUP_`
+- `opt`
+- `SPEEDBUBBLE_VOICE_CUSTOM_PH`
+- `warnover`
+- `SPEEDBUBBLE_WARN_WHEN`
+- `exclamationmark.triangle.fill`
+- `#FFB340`
+- `%+ld km/h`
+- `#4B3FD0`
+- `SPEEDBUBBLE_FX_%ld`
+- `paintpalette.fill`
+- `#A78BFA`
+- `SPEEDBUBBLE_COLOR`
+- `SPEEDBUBBLE_COLOR_%ld`
+- `#60C5FA`
+- `#5EDDB6`
+- `#F59AC0`
+- `#6F62F2`
+- `SPEEDBUBBLE_LOOK_%ld`
+- `SPEEDBUBBLE_TRY_SENT`
+- `#F07A12`
+- `#1AA260`
+- `#33CCFF`
+- `#E5322D`
+- `V`
+- `G`
+- `W`
+- `Y`
+- `#EEF0EA`
+- `#CDECCF`
+- `#C8E4F7`
+- `#FFE9A8`
+- `#3D8BFF`
+- `rectangle`
+- `sun.max.fill`
+- `rectangle.fill`
+- `circle.circle`
+- `#FFFFFF`
+- `#16182A`
+- `#7C5CF0`
+- `#2F8FE0`
+- `#16A87F`
+- `#E8558C`
+- `omcRing`
+- `ring`
+- `shine`
+- `dot`
+- `bar`
+- `nearRing`
+- `track`
+- `fill`
+- `mesh`
+- `fillGrad`
+- `glow`
+- `ticks`
+- `ticksMask`
+- `face`
+- `inner`
+- `zone`
+- `limTick`
+- `minor`
+- `major`
+- `prog`
+- `needle`
+- `hub`
+- `bubble: kieu %ld`
+- `sppFlash`
+- `opacity`
+- `transform.scale`
+- `sppPulse`
+- `bubble: vuot gioi han -> nhay canh bao`
+- `%d`
+- `--`
+- `km/h`
+- `CTFeatureTypeIdentifier`
+- `CTFeatureSelectorIdentifier`
+- `Quá tốc độ, giới hạn {L}`
+- `Too fast, the limit is {L}`
+- `Vui lòng giảm tốc độ`
+- `Please slow down`
+- `Ê, xe chứ có phải máy bay đâu!`
+- `Hey, this is a car, not a plane!`
+- `Bình tĩnh, đường còn dài mà ví thì còn mỏng`
+- `Easy now, the road is long and the wallet is thin`
+- `Camera phạt nguội đang mỉm cười với bạn đó`
+- `The speed camera is smiling at you`
+- `Chạy gì mà vội, cơm nhà vẫn còn nóng mà`
+- `What's the rush? Dinner at home is still hot`
+- `Nhẹ chân ga thôi, chạy nhanh không làm bạn đẹp trai hơn đâu`
+- `Easy on the gas, speeding won't make you any better looking`
+- `Bạn đang vượt quá giới hạn tốc độ`
+- `You are over the speed limit`
+- `{L}`
+- ` ,`
+- `OmniCar SpeedBubble: am thanh: loi giai ma %@`
+- `OmniCar SpeedBubble: am thanh: khong mo duoc am bao %ld: %@ -> am he thong`
+- `omc-speedbubble-tone-%ld.wav`
+- `OmniCar SpeedBubble: am thanh: khong phat duoc am bao %ld`
+- `OmniCar SpeedBubble: am thanh: khong co giong %@, dung giong mac dinh`
+- `OmniCar SpeedBubble: am thanh: khong dat duoc phien Playback: %@`
+- `OmniCar SpeedBubble: am thanh: khong bat duoc phien: %@`
+- `OmniCar SpeedBubble: am thanh: phien bat, ra %@`
+- `vi-VN`
+- `en-US`
+- `es-ES`
+- `de-DE`
+- `fr-FR`
+- `it-IT`
+- `ru-RU`
+- `zh-CN`
+- `ja-JP`
+- `ko-KR`
+- `ar-SA`
+- `th-TH`
+- `id-ID`
+- `SPLITSCREEN_APP_NOT_SET`
+- `SPLITSCREEN_PICKER_CARPLAY_APPS`
+- `SPLITSCREEN_PICKER_PHONE_APPS`
+- `SPLITSCREEN_PICKER_GUESS_FOOTER`
+- `SPLITSCREEN_PICKER_PHONE_FOOTER`
+- `SPLITSCREEN_PICKER_NO_PHONE_FOOTER`
+- `SPLITSCREEN_PICKER_NONE`
+- `nosign`
+- `parentController`
+- `#2E9CF5`
+- `#FA2D55`
+- `pin.fill`
+- `SPLITSCREEN`
+- `splitScreenEnabled`
+- `splitScreenFav%ld%@`
+- `Layout`
+- `Left`
+- `Right`
+- `Third`
+- `SPLITSCREEN_FAV%ld_PLACEHOLDER`
+- `SPLITSCREEN_SHORTCUTS_FOOTER`
+- `SPLITSCREEN_LAYOUT_GROUP`
+- `SPLITSCREEN_FAV_GROUP`
+- `SPLITSCREEN_PANEL_GROUP`
+- `SPLITSCREEN_PINNED_FOOTER`
+- `SPLITSCREEN_FAV_FOOTER`
+- `SPLITSCREEN_CREDITS_FOOTER`
+- `SPLITSCREEN_GUIDE_CAR_TEXT`
+- `SPLITSCREEN_OFF`
+- `splitScreenPinnedApp`
+- `splitScreenLastLeft`
+- `splitScreenLastRight`
+- `auto`
+- `SPLITSCREEN_ENABLE`
+- `SPLITSCREEN_AUTO_LAUNCH`
+- `SPLITSCREEN_ENABLE_SUB`
+- `SPLITSCREEN_AUTO_LAUNCH_SUB`
+- `bolt.fill`
+- `splitScreenAutoLaunch`
+- `pinned`
+- `SPLITSCREEN_PINNED`
+- `fav`
+- `SPLITSCREEN_LAYOUT_%ld`
+- `panel`
+- `SPLITSCREEN_PANEL_SHOW`
+- `list.bullet.rectangle.fill`
+- `SPLITSCREEN_SHOW_RECENT`
+- `splitScreenShowRecent`
+- `SPLITSCREEN_SHOW_FAVORITES`
+- `splitScreenShowFavorites`
+- `fold`
+- `SPLITSCREEN_GESTURES`
+- `SPLITSCREEN_SIRI`
+- `hand.tap.fill`
+- `command`
+- `gestures`
+- `url`
+- `SPLITSCREEN_COPY`
+- `edit%ld`
+- `SPLITSCREEN_PAIR_NAME`
+- `SPLITSCREEN_LAYOUT_2`
+- `SPLITSCREEN_LAYOUT_3`
+- `SPLITSCREEN_LAYOUT_13`
+- `SPLITSCREEN_LAYOUT_31`
+- `SPLITSCREEN_APPS_GROUP`
+- `SPLITSCREEN_FAV_APPS_HINT`
+- `+`
+- `SPLITSCREEN_BOX_%ld`
+- `SPLITSCREEN_FAV_DONE`
+- `OMCSplitScreenAppPickerController`
+- `SPLITSCREEN_COPIED`
+- `#6E78FF`
+- `startupScreenStyle`
+- `startupScreenSoundFile`
+- `/var/mobile/Library/OmniCar/StartupScreen/Sounds`
+- `startupScreenRandomSet`
+- `STARTUPSCREEN_OCCASION_PREVIEW`
+- `startupScreenBirthday`
+- `ssStyles`
+- `placeholder`
+- `soundGroup`
+- `STARTUPSCREEN_SOUND_CURRENT`
+- `STARTUPSCREEN_SOUND_NONE`
+- `%@
+%@
+%@: %@`
+- `STARTUPSCREEN_STARTUP_SOUND_FOOTER`
+- `STARTUPSCREEN_VOLUME_GROUP`
+- `STARTUPSCREEN_VOLUME_FOOTER`
+- `nameGroup`
+- `carGroup`
+- `tempoGroup`
+- `carName`
+- `occasionPreview`
+- `STARTUPSCREEN_WEATHER_NONE`
+- `STARTUPSCREEN_WEATHER_LAST`
+- `STARTUPSCREEN_WEATHER_FOOTER`
+- `STARTUPSCREEN_PARTICLES_FOOTER`
+- `STARTUPSCREEN_BRIEFING_FOOTER`
+- `STARTUPSCREEN_GREETING_FOOTER`
+- `startupScreenGreetingName`
+- `startupScreenCarName`
+- `startupScreenTempo`
+- `startupScreenLogoEffect`
+- `startupScreenScaleMode`
+- `birthday`
+- `ssRandomStyle`
+- `tile`
+- `STARTUPSCREEN_STYLE_GROUP`
+- `STARTUPSCREEN_REPLAY_HINT`
+- `startupScreenDuration`
+- `/var/mobile/Library/OmniCar/StartupScreen/Logo/logo.png`
+- `00000.jpg`
+- `temp`
+- `high`
+- `low`
+- `rain`
+- `code`
+- `isDay`
+- `STARTUPSCREEN_RANDOM_KEEP_ONE`
+- `xmark.circle.fill`
+- `#FF5C54`
+- `STARTUPSCREEN_BIRTHDAY_CLEAR`
+- `01-01`
+- `MM-dd`
+- `videoName`
+- `STARTUPSCREEN_NO_VIDEO`
+- `audio.m4a`
+- `STARTUPSCREEN_PREPARING`
+- `&`
+- ` (%lu/%lu)`
+- `%·@·%·@·& `
+- `%@: %@`
+- `STARTUPSCREEN_PROCESS_FAILED`
+- `%05lu.jpg`
+- `[OmniCar/StartupScreen] audio export failed for %@`
+- `yyyyMMdd-HHmmss`
+- `mov`
+- `Video %@.%@`
+- `%@ %d.%@`
+- `STARTUPSCREEN_SAVE_FAILED`
+- `STARTUPSCREEN_FROM_PHOTOS`
+- `STARTUPSCREEN_FROM_FILES`
+- `STARTUPSCREEN_NO_VIDEO_PREVIEW`
+- `STARTUPSCREEN_NO_VIDEO_DELETE`
+- `STARTUPSCREEN_DELETE_CONFIRM`
+- `STARTUPSCREEN_DELETE_TITLE`
+- `STARTUPSCREEN_DELETE_ACTION`
+- `STARTUPSCREEN_LOGO_FAILED`
+- `PNG`
+- `STARTUPSCREEN_LOGO_NONE`
+- `STARTUPSCREEN_SOUND_FAILED`
+- `startupScreenSoundVolume`
+- `#E11D48`
+- `#7C3AED`
+- `#F59E0B`
+- `#0EA5E9`
+- `#EA580C`
+- `#0D9488`
+- `#C026D3`
+- `#16A34A`
+- `#4F46E5`
+- `#475569`
+- `film`
+- `seal.fill`
+- `seal`
+- `hand.wave.fill`
+- `hand.wave`
+- `cloud.sun.rain.fill`
+- `gauge.with.dots.needle.67percent`
+- `car.side.fill`
+- `scope`
+- `rectangle.grid.2x2.fill`
+- `drop`
+- `shuffle`
+- `STARTUPSCREEN_STYLE_VIDEO`
+- `STARTUPSCREEN_STYLE_LOGO`
+- `STARTUPSCREEN_STYLE_GREETING`
+- `STARTUPSCREEN_STYLE_WEATHER`
+- `STARTUPSCREEN_STYLE_ENGINE`
+- `STARTUPSCREEN_STYLE_WELCOME`
+- `STARTUPSCREEN_STYLE_PARTICLES`
+- `STARTUPSCREEN_STYLE_HUD`
+- `STARTUPSCREEN_STYLE_BRIEFING`
+- `STARTUPSCREEN_STYLE_LIQUID`
+- `STARTUPSCREEN_STYLE_RANDOM`
+- `STARTUPSCREEN_OCC_BIRTHDAY`
+- `STARTUPSCREEN_OCC_XMAS`
+- `STARTUPSCREEN_OCC_MIDAUTUMN`
+- `STARTUPSCREEN_OCC_NEWYEAR`
+- `STARTUPSCREEN_OCC_TET`
+- `%02ld-%02ld`
+- `com.anlai.omnicar/prefschanged`
+- `yyyy-MM-dd`
+- `2000-`
+- `current`
+- `daily`
+- `temperature_2m`
+- `weather_code`
+- `is_day`
+- `temperature_2m_max`
+- `temperature_2m_min`
+- `precipitation_probability_max`
+- `/var/mobile/Library/OmniCar/StartupScreen/weather.plist`
+- `play.rectangle.fill`
+- `cloud.fill`
+- `↑ `
+- `↓ `
+- `   `
+- `%@ %ld%%`
+- `Khả năng mưa`
+- `Chance of rain`
+- `Cập nhật lúc %@`
+- `Updated %@`
+- `shadowOpacity`
+- `ssGlow`
+- `888`
+- `VÒNG TUA`
+- `RPM`
+- `x1000 rpm`
+- `TỐC ĐỘ`
+- `SPEED`
+- `mph`
+- `fuelpump.fill`
+- `minus.plus.batteryblock.fill`
+- `minus.plus.batteryblock`
+- `engine.combustion.fill`
+- `exclamationmark.circle.fill`
+- `headlight.high.beam.fill`
+- `light.max`
+- `ABS`
+- `Xe của bạn đã sẵn sàng, %@`
+- `Your car is ready, %@`
+- `Xe của bạn đã sẵn sàng`
+- `Your car is ready`
+- `100%`
+- `0%`
+- `text`
+- `·`
+- `!`
+- `SẴN SÀNG`
+- `READY`
+- `👋`
+- `↑ %@  ↓ %@`
+- `%ld%% khả năng mưa`
+- `%ld%% chance of rain`
+- `Thời tiết hôm nay`
+- `Today's weather`
+- `Pin iPhone %ld%%`
+- `iPhone battery %ld%%`
+- `Nhớ cắm sạc trên xe`
+- `Plug it in on the way`
+- `Đủ pin cho chuyến đi`
+- `Enough for the trip`
+- `🪫`
+- `🔋`
+- `Lịch hẹn kế tiếp`
+- `Next on your calendar`
+- `··a·n·g· ·d·`
+- `Happening now`
+- `Còn %ld phút`
+- `In %ld min`
+- `Còn %ld giờ %ld phút`
+- `In %ld h %ld min`
+- `location`
+- `📅`
+- `Thắt dây an toàn`
+- `Buckle up`
+- `Chúc bạn thượng lộ bình an`
+- `Have a safe trip`
+- `🛡`
+- `position`
+- `ssDrift`
+- `/Library/PreferenceBundles/OmniCarPrefs.bundle/PackageIcon.png`
+- `/Library/PreferenceBundles/OmniCarPrefs.bundle/logo@3x.png`
+- `transform.translation.y`
+- `ssBreathe`
+- `Sức mạnh của CarPlay`
+- `The power of CarPlay`
+- `transform.translation.x`
+- `ssSweep`
+- `Chúc Mừng Năm Mới`
+- `Happy Lunar New Year`
+- `An khang thịnh vượng · thượng lộ bình an, %@`
+- `Health, luck and safe travels, %@`
+- `An khang thịnh vượng · thượng lộ bình an`
+- `Health, luck and safe travels`
+- `🎂`
+- `Chúc mừng sinh nhật, %@!`
+- `Happy birthday, %@!`
+- `Chúc mừng sinh nhật!`
+- `Happy birthday!`
+- `Hôm nay lái xe vui nhé`
+- `Enjoy the drive today`
+- `🎄`
+- `Giáng Sinh An Lành`
+- `Merry Christmas`
+- `Merry Christmas, %@`
+- `Happy holidays, %@`
+- `Happy holidays`
+- `T·r·u·n·g· ·T·h·`
+- `Happy Mid-Autumn Festival`
+- `Trăng tròn, đường thông, %@ nhé`
+- `Full moon and clear roads, %@`
+- `Trăng tròn, đường thông`
+- `Full moon and clear roads`
+- `Chúc mừng năm mới %ld`
+- `Happy New Year %ld`
+- `Thượng lộ bình an, %@`
+- `Safe travels, %@`
+- `Thượng lộ bình an`
+- `Safe travels`
+- `Họp nhóm`
+- `Team meeting`
+- `OmniCarStartupWeather.plist`
+- `%@, %@`
+- `EEEEdMMMM`
+- `moon.stars.fill`
+- `Trời quang`
+- `Clear`
+- `cloud.sun.fill`
+- `cloud.moon.fill`
+- `Ít mây`
+- `Partly cloudy`
+- `Nhiều mây`
+- `Cloudy`
+- `cloud.fog.fill`
+- `Sương mù`
+- `Fog`
+- `cloud.drizzle.fill`
+- `Mưa phùn`
+- `Drizzle`
+- `cloud.heavyrain.fill`
+- `Mưa to`
+- `Heavy rain`
+- `cloud.rain.fill`
+- `Có mưa`
+- `Rain`
+- `cloud.snow.fill`
+- `Có tuyết`
+- `Snow`
+- `cloud.bolt.rain.fill`
+- `Dông`
+- `Thunderstorm`
+- `Chào buổi sáng`
+- `Good morning`
+- `Chào buổi chiều`
+- `Good afternoon`
+- `Chào buổi tối`
+- `Good evening`
+- `Kết nối CarPlay`
+- `CarPlay connected`
+- `P·i·n· ·i·P·h·o·n·e· ·8·2`
+- `i·P·h·o·n·e· ·b·a·t·t·e·r·y· `
+- `Nhiệt độ máy: ổn`
+- `Phone temperature: OK`
+- `Chế độ nhẹ: tự động`
+- `Lite mode: auto`
+- `Hồ sơ xe: %@`
+- `Car profile: %@`
+- `·&`
+- `🌙`
+- `⛅`
+- `🌫`
+- `🌦`
+- `🌧`
+- `⛈`
+- `🌨`
+- `·&`
+- `trustedTime`
+- `splitScreenSplitRatio`
+- `splitScreenSplitDirection`
+- `splitScreenPaneOrientation`
+- `appBridgeZoom`
+- `-`
+- `zh`
+- `2027-04-30`
+- `%@/%@.lproj/Car.strings`
+- `/Library/PreferenceBundles/OmniCarPrefs.bundle`
+
+
+#### Ghi chú về OmniCarPrefs
+
+Bundle cấu hình cho Settings (NSPrincipalClass `OMCRootListController`), 29 class `OMC*`/`SPP*`/`SS*` (bảng bên dưới). Mọi thay đổi ghi vào CFPreferences domain `com.anlai.omnicar` và phát `notify_post("com.anlai.omnicar/prefschanged")` (khai trong các Feature*.plist qua `PostNotification`). Có nút "SEND_LOG" (action `sendLog`) và nhóm "RESCUE" (action `rescueRestore`) ở Root.plist — khớp với kênh `com.anlai.omnicar/rescue` phía dylib.
+
+
+---
+
+## 5. Cơ chế A→Z (tổng hợp từ bằng chứng ở mục 4)
+
+### 5.1. Bản đồ nạp theo tiến trình
+
+| Tiến trình | Dylib được nạp | Vai chính (bằng chứng) |
+|---|---|---|
+| Mọi app UIKit (kể cả app được host) | OmniCarAppBridge | Hook xoay màn hình/FPS/bàn phím trong app; host UI (`ABHost`) |
+| SpringBoard | OmniCarCore, OmniCarAppBridge (nhóm B), OmniCarSpeedBubble, OmniCarSplitScreen, OmniCarStartupScreen | Core = điều phối + prefs + rescue; AppBridge nhóm B = giữ scene sống (B2–B4); SpeedBubble = vẽ bong bóng trên màn xe; SplitScreen = chia ô phía SpringBoard |
+| CarPlayApp (DashBoard) | OmniCarCarProbe, OmniCarSpeedBubble, OmniCarSplitScreen, OmniCarStartupScreen | CarProbe = phát hiện kết nối xe; SplitScreen = hook họ `DB*` dựng lưới app + ô chia ngay trong tiến trình xe; StartupScreen = video chào |
+| Vietmap Live / GOFA / Waze / Wyn | OmniCarSpeedBubble | Hook CLLocationManager + Flutter channel (app Flutter) để lấy tốc độ/giới hạn |
+| Settings (Preferences) | OmniCarPrefs.bundle | Giao diện cấu hình, ghi CFPreferences `com.anlai.omnicar` |
+
+### 5.2. Luồng khởi tạo
+
+Mỗi dylib có các hàm constructor khai trong `__init_offsets` (Core: 2, CarProbe: 1, AppBridge: 3, SpeedBubble: 4, SplitScreen: 4, StartupScreen: 2). Mẫu lặp lại ở mọi dylib (code dùng chung ký hiệu `OMC*`): kiểm tra hạn dùng (`_OMCExpired`), tính năng bật chưa (`_OMCEnabled`, `_OMCFeatureEnabled`), chế độ lite (`_OMCLiteActive`), chống crash lặp (`_OMCCrashGuard` — nếu nghi ngờ vòng trước crash, phát `com.anlai.omnicar/rescue` + `prefschanged` và giảm/không kích hoạt), đồng bộ prefs (`_OMCPrefsSync`, `_OMCPref`), ghi log (`_OMCLogWrite`, `_OMCLogRelayStart`), rồi mới đăng ký hook/notify của riêng dylib. Các hook phía SpringBoard thường chờ `SpringBoard applicationDidFinishLaunching:` (hook B1/S6/#30) mới dựng UI/đăng ký tiếp.
+
+### 5.3. Chọn app & đưa app lên xe (App Bridge)
+
+- Người dùng chọn app trong Settings: `OMCAppBridgeAppsController` (Prefs) ghi pref key **`appBridgeApps`** (CFPreferences domain `com.anlai.omnicar`). Không cần bật app trong Cài đặt CarPlay gốc: lưới chọn app phía xe do SplitScreen dựng bằng các hook họ `DB*` (mục 4.6, hook #1–#16 sửa `_newApplicationLibrary`, lưới icon `SBIconListGridLayoutConfiguration`, nhãn `SBIconView`...) — danh sách app = app CarPlay native ∪ app trong `appBridgeApps`.
+- Khi mở một app thường trên xe: scene của app được host trong cửa sổ SpringBoard trên display xe (class `ABHost`, `ABPane`, `ABBoxView` phía AppBridge + `SCPHostedAppVC`, `SCPCarPane` phía SplitScreen). Hình học do một phía quyết định: hook `DBDashboard sceneFrameForAppInfo:proxyAppInfo:` (SplitScreen #17) trả khung đúng kích thước ô, tuỳ chọn nhân hệ số `appBridgeZoom`; phía app, `SBSceneView _updateReferenceSize:andOrientation:` (AppBridge B4) và `FBScene updateSettings:...` (B3) giữ scene khớp khung đó. Không có cơ chế "lease" hay hợp đồng nhân đôi kích thước.
+- Giữ scene sống: hook B2 `SBSuspendedUnderLockManager _shouldBeBackgroundUnderLockForScene:withSettings:` (AppBridge, phía SpringBoard) — điểm quyết định scene có bị suspend khi khoá máy; kèm B3 can thiệp `FBScene updateSettings` để settings không bị ghi đè về trạng thái nền.
+- Tương tác: kênh Darwin `com.anlai.omnicar/appbridge.*` (open/close/frame/state/shield/knobs/handletap/handledrag/baraction/bardismiss/key/keyboard/apporient...) truyền lệnh giữa phía xe (SplitScreen) và phía app/SpringBoard (AppBridge). Bàn phím trên xe là **bàn phím tự vẽ** (`ABKeyboard`, `ABKey`) với bộ gõ Telex (`_ABTelexApply`, key `appBridgeKeyboardLang`) — đánh đổi: không dùng bàn phím Apple nên mất gợi ý/autocorrect/dictation của hệ thống.
+- FPS: hook A1–A3 ép `CADisplayLink` trong app được host chạy theo `appBridgeFps`. Xoay: hook A4–A7 + A12–A13 giả lập hướng thiết bị/hình học scene theo hướng màn xe; trạng thái orientation đồng bộ qua kênh `appbridge.apporient` + notify state.
+
+### 5.4. Bong bóng tốc độ
+
+SpeedBubble phía app bản đồ hook `CLLocationManager` (S1–S2) và Flutter method channel của app Flutter (S3–S4, GOFA/Vietmap là app Flutter) để lấy tốc độ + giới hạn; gửi sang SpringBoard qua kênh notify state `com.anlai.omnicar/speedbubble.speed`; phía SpringBoard/CarPlayApp vẽ bong bóng (`SPPBubbleView`, 9 kiểu theo pref `speedBubbleLook`), cảnh báo vượt tốc bằng hiệu ứng/âm thanh (`SPPOverspeed`, `SPPSoundDelegate`, các key `speedBubbleWarn*`). S5 giả `UIAccessibilityIsSwitchControlRunning` — nhiều khả năng để app bản đồ chịu phát dữ liệu qua accessibility.
+
+### 5.5. Màn hình khởi động
+
+StartupScreen phát video/logo chào khi `com.anlai.omnicar/car.connected` (CarProbe phát khi màn xe kết nối). Cấu hình (video, scale, thời lượng 1–30s mặc định 5s, âm thanh, hiệu ứng logo, lời chào theo tên/xe, dịp đặc biệt) nằm ở FeatureStartupScreen.plist + các key `startupScreen*`. Điều phối âm thanh/thời tiết qua các kênh `startupscreen.audio.*`, `startupscreen.weather.*`.
+
+### 5.6. IPC — bản đồ kênh Darwin notify (`com.anlai.omnicar/...`)
+
+Hai cơ chế: (a) `notify_register_dispatch`/`notify_register_check`/`notify_post`/`notify_set_state` (notifyd — có cả kênh *state* mang số nguyên, đọc bằng `notify_get_state`); (b) CFNotificationCenter Darwin (StartupScreen dùng trực tiếp). Ngoài ra trong một tiến trình còn `NSNotificationCenter`/`NSDistributedNotificationCenter` cho UIScreen connect/disconnect.
+
+| Kênh | Bên đăng ký (đã xác minh) | Bên phát (đã xác minh) |
+|---|---|---|
+| `com.anlai.omnicar/prefschanged` | SpeedBubble (SB), SplitScreen | Core, CarProbe, SpeedBubble, SplitScreen, Prefs (qua PostNotification trong plist) |
+| `com.anlai.omnicar/car.connected` | Core, SpeedBubble (SB) | CarProbe, Core, SpeedBubble, SplitScreen, StartupScreen |
+| `com.anlai.omnicar/car.busy` | SpeedBubble (SB) | SplitScreen (register_check + post) |
+| `com.anlai.omnicar/rescue` | Core | CarProbe, AppBridge, SplitScreen (trong _OMCCrashGuard) |
+| `com.anlai.omnicar/lite` | —(register_check ở Core, CarProbe, AppBridge, SplitScreen) | Core, CarProbe, AppBridge, SplitScreen |
+| `com.anlai.omnicar/cleanram.now` | Core | — |
+| `com.anlai.omnicar/appbridge.apporient` | AppBridge (SB) | AppBridge (trong app) |
+| `com.anlai.omnicar/appbridge.keyboard` | AppBridge (SB) | AppBridge (trong app) |
+| `com.anlai.omnicar/speedbubble.speed` | SpeedBubble: register_check phía app bản đồ, register_dispatch phía SB | (kênh state — ghi bằng notify_set_state) |
+| `com.anlai.omnicar/speedbubble.opencar` | SpeedBubble | — |
+| `com.anlai.omnicar/speedbubble.demo` | SpeedBubble (SB) | — |
+| `com.anlai.omnicar/speedbubble.resetlayout` | SpeedBubble (SB) | — |
+| `com.anlai.omnicar/location` | StartupScreen | — |
+| `com.anlai.omnicar/startupscreen.audio.play` | StartupScreen (CF Darwin) | — |
+| `com.anlai.omnicar/startupscreen.audio.stop` | StartupScreen (CF Darwin) | — |
+| `com.anlai.omnicar/startupscreen.weather.request` | StartupScreen (CF Darwin) | StartupScreen |
+| `com.anlai.omnicar/startupscreen.weather.ready` | StartupScreen | StartupScreen |
+| `com.anlai.omnicar/appbridge.open / .close / .closeall / .frame / .state / .shield / .knobs / .knobtouch / .handletap / .handledrag / .baraction / .bardismiss / .key / .orientation` | chỉ có chuỗi tên trong AppBridge + SplitScreen — điểm đăng ký chưa khoanh được | — |
+| `com.anlai.omnicar/url` | chỉ có chuỗi trong Core | — (nhiều khả năng app OmniCar phát khi mở omnicar://) |
+| `com.anlai.omnicar/speedbubble.source, com.anlai.omnicar/speed` | chỉ có chuỗi trong SpeedBubble | — |
+| `com.anlai.omnicar/startupscreen.style` | chỉ có chuỗi trong StartupScreen | — |
+
+Tên logger/queue (chuỗi, không phải kênh notify): `com.anlai.omnicar.log`, `com.anlai.omnicar.perf` xuất hiện trong mọi dylib — khớp hàm `_OMCLogWrite`/`_OMCLogRelayStart` dùng chung.
+
+### 5.7. Preferences
+
+- Domain CFPreferences: **`com.anlai.omnicar`** (khai trong mọi Feature*.plist: `"defaults": "com.anlai.omnicar"`, `PostNotification: "com.anlai.omnicar/prefschanged"`).
+- Pref key đã thấy (từ plist cấu hình + CFString của các binary — danh sách chưa đảm bảo đủ 100%, xem mục 7):
+
+- `appBridge`
+- `appBridgeAdvancedReset`
+- `appBridgeApps`
+- `appBridgeEnabled`
+- `appBridgeFps`
+- `appBridgeKeyboardLang`
+- `appBridgeOrientation`
+- `appBridgeZoom`
+- `car`
+- `carGroup`
+- `carName`
+- `carProfileCurrent`
+- `carProfiles`
+- `carProfilesEnabled`
+- `carbridge`
+- `carplay`
+- `carplayenable`
+- `fps`
+- `homeScreen`
+- `homeScreenBlur`
+- `homeScreenCarApps`
+- `homeScreenDim`
+- `homeScreenGridCols`
+- `homeScreenGridRows`
+- `homeScreenHiddenApps`
+- `homeScreenIconSize`
+- `homeScreenShowNames`
+- `homeScreenShownApps`
+- `homeScreenWallpaper`
+- `homeScreenWallpaperStyle`
+- `lastSeen`
+- `lite`
+- `profile`
+- `speedBubble`
+- `speedBubbleAppGOFA`
+- `speedBubbleAppVietmap`
+- `speedBubbleColor`
+- `speedBubbleEnabled`
+- `speedBubbleLook`
+- `speedBubbleShowAppIcon`
+- `speedBubbleSizeCar`
+- `speedBubbleSizePhone`
+- `speedBubbleSource`
+- `speedBubbleWarnFx`
+- `speedBubbleWarnMode`
+- `speedBubbleWarnOver`
+- `speedBubbleWarnSound`
+- `speedBubbleWarnTone`
+- `speedBubbleWarnVoice`
+- `speedBubbleWarnVoiceText`
+- `splitScreen`
+- `splitScreenAutoLaunch`
+- `splitScreenCarPlayApps`
+- `splitScreenEnabled`
+- `splitScreenLastLeft`
+- `splitScreenLastRight`
+- `splitScreenPinnedApp`
+- `splitScreenShowFavorites`
+- `splitScreenShowRecent`
+- `startupScreen`
+- `startupScreenBirthday`
+- `startupScreenCarName`
+- `startupScreenDuration`
+- `startupScreenEnabled`
+- `startupScreenGreetingName`
+- `startupScreenLogoEffect`
+- `startupScreenOccasions`
+- `startupScreenPlayFull`
+- `startupScreenRandomSet`
+- `startupScreenScaleMode`
+- `startupScreenSound`
+- `startupScreenSoundFile`
+- `startupScreenSoundSkipCall`
+- `startupScreenSoundVolume`
+- `startupScreenStyle`
+- `startupScreenTapToSkip`
+- `startupScreenTempo`
+- `startupScreenVideoName`
+
+- Giá trị mặc định khai trong plist (các key còn lại lấy mặc định trong code, không liệt kê ở đây): `speedBubbleEnabled=true`, `splitScreenEnabled=true`, `startupScreenEnabled=true`, `startupScreenScaleMode=0` (Fill), `startupScreenPlayFull=false`, `startupScreenSound=false`, `startupScreenLogoEffect=0` (Fade), `startupScreenTempo=1` (Normal), `startupScreenDuration=5.0` (giây, slider 1–30), `startupScreenTapToSkip=true`, `startupScreenSoundVolume=100`, `startupScreenSoundSkipCall=true`, `startupScreenOccasions=true`.
+
+---
+
+## 6. Tài nguyên & bundle đi kèm
+
+### 6.1. OmniCar.app
+
+- `Info.plist`: `CFBundleIdentifier = com.anlai.omnicar.app`, `CFBundleShortVersionString = 1.0.3`, `MinimumOSVersion = 15.0`, `UIDeviceFamily = [1]` (iPhone), chỉ portrait, `UIUserInterfaceStyle = Dark`, `UIRequiresFullScreen = true`.
+- URL scheme: `CFBundleURLTypes` khai scheme **`omnicar`** (tên `com.anlai.omnicar`) — khớp mô tả gói "Siri and Shortcuts through the omnicar:// URL scheme".
+- Icon: `AppIcon60x60@2x.png` (24.659 B), `AppIcon60x60@3x.png` (44.470 B). Không có storyboard/xib/nib/asset catalog nào khác trong app — giao diện app gần như rỗng (launcher).
+- Entitlements của executable (từ code signature): `platform-application = true`, `com.apple.private.security.no-container = true`. Các dylib và Prefs bundle **không có** blob entitlements.
+
+### 6.2. OmniCarPrefs.bundle
+
+- `Info.plist`: `CFBundleIdentifier = com.anlai.omnicar.prefs`, `NSPrincipalClass = OMCRootListController`, version 1.0.3.
+- PreferenceLoader entry (`/var/jb/Library/PreferenceLoader/Preferences/OmniCarPrefs.plist`): PSLinkCell → bundle `OmniCarPrefs`, controller `OMCRootListController`, label "OmniCar", icon `icon.png`.
+- `Root.plist`: các nhóm Rescue (nút `rescueRestore`), Conflicts (dòng cảnh báo xung đột), Apps (→ `OMCAppBridgeAppsController` chọn app bridge; → `OMCHomeScreenController` tuỳ biến home xe), Features, Profiles (→ `OMCCarProfilesController` hồ sơ theo xe), Support (Hiện lại hướng dẫn `showGuide`, Có gì mới `showWhatsNew`), Dev (Gửi log `sendLog`).
+- Ba file Feature*.plist khai trang riêng cho Startup Screen (order 10, controller `OMCStartupScreenController`), Speed Bubble (order 20, `OMCSpeedBubbleController`), Split Screen (order 30, `OMCSplitScreenController`) — nội dung đầy đủ (mọi key, kiểu cell, action, giá trị mặc định) đã trích nguyên văn ở dữ liệu plist đi kèm quá trình phân tích; các mục quan trọng đã tóm ở mục 5.7. Trang App Bridge không nằm trong Feature*.plist mà đi qua `OMCAppBridgeAppsController` từ Root.
+- `WhatsNew.plist`: mục "có gì mới" của bản 1.0.0 (bàn phím, zoom, ngôn ngữ, hướng dẫn).
+- Đa ngôn ngữ: 14 thư mục `.lproj` (ar, de, en, es, fr, id, it, ja, ko, pt-BR, ru, th, vi, zh-Hans) mỗi thư mục 10 file `.strings` (AppBridge, Car, HomeScreen, Localizable, Onboarding, Profiles, SpeedBubble, SplitScreen, StartupScreen, WhatsNew); riêng `vi.lproj` thiếu `Car.strings`. Toàn bộ tên file + kích thước nằm ở cây file mục 2.
+- Hình ảnh trong bundle: icon/logo các cỡ @1x/@2x/@3x, `PackageIcon.png`, icon tính năng SpeedBubble/StartupScreen (mục 2).
+
+---
+
+## 7. CHƯA XÁC ĐỊNH ĐƯỢC (trung thực — không suy đoán)
+
+1. **MSHookFunction của AppBridge (B5)**: call-site tại `sub_6e08 @0x6f80`, replacement = sub_777c, orig slot @0x3ea10, nhưng đối số đích (x0) không khôi phục được bằng theo dõi thanh ghi tuyến tính — chưa biết hook vào hàm C nào.
+2. **Class đích của các `class_addMethod(..., "tick:", ...)`** xuất hiện ở Core, CarProbe, AppBridge, SpeedBubble, SplitScreen: class truyền qua biến/runtime nên không giải được tĩnh. Tương tự `class_addMethod(..., "hitTest:withEvent:", ...)` ở AppBridge/SpeedBubble/SplitScreen: ngữ cảnh cho thấy liên quan class cửa sổ host tạo động lúc chạy, nhưng tên class không có trong metadata tĩnh.
+3. **Class đích của hook S4 (SpeedBubble)**: tên class dựng bằng `stringWithFormat:` lúc chạy (chỉ biết selector `setMessageHandlerOnChannel:binaryMessageHandler:` và có kiểm tra `class_getInstanceMethod` trước khi hook).
+4. **Điểm đăng ký cụ thể của họ kênh `com.anlai.omnicar/appbridge.*`** (open/close/frame/state/shield/knobs/...): có chuỗi tên kênh trong AppBridge + SplitScreen và method tương ứng trong `ABHost`, nhưng call-site đăng ký (CFNotificationCenter/NSNotificationCenter) không nằm trong các hàm constructor đã quét; chưa khoanh được hàm đăng ký.
+5. **Nội dung hành vi bên trong từng IMP thay thế** (sub_xxxx): hồ sơ này xác minh *điểm hook + selector + IMP*, chưa dịch ngược logic đầy đủ của từng hàm thay thế (mỗi hàm cần một vòng phân tích riêng). Các mô tả cơ chế ở mục 5 là tổng hợp từ điểm hook + tên class/key/kênh — mức bằng chứng "cấu trúc", không phải "đọc hết code".
+6. **Cơ chế hết hạn/cấp phép**: có các symbol `_OMCExpired`, `_OMCEnabled`, `_OMCTrustedTimeStart` và chuỗi liên quan trong binary, nhưng chưa phân tích sâu luồng kiểm tra hạn dùng (ngoài phạm vi hồ sơ cấu trúc này; không khẳng định có/không có cơ chế license cụ thể nào).
+7. **Danh sách pref key ở mục 5.7 chưa đảm bảo đủ 100%**: trích từ plist + CFString constants khớp mẫu; các key tạo động (ví dụ key có hậu tố theo bundle id/profile) sẽ không xuất hiện nguyên vẹn trong chuỗi tĩnh. Key theo hồ sơ xe (`OMCProfileKeys`) nhiều khả năng được sinh động.
+8. **Slice arm64e**: bảng ObjC trích từ slice arm64. Đã kiểm chứng arm64e có cùng thư viện liên kết, entitlements và số import; không trích lặp toàn bộ bảng method của arm64e — về nguyên tắc hai slice biên dịch từ cùng source nên metadata tương đương, nhưng chưa đối chiếu từng method.
+9. **Đường dẫn file log trên máy**: có tên logger `com.anlai.omnicar.log` và nút "SEND_LOG" trong Prefs, nhưng đường dẫn file log cụ thể (nếu ghi ra file) chưa xác định được từ chuỗi tĩnh đã trích.
+10. **`com.anlai.omnicar.startupscreen.decode`**: chuỗi dạng chấm (không phải dạng `/` như các kênh notify) — có thể là nhãn dispatch queue hoặc tên XPC; chưa xác định bản chất.
+
+---
+
+*Hết hồ sơ. Mọi bảng class/method/ivar/property, selector refs, CFString constants ở mục 4 là trích xuất toàn bộ từ metadata — không phải tóm tắt chọn lọc.*
