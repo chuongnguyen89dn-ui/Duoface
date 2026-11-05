@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-11-06 — Sileo publisher build failure isolated and repaired
+
+- Actual failed publisher run: `carplaydsp` `42126847496` job `127593104445` completed FAILURE; build log exact last error: `fatal: could not read Username for 'https://github.com': Device not configured` after compiling `independent-split`, when optional `showcase/build.sh` tried to clone unrelated `chuongnguyen89dn-ui/showcarplay`. Deploy and public verification skipped, so **NOT published** at this stage. This failure is outside DuoFace's signed DEB.
+- Repair restricted to publisher workflow `carplaydsp/.github/workflows/build.yml`: commit `e0d77d4eea72259457fe634f246eef6ef7a1a683`. During the ephemeral CI checkout only, omit the optional unavailable Showcase clone, still build original independent-split unchanged in Git, and read currently public Sileo `Packages`. If an existing Showcase DEB is listed, download the exact prior signed bytes, verify index SHA256/version/architecture and keep its Sileo entry; if ambiguous/unavailable, fail rather than silently remove that other package. No changes to other source repos. All QA172 source/SHA and previous rollback pins retained.
+- Follow-up publisher run `42127289111` (macOS build job `127594593423`); validation run `42127289116` (job `127594592342`). Both initially in progress. **Require actual deploy and live public-index/binary SHA confirmation before stating Sileo release is complete.** Original signed candidate and PR remain unchanged.
+
+---
+
 ## CHECKPOINT 2026-11-06 — User authorized direct Sileo update 0.0.172~wakefix5
 
 - **User request (latest; supersedes prior no-release/experiment-only plan):** "Đưa lên sileo bản tiếp theo ko cần thử nghiệm. Hỏng thì sửa". Treat the signed wakefix5 candidate as the NEXT normal update in the existing Sileo repository; no separately labeled experimental/staging package, no premature claim of successful CarPlay display.
