@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-11-06 — Fourth Sileo run blocked at obsolete DauDat artifact API
+
+- Publisher run `42128297724` build job `127598075781`: prior 18 steps passed, including preservation of Showcase, three DuoDash packages, and the CarPlayAudit SHA-pinned public DEB; failed at Step 19 `Build APT repository` because the legacy `DauDat-CarPlay/actions/artifacts?name=DauDat-CarPlay` API endpoint returned `curl: (56) The requested URL returned error: 404`. Deployment skipped. Still **NOT publicly published**.
+- Remediation: `carplaydsp/main` commit `07c40eaefe2f58820c16b5ab31cedb35da39a1aa` changes only the publisher workflow: replaces the obsolete unrelated artifact fetch with strict re-download of the two previously public `DuoDash_...deb` and `com.Axs.airaw_...deb` files using existing Sileo `Packages`; require exactly one published file per name pattern, valid SHA256/Size/Package/Version/Arch and byte-level hash before copying into package aggregation. No other repositories edited, no external binaries rebuilt or changed.
+- Next: inspect newly triggered publisher run + validation; fix only actual failures; after deploy require exactly one DuoFace `0.0.172~wakefix5` APT entry, live DEB SHA `90efffed61ee5a1a44db3e0371f9d205a54cdb3b55a76cc5ec27f63d26f12d47`, and rollback package retention. Device untested.
+
+---
+
 ## CHECKPOINT 2026-11-06 — Third Sileo attempt and preserved CarPlayAudit diagnostic
 
 - Publisher run `42127914735`, job `127596761568`: steps 1–17 passed, including original independent-split source build, retained public DuoDash SHA checks and all DuoFace-related pinned side packages. Step 18 `Include SHA-pinned CarPlay residual audit diagnostic` failed because legacy `DuoDash-Diagnostic` source URL returned `curl: (56) The requested URL returned error: 404`. Deploy skipped; **0.0.172 not yet public**.
