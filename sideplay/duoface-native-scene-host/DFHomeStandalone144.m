@@ -105,6 +105,17 @@ static BOOL DF144ValidRequest(NSDictionary *p,NSTimeInterval now) {
  return isfinite(age)&&age>=0&&age<=2.0&&DF144ValidRect(content,whole);
 }
 #if defined(DF144_CARPLAY)
+#import "../native-carplay-scene-v1/DFNativeMapLaunchContext.h"
+// Readiness comes from the already installed Home hook in this same dylib.
+// No additional Apple hook or native lifecycle override is installed.
+extern BOOL DFNativeMapHomeHooksReadyV1(void);
+extern NSDictionary *DFNativeMapReadOwnedBaseEvidenceV1(id root,id window,NSString **reason);
+static uint64_t DFNativeMapHomeGeneration=1;
+uint64_t DFNativeMapReadHomeGenerationV1(void) {
+ // The dispatcher and real Home callback both run on the main thread.
+ // Deliberately no UIKit/private getter, file read or observer renewal here.
+ return DFNativeMapHomeGeneration;
+}
 // Original real iOS16 Home tap ABI from user's physical Log21; no substitute
 // DuoFace icon, no app picker, no accidental native-app click override.
 static void (*DF144Original)(id,SEL,id,id);
@@ -134,6 +145,64 @@ static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
 typedef void (*DF144Hook)(Class,SEL,IMP,IMP*);
 #import "DF151WorkspaceOwnerCapture.h"
 #import "DFNativeDashboardContext.h"
+
+DFNativeMapLaunchContext *DFNativeMapReadLaunchContextV1(
+ id expectedRoot,id expectedWindow,NSString *requestID,NSString **reason) {
+ if(reason)*reason=nil;
+ if(!NSThread.isMainThread ||
+    ![NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"] ||
+    ![requestID isKindOfClass:NSString.class] ||
+    ![[NSUUID alloc]initWithUUIDString:requestID]) {
+  if(reason)*reason=@"native-launch-context-process-or-request-invalid";return nil;
+ }
+ @try {
+  uint64_t generation=DFNativeMapHomeGeneration;
+  if(!DFNativeMapHomeHooksReadyV1()) {
+   if(reason)*reason=@"native-launch-home-cancellation-hook-unverified";return nil;
+  }
+  if(![expectedRoot isKindOfClass:UIViewController.class] ||
+     ![expectedWindow isKindOfClass:UIWindow.class] ||
+     ![NSStringFromClass([expectedRoot class]) isEqual:@"DBDashboardRootViewController"]) {
+   if(reason)*reason=@"native-launch-dashboard-root-class-unverified";return nil;
+  }
+  UIViewController *root=expectedRoot;UIWindow *window=expectedWindow;
+  UIWindowScene *scene=window.windowScene;
+  UIScreen *screen=window.screen;
+  if(!scene || ![scene.session.role isEqual:@"UIWindowSceneSessionRoleCarPlay"] ||
+     !screen || screen==UIScreen.mainScreen || scene.screen!=screen ||
+     ![UIApplication.sharedApplication.connectedScenes containsObject:scene] ||
+     ![scene.windows containsObject:window] || window.hidden || window.alpha<=0 ||
+     window.rootViewController!=root || root.viewIfLoaded.window!=window) {
+   if(reason)*reason=@"native-launch-actual-carplay-window-unverified";return nil;
+  }
+  id dashboard=DFResolveNativeDashboard(root,YES,requestID);
+  id workspace=DF151DashboardWorkspace,owner=DF151DashboardOwner;
+  id actualRoot=nil,actualWorkspace=nil;
+  if(!dashboard || !DF151IsDashboardOwner(owner) || !workspace ||
+     !DF151SafeObjectGetter(dashboard,"rootViewController",&actualRoot) || actualRoot!=root ||
+     !DF151SafeObjectGetter(dashboard,"workspace",&actualWorkspace) || actualWorkspace!=workspace) {
+   if(reason)*reason=@"native-launch-dashboard-workspace-owner-unverified";return nil;
+  }
+  NSDictionary *baseEvidence=DFNativeMapReadOwnedBaseEvidenceV1(root,window,reason);
+  if(!baseEvidence)return nil;
+  if(generation!=DFNativeMapHomeGeneration || workspace!=DF151DashboardWorkspace ||
+     owner!=DF151DashboardOwner || !DFNativeMapHomeHooksReadyV1() ||
+     window.rootViewController!=root || root.viewIfLoaded.window!=window ||
+     window.windowScene!=scene || window.screen!=screen) {
+   if(reason)*reason=@"native-launch-context-changed-during-read";return nil;
+  }
+  DFNativeMapLaunchContext *context=[DFNativeMapLaunchContext new];
+  context.dashboard=dashboard;context.workspace=workspace;context.owner=owner;
+  context.root=root;context.window=window;context.screen=screen;
+  context.homeGeneration=generation;context.homeHooksReady=YES;
+  context.physicalSession=baseEvidence[@"PhysicalSession"];
+  context.ownedBase=baseEvidence[@"OwnedBase"];
+  context.requestID=requestID;
+  return context;
+ } @catch(__unused NSException *exception) {
+  if(reason)*reason=@"native-launch-context-read-exception";return nil;
+ }
+}
 // QA160 read-only native page identification: controller visibility is NOT pixel
 // proof, and native Home/Apple workspace are never driven or replaced here.
 void DF160NativeHomeTrace(NSString *stage,id receiver) {
@@ -285,6 +354,11 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
 // This symbol is called from DFCarPlayDockOwner.m's real statusbar hook.
 // The two .m files are separate translation units linked in ONE signed dylib.
 void DF157NativeHomeCallbackObserved(void) {
+ // Advance even when no standalone owner is active and even if a later
+ // cross-process revoke-file write fails. A pending map launch is cancellable
+ // before Apple's original Home callback returns or a delayed scene appears.
+ DFNativeMapHomeGeneration++;
+ if(!DFNativeMapHomeGeneration)DFNativeMapHomeGeneration=1;
  DF144NativeHomeHandled=YES;
  if(DF147Life.active && DF147Captured &&
     DF147RequestID.length && DF147Session.length && DF147Bundle.length) {

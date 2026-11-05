@@ -2,6 +2,7 @@
 // Independent implementation from the original's verified Home event semantics.
 #import "DFCarPlayOwnerLease.h"
 #import "DFCarPlayOwnerSelection.h"
+#import "../native-carplay-scene-v1/DFNativeMapOwnedBasePolicy.h"
 #import <dlfcn.h>
 #import <string.h>
 extern void DF157NativeHomeCallbackObserved(void);
@@ -24,6 +25,14 @@ static BOOL DFOwnerHomeCoverage(void) {
         if(imp!=(IMP)DFOwnerDBHome && imp!=(IMP)DFOwnerCARHome)return NO;
     }
     return found;
+}
+
+// First-party in-process readiness for the bounded native-map launch context.
+// This only inspects the existing replacements; it never installs a hook.
+BOOL DFNativeMapHomeHooksReadyV1(void) {
+    return NSThread.isMainThread &&
+        [NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"] &&
+        DFOwnerHomeCoverage();
 }
 
 static BOOL DFOwnerBool(id object, NSString *name) {
@@ -69,6 +78,96 @@ static void DFOwnerCollect(UIViewController *vc, NSUInteger depth,
         DFOwnerCollect(child,depth+1,found,seen);
     if(vc.presentedViewController)
         DFOwnerCollect(vc.presentedViewController,depth+1,found,seen);
+}
+
+static NSDictionary *DFNativeMapFinishBaseEvidence(NSDictionary *result,NSDictionary *originalPulse,
+                                                  NSString **reason) {
+    NSDictionary *latest=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
+    NSString *session=latest[@"Session"];
+    BOOL revoked=DFOwnerSessionRevoked(session) || [session isEqual:DFOwnerRevokedSession];
+    NSString *fresh=DFNativeMapFreshLaunchSession(latest,revoked,
+                                                 NSDate.date.timeIntervalSince1970);
+    if(!fresh || !DFOwnerAcceptPulse(latest) ||
+       ![fresh isEqual:originalPulse[@"Session"]] ||
+       ![latest[@"HostSceneID"] isEqual:originalPulse[@"HostSceneID"]]) {
+        if(reason)*reason=@"native-launch-physical-session-changed-during-read";return nil;
+    }
+    return result;
+}
+NSDictionary *DFNativeMapReadOwnedBaseEvidenceV1(id expectedRoot,id expectedWindow,
+                                               NSString **reason) {
+    if(reason)*reason=nil;
+    if(!DFNativeMapHomeHooksReadyV1() ||
+       ![expectedRoot isKindOfClass:UIViewController.class] ||
+       ![expectedWindow isKindOfClass:UIWindow.class]) {
+        if(reason)*reason=@"native-launch-owner-context-unverified";return nil;
+    }
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
+    NSString *session=pulse[@"Session"];
+    BOOL revoked=DFOwnerSessionRevoked(session) || [session isEqual:DFOwnerRevokedSession];
+    NSString *fresh=DFNativeMapFreshLaunchSession(pulse,revoked,
+                                                 NSDate.date.timeIntervalSince1970);
+    if(!fresh || !DFOwnerAcceptPulse(pulse)) {
+        if(reason)*reason=@"native-launch-physical-session-inactive-stale-or-revoked";return nil;
+    }
+    // The stable session remains observable after launch even when a new
+    // native map replaces currentBase. Missing own-base evidence only denies
+    // a new owned-base dispatch; it does not fabricate a live owner.
+    NSMutableDictionary *result=[@{@"PhysicalSession":fresh} mutableCopy];
+    UIViewController *boundController=DFOwnerBoundController;
+    if(!boundController)return DFNativeMapFinishBaseEvidence(result,pulse,reason);
+    NSDictionary *bound=@{@"Session":DFOwnerBoundSession?:@"",
+        @"HostSceneID":DFOwnerBoundHostScene?:@"",
+        @"NativeSceneID":DFOwnerBoundNativeScene?:@"",
+        @"Controller":boundController};
+    NSMutableArray *found=[NSMutableArray new];NSMutableSet *seen=[NSMutableSet new];
+    NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSetWithArray:UIApplication.sharedApplication.windows];
+    for(UIScene *scene in UIApplication.sharedApplication.connectedScenes)
+        if([scene isKindOfClass:UIWindowScene.class])
+            [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
+    for(UIWindow *window in windows)DFOwnerCollect(window.rootViewController,0,found,seen);
+    NSDictionary *candidate=DFOwnerUniqueDuoFaceCandidate(found);
+    if(!DFNativeMapOwnedBaseRecordMatches(pulse,bound,candidate,revoked,
+                                          NSDate.date.timeIntervalSince1970))
+        return DFNativeMapFinishBaseEvidence(result,pulse,reason);
+    UIViewController *root=expectedRoot;UIWindow *window=expectedWindow;
+    UIViewController *controller=candidate[@"Controller"];
+    if(![NSStringFromClass(controller.class) isEqual:@"DBApplicationSceneViewController"] ||
+       controller.viewIfLoaded.window!=window || root.viewIfLoaded.window!=window ||
+       window.rootViewController!=root || !window.screen ||
+       window.screen==UIScreen.mainScreen || !window.windowScene ||
+       window.windowScene.screen!=window.screen ||
+       ![window.windowScene.session.role isEqual:@"UIWindowSceneSessionRoleCarPlay"] ||
+       DFGObject(root,@"currentBaseViewController")!=controller)
+        return DFNativeMapFinishBaseEvidence(result,pulse,reason);
+    id scene=DFGObject(controller,@"scene");
+    if(!scene)scene=DFGObject(DFGObject(controller,@"sceneHandle"),@"sceneIfExists");
+    if(![NSStringFromClass([scene class]) isEqual:@"FBScene"] ||
+       ![DFGObject(scene,@"identifier") isEqual:bound[@"NativeSceneID"]])
+        return DFNativeMapFinishBaseEvidence(result,pulse,reason);
+    BOOL related=NO;
+    NSMutableSet<NSValue *> *ancestry=[NSMutableSet new];
+    for(UIViewController *cursor=controller;cursor && ancestry.count<32;cursor=cursor.parentViewController) {
+        NSValue *identity=[NSValue valueWithNonretainedObject:cursor];
+        if([ancestry containsObject:identity])break;
+        [ancestry addObject:identity];
+        if(cursor==root){related=YES;break;}
+    }
+    if(!related)return DFNativeMapFinishBaseEvidence(result,pulse,reason);
+    // Read the pulse/revocation again after private getters. This helper only
+    // observes existing ownership; it never calls DFOwnerObserveNative or
+    // writes an Active flag, bound pointer, lease or attestation file.
+    NSDictionary *latest=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
+    BOOL latestRevoked=DFOwnerSessionRevoked(session) || [session isEqual:DFOwnerRevokedSession];
+    if(!DFNativeMapOwnedBaseRecordMatches(latest,bound,candidate,latestRevoked,
+                                          NSDate.date.timeIntervalSince1970) ||
+       controller!=DFOwnerBoundController ||
+       ![bound[@"Session"] isEqual:DFOwnerBoundSession] ||
+       ![bound[@"HostSceneID"] isEqual:DFOwnerBoundHostScene] ||
+       ![bound[@"NativeSceneID"] isEqual:DFOwnerBoundNativeScene])
+        return DFNativeMapFinishBaseEvidence(result,pulse,reason);
+    result[@"OwnedBase"]=controller;
+    return DFNativeMapFinishBaseEvidence(result,pulse,reason);
 }
 static void DFOwnerObserveNative(void) {
     // One writer, the actual CarPlay UI process; CarPlayApp cannot attest for it.

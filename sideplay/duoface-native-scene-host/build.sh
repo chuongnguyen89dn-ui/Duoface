@@ -27,7 +27,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreGraphics -framework QuartzCore \
   -DDFCarPlayCaptureLiveOwnerSnapshot=DFIntegratedCarPlayCaptureLiveOwnerSnapshot \
-  -DDF144_CARPLAY=1 -Wl,-install_name,@rpath/DFCarPlayDockOwner.dylib -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m DFHomeAdmission141.m DFHomeLaunchABI142.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m \
+  -DDF144_CARPLAY=1 -Wl,-install_name,@rpath/DFCarPlayDockOwner.dylib -o "$DOCK_DYLIB" DFCarPlayDockOwner.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFHomePublisher136Core.m DFHomePublisher136Entry.m DFHomeAdmission141.m DFHomeLaunchABI142.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m ../native-carplay-scene-v1/DFNativeMapLaunchContext.m \
   DFSpeedNativeOverlay163.mm speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
@@ -38,7 +38,7 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreGraphics \
   -Wl,-install_name,@rpath/DFNativeMapPaneCoordinator.dylib -o "$MAP_DYLIB" ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.m \
-  ../native-carplay-scene-v1/DFNativeMapPaneAdapter.m
+  ../native-carplay-scene-v1/DFNativeMapPaneAdapter.m ../native-carplay-scene-v1/DFNativeMapLaunchRuntime.m
 cp ../native-carplay-scene-v1/DFNativeMapPaneCoordinator.plist \
   "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.plist"
 ldid -S "$MAP_DYLIB"
@@ -110,7 +110,7 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.172~wakefix4_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.172~wakefix5_iphoneos-arm64.deb"
 chmod 0755 "$TMP"
 dpkg-deb --root-owner-group --build "$TMP" "$OUT"
 echo "BUILT=$OUT"

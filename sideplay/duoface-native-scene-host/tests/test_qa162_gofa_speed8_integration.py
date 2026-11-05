@@ -20,8 +20,8 @@ class QA162GofaSpeed8(unittest.TestCase):
 
     def test_single_package_identity_and_version(self):
         self.assertIn('NAME="com.duoface.jb.embedded"',self.pack)
-        self.assertIn('VERSION="0.0.172~wakefix4"',self.pack)
-        self.assertIn("0.1.172~wakefix4",self.build)
+        self.assertIn('VERSION="0.0.172~wakefix5"',self.pack)
+        self.assertIn("0.1.172~wakefix5",self.build)
         self.assertIn("DFGofaSpeedSource162.dylib",self.build)
         self.assertIn("speed8/DFNative8SpeedHUDView.mm",self.build)
         self.assertIn("speed8/DFSpeedTransport.mm",self.build)
