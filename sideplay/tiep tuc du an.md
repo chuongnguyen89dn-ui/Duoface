@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-11-06 — Publisher second dependency failure and retained-byte remediation
+
+- `carplaydsp` publisher run `42127289111` (job `127594593423`) failed in Step 7 **after** standalone CarPlaySplit build success: `curl: (56) The requested URL returned error: 404` on legacy `DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb`. Subsequent source-baseline/combined-package steps also depended on the old repo; deploy skipped. This is unrelated to signed `wakefix5`; no public release claimed.
+- To preserve other projects' existing releases without modifying them, updated only `carplaydsp/main` `.github/workflows/build.yml`, commit `d6b31323faa80ac2d7cd28ee6bf23009cb50d5aa`. Replaced three legacy third-party rebuild steps with strict retrieval of the **three exact already published** `DuoDash-Airaw_1.0.3`, `com.chuong.duodash-fullscreen-complete_1.1.3+adapter1~test4` and `DuoDash-Source_1.1.3+fullscreen1` archives from the existing public Sileo `Packages`. Each must be uniquely listed and match SHA256, size, package identity, version and iphoneos-arm64; frozen original source SHA `ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465` is further required. If unavailable or mismatched, fail closed. This retains their files without rewriting their source, rerunning their build, signing or modifying their package version.
+- `carplaydsp` automatic publisher CI run `42127914735` (build job `127596761568`) queued; syntax-check `42127914807` triggered. Next: inspect actual run and all later steps; do not claim public Sileo availability until Pages deploy, public index and byte-level SHA verified. No user device test or Sileo install performed.
+
+---
+
 ## CHECKPOINT 2026-11-06 — Sileo publisher build failure isolated and repaired
 
 - Actual failed publisher run: `carplaydsp` `42126847496` job `127593104445` completed FAILURE; build log exact last error: `fatal: could not read Username for 'https://github.com': Device not configured` after compiling `independent-split`, when optional `showcase/build.sh` tried to clone unrelated `chuongnguyen89dn-ui/showcarplay`. Deploy and public verification skipped, so **NOT published** at this stage. This failure is outside DuoFace's signed DEB.
