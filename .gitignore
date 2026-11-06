@@ -1,0 +1,7 @@
+# DEBs are archived in chuongnguyen89dn-ui/duoface-debs-; NEVER commit binaries here.
+*.deb
+
+# Generated raw audit dumps: retain textual analyses instead.
+sideplay/audit/**/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json
+sideplay/audit/**/ALL_NATIVE12_1385_METHODS.json
+sideplay/audit/**/*_RUN_*.json
