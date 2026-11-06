@@ -12,7 +12,7 @@ class AppRoster178(unittest.TestCase):
   self.assertIn("DF178NativeMapUnverified",CAT)
   self.assertIn("DF178PhoneAppBridge",CAT)
   self.assertIn("DF178RouteForSelectedBundle",PICKER)
-  self.assertIn("appPicker:picker didSelectNativeMapBundleID:",PICKER)
+  self.assertIn("appPicker:self didSelectNativeMapBundleID:",PICKER)
  def test_picker_live_selected_inventory(self):
   self.assertIn("selectedAppFallbackForBundleIDs",LIB)
   self.assertIn("DFCarPlaySelectedInstalledBundleIDs",PICKER)
@@ -21,7 +21,7 @@ class AppRoster178(unittest.TestCase):
  def test_no_native_owner_bypass_or_synthetic_home(self):
   for forbidden in ("MSHookMessageEx", "setIconState:forVehicleID:", "CPMapTemplate alloc"):
    self.assertNotIn(forbidden,CAT)
-  self.assertIn("DF178NativeMapReady",CHROME)
+  self.assertIn("DFNativeMapAllowedBundle",CHROME)
   self.assertIn("DFNativeMapAckReadState",CHROME)
   self.assertIn("DFNativeMapFreshExplicitCommand",CHROME)
   self.assertIn("native-map-picker-ack-applied",CHROME)
