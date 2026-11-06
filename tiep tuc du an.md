@@ -1,3 +1,10 @@
+## CHECKPOINT QA176-INDEPENDENT-OFFICIAL-SILEO-PUBLIC-VERIFIED-20261106
+
+- Official Sileo QA176 0.0.176~appwake1 independently downloaded+SHA verified; one APT entry, Packages.gz content, Release SHA of Packages, and 174/175 immutable rollback DEBs PASS. Public SHA256 6d7cf1eff02e4c238ff0b36c93de851a834f99ef54ba2e38e19d99b50d8a0c14, 1302004 bytes; QA176 is distribution PASS, NOT physical CarPlay acceptance.
+- Publisher commit ab4d9d14bdbc3cbddb14f33a844deca8fe606f73, YAML validator run42178000876 SUCCESS; build/deploy/five-job public verifier run42178000974 SUCCESS. Independent receipt run 42178802321; verified UTC 2026-11-06T07:07:44.842030+00:00. Receipt: sideplay/audit/qa176-appwake1-20261106/publication-receipt.json.
+- Signed source3d0fafcc2e17bca9739cf900d0bac5668ebc1aef, signed run42177180870 SUCCESS, immutable archive bf4e7a52f928e1bf157007d366cee6b472df673b, same exact DEB SHA; no same-version byte substitution or rebuild on publisher.
+- User may Refresh Sources and upgrade existing Sileo package; respring if requested. Parked CarPlay must confirm first hidden tap wakes ONLY then second tap enters app and occupied-pane map replacement real pixels/touch. Keyboard, Safari/GOFA and Home retain prior behavior; standalone Google Maps scene identity and independent Home app icons remain OPEN. Do not claim car/device PASS, do not request prior four logs again.
+
 ## CHECKPOINT QA176-OFFICIAL-PUBLISHER-WORKFLOW-COMMITTED-20261106
 
 - Signed QA176 run42177180870 COMPLETED SUCCESS at 2026-11-06T06:58:35Z. PREPARE and SIGNED-RELEASE jobs SUCCESS, artifact13483708076. Compiled source3d0fafcc2e17bca9739cf900d0bac5668ebc1aef, immutable signed DEB archived at exact source commit bf4e7a52f928e1bf157007d366cee6b472df673b `sideplay/jb-embedded-appbridge/evidence/runs/42177180870/`; SHA256 6d7cf1eff02e4c238ff0b36c93de851a834f99ef54ba2e38e19d99b50d8a0c14, version0.0.176~appwake1. Audit summary signed=true sha256_verified=true whole_deb_static_audit_pass=true, NOT device tested. Old 174/175 unchanged.
