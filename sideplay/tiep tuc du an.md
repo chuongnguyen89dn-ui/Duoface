@@ -1,3 +1,11 @@
+## CHECKPOINT QA174-DEVICE-REJECTED-20261106
+
+- LATEST USER DEVICE VERDICT: FAILED. Anywhere-touch logo recall still fails; GOFA only works; Google Maps/Waze cannot open; no selected app appears outside DuoFace on CarPlay Home. This supersedes prior pending/UNVERIFIED acceptance. Historical build/Sileo SHA PASS remains distribution evidence only.
+- Source baseline: 577fa9fecccb9de8cf5b0a93425466bfdc2332f7; compiled d8144d3c58833764fbc6a53e25044682adf852e2; version 0.0.174~mapwake1. No runtime/DEB/Sileo changes in this investigation.
+- Read the concrete function crosswalk, limits and next steps: `sideplay/audit/qa174-device-rejected-20261106/FINDINGS.md`. Do not reintroduce failed .117 touch windows, consume app taps, bypass native-owner guards or equate picker cards with Home publication.
+- Need the current failed-session manual diagnostic export; last checked main sideplay/log upload predates QA174 (2026-11-04). One failed recall/map-tap capture is enough; do not ask the user to repeat the full QA list. This documentation CI is not a device test.
+- Docs run: 42159188749; checkpoint UTC: 2026-11-06T03:53:10.472623+00:00; pre-write HEAD: 984e904dedbfd53bc0286e1209107676c83bde6d. Preserve all prior history below.
+
 ## CHECKPOINT 2026-11-06 — QA174 OFFICIAL SILEO LIVE PASS, DEVICE TEST NEXT
 
 - **Latest directive fulfilled for distribution:** User explicitly asked to put this version on official Sileo as prerequisite for real CarPlay testing. Previous QA174 private-only candidate state is SUPERSEDED for distribution (no untested physical capability is asserted).
