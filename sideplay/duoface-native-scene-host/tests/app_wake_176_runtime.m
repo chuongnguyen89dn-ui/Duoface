@@ -114,8 +114,9 @@ int main(void){@autoreleasepool{
         check(DF176ConsumeWakeEvent(event(second,UITouchPhaseEnded),@"test.app"),
               "second finger tail consumed");
         state(NO,YES,YES,NO,nil,nil);
+        if(i==0)first.window=nil; // UIKit may detach the window before Cancelled.
         check(DF176ConsumeWakeEvent(event(first,UITouchPhaseCancelled),@"test.app"),
-              "reserved gesture cancel consumed even after wake");
+              "reserved gesture tail drained even after window detach");
         forwarded(@"next visible contact forwarded",touchInWindow(host));
     }
     fakeNow+=5;
