@@ -28,7 +28,7 @@ jobs:
           git show HEAD:sideplay/duoface-native-scene-host/DFNative12Chrome.m > "$RUNNER_TEMP/qa180-baseline/DFNative12Chrome.m"
           git show HEAD:sideplay/duoface-native-scene-host/DFSceneHost.m > "$RUNNER_TEMP/qa180-baseline/DFSceneHost.m"
           python3 - <<'PY'
-          import base64,gzip,hashlib,subprocess
+          import base64,gzip,hashlib,subprocess,os
           from pathlib import Path
           folder=Path('sideplay/audit/qa180-owned-wake-map-replace-20261106')
           encoded=''.join((folder/'transport'/f'part{i}.b64').read_text().strip() for i in range(1,5))
@@ -38,8 +38,23 @@ jobs:
           patch=folder/'changes.patch';patch.write_bytes(raw)
           subprocess.run(['git','apply','--check',str(patch)],check=True)
           subprocess.run(['git','apply','--index',str(patch)],check=True)
-          paths=set(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
           prefix='sideplay/duoface-native-scene-host/'
+          # First CI found an obsolete pilot-only wake assertion. The new
+          # host gate is scoped by actual owner, not app-side injection scope.
+          # Preserve a separate assertion that app-side injection stays scoped.
+          test=Path(prefix+'tests/test_qa172w_wakefix.py')
+          text=test.read_text()
+          before="'DF155PilotAppID','kbVisible177'"
+          assert text.count(before)==1
+          text=text.replace(before,"'DF177CurrentTouchOwner','kbVisible177'")
+          marker=' def test_app_touch_never_recalls_directly(self):'
+          assert text.count(marker)==1
+          text=text.replace(marker,"  self.assertIn('!DF155PilotAppID(bundle)',(ROOT/'DF154GeneralAppStateRelay.m').read_text())\n"+marker)
+          doc_end=text.index('"""',3)+3
+          text='"""QA180 owner-scoped in-path wake plus preserved legacy keyboard relays.\nThe first hidden contact wakes only; app-side injection remains allowlisted.\nThese source assertions do not establish device touch delivery.\n"""'+text[doc_end:]
+          test.write_text(text)
+          subprocess.run(['git','add','--',str(test)],check=True)
+          paths=set(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
           expected_paths={prefix+x for x in (
             'DFOwnedWakeSurface180.h','DFOwnedWakeSurface180.m','DFMapReplace180.h',
             'DFNative12Chrome.m','DFSceneHost.m','build.sh',
@@ -47,7 +62,11 @@ jobs:
             'tests/wake_gate_180_runtime.m','tests/map_replace_180_runtime.m',
             'tests/test_qa180_owned_wake_map_replace.py','tests/test_qa172w2_wakefix2.py','tests/test_qa172w_wakefix.py')}
           assert paths==expected_paths,(paths^expected_paths)
-          print('QA180_PATCH_SHA_AND_13_FILE_SCOPE_VERIFIED',expected)
+          final=subprocess.check_output(['git','diff','--cached','--binary'])
+          patch.write_bytes(final)
+          receipt='BASE_PATCH_SHA256='+expected+'\nFINAL_PATCH_SHA256='+hashlib.sha256(final).hexdigest()+'\n'
+          Path(os.environ['RUNNER_TEMP'],'qa180-evidence','patch-sha256.txt').write_text(receipt)
+          print('QA180_PATCH_SHA_AND_13_FILE_SCOPE_VERIFIED',receipt)
           PY
           git diff --cached --check
           git diff --cached --stat > "$RUNNER_TEMP/qa180-evidence/scope.txt"
@@ -115,36 +134,37 @@ jobs:
           mkdir -p "$DEST/evidence"
           cp "$RUNNER_TEMP/qa180-evidence/"* "$DEST/evidence/"
           python3 - <<'PY'
-          import os,subprocess
+          import os
           from pathlib import Path
           from datetime import datetime,timezone
           folder='sideplay/audit/qa180-owned-wake-map-replace-20261106/'
           run=os.environ['GITHUB_RUN_ID'];head=os.environ['GITHUB_SHA']
           report='''# QA180 two bounded source fixes - tested, NOT physical acceptance
 
-          Latest user asks to stop repeated analysis and implement the two evidenced defects. Baseline d27298e18c987621090d3e79f246b512a034ddca; latest four-log evidence remains pinned to main upload3dc27f7d833709be04fc3406aa3bb7077b023f83. No older log files were read for this patch.
+          Latest user asks to stop repeated analysis and implement the two evidenced defects. Baseline d27298e18c987621090d3e79f246b512a034ddca; four-log evidence pinned to main upload3dc27f7d833709be04fc3406aa3bb7077b023f83. No older log files read.
 
-          Implemented: the existing owned pane root and DFSceneSurface now use DFOwnedWakeSurface180, which chooses the host-side receiver before descending into the app subtree. First hidden contact wakes only from delivered touchesBegan and is consumed through Ended/Cancelled; later visible touches pass to original child. No added shield UIWindow or global event hook, no nil-event wake side effect and no keyboard-state IPC prerequisite. Visible child gestures are not seized midstream. Root and surface ownership is checked against the active Chrome/session/window. Logo recall remains visual-only and does not independently activate red border, relayout keyboard or change geometry.
+          Existing owned pane root and DFSceneSurface now use DFOwnedWakeSurface180, choosing the host receiver before descending into app content. Hidden first contact wakes only on delivered touchesBegan and is consumed through Ended/Cancelled; visible contacts pass to the original child. No shield UIWindow/global event hook, nil-event wake side effect or keyboard-state IPC prerequisite. Active child gestures are not seized on expiry. Current Chrome/window ownership is checked; artwork-only recall does not independently activate red border or relayout keyboard/scene.
 
-          Implemented: selecting a native map in an occupied pane starts a selected-pane-only replacement transaction rather than silently returning. It validates current session/host ownership, withdraws only that selected phone host, waits for fresh actual physical-empty readback, then dispatches the EXISTING native Attach protocol/coordinator. Commit only on validated native ACK; rejection restores the prior selected phone app only when no native attachment is confirmed. Timeout/cancellation after submission sends real Restore and waits for its ACK before rollback; unknown ownership leaves the pane empty, never overlays another owner. Request/card-entry/replacement/rollback outcomes have explicit logs. Other panes, native coordinator and lifecycle hooks are not rewritten.
+          Native map selection in an occupied pane starts a selected-pane replacement transaction rather than returning silently. Validate session/host; withdraw only the selected phone host; wait for fresh real physical-empty snapshot; submit EXISTING native Attach. Apply only on validated native ACK. Rejection restores prior app only when native attachment is absent; timeout/cancellation after dispatch sends real Restore and waits for ACK. Unknown ownership leaves pane empty, never overlays another owner. Explicit card-entry/request/replacement/rollback logs added. Other panes and coordinator unchanged.
 
-          Reference crosswalk: existing logoWakeOnlyTap establishes wake-only first contact; sideplay/audit/qa174-device-rejected-20261106/MECHANISM_REVIEW_20261106.md records the corrected DuoNavi contract and distinguishes actual in-path ownership from an invented shield window. OmniCar showPickerForSlot/pickerAppTapped/openApp:slot flow requires an explicit per-slot replace/launch transaction; this patch repairs the occupied-pane pre-dispatch gap identified in the four-log FINDINGS.md. No vendor source/runtime/license copied.
+          Reference: existing logoWakeOnlyTap and MECHANISM_REVIEW_20261106.md establish the user-corrected DuoNavi first-contact contract; OmniCar showPickerForSlot/pickerAppTapped/openApp:slot establishes explicit per-slot launch. The occupied-pane gap comes from the four-log FINDINGS.md. No vendor code/runtime/license copied.
 
-          Tests: two behavioral-contract/source regressions reject the original source and pass patched source. Production gate Objective-C executes against a small UIKit dispatch model (20 hide/wake cycles, second-tap action, cancellation, multi-touch, active-child gesture preservation); this is NOT real UIKit/remote HID/CarPlay. Real empty-pane policy executes Foundation test cases. Existing logo/map/pane regression suite and iOS16 arm64 production syntax compile run in the same job. Exact outputs are archived in evidence/. No device claim is derived from these tests.
+          Actual tests: original source rejected by two new contract regressions; production gate Objective-C executes against a SMALL UIKIT DISPATCH MODEL (20 repeated cycles, second tap, cancellation, multiple contacts, active-child gesture). This is not actual UIKit/remote HID/device acceptance. Foundation empty-pane policy executes13 cases. Six Python suites and iOS16arm64 syntax compilation run in this job; exact results evidence/. Protected DFSceneLifecycle.m, DFNativeMapPaneCoordinator.m and DF154GeneralAppStateRelay.m verified unchanged by Git blob hashes.
 
-          Unchanged by blob checks: DFSceneLifecycle.m, DFNativeMapPaneCoordinator.m, DF154GeneralAppStateRelay.m. GOFA lifecycle/geometry and under-lock/BKS policy were not patched. Separate Google Maps standalone scene identity mismatch and Home publication remain OPEN; two upstream source repairs do not prove those independent requirements fixed.
+          Prior run42166403711 failed only an obsolete test requiring DF155PilotAppID in Chrome after pilot-specific wake gating was removed. Gate behavior, Foundation and preceding Python suites had passed, but iOS compile/checkpoint were skipped. The correction tests actual Chrome owner identity and separately preserves app-side injection allowlist; it does not weaken device scene ownership. Initial transport SHA and final amended patch SHA are recorded in evidence/patch-sha256.txt. Reproduce using this workflow's exact commands from repo root.
 
-          No DEB built, signed or released; current Sileo0.0.174 remains unchanged and user-rejected. Packaging must use a NEW version, never rebuild published0.0.174 with different bytes. Next: review actual source diff/CI, then build a new-version signed package and publish via the existing authorized official source for parked CarPlay acceptance. Required on-car cases: first hidden tap app-action0, second tap action1, repeated hide/wake/keyboard/divider; map selection from occupied pane sends real request, other pane stays intact, native failure rolls back safely, genuine map pixels/touch. Keep Home/scene-identity work separately tracked.
+          No DEB/sign/Sileo change. Current0.0.174 remains device-rejected; never replace published bytes at the same version. Next: new-version signed packaging and existing official Sileo delivery for physical first/second-tap and occupied-pane map testing. Google Maps standalone scene-ID reconciliation and Home icon publication remain separate OPEN tasks, not claimed repaired by these two fixes. Preserve GOFA, keyboard/media/divider and under-lock/BKS policy. No new log request.
           '''
           report='\n'.join(line[10:] if line.startswith('          ') else line for line in report.splitlines()).strip()+'\n'
-          report+='\nSource application/test run='+run+'; input commit='+head+'; UTC='+datetime.now(timezone.utc).isoformat()+'.\n'
+          report+='\nRun='+run+'; input='+head+'; UTC='+datetime.now(timezone.utc).isoformat()+'.\n'
           Path(folder+'IMPLEMENTATION.md').write_text(report)
           marker='## CHECKPOINT QA180-OWNED-WAKE-MAP-REPLACE-SOURCE-20261106'
-          note=(marker+'\n\n- Active work branch: `fix/qa180-owned-wake-map-replace-20261106`, derived from verified `d27298e18c987621090d3e79f246b512a034ddca`; prior branch remains reference only.\n'
-                '- IMPLEMENTED AND SOURCE-TESTED: owned in-path hidden-contact capture and explicit occupied-pane map replacement with real empty readback/ACK/rollback. Complete code, limits, exact commands and results: `'+folder+'IMPLEMENTATION.md`, `changes.patch`, `evidence/` and workflow `.github/workflows/duoface-180-owned-wake-map-replace.yml`.\n'
-                '- Actual macOS run '+run+' input '+head+' passed the preceding production gate model, Foundation policy, source regressions and iOS arm64 syntax compile steps. This checkpoint is saved only after those steps succeed; no physical CarPlay PASS.\n'
-                '- Original source is rejected by two added regressions. Protected lifecycle, native coordinator and general GOFA relay unchanged by Git blob checks. No new shield/global touch hook. Hidden first contact is consumed, visible input passes.\n'
-                '- No DEB/sign/Sileo change. Current0.0.174 still device-rejected. New-version packaging and physical first/second-tap plus occupied-pane map acceptance are next; standalone Google Maps scene join and Home publication remain separate OPEN tasks. No new logs requested. Preserve history below.\n\n')
+          note=(marker+'\n\n- Active work branch: `fix/qa180-owned-wake-map-replace-20261106`, from verified d27298e18c987621090d3e79f246b512a034ddca.\n'
+                '- IMPLEMENTED: owned in-path first hidden contact capture and explicit occupied-pane native-map replacement with actual empty readback, ACK and safe rollback. Evidence/commands/limits: `'+folder+'IMPLEMENTATION.md`, `changes.patch`, `evidence/`, workflow `.github/workflows/duoface-180-owned-wake-map-replace.yml`.\n'
+                '- Source-only macOS run '+run+' input '+head+' passed all preceding gate-model/Foundation/Python and iOSarm64 syntax steps; save happens only after those steps pass. Not physical CarPlay acceptance.\n'
+                '- Two regressions reject old source; active child gestures, keyboard relay and app-side injection scoping preserved. Lifecycle/native coordinator/general GOFA relay unchanged by hashes.\n'
+                '- First run42166403711 failed obsolete pilot-gate assertion; corrected test to actual owner plus separate sender allowlist. No hidden failed compile or device pass.\n'
+                '- No DEB/Sileo change yet. New-version packaging and official delivery next, then physical first-touch consumed/second-touch passed and map replacement. Google Maps standalone scene identity and Home icon work remain OPEN. Do not ask for the same logs again. Preserve history below.\n\n')
           for name in ('sideplay/tiep tuc du an.md','tiep tuc du an.md'):
               path=Path(name);old=path.read_text()
               if marker not in old:path.write_text(note+old)
