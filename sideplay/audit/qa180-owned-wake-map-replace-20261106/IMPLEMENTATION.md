@@ -1,4 +1,32 @@
-# QA180 two bounded source fixes - tested, NOT physical acceptance
+# QA180 release status - 0.0.175 signed, Sileo publication BLOCKED
+
+## Latest checkpoint, 2026-11-06
+
+The user explicitly ordered official Sileo publication of the two QA180 source fixes. This supersedes the earlier source-only stopping point, but publication has NOT been completed.
+
+- Source repository: chuongnguyen89dn-ui/Duoface. Active branch: fix/qa180-owned-wake-map-replace-20261106. Tested functional source baseline ca7ebdad2129594087b5c9acd0bff73b11dc33e0. New version/stamp commit fd7e428c250539b33cdd83b3c9df81336cbf5a30 is the exact compiled source. Only version metadata/stamps and corresponding version tests changed; the released wake/map runtime source remained blob-identical to the source-tested fix.
+- Release workflow .github/workflows/duoface-180-release175.yml created in commit85eb3680c5086f42b4898a83932b06cea284a5ce. It reuses existing QA179 build/sign/whole-package-audit scripts from template blob c3d47a5ec2c531660815dd86a413117759e0323a, with explicit version/source substitutions. Exact commands are preserved in that workflow and the release-audit-and-scripts Actions artifact. The source gate model, regression tests, Foundation policy, actual iOS compilation/signing and integrated DEB audit ALL completed SUCCESS in run42168269030 (prepare job127729760820, signed job127729847075).
+- Integrated package com.duoface.jb.embedded version0.0.175~wakepick1; native host0.1.175~wakepick1, CFBundleVersion175. DEB1298716 bytes, SHA256 e53451895bd991be072dfa1cfaf515ee5a1fee28ca992b6952c09c259bf6dbb1. Production DFOwnedWakeSurface180 and qa180-wake-contact / qa180-map-replace-prepared markers were checked in the compiled signed DFTouchOwnerProbe dylib.
+- Persistent archive: sideplay/jb-embedded-appbridge/evidence/runs/42168269030/com.duoface.jb.embedded_0.0.175~wakepick1_iphoneos-arm64.deb and SHA256SUMS.txt, PACKAGING_PROVENANCE.json, CI_RESULT.txt, audit-summary.json. All exist by immutable source commit1688f4e92135b6b46d7fa3e8fa5cb94d850ea447 (signed-build handoff commit, before this report update). audit-summary.json records source fd7e428c250539b33cdd83b3c9df81336cbf5a30, signed=true, sha256_verified=true, whole_deb_static_audit_pass=true, sileo_published=false, device_tested=false.
+- Actions artifact13480635090, QA180-0.0.175-wakepick1-SIGNED-FOR-SILEO, was downloaded through the existing GitHub connector. Its exact DEB was extracted locally to /mnt/data/com.duoface.jb.embedded_0.0.175~wakepick1_iphoneos-arm64.deb; Python hashlib.sha256 independently matched the archived SHA above. Sandbox output is convenience only, not the persistent handoff. No artifact temporary/signed URL or credential is stored here.
+
+## Actual publication obstruction - do not hide or bypass
+
+Publisher chuongnguyen89dn-ui/carplaydsp main was read at46ed772c4a9b6648d1323b716115875f1ed754e8; .github/workflows/build.yml blob abd43043cbd889c7bac7843423aa7a9e9b734998 still pins0.0.174~mapwake1. Its canonical tiep tuc du an.md was read. No publisher jobs were in_progress at the initial check.
+
+A release preparation branch release/duoface175-wakepick1-20261106 was created from that exact main SHA. It contains no new publication code. The subsequent GitHub.create_file attempt for release-tools/prepare_duoface175.py on that branch was BLOCKED by the tool safety check, returning exactly: "Lệnh gọi công cụ này đã bị chặn bởi cơ chế kiểm tra an toàn của OpenAI. Vui lòng kiểm tra kỹ nội dung bạn đang gửi." No successful commit was returned for that file. This is not a build failure or a user GitHub authorization denial. The blocked publishing write was NOT retried via another encoding/action/route. No publisher main update, no new Pages dispatch and no Sileo success claim.
+
+A read-only local curl of the SHA-pinned public publisher YAML also failed with curl: (6) Could not resolve host: raw.githubusercontent.com. It was not used to replace repository evidence. Existing GitHub connector reads continued to work.
+
+## Resume exactly here
+
+The signed artifact is complete; do not rebuild it or change bytes under0.0.175~wakepick1. First resolve the publisher-write tool restriction through a supported permitted release operation; do not evade the blocked action. Then update only the existing official DuoFace package release pin to the exact archive/hash above, preserve0.0.174 rollback bytes (SHA256 f45e30bc92c984b7beaf13d1d03d88ffd5015780bd0080c15d859bddbc3f02cd), and run existing build/deploy/public-index+download-checksum verification. Do not touch unrelated packages. Read current publisher HEAD first to avoid overwriting concurrent changes. Until those operations succeed, official Sileo delivery remains NOT DONE.
+
+New175 has no physical CarPlay test. Hidden-first-contact-consumed and occupied-pane replacement are implemented, not hardware-proven; Google Maps standalone scene-ID reconciliation and independent Home icon publication remain OPEN. Do not ask for the same four logs again or claim all map/Home issues fixed. The signed-ready checkpoints in both canonical handoffs point into this QA180 audit folder; this report records the latest blocking condition.
+
+---
+
+# Prior QA180 two bounded source fixes - tested, NOT physical acceptance
 
 Latest user asks to stop repeated analysis and implement the two evidenced defects. Baseline d27298e18c987621090d3e79f246b512a034ddca; four-log evidence pinned to main upload3dc27f7d833709be04fc3406aa3bb7077b023f83. No older log files read.
 
@@ -12,6 +40,6 @@ Actual tests: original source rejected by two new contract regressions; producti
 
 Prior run42166403711 failed an obsolete test requiring DF155PilotAppID in Chrome after pilot-specific wake gating was removed. Corrected the test to actual Chrome owner identity and separately preserved app-side injection allowlist. Run42166800433 then passed all41 Python tests, production-gate model,13 Foundation cases and four iOSarm64 syntax checks, but the final archive step failed because git diff --check interpreted valid blank context lines INSIDE the stored unified patch as trailing whitespace. Only that patch DATA file is excluded from the final whitespace check; all source/tests remain checked and unchanged. Initial transport SHA and final amended patch SHA are in evidence/patch-sha256.txt. No compile failure hidden. Reproduce with this workflow's exact commands from repo root.
 
-No DEB/sign/Sileo change. Current0.0.174 remains device-rejected; never replace published bytes at the same version. Next: new-version signed packaging and existing official Sileo delivery for physical first/second-tap and occupied-pane map testing. Google Maps standalone scene-ID reconciliation and Home icon publication remain separate OPEN tasks, not claimed repaired by these two fixes. Preserve GOFA, keyboard/media/divider and under-lock/BKS policy. No new log request.
+No DEB/sign/Sileo change at the original source-only checkpoint. Current0.0.174 remains device-rejected; never replace published bytes at the same version. At that checkpoint, next work was new-version signed packaging and existing official Sileo delivery for physical first/second-tap and occupied-pane map testing. The superseding release status is above. Google Maps standalone scene-ID reconciliation and Home icon publication remain separate OPEN tasks, not claimed repaired by these two fixes. Preserve GOFA, keyboard/media/divider and under-lock/BKS policy. No new log request.
 
-Run=42167040381; input=a1de88323e914b777f5fe43bd518cb9740d23b97; UTC=2026-11-06T05:12:58.942212+00:00.
+Original source-only run=42167040381; input=a1de88323e914b777f5fe43bd518cb9740d23b97; UTC=2026-11-06T05:12:58.942212+00:00.
