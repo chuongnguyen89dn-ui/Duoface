@@ -1,3 +1,11 @@
+## CHECKPOINT QA180-ACTIVE-WORK-BRANCH-20261106
+
+- ACTIVE IMPLEMENTATION HAS MOVED to `fix/qa180-owned-wake-map-replace-20261106` in this SAME repository. Do not resume coding on the old QA173 branch or rebuild published0.0.174 with new bytes. Read `sideplay/tiep tuc du an.md` and `tiep tuc du an.md` on the new branch first.
+- Verified source and handoff commit: `ca7ebdad2129594087b5c9acd0bff73b11dc33e0`; source-only CI run42167040381 completed successfully. Implemented actual owned in-path hidden-contact wake capture plus selected occupied-pane native-map replacement, with actual empty-pane readback and ACK/restore/rollback.
+- Evidence: new branch `sideplay/audit/qa180-owned-wake-map-replace-20261106/IMPLEMENTATION.md`, `changes.patch`, `evidence/`; workflow `.github/workflows/duoface-180-owned-wake-map-replace.yml` contains exact executed commands. Two original-source regressions rejected,41 Python tests passed, production gate tested using UIKit MODEL through20 hide/wake cycles,13 Foundation policy cases passed,4 production files passed iOSarm64 syntax compilation. These are NOT physical CarPlay acceptance.
+- Under-lock/lifecycle, native coordinator and GOFA general relay unchanged by blob checks. New-version packaging and official-source delivery are next. Existing Sileo0.0.174 is unchanged and remains user-rejected; separate Google Maps standalone scene identity and Home publication remain OPEN. No additional device logs needed for these two repairs.
+- This pointer update changes documentation ONLY, preserving all earlier findings below. Pointer job 42167202528.
+
 ## CHECKPOINT QA174-FOUR-LATEST-LOGS-FINAL-20261106
 
 - User asked to read ONLY the four most recent SidePlay log files, not old logs. Completed against MAIN upload 3dc27f7d833709be04fc3406aa3bb7077b023f83 (2026-11-06T04:15:23Z). All four exact blob hashes verified. Complete inputs/line numbers/commands: `sideplay/audit/qa174-four-latest-logs-20261106/evidence/MANIFEST.json`; reviewed conclusions: `sideplay/audit/qa174-four-latest-logs-20261106/FINDINGS.md`. No additional log files were read.
