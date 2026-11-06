@@ -87,9 +87,10 @@ int main(void){@autoreleasepool{
     transportOK=YES;
     state(NO,YES,YES,NO,nil,nil);
     forwarded(@"controls visible",t);
-    state(YES,YES,YES,NO,nil,nil);
-    // A forwarded gesture began while visible; hiding Chrome must not
-    // steal subsequent moved/tail events.
+    // A forwarded gesture must BEGIN while controls are still visible;
+    // only AFTER Began may Chrome expire. The prior fixture incorrectly
+    // set hidden=true first, so it tested a hidden first tap as "visible".
+    state(NO,YES,YES,NO,nil,nil);
     check(!DF176ConsumeWakeEvent(event(t,UITouchPhaseBegan),@"test.app"),
           "visible gesture forwarded");
     state(YES,YES,YES,NO,nil,nil);
