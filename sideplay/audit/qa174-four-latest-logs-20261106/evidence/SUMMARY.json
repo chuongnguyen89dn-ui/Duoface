@@ -1,0 +1,1434 @@
+{
+  "upload_commit": "3dc27f7d833709be04fc3406aa3bb7077b023f83",
+  "reviewed_only": [
+    "Crash-0-SpringBoard.diskwrites_resource-2026-11-04-210058 3.ips",
+    "Crash-1-CarPlay.diskwrites_resource-2026-11-02-140101 3.ips",
+    "Crash-2-SpringBoard.diskwrites_resource-2026-11-02-104439 3.ips",
+    "DuoFaceAudit 3.txt"
+  ],
+  "audit_line_count": 41447,
+  "audit_header": [
+    "DuoFace CarPlay / media scene diagnostic (manual export)",
+    "Date: 2026-11-06 04:13:25 +0000",
+    "iOS: 16.7.16",
+    "App: com.duoface.native.scenehost",
+    "This file contains technical diagnostics; share only with a trusted recipient.",
+    "Audit schema: 4; exporter build 0.0.171~gofadiag1; runtime process build is in timestamped traces.",
+    "\\nQA167 GOFA original notification: NONE VALID/FRESH within 900s; absence is NOT proof GOFA did not publish (source may be inactive, sandbox notify blocked, or user hasn't opened GOFA).\\n",
+    "=== DuoFaceGeometry119-DuoFaceNativeHost.jsonl (last 256 KiB; read-only geometry, no physical PASS) ===",
+    "{\"Schema\":119,\"Session\":\"E3EE83BD-FC12-4876-B893-5F838F7CFF57\",\"Sample\":\"FD5F5439-CD3E-4B57-AAF3-79587855E370\",\"SampleTime\":1793930593.262696,\"Timestamp\":1793930593.2635269,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 360}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 360}}\",\"SafeLayoutInScreen\":\"{{0, 0}, {640, 360}}\",\"RootControllerClass\":\"DFNative12BasicController\",\"SafeAreaInsets\":\"{0, 0, 0, 0}\",\"SafeLayoutFrame\":\"{{0, 0}, {640, 360}}\",\"Scale\":3,\"Frame\":\"{{0, 0}, {640, 360}}\",\"Hidden\":false,\"MainScreen\":0,\"CoordinateSpace\":\"UIScreen.coordinateSpace\",\"Bounds\":\"{{0, 0}, {640, 360}}\",\"ScreenBounds\":\"{{0, 0}, {640, 360}}\",\"WindowClass\":\"CPWindow\",\"Alpha\":1},\"EmptySafeFrameFallback\":false},\"Kind\":\"geometry-readonly\"}",
+    "{\"Schema\":119,\"Session\":\"E3EE83BD-FC12-4876-B893-5F838F7CFF57\",\"Sample\":\"598E48C6-1C7D-42D4-BFE3-75849DDFDD7E\",\"SampleTime\":1793930597.012183,\"Timestamp\":1793930597.0126719,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 360}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 360}}\",\"SafeLayoutInScreen\":\"{{0, 0}, {640, 360}}\",\"RootControllerClass\":\"DFNative12BasicController\",\"SafeAreaInsets\":\"{0, 0, 0, 0}\",\"SafeLayoutFrame\":\"{{0, 0}, {640, 360}}\",\"Scale\":3,\"Frame\":\"{{0, 0}, {640, 360}}\",\"Hidden\":false,\"MainScreen\":0,\"CoordinateSpace\":\"UIScreen.coordinateSpace\",\"Bounds\":\"{{0, 0}, {640, 360}}\",\"ScreenBounds\":\"{{0, 0}, {640, 360}}\",\"WindowClass\":\"CPWindow\",\"Alpha\":1},\"EmptySafeFrameFallback\":false},\"Kind\":\"geometry-readonly\"}",
+    "{\"Schema\":119,\"Session\":\"E3EE83BD-FC12-4876-B893-5F838F7CFF57\",\"Sample\":\"831EBC4D-73C4-4145-B164-F53E1FF7545D\",\"SampleTime\":1793930600.012953,\"Timestamp\":1793930600.0136209,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 360}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 360}}\",\"SafeLayoutInScreen\":\"{{0, 0}, {640, 360}}\",\"RootControllerClass\":\"DFNative12BasicController\",\"SafeAreaInsets\":\"{0, 0, 0, 0}\",\"SafeLayoutFrame\":\"{{0, 0}, {640, 360}}\",\"Scale\":3,\"Frame\":\"{{0, 0}, {640, 360}}\",\"Hidden\":false,\"MainScreen\":0,\"CoordinateSpace\":\"UIScreen.coordinateSpace\",\"Bounds\":\"{{0, 0}, {640, 360}}\",\"ScreenBounds\":\"{{0, 0}, {640, 360}}\",\"WindowClass\":\"CPWindow\",\"Alpha\":1},\"EmptySafeFrameFallback\":false},\"Kind\":\"geometry-readonly\"}",
+    "{\"Schema\":119,\"Session\":\"E3EE83BD-FC12-4876-B893-5F838F7CFF57\",\"Sample\":\"504169A2-EBBB-4AEB-A091-5E0B427FA2CF\",\"SampleTime\":1793930603.761904,\"Timestamp\":1793930603.762464,\"Process\":\"DuoFaceNativeHost\",\"Measurements\":{\"PreClampContentRect\":\"{{0, 0}, {640, 360}}\",\"CPWindow\":{\"WindowInScreen\":\"{{0, 0}, {640, 360}}\",\"SafeLayoutInScreen\":\"{{0, 0}, {640, 360}}\",\"RootControllerClass\":\"DFNative12BasicController\",\"SafeAreaInsets\":\"{0, 0, 0, 0}\",\"SafeLayoutFrame\":\"{{0, 0}, {640, 360}}\",\"Scale\":3,\"Frame\":\"{{0, 0}, {640, 360}}\",\"Hidden\":false,\"MainScreen\":0,\"CoordinateSpace\":\"UIScreen.coordinateSpace\",\"Bounds\":\"{{0, 0}, {640, 360}}\",\"ScreenBounds\":\"{{0, 0}, {640, 360}}\",\"WindowClass\":\"CPWindow\",\"Alpha\":1},\"EmptySafeFrameFallback\":false},\"Kind\":\"geometry-readonly\"}"
+  ],
+  "build_stamp_counts": {
+    "0.0.173~logoapps1": 3503,
+    "0.0.174~mapwake1": 863
+  },
+  "current174_utc_range": [
+    "2026-11-06T03:40:29.002999+00:00",
+    "2026-11-06T04:13:22.032635+00:00"
+  ],
+  "sections": [
+    {
+      "line": 8,
+      "heading": "=== DuoFaceGeometry119-DuoFaceNativeHost.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+    },
+    {
+      "line": 210,
+      "heading": "=== DuoFaceGeometry119-SpringBoard.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+    },
+    {
+      "line": 278,
+      "heading": "=== DuoFaceGeometry119-CarPlayApp.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+    },
+    {
+      "line": 281,
+      "heading": "=== DuoFaceGeometry119-CarPlay.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+    },
+    {
+      "line": 323,
+      "heading": "=== DuoFaceGeometry119-Dashboard.jsonl (last 256 KiB; read-only geometry, no physical PASS) ==="
+    },
+    {
+      "line": 326,
+      "heading": "=== DuoFaceSceneHost.log (last 256 KiB) ==="
+    },
+    {
+      "line": 5610,
+      "heading": "=== DuoFaceTouchOwner.log (last 256 KiB) ==="
+    },
+    {
+      "line": 8301,
+      "heading": "=== DuoFaceDockOwner.log (last 256 KiB) ==="
+    },
+    {
+      "line": 10183,
+      "heading": "=== DuoFaceHomeCatalogABI.log (last 256 KiB) ==="
+    },
+    {
+      "line": 12604,
+      "heading": "=== DuoFaceHomePublisher136.log (last 256 KiB) ==="
+    },
+    {
+      "line": 12894,
+      "heading": "=== DuoFaceTrafficNav166.log (last 256 KiB) ==="
+    },
+    {
+      "line": 12897,
+      "heading": "=== DuoFaceHomeAdmission137.log (last 256 KiB) ==="
+    },
+    {
+      "line": 15228,
+      "heading": "=== DuoFaceHomeAdmission140.log (last 256 KiB) ==="
+    },
+    {
+      "line": 15231,
+      "heading": "=== DuoFaceHomeAdmission141.log (last 256 KiB) ==="
+    },
+    {
+      "line": 15940,
+      "heading": "=== DuoFaceHomeLaunch142.log (last 256 KiB) ==="
+    },
+    {
+      "line": 16295,
+      "heading": "=== DuoFaceHomeLaunch143.log (last 256 KiB) ==="
+    },
+    {
+      "line": 16298,
+      "heading": "=== DuoFaceStandalone144.log (last 256 KiB) ==="
+    },
+    {
+      "line": 17411,
+      "heading": "=== DuoFaceNativeSceneJoin.log (last 256 KiB) ==="
+    },
+    {
+      "line": 19358,
+      "heading": "=== DuoFaceCarPlayOwnerSnapshot.log (last 256 KiB) ==="
+    },
+    {
+      "line": 19361,
+      "heading": "=== DuoFaceNativeMapPane.log (last 256 KiB) ==="
+    },
+    {
+      "line": 19399,
+      "heading": "=== DuoFaceDisconnectClose.log (last 256 KiB) ==="
+    },
+    {
+      "line": 19639,
+      "heading": "=== DuoFaceFatalException.log (last 256 KiB) ==="
+    },
+    {
+      "line": 19642,
+      "heading": "=== DuoFaceDeepTrace.log.previous (last 2 MiB; timestamped diagnostic build) ==="
+    },
+    {
+      "line": 41383,
+      "heading": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ==="
+    }
+  ],
+  "snapshot_lines": [
+    {
+      "line": 2,
+      "scope": "unstamped",
+      "section": "export-header",
+      "text": "Date: 2026-11-06 04:13:25 +0000"
+    },
+    {
+      "line": 3,
+      "scope": "unstamped",
+      "section": "export-header",
+      "text": "iOS: 16.7.16"
+    },
+    {
+      "line": 4,
+      "scope": "unstamped",
+      "section": "export-header",
+      "text": "App: com.duoface.native.scenehost"
+    },
+    {
+      "line": 6,
+      "scope": "unstamped",
+      "section": "export-header",
+      "text": "Audit schema: 4; exporter build 0.0.171~gofadiag1; runtime process build is in timestamped traces."
+    },
+    {
+      "line": 41430,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Session active: NO; heartbeat age seconds: 1793938405.63"
+    },
+    {
+      "line": 41432,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Standalone Home: enabled=YES receiverAlive=YES age=0.19s outcome=stopped reason=native-Home-exit resultAge=1818.91s bundle=com.google.Maps; display/touch UNVERIFIED"
+    },
+    {
+      "line": 41434,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Native Map ACK: applied=NO attached=NO reason=none owner=unknown age=infs"
+    },
+    {
+      "line": 41435,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Native Maps physical frame readback: count=2 age=1770.09s"
+    },
+    {
+      "line": 41438,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Native Maps pixels and actual route continuation require CarPlay on-device visual QA; never inferred from ACK."
+    },
+    {
+      "line": 41439,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Remembered app slot 0: com.google.ios.youtube"
+    },
+    {
+      "line": 41440,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Remembered app slot 1: com.wynauto.wyn"
+    },
+    {
+      "line": 41441,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Remembered app slot 2: empty"
+    },
+    {
+      "line": 41442,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Remembered app slot 3: empty"
+    },
+    {
+      "line": 41443,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Native map chosen physical slot: none; last verified owner bundle: unverified; lease age: infs (must match current session)"
+    },
+    {
+      "line": 41444,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Physical unplug app close enabled: YES (default OFF)"
+    },
+    {
+      "line": 41445,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Disconnect close (10s opt-in): status=no-eligible-managed-app-or-unverified-pid attempted=0 verified=0 age=1769.60s (process exit requires PID check; never an ACK alone)\\nCrash included: SpringBoard.diskwrites_resource-2026-11-04-210058.ips (30679 bytes)"
+    },
+    {
+      "line": 41446,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Crash included: CarPlay.diskwrites_resource-2026-11-02-140101.ips (235005 bytes)"
+    },
+    {
+      "line": 41447,
+      "scope": "unstamped",
+      "section": "=== DuoFaceDeepTrace.log (last 2 MiB; timestamped diagnostic build) ===",
+      "text": "Crash included: SpringBoard.diskwrites_resource-2026-11-02-104439.ips (251827 bytes)"
+    }
+  ],
+  "topic_counts_by_stamp": {
+    "wake": {
+      "unstamped": 120,
+      "other_stamped": 51,
+      "current174": 9
+    },
+    "maps": {
+      "unstamped": 458
+    },
+    "home": {
+      "unstamped": 3673
+    },
+    "lifecycle": {
+      "unstamped": 16,
+      "other_stamped": 584,
+      "current174": 338
+    },
+    "errors": {
+      "unstamped": 806,
+      "other_stamped": 443,
+      "current174": 206
+    }
+  },
+  "markers": [
+    {
+      "scope": "other_stamped",
+      "marker": "area=scene",
+      "count": 1597
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa120-native-rail-owner",
+      "count": 1534
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "area=chrome",
+      "count": 448
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "area=touch-owner",
+      "count": 338
+    },
+    {
+      "scope": "current174",
+      "marker": "area=scene",
+      "count": 320
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa150-native-workspace-abi",
+      "count": 315
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "area=dock",
+      "count": 288
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "area=scene-lifecycle",
+      "count": 267
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=resize",
+      "count": 265
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "area=postlock-settings",
+      "count": 248
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa120-native-rail-owner",
+      "count": 226
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "area=native-cpwindow",
+      "count": 199
+    },
+    {
+      "scope": "current174",
+      "marker": "area=scene-lifecycle",
+      "count": 169
+    },
+    {
+      "scope": "current174",
+      "marker": "area=postlock-settings",
+      "count": 153
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=command-dispatched",
+      "count": 146
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa155-app-side-ack",
+      "count": 129
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=carplay-state-ack",
+      "count": 124
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=media-viewport-ui-only",
+      "count": 122
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa124-scene-resign-retained-await-background",
+      "count": 119
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "area=logo-control",
+      "count": 118
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa160-native-home-page-snapshot-not-pixel",
+      "count": 114
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa146-native-home-standalone-stop-notified",
+      "count": 113
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa125-background-boundary",
+      "count": 113
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa147-ready-foreign-surface",
+      "count": 104
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=geometry-before-reference-setters",
+      "count": 97
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=original-native12-scene-size-dispatch",
+      "count": 97
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=scene-frame-readback",
+      "count": 97
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=native12-scene-settings-live-contract-requested",
+      "count": 97
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=media-reference-committed-after-stable-viewport",
+      "count": 97
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=native-app-geometry-reference-only-no-nil-frontboard-transition",
+      "count": 97
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=orientation-early-owned-registered",
+      "count": 97
+    },
+    {
+      "scope": "current174",
+      "marker": "area=chrome",
+      "count": 90
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=gofa-owned-app-layout-observed140",
+      "count": 80
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=scene-foreground-observed-only",
+      "count": 69
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=scene-attached",
+      "count": 68
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=scene-handle-observed-render-unverified",
+      "count": 68
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=resize",
+      "count": 66
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa177-app-touch",
+      "count": 66
+    },
+    {
+      "scope": "current174",
+      "marker": "area=dock",
+      "count": 56
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa182-kbhook",
+      "count": 55
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa176-kbdiag",
+      "count": 41
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa178-kbdiag2",
+      "count": 41
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa182-kbdiag",
+      "count": 41
+    },
+    {
+      "scope": "current174",
+      "marker": "qa120-native-rail-owner",
+      "count": 41
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa159-native-home-stop-no-chooser",
+      "count": 38
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=scene-geometry-stale-owner-skip",
+      "count": 38
+    },
+    {
+      "scope": "current174",
+      "marker": "area=touch-owner",
+      "count": 37
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=youtube-app-handshake-ack",
+      "count": 36
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa179-kbfit",
+      "count": 35
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa121-system-idle-assertion-released",
+      "count": 35
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa120-native-usable-bounds-owned",
+      "count": 34
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa164-speed8-bubble-window-owned-full-content-no-pane-clamp",
+      "count": 34
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa121-system-idle-assertion-acquired",
+      "count": 34
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=orientation-early-owned-registered",
+      "count": 32
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=scene-instance-changed",
+      "count": 32
+    },
+    {
+      "scope": "current174",
+      "marker": "area=native-cpwindow",
+      "count": 31
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa178-logo-idle-4s-hidden-visual-only",
+      "count": 30
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=invalidate-done",
+      "count": 29
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=close-no-private-settings-restore",
+      "count": 29
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=gofa-owned-app-layout-observed140",
+      "count": 28
+    },
+    {
+      "scope": "current174",
+      "marker": "event=resize",
+      "count": 28
+    },
+    {
+      "scope": "current174",
+      "marker": "event=orientation-early-owned-registered",
+      "count": 28
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=host-created",
+      "count": 27
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=mode-2-requested",
+      "count": 27
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=youtube-app-handshake-ack",
+      "count": 27
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=media-viewport-ui-only",
+      "count": 26
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa150-native-workspace-probe-complete",
+      "count": 26
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa160-native-grid-icon-pressed",
+      "count": 26
+    },
+    {
+      "scope": "current174",
+      "marker": "event=youtube-app-handshake-ack",
+      "count": 26
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa150-native-workspace-probe-start",
+      "count": 25
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa131-iphone-display-clock-observed",
+      "count": 24
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=geometry-before-reference-setters",
+      "count": 24
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=original-native12-scene-size-dispatch",
+      "count": 24
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=scene-frame-readback",
+      "count": 24
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=native12-scene-settings-live-contract-requested",
+      "count": 24
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=media-reference-committed-after-stable-viewport",
+      "count": 24
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=native-app-geometry-reference-only-no-nil-frontboard-transition",
+      "count": 24
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa180-relay-alive",
+      "count": 22
+    },
+    {
+      "scope": "current174",
+      "marker": "event=gofa-owned-app-layout-observed140",
+      "count": 22
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa178-logo-idle-4s-hidden-visual-only",
+      "count": 21
+    },
+    {
+      "scope": "current174",
+      "marker": "qa131-iphone-display-clock-observed",
+      "count": 20
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=invalidate-done",
+      "count": 18
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=close-no-private-settings-restore",
+      "count": 18
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa177-kb-state",
+      "count": 18
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=youtube-remote-orientation-observed",
+      "count": 18
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=host-created",
+      "count": 16
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=mode-2-requested",
+      "count": 16
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=scene-attached",
+      "count": 16
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=scene-foreground-observed-only",
+      "count": 16
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=scene-handle-observed-render-unverified",
+      "count": 16
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa177-recall",
+      "count": 15
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa160-native-icon-forwarded",
+      "count": 14
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa146-native-home-standalone-stop-notified",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=host-created",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=media-viewport-ui-only",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=mode-2-requested",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=scene-attached",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=scene-foreground-observed-only",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=scene-handle-observed-render-unverified",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=geometry-before-reference-setters",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=original-native12-scene-size-dispatch",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=scene-frame-readback",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=native12-scene-settings-live-contract-requested",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=media-reference-committed-after-stable-viewport",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=native-app-geometry-reference-only-no-nil-frontboard-transition",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=invalidate-done",
+      "count": 14
+    },
+    {
+      "scope": "current174",
+      "marker": "event=close-no-private-settings-restore",
+      "count": 14
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa151-native-workspace-live-owner",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa152-native-prep-resume",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa160-native-icon-bridge-accepted",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa153-phone-continue",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa165-standalone-HUD-attached",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa149-manager-live-scene-owned",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa148-real-processstate-pid",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa147-ready-verified-pid",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa147-native-dock-active",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa160-request-to-dock-ms",
+      "count": 13
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa182-hookfire",
+      "count": 12
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa149-manager-result-accepted",
+      "count": 12
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa147-native-dock-restored",
+      "count": 12
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa154-general-app-restore",
+      "count": 12
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=qa121-system-idle-assertion-released",
+      "count": 10
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa121-system-idle-assertion-released",
+      "count": 10
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=all-hosts-stopped",
+      "count": 10
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=window-detached",
+      "count": 10
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa124-scene-resign-retained-await-background",
+      "count": 10
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa125-background-boundary",
+      "count": 10
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa175-divider-visibility",
+      "count": 9
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa132-bks-interceptor-installed",
+      "count": 9
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa179-logo-idle-red-border-hidden-visual-only",
+      "count": 9
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa151-dashboard-workspace-captured",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=qa120-native-usable-bounds-owned",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa120-native-usable-bounds-owned",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa164-speed8-bubble-window-owned-full-content-no-pane-clamp",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=native12-ui-owner-visible",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=qa121-system-idle-assertion-acquired",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa121-system-idle-assertion-acquired",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=fatal-exception-reason-recorder-armed",
+      "count": 9
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=scene-geometry-suspended",
+      "count": 9
+    },
+    {
+      "scope": "current174",
+      "marker": "qa179-logo-idle-red-border-hidden-visual-only",
+      "count": 9
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=youtube-remote-orientation-observed",
+      "count": 8
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa178-hud-gate",
+      "count": 8
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa177-extend-while-hidden",
+      "count": 8
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa131-iphone-display-clock-observed",
+      "count": 8
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=qa161-solo-first-reference-120ms",
+      "count": 7
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa161-solo-first-reference-120ms",
+      "count": 7
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=qa160-fast-initial-probe-complete",
+      "count": 7
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa160-fast-initial-probe-complete",
+      "count": 7
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa120-native-rail-owner-unresolved-no-geometry-change",
+      "count": 7
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=home-reentry-splash-skipped",
+      "count": 7
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "qa120-native-rail-owner-unresolved-no-geometry-change",
+      "count": 7
+    },
+    {
+      "scope": "current174",
+      "marker": "event=command-dispatched",
+      "count": 7
+    },
+    {
+      "scope": "current174",
+      "marker": "event=carplay-state-ack",
+      "count": 7
+    },
+    {
+      "scope": "current174",
+      "marker": "event=qa161-solo-first-reference-120ms",
+      "count": 7
+    },
+    {
+      "scope": "current174",
+      "marker": "qa161-solo-first-reference-120ms",
+      "count": 7
+    },
+    {
+      "scope": "current174",
+      "marker": "event=qa160-fast-initial-probe-complete",
+      "count": 7
+    },
+    {
+      "scope": "current174",
+      "marker": "qa160-fast-initial-probe-complete",
+      "count": 7
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa149-native-dock-press-original-forwarded",
+      "count": 6
+    },
+    {
+      "scope": "unstamped",
+      "marker": "event=all-hosts-stopped",
+      "count": 5
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa151-workspace-owner-hook-installed",
+      "count": 5
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa147-native-dock-result-consumer-installed",
+      "count": 5
+    },
+    {
+      "scope": "current174",
+      "marker": "qa146-native-home-standalone-stop-notified",
+      "count": 4
+    },
+    {
+      "scope": "current174",
+      "marker": "area=logo-control",
+      "count": 4
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa132-bks-owned-unblank",
+      "count": 3
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa132-bks-restore-system-blank",
+      "count": 3
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=physical-carplay-disconnected-reset-splash",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=qa120-native-usable-bounds-owned",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "qa120-native-usable-bounds-owned",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "qa164-speed8-bubble-window-owned-full-content-no-pane-clamp",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=native12-ui-owner-visible",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=qa121-system-idle-assertion-acquired",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "qa121-system-idle-assertion-acquired",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=fatal-exception-reason-recorder-armed",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=youtube-remote-orientation-observed",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "qa124-scene-resign-retained-await-background",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "qa125-background-boundary",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=qa121-system-idle-assertion-released",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "qa121-system-idle-assertion-released",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=all-hosts-stopped",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "marker": "event=window-detached",
+      "count": 3
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa183-kbsuite",
+      "count": 2
+    },
+    {
+      "scope": "other_stamped",
+      "marker": "event=native12-whole-host-zoom-applied",
+      "count": 2
+    },
+    {
+      "scope": "current174",
+      "marker": "area=qa125-underlock",
+      "count": 2
+    },
+    {
+      "scope": "current174",
+      "marker": "qa125-underlock",
+      "count": 2
+    },
+    {
+      "scope": "current174",
+      "marker": "event=physical-carplay-disconnected-reset-splash",
+      "count": 2
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa179-selprobe",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "marker": "qa147-native-owner-changed-restore-skipped",
+      "count": 1
+    },
+    {
+      "scope": "current174",
+      "marker": "event=listener-registered",
+      "count": 1
+    },
+    {
+      "scope": "current174",
+      "marker": "event=qa132-bks-interceptor-installed",
+      "count": 1
+    },
+    {
+      "scope": "current174",
+      "marker": "qa132-bks-interceptor-installed",
+      "count": 1
+    },
+    {
+      "scope": "current174",
+      "marker": "area=scene-orientation",
+      "count": 1
+    },
+    {
+      "scope": "current174",
+      "marker": "event=home-reentry-splash-skipped",
+      "count": 1
+    }
+  ],
+  "reasons": [
+    {
+      "scope": "unstamped",
+      "reason": "live-system-home-lookup",
+      "count": 215
+    },
+    {
+      "scope": "unstamped",
+      "reason": "native-home-button revoked=1 notify=0",
+      "count": 87
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-fresh-foreground-session",
+      "count": 49
+    },
+    {
+      "scope": "unstamped",
+      "reason": "CarPlay-start",
+      "count": 31
+    },
+    {
+      "scope": "unstamped",
+      "reason": "template-disconnected revoked=1 notify=0",
+      "count": 25
+    },
+    {
+      "scope": "other_stamped",
+      "reason": "no-fresh-foreground-session",
+      "count": 10
+    },
+    {
+      "scope": "other_stamped",
+      "reason": "native-home-button revoked=1 notify=0",
+      "count": 9
+    },
+    {
+      "scope": "unstamped",
+      "reason": "scene-background revoked=1 notify=0",
+      "count": 7
+    },
+    {
+      "scope": "unstamped",
+      "reason": "selected-apps-updated",
+      "count": 6
+    },
+    {
+      "scope": "unstamped",
+      "reason": "already-fit late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore={{0, 0}, {382, 480}} kbAfter={{0, 0}, {382, 480}} subs=UIInputSetContainerView{{0, 0}, {382, 480}}>UIInputSetHostView{{0, 220}, {382, 260}} refSize={414, 736} ",
+      "count": 5
+    },
+    {
+      "scope": "unstamped",
+      "reason": "did-hide screen={{0, 0}, {414, 736}} kbBefore=? kbAfter=?",
+      "count": 4
+    },
+    {
+      "scope": "unstamped",
+      "reason": "ok",
+      "count": 4
+    },
+    {
+      "scope": "unstamped",
+      "reason": "already-fit late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore={{0, 0}, {382, 480}} kbAfter={{0, 0}, {382, 480}} subs=UIInputSetContainerView{{0, 0}, {382, 480}}>UIInputSetHostView{{0, 466}, {382, 14}}>TUIKeyboardPathEffec",
+      "count": 3
+    },
+    {
+      "scope": "unstamped",
+      "reason": "already-fit late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {595, 685}} kbBefore={{0, 0}, {595, 685}} kbAfter={{0, 0}, {595, 685}} subs=UIInputSetContainerView{{0, 0}, {595, 685}}>UIInputSetHostView{{0, 479}, {595, 206}} refSize={414, 736} ",
+      "count": 3
+    },
+    {
+      "scope": "current174",
+      "reason": "no-fresh-foreground-session",
+      "count": 3
+    },
+    {
+      "scope": "unstamped",
+      "reason": "already-fit late=0 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore={{0, 0}, {382, 480}} kbAfter={{0, 0}, {382, 480}} subs=UIInputSetContainerView{{0, 0}, {382, 480}}>UIInputSetHostView{{0, 220}, {382, 260}} refSize={414, 736} ",
+      "count": 2
+    },
+    {
+      "scope": "unstamped",
+      "reason": "user-Home-toggle",
+      "count": 2
+    },
+    {
+      "scope": "other_stamped",
+      "reason": "ok",
+      "count": 2
+    },
+    {
+      "scope": "current174",
+      "reason": "template-disconnected revoked=1 notify=0",
+      "count": 2
+    },
+    {
+      "scope": "unstamped",
+      "reason": "already-fit late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore={{0, 0}, {382, 480}} kbAfter={{0, 0}, {382, 480}} subs=UIInputSetContainerView{{0, 0}, {382, 480}}>UIInputSetHostView{{0, 220}, {382, 260}}>TUIKeyboardPathEffe",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=1 try=3 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 4}} end={{0, 7",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=1 try=4 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 4}} end={{0, 7",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=0 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=pre kbSrc=none cyc=4 try=1 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 216}} end={{0, ",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=4 try=2 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 216}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=4 try=3 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 216}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=4 try=4 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 216}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "- late=0 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore={{0, 0}, {414, 736}} kbAfter={{0, 0}, {382, 480}} subs=UIInputSetContainerView{{0, 0}, {414, 736}}>UIInputSetHostView{{0, 466}, {414, 270}} refSize={414, 736} refWhen=pr",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=3 try=2 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 226}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=3 try=3 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 226}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {382, 480}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=3 try=4 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 226}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {595, 685}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=1 try=3 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 219}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "no-kb-window late=1 screen={{0, 0}, {414, 736}} key={{0, 0}, {595, 685}} kbBefore=? kbAfter=? subs= refSize=? refWhen=post kbSrc=none cyc=1 try=4 foundAt=-1 s183=off fires183={ls:0,impl:0,del:0} tw=none begin={{0, 736}, {414, 219}} end={{0,",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "not-hosted late=0 screen={{0, 0}, {414, 736}} key={{0, 0}, {414, 736}} kbBefore={{0, 0}, {1190, 685}} kbAfter={{0, 0}, {414, 736}} subs=UIInputSetContainerView{{0, 0}, {1190, 685}}>UIInputSetHostView{{0, 495}, {1190, 190}} refSize={414, 736",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "did-hide screen={{0, 0}, {414, 736}} kbBefore={{0, 0}, {595, 685}} kbAfter={{0, 0}, {414, 736}}",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "not-hosted late=0 screen={{0, 0}, {414, 736}} key={{0, 0}, {414, 736}} kbBefore={{0, 0}, {414, 736}} kbAfter={{0, 0}, {414, 736}} subs=UIInputSetContainerView{{0, 0}, {382, 480}}>UIInputSetHostView{{0, 220}, {382, 260}} refSize={414, 736} r",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "already-fit late=0 screen={{0, 0}, {414, 736}} key={{0, 0}, {595, 685}} kbBefore={{0, 0}, {595, 685}} kbAfter={{0, 0}, {595, 685}} subs=UIInputSetContainerView{{0, 0}, {595, 685}}>UIInputSetHostView{{0, 479}, {595, 206}} refSize={414, 736} ",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "already-fit late=0 screen={{0, 0}, {414, 736}} key={{0, 0}, {595, 685}} kbBefore={{0, 0}, {595, 685}} kbAfter={{0, 0}, {595, 685}} subs=UIInputSetContainerView{{0, 0}, {595, 685}}>UIInputSetHostView{{0, 466}, {595, 219}};_UIReplicantView{{0",
+      "count": 1
+    },
+    {
+      "scope": "other_stamped",
+      "reason": "template-disconnected revoked=1 notify=0",
+      "count": 1
+    },
+    {
+      "scope": "current174",
+      "reason": "native-home-button revoked=1 notify=0",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "native-Home-exit resultAge=1818.91s bundle=com.google.Maps; display/touch UNVERIFIED",
+      "count": 1
+    },
+    {
+      "scope": "unstamped",
+      "reason": "none owner=unknown age=infs",
+      "count": 1
+    }
+  ],
+  "generated_at_utc": "2026-11-06T04:19:20.414398+00:00",
+  "bounds": "Unstamped section lines can be cumulative; do not assign them to QA174 without correlated time/session evidence. Historical IPS event dates remain historical even when uploaded today."
+}

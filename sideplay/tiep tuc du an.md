@@ -1,3 +1,12 @@
+## CHECKPOINT QA174-FOUR-LATEST-LOGS-20261106
+
+- User requested ONLY the four newest uploaded logs in SidePlay; do not read older log files. Source upload: main commit 3dc27f7d833709be04fc3406aa3bb7077b023f83 (2026-11-06T04:15:23Z). Exact four paths, SHA-verified blobs, byte/line counts in `sideplay/audit/qa174-four-latest-logs-20261106/evidence/MANIFEST.json`.
+- The large DuoFaceAudit 3.txt could not be read by connector range fetch (empty content) or raw fetch (size error); local network DNS also failed. This bounded GitHub job downloaded ONLY the four exact pinned blobs and verified Git blob hashes, then extracted source-line-numbered evidence.
+- Analysis script: `sideplay/audit/qa174-four-latest-logs-20261106/analyze_latest_four.py`; exact command: `python3 sideplay/audit/qa174-four-latest-logs-20261106/analyze_latest_four.py --fetch --input-dir "$RUNNER_TEMP/latest-four" --out "$RUNNER_TEMP/four-log-evidence"` from repository root. No secret inputs. Workflow `.github/workflows/duoface-174-four-latest-logs-review.yml`; run 42161788698.
+- Complete mechanical results: `sideplay/audit/qa174-four-latest-logs-20261106/evidence/OVERVIEW.md`, CRASH_SUMMARY.md, MAPS.md, WAKE.md, HOME.md, LIFECYCLE.md, ERRORS.md and SUMMARY.json. Build-stamp counts: {'0.0.173~logoapps1': 3503, '0.0.174~mapwake1': 863}; QA174 stamped UTC range: ['2026-11-06T03:40:29.002999+00:00', '2026-11-06T04:13:22.032635+00:00'].
+- Important: newly uploaded IPS files describe earlier disk-write events (Nov 2/4), not automatically a new QA174 crash. Separate current QA174 stamps, unstamped cumulative sections and prior stamps within the same new export. Do not infer root cause from absence or historical data. Manual causal interpretation pending readback of evidence.
+- This is log analysis only, NOT functional PASS, new runtime implementation, app build, device execution or Sileo deployment. Existing device verdict remains FAILED; hidden-first-contact-consumed contract remains authoritative.
+
 ## CHECKPOINT QA174-USER-WAKE-CONTRACT-20261106
 
 - LATEST USER CONTRACT: hidden controls -> first contact in owned app pane wakes controls and is CONSUMED; visible controls -> ordinary touches pass unchanged. This SUPERSEDES the assistant-authored passive-only / never-consume-first-tap policy in earlier QA179 and QA174 entries. Preserve history below; do not enforce the older conflicting instruction.
