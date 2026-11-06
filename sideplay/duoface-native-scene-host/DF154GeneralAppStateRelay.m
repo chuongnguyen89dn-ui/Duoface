@@ -4,6 +4,8 @@
 #import <UIKit/UIKit.h>
 #import "DF154AppStateProtocol.h"
 #import "DF155PilotAppScope.h"
+#define DF177_APP_SIDE_SENDER 1
+#import "DFAppTouch177.h"
 
 @interface DF154WindowOriginal : NSObject
 @property(nonatomic) CGRect frame;
@@ -190,6 +192,12 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
       return;
     }
     DF154Relay=relay;
+    // QA177 H1 (the ONLY change ported onto the QA171 base in this
+    // build): app-side "user touched" signal for controls recall.
+    // This constructor only proceeds inside a DF155 pilot app, so the
+    // sendEvent: observation hook (original first, read-only) is
+    // installed with the right scope. See DFAppTouch177.h.
+    DF177InstallAppTouchHook(bundle);
     [[NSNotificationCenter defaultCenter] addObserverForName:
       UISceneDidActivateNotification object:nil queue:NSOperationQueue.mainQueue
       usingBlock:^(__unused NSNotification *n){[relay reconcile];}];
