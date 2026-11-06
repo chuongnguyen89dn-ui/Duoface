@@ -32,6 +32,7 @@
 #import <objc/runtime.h>
 #include <notify.h>
 #include <unistd.h>
+#include <math.h>
 #import "DF156DarwinMailbox.h"
 #import "DFKeyboardState177.h"
 #import "DFAppTouchPolicy177.h"
@@ -146,6 +147,9 @@ static NSString *const DF188ControlsHiddenKey = @"ControlsHidden188";
 static BOOL DF188ControlsHidden = NO;
 static BOOL DF188ControlsHiddenKnown = NO;
 static int DF188ControlsStateToken = 0;
+// QA179: app-process keyboard *session* state for the swallow gate only.
+// DF177 keyboard-window reporting to DF156 remains completely unchanged.
+static BOOL DF188KbSessionVisible = NO;
 
 static inline void DF188RefreshControlsHidden(void) {
     NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:DF177TouchPrefsPath];
@@ -160,6 +164,27 @@ static inline BOOL DF177IsKeyboardWindow(id window) {
     Class keyboard=NSClassFromString(@"UIRemoteKeyboardWindow");
     return [window isKindOfClass:UIWindow.class] && keyboard &&
            [window isKindOfClass:keyboard];
+}
+
+// QA179: a non-hidden remote keyboard window can be parked full-screen
+// (origin.y == 0) with no keyboard on screen. Only an actual bottom-docked
+// keyboard frame is positive initial evidence for this process's gate.
+static inline BOOL DF188KeyboardWindowHasActiveFrame(UIWindow *window) {
+    if (!DF177IsKeyboardWindow(window) || window.hidden) return NO;
+    CGRect frame = window.frame;
+    CGRect screen = window.screen ? window.screen.bounds : UIScreen.mainScreen.bounds;
+    return CGRectGetMinY(frame) > 0.0 && CGRectGetHeight(frame) > 0.0 &&
+           fabs(CGRectGetMaxY(frame) - CGRectGetMaxY(screen)) <= 2.0;
+}
+
+static inline BOOL DF188InitialKeyboardSessionVisible(void) {
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes)
+        if ([scene isKindOfClass:UIWindowScene.class])
+            for (UIWindow *window in ((UIWindowScene *)scene).windows)
+                if (DF188KeyboardWindowHasActiveFrame(window)) return YES;
+    for (UIWindow *window in UIApplication.sharedApplication.windows)
+        if (DF188KeyboardWindowHasActiveFrame(window)) return YES;
+    return NO;
 }
 
 static inline BOOL DF177KbComputeVisible(void) {
@@ -247,7 +272,7 @@ static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
         } else if (hasBegan && DF177AppTouchEnabled()) {
             DF188RefreshControlsHidden();
             if (DF188ControlsHiddenKnown && DF188ControlsHidden &&
-                !DF177KbComputeVisible()) {
+                !DF188KbSessionVisible) {
                 DF188Swallowing = YES;
                 if (!DF188SwallowedTouches)
                     DF188SwallowedTouches = [NSMutableSet new];
@@ -283,6 +308,7 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
     if (installed || !bundle.length) return;
     installed = YES;
     DF177TouchBundle = [bundle copy];
+    DF188KbSessionVisible = DF188InitialKeyboardSessionVisible();
     Method m = class_getInstanceMethod(UIApplication.class,
                                        @selector(sendEvent:));
     if (!m) return;
@@ -314,6 +340,19 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
             }
         }];
     }
+    // QA179: session notifications affect ONLY the H1 swallow gate.
+    // They do not alter DF177's existing DF156 keyboard reports.
+    NSNotificationCenter *kbSessionNC = NSNotificationCenter.defaultCenter;
+    [kbSessionNC addObserverForName:UIKeyboardWillShowNotification
+                            object:nil queue:NSOperationQueue.mainQueue
+                        usingBlock:^(__unused NSNotification *note) {
+        DF188KbSessionVisible = YES;
+    }];
+    [kbSessionNC addObserverForName:UIKeyboardWillHideNotification
+                            object:nil queue:NSOperationQueue.mainQueue
+                        usingBlock:^(__unused NSNotification *note) {
+        DF188KbSessionVisible = NO;
+    }];
     // QA178 h1wake1: track host-published controls visibility for the
     // swallow gate. Registered once, alongside the touch hook.
     if (!DF188ControlsStateToken) {
