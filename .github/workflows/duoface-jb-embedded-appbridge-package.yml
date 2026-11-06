@@ -121,10 +121,12 @@ jobs:
           # .47 was archived before the current Native12 App/Recent/Style/video
           # fixes; reusing .47 would silently discard those changes.
           bash sideplay/duoface-native-scene-host/build.sh
-          NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.104~duomanager1_iphoneos-arm64.deb'
-          test -s "$NATIVE"
+          NATIVE="$(find sideplay/duoface-native-scene-host/packages -maxdepth 1 -type f -name 'com.duoface.carplay.nativescenehost_*.deb' -print -quit)"
+          test -n "$NATIVE" && test -s "$NATIVE"
           test "$(dpkg-deb -f "$NATIVE" Package)" = 'com.duoface.carplay.nativescenehost'
-          test "$(dpkg-deb -f "$NATIVE" Version)" = '0.1.104~duomanager1'
+          test "$(basename "$NATIVE")" = "com.duoface.carplay.nativescenehost_$(dpkg-deb -f "$NATIVE" Version)_iphoneos-arm64.deb"
+          # NativeHost's built version must be the one referenced by the integrated builder.
+          grep -Fq "$(basename "$NATIVE")" sideplay/jb-embedded-appbridge/package_integrated.py
           NATIVEHOST_SHA="$(shasum -a 256 "$NATIVE" | awk '{print $1}')"
           printf '%s\n' "NATIVEHOST_SHA=$NATIVEHOST_SHA" >> "$GITHUB_ENV"
           echo "SIGNED_NATIVEHOST_CURRENT_SOURCE_SHA256=$NATIVEHOST_SHA"
@@ -132,10 +134,13 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.95~duomanager1_iphoneos-arm64.deb'
-          test -s "$PACKAGE"
+          PACKAGE="$(find sideplay/jb-embedded-appbridge/packages -maxdepth 1 -type f -name 'com.duoface.jb.embedded_*.deb' -print -quit)"
+          test -n "$PACKAGE" && test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.95~duomanager1'
+          EXPECTED_VERSION="$(sed -nE 's/^VERSION="([^"]+)"$/\1/p' sideplay/jb-embedded-appbridge/package_integrated.py)"
+          test -n "$EXPECTED_VERSION"
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = "$EXPECTED_VERSION"
+          test "$(basename "$PACKAGE")" = "com.duoface.jb.embedded_${EXPECTED_VERSION}_iphoneos-arm64.deb"
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           # Verify the new allowlisted app-process dylib actually ships; earlier .71
           # had only SpringBoard/CarPlay filters and could not bridge app UIKit.
@@ -181,7 +186,7 @@ jobs:
           PY
           mkdir -p sideplay/jb-embedded-appbridge/evidence
           cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
-          (cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 'com.duoface.jb.embedded_0.0.95~duomanager1_iphoneos-arm64.deb' > SHA256SUMS.txt)
+          (cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 "$(basename "$PACKAGE")" > SHA256SUMS.txt)
           {
             echo 'SOURCE_BUNDLE_CANDIDATE=PASS_NO_DEVICE_PARITY'
             echo 'SILEO_PUBLISHED=false'
@@ -204,7 +209,7 @@ jobs:
         with:
           name: duoface-jb-embedded-carbridge-candidate-${{ github.run_id }}
           path: |
-            sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.95~duomanager1_iphoneos-arm64.deb
+            sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_*.deb
             sideplay/jb-embedded-appbridge/packages/SHA256SUMS.txt
             sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt
             sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
@@ -219,8 +224,8 @@ jobs:
             echo "::error::Configure DUOFACE_DEBS_WRITE_TOKEN with contents:write on duoface-debs-; source GITHUB_TOKEN cannot write another repo"
             exit 1
           fi
-          SRC='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.95~duomanager1_iphoneos-arm64.deb'
-          test -s "$SRC"
+          SRC="$(find sideplay/jb-embedded-appbridge/packages -maxdepth 1 -type f -name 'com.duoface.jb.embedded_*.deb' -print -quit)"
+          test -n "$SRC" && test -s "$SRC"
           FILE="${SRC##*/}"
           test "$(dpkg-deb -f "$SRC" Package)" = 'com.duoface.jb.embedded'
           test "$(dpkg-deb -f "$SRC" Architecture)" = iphoneos-arm64
