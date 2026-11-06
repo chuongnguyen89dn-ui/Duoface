@@ -278,7 +278,9 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
                 bundle=@"native-carplay";
             // Foreground Active/Inactive are measured UIKit states, not a guessed launch action.
             NSInteger activation=[record[@"viewSceneActivationState"] integerValue];
-            if(activation!=UISceneActivationStateForegroundActive &&
+            BOOL targetedMap=[bundle isEqualToString:@"com.google.Maps"] ||
+                              [bundle isEqualToString:@"com.waze.iphone"];
+            if(!targetedMap && activation!=UISceneActivationStateForegroundActive &&
                activation!=UISceneActivationStateForegroundInactive)continue;
             nativeMatches++;
             NSString *sid=record[@"hostedSceneIdentifier"]?:record[@"viewSceneIdentifier"]?:@"unavailable";
@@ -294,9 +296,9 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
                 record[@"controllerClass"]?:@"unknown",
                 record[@"viewBounds"]?:@"unavailable",
                 record[@"viewSceneRole"]?:@"unavailable",
-                [NSString stringWithFormat:@"hostView=%@ processBundle=%@",
+                [NSString stringWithFormat:@"hostView=%@ processBundle=%@ activation=%ld",
                  record[@"sceneHostViewStatus"]?:@"unknown",
-                 record[@"nativeSceneProcessBundleIdentifier"]?:@"unknown"]);
+                 record[@"nativeSceneProcessBundleIdentifier"]?:@"unknown",(long)activation]);
         }
         for(NSString *identity in DF181PreviousNative) {
             if(currentNative[identity])continue;
