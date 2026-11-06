@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feature/sideplay-logo-app-roster-fix-20261106
+      - fix/qa173-logo-map-touch-recall-20261106
     paths:
       - '.github/workflows/duoface-178-logo-app-roster-source-ci.yml'
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
@@ -12,6 +13,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFAppLibrary.*'
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/tests/*178*'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py'
   workflow_dispatch:
 permissions:
   contents: read
