@@ -1458,6 +1458,12 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     }
     self.touch177Bundles[bundle]=@{@"count":@(count),@"lastLog":@(lastLog)};
     BOOL wasVisible=now<self.controlsUntil;
+    BOOL reserved=[parsed[@"reserved"] isEqual:@YES];
+    if(reserved)
+        DFCLog([NSString stringWithFormat:
+            @"qa176-a1-host-wake-received bundle=%@ count=%llu hidden=%d session=%lu",
+            bundle,(unsigned long long)count,!wasVisible,
+            (unsigned long)self.touch177Session.generation]);
     // QA172 wakefix: an app-side touch NEVER runs a layout pass
     // itself. The 172R device A/B (2026-11-04) proved the chain
     // signal -> noteUserActivity -> layoutControls is what breaks
@@ -1476,6 +1482,10 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     self.controlsUntil=MAX(self.controlsUntil,now+4.0);
     // Refresh alpha immediately, but not the hosted keyboard/scene geometry.
     [self df178RefreshChromeArtwork];
+    if(reserved)
+        DFCLog([NSString stringWithFormat:
+            @"qa176-a1-host-wake-visual-state bundle=%@ alpha=%.2f",
+            bundle,(double)self.dividerLogo.alpha]);
     [self df178ScheduleChromeExpiry];
     self.touch177RecheckGeneration=
         DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
