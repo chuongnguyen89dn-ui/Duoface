@@ -1,4 +1,5 @@
 #import "DFDeepTrace.h"
+#import "DF181B0Probe.h"
 // .74: media host restored from nativehost .47 source 7cd4004d. Current touch wake retained.
 // Independently maintained first-party DuoFace module, ported from the
 // project's own prior scene-host experiments; no vendor binary or license.
@@ -379,6 +380,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
         // observed owned scene; no synthetic success or new foreground writer.
         [self.appController didMoveToParentViewController:parent];
         [self.appController endAppearanceTransition];
+        DF181B0Record(@"duoface",self.bundleID,@"activate-request", @"pending", NSStringFromClass(self.appController.class),NSStringFromCGSize(self.bounds.size),self.window.screen?NSStringFromCGRect(self.window.screen.bounds):@"no-display",@"before-existing-poll");
         DFSceneLog(@"mode-2-requested",self.bundleID,NSStringFromCGRect(self.bounds));
         self.timer = [NSTimer scheduledTimerWithTimeInterval:(self.fastInitialPolling?0.10:0.35) target:self
                   selector:@selector(pollScene:) userInfo:nil repeats:YES];
@@ -671,6 +673,16 @@ static NSInteger DFObservedSceneForeground(id scene) {
     @try {
         id handle=DFCall0(self.appController,@"sceneHandle");
         id scene=DFCall0(handle,@"sceneIfExists");
+        if(DF181B0InScope(self.bundleID,NO)) {
+            id identifier=DFCall0(scene,@"identifier");
+            DF181B0Record(@"duoface",self.bundleID,scene?@"poll-scene-present":@"poll-scene-absent",
+                [identifier isKindOfClass:NSString.class]?identifier:@"unavailable",
+                scene?NSStringFromClass([scene class]):@"no-scene",
+                NSStringFromCGSize(self.bounds.size),
+                self.window.screen?NSStringFromCGRect(self.window.screen.bounds):@"no-display",
+                [NSString stringWithFormat:@"handle=%d ready=%d generation=%lu",
+                    handle!=nil,self.ready,(unsigned long)self.sceneGeneration]);
+        }
         // The scene handle can exist before hosting begins. For an
         // implementation which exposes isHostingAnApp, require BOTH.
         // A sceneHandle may exist even when no remote app content is hosted.
@@ -783,6 +795,8 @@ static NSInteger DFObservedSceneForeground(id scene) {
 }
 - (void)stop {
     if (self.stopped) return;
+    id sceneID=DFCall0(self.scene,@"identifier");
+    DF181B0Record(@"duoface",self.bundleID,@"deactivate-request", [sceneID isKindOfClass:NSString.class]?sceneID:@"unavailable",NSStringFromClass(self.appController.class),NSStringFromCGSize(self.bounds.size),self.window.screen?NSStringFromCGRect(self.window.screen.bounds):@"no-display",@"before-existing-stop");
     self.stopped=YES;
     [DFYTCenter() removeObserver:self];
     [self revokeOrientationPolicy];
