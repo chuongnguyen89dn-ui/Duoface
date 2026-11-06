@@ -14,6 +14,13 @@ on:
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/tests/*178*'
       - 'sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa172r_logo_recall.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa172w_wakefix.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/DFDeepTrace.h'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
   workflow_dispatch:
 permissions:
   contents: read
