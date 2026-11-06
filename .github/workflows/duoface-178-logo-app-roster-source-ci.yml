@@ -1,0 +1,66 @@
+name: QA178 independent logo and OmniCar-style app roster source gates
+on:
+  push:
+    branches:
+      - feature/sideplay-logo-app-roster-fix-20261106
+    paths:
+      - '.github/workflows/duoface-178-logo-app-roster-source-ci.yml'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFChromeVisual178.h'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayAppRoute178.h'
+      - 'sideplay/duoface-native-scene-host/DFAppCatalogPolicy.h'
+      - 'sideplay/duoface-native-scene-host/DFAppLibrary.*'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
+      - 'sideplay/duoface-native-scene-host/tests/*178*'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa178-source:
+    runs-on: macos-15
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python source regression tests and wakefix5 negative guards
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          python3 tests/test_qa178_logo_visual_only.py -v
+          python3 tests/test_qa178_app_picker_route.py -v
+          python3 tests/test_qa172w2_wakefix2.py -v
+          python3 tests/test_qa172w_wakefix.py -v
+          python3 tests/test_qa172r_logo_recall.py -v
+          echo QA178_PYTHON_SOURCE_AND_WAKEFIX5_REGRESSIONS_PASS
+      - name: Compile and run first-party Foundation policy on macOS
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          for source in tests/chrome_visual_178_runtime.m tests/carplay_app_route_178_runtime.m; do
+            binary="$RUNNER_TEMP/$(basename "$source" .m)"
+            xcrun --sdk macosx clang -fobjc-arc -fblocks -O1 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+              -framework Foundation -o "$binary" "$source"
+            "$binary"
+          done
+          echo QA178_FOUNDATION_NATIVE_VS_PHONE_AND_4S_POLICY_PASS
+      - name: Compile modified Objective-C production files against iOS 16 SDK
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          cd sideplay/duoface-native-scene-host
+          for source in DFNative12Chrome.m DFAppPickerVC.m DFAppLibrary.m DFNativeHostRootController.m; do
+            xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
+              -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+              -fsyntax-only "$source"
+            echo "QA178_IOS_OBJECTIVE_C_COMPILE_PASS $source"
+          done
+          echo QA178_IOS_COMPILE_FOUR_MODIFIED_SOURCES_PASS
+      - name: Report independent source-only gate (not signed or device-tested)
+        run: |
+          set -euo pipefail
+          echo "SOURCE_SHA=$GITHUB_SHA"
+          echo QA178_SOURCE_ONLY_GATES_PASS
+          echo SIGNED=false
+          echo SILEO_PUBLISHED=false
+          echo DEVICE_TESTED=false
