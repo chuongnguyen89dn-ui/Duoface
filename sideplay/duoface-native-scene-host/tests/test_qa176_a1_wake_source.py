@@ -84,8 +84,16 @@ class A1WakeWiring(unittest.TestCase):
         primary=method(CHROME,"- (void)dividerPan:","- (CGPoint)secondaryTouchOnScreen:")
         self.assertIn("self.dividerWakeOnlyPan=YES;",primary)
         self.assertLess(primary.index("self.dividerWakeOnlyPan=YES;"),primary.index("[self beginDividerDragAt:screen];"))
+        self.assertIn("BOOL startedHidden=self.dividerTouchStartedHidden;",primary)
+        delegate=method(CHROME,"- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer",
+                        "// SHA-pinned ORIGINAL CBDividerView.startBlinking")
+        self.assertIn("self.dividerTouchStartedHidden=hidden;",delegate)
+        self.assertIn("self.secondaryTouchStartedHidden=hidden;",delegate)
+        self.assertIn("[self df178RecallChromeVisualOnly];",delegate)
+        self.assertIn("secondaryPan.delegate=self;",CHROME)
         secondary=method(CHROME,"- (void)secondaryDividerPan:","// Native12 CBWindow.carPlayUsableBounds")
         self.assertIn("self.secondaryWakeOnlyPan=YES;",secondary)
+        self.assertIn("BOOL startedHidden=self.secondaryTouchStartedHidden;",secondary)
         self.assertLess(secondary.index("self.secondaryWakeOnlyPan=YES;"),
                         secondary.index("self.secondaryRatio=cancel?"))
 
