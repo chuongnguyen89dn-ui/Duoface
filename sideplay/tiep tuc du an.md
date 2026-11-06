@@ -1,3 +1,9 @@
+## CHECKPOINT QA180-175-SIGNED-READY-20261106
+
+- Signed integrated0.0.175~wakepick1 and native host0.1.175 built and whole-DEB static audit passed in run 42168269030. Source SHA fd7e428c250539b33cdd83b3c9df81336cbf5a30; exact DEB SHA256 e53451895bd991be072dfa1cfaf515ee5a1fee28ca992b6952c09c259bf6dbb1.
+- Immutable signed archive/checksum/provenance: `sideplay/jb-embedded-appbridge/evidence/runs/42168269030/`. Production DFOwnedWakeSurface180, qa180-wake-contact and map-replace markers verified in signed dylib. Existing QA180/legacy tests and actual gate dispatch MODEL/empty-pane policy passed before build. NOT device PASS.
+- Next: publish THIS exact immutable archive through official carplaydsp/Sileo, keep0.0.174 rollback and verify public index/download SHA. Sileo publication is not yet performed by this source-only build. User expressly authorized publication. No further runtime edits were made; standalone scene identity/Home icons still OPEN.
+
 ## CHECKPOINT QA180-175-SILEO-REQUESTED-20261106
 
 - User explicitly requested official Sileo publication of the two source fixes. Active branch fix/qa180-owned-wake-map-replace-20261106; tested runtime baseline ca7ebdad2129594087b5c9acd0bff73b11dc33e0, source-only CI42167040381.
