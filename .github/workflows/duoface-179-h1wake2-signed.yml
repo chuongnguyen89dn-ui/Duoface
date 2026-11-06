@@ -79,8 +79,8 @@ jobs:
             test -s "$LIBS/$module.dylib"
             ldid -e "$LIBS/$module.dylib" >/dev/null
           done
-          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIKeyboardWillShowNotification'
-          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIKeyboardWillHideNotification'
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'com.duoface.apptouch177.wake'
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'com.duoface.controls188.state'
           strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIRemoteKeyboardWindow'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-controls-state'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-app-touch-wake'
