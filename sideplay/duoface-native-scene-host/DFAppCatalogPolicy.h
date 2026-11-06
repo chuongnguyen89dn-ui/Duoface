@@ -12,6 +12,10 @@ NS_INLINE BOOL DFAppProxyBool(id obj) {
 }
 NS_INLINE NSDictionary<NSString *,NSString *> *DFCatalogRecordForProxy(id proxy) {
  id bundle=DFAppProxyValue(proxy,@"applicationIdentifier");
+ // Different LS proxy variants expose either selector. Never override a
+ // nonempty identity with another bundle: that would bypass eligibility.
+ if(![bundle isKindOfClass:NSString.class] || ![bundle length])
+     bundle=DFAppProxyValue(proxy,@"bundleIdentifier");
  if(!DFIsEligibleAppID(bundle))return nil;
  if(DFAppProxyBool(DFAppProxyValue(proxy,@"isPlaceholder"))||
     DFAppProxyBool(DFAppProxyValue(proxy,@"isLaunchProhibited")))return nil;
