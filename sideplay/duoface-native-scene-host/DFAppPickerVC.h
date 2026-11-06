@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)appPicker:(DFAppPickerVC *)picker
     didSelectBundleID:(NSString *)bundleID
           displayName:(NSString *)name;
+// Explicit native-map request; do not route it to the phone scene host.
+- (void)appPicker:(DFAppPickerVC *)picker
+    didSelectNativeMapBundleID:(NSString *)bundleID
+                 displayName:(NSString *)name;
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker;
 // Original setupCardContent has THREE modes: Apps, Layout, Recent.
 // Each request is routed to the EXISTING independent real scene owner.
@@ -33,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, nullable) id<DFAppPickerDelegate> delegate;
 // Reload the real installed-app inventory every time the CarPlay picker opens.
 - (void)refreshInstalledApps;
+// Preserve in-car picker and report native command state without fake success.
+- (void)showAppPickerStatus:(NSString *)message;
 // Switch existing App picker between original App and live-running Close mode.
 // Only real DFSceneHost-owned, scene-ready bundle IDs may be supplied.
 // Only verified live SceneHost slot identity, never guessed installed-app state.
