@@ -1,3 +1,10 @@
+## CHECKPOINT 2026-11-06 — QA173 THIRD PRIVATE SIGN RUN 42144397387 INITIATED, QA178 RERUN GREEN
+
+- **Confirmed after protocol fix:** QA178 source gate rerun [42144378337](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42144378337) **COMPLETED SUCCESS** at source `4f9dda2fbca0f577a44da3a5eab75478721903f6` (optional native map delegate preserving Safari standalone). Unique signed QA173 rerun [42144397387](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42144397387), job `127652257881`, source `0c3faf02e5a8596842a12ddc7b86b429ce3aab1a`, was **IN_PROGRESS** last read; Python and Foundation/Safari tests PASS, toolchain prep underway. The first two private run failures are documented below; no production binary yet PASS from new third run at this checkpoint.
+- **Action:** next poll run 42144397387; if full compiler/sign fail capture exact error and patch, if PASS validate `sideplay/jb-embedded-appbridge/evidence/runs/42144397387/SHA256SUMS.txt`, `CI_RESULT.txt`, `audit-summary.json`, `PACKAGING_PROVENANCE.json` at archive commit (NOT source SHA), and monitor publication separately. Do not claim device pass. No Sileo changed.
+
+---
+
 ## CHECKPOINT 2026-11-06 — QA173 iOS COMPILE FAILED REQUIRED DELEGATE, REPAIRED OPTIONAL SAFARI OWNER
 
 - **Confirmed signed workflow fail:** [run 42143863275](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42143863275) job `127650488662` COMPLETED FAILURE, after 3 PASS source and Foundation/Safari tests, Theos/sdks/ldid/dpkg preparation SUCCESS, three baseline preflight modules build SUCCESS. Failure at step `Compile and sign distinct 0.1.173 scene host` BEFORE any signed native DEB output: `DFHomeStandalone144.m:485:17: error: method 'appPicker:didSelectNativeMapBundleID:displayName:' in protocol 'DFAppPickerDelegate' not implemented [-Werror,-Wprotocol]`. Actual cause: newly added picker native-map delegate method was `@required` by default, but `DF144Solo` (Safari standalone) uses same DFAppPickerDelegate and appropriately does not implement native-map owner. Making Safari implement fake native map attach would violate owner boundaries.
