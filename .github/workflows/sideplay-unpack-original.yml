@@ -36,7 +36,10 @@ jobs:
           printf '%s  %s\n' '7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c' "$SRC" | sha256sum -c -
           test "$(git hash-object "$SRC")" = 'dd577b786744b73306dd99037abd32c657d855b1'
           python3 -m py_compile sideplay/tools/extract_sideplay_deb.py
-          python3 sideplay/tools/extract_sideplay_deb.py --deb com.sideplay_1.0.4-1_iphoneos-arm64.deb
+          # The original forensic output is tracked; isolated reruns need clean
+          # workspace destinations. Only the small text conclusion is recommitted.
+          rm -rf sideplay/extracted-1.0.4-1 sideplay/audit/deb-1.0.4-1
+          python3 sideplay/tools/extract_sideplay_deb.py --deb "$SRC"
           test -s sideplay/audit/deb-1.0.4-1/inventory.json
           test -s sideplay/audit/deb-1.0.4-1/SHA256SUMS.txt
       - name: Persist concise text-only extraction conclusion
