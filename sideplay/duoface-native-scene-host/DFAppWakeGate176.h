@@ -69,7 +69,7 @@ static BOOL DF176ConsumeWakeEvent(UIEvent *event,NSString *bundle) {
            DF176EventOwnedByScene(event,sceneID) && !DF177KbComputeVisible()) {
             // Do not lose the user's touch when the mailbox/notify failed.
             // Host receipt and on-screen wake remain separately measurable.
-            if(DF177AppTouchNoteBegan(bundle,YES)) {
+            if(DF177AppTouchNoteBegan(bundle,YES,sceneID)) {
                 consume=YES;
                 capturedScene=[sceneID copy];
                 recalledUntil=now+4.0;
