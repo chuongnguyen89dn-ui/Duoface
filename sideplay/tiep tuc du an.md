@@ -1,3 +1,29 @@
+## CHECKPOINT 2026-11-06 — QA173 logoapps1: chờ test CarPlay thật
+
+**Nguồn yêu cầu:** Người dùng xác nhận mốc bàn giao ngày 06/11/2026; bản DuoFace `0.0.173~logoapps1` tập trung vào (a) logo tự ẩn sau 4 giây và (b) danh sách app/bản đồ trong pane DuoFace. Đây là mốc **test trên thiết bị, không phải lệnh sửa mã, build, phát hành hay cài đặt**.
+
+- **Repo:** `chuongnguyen89dn-ui/Duoface`; đầu mối chính: `tiep tuc du an.md`, hồ sơ nhánh SidePlay: `sideplay/tiep tuc du an.md`; default branch `spec-main`. Nhánh chứa candidate QA173: `feature/sideplay-logo-app-roster-fix-20261106`. Build source SHA: `0c3faf02e5a8596842a12ddc7b86b429ce3aab1a`.
+- **GitHub Actions đã đối chiếu (2026-11-06 09:00 ICT):** run `42144397387` (https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42144397387), job `127652257881`, conclusion `success`; compile, sign, source guards, native contracts, packaging/audit, artifact upload và archive đều `success`. Artifact `13468694442`: `QA173-logoapps1-SIGNED-PRIVATE-UNPUBLISHED`.
+- **Gói lưu thực tế trên nhánh feature:** `sideplay/jb-embedded-appbridge/evidence/runs/42144397387/com.duoface.jb.embedded_0.0.173~logoapps1_iphoneos-arm64.deb`; `SHA256SUMS.txt`, `CI_RESULT.txt`, `audit-summary.json`, `PACKAGING_PROVENANCE.json` cùng thư mục. SHA256 DEB **`324d3fc4c06937fbc911473df95cf2e80077101ef17e4139dd1e74f5a1c8072f`** (đối chiếu từ SHA256SUMS + audit-summary, `sha256_verified=true`); version `0.0.173~logoapps1`, package `com.duoface.jb.embedded`. CI_RESULT ghi chính xác `BUILD=success`, `SIGNED=true`, `SILEO_PUBLISHED=false`, `DEVICE_TESTED=false`.
+- **Không nhầm với QA173 cũ:** `0.0.173~touchlog1` là một bản khác đã có hồ sơ 02/11; mốc hiện tại là suffix **`logoapps1`**. Không suy từ một bản QA173 khác ra trạng thái phát hành hay kiểm thử của `logoapps1`.
+
+**Sáu bước nghiệm thu CarPlay, theo thứ tự ưu tiên người dùng:**
+
+1. **Ưu tiên 1 — logo tự ẩn:** mở DuoFace, không tương tác khoảng 4 giây, logo ở giữa thanh chia mờ gần biến mất; chạm/kéo lại thì logo hiện cho thao tác bố cục.
+2. **Bàn phím không hỏng:** bật bàn phím tìm kiếm trong ứng dụng, đợi >4 giây; logo tự ẩn nhưng bàn phím không biến mất, không đổi vị trí/giật khung.
+3. **Danh sách app đúng:** menu App hiển thị đúng các ứng dụng có cài và đã bật trong lựa chọn; không có app giả hoặc lựa chọn không hợp lệ.
+4. **Ưu tiên 2 — Google Maps/Waze thật:** trong chế độ hai ô, chọn ô trống và chọn Google Maps/Waze; từng app phải hiển thị nội dung bản đồ sống, cảm ứng được, không chỉ icon hoặc vùng đen.
+5. **Safari/GOFA/khác giữ đường cũ:** Safari qua AppBridge vẫn hoạt động; GOFA tiếp tục đường ghép ứng dụng hiện hữu, **không** khẳng định có native GOFA controller riêng trong phiên bản này.
+6. **Home/quay lại/chia màn hình:** kéo thanh chia, mở app, về Home, trở lại DuoFace; bố cục được khôi phục, không treo app, bàn phím/cảm ứng còn hoạt động.
+
+**Trạng thái từng ca hiện nay:** 1=CHƯA TEST THIẾT BỊ; 2=CHƯA TEST; 3=CHƯA TEST; 4=CHƯA TEST; 5=CHƯA TEST; 6=CHƯA TEST. Các PASS CI chỉ xác nhận build/static audit, **không** đại diện cho pass trên màn hình CarPlay thực.
+
+**Ranh giới thao tác:** chỉ ghi checkpoint; không sửa code/logic attach, logo, chọn app hay bản đồ; không build lại DEB, không publish Sileo. Với các phân tích kế tiếp về Duonavi, chỉ học kiến trúc/đường ghép như tài liệu SidePlay, giữ mã DuoFace độc lập và không sao chép cơ chế license.
+
+**Bước tiếp:** thu ảnh/video thực từ CarPlay cho ca (1) và (4) trước, kèm mô tả thời gian, chế độ một/hai ô, app, thao tác; sau đó chạy (2),(3),(5),(6) và phân loại PASS/FAIL từng ca. Nếu FAIL, đọc đúng mã nguồn feature trên SHA run trên và log hiện có rồi đưa ra sửa đổi hẹp; chỉ cân nhắc DEB khác theo yêu cầu tiếp theo. Không suy đoán kết quả thiết bị.
+
+---
+
 ## 05/11/2026 — Bàn giao thư viện hồ sơ deb gốc
 
 Đã bàn giao 6 hồ sơ deb gốc (quét tĩnh chỉ-đọc, mỗi deb một mục riêng trong `sideplay/` trên nhánh spec-main):
