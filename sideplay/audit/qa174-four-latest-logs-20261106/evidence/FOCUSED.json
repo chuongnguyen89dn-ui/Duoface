@@ -1,0 +1,288 @@
+{
+  "current_records": 863,
+  "current_marker_counts": {
+    "qa179-logo-idle-red-border-hidden-visual-only": 9,
+    "qa177-recall": 0,
+    "qa179-recall": 0,
+    "qa120-pane-tap": 0,
+    "qa120-hosted-touch-hit": 0,
+    "qa178-native-map-picker-request": 0,
+    "qa178-native-map-picker-rejected": 0,
+    "qa178-native-map-picker-ack": 0,
+    "real-app-picker-open": 5
+  },
+  "whole_new_export_marker_counts": {
+    "qa179-logo-idle-red-border-hidden-visual-only": 18,
+    "qa177-recall": 15,
+    "qa179-recall": 0,
+    "qa120-pane-tap": 0,
+    "qa120-hosted-touch-hit": 0,
+    "qa178-native-map-picker-request": 0,
+    "qa178-native-map-picker-rejected": 0,
+    "qa178-native-map-picker-ack": 0,
+    "real-app-picker-open": 56
+  },
+  "host_created": {
+    "com.google.ios.youtube": 3,
+    "com.lumi.GOFA": 3,
+    "com.google.Maps": 7,
+    "com.wynauto.wyn": 1
+  },
+  "google_home_clicks": [
+    [
+      17035,
+      "1793936583.493"
+    ],
+    [
+      17083,
+      "1793936584.586"
+    ],
+    [
+      17134,
+      "1793936584.964"
+    ],
+    [
+      17185,
+      "1793936585.197"
+    ],
+    [
+      17235,
+      "1793936585.432"
+    ],
+    [
+      17286,
+      "1793936585.730"
+    ],
+    [
+      17337,
+      "1793936586.029"
+    ]
+  ],
+  "google_replacement_stops": 6,
+  "app_side_unmatched": [
+    [
+      17388,
+      "[DFStandalone144] time=1793936586.560 process=SpringBoard stage=qa155-app-side-ack req=DC88619A-01FD-4D25-BCDB-86B3B37C7C25 bid=com.google.Maps scene=sceneID:com.google.Maps-default phase=scene-unmatched count=0"
+    ]
+  ],
+  "waze_current_stamped_records": 0,
+  "waze_current_standalone_records": 0,
+  "source_excerpts": [
+    {
+      "line": 2,
+      "text": "Date: 2026-11-06 04:13:25 +0000"
+    },
+    {
+      "line": 6,
+      "text": "Audit schema: 4; exporter build 0.0.171~gofadiag1; runtime process build is in timestamped traces."
+    },
+    {
+      "line": 12884,
+      "text": "[DFHome136] pid=2045 started no-hook no-new-library notify home=0 enabled=0"
+    },
+    {
+      "line": 12885,
+      "text": "[DFHome136] pid=2045 verified-library=FBSApplicationLibrary reconcile=0 reason=CarPlay-start"
+    },
+    {
+      "line": 15917,
+      "text": "[DFHome141] time=1793936472.148 pid=2045 ABI-checked hooks typed3=1 typed2=1 DashBoardFactory=1; scope=CarPlay; switch=1"
+    },
+    {
+      "line": 15919,
+      "text": "[DFHome141] time=1793936472.793 pid=2045 selected-LS-inclusion bundle=com.google.Maps key=SBStarkCapable"
+    },
+    {
+      "line": 15924,
+      "text": "[DFHome141] time=1793936473.030 pid=2045 selected-LS-inclusion bundle=com.waze.iphone key=SBStarkCapable"
+    },
+    {
+      "line": 15925,
+      "text": "[DFHome141] time=1793936473.399 pid=2045 declaration-attached bundle=com.facebook.Facebook route=runtime-object-ivar getterReadback=1"
+    },
+    {
+      "line": 15926,
+      "text": "[DFHome141] time=1793936473.405 pid=2045 declaration-attached bundle=com.ss.iphone.ugc.Ame route=runtime-object-ivar getterReadback=1"
+    },
+    {
+      "line": 15927,
+      "text": "[DFHome141] time=1793936473.409 pid=2045 declaration-attached bundle=com.wynauto.wyn route=runtime-object-ivar getterReadback=1"
+    },
+    {
+      "line": 15928,
+      "text": "[DFHome141] time=1793936473.412 pid=2045 declaration-attached bundle=com.google.ios.youtube route=runtime-object-ivar getterReadback=1"
+    },
+    {
+      "line": 15929,
+      "text": "[DFHome141] time=1793936473.414 pid=2045 original-DashBoard-factory returned=FBSApplicationLibrary newRecords=4; not-icon-proof"
+    },
+    {
+      "line": 15930,
+      "text": "[DFHome141] time=1793936474.507 pid=2045 selected-original-policy bundle=com.facebook.Facebook class=CRCarPlayAppPolicy launch=0 capable=1 display=1 phone=1; icon-and-tap-unverified"
+    },
+    {
+      "line": 17035,
+      "text": "[DFStandalone144] time=1793936583.493 process=CarPlay stage=qa160-native-grid-icon-pressed bid=com.google.Maps"
+    },
+    {
+      "line": 17049,
+      "text": "[DFStandalone144] time=1793936583.514 process=CarPlay stage=native-dashboard-context-verified req=85FA424E-049E-4184-9D89-B810BF817C19 getter=_currentDashboard anchor=DBDashboardHomeViewController dashboard=DBDashboard workspaceSame=1 externalSame=1 rootRelated=1"
+    },
+    {
+      "line": 17052,
+      "text": "[DFStandalone144] time=1793936583.517 process=CarPlay stage=standalone-requested-not-yet-ready bid=com.google.Maps uuid=85FA424E-049E-4184-9D89-B810BF817C19 content={{45, 0}, {595, 360}}"
+    },
+    {
+      "line": 17053,
+      "text": "[DFStandalone144] time=1793936583.517 process=CarPlay stage=qa160-native-icon-bridge-accepted com.google.Maps"
+    },
+    {
+      "line": 17075,
+      "text": "[DFStandalone144] time=1793936583.741 process=SpringBoard stage=qa149-manager-live-scene-owned req=85FA424E-049E-4184-9D89-B810BF817C19 bid=com.google.Maps generation=3 window={{0, 0}, {640, 360}}"
+    },
+    {
+      "line": 17080,
+      "text": "[DFStandalone144] time=1793936583.745 process=SpringBoard stage=scene-hosted-render-and-touch-unverified bid=com.google.Maps req=85FA424E-049E-4184-9D89-B810BF817C19 verifiedPID=2067"
+    },
+    {
+      "line": 17082,
+      "text": "[DFStandalone144] time=1793936583.754 process=CarPlay stage=qa160-request-to-dock-ms req=85FA424E-049E-4184-9D89-B810BF817C19 bid=com.google.Maps ms=256.8 touchReady=unknown"
+    },
+    {
+      "line": 17121,
+      "text": "[DFStandalone144] time=1793936584.635 process=SpringBoard stage=stopped bid=com.google.Maps req=85FA424E-049E-4184-9D89-B810BF817C19 next-home-selection"
+    },
+    {
+      "line": 17375,
+      "text": "[DFStandalone144] time=1793936586.061 process=SpringBoard stage=stopped bid=com.google.Maps req=E3199694-8FDB-4FD0-92C3-54FE5AD85459 next-home-selection"
+    },
+    {
+      "line": 17388,
+      "text": "[DFStandalone144] time=1793936586.560 process=SpringBoard stage=qa155-app-side-ack req=DC88619A-01FD-4D25-BCDB-86B3B37C7C25 bid=com.google.Maps scene=sceneID:com.google.Maps-default phase=scene-unmatched count=0"
+    },
+    {
+      "line": 17394,
+      "text": "[DFStandalone144] time=1793936586.727 process=SpringBoard stage=stopped bid=com.google.Maps req=DC88619A-01FD-4D25-BCDB-86B3B37C7C25 native-Home-exit"
+    },
+    {
+      "line": 17399,
+      "text": "[DFStandalone144] time=1793936588.264 process=SpringBoard stage=qa155-app-side-ack req=DC88619A-01FD-4D25-BCDB-86B3B37C7C25 bid=com.google.Maps scene=sceneID:com.google.Maps-default phase=restored count=1"
+    },
+    {
+      "line": 19394,
+      "text": "[DuoFaceMapPane] native-map-catalog-observed count=3"
+    },
+    {
+      "line": 36831,
+      "text": "utc=1793936429.002999 uptime=13027.731802 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=4A42F65C-7661-4CED-9556-9F5E5A984532 main=1 area=touch-owner event=listener-registered start=0 stop=0 ack=0 layout=0"
+    },
+    {
+      "line": 36832,
+      "text": "utc=1793936473.709017 uptime=13072.437823 build=0.0.174~mapwake1 pid=2045 process=CarPlay run=25DC9B37-EE33-48DA-8952-9E6D5E087326 main=1 area=dock native-home-hook-abi db=1 car=0 ready=1"
+    },
+    {
+      "line": 36835,
+      "text": "utc=1793936485.904344 uptime=13084.633145 build=0.0.174~mapwake1 pid=2050 process=DuoFaceNativeHost run=58F37AF3-BFF7-4E6B-8A0B-92178FF183AF main=1 area=native-cpwindow application-launched, waiting for system-issued window scenes"
+    },
+    {
+      "line": 36848,
+      "text": "utc=1793936486.403282 uptime=13085.132079 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=4A42F65C-7661-4CED-9556-9F5E5A984532 main=1 area=touch-owner event=qa132-bks-interceptor-installed original-first owned-pane protected-data-locked 0.8s unblank"
+    },
+    {
+      "line": 36859,
+      "text": "utc=1793936488.231641 uptime=13086.960437 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=696E32A1-C78A-459E-8648-713523D3FC65 main=1 area=qa125-underlock runtime-presence background=1 obsolete=0 bg-argc=4"
+    },
+    {
+      "line": 36860,
+      "text": "utc=1793936488.232156 uptime=13086.960952 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=696E32A1-C78A-459E-8648-713523D3FC65 main=1 area=qa125-underlock scoped-existing-background-hook-installed"
+    },
+    {
+      "line": 36861,
+      "text": "utc=1793936488.232644 uptime=13086.961440 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=696E32A1-C78A-459E-8648-713523D3FC65 main=1 area=postlock-settings original-first-intercept-installed"
+    },
+    {
+      "line": 36907,
+      "text": "utc=1793936489.539977 uptime=13088.268775 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=BBEB58F1-5B11-45B8-A443-5FC92AE593B2 main=1 area=scene [DuoFaceScene] event=scene-frame-readback bundle=com.lumi.GOFA actual={{0, 0}, {414, 736}} target={{0, 0}, {397, 720}} same=0"
+    },
+    {
+      "line": 36919,
+      "text": "utc=1793936491.095672 uptime=13089.824471 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=chrome app-picker-live-vs-pending visual=0 physical=0 live=com.google.ios.youtube pending= otherLive=("
+    },
+    {
+      "line": 37113,
+      "text": "utc=1793936495.134937 uptime=13093.863740 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=chrome qa179-logo-idle-red-border-hidden-visual-only"
+    },
+    {
+      "line": 37119,
+      "text": "utc=1793936499.748348 uptime=13098.477160 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=chrome app-picker-live-vs-pending visual=1 physical=1 live=com.lumi.GOFA pending= otherLive=("
+    },
+    {
+      "line": 39971,
+      "text": "utc=1793936583.565372 uptime=13182.294533 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=BBEB58F1-5B11-45B8-A443-5FC92AE593B2 main=1 area=scene [DuoFaceScene] event=host-created bundle=com.google.Maps pending-window-attach"
+    },
+    {
+      "line": 39985,
+      "text": "utc=1793936583.879810 uptime=13182.608969 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=BBEB58F1-5B11-45B8-A443-5FC92AE593B2 main=1 area=scene [DuoFaceScene] event=scene-frame-readback bundle=com.google.Maps actual={{0, 0}, {414, 736}} target={{0, 0}, {1190, 720}} same=0"
+    },
+    {
+      "line": 40117,
+      "text": "utc=1793936586.222715 uptime=13184.951880 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=BBEB58F1-5B11-45B8-A443-5FC92AE593B2 main=1 area=scene [DuoFaceScene] event=scene-frame-readback bundle=com.google.Maps actual={{0, 0}, {414, 736}} target={{0, 0}, {1190, 720}} same=0"
+    },
+    {
+      "line": 40392,
+      "text": "utc=1793936596.697351 uptime=13195.426541 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=chrome app-picker-live-vs-pending visual=1 physical=1 live=com.lumi.GOFA pending= otherLive=("
+    },
+    {
+      "line": 40759,
+      "text": "utc=1793936608.020514 uptime=13206.749733 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=logo-control raw-began id=1 at={452, 127}"
+    },
+    {
+      "line": 40762,
+      "text": "utc=1793936608.239023 uptime=13206.968241 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=logo-control raw-ended id=1 elapsed=0.218502 inside=1"
+    },
+    {
+      "line": 40951,
+      "text": "utc=1793936615.417038 uptime=13214.146275 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=logo-control raw-began id=2 at={446, 119}"
+    },
+    {
+      "line": 40954,
+      "text": "utc=1793936615.481647 uptime=13214.210883 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=logo-control raw-ended id=2 elapsed=0.064618 inside=1"
+    },
+    {
+      "line": 41340,
+      "text": "utc=1793936628.075884 uptime=13226.805148 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=263D25EE-3A22-4683-8A2A-CE364B0E1884 main=1 area=chrome app-picker-live-vs-pending visual=1 physical=1 live=com.wynauto.wyn pending= otherLive=("
+    },
+    {
+      "line": 41409,
+      "text": "utc=1793936635.960160 uptime=13234.689444 build=0.0.174~mapwake1 pid=2015 process=SpringBoard run=4A42F65C-7661-4CED-9556-9F5E5A984532 main=1 area=touch-owner event=physical-carplay-disconnected-reset-splash "
+    },
+    {
+      "line": 41413,
+      "text": "utc=1793936636.008157 uptime=13234.737440 build=0.0.174~mapwake1 pid=2050 process=DuoFaceNativeHost run=58F37AF3-BFF7-4E6B-8A0B-92178FF183AF main=1 area=native-cpwindow touchowner-stop reason=template-disconnected revoked=1 notify=0"
+    },
+    {
+      "line": 41427,
+      "text": "utc=1793938402.032635 uptime=15000.769031 build=0.0.174~mapwake1 pid=2050 process=DuoFaceNativeHost run=58F37AF3-BFF7-4E6B-8A0B-92178FF183AF main=1 area=native-cpwindow phone-scene-connected"
+    },
+    {
+      "line": 41430,
+      "text": "Session active: NO; heartbeat age seconds: 1793938405.63"
+    },
+    {
+      "line": 41432,
+      "text": "Standalone Home: enabled=YES receiverAlive=YES age=0.19s outcome=stopped reason=native-Home-exit resultAge=1818.91s bundle=com.google.Maps; display/touch UNVERIFIED"
+    },
+    {
+      "line": 41434,
+      "text": "Native Map ACK: applied=NO attached=NO reason=none owner=unknown age=infs"
+    },
+    {
+      "line": 41435,
+      "text": "Native Maps physical frame readback: count=2 age=1770.09s"
+    },
+    {
+      "line": 41443,
+      "text": "Native map chosen physical slot: none; last verified owner bundle: unverified; lease age: infs (must match current session)"
+    }
+  ]
+}
