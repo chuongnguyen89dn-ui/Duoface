@@ -2,7 +2,13 @@
 #import <CoreGraphics/CoreGraphics.h>
 typedef NS_ENUM(NSInteger,UITouchPhase) {UITouchPhaseBegan,UITouchPhaseMoved,UITouchPhaseStationary,UITouchPhaseEnded,UITouchPhaseCancelled};
 typedef NS_ENUM(NSInteger,UIEventType) {UIEventTypeTouches=0};
-@class UIView,UIWindow;
+@class UIView,UIWindow,UIWindowScene;
+@interface UISceneSession : NSObject
+@property(nonatomic,copy) NSString *persistentIdentifier;
+@end
+@interface UIWindowScene : NSObject
+@property(nonatomic,strong) UISceneSession *session;
+@end
 @interface UITouch : NSObject
 @property(nonatomic) UITouchPhase phase;
 @property(nonatomic,weak) UIView *view;
@@ -35,4 +41,5 @@ typedef NS_ENUM(NSInteger,UIEventType) {UIEventTypeTouches=0};
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 @end
 @interface UIWindow : UIView
+@property(nonatomic,strong) UIWindowScene *windowScene;
 @end
