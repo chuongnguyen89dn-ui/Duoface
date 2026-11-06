@@ -1,0 +1,63 @@
+name: QA176 bounded owned-base regression
+on:
+  push:
+    branches: [fix/qa180-owned-wake-map-replace-20261106]
+    paths: ['.github/workflows/duoface-176-owned-base-regression.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: macos-15-intel
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Old runtime must reject the new ownership regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd sideplay/native-carplay-scene-v1
+          git show 3f01a97ebad0b06d6f79d518ddd279eb2de22e9b:sideplay/native-carplay-scene-v1/DFNativeMapLaunchRuntime.m > "$RUNNER_TEMP/old-runtime.m"
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -I . -framework Foundation "$RUNNER_TEMP/old-runtime.m" DFNativeMapLaunchContext.m tests/native_map_launch_runtime.m -o "$RUNNER_TEMP/old-launch"
+          set +e
+          "$RUNNER_TEMP/old-launch" > "$RUNNER_TEMP/old-launch.log" 2>&1
+          result=$?
+          set -e
+          test "$result" -ne 0
+          grep -F 'NATIVE_MAP_LAUNCH_FAIL QA175 attested base without root-view ancestry submits once' "$RUNNER_TEMP/old-launch.log"
+      - name: Production launch runtime regressions
+        run: |
+          set -euo pipefail
+          cd sideplay/native-carplay-scene-v1
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation DFNativeMapLaunchRuntime.m DFNativeMapLaunchContext.m tests/native_map_launch_runtime.m -o "$RUNNER_TEMP/new-launch"
+          "$RUNNER_TEMP/new-launch"
+      - name: Existing 41 Python regressions
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          for test in tests/test_qa178_logo_visual_only.py tests/test_qa178_app_picker_route.py tests/test_qa172w2_wakefix2.py tests/test_qa172w_wakefix.py tests/test_qa172r_logo_recall.py tests/test_qa180_owned_wake_map_replace.py; do
+            python3 "$test" -v
+          done
+      - name: Existing wake model and thirteen empty-pane cases
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -O1 -Wall -Wextra -Werror -Wno-deprecated-declarations -I tests/qa180_uikit_stub -framework Foundation -framework CoreGraphics DFOwnedWakeSurface180.m tests/qa180_uikit_stub/UIKitStub.m tests/wake_gate_180_runtime.m -o "$RUNNER_TEMP/wake"
+          "$RUNNER_TEMP/wake"
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -O1 -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation tests/map_replace_180_runtime.m -o "$RUNNER_TEMP/map"
+          "$RUNNER_TEMP/map"
+      - name: Actual iOS arm64 syntax
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          for source in DFNative12Chrome.m DFOwnedWakeSurface180.m DFSceneHost.m ../native-carplay-scene-v1/DFNativeMapLaunchRuntime.m; do
+            xcrun --sdk iphoneos clang -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -DDF144_SPRINGBOARD=1 "$source"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa176-old-runtime-negative
+          path: ${{ runner.temp }}/old-launch.log

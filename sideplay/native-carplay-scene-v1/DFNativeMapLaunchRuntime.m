@@ -170,7 +170,18 @@ static BOOL DFLaunchPresentationReady(DFNativeMapLaunchContext *context,
   if(!DFLaunchInstance(info,infoClass) ||
      !DFLaunchStringEquals(DFLaunchReadObject(info,"bundleIdentifier"),@"com.duoface.native.scenehost"))
    return DFLaunchRefuse(reason,@"native-launch-owned-base-bundle-unverified");
-  if(!DFLaunchViewVisibleWithinRoot(DFLaunchReadObject(base,"viewIfLoaded"),rootView,window,viewClass))
+  // ownedBase comes from the live provider, which already verifies the unique
+  // foreground FBScene, physical/host session, visible ancestors, window and
+  // controller ancestry. UIKit controller ownership does not require its view
+  // to descend through root.viewIfLoaded (native containers may be siblings).
+  // Recheck the loaded leaf and exact window here; never turn Rejected into Applied.
+  id baseView=DFLaunchReadObject(base,"viewIfLoaded");
+  BOOL hidden=YES;double alpha=0;
+  if(!DFLaunchInstance(baseView,viewClass) ||
+     DFLaunchReadObject(baseView,"window")!=window ||
+     DFLaunchReadObject(rootView,"window")!=window ||
+     !DFLaunchReadBool(baseView,"isHidden",&hidden) || hidden ||
+     !DFLaunchReadDouble(baseView,"alpha",&alpha) || !isfinite(alpha) || alpha<=0.01)
    return DFLaunchRefuse(reason,@"native-launch-owned-base-view-unverified");
   NSHashTable *ancestors=[NSHashTable hashTableWithOptions:NSPointerFunctionsObjectPointerPersonality];
   for(id cursor=base;cursor && ancestors.count<32;cursor=DFLaunchReadObject(cursor,"parentViewController")) {

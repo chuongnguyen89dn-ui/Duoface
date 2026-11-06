@@ -389,6 +389,16 @@ int main(void){@autoreleasepool{
  check(expected.ownedBase==owned && homeView.isHidden,@"owned base is captured while Home is hidden");
  check(perform(expected,@"com.apple.Maps",NULL) && handleCalls==1,
        @"exact freshly bound DuoFace currentBase launches selected map once");
+ // QA175: provider-attested controller ownership need not imply root-view ancestry.
+ reset();owned=useOwnedBase();
+ ((DFLaunchTestView *)owned.viewIfLoaded).superview=nativeWindow;
+ reason=nil;
+ check(perform(nil,@"com.google.Maps",&reason) && handleCalls==1,
+       @"QA175 attested base without root-view ancestry submits once");
+ reset();owned=useOwnedBase();((DFLaunchTestView *)owned.viewIfLoaded).hidden=YES;
+ refused(@"hidden owned leaf still refused");
+ reset();owned=useOwnedBase();((DFLaunchTestView *)owned.viewIfLoaded).alpha=0;
+ refused(@"transparent owned leaf still refused");
  reset();useOwnedBase();boundRecord[@"Session"]=NSUUID.UUID.UUIDString;refused(@"owned base from another session refused");
  reset();useOwnedBase();boundRecord[@"HostSceneID"]=@"other-host";refused(@"owned base with changed host scene refused");
  reset();useOwnedBase();boundRecord[@"NativeSceneID"]=@"other-native";refused(@"owned base with changed native scene refused");
