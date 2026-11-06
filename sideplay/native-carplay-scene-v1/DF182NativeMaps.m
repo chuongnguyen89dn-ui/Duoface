@@ -1,6 +1,7 @@
 // QA182 B1 NEW implementation; no historical three-hook source was recovered.
 // Apple's native workspace/scene/input own Maps. No phone-scene fallback.
 #import "../duoface-native-scene-host/DF182NativeMapAssignment.h"
+#import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <dlfcn.h>
@@ -79,6 +80,7 @@ static void DF182Walk(UIViewController *vc,NSMutableArray *out,NSUInteger depth)
 - (void)summary:(NSString *)reason;
 - (void)fail:(NSString *)gate reason:(NSString *)reason;
 - (BOOL)owns:(id)controller;
+- (BOOL)targetForWindow:(UIWindow *)window rect:(CGRect *)out;
 - (BOOL)restore:(NSString *)reason;
 @end
 static DF182MapsOwner *DF182Owner;
@@ -88,9 +90,18 @@ static void (*DF182OriginalBackground)(id,SEL,id);
 typedef void(*DF182Hook)(Class,SEL,IMP,IMP*);
 static CGRect DF182Frame(id obj,SEL sel,id info,id proxy) {
  CGRect r=DF182OriginalFrame(obj,sel,info,proxy);
- if([DF182Owner owns:DF182Owner.owner] &&
-   ([DF182Bundle(info) isEqual:@"com.google.Maps"] || [DF182Bundle(proxy) isEqual:@"com.google.Maps"]))
-  r.size=DF182Owner.pane.bounds.size; // Actual placement uses explicit UIKit screen conversion below.
+ // Size is needed DURING native creation, before there is a controller to adopt.
+ // No lifecycle protection is granted here; that still requires a verified live scene.
+ CGRect target=CGRectZero;
+ if(!DF182Owner.stopped && DF182Owner.assignment &&
+   [DF182Owner.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] &&
+   ([DF182Bundle(info) isEqual:@"com.google.Maps"] || [DF182Bundle(proxy) isEqual:@"com.google.Maps"]) &&
+   [DF182Owner targetForWindow:DF182Owner.window rect:&target]) {
+  CGRect before=r;r.size=target.size;
+  DF182Log(@"scene-frame-request",DF182Owner.assignment,[NSString stringWithFormat:
+   @"before=%@ after=%@ coordinate=system-scene-frame-origin-preserved size-source=native-dashboard-UIWindow-points placement=UNVERIFIED",
+   NSStringFromCGRect(before),NSStringFromCGRect(r)]);
+ }
  return r;
 }
 static void DF182Deactivate(id obj,SEL sel,NSUInteger mask) {
@@ -184,6 +195,7 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
  DF182Log(@"lifecycle-restored",self.assignment,[NSString stringWithFormat:
   @"restoration=%@ reason=%@ parent=%@ frame=%@ coordinate=original-superview",
   verified?@"PASS":@"FAIL",reason,NSStringFromClass(vc.parentViewController.class),NSStringFromCGRect(v.frame)]);
+ if(verified){self.oldParent=nil;self.oldSuperview=nil;self.owner=nil;self.scene=nil;self.window=nil;}
  return verified;
 }
 - (void)fail:(NSString *)gate reason:(NSString *)reason {
@@ -192,6 +204,7 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
  [self summary:reason];
 }
 - (BOOL)targetForWindow:(UIWindow *)window rect:(CGRect *)out {
+ if(!window || !window.screen || window.screen==UIScreen.mainScreen)return NO;
  NSDictionary *sample=[NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
  double age=NSDate.date.timeIntervalSince1970-[sample[@"Timestamp"] doubleValue];
  if(![sample[@"Session"] isEqual:self.assignment[@"Session"]] ||
@@ -210,6 +223,12 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
      !isfinite(screenRect.size.width)||!isfinite(screenRect.size.height)||
      screenRect.size.width<90||screenRect.size.height<120 ||
      !CGRectContainsRect(window.screen.bounds,screenRect))return NO;
+  for(NSDictionary *other in entries) {
+   if(other==e)continue;
+   if(![other[@"CoordinateSpace"] isEqual:@"external-UIScreen-points"])return NO;
+   CGRect intersection=CGRectIntersection(screenRect,CGRectFromString(other[@"Frame"]));
+   if(!CGRectIsNull(intersection) && intersection.size.width>2 && intersection.size.height>2)return NO;
+  }
   *out=[window convertRect:screenRect fromCoordinateSpace:window.screen.coordinateSpace];
   return CGRectContainsRect(window.bounds,*out);
  }
@@ -227,6 +246,23 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
  }
  if(self.stopped||!self.assignment)return;
  if(!self.launchAttempted) {
+  // A fresh single-writer geometry receipt must exist BEFORE launch invokes sceneFrame.
+  NSMutableArray<UIWindow *> *windows=[NSMutableArray new];
+  for(UIScene *s in UIApplication.sharedApplication.connectedScenes) {
+   if(![s isKindOfClass:UIWindowScene.class])continue;
+   UIWindowScene *ws=(UIWindowScene *)s;
+   if(ws.screen==UIScreen.mainScreen || ![ws.session.role isEqual:@"UIWindowSceneSessionRoleCarPlay"])continue;
+   for(UIWindow *w in ws.windows)
+    if(!w.hidden && [NSStringFromClass(w.rootViewController.class) isEqual:@"DBDashboardRootViewController"])
+     [windows addObject:w];
+  }
+  CGRect measured=CGRectZero;
+  if(windows.count!=1 || ![self targetForWindow:windows.firstObject rect:&measured]) {
+   if(NSProcessInfo.processInfo.systemUptime>=self.deadline)
+    [self fail:@"Frame" reason:@"prelaunch-native-window-or-single-writer-geometry-timeout-STOP"];
+   return;
+  }
+  self.window=windows.firstObject;self.target=measured;
   // Resolve the already-loaded Dock module; never construct a replacement library/workspace.
   typedef NSDictionary *(*Launch)(NSDictionary *);
   Launch launch=(Launch)dlsym(RTLD_DEFAULT,"DF182CatalogAndLaunch");

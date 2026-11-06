@@ -1,0 +1,5 @@
+Run 42313897809; job 128221702954; source 42b7a9ff9f6113aaffe93732a8b640a14088a670; completed/failure.
+Foundation assignment lifetime/completion ABI tests PASS. Baseline module signed builds PASS.
+2026-11-06T23:47:06.6721680Z ../native-carplay-scene-v1/DF182NativeMaps.m:19:38: error: unknown type name 'UIViewController'
+UIKit import was removed transitively when shared assignment header became Foundation-only. Add explicit UIKit import to implementation.
+No signed integrated QA182 artifact or source archive produced.

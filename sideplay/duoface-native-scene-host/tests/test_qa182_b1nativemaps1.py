@@ -38,6 +38,11 @@ class QA182B1(unittest.TestCase):
   self.assertIn('DF182Scene(controller)==self.scene',s)
   self.assertIn('r[@"Touch"]=@"UNVERIFIED"',s)
   self.assertIn('r[@"NativePixels"]=@"UNVERIFIED"',s)
+  prelaunch=s.split('if(!self.launchAttempted) {',1)[1]
+  self.assertLess(prelaunch.index('targetForWindow:windows.firstObject'),prelaunch.index('launch(self.assignment)'))
+  frame=s.split('static CGRect DF182Frame(',1)[1].split('static void DF182Deactivate',1)[0]
+  self.assertIn('targetForWindow:DF182Owner.window',frame)
+  self.assertNotIn('[DF182Owner owns:',frame) # scene creation needs the size before adoption
  def test_frozen_h1_exact_bytes(self):
   for name in ('DFAppTouch177.h','DFH1Wake188.m'):
    old=subprocess.check_output(['git','show',f'b7a9b45d2c5389a1f41b547887176466a8d628fb:sideplay/duoface-native-scene-host/{name}'],cwd=REPO)
