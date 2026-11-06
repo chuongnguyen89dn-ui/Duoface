@@ -41,10 +41,17 @@ static BOOL DF176ConsumeWakeEvent(UIEvent *event,NSString *bundle) {
     for(UITouch *touch in event.allTouches)
         if(touch.phase==UITouchPhaseBegan)began=YES;
     BOOL consume=captured.count>0;
-    // A phone-scene contact joining a captured CarPlay gesture is not ours.
-    // We cannot split a UIKit event, so release the entire event to UIKit
-    // rather than swallow the foreign contact.
-    if(consume && !DF176EventOwnedByScene(event,capturedScene)) {
+    // Existing captured UITouch identities may outlive their UIWindow on
+    // Ended/Cancelled. Drain those tails regardless of their current window;
+    // a NEW touch from a foreign scene must never be swallowed.
+    BOOL foreignJoined=NO;
+    if(consume)for(UITouch *touch in event.allTouches)
+        if(![captured containsObject:touch] &&
+           !DF176TouchInOwnedScene(touch,capturedScene)) {
+            foreignJoined=YES;break;
+        }
+    if(consume && foreignJoined) {
+        // UIKit cannot receive a partial UIEvent: fail open for every touch.
         [forwarded unionSet:captured];
         [captured removeAllObjects];
         capturedScene=nil;
