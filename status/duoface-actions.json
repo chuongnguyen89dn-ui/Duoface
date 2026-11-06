@@ -1,14 +1,50 @@
 {
-  "checked_at_utc": "2026-11-06T11:05:56.207459+00:00",
+  "checked_at_utc": "2026-11-06T18:04:54.028065+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4407,
+  "total_actions_runs": 4426,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 11,
-      "success": 10,
+      "recent_runs": 12,
+      "success": 11,
       "failure": 0,
       "other": 1
+    },
+    "QA181 b0probe1 - read-only scene measurement signed CI archive": {
+      "recent_runs": 6,
+      "success": 2,
+      "failure": 1,
+      "other": 3
+    },
+    "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive": {
+      "recent_runs": 3,
+      "success": 2,
+      "failure": 1,
+      "other": 0
+    },
+    "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
+    },
+    "Validate DuoFace fast QA and immutable archive pipeline": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
+    },
+    "SidePlay unpack original DEB to repository": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
+    },
+    "CarPlayPro 0.9.97 exhaustive read-only static audit": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
     },
     "QA177 - distinct signed DuoFace 0.0.177 a1wake1 candidate (no publication)": {
       "recent_runs": 1,
@@ -161,31 +197,209 @@
       "other": 0
     },
     "QA185 destination-size geometry - private rootless signed DuoFace DEB": {
-      "recent_runs": 6,
-      "success": 1,
-      "failure": 0,
-      "other": 5
-    },
-    "QA184 fit layer 2 - private rootless signed DuoFace DEB": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
-    },
-    "QA183 keyboard suite - private rootless signed DuoFace DEB": {
-      "recent_runs": 13,
-      "success": 1,
-      "failure": 3,
-      "other": 9
     }
   },
   "latest_runs": [
     {
+      "id": 42267394716,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 119,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42267394716",
+      "created_at": "2026-11-06T18:04:41Z",
+      "head_sha": "4808256552c6d6a5ce05b6b3410084b26979170f"
+    },
+    {
+      "id": 42237345803,
+      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42237345803",
+      "created_at": "2026-11-06T14:49:21Z",
+      "head_sha": "35f0379f1a3fac1586aa097a51bc4f31a6e6c7d3"
+    },
+    {
+      "id": 42236762204,
+      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236762204",
+      "created_at": "2026-11-06T14:45:26Z",
+      "head_sha": "e39063a908c34fda2a0b7ef28a55c3ec01dfbe78"
+    },
+    {
+      "id": 42236431006,
+      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236431006",
+      "created_at": "2026-11-06T14:43:16Z",
+      "head_sha": "9b8165b862d0530a9969c66de8bbac89e44cf1c5"
+    },
+    {
+      "id": 42236422749,
+      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236422749",
+      "created_at": "2026-11-06T14:43:13Z",
+      "head_sha": "f754bf818f279c29a0446cf3af67d386599d98b6"
+    },
+    {
+      "id": 42236336594,
+      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236336594",
+      "created_at": "2026-11-06T14:42:38Z",
+      "head_sha": "ae526ca2423d3a30556ef035d3c3c724eb1dd3de"
+    },
+    {
+      "id": 42236178473,
+      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236178473",
+      "created_at": "2026-11-06T14:41:33Z",
+      "head_sha": "a49b0b180e2bdb3cc785f21d52565c7223837fbe"
+    },
+    {
+      "id": 42223536826,
+      "name": "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42223536826",
+      "created_at": "2026-11-06T13:11:49Z",
+      "head_sha": "ae3242fe90894bde5f6072be5c2c07204ecc7981"
+    },
+    {
+      "id": 42222692624,
+      "name": "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42222692624",
+      "created_at": "2026-11-06T13:05:32Z",
+      "head_sha": "0c73e9c8f6bbbf5764e9d72eef6c120e8bbb89ab"
+    },
+    {
+      "id": 42222137520,
+      "name": "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42222137520",
+      "created_at": "2026-11-06T13:01:22Z",
+      "head_sha": "43d7fdd80b6e9d1d934c9d7663be67aa3cca72eb"
+    },
+    {
+      "id": 42216418651,
+      "name": "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42216418651",
+      "created_at": "2026-11-06T12:16:34Z",
+      "head_sha": "04840c1c282f1ae8e2f09e919867b8bb523adeea"
+    },
+    {
+      "id": 42215921066,
+      "name": "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42215921066",
+      "created_at": "2026-11-06T12:12:43Z",
+      "head_sha": "9d7986dc76d646e78cc72cd3238f32833b3eaf27"
+    },
+    {
+      "id": 42215694104,
+      "name": "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42215694104",
+      "created_at": "2026-11-06T12:10:53Z",
+      "head_sha": "680eb0b733bdcd8162ebf56c7492ba972aa9cbf8"
+    },
+    {
+      "id": 42210581031,
+      "name": "Validate DuoFace fast QA and immutable archive pipeline",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210581031",
+      "created_at": "2026-11-06T11:29:06Z",
+      "head_sha": "fbbecac8dba1bf319980944c4643ea4b6535b02a"
+    },
+    {
+      "id": 42210436371,
+      "name": "SidePlay unpack original DEB to repository",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210436371",
+      "created_at": "2026-11-06T11:27:53Z",
+      "head_sha": "4c7e2749418b287b375b20c4b164cdae3451daa3"
+    },
+    {
+      "id": 42210091144,
+      "name": "SidePlay unpack original DEB to repository",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210091144",
+      "created_at": "2026-11-06T11:25:02Z",
+      "head_sha": "03762e88ae68ad1d98d46517560a6f35413a3a44"
+    },
+    {
+      "id": 42210049272,
+      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210049272",
+      "created_at": "2026-11-06T11:24:41Z",
+      "head_sha": "326fa05a065f2fcc3cd3fd822441580d95ce7ded"
+    },
+    {
+      "id": 42208841046,
+      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42208841046",
+      "created_at": "2026-11-06T11:15:05Z",
+      "head_sha": "48b1808638b9891f469551ffff2354bb94b0f8ee"
+    },
+    {
+      "id": 42208840979,
+      "name": "SidePlay unpack original DEB to repository",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42208840979",
+      "created_at": "2026-11-06T11:15:05Z",
+      "head_sha": "48b1808638b9891f469551ffff2354bb94b0f8ee"
+    },
+    {
       "id": 42207634143,
       "name": "DuoFace Actions status snapshot",
       "run_number": 118,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42207634143",
       "created_at": "2026-11-06T11:05:43Z",
       "head_sha": "efdd4ebeb166864e676dcc059b12145111b3174f"
@@ -289,196 +503,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191655432",
       "created_at": "2026-11-06T08:59:41Z",
       "head_sha": "e2f2090e69b95dfdb46d60dbc48059af6278b80d"
-    },
-    {
-      "id": 42191348504,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191348504",
-      "created_at": "2026-11-06T08:57:01Z",
-      "head_sha": "d979ff3cf4a9cdbe1c0800dee3e0e40c9358ad58"
-    },
-    {
-      "id": 42191310529,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191310529",
-      "created_at": "2026-11-06T08:56:42Z",
-      "head_sha": "dba0b14b600d1f1e9515c836cc06b1509716ba72"
-    },
-    {
-      "id": 42191217685,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191217685",
-      "created_at": "2026-11-06T08:55:54Z",
-      "head_sha": "3af0a0e1c45a57911ea571a42e03c73b5c6eeae1"
-    },
-    {
-      "id": 42191159178,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191159178",
-      "created_at": "2026-11-06T08:55:25Z",
-      "head_sha": "358c4bfeb4660fb4827db37b3af284b5d8dde873"
-    },
-    {
-      "id": 42191130046,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191130046",
-      "created_at": "2026-11-06T08:55:10Z",
-      "head_sha": "70f23e65f9d0b1ceecf72bcd30f8d6b3dfe877d2"
-    },
-    {
-      "id": 42191109579,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191109579",
-      "created_at": "2026-11-06T08:55:00Z",
-      "head_sha": "372d0dac4dbdb4193b7f9eccaeb311a32f76b10c"
-    },
-    {
-      "id": 42191089106,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191089106",
-      "created_at": "2026-11-06T08:54:50Z",
-      "head_sha": "d42705eba86b02d679359e6801332c8e026486ce"
-    },
-    {
-      "id": 42190859815,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42190859815",
-      "created_at": "2026-11-06T08:52:56Z",
-      "head_sha": "501d163bc40b47adef6d8b57c6144d2962d875d5"
-    },
-    {
-      "id": 42178802321,
-      "name": "DuoFace 176 independent public Sileo checksum receipt",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42178802321",
-      "created_at": "2026-11-06T07:07:31Z",
-      "head_sha": "23874908fc21b006267b736356c4fcdb4af9b713"
-    },
-    {
-      "id": 42177180870,
-      "name": "QA176 - distinct signed DuoFace 0.0.176 appwake1 candidate (no publication)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42177180870",
-      "created_at": "2026-11-06T06:52:18Z",
-      "head_sha": "76e5c960a29f3132269c80b68aa74c597810de50"
-    },
-    {
-      "id": 42176321219,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42176321219",
-      "created_at": "2026-11-06T06:44:08Z",
-      "head_sha": "8ee848aa006239431334cf494af67da66a15bee0"
-    },
-    {
-      "id": 42176032045,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42176032045",
-      "created_at": "2026-11-06T06:41:24Z",
-      "head_sha": "8e7af985647b0dbc03b5f5b825afd484079fc7c0"
-    },
-    {
-      "id": 42173857480,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42173857480",
-      "created_at": "2026-11-06T06:20:58Z",
-      "head_sha": "66300b85dc5d3d7f7c229da3d5e7a3a96583b933"
-    },
-    {
-      "id": 42173393041,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42173393041",
-      "created_at": "2026-11-06T06:16:29Z",
-      "head_sha": "8d1c4bd1024645c9f06c747bd757b7397629bd4b"
-    },
-    {
-      "id": 42170055911,
-      "name": "DuoFace 175 public checksum and handoff receipt",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42170055911",
-      "created_at": "2026-11-06T05:43:05Z",
-      "head_sha": "dc6e148509055679e646526e6239115c4dcae1cf"
-    },
-    {
-      "id": 42168269030,
-      "name": "QA180 - signed DuoFace 0.0.175 wakepick1 for official Sileo",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42168269030",
-      "created_at": "2026-11-06T05:24:43Z",
-      "head_sha": "85eb3680c5086f42b4898a83932b06cea284a5ce"
-    },
-    {
-      "id": 42167202528,
-      "name": "DuoFace active source continuation pointer - documentation only",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42167202528",
-      "created_at": "2026-11-06T05:14:09Z",
-      "head_sha": "e3174b12d96fa096ac4c694490dd5d83649f3103"
-    },
-    {
-      "id": 42167172634,
-      "name": "DuoFace active source continuation pointer - documentation only",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42167172634",
-      "created_at": "2026-11-06T05:13:52Z",
-      "head_sha": "3a26a6abef5b5433ffeaa20c5da40ef79a05fcf9"
-    },
-    {
-      "id": 42167040381,
-      "name": "QA180 owned wake and map replacement - source only",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42167040381",
-      "created_at": "2026-11-06T05:12:35Z",
-      "head_sha": "a1de88323e914b777f5fe43bd518cb9740d23b97"
     }
   ]
 }
