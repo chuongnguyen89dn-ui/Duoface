@@ -13,7 +13,8 @@ class QA178H1Wake(unittest.TestCase):
   for token in ('com.duoface.apptouch177.wake','com.duoface.ipc.v177.apptouch',
                 'AppTouchRecall177','DF177InstallAppTouchHook','DF177AppTouchNoteBegan',
                 'DF188ControlsHidden','DF188Swallowing','swallowed',
-                'com.duoface.controls188.state'):
+                'com.duoface.controls188.hidden',
+                'com.duoface.controls188.shown','com.duoface.controls188.query'):
    self.assertIn(token,h)
  def test_relays_install_sender(self):
   relay=(ROOT/"DF154GeneralAppStateRelay.m").read_text()
@@ -33,9 +34,9 @@ class QA178H1Wake(unittest.TestCase):
   self.assertNotIn('DFAppTouch177',chrome)
   self.assertNotIn('DFH1Wake188',chrome)
  def test_version_coherence(self):
-  self.assertIn('0.1.179~h1wake2',(ROOT/"build.sh").read_text())
-  self.assertIn('VERSION="0.0.179~h1wake2"',INT.read_text())
-  self.assertIn('Version: 0.1.179~h1wake2',(ROOT/"control").read_text())
+  self.assertIn('0.1.180~h1wake3',(ROOT/"build.sh").read_text())
+  self.assertIn('VERSION="0.0.180~h1wake3"',INT.read_text())
+  self.assertIn('Version: 0.1.180~h1wake3',(ROOT/"control").read_text())
   info=(ROOT/"Info.plist").read_text()
-  self.assertIn('<key>CFBundleVersion</key><string>179</string>',info)
+  self.assertIn('<key>CFBundleVersion</key><string>180</string>',info)
 if __name__=="__main__":unittest.main()

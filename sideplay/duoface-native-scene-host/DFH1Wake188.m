@@ -31,10 +31,14 @@
 @end
 
 static const char *const DF188ControlsStateName = "com.duoface.controls188.state";
+static const char *const DF188ControlsHiddenName = "com.duoface.controls188.hidden";
+static const char *const DF188ControlsShownName = "com.duoface.controls188.shown";
+static const char *const DF188ControlsQueryName = "com.duoface.controls188.query";
 static NSString *const DF188ControlsHiddenKey = @"ControlsHidden188";
 
 static __weak DFNative12Chrome *DF188CurrentChrome = nil;
 static int DF188WakeToken = 0;
+static int DF188QueryToken = 0;
 static DF156Mailbox DF188TouchBox;
 static BOOL DF188TouchBoxReady = NO;
 static uint64_t DF188LastCount = 0;
@@ -63,7 +67,8 @@ static void DF188PublishHidden(DFNative12Chrome *chrome, BOOL force) {
             [p addEntriesFromDictionary:existing];
         p[DF188ControlsHiddenKey] = @(hidden);
         if ([p writeToFile:DF177TouchPrefsPath atomically:YES]) {
-            notify_post(DF188ControlsStateName);
+            notify_post(DF188ControlsStateName); // original plist notification
+            notify_post(hidden ? DF188ControlsHiddenName : DF188ControlsShownName);
             DFDeepTrace(@"chrome", [NSString stringWithFormat:
                 @"qa188-h1-controls-state hidden=%d", (int)hidden]);
         }
@@ -88,14 +93,16 @@ static void DF188HandleAppTouch(DFNative12Chrome *chrome) {
     uint64_t count = [rec[@"count"] unsignedLongLongValue];
     NSTimeInterval ts = [rec[@"ts"] doubleValue];
     BOOL swallowed = [rec[@"swallowed"] boolValue];
+    NSString *gate = [rec[@"gate"] isKindOfClass:NSString.class]
+        ? rec[@"gate"] : @"unknown";
     NSTimeInterval now = NSDate.date.timeIntervalSince1970;
     if (ts <= 0 || ts > now + 1.0 || now - ts > DF177AppTouchMaximumAge)
         return;
     if (count && count == DF188LastCount) return; // duplicate wakeup
     DF188LastCount = count;
     DFDeepTrace(@"chrome", [NSString stringWithFormat:
-        @"qa188-h1-app-touch-wake bundle=%@ count=%llu swallowed=%d",
-        bundle, (unsigned long long)count, (int)swallowed]);
+        @"qa188-h1-app-touch-wake bundle=%@ count=%llu swallowed=%d gate=%@",
+        bundle, (unsigned long long)count, (int)swallowed, gate]);
     [chrome noteUserActivity];
 }
 
@@ -111,6 +118,15 @@ static BOOL DF188Start(DFNative12Chrome *self, SEL _cmd) {
             if (owner) DF188HandleAppTouch(owner);
         }) == NOTIFY_STATUS_OK) DF188WakeToken = token;
     }
+    // QA180: answer an app's initial state query from current Chrome state.
+    if (ok && !DF188QueryToken) {
+        int token = 0;
+        if (notify_register_dispatch(DF188ControlsQueryName, &token,
+                dispatch_get_main_queue(), ^(int __unused t) {
+            DFNative12Chrome *owner = DF188CurrentChrome;
+            if (owner) DF188PublishHidden(owner, YES);
+        }) == NOTIFY_STATUS_OK) DF188QueryToken = token;
+    }
     if (ok) DF188PublishHidden(self, YES);
     return ok;
 }
@@ -118,6 +134,7 @@ static BOOL DF188Start(DFNative12Chrome *self, SEL _cmd) {
 static void (*DF188OrigStop)(id, SEL) = NULL;
 static void DF188Stop(DFNative12Chrome *self, SEL _cmd) {
     if (DF188WakeToken) { notify_cancel(DF188WakeToken); DF188WakeToken = 0; }
+    if (DF188QueryToken) { notify_cancel(DF188QueryToken); DF188QueryToken = 0; }
     if (DF188CurrentChrome == self) DF188CurrentChrome = nil;
     DF188OrigStop(self, _cmd);
 }

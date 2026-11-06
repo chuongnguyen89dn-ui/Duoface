@@ -95,6 +95,11 @@ static uint64_t DF177TouchCount = 0;
 static NSTimeInterval DF177TouchLastSentAt = 0;
 static DF156Mailbox DF177TouchBox;
 static BOOL DF177TouchBoxReady = NO;
+// QA180 H1 gate: last known host state, initially UNKNOWN (fail open).
+// The sender records these exact process-local booleans in each wake JSON.
+static BOOL DF188ControlsHidden = NO;
+static BOOL DF188ControlsHiddenKnown = NO;
+static BOOL DF188KbSessionVisible = NO;
 
 static inline void DF177AppTouchNoteBeganEx(NSString *bundle, BOOL swallowed) {
     if (!bundle.length || !DF177AppTouchEnabled()) return;
@@ -112,7 +117,12 @@ static inline void DF177AppTouchNoteBeganEx(NSString *bundle, BOOL swallowed) {
         NSDictionary *rec = @{@"version": @2, @"bundle": bundle,
                               @"pid": @(getpid()),
                               @"count": @(DF177TouchCount), @"ts": @(now),
-                              @"swallowed": @(swallowed)};
+                              @"swallowed": @(swallowed),
+                              @"gate": [NSString stringWithFormat:
+                                  @"known=%d hidden=%d kb=%d",
+                                  (int)DF188ControlsHiddenKnown,
+                                  (int)DF188ControlsHidden,
+                                  (int)DF188KbSessionVisible]};
         NSData *bytes = [NSJSONSerialization dataWithJSONObject:rec
                                                           options:0 error:nil];
         uint64_t generation = 0;
@@ -136,29 +146,15 @@ static NSHashTable *DF177KbKnownWindows;
 static BOOL DF177KbHasPublished = NO;
 static BOOL DF177KbVisible = NO;
 
-// QA178 h1wake1: host-published controls visibility for the swallow
-// gate in DF177SendEventHook. SpringBoard (DFH1Wake188.m) writes key
-// ControlsHidden188 into the same qa177 prefs plist both sides already
-// read, and posts DF188ControlsStateName on every change; the relay
-// caches the value here. Unknown state fails OPEN (no swallow), so a
-// missing or torn write can never eat a touch.
-static const char *const DF188ControlsStateName = "com.duoface.controls188.state";
-static NSString *const DF188ControlsHiddenKey = @"ControlsHidden188";
-static BOOL DF188ControlsHidden = NO;
-static BOOL DF188ControlsHiddenKnown = NO;
-static int DF188ControlsStateToken = 0;
-// QA179: app-process keyboard *session* state for the swallow gate only.
-// DF177 keyboard-window reporting to DF156 remains completely unchanged.
-static BOOL DF188KbSessionVisible = NO;
-
-static inline void DF188RefreshControlsHidden(void) {
-    NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:DF177TouchPrefsPath];
-    id v = [p isKindOfClass:NSDictionary.class] ? p[DF188ControlsHiddenKey] : nil;
-    if ([v respondsToSelector:@selector(boolValue)]) {
-        DF188ControlsHidden = [v boolValue];
-        DF188ControlsHiddenKnown = YES;
-    }
-}
+// QA180: host's prefs are sandbox-inaccessible to hosted App Store relays.
+// Receive live hidden/shown Darwin notifications instead; initial state is
+// unknown until a host reply to the one-shot query or a state transition.
+static const char *const DF188ControlsHiddenName = "com.duoface.controls188.hidden";
+static const char *const DF188ControlsShownName = "com.duoface.controls188.shown";
+static const char *const DF188ControlsQueryName = "com.duoface.controls188.query";
+static int DF188ControlsHiddenToken = 0;
+static int DF188ControlsShownToken = 0;
+// QA179 process-local keyboard session and DF156 reporting remain unchanged.
 
 static inline BOOL DF177IsKeyboardWindow(id window) {
     Class keyboard=NSClassFromString(@"UIRemoteKeyboardWindow");
@@ -270,7 +266,6 @@ static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
             // Unrelated event while a swallowed sequence is in flight:
             // fall through and deliver it normally.
         } else if (hasBegan && DF177AppTouchEnabled()) {
-            DF188RefreshControlsHidden();
             if (DF188ControlsHiddenKnown && DF188ControlsHidden &&
                 !DF188KbSessionVisible) {
                 DF188Swallowing = YES;
@@ -353,17 +348,26 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
                         usingBlock:^(__unused NSNotification *note) {
         DF188KbSessionVisible = NO;
     }];
-    // QA178 h1wake1: track host-published controls visibility for the
-    // swallow gate. Registered once, alongside the touch hook.
-    if (!DF188ControlsStateToken) {
-        int stateToken = 0;
-        if (notify_register_dispatch(DF188ControlsStateName, &stateToken,
-                dispatch_get_main_queue(), ^(int __unused token) {
-            DF188RefreshControlsHidden();
-        }) == NOTIFY_STATUS_OK) DF188ControlsStateToken = stateToken;
-        DF188RefreshControlsHidden();
+    // QA180: subscribe before querying; the host will reply with exactly
+    // one of the two state signals. No controls-state plist is read here.
+    if (!DF188ControlsHiddenToken) {
+        int token = 0;
+        if (notify_register_dispatch(DF188ControlsHiddenName, &token,
+                dispatch_get_main_queue(), ^(int __unused t) {
+            DF188ControlsHidden = YES;
+            DF188ControlsHiddenKnown = YES;
+        }) == NOTIFY_STATUS_OK) DF188ControlsHiddenToken = token;
     }
-    // Initial snapshot also lets a host that starts later read retained state.
+    if (!DF188ControlsShownToken) {
+        int token = 0;
+        if (notify_register_dispatch(DF188ControlsShownName, &token,
+                dispatch_get_main_queue(), ^(int __unused t) {
+            DF188ControlsHidden = NO;
+            DF188ControlsHiddenKnown = YES;
+        }) == NOTIFY_STATUS_OK) DF188ControlsShownToken = token;
+    }
+    notify_post(DF188ControlsQueryName); // exactly once on hook installation
+    // Preserve the independent DF156 keyboard report/refresh.
     DF177KbRefreshFromScan();
 }
 #endif // DF177_APP_SIDE_SENDER
