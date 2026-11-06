@@ -49,11 +49,18 @@ jobs:
           "$RUNNER_TEMP/wake"
           xcrun --sdk macosx clang -fobjc-arc -fblocks -O1 -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation tests/map_replace_180_runtime.m -o "$RUNNER_TEMP/map"
           "$RUNNER_TEMP/map"
+      - name: Actual app delivery gate model
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -I tests/qa180_uikit_stub -framework Foundation -framework CoreGraphics tests/qa180_uikit_stub/UIKitStub.m tests/app_wake_176_runtime.m -o "$RUNNER_TEMP/appwake"
+          "$RUNNER_TEMP/appwake"
       - name: Actual iOS arm64 syntax
         run: |
           set -euo pipefail
           cd sideplay/duoface-native-scene-host
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -x objective-c -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -DDF177_APP_SIDE_SENDER=1 -include DFAppTouch177.h /dev/null
           for source in DFNative12Chrome.m DFOwnedWakeSurface180.m DFSceneHost.m ../native-carplay-scene-v1/DFNativeMapLaunchRuntime.m; do
             xcrun --sdk iphoneos clang -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -DDF144_SPRINGBOARD=1 "$source"
           done

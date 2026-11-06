@@ -1,3 +1,9 @@
+## CHECKPOINT QA176-APP-GATE-IMPLEMENTED-PENDING-CI-20261106
+
+Implemented candidate after explicit app-hook authorization. DFAppTouch177.h invokes new DFAppWakeGate176.h before original sendEvent only for touch events. New gate validates published session/bundle/PID/eligibility/hidden deadline and fresh1s snapshot plus existing DFOwnerAcceptPulse. Tracks captured contacts through cancellation/end and refuses new capture while any already-forwarded gesture remains; wake bypasses observation throttle and locally prevents duplicate hidden capture for4s. Chrome publishes snapshot and renews every250ms while current owner; no new UIWindow/hook/keyboard modification. Files changed: DFAppTouch177.h, DFAppWakeGate176.h, DFNative12Chrome.m, tests/app_wake_176_runtime.m and existing QA176 regression workflow. This is UNVERIFIED candidate, not device success. Model covers wrong PID, visible gesture surviving expiry, hidden first-contact consumption through Cancelled, second visible tap. CI pending; no release/version/DEB. DEVICE_TESTED=false. Next inspect CI and add further session/stale/multitouch/actual sender-path regression before release; do not claim model is actual HID. Exact build commands in workflow. Existing map tests retained. No protected relay .m/lifecycle edits.
+
+---
+
 ## CHECKPOINT QA176-APP-HOOK-CHANGE-AUTHORIZED-20261106
 
 User explicitly approved changing existing app-side DF177SendEventHook (Cho phép). This supersedes original no-global-event-hook prohibition ONLY for this existing per-relay/app hook and exact validated DuoFace hosted session; no new system-wide hook, shield UIWindow, keyboard relay or lifecycle change authorized. Task remains implement both fixes and publish distinct new version after tests.

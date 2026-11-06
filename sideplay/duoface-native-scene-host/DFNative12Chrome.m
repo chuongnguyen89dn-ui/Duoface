@@ -257,6 +257,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL homeReentrySkipsSplash;
 @property(nonatomic,assign) NSTimeInterval borderUntil;
 @property(nonatomic,assign) NSTimeInterval controlsUntil;
+@property(nonatomic,assign) BOOL wakePublication176;
 @property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) NSTimer *chromeVisualTimer178;
 @property(nonatomic,assign) NSUInteger chromeVisualGeneration178;
@@ -1245,7 +1246,36 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 }
 // App-scene/keyboard geometry is NOT a valid dependency of the visual
 // countdown. Only the divider artwork and its CoreAnimation pulse change.
+- (void)df176WakePublicationTick {
+    if(self!=DF177CurrentTouchOwner){self.wakePublication176=NO;return;}
+    [self df176PublishWakeState];
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.25*NSEC_PER_SEC)),
+        dispatch_get_main_queue(),^{[weakOwner df176WakePublicationTick];});
+}
+- (void)df176PublishWakeState {
+    if(!NSThread.isMainThread)return;
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:
+        @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
+    NSMutableDictionary *processes=[NSMutableDictionary dictionary];
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    for(id surface in self.hostedScenes)if([surface isKindOfClass:UIView.class]) {
+        NSString *bundle=[host bundleIDForHostedView:surface];
+        NSNumber *pid=[host verifiedPIDForHostedView:surface];
+        if(bundle.length && pid && [(UIView *)surface window] && ![(UIView *)surface window].hidden)processes[bundle]=pid;
+    }
+    BOOL eligible=self==DF177CurrentTouchOwner && !self.startupActive &&
+        !self.pickerVisible && !self.styleVisible && !self.appPickerVisible &&
+        !self.panActive && !self.logoTouchPending && self.focus<0 &&
+        DFSlotCountForPreset(self.preset)>1 && DFOwnerAcceptPulse(pulse);
+    NSDictionary *state=@{@"Version":@1,@"Session":pulse[@"Session"]?:@"",
+        @"Eligible":@(eligible),@"Processes":processes,@"Until":@(self.controlsUntil),
+        @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+    if(![state writeToFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.wake-state.v1.plist" atomically:YES])
+        DFCLog(@"qa176-app-wake-state-write-failed");
+}
 - (void)df178RefreshChromeArtwork {
+    [self df176PublishWakeState];
     if(!NSThread.isMainThread || !self.dividerLogo || !self.windows.count)return;
     BOOL visible=DF178ChromeVisible(NSDate.date.timeIntervalSince1970,
                                   self.controlsUntil,self.panActive,self.logoTouchPending);
@@ -1622,6 +1652,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 // Bind only current owned roots/surfaces. Wake changes artwork/timers only;
 // keyboard scene knowledge is NOT required for this first-contact contract.
 - (void)ensureWakeGates {
+    if(!self.wakePublication176){self.wakePublication176=YES;[self df176WakePublicationTick];}
+    [self df176PublishWakeState];
     __weak typeof(self) weakOwner=self;
     for(NSUInteger i=0;i<self.appSceneWindows.count;i++) {
         UIWindow *window=self.appSceneWindows[i];

@@ -179,7 +179,9 @@ static inline void DF177KbRefreshFromScan(void) {
     DF177KbSetVisible(DF177KbComputeVisible());
 }
 
+#import "DFAppWakeGate176.h"
 static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
+    if(DF176ConsumeWakeEvent(event,DF177TouchBundle))return;
     // Original first: the app receives the event exactly as before.
     ((void (*)(UIApplication *, SEL, UIEvent *))DF177SendEventOriginal)(
         self, _cmd, event);
