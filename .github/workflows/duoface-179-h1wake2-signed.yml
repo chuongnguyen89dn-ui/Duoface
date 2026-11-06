@@ -81,7 +81,7 @@ jobs:
           done
           strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIKeyboardWillShowNotification'
           strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIKeyboardWillHideNotification'
-          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'DF188InitialKeyboardSessionVisible'
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIRemoteKeyboardWindow'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-controls-state'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-app-touch-wake'
           test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa179-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '179'
