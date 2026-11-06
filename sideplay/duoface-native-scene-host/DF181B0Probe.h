@@ -2,7 +2,8 @@
 #import "DFDeepTrace.h"
 #import <UIKit/UIKit.h>
 static inline BOOL DF181B0InScope(NSString *bundle, BOOL nativeCarPlay) {
-    return nativeCarPlay || [bundle isEqualToString:@"com.google.Maps"] ||
+    return nativeCarPlay || [bundle isEqualToString:@"native-carplay"] ||
+           [bundle isEqualToString:@"com.google.Maps"] ||
            [bundle isEqualToString:@"com.waze.iphone"];
 }
 static inline void DF181B0Record(NSString *path, NSString *bundle,
