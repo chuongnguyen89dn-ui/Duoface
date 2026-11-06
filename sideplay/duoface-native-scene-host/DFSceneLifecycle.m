@@ -5,6 +5,7 @@
 #import "DFSceneLifecycle.h"
 #import "DFManualObserverContract.h"
 #import "DFDeepTrace.h"
+#import "DF181B0Probe.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <dlfcn.h>
@@ -259,6 +260,10 @@ static BOOL DFIsOwnedHostedLockScene123(id scene) {
     return NO;
 }
 static BOOL DFUnderLockBackground123(id manager,SEL cmd,id scene,id settings) {
+    DF181B0Record(@"duoface",@"native-carplay",@"underlock-observed",
+        @"unavailable",scene?NSStringFromClass([scene class]):@"none",@"unavailable",
+        @"SpringBoard",[NSString stringWithFormat:@"owned=%d foreground=%ld",
+        DFIsOwnedHostedLockScene123(scene),(long)DFForeground(settings)]);
     if(DFIsOwnedHostedLockScene123(scene)) {
         DFDeepTrace(@"qa123-underlock",@"owned-live-underlock-background-rejected");
         return NO;
