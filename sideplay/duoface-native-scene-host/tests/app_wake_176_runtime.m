@@ -3,6 +3,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #include <unistd.h>
+#include <stdio.h>
 static NSDictionary *snapshot,*pulse;
 static NSUInteger wakes;
 static NSTimeInterval fakeNow;
