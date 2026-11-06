@@ -1262,18 +1262,31 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:
         @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
     NSMutableDictionary *processes=[NSMutableDictionary dictionary];
+    NSMutableDictionary *sceneIDs=[NSMutableDictionary dictionary];
     DFSceneHost *host=[DFSceneHost sharedHost];
     for(id surface in self.hostedScenes)if([surface isKindOfClass:UIView.class]) {
         NSString *bundle=[host bundleIDForHostedView:surface];
         NSNumber *pid=[host verifiedPIDForHostedView:surface];
-        if(bundle.length && pid && [(UIView *)surface window] && ![(UIView *)surface window].hidden)processes[bundle]=pid;
+        NSString *sceneID=[host sceneIdentifierForHostedView:surface];
+        if(bundle.length && pid && sceneID.length && [(UIView *)surface window] &&
+           ![(UIView *)surface window].hidden) {
+            processes[bundle]=pid;
+            sceneIDs[bundle]=sceneID;
+        }
     }
+    // A keyboard that is visible OR not attested must never lose its first tap.
+    // Read only the existing per-app retained keyboard mailboxes; no layout.
+    [self df177RefreshKeyboardState];
     BOOL eligible=self==DF177CurrentTouchOwner && !self.startupActive &&
         !self.pickerVisible && !self.styleVisible && !self.appPickerVisible &&
         !self.panActive && !self.logoTouchPending && self.focus<0 &&
+        self.kbStateKnown177 && !self.kbVisible177 &&
         DFSlotCountForPreset(self.preset)>1 && DFOwnerAcceptPulse(pulse);
-    NSDictionary *state=@{@"Version":@1,@"Session":pulse[@"Session"]?:@"",
-        @"Eligible":@(eligible),@"Processes":processes,@"Until":@(self.controlsUntil),
+    NSDictionary *state=@{@"Version":@2,@"Session":pulse[@"Session"]?:@"",
+        @"Eligible":@(eligible),@"Processes":processes,@"Scenes":sceneIDs,
+        @"KeyboardKnown":@(self.kbStateKnown177),
+        @"KeyboardVisible":@(self.kbVisible177),
+        @"Until":@(self.controlsUntil),
         @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
     if(![state writeToFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.wake-state.v1.plist" atomically:YES])
         DFCLog(@"qa176-app-wake-state-write-failed");
