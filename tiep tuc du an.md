@@ -1,3 +1,9 @@
+## CHECKPOINT QA177-A1WAKE1-BUILD-REQUESTED-20261106
+
+- User requested to continue and fix A1 after QA176 device failure. Tested A1 source commit ec5c2ad40e439405f6d314b4269d30d39bba1eea; CI42193156605 SUCCESS (actual app sender integration/gate model/iOSarm64 syntax and owned-base regression). Existing official0.0.176 device result FAILED.
+- Preparing DISTINCT integrated0.0.177~a1wake1 / nativehost0.1.177~a1wake1, CFBundleVersion177. Only release stamps and corresponding version tests are changed; SHA-pinned runtime files verified unchanged. Build run 42193994412.
+- Signed-package audit, immutable archive and Sileo publication PENDING at this checkpoint; DEVICE_TESTED=false. Keep previous0.0.174/0.0.175/0.0.176 rollback DEBs. Workflow .github/workflows/duoface-177-a1wake-signed-candidate.yml reuses pinned original QA179 recipe.
+
 ## CHECKPOINT QA176-LOG5-MAIN-DEVICE-CORRECTION-20261106
 
 - The user corrected an erroneous investigation that analyzed old `DuoFaceAudit 4.txt` instead of the newest `main:sideplay/log/DuoFaceAudit 5.txt`. Log5 upload main commit `ed358e8fc9d2c409fc31f3d256421b8bf489894a` at 2026-11-06 07:36:05Z, blob `5eedbc8aadea7558329ea2e1ce4e49054fe24ede`; exported 07:34:34Z, iOS16.7.16. Log5 includes fresh `build=0.0.176~appwake1` events. Previous claim of no QA176 real-device log is explicitly SUPERSEDED.

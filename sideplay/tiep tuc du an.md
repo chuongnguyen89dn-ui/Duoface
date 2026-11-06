@@ -1,3 +1,9 @@
+## CHECKPOINT QA177-A1WAKE1-BUILD-REQUESTED-20261106
+
+- User requested to continue and fix A1 after QA176 device failure. Tested A1 source commit ec5c2ad40e439405f6d314b4269d30d39bba1eea; CI42193156605 SUCCESS (actual app sender integration/gate model/iOSarm64 syntax and owned-base regression). Existing official0.0.176 device result FAILED.
+- Preparing DISTINCT integrated0.0.177~a1wake1 / nativehost0.1.177~a1wake1, CFBundleVersion177. Only release stamps and corresponding version tests are changed; SHA-pinned runtime files verified unchanged. Build run 42193994412.
+- Signed-package audit, immutable archive and Sileo publication PENDING at this checkpoint; DEVICE_TESTED=false. Keep previous0.0.174/0.0.175/0.0.176 rollback DEBs. Workflow .github/workflows/duoface-177-a1wake-signed-candidate.yml reuses pinned original QA179 recipe.
+
 ## CHECKPOINT QA176-A1-CI-ALL-GREEN-20261106
 
 - **A1 CI VERIFIED PASS** on GitHub Actions, run **42193156605**, job **127809814959**, head source **ec5c2ad40e439405f6d314b4269d30d39bba1eea**, URL https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42193156605. `GET /repos/chuongnguyen89dn-ui/Duoface/actions/runs/42193156605` returned `status=completed, conclusion=success, updated_at=2026-11-06T09:12:46Z`. `fetch_workflow_run_jobs` confirmed all steps SUCCESS: old-runtime negative, production map runtime, existing 41 Python regressions, wake/empty-pane, sender integration, A1 source guards, app-delivery Objective-C model, **Actual iOS arm64 syntax**, artifact. No `DEVICE_TESTED` or `DEB_BUILD` claim: this is SOURCE-REGRESSION CI, not a signed distribution.
