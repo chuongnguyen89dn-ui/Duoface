@@ -55,3 +55,9 @@
 - Source đã phát hành: https://github.com/chuongnguyen89dn-ui/Duoface/tree/3d0fafcc2e17bca9739cf900d0bac5668ebc1aef/sideplay/duoface-native-scene-host
 - Review LOG5 đã hiệu chỉnh: https://github.com/chuongnguyen89dn-ui/Duoface/blob/1046bde63f062d5f9ff4c33a624de9a1abbb5e9a/sideplay/audit/qa176-appwake1-20261106/POST_RELEASE_LOG_CODE_REVIEW_20261106.md
 - LOG5 nguồn: https://github.com/chuongnguyen89dn-ui/Duoface/blob/ed358e8fc9d2c409fc31f3d256421b8bf489894a/sideplay/log/DuoFaceAudit%205.txt
+
+
+## 5. Phát hiện bổ sung tại biên consume/wake
+
+- Phân tích source `DFAppWakeGate176.h`: khi điều kiện hidden khớp, gate đặt `consume=YES` và gọi `DF177AppTouchNoteBegan(bundle)`, sau đó trả `YES` để bỏ original app dispatch. Nhưng `DF177AppTouchNoteBegan` trong `DFAppTouch177.h` hiện trả `void`, có các đường `return` trước, `DF156Write` có thể thất bại, `notify_post` có thể thất bại, và `@catch` nuốt exception. **Không có kết quả transport hay ACK từ host được trả lại cho quyết định consume.** Như vậy có một đường source-level: event bị nuốt nhưng wake chưa được chứng minh đã gửi/nhận. Đây là **lỗ hổng logic xác nhận**, không phải kết luận thiết bị đã gặp đúng đường này.
+- Phương án cải tiến: trước khi commit nuốt gesture, cần chứng minh transport send được kích hoạt theo chính trạng thái session, tối thiểu trả kết quả write/notify, log kết quả fail-open và không lấy `recalledUntil` làm bằng chứng host đã wake. ACK host và visual state phải được ghi nhận độc lập; các ràng buộc latency/input safety cần được test trên thiết bị. Không tự khẳng định chỉ việc đảo thứ tự hoặc trả boolean sẽ bảo đảm host hiện logo.
