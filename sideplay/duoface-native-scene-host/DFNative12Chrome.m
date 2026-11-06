@@ -1434,12 +1434,17 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     id parsed=[NSJSONSerialization JSONObjectWithData:
         [NSData dataWithBytes:bytes length:size] options:0 error:nil];
     NSMutableDictionary *liveProcesses=[NSMutableDictionary dictionary];
+    NSMutableDictionary *liveSceneIDs=[NSMutableDictionary dictionary];
     DFSceneHost *host=[DFSceneHost sharedHost];
     for(UIView *surface in self.hostedScenes){
         if(![surface isKindOfClass:UIView.class])continue;
         NSString *hostedBundle=[host bundleIDForHostedView:surface];
         NSNumber *pid=[host verifiedPIDForHostedView:surface];
-        if(hostedBundle.length && pid)liveProcesses[hostedBundle]=pid;
+        NSString *hostedScene=[host sceneIdentifierForHostedView:surface];
+        if(hostedBundle.length && pid) {
+            liveProcesses[hostedBundle]=pid;
+            if(hostedScene.length)liveSceneIDs[hostedBundle]=hostedScene;
+        }
     }
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     if(!DF177AppTouchRecordMatches(parsed,liveProcesses,
@@ -1450,6 +1455,14 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     BOOL bundleChanged=![bundle isEqualToString:self.touch177LastBundle];
     self.touch177LastBundle=bundle;
     NSTimeInterval lastLog=[self.touch177Bundles[bundle][@"lastLog"] doubleValue];
+    if(bundleChanged || now-lastLog>=5.0 || [parsed[@"reserved"] isEqual:@YES]) {
+        NSString *uiScene=parsed[@"scene"];
+        NSString *fbScene=liveSceneIDs[bundle];
+        DFCLog([NSString stringWithFormat:
+            @"qa176-a1-relay-scene-diagnostic bundle=%@ match=%d ui=%@ fb=%@",
+            bundle,(fbScene.length && [fbScene isEqual:uiScene])?1:0,
+            uiScene?:@"absent",fbScene?:@"absent"]);
+    }
     if(bundleChanged || now-lastLog>=5.0){
         DFCLog([NSString stringWithFormat:
             @"qa177-app-touch bundle=%@ count=%llu",
