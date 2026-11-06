@@ -1,3 +1,10 @@
+## CHECKPOINT QA176-SIGNED-BUILD-TRIGGERED-20261106
+
+- Signed release workflow CREATED and read-back VERIFIED at `.github/workflows/duoface-176-release-appwake1.yml`, GitHub commit `76e5c960a29f3132269c80b68aa74c597810de50`. Starts unique `0.0.176~appwake1` / native `0.1.176~appwake1` from already source-tested QA176 candidate, checks SHA-pinned runtime incl first-party app-side sender/wake gate and native-map launcher, re-runs production sender/gate/iOS syntax and signed-package static audit. No publishing step or Sileo overwrite; old 174/175 stay as they are.
+- Automatic Actions run `42177180870` (https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42177180870) was confirmed IN_PROGRESS, created 2026-11-06T06:52:18Z. No PASS or signed DEB claimed yet. Need inspect prepare-version and signed-release actual jobs/logs; if successful read immutable evidence at `sideplay/jb-embedded-appbridge/evidence/runs/42177180870/`, verify audit source SHA and DEB hash, then only publish EXACT signed archive on official carplaydsp. If failed, fix only demonstrated cause, preserve source and checkpoint; do not call untested device success. DEVICE_TESTED=false.
+
+---
+
 ## CHECKPOINT QA176-APPWAKE1-BUILD-REQUESTED-20261106
 
 - User requested to continue and complete QA176. Tested candidate commit 8ee848aa006239431334cf494af67da66a15bee0; CI42176321219 SUCCESS (actual app sender integration/gate model/iOSarm64 syntax and owned-base regression). Existing official0.0.175 device result FAILED.
