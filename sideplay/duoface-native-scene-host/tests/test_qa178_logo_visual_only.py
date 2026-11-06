@@ -37,6 +37,18 @@ class QA178LogoVisibility(unittest.TestCase):
         self.assertNotIn("[self layoutControls];",app.split("dispatch_after(",1)[0])
         self.assertIn("if(owner.kbStateKnown177 && !owner.kbVisible177)",app)
         self.assertIn("if(owner.kbStateKnown177 && !owner.kbVisible177)",note)
+    def test_visual_logo_recall_cannot_reactivate_red_border(self):
+        recall=method("- (void)df178RecallChromeVisualOnly {",
+                      "- (void)df178ScheduleChromeExpiry {")
+        self.assertIn("[self df178RefreshChromeArtwork];",recall)
+        for forbidden in ("borderUntil", "layoutControls", "kbVisible177",
+                          "window.frame", "appSceneContainers"):
+            self.assertNotIn(forbidden,recall)
+        layout=method("- (void)layoutControls {",
+                      "- (void)refreshGlobalSpeedHUD164 {")
+        self.assertIn("BOOL touched=(splitVisible && controlsVisible &&",layout)
+        self.assertIn("self.borderUntil",layout)
+
     def test_drag_and_deadline_behavior(self):
         self.assertIn("DF178ChromeVisible",CHROME)
         self.assertIn("isDragging || logoTouchPending",HEADER)
