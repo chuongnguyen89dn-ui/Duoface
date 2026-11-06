@@ -33,11 +33,11 @@ def touch_admission_precedes_timers(source):
 class QA172Wakefix2(unittest.TestCase):
  def test_version_coherence(self):
   for text in (TRACE, CTRL, PKG):
-   self.assertIn("wakefix5", text)
+   self.assertIn("logoapps1", text)
    self.assertNotIn("wakefix3map1", text)
   self.assertNotIn("wakefix1", TRACE)
   self.assertNotIn("wakefix1", PKG)
-  self.assertIn("Version: 0.1.172~wakefix5", CTRL)
+  self.assertIn("Version: 0.1.173~logoapps1", CTRL)
 
  def test_shield_window_gone(self):
   for token in ("DFNativeWakeShieldView","wakeShieldViews",
