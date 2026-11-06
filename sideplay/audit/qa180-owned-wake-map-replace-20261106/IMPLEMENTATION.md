@@ -1,3 +1,13 @@
+## CHECKPOINT QA175-OFFICIAL-SILEO-PUBLIC-VERIFIED-20261106
+
+- User ordered publication; COMPLETED for exact signed DuoFace `0.0.175~wakepick1`. This supersedes prior blocked/staged-only distribution status; NOT physical functional acceptance.
+- Existing official source: https://chuongnguyen89dn-ui.github.io/carplaydsp/ . Public singleton package, Packages.gz, Release index SHA and downloaded DEB verified. DEB SHA256 `e53451895bd991be072dfa1cfaf515ee5a1fee28ca992b6952c09c259bf6dbb1`, 1298716 bytes. Signed QA174 rollback preserved unchanged.
+- Publisher commit `1f81f173834bf6c0d9afbb2ed72332cfbf7e7935`, build/deploy/public-verifier run `42169974458` SUCCESS. Additional independent receipt run `42170055911`; verified UTC 2026-11-06T05:46:33.158127+00:00. Exact proof: `sideplay/audit/qa180-owned-wake-map-replace-20261106/publication-receipt.json`.
+- Source branch `fix/qa180-owned-wake-map-replace-20261106`; tested runtime ca7ebdad2129594087b5c9acd0bff73b11dc33e0, compiled fd7e428c250539b33cdd83b3c9df81336cbf5a30, signed run42168269030, immutable archive1688f4e92135b6b46d7fa3e8fa5cb94d850ea447. No rebuild or same-version byte substitution in publication.
+- Scope: hidden first-contact wake capture and occupied-pane map replacement. Native coordinator/lifecycle/GOFA unchanged. Real CarPlay acceptance NOT verified; standalone Google Maps scene identity and independent Home app icons remain OPEN.
+- Release preparation: normal GitHub connector accepted a read-only strict metadata generator. Actions validated exact signed input/YAML/diff and archived candidate0fa0d13fed72516c367971be4f4bb35fc52f9030; normal connector then performed permission-checked one-file workflow commit and non-forced expected-head update. No access-control change or credential extraction. Failures and exact scripts recorded in RELEASE175_PUBLICATION.md and publisher release branch.
+- Next: user Refresh Sources in existing Sileo source and upgrade to exact0.0.175~wakepick1; respring as prompted; parked CarPlay first tap must only wake, second tap must act; map selection from occupied pane should issue real transaction. Do not claim map pixels/input/Home repaired solely from publishing. Do not request old four logs again.
+
 # QA180 release status - 0.0.175 signed, Sileo publication BLOCKED
 
 ## Latest checkpoint, 2026-11-06
