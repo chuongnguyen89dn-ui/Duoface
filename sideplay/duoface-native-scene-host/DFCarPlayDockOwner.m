@@ -1,4 +1,5 @@
 #import "DFDeepTrace.h"
+#import "DF181B0Probe.h"
 #import "DFGeometrySnapshot119.h"
 #import "DFCarPlayOwnerLease.h"
 // DuoFace independent native CarPlay UI Dock owner (iOS16, rootless).
@@ -521,8 +522,8 @@ extern void DFIntegratedCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession);
 static void DFZMapSceneWatch(NSUInteger generation) {
     if(generation!=DFZGeneration || !DFZCarPlayProcess())return;
     if([NSProcessInfo.processInfo.processName isEqualToString:@"CarPlayApp"])
-        DFIntegratedCarPlayCaptureLiveOwnerSnapshot(@"duoface-integrated-native-map-owner-v8");
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(8.0*NSEC_PER_SEC)),
+        DFIntegratedCarPlayCaptureLiveOwnerSnapshot(@"qa181-b0-stock-and-duoface-scene-timeline");
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.5*NSEC_PER_SEC)),
                    dispatch_get_main_queue(),^{ DFZMapSceneWatch(generation); });
 }
 __attribute__((constructor))
@@ -538,6 +539,7 @@ static void DFZInstallDockReceiver(void) {
             if(result==0){
                 DFZLog([NSString stringWithFormat:@"listener-ready process=%@",
                       NSProcessInfo.processInfo.processName]);
+                DF181B0Record(@"stock",@"native-carplay",@"observer-ready",@"unavailable",NSProcessInfo.processInfo.processName,@"unavailable",@"CarPlay external",@"native-owner-observer-installed; no scene mutation");
                 DFZWatch(++DFZGeneration);
                 // Eight-second native owner samples distinguish Google Maps
                 // current FBScene from DuoFace after Dashboard foreground swap.
