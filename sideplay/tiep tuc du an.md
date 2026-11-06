@@ -1,3 +1,10 @@
+## CHECKPOINT QA176-APPWAKE1-ARCHIVED-SIGNED-20261106
+
+- ACTUAL signed integrated DEB `com.duoface.jb.embedded_0.0.176~appwake1_iphoneos-arm64.deb` archived in GitHub under `sideplay/jb-embedded-appbridge/evidence/runs/42177180870/`, archive commit HEAD at first read `bf4e7a52f928e1bf157007d366cee6b472df673b`, job run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42177180870 . `audit-summary.json` + `SHA256SUMS.txt` independently fetched and agree exactly: DEB SHA256 `6d7cf1eff02e4c238ff0b36c93de851a834f99ef54ba2e38e19d99b50d8a0c14`; signed=true; sha256_verified=true; whole_deb_static_audit_pass=true; version0.0.176~appwake1; compiled source `3d0fafcc2e17bca9739cf900d0bac5668ebc1aef`; device_tested=false; sileo_published=false. GitHub artifact ID13483708076 contains signed DEB/provenance; read metadata while workflow final docs checkpoint still running. Source, integration tests, rootless signing and whole-package static audit steps had SUCCESS; final run verdict MUST be polled.
+- Official `chuongnguyen89dn-ui/carplaydsp` main `08ec914bcae9136493ae80aa1e432d68415ff648` read; existing signed174/175 rollback exact checks retained. Publisher diff planned with 14 exact matches, using immutable archive commit `bf4e7a52f928e1bf157007d366cee6b472df673b`, DEB SHA above, independent public index and download verification. DO NOT publish until final signed run SUCCESS; then read fresh publisher head, patch only DuoFace section, run Actions deploy and post-verify public SHA, checkpoint both repos. No device claims. DEVICE_TESTED=false.
+
+---
+
 ## CHECKPOINT QA176-APPWAKE1-SIGNED-READY-20261106
 
 - Signed integrated0.0.176~appwake1 / nativehost0.1.176~appwake1 and whole-DEB static audit PASSED in run 42177180870. Compiled source SHA 3d0fafcc2e17bca9739cf900d0bac5668ebc1aef; immutable DEB SHA256 6d7cf1eff02e4c238ff0b36c93de851a834f99ef54ba2e38e19d99b50d8a0c14.
