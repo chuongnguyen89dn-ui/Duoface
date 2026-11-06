@@ -1,4 +1,8 @@
 #import <UIKit/UIKit.h>
+@implementation UISceneSession
+@end
+@implementation UIWindowScene
+@end
 @implementation UITouch
 @end
 @implementation UIEvent
