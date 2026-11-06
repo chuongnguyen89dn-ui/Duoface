@@ -1,6 +1,7 @@
 // Opt-in, standalone CarPlay process diagnostic. READ-ONLY: no scene creation,
 // no app activation, no view hierarchy mutation, no hooks or private setters.
 #import "DFCarPlayNativeSceneIdentity.h"
+#import "../duoface-native-scene-host/DF181B0Probe.h"
 #import "DFCarPlayNativeSceneTimeline.h"
 #import "DFCarPlayNativeMapPaneAssessment.h"
 #import "DFCarPlayNativeMapViewportPlan.h"
@@ -263,6 +264,30 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
             controllers,timeline,phonePulse,sampleUTC.doubleValue,complete);
         NSDictionary *phoneLayout=[NSDictionary dictionaryWithContentsOfFile:DFPhoneSplitLayout];
         NSDictionary *mapViewport=DFCarPlayNativeMapViewportPlan(scenes,phoneLayout);
+        NSUInteger nativeMatches=0;
+        for(NSDictionary *record in controllers) {
+            if(![record[@"controllerClass"] isEqual:@"DBApplicationSceneViewController"])continue;
+            NSString *bundle=record[@"hostedBundleIdentifier"];
+            if(![bundle isKindOfClass:NSString.class] || !bundle.length)
+                bundle=record[@"nativeSceneProcessBundleIdentifier"];
+            if(![bundle isKindOfClass:NSString.class] || !bundle.length)
+                bundle=@"native-carplay";
+            nativeMatches++;
+            NSString *sid=record[@"hostedSceneIdentifier"]?:record[@"viewSceneIdentifier"]?:@"unavailable";
+            DF181B0Record(@"stock",bundle,@"native-controller-observed",sid,
+                record[@"controllerClass"]?:@"unknown",
+                record[@"viewBounds"]?:@"unavailable",
+                record[@"viewSceneRole"]?:@"unavailable",
+                [NSString stringWithFormat:@"hostView=%@ processBundle=%@",
+                 record[@"sceneHostViewStatus"]?:@"unknown",
+                 record[@"nativeSceneProcessBundleIdentifier"]?:@"unknown"]);
+        }
+        DF181B0Record(@"stock",@"native-carplay",
+            nativeMatches?@"native-controller-count":@"native-controller-not-observed",
+            @"unavailable",process,
+            [NSString stringWithFormat:@"scenes=%lu controllers=%lu",
+             (unsigned long)scenes.count,(unsigned long)controllers.count],
+            @"external-carplay",@"missing-scene-is-not-proof-of-destruction");
         DFWriteSnapshotLine(@{
             @"schema":@5,@"kind":@"carplay-live-owner-readonly",
             @"probeSession":probeSession?:@"unset",
