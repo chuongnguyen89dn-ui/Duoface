@@ -1,5 +1,20 @@
 # Four latest SidePlay logs: evidence-based QA174 findings
 
+## Follow-up opinion assessment - 2026-11-06
+
+User asks whether the logs confirm ONLY (a) a passive wake gate not receiving/handling the wake contact and (b) native-map requests lost between picker and coordinator, while scene-retention hooks and attach are innocent.
+
+Verdict: reasonable repair priority, but not a proven exhaustive root-cause statement. Keep the following distinctions for implementation:
+
+- The passive-only implementation contradicts the hidden-first-contact-consumed user contract regardless of log coverage. Nine expiry markers, zero pane-wake markers and the user's failure establish a failing wake feature and focus investigation on actual touch receipt/ownership. They do not isolate whether the touch misses the surface, is rejected by state guards, or reaches an unlogged path. Merely changing return nil to interception at an unreachable view is not demonstrated to repair it.
+- No native picker request/Attach/ACK was recorded. This is NOT proof a successfully sent message was lost in transport. The source has an occupied-pane early return before command creation/write/notify/request logging, and the five recorded picker openings are on loaded panes. Correct the per-pane replacement transaction and observe card-entry plus dispatch; do not label the exact rejection of every Waze tap established when callback-entry evidence is absent.
+- Existing under-lock and BKS hook installation is positively logged. Do not add duplicate hooks or change lifecycle as a speculative fix for a pre-dispatch block. Installation alone does not prove every ownership predicate/retention callback is correct.
+- Native coordinator attach is not demonstrated to have run for the captured in-pane requests. It is not the first evidenced failing boundary there, but an unexercised stage has not passed. Do not remove its identity/session guards or certify it fault-free.
+- The separate Google Maps Home/standalone route DID receive requests and create hosts; the app-side report at original audit L17388 is scene-unmatched count=0. That observed identity-reconciliation failure remains open even after the picker/wake work. Later restored count=1 limits the inference: it is not proof of permanent nonmatching. Do not conflate this path with native in-pane Attach, or erase it from scope.
+- Home icon publication is another unresolved acceptance condition. Prioritize the two upstream source defects without claiming they explain all failures or complete Home publication.
+
+This clarification preserves the ordered work below; it does not authorize a new runtime change or claim a fix. Live GitHub review baseline dc119d51049a5f0db20d5d159cb0a4a2c14993fc; read canonical sideplay/tiep tuc du an.md, this report and DFNative12Chrome.m lines2405-2470. In-progress Actions query returned zero. No older log file was opened, no analysis rerun, no app test/build/DEB/Sileo change. This file is already referenced from both canonical handoffs. Next work remains behavioral wake regression and owned in-path gate, explicit picker replace/launch transaction, then actual request-correlated scene/retention/render/input and Home verification. User device acceptance remains FAILED.
+
 Review date: 2026-11-06. Scope: read/analyze the four files from the latest user upload, compare necessary current-source callsites, preserve findings. NO runtime patch, DEB build, Sileo deployment or new device test.
 
 ## 1. Exact input and freshness
