@@ -1,0 +1,87 @@
+name: QA174 latest four uploaded logs - analysis only
+on:
+  push:
+    branches: [fix/qa173-logo-map-touch-recall-20261106]
+    paths:
+      - '.github/workflows/duoface-174-four-latest-logs-review.yml'
+      - 'sideplay/audit/qa174-four-latest-logs-20261106/analyze_latest_four.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa174-four-new-logs-analysis
+  cancel-in-progress: false
+jobs:
+  inspect-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /tiep tuc du an.md
+            /sideplay/tiep tuc du an.md
+            /sideplay/audit/qa174-four-latest-logs-20261106/
+      - name: Analyze exactly the four SHA-pinned new upload files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'chuongnguyen89dn-ui/Duoface'
+          test "$GITHUB_REF_NAME" = 'fix/qa173-logo-map-touch-recall-20261106'
+          python3 sideplay/audit/qa174-four-latest-logs-20261106/analyze_latest_four.py \
+            --fetch --input-dir "$RUNNER_TEMP/latest-four" --out "$RUNNER_TEMP/four-log-evidence"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA174-four-new-logs-and-analysis
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/latest-four/
+            ${{ runner.temp }}/four-log-evidence/
+      - name: Checkpoint analysis evidence without touching runtime source or Sileo
+        shell: bash
+        env:
+          BRANCH: fix/qa173-logo-map-touch-recall-20261106
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            git checkout --detach FETCH_HEAD
+            mkdir -p sideplay/audit/qa174-four-latest-logs-20261106/evidence
+            cp "$RUNNER_TEMP/four-log-evidence/"* sideplay/audit/qa174-four-latest-logs-20261106/evidence/
+            python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          folder = 'sideplay/audit/qa174-four-latest-logs-20261106/'
+          data = json.loads(Path(folder + 'evidence/SUMMARY.json').read_text())
+          marker = '## CHECKPOINT QA174-FOUR-LATEST-LOGS-20261106'
+          note = (marker + '\n\n'
+                  '- User requested ONLY the four newest uploaded logs in SidePlay; do not read older log files. Source upload: main commit 3dc27f7d833709be04fc3406aa3bb7077b023f83 (2026-11-06T04:15:23Z). Exact four paths, SHA-verified blobs, byte/line counts in `' + folder + 'evidence/MANIFEST.json`.\n'
+                  '- The large DuoFaceAudit 3.txt could not be read by connector range fetch (empty content) or raw fetch (size error); local network DNS also failed. This bounded GitHub job downloaded ONLY the four exact pinned blobs and verified Git blob hashes, then extracted source-line-numbered evidence.\n'
+                  '- Analysis script: `' + folder + 'analyze_latest_four.py`; exact command: `python3 ' + folder + 'analyze_latest_four.py --fetch --input-dir "$RUNNER_TEMP/latest-four" --out "$RUNNER_TEMP/four-log-evidence"` from repository root. No secret inputs. Workflow `.github/workflows/duoface-174-four-latest-logs-review.yml`; run ' + os.environ['GITHUB_RUN_ID'] + '.\n'
+                  '- Complete mechanical results: `' + folder + 'evidence/OVERVIEW.md`, CRASH_SUMMARY.md, MAPS.md, WAKE.md, HOME.md, LIFECYCLE.md, ERRORS.md and SUMMARY.json. Build-stamp counts: ' + str(data['build_stamp_counts']) + '; QA174 stamped UTC range: ' + str(data['current174_utc_range']) + '.\n'
+                  '- Important: newly uploaded IPS files describe earlier disk-write events (Nov 2/4), not automatically a new QA174 crash. Separate current QA174 stamps, unstamped cumulative sections and prior stamps within the same new export. Do not infer root cause from absence or historical data. Manual causal interpretation pending readback of evidence.\n'
+                  '- This is log analysis only, NOT functional PASS, new runtime implementation, app build, device execution or Sileo deployment. Existing device verdict remains FAILED; hidden-first-contact-consumed contract remains authoritative.\n\n')
+          for name in ('sideplay/tiep tuc du an.md', 'tiep tuc du an.md'):
+              path = Path(name)
+              old = path.read_text()
+              if marker not in old:
+                  path.write_text(note + old)
+                  assert path.read_text().endswith(old)
+              assert marker in path.read_text()
+          print('FOUR_LOG_EVIDENCE_CHECKPOINT', subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
+          PY
+            git add -- sideplay/audit/qa174-four-latest-logs-20261106/evidence 'sideplay/tiep tuc du an.md' 'tiep tuc du an.md'
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'audit: archive four new log evidence and checkpoint; no runtime fix or deployment [skip ci]'
+            if git push origin "HEAD:refs/heads/$BRANCH"; then
+              git show -s --format='%H %s'
+              exit 0
+            fi
+          done
+          echo 'Evidence checkpoint conflicted; no force-push used' >&2
+          exit 1
