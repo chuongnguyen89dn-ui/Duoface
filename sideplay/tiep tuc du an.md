@@ -1,3 +1,12 @@
+## CHECKPOINT QA177-A1-SIGNED-CANDIDATE-RUN-20261106
+
+- **Code gate proven:** QA176 bounded regression GitHub Actions run `42193156605` `status=completed/conclusion=success` on commit `ec5c2ad40e439405f6d314b4269d30d39bba1eea`, all existing/negative, synthetic 3-cycle and iOS arm64 syntax PASS. No claim of device/carplay PASS.
+- **New distinct QA177 signed-candidate workflow** `.github/workflows/duoface-177-a1wake-signed-candidate.yml` created on branch `fix/qa180-owned-wake-map-replace-20261106`, commit **`74aedb7151600db2347f849ecf0d437f03e30622`**. Reuses SHA-pinned `duoface-179-mapwake1-signed-private.yml` toolchain/build/sign/audit/archive recipe; pins actual A1 tested source blobs (Chrome `4e07ba3df0716ce41b1ca66cb144d3e7f1f6407f`, app sender `13a9e5d433e4bdbb15fd40dd24c1071e7c7e1d07`, gate `84f20cc09b2669c009d337ab83727bde74f79b04`, scene `769b397d0feaf731da401bc61fa792f382ca0bba`) and old untouched components. This workflow DOES NOT publish to Sileo, only makes signed QA device candidate.
+- **QA177 GitHub Actions run `42193994412`** (https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42193994412): `prepare-version` job ID `127812575405` **SUCCESS**, committing version stamps only as new SHA **`e8449cbb9e457f97bc4fe4ac64445a3669b205f2`**; target integrated `0.0.177~a1wake1`, host `0.1.177~a1wake1`, CFBundleVersion177. `compare_commits(74aed...,e8449...)` shows exactly 11 paths: 9 metadata/version-test files and 2 handoff files, **no runtime source modified**. Signed-release job `127812701345` is **IN_PROGRESS** at this checkpoint, final result/hash/archive **NOT YET VERIFIED**. Do not prematurely claim signed-deb PASS or Sileo published.
+- **Immediate next:** inspect signed-release job steps/logs (source regression, toolchain, component compilation, host sign, package audit, immutable archive), fix concrete errors; verify actual DEB SHA256 from audit summary and artifact before device A2. No parallel duplicate jobs. Official Sileo `0.0.176~appwake1` stays unchanged pending explicit immutable publish+checksum verification; B1 native map not yet done.
+
+---
+
 ## CHECKPOINT QA177-A1WAKE1-BUILD-REQUESTED-20261106
 
 - User requested to continue and fix A1 after QA176 device failure. Tested A1 source commit ec5c2ad40e439405f6d314b4269d30d39bba1eea; CI42193156605 SUCCESS (actual app sender integration/gate model/iOSarm64 syntax and owned-base regression). Existing official0.0.176 device result FAILED.
