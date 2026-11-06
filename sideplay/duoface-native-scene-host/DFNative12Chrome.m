@@ -1,6 +1,7 @@
 #import "DFGeometrySnapshot119.h"
 #import "DFDividerDrag.h"
 #import "DFDeepTrace.h"
+#import "DF181B0Probe.h"
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
 #import "DFNative12PresetPreview.h"
@@ -1971,6 +1972,7 @@ static void DFCLog(NSString *text) {
     NSInteger slot=self.selectedSlot;
     NSInteger physicalSlot=[self physicalForVisual:slot];
     if(physicalSlot<0 || physicalSlot>=DFSlotCountForPreset(self.preset))return;
+    DF181B0Record(@"duoface",bundleID,@"picker-selection", @"pending",@"DFNative12Chrome",NSStringFromCGRect(self.appSceneContainers[(NSUInteger)physicalSlot].bounds),self.display?NSStringFromClass([self.display class]):@"no-display",[NSString stringWithFormat:@"visual=%ld physical=%ld",(long)slot,(long)physicalSlot]);
     DFSceneHost *owner=[DFSceneHost sharedHost];
     UIView *active=self.hostedScenes[(NSUInteger)physicalSlot];
     UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
