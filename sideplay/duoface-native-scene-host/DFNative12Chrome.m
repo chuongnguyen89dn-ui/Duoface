@@ -12,6 +12,7 @@
 #import "DFSpeedVisibility169.h"
 #import "DF156DarwinMailbox.h"
 #import "DFAppTouch177.h"
+#import "DFChromeVisual178.h"
 #import "DF155PilotAppScope.h"
 #import <notify.h>
 #import "DFEnabledAppsPolicy.h"
@@ -325,6 +326,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSTimeInterval borderUntil;
 @property(nonatomic,assign) NSTimeInterval controlsUntil;
 @property(nonatomic,assign) NSUInteger borderGeneration;
+@property(nonatomic,strong) NSTimer *chromeVisualTimer178;
+@property(nonatomic,assign) NSUInteger chromeVisualGeneration178;
 @property(nonatomic,assign) int touchWake177Token;
 @property(nonatomic,strong) NSMutableDictionary *touch177Bundles;
 @property(nonatomic,copy) NSString *touch177LastBundle;
@@ -1264,6 +1267,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     DFCLog([NSString stringWithFormat:
         @"native12-chrome-start windows=%lu content=%@",
         (unsigned long)self.windows.count,NSStringFromCGRect(cr)]);
+    [self df178ScheduleChromeExpiry]; // Also handles Home reentry without splash.
     return YES;
 }
 // The grip owns its own touch stream but adjusts the SAME split ratio.
@@ -1306,11 +1310,49 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     [grip.layer addAnimation:blink forKey:key];
     DFCLog(@"grip-native12-scale-pulse-start-visual-1.18");
 }
+// App-scene/keyboard geometry is NOT a valid dependency of the visual
+// countdown. Only the divider artwork and its CoreAnimation pulse change.
+- (void)df178RefreshChromeArtwork {
+    if(!NSThread.isMainThread || !self.dividerLogo || !self.windows.count)return;
+    BOOL visible=DF178ChromeVisible(NSDate.date.timeIntervalSince1970,
+                                  self.controlsUntil,self.panActive,self.logoTouchPending);
+    self.dividerLogo.alpha=visible?1.0:0.02;
+    [self updateGripBlinkForVisibleSession:visible];
+    if(!visible)DFCLog(@"qa178-logo-idle-4s-hidden-visual-only");
+}
+- (void)df178ScheduleChromeExpiry {
+    [self.chromeVisualTimer178 invalidate];
+    self.chromeVisualTimer178=nil;
+    NSUInteger generation=++self.chromeVisualGeneration178;
+    NSUInteger session=self.touch177Session.generation;
+    if(!NSThread.isMainThread || !self.dividerLogo ||
+       !DF177AppTouchSessionMatches(self.touch177Session,
+            session,self,DF177CurrentTouchOwner))return;
+    NSTimeInterval delay=DF178ChromeDelayUntilExpiry(
+        NSDate.date.timeIntervalSince1970,self.controlsUntil);
+    __weak typeof(self) weakOwner=self;
+    NSTimer *timer=[NSTimer timerWithTimeInterval:delay repeats:NO block:^(__unused NSTimer *fired){
+        DFNative12Chrome *owner=weakOwner;
+        if(!owner || !DF178ChromeExpiryGenerationCurrent(generation,
+              owner.chromeVisualGeneration178) ||
+           !DF177AppTouchSessionMatches(owner.touch177Session,
+              session,owner,DF177CurrentTouchOwner))return;
+        owner.chromeVisualTimer178=nil;
+        [owner df178RefreshChromeArtwork];
+        // Rare early run-loop delivery: wait only for the remaining deadline.
+        NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+        if(owner.controlsUntil>now && !owner.panActive && !owner.logoTouchPending)
+            [owner df178ScheduleChromeExpiry];
+    }];
+    self.chromeVisualTimer178=timer;
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
 - (void)noteUserActivity {
     self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
     NSUInteger seq=++self.borderGeneration;
     [self layoutControls];
+    [self df178ScheduleChromeExpiry];
     __weak typeof(self) weakOwner=self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(4.05*NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
@@ -1431,6 +1473,9 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     // controls, both of which call noteUserActivity directly.
     self.borderUntil=MAX(self.borderUntil,now+2.0);
     self.controlsUntil=MAX(self.controlsUntil,now+4.0);
+    // The verified app touch extends the existing visibility only: never
+    // immediately repaint or relayout a live hosted keyboard/scene.
+    [self df178ScheduleChromeExpiry];
     self.touch177RecheckGeneration=
         DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
     NSUInteger gen=self.touch177RecheckGeneration;
@@ -1726,8 +1771,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
             CGRectMake(header.tabs.x,header.tabs.y,header.tabs.width,header.tabs.height),2,self.hostFullscreen);
         self.styleZoom.hidden=contentY==0;
     }
-    BOOL controlsVisible=self.panActive || self.logoTouchPending ||
-                         NSDate.date.timeIntervalSince1970<=self.controlsUntil;
+    BOOL controlsVisible=DF178ChromeVisible(NSDate.date.timeIntervalSince1970,
+                                          self.controlsUntil,self.panActive,self.logoTouchPending);
     for(UIButton *choice in self.styleChoices){
         BOOL selected=(choice.tag==self.preset);
         UIImageView *thumb=(UIImageView *)[choice viewWithTag:12001];
@@ -2701,6 +2746,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
 }
 - (void)stop {
+    [self.chromeVisualTimer178 invalidate];self.chromeVisualTimer178=nil;
+    ++self.chromeVisualGeneration178; // No old idle callback after Home/reconnect.
     self.touch177Session=DF177AppTouchEndSession(self.touch177Session);
     self.touch177RecheckGeneration=
         DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
