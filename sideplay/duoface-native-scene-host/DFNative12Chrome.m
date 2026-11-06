@@ -268,34 +268,35 @@ static void DFCLog(NSString *text) {
 }
 @end
 
-// QA172 wakefix2map1: the wake gate, shaped after the reference design
-// where the container wrapping the app sits permanently in the touch
-// path and decides at hit-test time. wakefix1 instead armed/disarmed a
-// separate shield WINDOW from layoutControls through four state gates;
-// on the car it woke exactly once, then the shield silently never
-// re-armed. A window of its own could never work for the pass-through
-// half anyway: a UIWindow whose root view declines a touch still
-// returns itself from its own hitTest, so the touch would die in the
-// shield window instead of reaching the app. The gate therefore lives
-// INSIDE each slot's container, in the same window as the hosted
-// surface, as its topmost subview: hitTest returning nil there makes
-// UIKit continue the traversal to the surface right below, exactly as
-// if the gate were not there; returning self means the touch landed
-// here, touchesBegan fires the wake, and the app never sees it.
+// QA179: Passive wake observation. Never consume the Maps/Waze first tap.
+// The previous gate returned self and swallowed the user's input.
+// Return nil unconditionally so UIKit can still route it to the app.
 @interface DFNativeWakeGateView : UIView
-@property(nonatomic,copy) BOOL (^shouldConsume)(void);
-@property(nonatomic,copy) void (^consumedTouch)(void);
+@property(nonatomic,copy) BOOL (^shouldWake)(void);
+@property(nonatomic,copy) void (^observedWakeTouch)(void);
+@property(nonatomic,assign) NSTimeInterval lastObservedWakeAt;
 @end
 @implementation DFNativeWakeGateView
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    if(self.shouldConsume && !self.shouldConsume())return nil;
-    return [super hitTest:point withEvent:event];
-}
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    // Reached only when hitTest consumed the touch: this touch is a
-    // wake, never an app input.
-    if(self.consumedTouch)self.consumedTouch();
-    [super touchesBegan:touches withEvent:event];
+    (void)point;
+    if(event && event.type==UIEventTypeTouches &&
+       self.shouldWake && self.shouldWake()) {
+        BOOL began=NO;
+        for(UITouch *touch in event.allTouches) {
+            if(touch.phase==UITouchPhaseBegan &&
+               (!touch.window || touch.window==self.window)) {
+                began=YES;break;
+            }
+        }
+        if(began) {
+            NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+            if(now-self.lastObservedWakeAt>0.12) {
+                self.lastObservedWakeAt=now;
+                if(self.observedWakeTouch)self.observedWakeTouch();
+            }
+        }
+    }
+    return nil; // Same touch reaches the app.
 }
 @end
 
@@ -1129,9 +1130,18 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
                                            slotRect.size.height)];
         slotRoot.view.backgroundColor=UIColor.clearColor;
         slotRoot.view.clipsToBounds=YES;
-        // .118: no app-pane activity callback or supplementary recognizer.
-        // Preserve the original hosted YouTube event target; controls are
-        // still operated directly on their own dedicated UIKit windows.
+        // Passive pane-root observation never claims or cancels the app touch.
+        __weak typeof(self) weakPaneOwner=self;
+        ((DFNativePanePassthroughView *)slotRoot.view).touchBeganInPane=
+            ^(UIWindow *touchedWindow) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                DFNative12Chrome *owner=weakPaneOwner;
+                if(!owner || ![owner.windows containsObject:touchedWindow] ||
+                   touchedWindow.hidden || touchedWindow.screen==UIScreen.mainScreen)return;
+                [owner df178RecallChromeVisualOnly];
+                DFCLog(@"qa179-recall source=pane-root-passive");
+            });
+        };
         UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];
         if(!slotWindow){[self stop];return NO;}
         UIView *container=[[UIView alloc]initWithFrame:slotRoot.view.bounds];
@@ -1325,6 +1335,16 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     [self updateGripBlinkForVisibleSession:visible];
     if(!visible)DFCLog(@"qa178-logo-idle-4s-hidden-visual-only");
 }
+// Visual-only recall; no geometry, keyboard or app-scene layout changes.
+- (void)df178RecallChromeVisualOnly {
+    if(!NSThread.isMainThread || !self.windows.count || self.startupActive ||
+       self.pickerVisible || self.styleVisible || self.appPickerVisible)return;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    self.controlsUntil=MAX(self.controlsUntil,now+4.0);
+    self.borderUntil=MAX(self.borderUntil,now+2.0);
+    [self df178RefreshChromeArtwork];
+    [self df178ScheduleChromeExpiry];
+}
 - (void)df178ScheduleChromeExpiry {
     [self.chromeVisualTimer178 invalidate];
     self.chromeVisualTimer178=nil;
@@ -1478,8 +1498,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     // controls, both of which call noteUserActivity directly.
     self.borderUntil=MAX(self.borderUntil,now+2.0);
     self.controlsUntil=MAX(self.controlsUntil,now+4.0);
-    // The verified app touch extends the existing visibility only: never
-    // immediately repaint or relayout a live hosted keyboard/scene.
+    // Refresh alpha immediately, but not the hosted keyboard/scene geometry.
+    [self df178RefreshChromeArtwork];
     [self df178ScheduleChromeExpiry];
     self.touch177RecheckGeneration=
         DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
@@ -1691,7 +1711,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
             gate.autoresizingMask=UIViewAutoresizingFlexibleWidth|
                                     UIViewAutoresizingFlexibleHeight;
             __weak typeof(self) weakGate=self;
-            gate.shouldConsume=^BOOL{
+            gate.shouldWake=^BOOL{
                 DFNative12Chrome *owner=weakGate;
                 if(!owner)return NO;
                 if(owner.startupActive || owner.pickerVisible ||
@@ -1705,14 +1725,14 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
                 return NSDate.date.timeIntervalSince1970>
                        owner.controlsUntil;
             };
-            gate.consumedTouch=^{
+            gate.observedWakeTouch=^{
                 DFNative12Chrome *owner=weakGate;
                 if(!owner || owner.startupActive)return;
                 // Never mutate layout during UIKit's touch dispatch.
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if(!weakGate || weakGate.startupActive)return;
-                    [weakGate noteUserActivity];
-                    DFCLog(@"qa177-recall source=gate-touch");
+                    [weakGate df178RecallChromeVisualOnly];
+                    DFCLog(@"qa177-recall source=gate-touch-passive");
                 });
             };
             while((NSInteger)self.wakeGateViews.count<=i)
@@ -2389,10 +2409,11 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
         [picker showAppPickerStatus:@"Hãy chọn ô còn trống để ghép bản đồ"];
         return;
     }
-    if(![DFNativeMapCatalogBundles() containsObject:bundleID]){
-        [picker showAppPickerStatus:@"Chưa có bản đồ native được CarPlay xác nhận"];
-        [picker refreshInstalledApps];return;
-    }
+    // Catalog absence is not proof a new real map launch must be blocked.
+    // The native coordinator still checks exact Dashboard/owner/session and
+    // rejects unverified adoption; never fall back to the phone AppBridge.
+    if(![DFNativeMapCatalogBundles() containsObject:bundleID])
+        DFCLog(@"qa179-native-map-catalog-unverified-owner-must-verify");
     NSString *request=NSUUID.UUID.UUIDString;
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     NSDictionary *command=@{@"Version":@(DFNativeMapCommandVersion),
