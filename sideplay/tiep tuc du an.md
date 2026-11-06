@@ -1,3 +1,9 @@
+## CHECKPOINT QA176-RESUME-TOUCH-SIGNAL-20261106
+
+Resumed at verified HEAD7b3c293789605a2cfb680ea737500558d4432f5b; branch in_progress jobs=0. Existing source-test PASS remains valid; no runtime changes/build/release this checkpoint. Read only Chrome wake handler1370–1435: df177HandleAppTouch receives an asynchronous DF156 mailbox record after app-side contact, verifies current session and hosted bundle/PID, then extends controlsUntil and refreshes artwork. This receiver cannot retroactively consume the first contact already delivered to the child. Using it as the new gate would violate the required first-touch-consumed contract. Need bounded inspection of sender/delivery integration before implementation: sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m (touch delivery/routing only) and DFAppTouch177.h (mailbox sender hooks only), to identify actual sender and exact next source if outside scope. Original read allowlist excludes these files; current general continue request does not explicitly lift that limit. Do not change protected relay/keyboard/lifecycle, install global event hooks, or claim asynchronous wake is consumption. Map candidate tested; logo remains unresolved; DEVICE_TESTED=false; no new DEB/Sileo. Next obtain bounded read scope for those two files and trace only relevant delivery code; retain prior checkpoints/tests and rollback.
+
+---
+
 ## CHECKPOINT QA176-SOURCE-TESTS-PASS-LOGO-UNRESOLVED-20261106
 
 LATEST VERIFIED RESULT, 2026-11-06 13:22:11 ICT:
