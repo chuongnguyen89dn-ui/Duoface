@@ -110,9 +110,16 @@ static inline BOOL DF177AppTouchNoteBegan(NSString *bundle,BOOL wakeReserved,
             DF177TouchBoxReady=YES;
         }
         uint64_t nextCount=DF177TouchCount+1;
+        // Read-only diagnostic of cross-process plist availability. On a
+        // normal forwarded Began this happens AFTER original app delivery.
+        // Never treat an unreadable host snapshot as permission to consume.
+        NSDictionary *wakeState=!wakeReserved?
+            [NSDictionary dictionaryWithContentsOfFile:
+                @"/var/mobile/Library/Preferences/com.duoface.nativehost.wake-state.v1.plist"]:nil;
         NSDictionary *rec=@{@"version":@2,@"bundle":bundle,
             @"pid":@(getpid()),@"count":@(nextCount),@"ts":@(now),
-            @"reserved":@(wakeReserved),@"scene":sceneID?:@""};
+            @"reserved":@(wakeReserved),@"scene":sceneID?:@"",
+            @"wakeStateReadable":@(wakeReserved || [wakeState isKindOfClass:NSDictionary.class])};
         NSData *bytes=[NSJSONSerialization dataWithJSONObject:rec
                                                       options:0 error:nil];
         uint64_t generation=0;
