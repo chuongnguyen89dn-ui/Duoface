@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-174-four-latest-logs-review.yml'
       - 'sideplay/audit/qa174-four-latest-logs-20261106/analyze_latest_four.py'
+      - 'sideplay/audit/qa174-four-latest-logs-20261106/focus_current.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -32,6 +33,8 @@ jobs:
           test "$GITHUB_REF_NAME" = 'fix/qa173-logo-map-touch-recall-20261106'
           python3 sideplay/audit/qa174-four-latest-logs-20261106/analyze_latest_four.py \
             --fetch --input-dir "$RUNNER_TEMP/latest-four" --out "$RUNNER_TEMP/four-log-evidence"
+          python3 sideplay/audit/qa174-four-latest-logs-20261106/focus_current.py \
+            "$RUNNER_TEMP/latest-four/DuoFaceAudit 3.txt" --out "$RUNNER_TEMP/four-log-evidence/FOCUSED.json"
       - uses: actions/upload-artifact@v4
         with:
           name: QA174-four-new-logs-and-analysis
@@ -40,7 +43,7 @@ jobs:
           path: |
             ${{ runner.temp }}/latest-four/
             ${{ runner.temp }}/four-log-evidence/
-      - name: Checkpoint analysis evidence without touching runtime source or Sileo
+      - name: Checkpoint reviewed findings without touching runtime source or Sileo
         shell: bash
         env:
           BRANCH: fix/qa173-logo-map-touch-recall-20261106
@@ -57,15 +60,26 @@ jobs:
           import json, os, subprocess
           from pathlib import Path
           folder = 'sideplay/audit/qa174-four-latest-logs-20261106/'
-          data = json.loads(Path(folder + 'evidence/SUMMARY.json').read_text())
-          marker = '## CHECKPOINT QA174-FOUR-LATEST-LOGS-20261106'
+          data = json.loads(Path(folder + 'evidence/FOCUSED.json').read_text())
+          assert data['current_records'] == 863
+          assert data['current_marker_counts']['qa179-logo-idle-red-border-hidden-visual-only'] == 9
+          assert data['current_marker_counts']['qa177-recall'] == 0
+          assert data['current_marker_counts']['qa178-native-map-picker-request'] == 0
+          assert data['host_created']['com.google.Maps'] == 7
+          assert len(data['google_home_clicks']) == 7 and data['google_replacement_stops'] == 6
+          assert len(data['app_side_unmatched']) == 1
+          assert Path(folder + 'FINDINGS.md').is_file()
+          marker = '## CHECKPOINT QA174-FOUR-LATEST-LOGS-FINAL-20261106'
+          head = subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           note = (marker + '\n\n'
-                  '- User requested ONLY the four newest uploaded logs in SidePlay; do not read older log files. Source upload: main commit 3dc27f7d833709be04fc3406aa3bb7077b023f83 (2026-11-06T04:15:23Z). Exact four paths, SHA-verified blobs, byte/line counts in `' + folder + 'evidence/MANIFEST.json`.\n'
-                  '- The large DuoFaceAudit 3.txt could not be read by connector range fetch (empty content) or raw fetch (size error); local network DNS also failed. This bounded GitHub job downloaded ONLY the four exact pinned blobs and verified Git blob hashes, then extracted source-line-numbered evidence.\n'
-                  '- Analysis script: `' + folder + 'analyze_latest_four.py`; exact command: `python3 ' + folder + 'analyze_latest_four.py --fetch --input-dir "$RUNNER_TEMP/latest-four" --out "$RUNNER_TEMP/four-log-evidence"` from repository root. No secret inputs. Workflow `.github/workflows/duoface-174-four-latest-logs-review.yml`; run ' + os.environ['GITHUB_RUN_ID'] + '.\n'
-                  '- Complete mechanical results: `' + folder + 'evidence/OVERVIEW.md`, CRASH_SUMMARY.md, MAPS.md, WAKE.md, HOME.md, LIFECYCLE.md, ERRORS.md and SUMMARY.json. Build-stamp counts: ' + str(data['build_stamp_counts']) + '; QA174 stamped UTC range: ' + str(data['current174_utc_range']) + '.\n'
-                  '- Important: newly uploaded IPS files describe earlier disk-write events (Nov 2/4), not automatically a new QA174 crash. Separate current QA174 stamps, unstamped cumulative sections and prior stamps within the same new export. Do not infer root cause from absence or historical data. Manual causal interpretation pending readback of evidence.\n'
-                  '- This is log analysis only, NOT functional PASS, new runtime implementation, app build, device execution or Sileo deployment. Existing device verdict remains FAILED; hidden-first-contact-consumed contract remains authoritative.\n\n')
+                  '- User asked to read ONLY the four most recent SidePlay log files, not old logs. Completed against MAIN upload 3dc27f7d833709be04fc3406aa3bb7077b023f83 (2026-11-06T04:15:23Z). All four exact blob hashes verified. Complete inputs/line numbers/commands: `' + folder + 'evidence/MANIFEST.json`; reviewed conclusions: `' + folder + 'FINDINGS.md`. No additional log files were read.\n'
+                  '- Runtime confirmed QA174, not merely Sileo metadata: DuoFaceAudit 3.txt exported 11:13:25 ICT, 863 records explicitly stamped 0.0.174~mapwake1. Ignore prior build173 records inside the cumulative export for QA174 diagnosis. Three new-upload IPS describe Nov2/Nov4 disk-write reports, Action taken none, not new QA174 crash proof.\n'
+                  '- Logo: 9 current expiry markers, 0 current qa177/qa179 recall, 0 host/pane hit markers; two direct-logo Began/Ended pairs do exist. Expiry works at logging boundary; actual pane-wake receipt is not recorded. Keep user contract hidden-first-contact CONSUMED and visible-pass-through, not superseded passive-only policy.\n'
+                  '- In-pane maps: no native picker request/reject/ACK or command=Attach found in whole new export. Five current picker openings target occupied YouTube/GOFA/Wyn panes. Released map callback refuses occupied panes BEFORE command write and before request logging. This is a concrete mismatch for replacing an occupied pane; card-entry evidence is absent, so do not assert every click reached that guard. Waze selected-LS-inclusion exists in current PID2045, but no Waze launch transaction is recorded.\n'
+                  '- Outside-DuoFace Google Maps: 7 native Home icon inputs and 7 independent SpringBoard host creations, 6 next-home-selection stops in about2.54s. Current log L17388 has app-side scene-unmatched count=0 for sceneID:com.google.Maps-default. This proves an observed scene-identity reconciliation failure, not that no request exists. Later restored count=1 prevents claiming it NEVER matched or changed a window. Repeated taps are recorded; do not call them an automatic crash loop.\n'
+                  '- Home: selections and 4 bridged declarations reached actual FBS library, but no proof of displayed new Home icons. notify home=0 enabled=0 are registration return codes, NOT switches OFF. Current under-lock hook and BKS interceptor installation are logged, so do not add duplicate global hooks. scene-frame-readback is pre-write, NOT proof of final geometry failure/two writers. Export follows disconnect by about29.5minutes; Session active NO is not proof no CarPlay existed during test.\n'
+                  '- Next changes must target real in-path wake ownership; explicit map replace/launch entry; Google Maps request-to-UIKit scene join and stable same-app lifecycle; separate Home publish/display stage. Do not ask the user to resend these logs. Full device acceptance remains FAILED. No runtime edits/build/new DEB/Sileo deployment here.\n'
+                  '- Reproduction: analyze_latest_four.py and focus_current.py in audit folder; exact commands in workflow `.github/workflows/duoface-174-four-latest-logs-review.yml` and FINDINGS.md. This analysis run ' + os.environ['GITHUB_RUN_ID'] + ' validates counts/blobs only, not functionality; original read run42161788698 succeeded. Pre-write HEAD ' + head + '.\n\n')
           for name in ('sideplay/tiep tuc du an.md', 'tiep tuc du an.md'):
               path = Path(name)
               old = path.read_text()
@@ -73,11 +87,11 @@ jobs:
                   path.write_text(note + old)
                   assert path.read_text().endswith(old)
               assert marker in path.read_text()
-          print('FOUR_LOG_EVIDENCE_CHECKPOINT', subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
+          print('FOUR_LOG_REVIEWED_CHECKPOINT', head)
           PY
             git add -- sideplay/audit/qa174-four-latest-logs-20261106/evidence 'sideplay/tiep tuc du an.md' 'tiep tuc du an.md'
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'audit: archive four new log evidence and checkpoint; no runtime fix or deployment [skip ci]'
+            git commit -m 'audit: verified current QA174 four-log findings and next fixes; no runtime or deploy [skip ci]'
             if git push origin "HEAD:refs/heads/$BRANCH"; then
               git show -s --format='%H %s'
               exit 0
