@@ -30,7 +30,11 @@ jobs:
         run: |
           set -euo pipefail
           SRC=sideplay/audit/com.carplaypro.speed_0.9.97_iphoneos-arm64.deb
-          test -s "$SRC"
+          # The source DEB is no longer tracked on main; read its immutable archived bytes.
+          URL='https://raw.githubusercontent.com/chuongnguyen89dn-ui/duoface-debs-/3d791cd4ef8d43ab8a04e26890697b9554c7e49e/historical-main/sideplay/audit/com.carplaypro.speed_0.9.97_iphoneos-arm64.deb'
+          mkdir -p "$(dirname "$SRC")"
+          curl -fLsS --retry 4 --max-time 120 "$URL" -o "$SRC"
+          printf '%s  %s\n' 'e5b0918b3bc1948420f37a8a9e21365756da46fba44d582a3f2893aee9b4102f' "$SRC" | sha256sum -c -
           test "$(git hash-object "$SRC")" = "30f366a8bed8630c88935cac7146c86b875f0851"
           python3 -m py_compile sideplay/tools/audit_carplaypro_0997.py
           command -v dpkg-deb && command -v ar && command -v file
@@ -64,24 +68,32 @@ jobs:
               assert all(x["status"]=="ok" for x in m["disassembly"]),m
           print("CARPLAYPRO_ALL_UNPACKED_BYTES_AND_STATIC_REPORT_SHA_VERIFIED")
           PY
-      - name: Preserve audit output permanently in actual DuoFace GitHub repo
+      - name: Persist concise forensic conclusion only (no raw JSON dumps)
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- sideplay/audit/carplaypro-0.9.97/
+          python3 - <<'PY'
+          import json,datetime,pathlib
+          base=pathlib.Path('sideplay/audit/carplaypro-0.9.97')
+          data=json.loads((base/'summary.json').read_text())
+          brief=['# CarPlayPro 0.9.97 static audit conclusion','',
+                 'Read-only full static extraction executed in GitHub Actions.',
+                 'Signed original input is stored in the immutable duoface-debs- archive.',
+                 'No device behavior is proven by this static audit.','',
+                 '- Archived source SHA256: `e5b0918b3bc1948420f37a8a9e21365756da46fba44d582a3f2893aee9b4102f`',
+                 '- Inventory file count: '+str(data.get('total_files','unknown')),
+                 '- Raw binary and JSON evidence: ephemeral CI artifact, not source Git history.']
+          (base/'SUMMARY.md').write_text('\n'.join(brief)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- sideplay/audit/carplaypro-0.9.97/SUMMARY.md
           if git diff --cached --quiet; then
-            echo CARPLAYPRO_AUDIT_ALREADY_COMMITTED
+            echo 'STATIC_AUDIT_SUMMARY_ALREADY_RECORDED'
           else
-            git commit -m 'audit(carplaypro): preserve verified full DEB extraction, Mach-O, ObjC, symbols and disassembly [skip ci]'
-            git push origin HEAD:main || {
-              git fetch origin main
-              git rebase origin/main
-              git push origin HEAD:main
-            }
+            git commit -m 'audit: summarize CarPlayPro static evidence without raw dumps [skip ci]'
+            git push origin HEAD:main
           fi
-          echo CARPLAYPRO_STATIC_AUDIT_PERSISTED_TO_DUOFACE_MAIN
       - name: Preserve forensic artifacts if GitHub push fails
         if: always()
         uses: actions/upload-artifact@v4
