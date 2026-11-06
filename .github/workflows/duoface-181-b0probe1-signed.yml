@@ -1,0 +1,142 @@
+name: QA181 b0probe1 - read-only scene measurement signed CI archive
+on:
+  push:
+    branches: [feature/duoface-qa181-b0probe1-20261106]
+    paths:
+      - '.github/workflows/duoface-181-b0probe1-signed.yml'
+      - 'sideplay/duoface-native-scene-host/DF181B0Probe.h'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneLifecycle.m'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m'
+      - 'sideplay/native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa181_b0probe1.py'
+      - 'sideplay/duoface-native-scene-host/DFH1Wake188.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa180_h1wake3.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa179_h1wake2.py'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa188_h1wake1.py'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+      - 'sideplay/duoface-native-scene-host/DFDeepTrace.h'
+      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa181-b0probe1-signed
+  cancel-in-progress: false
+jobs:
+  build-and-archive:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify QA181 narrow keyboard-session source contracts
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa181_b0probe1.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa180_h1wake3.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa179_h1wake2.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa188_h1wake1.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
+      - name: Prepare existing signed iOS16 toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile and sign unchanged first-party baseline module DEBs
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+      - name: Compile and sign QA181 native scene-host and both app relays
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.181~b0probe1_iphoneos-arm64.deb'
+          test -s "$HOST"
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.181~b0probe1'
+          mkdir -p "$RUNNER_TEMP/qa181-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa181-host"
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa181-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '181'
+          for module in DFTouchOwnerProbe DFCarPlayDockOwner DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
+            ldid -e "$RUNNER_TEMP/qa181-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$module.dylib" >/dev/null
+          done
+          echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
+      - name: Assemble signed integrated QA181 and inspect exact code/signatures
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.181~b0probe1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.181~b0probe1'
+          test "$(dpkg-deb -f "$OUT" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$RUNNER_TEMP/qa181-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa181-merged"
+          LIBS="$RUNNER_TEMP/qa181-merged/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          for module in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
+            test -s "$LIBS/$module.dylib"
+            ldid -e "$LIBS/$module.dylib" >/dev/null
+          done
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'com.duoface.apptouch177.wake'
+          for module in DF155GeneralAppStateRelay DFYouTubeOrientationRelay DFTouchOwnerProbe; do
+            for channel in com.duoface.controls188.hidden com.duoface.controls188.shown com.duoface.controls188.query; do
+              strings -a "$LIBS/$module.dylib" | grep -F "$channel"
+            done
+          done
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIRemoteKeyboardWindow'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-controls-state'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-app-touch-wake'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'gate=%@'
+          for lib in DFTouchOwnerProbe DFCarPlayDockOwner; do
+            strings -a "$LIBS/$lib.dylib" | grep -F 'qa181-b0'
+          done
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa181-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '181'
+          echo "QA181_INTEGRATED=$OUT" >> "$GITHUB_ENV"
+          shasum -a 256 "$OUT"
+          echo 'QA181_SIGNED_B0PROBE1_CONTRACT_AND_BINARY_PASS_DEVICE_UNTESTED'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA181-b0probe1-signed-integrated-DEB
+          path: sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.181~b0probe1_iphoneos-arm64.deb
+          if-no-files-found: error
+      - name: Archive exact signed QA181 bytes in DuoFace source repo for independent transfer
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa181-b0probe1-20261106'
+          ART='com.duoface.jb.embedded_0.0.181~b0probe1_iphoneos-arm64.deb'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$OUT"
+            cp "$QA181_INTEGRATED" "$OUT/$ART"
+            ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
+            printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nDEVICE_TESTED=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$DIR" commit -m "qa181: archive exact signed B0 probe1 DEB [skip ci]"
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$DIR"
+              git fetch --no-tags origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/SHA256SUMS.txt"
+              echo QA181_SIGNED_SOURCE_ARCHIVE_VERIFIED_NO_SILEO_YET
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
