@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/duoface-qa180-h1wake3-20261106]
     paths:
-      - '.github/workflows/duoface-179-h1wake3-signed.yml'
+      - '.github/workflows/duoface-180-h1wake3-signed.yml'
       - 'sideplay/duoface-native-scene-host/DFAppTouch177.h'
       - 'sideplay/duoface-native-scene-host/DFH1Wake188.m'
       - 'sideplay/duoface-native-scene-host/tests/test_qa180_h1wake3.py'
