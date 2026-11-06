@@ -39,9 +39,6 @@ jobs:
           subprocess.run(['git','apply','--check',str(patch)],check=True)
           subprocess.run(['git','apply','--index',str(patch)],check=True)
           prefix='sideplay/duoface-native-scene-host/'
-          # First CI found an obsolete pilot-only wake assertion. The new
-          # host gate is scoped by actual owner, not app-side injection scope.
-          # Preserve a separate assertion that app-side injection stays scoped.
           test=Path(prefix+'tests/test_qa172w_wakefix.py')
           text=test.read_text()
           before="'DF155PilotAppID','kbVisible177'"
@@ -151,7 +148,7 @@ jobs:
 
           Actual tests: original source rejected by two new contract regressions; production gate Objective-C executes against a SMALL UIKIT DISPATCH MODEL (20 repeated cycles, second tap, cancellation, multiple contacts, active-child gesture). This is not actual UIKit/remote HID/device acceptance. Foundation empty-pane policy executes13 cases. Six Python suites and iOS16arm64 syntax compilation run in this job; exact results evidence/. Protected DFSceneLifecycle.m, DFNativeMapPaneCoordinator.m and DF154GeneralAppStateRelay.m verified unchanged by Git blob hashes.
 
-          Prior run42166403711 failed only an obsolete test requiring DF155PilotAppID in Chrome after pilot-specific wake gating was removed. Gate behavior, Foundation and preceding Python suites had passed, but iOS compile/checkpoint were skipped. The correction tests actual Chrome owner identity and separately preserves app-side injection allowlist; it does not weaken device scene ownership. Initial transport SHA and final amended patch SHA are recorded in evidence/patch-sha256.txt. Reproduce using this workflow's exact commands from repo root.
+          Prior run42166403711 failed an obsolete test requiring DF155PilotAppID in Chrome after pilot-specific wake gating was removed. Corrected the test to actual Chrome owner identity and separately preserved app-side injection allowlist. Run42166800433 then passed all41 Python tests, production-gate model,13 Foundation cases and four iOSarm64 syntax checks, but the final archive step failed because git diff --check interpreted valid blank context lines INSIDE the stored unified patch as trailing whitespace. Only that patch DATA file is excluded from the final whitespace check; all source/tests remain checked and unchanged. Initial transport SHA and final amended patch SHA are in evidence/patch-sha256.txt. No compile failure hidden. Reproduce with this workflow's exact commands from repo root.
 
           No DEB/sign/Sileo change. Current0.0.174 remains device-rejected; never replace published bytes at the same version. Next: new-version signed packaging and existing official Sileo delivery for physical first/second-tap and occupied-pane map testing. Google Maps standalone scene-ID reconciliation and Home icon publication remain separate OPEN tasks, not claimed repaired by these two fixes. Preserve GOFA, keyboard/media/divider and under-lock/BKS policy. No new log request.
           '''
@@ -163,7 +160,7 @@ jobs:
                 '- IMPLEMENTED: owned in-path first hidden contact capture and explicit occupied-pane native-map replacement with actual empty readback, ACK and safe rollback. Evidence/commands/limits: `'+folder+'IMPLEMENTATION.md`, `changes.patch`, `evidence/`, workflow `.github/workflows/duoface-180-owned-wake-map-replace.yml`.\n'
                 '- Source-only macOS run '+run+' input '+head+' passed all preceding gate-model/Foundation/Python and iOSarm64 syntax steps; save happens only after those steps pass. Not physical CarPlay acceptance.\n'
                 '- Two regressions reject old source; active child gestures, keyboard relay and app-side injection scoping preserved. Lifecycle/native coordinator/general GOFA relay unchanged by hashes.\n'
-                '- First run42166403711 failed obsolete pilot-gate assertion; corrected test to actual owner plus separate sender allowlist. No hidden failed compile or device pass.\n'
+                '- Run42166403711 failed obsolete pilot-gate assertion; corrected test to actual owner plus separate sender allowlist. Run42166800433 passed code/model tests and compile but archive whitespace check rejected valid unified-patch DATA context lines; corrected archive-only check, source unmodified.\n'
                 '- No DEB/Sileo change yet. New-version packaging and official delivery next, then physical first-touch consumed/second-touch passed and map replacement. Google Maps standalone scene identity and Home icon work remain OPEN. Do not ask for the same logs again. Preserve history below.\n\n')
           for name in ('sideplay/tiep tuc du an.md','tiep tuc du an.md'):
               path=Path(name);old=path.read_text()
@@ -171,7 +168,9 @@ jobs:
               assert marker in path.read_text() and path.read_text().endswith(old)
           PY
           git add -- "$DEST" 'sideplay/tiep tuc du an.md' 'tiep tuc du an.md'
-          git diff --cached --check
+          # Unified diff data legitimately contains space-only context lines.
+          # Source/test whitespace was checked before archiving and is checked again.
+          git diff --cached --check -- . ':!sideplay/audit/qa180-owned-wake-map-replace-20261106/changes.patch'
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'fix(qa180): tested owned wake contact and native map pane replacement; no release [skip ci]'
