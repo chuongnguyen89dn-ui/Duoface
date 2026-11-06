@@ -1,3 +1,12 @@
+## CHECKPOINT QA180-OWNED-WAKE-MAP-REPLACE-SOURCE-20261106
+
+- Active work branch: `fix/qa180-owned-wake-map-replace-20261106`, from verified d27298e18c987621090d3e79f246b512a034ddca.
+- IMPLEMENTED: owned in-path first hidden contact capture and explicit occupied-pane native-map replacement with actual empty readback, ACK and safe rollback. Evidence/commands/limits: `sideplay/audit/qa180-owned-wake-map-replace-20261106/IMPLEMENTATION.md`, `changes.patch`, `evidence/`, workflow `.github/workflows/duoface-180-owned-wake-map-replace.yml`.
+- Source-only macOS run 42167040381 input a1de88323e914b777f5fe43bd518cb9740d23b97 passed all preceding gate-model/Foundation/Python and iOSarm64 syntax steps; save happens only after those steps pass. Not physical CarPlay acceptance.
+- Two regressions reject old source; active child gestures, keyboard relay and app-side injection scoping preserved. Lifecycle/native coordinator/general GOFA relay unchanged by hashes.
+- Run42166403711 failed obsolete pilot-gate assertion; corrected test to actual owner plus separate sender allowlist. Run42166800433 passed code/model tests and compile but archive whitespace check rejected valid unified-patch DATA context lines; corrected archive-only check, source unmodified.
+- No DEB/Sileo change yet. New-version packaging and official delivery next, then physical first-touch consumed/second-touch passed and map replacement. Google Maps standalone scene identity and Home icon work remain OPEN. Do not ask for the same logs again. Preserve history below.
+
 ## CHECKPOINT QA174-FOUR-LATEST-LOGS-FINAL-20261106
 
 - User asked to read ONLY the four most recent SidePlay log files, not old logs. Completed against MAIN upload 3dc27f7d833709be04fc3406aa3bb7077b023f83 (2026-11-06T04:15:23Z). All four exact blob hashes verified. Complete inputs/line numbers/commands: `sideplay/audit/qa174-four-latest-logs-20261106/evidence/MANIFEST.json`; reviewed conclusions: `sideplay/audit/qa174-four-latest-logs-20261106/FINDINGS.md`. No additional log files were read.

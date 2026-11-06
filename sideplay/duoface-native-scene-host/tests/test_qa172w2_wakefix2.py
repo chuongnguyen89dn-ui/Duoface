@@ -45,20 +45,22 @@ class QA172Wakefix2(unittest.TestCase):
    self.assertNotIn(token, CHROME)
 
  def test_permanent_gate_present(self):
-  for token in ("DFNativeWakeGateView","ensureWakeGates","wakeGateViews",
-                "source=gate-touch"):
-   self.assertIn(token, CHROME)
+  # User contract supersedes QA179 passive-only policy. Existing root/surface,
+  # never another shield window or transient topmost overlay.
+  self.assertIn("DFNativePanePassthroughView : DFOwnedWakeSurface180", CHROME)
+  self.assertIn("ensureWakeGates", CHROME)
+  self.assertNotIn("DFNativeWakeGateView", CHROME)
+  scene=(ROOT/"DFSceneHost.m").read_text()
+  self.assertIn("DFSceneSurface : DFOwnedWakeSurface180", scene)
 
  def test_gate_hittest_contract(self):
-  gate = CHROME.split("@implementation DFNativeWakeGateView")[1].split("@end")[0]
-  self.assertIn("hitTest:", gate)
-  # QA179 uses a passive wake observer: never intercept or replay the touch.
-  self.assertIn("shouldWake", gate)
-  self.assertIn("observedWakeTouch", gate)
-  self.assertIn("return nil", gate)
-  self.assertNotIn("shouldConsume", gate)
-  self.assertNotIn("touchesBegan", gate)
-  self.assertNotIn("return self;", gate)
+  gate=(ROOT/"DFOwnedWakeSurface180.m").read_text()
+  self.assertIn("reservesWakeAtPoint180:point event:event])return self;",gate)
+  self.assertIn("[super hitTest:point withEvent:event]",gate)
+  self.assertIn("touchesBegan:",gate)
+  self.assertIn("touchesCancelled:",gate)
+  # Actual production methods are executed by wake_gate_180_runtime.m too.
+  self.assertIn("[forward minusSet:self.wakeContacts180",gate)
 
  def test_gate_respects_keyboard(self):
   self.assertIn("kbVisible177", CHROME)
@@ -116,10 +118,9 @@ class QA172Wakefix2(unittest.TestCase):
    self.assertIn('DF177AppTouchNextGeneration(self.touch177RecheckGeneration)',section)
   self.assertIn('if(DF177CurrentTouchOwner==self)DF177CurrentTouchOwner=nil;',stop)
 
- def test_keyboard_is_owned_and_unknown_state_does_not_consume(self):
+ def test_legacy_keyboard_relayout_still_requires_owned_state(self):
   self.assertIn('verifiedPIDForHostedView:surface',CHROME)
   self.assertIn('DF177ReadKeyboardState(bundle,pid)',CHROME)
-  self.assertIn('!owner.kbStateKnown177',CHROME)
   begin=CHROME.index('- (void)df177HandleKbState {')
   end=CHROME.index('- (void)df177HandleAppTouch {',begin)
   body=CHROME[begin:end]

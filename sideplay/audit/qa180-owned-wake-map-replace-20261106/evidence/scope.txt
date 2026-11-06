@@ -1,0 +1,14 @@
+ .../duoface-native-scene-host/DFMapReplace180.h    |  41 ++
+ .../duoface-native-scene-host/DFNative12Chrome.m   | 433 +++++++++++++--------
+ .../DFOwnedWakeSurface180.h                        |  12 +
+ .../DFOwnedWakeSurface180.m                        |  68 ++++
+ sideplay/duoface-native-scene-host/DFSceneHost.m   |   8 +-
+ sideplay/duoface-native-scene-host/build.sh        |   2 +-
+ .../tests/map_replace_180_runtime.m                |  26 ++
+ .../tests/qa180_uikit_stub/UIKit/UIKit.h           |  38 ++
+ .../tests/qa180_uikit_stub/UIKitStub.m             |  25 ++
+ .../tests/test_qa172w2_wakefix2.py                 |  29 +-
+ .../tests/test_qa172w_wakefix.py                   |  16 +-
+ .../tests/test_qa180_owned_wake_map_replace.py     |  76 ++++
+ .../tests/wake_gate_180_runtime.m                  |  56 +++
+ 13 files changed, 633 insertions(+), 197 deletions(-)

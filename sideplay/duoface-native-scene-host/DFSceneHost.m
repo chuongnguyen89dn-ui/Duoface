@@ -6,6 +6,7 @@
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
 // No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
+#import "DFOwnedWakeSurface180.h"
 #import "DFAppHabits.h"
 #import "DFSceneLifecycle.h"
 #import "DFSceneOrientationPolicy.h"
@@ -117,7 +118,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 - (void)didFinishSurface:(DFSceneSurface *)surface;
 @end
 
-@interface DFSceneSurface : UIView
+@interface DFSceneSurface : DFOwnedWakeSurface180
 @property(nonatomic,copy) NSString *bundleID;
 @property(nonatomic,assign) BOOL processDidNotExistBeforeHost;
 @property(nonatomic,strong) UIViewController *appController;
@@ -631,7 +632,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
 }
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *target=[super hitTest:point withEvent:event];
-    // Passive routing observation only; do not steal gestures from the player.
+    // The owning gate may reserve this contact BEFORE the remote child.
+    // Do not also schedule the old passive/layout callback for that contact.
+    if(target==self && self.wakeContact180)return self;
+    // Visible-state app routing remains observation-only.
     BOOL began=NO;
     if(event.type==UIEventTypeTouches)
         for(UITouch *touch in event.allTouches)

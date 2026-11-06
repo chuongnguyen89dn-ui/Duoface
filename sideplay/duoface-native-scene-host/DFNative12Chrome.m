@@ -8,6 +8,9 @@
 #import "DFNative12MenuHeader.h"
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
+#import "DFOwnedWakeSurface180.h"
+#import "DFMapReplace180.h"
+#import "DFCarPlayOwnerLease.h"
 #import "speed8/DFNative8SpeedHUDView.h"
 #import "DFSpeedVisibility169.h"
 #import "DF156DarwinMailbox.h"
@@ -116,57 +119,14 @@ static void DFCLog(NSString *text) {
 }
 // Emergency QA118: root touch tracer/wake removed from compiled Chrome.
 
-// Primary divider contacts use immediate axis selection without long press.
-// Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
-// A remote hosted scene may deliver its tap directly to its content without
-// invoking the DFSceneSurface hit-test callback or the UIWindow recognizer.
-// The real physical pane ROOT is always visited before its child hit-test.
-// Observe its touch-down passively, without claiming/cancelling app gestures.
-@interface DFNativePanePassthroughView : UIView
-@property(nonatomic,copy) void (^touchBeganInPane)(UIWindow *);
-@property(nonatomic,assign) NSTimeInterval lastPaneTouchAt;
+// Gate the real SpringBoard-owned root before descending into app content.
+// The SAME view stays in place while visible; no overlay/shield UIWindow.
+@interface DFNativePanePassthroughView : DFOwnedWakeSurface180
 @end
 @implementation DFNativePanePassthroughView
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    if(event && event.type==UIEventTypeTouches && self.window &&
-       self.touchBeganInPane) {
-        BOOL began=NO;
-        for(UITouch *touch in event.allTouches) {
-            if(touch.phase==UITouchPhaseBegan &&
-               (!touch.window || touch.window==self.window)) {
-                began=YES;break;
-            }
-        }
-        if(began) {
-            NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
-            if(now-self.lastPaneTouchAt>0.12) {
-                self.lastPaneTouchAt=now;
-                self.touchBeganInPane(self.window);
-            }
-        }
-    }
+    if([self reservesWakeAtPoint180:point event:event])return self;
     UIView *hit=[super hitTest:point withEvent:event];
-    // QA120: scroll and other clicks work, but the YouTube Play target does
-    // not. Log ONLY an actual touch Began with its resolved UIKit hit owner,
-    // not a guessed blocked region. No recognizer, replay or changed hitTest.
-    if(event && event.type==UIEventTypeTouches && self.window) {
-        BOOL began=NO;
-        for(UITouch *touch in event.allTouches)
-            if(touch.phase==UITouchPhaseBegan &&
-               (!touch.window || touch.window==self.window)) {
-                began=YES;break;
-            }
-        if(began) {
-            CGFloat fraction=self.bounds.size.height>0?
-                point.y/self.bounds.size.height:-1;
-            DFCLog([NSString stringWithFormat:
-                @"qa120-pane-tap point=%@ fractionY=%.3f window=%@ root=%@ owner=%@",
-                NSStringFromCGPoint(point),fraction,
-                NSStringFromCGRect(self.window.frame),
-                NSStringFromCGRect(self.bounds),
-                hit?NSStringFromClass(hit.class):@"nil"]);
-        }
-    }
     return hit==self?nil:hit;
 }
 @end
@@ -268,38 +228,6 @@ static void DFCLog(NSString *text) {
 }
 @end
 
-// QA179: Passive wake observation. Never consume the Maps/Waze first tap.
-// The previous gate returned self and swallowed the user's input.
-// Return nil unconditionally so UIKit can still route it to the app.
-@interface DFNativeWakeGateView : UIView
-@property(nonatomic,copy) BOOL (^shouldWake)(void);
-@property(nonatomic,copy) void (^observedWakeTouch)(void);
-@property(nonatomic,assign) NSTimeInterval lastObservedWakeAt;
-@end
-@implementation DFNativeWakeGateView
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    (void)point;
-    if(event && event.type==UIEventTypeTouches &&
-       self.shouldWake && self.shouldWake()) {
-        BOOL began=NO;
-        for(UITouch *touch in event.allTouches) {
-            if(touch.phase==UITouchPhaseBegan &&
-               (!touch.window || touch.window==self.window)) {
-                began=YES;break;
-            }
-        }
-        if(began) {
-            NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
-            if(now-self.lastObservedWakeAt>0.12) {
-                self.lastObservedWakeAt=now;
-                if(self.observedWakeTouch)self.observedWakeTouch();
-            }
-        }
-    }
-    return nil; // Same touch reaches the app.
-}
-@end
-
 @interface DFNative12Chrome () <DFAppPickerDelegate, UIGestureRecognizerDelegate>
 @property(nonatomic,strong) id display;
 @property(nonatomic,assign) Class configurationClass;
@@ -333,6 +261,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSTimer *chromeVisualTimer178;
 @property(nonatomic,assign) NSUInteger chromeVisualGeneration178;
 @property(nonatomic,copy) NSString *nativeMapPickerRequest178;
+@property(nonatomic,strong) NSDictionary *mapReplacement180;
 @property(nonatomic,assign) NSUInteger nativeMapPickerGeneration178;
 @property(nonatomic,assign) int touchWake177Token;
 @property(nonatomic,strong) NSMutableDictionary *touch177Bundles;
@@ -340,7 +269,6 @@ static void DFCLog(NSString *text) {
 // QA172 wakefix: transparent first-touch shield over the panes, the
 // app-reported keyboard state that gates it, and the coalesced
 // layout re-check for app-touch timer extensions.
-@property(nonatomic,strong) NSMutableArray *wakeGateViews;
 @property(nonatomic,assign) BOOL wakeGateEligible;
 @property(nonatomic,assign) int kbWake177Token;
 @property(nonatomic,assign) BOOL kbVisible177;
@@ -488,7 +416,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     return YES;
 }
 - (void)restoreNextSavedWorkspaceApp {
-    if(self.startupActive || self.restorePending || self.appSceneContainers.count!=4)return;
+    if(self.startupActive || self.restorePending || self.mapReplacement180 || self.appSceneContainers.count!=4)return;
     DFSceneHost *host=[DFSceneHost sharedHost];
     while(self.restoreQueue.count) {
        NSInteger physical=self.restoreQueue.firstObject.integerValue;
@@ -1130,18 +1058,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
                                            slotRect.size.height)];
         slotRoot.view.backgroundColor=UIColor.clearColor;
         slotRoot.view.clipsToBounds=YES;
-        // Passive pane-root observation never claims or cancels the app touch.
-        __weak typeof(self) weakPaneOwner=self;
-        ((DFNativePanePassthroughView *)slotRoot.view).touchBeganInPane=
-            ^(UIWindow *touchedWindow) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                DFNative12Chrome *owner=weakPaneOwner;
-                if(!owner || ![owner.windows containsObject:touchedWindow] ||
-                   touchedWindow.hidden || touchedWindow.screen==UIScreen.mainScreen)return;
-                [owner df178RecallChromeVisualOnly];
-                DFCLog(@"qa179-recall source=pane-root-passive");
-            });
-        };
+        // Callbacks are bound by ensureWakeGates to this existing root and
+        // to each DFSceneSurface. No new competing input layer is added.
         UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];
         if(!slotWindow){[self stop];return NO;}
         UIView *container=[[UIView alloc]initWithFrame:slotRoot.view.bounds];
@@ -1538,7 +1456,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
        self.appPickerVisible)return;
     UIView *surface=note.object;
     if(![self.appSceneWindows containsObject:surface.window])return;
-    [self noteUserActivity];
+    [self df178RecallChromeVisualOnly];
 }
 - (NSArray<NSDictionary *> *)disconnectTerminationCandidates {
  if(!NSThread.isMainThread || self.hostedScenes.count!=4)return @[];
@@ -1701,58 +1619,49 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     self.menuContext.text=@"";self.menuContext.hidden=YES;
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
-// QA172 wakefix2map1: install one wake gate per slot container, as
-// the container's topmost subview, in the same window as the hosted
-// surface. The gate is created once per container and simply kept on
-// top; it carries no armed/disarmed state - the decision is computed
-// from the live controls state at every hit test.
+// Bind only current owned roots/surfaces. Wake changes artwork/timers only;
+// keyboard scene knowledge is NOT required for this first-contact contract.
 - (void)ensureWakeGates {
-    if(!self.wakeGateViews)self.wakeGateViews=[NSMutableArray array];
-    for(NSInteger i=0;i<(NSInteger)self.appSceneContainers.count;i++){
-        UIView *container=self.appSceneContainers[(NSUInteger)i];
-        if(![container isKindOfClass:UIView.class])continue;
-        DFNativeWakeGateView *gate=nil;
-        if(i<(NSInteger)self.wakeGateViews.count &&
-           [self.wakeGateViews[(NSUInteger)i]
-               isKindOfClass:DFNativeWakeGateView.class])
-            gate=self.wakeGateViews[(NSUInteger)i];
-        if(!gate){
-            gate=[[DFNativeWakeGateView alloc] initWithFrame:container.bounds];
-            gate.backgroundColor=UIColor.clearColor;
-            gate.autoresizingMask=UIViewAutoresizingFlexibleWidth|
-                                    UIViewAutoresizingFlexibleHeight;
-            __weak typeof(self) weakGate=self;
-            gate.shouldWake=^BOOL{
-                DFNative12Chrome *owner=weakGate;
-                if(!owner)return NO;
-                if(owner.startupActive || owner.pickerVisible ||
-                   owner.styleVisible || owner.appPickerVisible)return NO;
-                if(owner.focus>=0 ||
-                   DFSlotCountForPreset(owner.preset)<=1)return NO;
-                if(owner.panActive || owner.logoTouchPending)return NO;
-                if(owner.kbVisible177 || !owner.kbStateKnown177 ||
-                   !owner.wakeGateEligible)
-                    return NO;
-                return NSDate.date.timeIntervalSince1970>
-                       owner.controlsUntil;
+    __weak typeof(self) weakOwner=self;
+    for(NSUInteger i=0;i<self.appSceneWindows.count;i++) {
+        UIWindow *window=self.appSceneWindows[i];
+        NSMutableArray *views=[NSMutableArray arrayWithObject:window.rootViewController.view];
+        if(i<self.hostedScenes.count && [self.hostedScenes[i] isKindOfClass:UIView.class])
+            [views addObject:self.hostedScenes[i]];
+        if(i<self.pendingScenes.count && [self.pendingScenes[i] isKindOfClass:UIView.class])
+            [views addObject:self.pendingScenes[i]];
+        for(UIView *candidate in views) {
+            if(![candidate isKindOfClass:DFOwnedWakeSurface180.class])continue;
+            DFOwnedWakeSurface180 *gate=(DFOwnedWakeSurface180 *)candidate;
+            __weak DFOwnedWakeSurface180 *weakGate=gate;
+            gate.wakeCaptureAllowed180=^BOOL{
+                DFNative12Chrome *owner=weakOwner;
+                DFOwnedWakeSurface180 *view=weakGate;
+                if(!owner || !view || owner!=DF177CurrentTouchOwner ||
+                   owner.startupActive || owner.pickerVisible || owner.styleVisible ||
+                   owner.appPickerVisible || owner.panActive || owner.logoTouchPending ||
+                   owner.focus>=0 || DFSlotCountForPreset(owner.preset)<=1 ||
+                   i>=owner.appSceneWindows.count || i>=owner.hostedScenes.count ||
+                   i>=owner.pendingScenes.count)return NO;
+                UIWindow *current=owner.appSceneWindows[i];
+                BOOL belongs=view==current.rootViewController.view ||
+                             view==owner.hostedScenes[i] || view==owner.pendingScenes[i];
+                if(!belongs || view.window!=current || current.hidden ||
+                   current.screen==UIScreen.mainScreen || view.hidden)return NO;
+                return NSDate.date.timeIntervalSince1970>owner.controlsUntil;
             };
-            gate.observedWakeTouch=^{
-                DFNative12Chrome *owner=weakGate;
-                if(!owner || owner.startupActive)return;
-                // Never mutate layout during UIKit's touch dispatch.
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if(!weakGate || weakGate.startupActive)return;
-                    [weakGate df178RecallChromeVisualOnly];
-                    DFCLog(@"qa177-recall source=gate-touch-passive");
-                });
+            gate.wakeContact180=^(NSString *phase,NSUInteger count){
+                DFNative12Chrome *owner=weakOwner;
+                DFOwnedWakeSurface180 *view=weakGate;
+                if(!owner || !view || owner!=DF177CurrentTouchOwner ||
+                   i>=owner.appSceneWindows.count || view.window!=owner.appSceneWindows[i])return;
+                // No layoutControls, keyboard write, scene reparent or red wake.
+                [owner df178RecallChromeVisualOnly];
+                DFCLog([NSString stringWithFormat:
+                    @"qa180-wake-contact phase=%@ physical=%lu count=%lu receiver=%@ consumed=1",
+                    phase,(unsigned long)i,(unsigned long)count,NSStringFromClass(view.class)]);
             };
-            while((NSInteger)self.wakeGateViews.count<=i)
-                [self.wakeGateViews addObject:NSNull.null];
-            self.wakeGateViews[(NSUInteger)i]=gate;
         }
-        if(gate.superview!=container)[container addSubview:gate];
-        gate.frame=container.bounds;
-        [container bringSubviewToFront:gate];
     }
 }
 - (void)layoutControls {
@@ -1914,28 +1823,10 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     self.dividerWindow.userInteractionEnabled=YES;
     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
-    // QA172 wakefix2map1: layout no longer arms or disarms anything
-    // (the wakefix1 state machine that woke only once). It refreshes
-    // the gates' placement and the eligibility fact: every hosted app
-    // must be able to report its keyboard state, so an unreported
-    // keyboard can never lose a keystroke to the gate.
-    {
-        [self df177RefreshKeyboardState];
-        BOOL gateEligible=YES;
-        DFSceneHost *host=[DFSceneHost sharedHost];
-        for(UIView *surface in self.hostedScenes){
-            if(![surface isKindOfClass:UIView.class])continue;
-            NSString *hostedBundle=
-                [host bundleIDForHostedView:surface];
-            if(hostedBundle.length &&
-               !DF155PilotAppID(hostedBundle) &&
-               ![hostedBundle isEqualToString:@"com.google.ios.youtube"]){
-                gateEligible=NO;break;
-            }
-        }
-        self.wakeGateEligible=gateEligible;
-        [self ensureWakeGates];
-    }
+    // Preserve keyboard diagnostics for the legacy app-side activity relay.
+    // The owned visual-only wake gate does not depend on keyboard IPC.
+    [self df177RefreshKeyboardState];
+    [self ensureWakeGates];
     if(!CGRectIsNull(second)){
         BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
         CGRect sf=vertical?
@@ -2183,6 +2074,9 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     [self openRunningAppManager]; // Verified DFSceneHost bundleIDs only.
 }
 - (void)openAppPickerForSlot:(NSInteger)slot {
+    if(self.mapReplacement180) {
+        DFCLog(@"qa180-map-replace-in-progress-no-slot-switch");return;
+    }
     if(slot<0 || slot>=DFSlotCountForPreset(self.preset))return;
     self.selectedSlot=slot;
     self.appPickerVisible=YES;
@@ -2337,6 +2231,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 }
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController)return;
+    [self df180AbortMapReplacement:@"picker-cancelled"];
     self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
     [self noteUserActivity];
@@ -2358,6 +2253,179 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 // is an EXPLICIT Attach request, never an automatic launch from the phone
 // settings allowlist or a fake CarPlay Home icon. The existing CarPlay owner
 // validates Dashboard/window/scene/physical slot before an Applied ACK.
+// QA180: replace only the explicitly chosen phone-host pane, then wait for the
+// real SpringBoard snapshot to become empty before requesting a native map.
+- (BOOL)df180MapReplacementCurrent:(NSDictionary *)transaction {
+    if(!transaction || self.mapReplacement180!=transaction ||
+       self!=DF177CurrentTouchOwner || self.startupActive ||
+       !DF177AppTouchSessionMatches(self.touch177Session,
+          [transaction[@"TouchSession"] unsignedIntegerValue],self,DF177CurrentTouchOwner))return NO;
+    NSInteger slot=[transaction[@"Slot"] integerValue],physical=[transaction[@"Physical"] integerValue];
+    return self.focus<0 && DFSlotCountForPreset(self.preset)==2 &&
+       slot==self.selectedSlot && physical==[self physicalForVisual:slot] &&
+       physical>=0 && (NSUInteger)physical<self.hostedScenes.count;
+}
+- (void)df180FinishMapReplacement:(BOOL)applied restorePrevious:(BOOL)restore reason:(NSString *)reason {
+    NSDictionary *transaction=self.mapReplacement180;
+    if(!transaction)return;
+    BOOL current=[self df180MapReplacementCurrent:transaction];
+    NSInteger physical=[transaction[@"Physical"] integerValue];
+    NSString *prior=transaction[@"PriorBundle"];
+    self.mapReplacement180=nil;self.nativeMapPickerRequest178=nil;
+    ++self.nativeMapPickerGeneration178;
+    DFCLog([NSString stringWithFormat:@"qa180-map-replace-finish request=%@ applied=%d restore=%d current=%d reason=%@",
+        transaction[@"ID"],applied,restore,current,reason]);
+    if(current && applied) {
+        // Native choice is persisted by the native owner. Do not auto-restore
+        // the previous PHONE scene over the newly adopted native map.
+        if(!DFSavePhysicalBundle(physical,@""))DFCLog(@"qa180-map-old-phone-choice-clear-failed");
+        self.workspace=DFCurrentWorkspace();
+    }
+    if(current && restore && prior.length &&
+       ![self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] &&
+       ![self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class] &&
+       !DFNativeMapFreshLease(transaction[@"Session"],NSDate.date.timeIntervalSince1970) &&
+       DFPickerAllowsApp(prior,DFConfiguredEnabledAppIDs())) {
+        NSError *error=nil;
+        UIView *surface=[[DFSceneHost sharedHost] hostViewForBundleID:prior error:&error];
+        if(surface) {
+            UIView *container=self.appSceneContainers[(NSUInteger)physical];
+            surface.frame=container.bounds;surface.userInteractionEnabled=NO;
+            surface.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+            self.pendingScenes[(NSUInteger)physical]=surface;
+            [container addSubview:surface];
+            [self layoutControls];
+            DFCLog([NSString stringWithFormat:@"qa180-map-rollback-host-requested physical=%ld bundle=%@",
+                (long)physical,prior]);
+        } else DFCLog([NSString stringWithFormat:@"qa180-map-rollback-refused reason=%@",error.localizedDescription]);
+    }
+    if(current)dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
+}
+- (void)df180PollMapRestore:(NSDictionary *)transaction request:(NSString *)request
+               requestedAt:(NSTimeInterval)requestedAt started:(NSTimeInterval)started {
+    if(![self df180MapReplacementCurrent:transaction]) {
+        if(self.mapReplacement180==transaction)
+            [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"restore-session-or-pane-changed"];
+        return;
+    }
+    NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:
+        @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist"];
+    DFNativeMapAckState state=DFNativeMapAckReadState(ack,request,@"Restore",requestedAt,NSDate.date.timeIntervalSince1970);
+    if(state==DFNativeMapAckApplied) {
+        [self df180FinishMapReplacement:NO restorePrevious:YES reason:@"restore-ack-confirmed"];
+        return;
+    }
+    if(state==DFNativeMapAckRejected || state==DFNativeMapAckCancelled ||
+       NSProcessInfo.processInfo.systemUptime-started>=DFNativeMapClientAckTimeout) {
+        // Unknown ownership: never place the previous phone scene on top of it.
+        [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"restore-unverified-pane-left-empty"];
+        return;
+    }
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.25*NSEC_PER_SEC)),dispatch_get_main_queue(),^{
+        [weakOwner df180PollMapRestore:transaction request:request requestedAt:requestedAt started:started];
+    });
+}
+- (void)df180AbortMapReplacement:(NSString *)reason {
+    NSDictionary *transaction=self.mapReplacement180;
+    if(!transaction)return;
+    if(![transaction[@"Submitted"] boolValue]) {
+        [self df180FinishMapReplacement:NO restorePrevious:YES reason:reason];return;
+    }
+    if([transaction[@"Restoring"] boolValue])return;
+    NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
+    NSDictionary *previous=[NSDictionary dictionaryWithContentsOfFile:path];
+    if(![previous[@"RequestID"] isEqual:self.nativeMapPickerRequest178]) {
+        [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"newer-command-owns-native-pane"];
+        return;
+    }
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    NSString *request=NSUUID.UUID.UUIDString;
+    NSDictionary *command=@{@"Version":@(DFNativeMapCommandVersion),@"Operation":@"Restore",
+                            @"RequestID":request,@"Timestamp":@(now)};
+    if(!DFNativeMapFreshExplicitCommand(command,now) || ![command writeToFile:path atomically:YES]) {
+        [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"restore-command-write-failed"];
+        return;
+    }
+    NSMutableDictionary *updated=[transaction mutableCopy];updated[@"Restoring"]=@YES;
+    self.mapReplacement180=updated;self.nativeMapPickerRequest178=request;
+    ++self.nativeMapPickerGeneration178;
+    notify_post("com.duoface.nativehost.map-pane.command.v1");
+    DFCLog([NSString stringWithFormat:@"qa180-map-restore-request request=%@ reason=%@",request,reason]);
+    [self df180PollMapRestore:updated request:request requestedAt:now started:NSProcessInfo.processInfo.systemUptime];
+}
+- (void)df180AwaitEmptyPane:(NSDictionary *)transaction attempts:(NSUInteger)attempts {
+    if(![self df180MapReplacementCurrent:transaction] || !self.appPickerVisible) {
+        if(self.mapReplacement180==transaction)[self df180AbortMapReplacement:@"picker-or-pane-changed"];
+        return;
+    }
+    NSInteger slot=[transaction[@"Slot"] integerValue],physical=[transaction[@"Physical"] integerValue];
+    if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
+       [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class]) {
+        [self df180AbortMapReplacement:@"target-reoccupied-before-dispatch"];return;
+    }
+    NSDictionary *sample=[NSDictionary dictionaryWithContentsOfFile:
+        @"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapHeartbeatPath];
+    if(DF180EmptyPaneReadbackReady(sample,pulse,transaction[@"Session"],slot,physical,
+          [transaction[@"ReleasedAt"] doubleValue],NSDate.date.timeIntervalSince1970)) {
+        // This is the same existing callback, now with a measured EMPTY pane.
+        NSMutableDictionary *ready=[transaction mutableCopy];ready[@"ReadyToDispatch"]=@YES;
+        self.mapReplacement180=ready;
+        [self appPicker:self.appPickerController didSelectNativeMapBundleID:transaction[@"Bundle"]
+                  displayName:transaction[@"Name"]];
+        if(self.mapReplacement180==ready && !self.nativeMapPickerRequest178.length)
+            [self df180AbortMapReplacement:@"dispatch-did-not-create-request"];
+        return;
+    }
+    if(attempts>=25 || NSProcessInfo.processInfo.systemUptime-[transaction[@"Started"] doubleValue]>=2.5) {
+        [self df180AbortMapReplacement:@"empty-pane-readback-timeout"];return;
+    }
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.1*NSEC_PER_SEC)),dispatch_get_main_queue(),^{
+        [weakOwner df180AwaitEmptyPane:transaction attempts:attempts+1];
+    });
+}
+- (void)df180BeginMapReplacement:(NSString *)bundle name:(NSString *)name
+                         visual:(NSInteger)slot physical:(NSInteger)physical {
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapHeartbeatPath];
+    NSString *session=pulse[@"Session"];
+    if(!DFOwnerAcceptPulse(pulse) || ![pulse[@"Active"] isEqual:@YES] ||
+       !DFNativeMapProtocolUUID(session) || self.focus>=0 ||
+       DFNativeMapFreshLease(session,NSDate.date.timeIntervalSince1970)) {
+        [self.appPickerController showAppPickerStatus:@"CarPlay chưa sẵn sàng hoặc đang có bản đồ khác"];
+        DFCLog(@"qa180-native-map-entry-rejected reason=session-focus-or-existing-native-owner");return;
+    }
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    id active=self.hostedScenes[(NSUInteger)physical],pending=self.pendingScenes[(NSUInteger)physical];
+    NSString *old=[active isKindOfClass:UIView.class]?[host bundleIDForHostedView:active]:nil;
+    NSString *pendingID=[pending isKindOfClass:UIView.class]?[host bundleIDForHostedView:pending]:nil;
+    if(([active isKindOfClass:UIView.class] && !old.length) ||
+       ([pending isKindOfClass:UIView.class] && !pendingID.length)) {
+        DFCLog(@"qa180-native-map-entry-rejected reason=foreign-host-not-released");return;
+    }
+    NSDictionary *transaction=@{@"ID":NSUUID.UUID.UUIDString,@"Bundle":bundle,@"Name":name?:bundle,
+        @"Slot":@(slot),@"Physical":@(physical),@"PriorBundle":old?:pendingID?:@"",@"Session":session,
+        @"TouchSession":@(self.touch177Session.generation),@"Started":@(NSProcessInfo.processInfo.systemUptime),
+        @"ReleasedAt":@(NSDate.date.timeIntervalSince1970),@"Submitted":@NO};
+    self.mapReplacement180=transaction;
+    // Withdraw exact pane ownership BEFORE releasing it (callbacks may reenter).
+    self.hostedScenes[(NSUInteger)physical]=NSNull.null;
+    self.pendingScenes[(NSUInteger)physical]=NSNull.null;
+    self.sceneHandleReady[(NSUInteger)physical]=@NO;
+    [self.restoreQueue removeObject:@(physical)];
+    if(self.restorePending && self.restoringPhysical==physical) {
+        self.restorePending=NO;self.restoringPhysical=-1;
+    }
+    if([pending isKindOfClass:UIView.class])[host releaseHostedView:pending];
+    if([active isKindOfClass:UIView.class] && active!=pending)[host releaseHostedView:active];
+    [self layoutControls];[self emit:@"App" ratio:@(slot)];
+    [self.appPickerController showAppPickerStatus:@"Đang chuẩn bị ô để mở bản đồ"];
+    DFCLog([NSString stringWithFormat:@"qa180-map-replace-prepared id=%@ physical=%ld prior=%@ next=%@",
+        transaction[@"ID"],(long)physical,old?:pendingID?:@"",bundle]);
+    [self df180AwaitEmptyPane:transaction attempts:0];
+}
+
 - (void)df178PollNativeMapPicker:(NSString *)request generation:(NSUInteger)generation
                    session:(NSUInteger)session requestedAt:(NSTimeInterval)requestedAt
                   startedAt:(NSTimeInterval)startedAt polls:(NSUInteger)polls {
@@ -2366,9 +2434,14 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     DFNativeMapPollDecision decision=DFNativeMapPollDecisionForRequest(
         request,self.nativeMapPickerRequest178,generation,self.nativeMapPickerGeneration178,
         active,startedAt,NSProcessInfo.processInfo.systemUptime,polls);
-    if(decision==DFNativeMapPollStop)return;
+    if(decision==DFNativeMapPollStop) {
+        if(self.mapReplacement180 && self==DF177CurrentTouchOwner)
+            [self df180AbortMapReplacement:@"picker-no-longer-active"];
+        return;
+    }
     if(decision==DFNativeMapPollTimedOut){
-        self.nativeMapPickerRequest178=nil;
+        if(self.mapReplacement180)[self df180AbortMapReplacement:@"native-ack-timeout"];
+        else self.nativeMapPickerRequest178=nil;
         [self.appPickerController showAppPickerStatus:@"Bản đồ chưa được ghép · hết thời gian xác nhận"];
         DFCLog(@"qa178-native-map-picker-ack-timeout-no-success");
         return;
@@ -2378,6 +2451,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     DFNativeMapAckState state=DFNativeMapAckReadState(ack,request,@"Attach",
                                requestedAt,NSDate.date.timeIntervalSince1970);
     if(state==DFNativeMapAckApplied){
+        [self df180FinishMapReplacement:YES restorePrevious:NO reason:@"native-attach-ack"];
         self.nativeMapPickerRequest178=nil;
         self.appPickerVisible=NO;
         self.appPickerWindow.hidden=YES;
@@ -2386,6 +2460,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
         return;
     }
     if(state==DFNativeMapAckRejected || state==DFNativeMapAckCancelled){
+        [self df180FinishMapReplacement:NO restorePrevious:[ack[@"PaneAttached"] isEqual:@NO]
+                                reason:ack[@"Reason"]?:@"native-rejected"];
         self.nativeMapPickerRequest178=nil;
         [self.appPickerController showAppPickerStatus:@"CarPlay chưa ghép được bản đồ"];
         DFCLog([NSString stringWithFormat:@"qa178-native-map-picker-rejected reason=%@",
@@ -2402,6 +2478,12 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 }
 - (void)appPicker:(DFAppPickerVC *)picker
     didSelectNativeMapBundleID:(NSString *)bundleID displayName:(NSString *)name {
+    DFCLog([NSString stringWithFormat:@"qa180-native-map-card-entry bundle=%@ slot=%ld",
+        bundleID,(long)self.selectedSlot]);
+    if(self.mapReplacement180 && (![self.mapReplacement180[@"ReadyToDispatch"] boolValue] ||
+       ![self.mapReplacement180[@"Bundle"] isEqual:bundleID])) {
+        DFCLog(@"qa180-native-map-entry-rejected reason=replacement-in-progress");return;
+    }
     if(picker!=self.appPickerController || !self.appPickerVisible ||
        !DFNativeMapAllowedBundle(bundleID) ||
        !DFPickerAllowsApp(bundleID,DFConfiguredEnabledAppIDs()))return;
@@ -2418,9 +2500,12 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     }
     NSInteger physical=[self physicalForVisual:slot];
     if(physical<0 || (NSUInteger)physical>=self.hostedScenes.count ||
-       [self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
-       [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class]){
-        [picker showAppPickerStatus:@"Hãy chọn ô còn trống để ghép bản đồ"];
+       (NSUInteger)physical>=self.pendingScenes.count){
+        DFCLog(@"qa180-native-map-entry-rejected reason=invalid-physical-slot");return;
+    }
+    if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
+       [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class]) {
+        [self df180BeginMapReplacement:bundleID name:name visual:slot physical:physical];
         return;
     }
     // Catalog absence is not proof a new real map launch must be blocked.
@@ -2445,6 +2530,11 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     NSUInteger generation=self.nativeMapPickerGeneration178;
     NSUInteger session=self.touch177Session.generation;
     self.nativeMapPickerRequest178=request;
+    if(self.mapReplacement180) {
+        NSMutableDictionary *submitted=[self.mapReplacement180 mutableCopy];
+        submitted[@"Submitted"]=@YES;submitted[@"ReadyToDispatch"]=@NO;
+        self.mapReplacement180=submitted;
+    }
     notify_post("com.duoface.nativehost.map-pane.command.v1");
     [picker showAppPickerStatus:@"Đang đợi CarPlay ghép bản đồ native"];
     DFCLog([NSString stringWithFormat:
@@ -2468,7 +2558,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
         [picker showAppPickerStatus:@"Hãy chọn bản đồ native đã được xác minh"];
         return;
     }
-    if(self.nativeMapPickerRequest178.length){
+    if(self.nativeMapPickerRequest178.length || self.mapReplacement180){
         [picker showAppPickerStatus:@"Đang đợi yêu cầu bản đồ trước đó"];
         return;
     }
@@ -2903,6 +2993,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     ++self.chromeVisualGeneration178; // No old idle callback after Home/reconnect.
     ++self.nativeMapPickerGeneration178;
     self.nativeMapPickerRequest178=nil;
+    self.mapReplacement180=nil;
     self.touch177Session=DF177AppTouchEndSession(self.touch177Session);
     self.touch177RecheckGeneration=
         DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
@@ -2943,7 +3034,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     for(UIWindow *w in self.windows)w.rootViewController=nil;
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
-    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;self.wakeGateViews=nil;
+    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
     self.styleChoices=nil;self.styleSelectionBadges=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
     self.styleHeaderTitle=nil;self.styleZoom=nil;self.styleModeBar=nil;
     self.appPickerVisible=NO;

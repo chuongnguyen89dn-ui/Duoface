@@ -1,9 +1,6 @@
-"""QA172 wakefix contract: the QA172 logorecall1 build with the wake
-path reworked after the 2026-11-04 device A/B. App-touch signals
-extend the visibility timers only (never a layout pass); a
-first-touch shield window gives DuoNavi wake semantics; the relays
-report keyboard visibility so the shield never arms over a live
-keyboard. This is not device acceptance.
+"""QA180 owner-scoped in-path wake plus preserved legacy keyboard relays.
+The first hidden contact wakes only; app-side injection remains allowlisted.
+These source assertions do not establish device touch delivery.
 """
 import pathlib,unittest
 ROOT=pathlib.Path(__file__).resolve().parents[1]
@@ -18,12 +15,13 @@ class QA172Wakefix(unittest.TestCase):
    self.assertIn(token,h)
  def test_chrome_shield_and_receivers(self):
   chrome=(ROOT/"DFNative12Chrome.m").read_text()
-  for token in ('wakeGateViews','DFNativeWakeGateView','df177HandleKbState',
+  for token in ('ensureWakeGates','DFOwnedWakeSurface180','df177HandleKbState',
                 'notify_register_dispatch(DF177KbWakeName',
                 'notify_cancel(self.kbWake177Token)',
-                'qa177-recall source=gate-touch','qa177-kb-state',
-                'DF155PilotAppID','kbVisible177'):
+                'qa180-wake-contact','qa177-kb-state',
+                'DF177CurrentTouchOwner','kbVisible177'):
    self.assertIn(token,chrome)
+  self.assertIn('!DF155PilotAppID(bundle)',(ROOT/'DF154GeneralAppStateRelay.m').read_text())
  def test_app_touch_never_recalls_directly(self):
   chrome=(ROOT/"DFNative12Chrome.m").read_text()
   start=chrome.index('- (void)df177HandleAppTouch')

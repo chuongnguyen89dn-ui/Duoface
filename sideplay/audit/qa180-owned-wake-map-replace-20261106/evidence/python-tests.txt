@@ -1,0 +1,71 @@
+test_cancel_or_timeout_requires_restore_ack_before_rollback (__main__.OwnedWakeMap180.test_cancel_or_timeout_requires_restore_ack_before_rollback) ... ok
+test_gate_is_in_actual_build_not_only_a_test_fixture (__main__.OwnedWakeMap180.test_gate_is_in_actual_build_not_only_a_test_fixture) ... ok
+test_gate_wakes_only_on_delivered_contact_and_drains_tail (__main__.OwnedWakeMap180.test_gate_wakes_only_on_delivered_contact_and_drains_tail) ... ok
+test_hidden_contact_contract_not_passive (__main__.OwnedWakeMap180.test_hidden_contact_contract_not_passive) ... ok
+test_no_new_shield_and_no_keyboard_ipc_prerequisite (__main__.OwnedWakeMap180.test_no_new_shield_and_no_keyboard_ipc_prerequisite) ... ok
+test_no_underlock_gofa_or_native_coordinator_change (__main__.OwnedWakeMap180.test_no_underlock_gofa_or_native_coordinator_change) ... ok
+test_occupied_map_selection_starts_explicit_replacement (__main__.OwnedWakeMap180.test_occupied_map_selection_starts_explicit_replacement) ... ok
+test_replacement_waits_for_actual_empty_readback (__main__.OwnedWakeMap180.test_replacement_waits_for_actual_empty_readback) ... ok
+test_selected_pane_only_and_no_forced_native_adoption (__main__.OwnedWakeMap180.test_selected_pane_only_and_no_forced_native_adoption) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.002s
+
+OK
+test_drag_and_deadline_behavior (__main__.QA178LogoVisibility.test_drag_and_deadline_behavior) ... ok
+test_logo_expiry_clears_painted_red_without_layout_or_input_changes (__main__.QA178LogoVisibility.test_logo_expiry_clears_painted_red_without_layout_or_input_changes) ... ok
+test_single_timer_guarded_by_active_session_and_generation (__main__.QA178LogoVisibility.test_single_timer_guarded_by_active_session_and_generation) ... ok
+test_start_activity_app_touch_and_stop_cover_all_expiries (__main__.QA178LogoVisibility.test_start_activity_app_touch_and_stop_cover_all_expiries) ... ok
+test_timer_does_not_mutate_hosted_geometry_or_keyboard (__main__.QA178LogoVisibility.test_timer_does_not_mutate_hosted_geometry_or_keyboard) ... ok
+test_visual_logo_recall_cannot_reactivate_red_border (__main__.QA178LogoVisibility.test_visual_logo_recall_cannot_reactivate_red_border) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+test_native_attach_requires_actual_carplay_owner_ack (__main__.AppRoster178.test_native_attach_requires_actual_carplay_owner_ack) ... ok
+test_native_map_route_is_separate (__main__.AppRoster178.test_native_map_route_is_separate) ... ok
+test_no_native_owner_bypass_or_synthetic_home (__main__.AppRoster178.test_no_native_owner_bypass_or_synthetic_home) ... ok
+test_phone_manual_map_choices_do_not_hide_selected_maps_from_stale_catalog (__main__.AppRoster178.test_phone_manual_map_choices_do_not_hide_selected_maps_from_stale_catalog) ... ok
+test_picker_live_selected_inventory (__main__.AppRoster178.test_picker_live_selected_inventory) ... ok
+test_unverified_native_map_tap_reaches_native_coordinator (__main__.AppRoster178.test_unverified_native_map_tap_reaches_native_coordinator) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.003s
+
+OK
+test_app_touch_guard_detects_real_method_regression (__main__.QA172Wakefix2.test_app_touch_guard_detects_real_method_regression) ... ok
+test_app_touch_stays_timers_only (__main__.QA172Wakefix2.test_app_touch_stays_timers_only) ... ok
+test_delayed_layout_requires_fresh_known_keyboard_state (__main__.QA172Wakefix2.test_delayed_layout_requires_fresh_known_keyboard_state) ... ok
+test_gate_hittest_contract (__main__.QA172Wakefix2.test_gate_hittest_contract) ... ok
+test_gate_respects_keyboard (__main__.QA172Wakefix2.test_gate_respects_keyboard) ... ok
+test_legacy_keyboard_relayout_still_requires_owned_state (__main__.QA172Wakefix2.test_legacy_keyboard_relayout_still_requires_owned_state) ... ok
+test_permanent_gate_present (__main__.QA172Wakefix2.test_permanent_gate_present) ... ok
+test_shield_window_gone (__main__.QA172Wakefix2.test_shield_window_gone) ... ok
+test_touch_callbacks_are_bound_to_active_chrome_session (__main__.QA172Wakefix2.test_touch_callbacks_are_bound_to_active_chrome_session) ... ok
+test_touch_sender_and_receiver_use_process_owned_v2 (__main__.QA172Wakefix2.test_touch_sender_and_receiver_use_process_owned_v2) ... ok
+test_version_coherence (__main__.QA172Wakefix2.test_version_coherence) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.003s
+
+OK
+test_app_touch_never_recalls_directly (__main__.QA172Wakefix.test_app_touch_never_recalls_directly) ... ok
+test_chrome_shield_and_receivers (__main__.QA172Wakefix.test_chrome_shield_and_receivers) ... ok
+test_kb_state_sender (__main__.QA172Wakefix.test_kb_state_sender) ... ok
+test_version_coherence (__main__.QA172Wakefix.test_version_coherence) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+test_chrome_receiver (__main__.QA172RLogoRecall.test_chrome_receiver) ... ok
+test_nothing_else_from_later_rounds (__main__.QA172RLogoRecall.test_nothing_else_from_later_rounds) ... ok
+test_relays_install_sender (__main__.QA172RLogoRecall.test_relays_install_sender) ... ok
+test_sender_header_contract (__main__.QA172RLogoRecall.test_sender_header_contract) ... ok
+test_version_coherence (__main__.QA172RLogoRecall.test_version_coherence) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.003s
+
+OK

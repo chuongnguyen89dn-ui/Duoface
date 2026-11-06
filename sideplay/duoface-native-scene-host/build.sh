@@ -17,7 +17,7 @@ DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dy
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
-  -DDF144_SPRINGBOARD=1 -Wl,-install_name,@rpath/DFTouchOwnerProbe.dylib -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
+  -DDF144_SPRINGBOARD=1 -Wl,-install_name,@rpath/DFTouchOwnerProbe.dylib -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFOwnedWakeSurface180.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
 # The native Apple AppDock owner lives inside the actual CarPlay UI process.

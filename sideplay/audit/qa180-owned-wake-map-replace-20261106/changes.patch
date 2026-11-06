@@ -1,0 +1,1121 @@
+diff --git a/sideplay/duoface-native-scene-host/DFMapReplace180.h b/sideplay/duoface-native-scene-host/DFMapReplace180.h
+new file mode 100644
+index 0000000..a36b4c2
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/DFMapReplace180.h
+@@ -0,0 +1,41 @@
++// First-party pre-dispatch proof. The existing native coordinator remains final owner.
++#ifndef DF_MAP_REPLACE_180_H
++#define DF_MAP_REPLACE_180_H
++#import <Foundation/Foundation.h>
++#import "DFNativeMapLeasePolicy.h"
++NS_INLINE BOOL DF180EmptyPaneReadbackReady(id sample,id pulse,NSString *session,
++    NSInteger visual,NSInteger physical,NSTimeInterval releasedAt,NSTimeInterval now) {
++    if(![sample isKindOfClass:NSDictionary.class] ||
++       ![pulse isKindOfClass:NSDictionary.class] ||
++       ![session isKindOfClass:NSString.class] || ![[NSUUID alloc]initWithUUIDString:session] ||
++       !isfinite(releasedAt) || !isfinite(now) || now<releasedAt ||
++       visual<0 || visual>1 || physical<0 || physical>1 ||
++       ![sample[@"Version"] isEqual:@1] || ![sample[@"Owner"] isEqual:@"SpringBoard"] ||
++       ![sample[@"Session"] isEqual:session] || ![pulse[@"Session"] isEqual:session] ||
++       ![pulse[@"Active"] isEqual:@YES] || ![sample[@"ActiveSlots"] isEqual:@2] ||
++       ![sample[@"Focus"] isEqual:@(-1)] ||
++       ![sample[@"Timestamp"] isKindOfClass:NSNumber.class] ||
++       ![pulse[@"Timestamp"] isKindOfClass:NSNumber.class])return NO;
++    double stamp=[sample[@"Timestamp"] doubleValue],beat=[pulse[@"Timestamp"] doubleValue];
++    if(!isfinite(stamp) || stamp<releasedAt || stamp>now || now-stamp>1.5 ||
++       !isfinite(beat) || beat>now || now-beat>2.5)return NO;
++    NSArray *windows=sample[@"Windows"];
++    if(![windows isKindOfClass:NSArray.class] || windows.count!=2)return NO;
++    NSMutableSet *vs=[NSMutableSet new],*ps=[NSMutableSet new];BOOL found=NO;
++    for(id window in windows) {
++        if(![window isKindOfClass:NSDictionary.class] ||
++           !DFNativeMapValidSlotValue(window[@"VisualSlot"]) ||
++           !DFNativeMapValidSlotValue(window[@"PhysicalSlot"]) ||
++           ![window[@"WindowVisible"] isEqual:@YES] ||
++           ![window[@"OnExternalScreen"] isEqual:@YES] ||
++           ![window[@"HasLiveApp"] isKindOfClass:NSNumber.class] ||
++           [vs containsObject:window[@"VisualSlot"]] || [ps containsObject:window[@"PhysicalSlot"]])return NO;
++        [vs addObject:window[@"VisualSlot"]];[ps addObject:window[@"PhysicalSlot"]];
++        if([window[@"VisualSlot"] integerValue]==visual) {
++            found=[window[@"PhysicalSlot"] integerValue]==physical &&
++                  ![window[@"HasLiveApp"] boolValue];
++        }
++    }
++    return found;
++}
++#endif
+diff --git a/sideplay/duoface-native-scene-host/DFNative12Chrome.m b/sideplay/duoface-native-scene-host/DFNative12Chrome.m
+index e6254fc..2749dbd 100644
+--- a/sideplay/duoface-native-scene-host/DFNative12Chrome.m
++++ b/sideplay/duoface-native-scene-host/DFNative12Chrome.m
+@@ -8,6 +8,9 @@
+ #import "DFNative12MenuHeader.h"
+ #import "DFNative12Chrome.h"
+ #import "DFSceneHost.h"
++#import "DFOwnedWakeSurface180.h"
++#import "DFMapReplace180.h"
++#import "DFCarPlayOwnerLease.h"
+ #import "speed8/DFNative8SpeedHUDView.h"
+ #import "DFSpeedVisibility169.h"
+ #import "DF156DarwinMailbox.h"
+@@ -116,57 +119,14 @@ static void DFCLog(NSString *text) {
+ }
+ // Emergency QA118: root touch tracer/wake removed from compiled Chrome.
+ 
+-// Primary divider contacts use immediate axis selection without long press.
+-// Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
+-// A remote hosted scene may deliver its tap directly to its content without
+-// invoking the DFSceneSurface hit-test callback or the UIWindow recognizer.
+-// The real physical pane ROOT is always visited before its child hit-test.
+-// Observe its touch-down passively, without claiming/cancelling app gestures.
+-@interface DFNativePanePassthroughView : UIView
+-@property(nonatomic,copy) void (^touchBeganInPane)(UIWindow *);
+-@property(nonatomic,assign) NSTimeInterval lastPaneTouchAt;
++// Gate the real SpringBoard-owned root before descending into app content.
++// The SAME view stays in place while visible; no overlay/shield UIWindow.
++@interface DFNativePanePassthroughView : DFOwnedWakeSurface180
+ @end
+ @implementation DFNativePanePassthroughView
+ - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+-    if(event && event.type==UIEventTypeTouches && self.window &&
+-       self.touchBeganInPane) {
+-        BOOL began=NO;
+-        for(UITouch *touch in event.allTouches) {
+-            if(touch.phase==UITouchPhaseBegan &&
+-               (!touch.window || touch.window==self.window)) {
+-                began=YES;break;
+-            }
+-        }
+-        if(began) {
+-            NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+-            if(now-self.lastPaneTouchAt>0.12) {
+-                self.lastPaneTouchAt=now;
+-                self.touchBeganInPane(self.window);
+-            }
+-        }
+-    }
++    if([self reservesWakeAtPoint180:point event:event])return self;
+     UIView *hit=[super hitTest:point withEvent:event];
+-    // QA120: scroll and other clicks work, but the YouTube Play target does
+-    // not. Log ONLY an actual touch Began with its resolved UIKit hit owner,
+-    // not a guessed blocked region. No recognizer, replay or changed hitTest.
+-    if(event && event.type==UIEventTypeTouches && self.window) {
+-        BOOL began=NO;
+-        for(UITouch *touch in event.allTouches)
+-            if(touch.phase==UITouchPhaseBegan &&
+-               (!touch.window || touch.window==self.window)) {
+-                began=YES;break;
+-            }
+-        if(began) {
+-            CGFloat fraction=self.bounds.size.height>0?
+-                point.y/self.bounds.size.height:-1;
+-            DFCLog([NSString stringWithFormat:
+-                @"qa120-pane-tap point=%@ fractionY=%.3f window=%@ root=%@ owner=%@",
+-                NSStringFromCGPoint(point),fraction,
+-                NSStringFromCGRect(self.window.frame),
+-                NSStringFromCGRect(self.bounds),
+-                hit?NSStringFromClass(hit.class):@"nil"]);
+-        }
+-    }
+     return hit==self?nil:hit;
+ }
+ @end
+@@ -268,38 +228,6 @@ static void DFCLog(NSString *text) {
+ }
+ @end
+ 
+-// QA179: Passive wake observation. Never consume the Maps/Waze first tap.
+-// The previous gate returned self and swallowed the user's input.
+-// Return nil unconditionally so UIKit can still route it to the app.
+-@interface DFNativeWakeGateView : UIView
+-@property(nonatomic,copy) BOOL (^shouldWake)(void);
+-@property(nonatomic,copy) void (^observedWakeTouch)(void);
+-@property(nonatomic,assign) NSTimeInterval lastObservedWakeAt;
+-@end
+-@implementation DFNativeWakeGateView
+-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+-    (void)point;
+-    if(event && event.type==UIEventTypeTouches &&
+-       self.shouldWake && self.shouldWake()) {
+-        BOOL began=NO;
+-        for(UITouch *touch in event.allTouches) {
+-            if(touch.phase==UITouchPhaseBegan &&
+-               (!touch.window || touch.window==self.window)) {
+-                began=YES;break;
+-            }
+-        }
+-        if(began) {
+-            NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+-            if(now-self.lastObservedWakeAt>0.12) {
+-                self.lastObservedWakeAt=now;
+-                if(self.observedWakeTouch)self.observedWakeTouch();
+-            }
+-        }
+-    }
+-    return nil; // Same touch reaches the app.
+-}
+-@end
+-
+ @interface DFNative12Chrome () <DFAppPickerDelegate, UIGestureRecognizerDelegate>
+ @property(nonatomic,strong) id display;
+ @property(nonatomic,assign) Class configurationClass;
+@@ -333,6 +261,7 @@ static void DFCLog(NSString *text) {
+ @property(nonatomic,strong) NSTimer *chromeVisualTimer178;
+ @property(nonatomic,assign) NSUInteger chromeVisualGeneration178;
+ @property(nonatomic,copy) NSString *nativeMapPickerRequest178;
++@property(nonatomic,strong) NSDictionary *mapReplacement180;
+ @property(nonatomic,assign) NSUInteger nativeMapPickerGeneration178;
+ @property(nonatomic,assign) int touchWake177Token;
+ @property(nonatomic,strong) NSMutableDictionary *touch177Bundles;
+@@ -340,7 +269,6 @@ static void DFCLog(NSString *text) {
+ // QA172 wakefix: transparent first-touch shield over the panes, the
+ // app-reported keyboard state that gates it, and the coalesced
+ // layout re-check for app-touch timer extensions.
+-@property(nonatomic,strong) NSMutableArray *wakeGateViews;
+ @property(nonatomic,assign) BOOL wakeGateEligible;
+ @property(nonatomic,assign) int kbWake177Token;
+ @property(nonatomic,assign) BOOL kbVisible177;
+@@ -488,7 +416,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     return YES;
+ }
+ - (void)restoreNextSavedWorkspaceApp {
+-    if(self.startupActive || self.restorePending || self.appSceneContainers.count!=4)return;
++    if(self.startupActive || self.restorePending || self.mapReplacement180 || self.appSceneContainers.count!=4)return;
+     DFSceneHost *host=[DFSceneHost sharedHost];
+     while(self.restoreQueue.count) {
+        NSInteger physical=self.restoreQueue.firstObject.integerValue;
+@@ -1130,18 +1058,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+                                            slotRect.size.height)];
+         slotRoot.view.backgroundColor=UIColor.clearColor;
+         slotRoot.view.clipsToBounds=YES;
+-        // Passive pane-root observation never claims or cancels the app touch.
+-        __weak typeof(self) weakPaneOwner=self;
+-        ((DFNativePanePassthroughView *)slotRoot.view).touchBeganInPane=
+-            ^(UIWindow *touchedWindow) {
+-            dispatch_async(dispatch_get_main_queue(), ^{
+-                DFNative12Chrome *owner=weakPaneOwner;
+-                if(!owner || ![owner.windows containsObject:touchedWindow] ||
+-                   touchedWindow.hidden || touchedWindow.screen==UIScreen.mainScreen)return;
+-                [owner df178RecallChromeVisualOnly];
+-                DFCLog(@"qa179-recall source=pane-root-passive");
+-            });
+-        };
++        // Callbacks are bound by ensureWakeGates to this existing root and
++        // to each DFSceneSurface. No new competing input layer is added.
+         UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];
+         if(!slotWindow){[self stop];return NO;}
+         UIView *container=[[UIView alloc]initWithFrame:slotRoot.view.bounds];
+@@ -1538,7 +1456,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+        self.appPickerVisible)return;
+     UIView *surface=note.object;
+     if(![self.appSceneWindows containsObject:surface.window])return;
+-    [self noteUserActivity];
++    [self df178RecallChromeVisualOnly];
+ }
+ - (NSArray<NSDictionary *> *)disconnectTerminationCandidates {
+  if(!NSThread.isMainThread || self.hostedScenes.count!=4)return @[];
+@@ -1701,58 +1619,49 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     self.menuContext.text=@"";self.menuContext.hidden=YES;
+     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
+ }
+-// QA172 wakefix2map1: install one wake gate per slot container, as
+-// the container's topmost subview, in the same window as the hosted
+-// surface. The gate is created once per container and simply kept on
+-// top; it carries no armed/disarmed state - the decision is computed
+-// from the live controls state at every hit test.
++// Bind only current owned roots/surfaces. Wake changes artwork/timers only;
++// keyboard scene knowledge is NOT required for this first-contact contract.
+ - (void)ensureWakeGates {
+-    if(!self.wakeGateViews)self.wakeGateViews=[NSMutableArray array];
+-    for(NSInteger i=0;i<(NSInteger)self.appSceneContainers.count;i++){
+-        UIView *container=self.appSceneContainers[(NSUInteger)i];
+-        if(![container isKindOfClass:UIView.class])continue;
+-        DFNativeWakeGateView *gate=nil;
+-        if(i<(NSInteger)self.wakeGateViews.count &&
+-           [self.wakeGateViews[(NSUInteger)i]
+-               isKindOfClass:DFNativeWakeGateView.class])
+-            gate=self.wakeGateViews[(NSUInteger)i];
+-        if(!gate){
+-            gate=[[DFNativeWakeGateView alloc] initWithFrame:container.bounds];
+-            gate.backgroundColor=UIColor.clearColor;
+-            gate.autoresizingMask=UIViewAutoresizingFlexibleWidth|
+-                                    UIViewAutoresizingFlexibleHeight;
+-            __weak typeof(self) weakGate=self;
+-            gate.shouldWake=^BOOL{
+-                DFNative12Chrome *owner=weakGate;
+-                if(!owner)return NO;
+-                if(owner.startupActive || owner.pickerVisible ||
+-                   owner.styleVisible || owner.appPickerVisible)return NO;
+-                if(owner.focus>=0 ||
+-                   DFSlotCountForPreset(owner.preset)<=1)return NO;
+-                if(owner.panActive || owner.logoTouchPending)return NO;
+-                if(owner.kbVisible177 || !owner.kbStateKnown177 ||
+-                   !owner.wakeGateEligible)
+-                    return NO;
+-                return NSDate.date.timeIntervalSince1970>
+-                       owner.controlsUntil;
++    __weak typeof(self) weakOwner=self;
++    for(NSUInteger i=0;i<self.appSceneWindows.count;i++) {
++        UIWindow *window=self.appSceneWindows[i];
++        NSMutableArray *views=[NSMutableArray arrayWithObject:window.rootViewController.view];
++        if(i<self.hostedScenes.count && [self.hostedScenes[i] isKindOfClass:UIView.class])
++            [views addObject:self.hostedScenes[i]];
++        if(i<self.pendingScenes.count && [self.pendingScenes[i] isKindOfClass:UIView.class])
++            [views addObject:self.pendingScenes[i]];
++        for(UIView *candidate in views) {
++            if(![candidate isKindOfClass:DFOwnedWakeSurface180.class])continue;
++            DFOwnedWakeSurface180 *gate=(DFOwnedWakeSurface180 *)candidate;
++            __weak DFOwnedWakeSurface180 *weakGate=gate;
++            gate.wakeCaptureAllowed180=^BOOL{
++                DFNative12Chrome *owner=weakOwner;
++                DFOwnedWakeSurface180 *view=weakGate;
++                if(!owner || !view || owner!=DF177CurrentTouchOwner ||
++                   owner.startupActive || owner.pickerVisible || owner.styleVisible ||
++                   owner.appPickerVisible || owner.panActive || owner.logoTouchPending ||
++                   owner.focus>=0 || DFSlotCountForPreset(owner.preset)<=1 ||
++                   i>=owner.appSceneWindows.count || i>=owner.hostedScenes.count ||
++                   i>=owner.pendingScenes.count)return NO;
++                UIWindow *current=owner.appSceneWindows[i];
++                BOOL belongs=view==current.rootViewController.view ||
++                             view==owner.hostedScenes[i] || view==owner.pendingScenes[i];
++                if(!belongs || view.window!=current || current.hidden ||
++                   current.screen==UIScreen.mainScreen || view.hidden)return NO;
++                return NSDate.date.timeIntervalSince1970>owner.controlsUntil;
+             };
+-            gate.observedWakeTouch=^{
+-                DFNative12Chrome *owner=weakGate;
+-                if(!owner || owner.startupActive)return;
+-                // Never mutate layout during UIKit's touch dispatch.
+-                dispatch_async(dispatch_get_main_queue(), ^{
+-                    if(!weakGate || weakGate.startupActive)return;
+-                    [weakGate df178RecallChromeVisualOnly];
+-                    DFCLog(@"qa177-recall source=gate-touch-passive");
+-                });
++            gate.wakeContact180=^(NSString *phase,NSUInteger count){
++                DFNative12Chrome *owner=weakOwner;
++                DFOwnedWakeSurface180 *view=weakGate;
++                if(!owner || !view || owner!=DF177CurrentTouchOwner ||
++                   i>=owner.appSceneWindows.count || view.window!=owner.appSceneWindows[i])return;
++                // No layoutControls, keyboard write, scene reparent or red wake.
++                [owner df178RecallChromeVisualOnly];
++                DFCLog([NSString stringWithFormat:
++                    @"qa180-wake-contact phase=%@ physical=%lu count=%lu receiver=%@ consumed=1",
++                    phase,(unsigned long)i,(unsigned long)count,NSStringFromClass(view.class)]);
+             };
+-            while((NSInteger)self.wakeGateViews.count<=i)
+-                [self.wakeGateViews addObject:NSNull.null];
+-            self.wakeGateViews[(NSUInteger)i]=gate;
+         }
+-        if(gate.superview!=container)[container addSubview:gate];
+-        gate.frame=container.bounds;
+-        [container bringSubviewToFront:gate];
+     }
+ }
+ - (void)layoutControls {
+@@ -1914,28 +1823,10 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     self.dividerWindow.userInteractionEnabled=YES;
+     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
+     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
+-    // QA172 wakefix2map1: layout no longer arms or disarms anything
+-    // (the wakefix1 state machine that woke only once). It refreshes
+-    // the gates' placement and the eligibility fact: every hosted app
+-    // must be able to report its keyboard state, so an unreported
+-    // keyboard can never lose a keystroke to the gate.
+-    {
+-        [self df177RefreshKeyboardState];
+-        BOOL gateEligible=YES;
+-        DFSceneHost *host=[DFSceneHost sharedHost];
+-        for(UIView *surface in self.hostedScenes){
+-            if(![surface isKindOfClass:UIView.class])continue;
+-            NSString *hostedBundle=
+-                [host bundleIDForHostedView:surface];
+-            if(hostedBundle.length &&
+-               !DF155PilotAppID(hostedBundle) &&
+-               ![hostedBundle isEqualToString:@"com.google.ios.youtube"]){
+-                gateEligible=NO;break;
+-            }
+-        }
+-        self.wakeGateEligible=gateEligible;
+-        [self ensureWakeGates];
+-    }
++    // Preserve keyboard diagnostics for the legacy app-side activity relay.
++    // The owned visual-only wake gate does not depend on keyboard IPC.
++    [self df177RefreshKeyboardState];
++    [self ensureWakeGates];
+     if(!CGRectIsNull(second)){
+         BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
+         CGRect sf=vertical?
+@@ -2183,6 +2074,9 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     [self openRunningAppManager]; // Verified DFSceneHost bundleIDs only.
+ }
+ - (void)openAppPickerForSlot:(NSInteger)slot {
++    if(self.mapReplacement180) {
++        DFCLog(@"qa180-map-replace-in-progress-no-slot-switch");return;
++    }
+     if(slot<0 || slot>=DFSlotCountForPreset(self.preset))return;
+     self.selectedSlot=slot;
+     self.appPickerVisible=YES;
+@@ -2337,6 +2231,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+ }
+ - (void)appPickerDidCancel:(DFAppPickerVC *)picker {
+     if(picker!=self.appPickerController)return;
++    [self df180AbortMapReplacement:@"picker-cancelled"];
+     self.appPickerVisible=NO;
+     self.appPickerWindow.hidden=YES;
+     [self noteUserActivity];
+@@ -2358,6 +2253,179 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+ // is an EXPLICIT Attach request, never an automatic launch from the phone
+ // settings allowlist or a fake CarPlay Home icon. The existing CarPlay owner
+ // validates Dashboard/window/scene/physical slot before an Applied ACK.
++// QA180: replace only the explicitly chosen phone-host pane, then wait for the
++// real SpringBoard snapshot to become empty before requesting a native map.
++- (BOOL)df180MapReplacementCurrent:(NSDictionary *)transaction {
++    if(!transaction || self.mapReplacement180!=transaction ||
++       self!=DF177CurrentTouchOwner || self.startupActive ||
++       !DF177AppTouchSessionMatches(self.touch177Session,
++          [transaction[@"TouchSession"] unsignedIntegerValue],self,DF177CurrentTouchOwner))return NO;
++    NSInteger slot=[transaction[@"Slot"] integerValue],physical=[transaction[@"Physical"] integerValue];
++    return self.focus<0 && DFSlotCountForPreset(self.preset)==2 &&
++       slot==self.selectedSlot && physical==[self physicalForVisual:slot] &&
++       physical>=0 && (NSUInteger)physical<self.hostedScenes.count;
++}
++- (void)df180FinishMapReplacement:(BOOL)applied restorePrevious:(BOOL)restore reason:(NSString *)reason {
++    NSDictionary *transaction=self.mapReplacement180;
++    if(!transaction)return;
++    BOOL current=[self df180MapReplacementCurrent:transaction];
++    NSInteger physical=[transaction[@"Physical"] integerValue];
++    NSString *prior=transaction[@"PriorBundle"];
++    self.mapReplacement180=nil;self.nativeMapPickerRequest178=nil;
++    ++self.nativeMapPickerGeneration178;
++    DFCLog([NSString stringWithFormat:@"qa180-map-replace-finish request=%@ applied=%d restore=%d current=%d reason=%@",
++        transaction[@"ID"],applied,restore,current,reason]);
++    if(current && applied) {
++        // Native choice is persisted by the native owner. Do not auto-restore
++        // the previous PHONE scene over the newly adopted native map.
++        if(!DFSavePhysicalBundle(physical,@""))DFCLog(@"qa180-map-old-phone-choice-clear-failed");
++        self.workspace=DFCurrentWorkspace();
++    }
++    if(current && restore && prior.length &&
++       ![self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] &&
++       ![self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class] &&
++       !DFNativeMapFreshLease(transaction[@"Session"],NSDate.date.timeIntervalSince1970) &&
++       DFPickerAllowsApp(prior,DFConfiguredEnabledAppIDs())) {
++        NSError *error=nil;
++        UIView *surface=[[DFSceneHost sharedHost] hostViewForBundleID:prior error:&error];
++        if(surface) {
++            UIView *container=self.appSceneContainers[(NSUInteger)physical];
++            surface.frame=container.bounds;surface.userInteractionEnabled=NO;
++            surface.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
++            self.pendingScenes[(NSUInteger)physical]=surface;
++            [container addSubview:surface];
++            [self layoutControls];
++            DFCLog([NSString stringWithFormat:@"qa180-map-rollback-host-requested physical=%ld bundle=%@",
++                (long)physical,prior]);
++        } else DFCLog([NSString stringWithFormat:@"qa180-map-rollback-refused reason=%@",error.localizedDescription]);
++    }
++    if(current)dispatch_async(dispatch_get_main_queue(),^{[self restoreNextSavedWorkspaceApp];});
++}
++- (void)df180PollMapRestore:(NSDictionary *)transaction request:(NSString *)request
++               requestedAt:(NSTimeInterval)requestedAt started:(NSTimeInterval)started {
++    if(![self df180MapReplacementCurrent:transaction]) {
++        if(self.mapReplacement180==transaction)
++            [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"restore-session-or-pane-changed"];
++        return;
++    }
++    NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:
++        @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist"];
++    DFNativeMapAckState state=DFNativeMapAckReadState(ack,request,@"Restore",requestedAt,NSDate.date.timeIntervalSince1970);
++    if(state==DFNativeMapAckApplied) {
++        [self df180FinishMapReplacement:NO restorePrevious:YES reason:@"restore-ack-confirmed"];
++        return;
++    }
++    if(state==DFNativeMapAckRejected || state==DFNativeMapAckCancelled ||
++       NSProcessInfo.processInfo.systemUptime-started>=DFNativeMapClientAckTimeout) {
++        // Unknown ownership: never place the previous phone scene on top of it.
++        [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"restore-unverified-pane-left-empty"];
++        return;
++    }
++    __weak typeof(self) weakOwner=self;
++    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.25*NSEC_PER_SEC)),dispatch_get_main_queue(),^{
++        [weakOwner df180PollMapRestore:transaction request:request requestedAt:requestedAt started:started];
++    });
++}
++- (void)df180AbortMapReplacement:(NSString *)reason {
++    NSDictionary *transaction=self.mapReplacement180;
++    if(!transaction)return;
++    if(![transaction[@"Submitted"] boolValue]) {
++        [self df180FinishMapReplacement:NO restorePrevious:YES reason:reason];return;
++    }
++    if([transaction[@"Restoring"] boolValue])return;
++    NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
++    NSDictionary *previous=[NSDictionary dictionaryWithContentsOfFile:path];
++    if(![previous[@"RequestID"] isEqual:self.nativeMapPickerRequest178]) {
++        [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"newer-command-owns-native-pane"];
++        return;
++    }
++    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
++    NSString *request=NSUUID.UUID.UUIDString;
++    NSDictionary *command=@{@"Version":@(DFNativeMapCommandVersion),@"Operation":@"Restore",
++                            @"RequestID":request,@"Timestamp":@(now)};
++    if(!DFNativeMapFreshExplicitCommand(command,now) || ![command writeToFile:path atomically:YES]) {
++        [self df180FinishMapReplacement:NO restorePrevious:NO reason:@"restore-command-write-failed"];
++        return;
++    }
++    NSMutableDictionary *updated=[transaction mutableCopy];updated[@"Restoring"]=@YES;
++    self.mapReplacement180=updated;self.nativeMapPickerRequest178=request;
++    ++self.nativeMapPickerGeneration178;
++    notify_post("com.duoface.nativehost.map-pane.command.v1");
++    DFCLog([NSString stringWithFormat:@"qa180-map-restore-request request=%@ reason=%@",request,reason]);
++    [self df180PollMapRestore:updated request:request requestedAt:now started:NSProcessInfo.processInfo.systemUptime];
++}
++- (void)df180AwaitEmptyPane:(NSDictionary *)transaction attempts:(NSUInteger)attempts {
++    if(![self df180MapReplacementCurrent:transaction] || !self.appPickerVisible) {
++        if(self.mapReplacement180==transaction)[self df180AbortMapReplacement:@"picker-or-pane-changed"];
++        return;
++    }
++    NSInteger slot=[transaction[@"Slot"] integerValue],physical=[transaction[@"Physical"] integerValue];
++    if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
++       [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class]) {
++        [self df180AbortMapReplacement:@"target-reoccupied-before-dispatch"];return;
++    }
++    NSDictionary *sample=[NSDictionary dictionaryWithContentsOfFile:
++        @"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
++    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapHeartbeatPath];
++    if(DF180EmptyPaneReadbackReady(sample,pulse,transaction[@"Session"],slot,physical,
++          [transaction[@"ReleasedAt"] doubleValue],NSDate.date.timeIntervalSince1970)) {
++        // This is the same existing callback, now with a measured EMPTY pane.
++        NSMutableDictionary *ready=[transaction mutableCopy];ready[@"ReadyToDispatch"]=@YES;
++        self.mapReplacement180=ready;
++        [self appPicker:self.appPickerController didSelectNativeMapBundleID:transaction[@"Bundle"]
++                  displayName:transaction[@"Name"]];
++        if(self.mapReplacement180==ready && !self.nativeMapPickerRequest178.length)
++            [self df180AbortMapReplacement:@"dispatch-did-not-create-request"];
++        return;
++    }
++    if(attempts>=25 || NSProcessInfo.processInfo.systemUptime-[transaction[@"Started"] doubleValue]>=2.5) {
++        [self df180AbortMapReplacement:@"empty-pane-readback-timeout"];return;
++    }
++    __weak typeof(self) weakOwner=self;
++    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.1*NSEC_PER_SEC)),dispatch_get_main_queue(),^{
++        [weakOwner df180AwaitEmptyPane:transaction attempts:attempts+1];
++    });
++}
++- (void)df180BeginMapReplacement:(NSString *)bundle name:(NSString *)name
++                         visual:(NSInteger)slot physical:(NSInteger)physical {
++    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapHeartbeatPath];
++    NSString *session=pulse[@"Session"];
++    if(!DFOwnerAcceptPulse(pulse) || ![pulse[@"Active"] isEqual:@YES] ||
++       !DFNativeMapProtocolUUID(session) || self.focus>=0 ||
++       DFNativeMapFreshLease(session,NSDate.date.timeIntervalSince1970)) {
++        [self.appPickerController showAppPickerStatus:@"CarPlay chưa sẵn sàng hoặc đang có bản đồ khác"];
++        DFCLog(@"qa180-native-map-entry-rejected reason=session-focus-or-existing-native-owner");return;
++    }
++    DFSceneHost *host=[DFSceneHost sharedHost];
++    id active=self.hostedScenes[(NSUInteger)physical],pending=self.pendingScenes[(NSUInteger)physical];
++    NSString *old=[active isKindOfClass:UIView.class]?[host bundleIDForHostedView:active]:nil;
++    NSString *pendingID=[pending isKindOfClass:UIView.class]?[host bundleIDForHostedView:pending]:nil;
++    if(([active isKindOfClass:UIView.class] && !old.length) ||
++       ([pending isKindOfClass:UIView.class] && !pendingID.length)) {
++        DFCLog(@"qa180-native-map-entry-rejected reason=foreign-host-not-released");return;
++    }
++    NSDictionary *transaction=@{@"ID":NSUUID.UUID.UUIDString,@"Bundle":bundle,@"Name":name?:bundle,
++        @"Slot":@(slot),@"Physical":@(physical),@"PriorBundle":old?:pendingID?:@"",@"Session":session,
++        @"TouchSession":@(self.touch177Session.generation),@"Started":@(NSProcessInfo.processInfo.systemUptime),
++        @"ReleasedAt":@(NSDate.date.timeIntervalSince1970),@"Submitted":@NO};
++    self.mapReplacement180=transaction;
++    // Withdraw exact pane ownership BEFORE releasing it (callbacks may reenter).
++    self.hostedScenes[(NSUInteger)physical]=NSNull.null;
++    self.pendingScenes[(NSUInteger)physical]=NSNull.null;
++    self.sceneHandleReady[(NSUInteger)physical]=@NO;
++    [self.restoreQueue removeObject:@(physical)];
++    if(self.restorePending && self.restoringPhysical==physical) {
++        self.restorePending=NO;self.restoringPhysical=-1;
++    }
++    if([pending isKindOfClass:UIView.class])[host releaseHostedView:pending];
++    if([active isKindOfClass:UIView.class] && active!=pending)[host releaseHostedView:active];
++    [self layoutControls];[self emit:@"App" ratio:@(slot)];
++    [self.appPickerController showAppPickerStatus:@"Đang chuẩn bị ô để mở bản đồ"];
++    DFCLog([NSString stringWithFormat:@"qa180-map-replace-prepared id=%@ physical=%ld prior=%@ next=%@",
++        transaction[@"ID"],(long)physical,old?:pendingID?:@"",bundle]);
++    [self df180AwaitEmptyPane:transaction attempts:0];
++}
++
+ - (void)df178PollNativeMapPicker:(NSString *)request generation:(NSUInteger)generation
+                    session:(NSUInteger)session requestedAt:(NSTimeInterval)requestedAt
+                   startedAt:(NSTimeInterval)startedAt polls:(NSUInteger)polls {
+@@ -2366,9 +2434,14 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     DFNativeMapPollDecision decision=DFNativeMapPollDecisionForRequest(
+         request,self.nativeMapPickerRequest178,generation,self.nativeMapPickerGeneration178,
+         active,startedAt,NSProcessInfo.processInfo.systemUptime,polls);
+-    if(decision==DFNativeMapPollStop)return;
++    if(decision==DFNativeMapPollStop) {
++        if(self.mapReplacement180 && self==DF177CurrentTouchOwner)
++            [self df180AbortMapReplacement:@"picker-no-longer-active"];
++        return;
++    }
+     if(decision==DFNativeMapPollTimedOut){
+-        self.nativeMapPickerRequest178=nil;
++        if(self.mapReplacement180)[self df180AbortMapReplacement:@"native-ack-timeout"];
++        else self.nativeMapPickerRequest178=nil;
+         [self.appPickerController showAppPickerStatus:@"Bản đồ chưa được ghép · hết thời gian xác nhận"];
+         DFCLog(@"qa178-native-map-picker-ack-timeout-no-success");
+         return;
+@@ -2378,6 +2451,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     DFNativeMapAckState state=DFNativeMapAckReadState(ack,request,@"Attach",
+                                requestedAt,NSDate.date.timeIntervalSince1970);
+     if(state==DFNativeMapAckApplied){
++        [self df180FinishMapReplacement:YES restorePrevious:NO reason:@"native-attach-ack"];
+         self.nativeMapPickerRequest178=nil;
+         self.appPickerVisible=NO;
+         self.appPickerWindow.hidden=YES;
+@@ -2386,6 +2460,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+         return;
+     }
+     if(state==DFNativeMapAckRejected || state==DFNativeMapAckCancelled){
++        [self df180FinishMapReplacement:NO restorePrevious:[ack[@"PaneAttached"] isEqual:@NO]
++                                reason:ack[@"Reason"]?:@"native-rejected"];
+         self.nativeMapPickerRequest178=nil;
+         [self.appPickerController showAppPickerStatus:@"CarPlay chưa ghép được bản đồ"];
+         DFCLog([NSString stringWithFormat:@"qa178-native-map-picker-rejected reason=%@",
+@@ -2402,6 +2478,12 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+ }
+ - (void)appPicker:(DFAppPickerVC *)picker
+     didSelectNativeMapBundleID:(NSString *)bundleID displayName:(NSString *)name {
++    DFCLog([NSString stringWithFormat:@"qa180-native-map-card-entry bundle=%@ slot=%ld",
++        bundleID,(long)self.selectedSlot]);
++    if(self.mapReplacement180 && (![self.mapReplacement180[@"ReadyToDispatch"] boolValue] ||
++       ![self.mapReplacement180[@"Bundle"] isEqual:bundleID])) {
++        DFCLog(@"qa180-native-map-entry-rejected reason=replacement-in-progress");return;
++    }
+     if(picker!=self.appPickerController || !self.appPickerVisible ||
+        !DFNativeMapAllowedBundle(bundleID) ||
+        !DFPickerAllowsApp(bundleID,DFConfiguredEnabledAppIDs()))return;
+@@ -2418,9 +2500,12 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     }
+     NSInteger physical=[self physicalForVisual:slot];
+     if(physical<0 || (NSUInteger)physical>=self.hostedScenes.count ||
+-       [self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
+-       [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class]){
+-        [picker showAppPickerStatus:@"Hãy chọn ô còn trống để ghép bản đồ"];
++       (NSUInteger)physical>=self.pendingScenes.count){
++        DFCLog(@"qa180-native-map-entry-rejected reason=invalid-physical-slot");return;
++    }
++    if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
++       [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class]) {
++        [self df180BeginMapReplacement:bundleID name:name visual:slot physical:physical];
+         return;
+     }
+     // Catalog absence is not proof a new real map launch must be blocked.
+@@ -2445,6 +2530,11 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     NSUInteger generation=self.nativeMapPickerGeneration178;
+     NSUInteger session=self.touch177Session.generation;
+     self.nativeMapPickerRequest178=request;
++    if(self.mapReplacement180) {
++        NSMutableDictionary *submitted=[self.mapReplacement180 mutableCopy];
++        submitted[@"Submitted"]=@YES;submitted[@"ReadyToDispatch"]=@NO;
++        self.mapReplacement180=submitted;
++    }
+     notify_post("com.duoface.nativehost.map-pane.command.v1");
+     [picker showAppPickerStatus:@"Đang đợi CarPlay ghép bản đồ native"];
+     DFCLog([NSString stringWithFormat:
+@@ -2468,7 +2558,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+         [picker showAppPickerStatus:@"Hãy chọn bản đồ native đã được xác minh"];
+         return;
+     }
+-    if(self.nativeMapPickerRequest178.length){
++    if(self.nativeMapPickerRequest178.length || self.mapReplacement180){
+         [picker showAppPickerStatus:@"Đang đợi yêu cầu bản đồ trước đó"];
+         return;
+     }
+@@ -2903,6 +2993,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     ++self.chromeVisualGeneration178; // No old idle callback after Home/reconnect.
+     ++self.nativeMapPickerGeneration178;
+     self.nativeMapPickerRequest178=nil;
++    self.mapReplacement180=nil;
+     self.touch177Session=DF177AppTouchEndSession(self.touch177Session);
+     self.touch177RecheckGeneration=
+         DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
+@@ -2943,7 +3034,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
+     for(UIWindow *w in self.windows)w.rootViewController=nil;
+     [self.windows removeAllObjects];
+     [self.pillWindows removeAllObjects];
+-    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;self.wakeGateViews=nil;
++    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
+     self.styleChoices=nil;self.styleSelectionBadges=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
+     self.styleHeaderTitle=nil;self.styleZoom=nil;self.styleModeBar=nil;
+     self.appPickerVisible=NO;
+diff --git a/sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.h b/sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.h
+new file mode 100644
+index 0000000..a5e2213
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.h
+@@ -0,0 +1,12 @@
++// Independent owned-view wake gate. Never a second UIWindow or an app hook.
++#import <UIKit/UIKit.h>
++NS_ASSUME_NONNULL_BEGIN
++@interface DFOwnedWakeSurface180 : UIView
++// Pure query: hidden controls + this exact current owned pane. No side effects.
++@property(nonatomic,copy,nullable) BOOL (^wakeCaptureAllowed180)(void);
++// Called only for delivered local contacts, never from hitTest/preflight.
++@property(nonatomic,copy,nullable) void (^wakeContact180)(NSString *phase,NSUInteger count);
++@property(nonatomic,readonly) BOOL hasWakeContacts180;
++- (BOOL)reservesWakeAtPoint180:(CGPoint)point event:(nullable UIEvent *)event;
++@end
++NS_ASSUME_NONNULL_END
+diff --git a/sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.m b/sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.m
+new file mode 100644
+index 0000000..bf6645e
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.m
+@@ -0,0 +1,68 @@
++#import "DFOwnedWakeSurface180.h"
++@interface DFOwnedWakeSurface180 ()
++@property(nonatomic,strong) NSMutableSet<UITouch *> *wakeContacts180;
++@end
++@implementation DFOwnedWakeSurface180
++- (instancetype)initWithFrame:(CGRect)frame {
++    if((self=[super initWithFrame:frame]))self.multipleTouchEnabled=YES;
++    return self;
++}
++- (BOOL)hasWakeContacts180 { return self.wakeContacts180.count>0; }
++- (BOOL)reservesWakeAtPoint180:(CGPoint)point event:(UIEvent *)event {
++    if(!self.window || self.hidden || self.alpha<=0.01 ||
++       !self.userInteractionEnabled || ![self pointInside:point withEvent:event])return NO;
++    // An already delivered visible-state gesture keeps its original child.
++    // Expiry may not seize its tail or the other fingers in that gesture.
++    for(UITouch *touch in event.allTouches) {
++        UIView *view=touch.view;
++        if(view && view!=self && [view isDescendantOfView:self] &&
++           touch.phase!=UITouchPhaseEnded && touch.phase!=UITouchPhaseCancelled)return NO;
++    }
++    if(self.hasWakeContacts180)return YES;
++    return self.wakeCaptureAllowed180 && self.wakeCaptureAllowed180();
++}
++- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
++    // Choose the host-side receiver BEFORE entering the remote app subtree.
++    // Initial UIKit hit-testing need not have populated event.allTouches yet.
++    // A nil-event hit-test does not wake anything; actual touchesBegan does.
++    if([self reservesWakeAtPoint180:point event:event])return self;
++    return [super hitTest:point withEvent:event];
++}
++- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
++    NSMutableSet *forward=[touches mutableCopy];
++    BOOL wasCapturing=self.hasWakeContacts180;
++    for(UITouch *touch in touches) {
++        // Responder-chain calls from child app views are not our wake contact.
++        if(touch.view!=self || (!self.wakeContact180 && !wasCapturing))continue;
++        if(!self.wakeContacts180)self.wakeContacts180=[NSMutableSet new];
++        [self.wakeContacts180 addObject:touch];[forward removeObject:touch];
++    }
++    if(!wasCapturing && self.hasWakeContacts180 && self.wakeContact180)
++        self.wakeContact180(@"began",self.wakeContacts180.count);
++    if(forward.count)[super touchesBegan:forward withEvent:event];
++}
++- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
++    NSMutableSet *forward=[touches mutableCopy];
++    [forward minusSet:self.wakeContacts180?:[NSSet set]];
++    if(forward.count)[super touchesMoved:forward withEvent:event];
++}
++- (void)finishWakeTouches180:(NSSet<UITouch *> *)touches event:(UIEvent *)event cancelled:(BOOL)cancelled {
++    NSMutableSet *forward=[touches mutableCopy];
++    BOOL wasCapturing=self.hasWakeContacts180;
++    [forward minusSet:self.wakeContacts180?:[NSSet set]];
++    [self.wakeContacts180 minusSet:touches];
++    if(wasCapturing && !self.hasWakeContacts180 && self.wakeContact180)
++        self.wakeContact180(cancelled?@"cancelled":@"ended",0);
++    // A captured contact is NEVER forwarded or replayed, including its end.
++    if(forward.count) {
++        if(cancelled)[super touchesCancelled:forward withEvent:event];
++        else [super touchesEnded:forward withEvent:event];
++    }
++}
++- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
++    [self finishWakeTouches180:touches event:event cancelled:NO];
++}
++- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
++    [self finishWakeTouches180:touches event:event cancelled:YES];
++}
++@end
+diff --git a/sideplay/duoface-native-scene-host/DFSceneHost.m b/sideplay/duoface-native-scene-host/DFSceneHost.m
+index d9bd8a0..5b598f1 100644
+--- a/sideplay/duoface-native-scene-host/DFSceneHost.m
++++ b/sideplay/duoface-native-scene-host/DFSceneHost.m
+@@ -6,6 +6,7 @@
+ // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
+ // No vendor-licensed application bridge or entitlement overrides.
+ #import "DFSceneHost.h"
++#import "DFOwnedWakeSurface180.h"
+ #import "DFAppHabits.h"
+ #import "DFSceneLifecycle.h"
+ #import "DFSceneOrientationPolicy.h"
+@@ -117,7 +118,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
+ - (void)didFinishSurface:(DFSceneSurface *)surface;
+ @end
+ 
+-@interface DFSceneSurface : UIView
++@interface DFSceneSurface : DFOwnedWakeSurface180
+ @property(nonatomic,copy) NSString *bundleID;
+ @property(nonatomic,assign) BOOL processDidNotExistBeforeHost;
+ @property(nonatomic,strong) UIViewController *appController;
+@@ -631,7 +632,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
+ }
+ - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+     UIView *target=[super hitTest:point withEvent:event];
+-    // Passive routing observation only; do not steal gestures from the player.
++    // The owning gate may reserve this contact BEFORE the remote child.
++    // Do not also schedule the old passive/layout callback for that contact.
++    if(target==self && self.wakeContact180)return self;
++    // Visible-state app routing remains observation-only.
+     BOOL began=NO;
+     if(event.type==UIEventTypeTouches)
+         for(UITouch *touch in event.allTouches)
+diff --git a/sideplay/duoface-native-scene-host/build.sh b/sideplay/duoface-native-scene-host/build.sh
+index cc44182..2201c21 100644
+--- a/sideplay/duoface-native-scene-host/build.sh
++++ b/sideplay/duoface-native-scene-host/build.sh
+@@ -17,7 +17,7 @@ DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dy
+ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
+   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
+-  -DDF144_SPRINGBOARD=1 -Wl,-install_name,@rpath/DFTouchOwnerProbe.dylib -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
++  -DDF144_SPRINGBOARD=1 -Wl,-install_name,@rpath/DFTouchOwnerProbe.dylib -o "$DYLIB" DFTouchOwnerProbe.m DFHomeStandalone144.m DFCarPlayHomeABIProbe.m DFHomeAdmission137Probe.m DFNative12Chrome.m DFNative12PresetPreview.m DFLayoutEngine.m DFOwnedWakeSurface180.m DFSceneHost.m DFSceneLifecycle.m DFSceneOrientationPolicy.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m DFDisconnectCloseCoordinator.m speed8/DFNative8SpeedHUDView.mm speed8/DFSpeedTransport.mm DF168NativeManeuver.m DFSpeedVisibility169.m -lc++
+ cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
+ ldid -S "$DYLIB"
+ # The native Apple AppDock owner lives inside the actual CarPlay UI process.
+diff --git a/sideplay/duoface-native-scene-host/tests/map_replace_180_runtime.m b/sideplay/duoface-native-scene-host/tests/map_replace_180_runtime.m
+new file mode 100644
+index 0000000..912f306
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/tests/map_replace_180_runtime.m
+@@ -0,0 +1,26 @@
++#import "../DFMapReplace180.h"
++#include <assert.h>
++int main(void) {@autoreleasepool {
++    NSString *session=NSUUID.UUID.UUIDString;
++    NSMutableDictionary *pane0=[@{@"VisualSlot":@0,@"PhysicalSlot":@0,@"WindowVisible":@YES,@"OnExternalScreen":@YES,@"HasLiveApp":@YES} mutableCopy];
++    NSMutableDictionary *pane1=[@{@"VisualSlot":@1,@"PhysicalSlot":@1,@"WindowVisible":@YES,@"OnExternalScreen":@YES,@"HasLiveApp":@NO} mutableCopy];
++    NSMutableDictionary *sample=[@{@"Version":@1,@"Owner":@"SpringBoard",@"Session":session,@"ActiveSlots":@2,@"Focus":@(-1),@"Timestamp":@101,@"Windows":@[pane0,pane1]} mutableCopy];
++    NSMutableDictionary *pulse=[@{@"Session":session,@"Active":@YES,@"Timestamp":@101} mutableCopy];
++    assert(DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,101.5));
++    assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,0,0,100,101.5));
++    assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,0,100,101.5));
++    assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,101.1,101.5));
++    assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,104));
++    pane1[@"HasLiveApp"]=@YES;assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,101.5));pane1[@"HasLiveApp"]=@NO;
++    pane1[@"PhysicalSlot"]=@0;assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,101.5));pane1[@"PhysicalSlot"]=@1;
++    pulse[@"Session"]=NSUUID.UUID.UUIDString;assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,101.5));pulse[@"Session"]=session;
++    pulse[@"Active"]=@NO;assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,101.5));pulse[@"Active"]=@YES;
++    sample[@"Focus"]=@0;assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,101.5));sample[@"Focus"]=@(-1);
++    // A swapped layout is allowed only if BOTH distinct physical identities agree.
++    pane0[@"PhysicalSlot"]=@1;pane1[@"PhysicalSlot"]=@0;
++    assert(DF180EmptyPaneReadbackReady(sample,pulse,session,1,0,100,101.5));
++    assert(!DF180EmptyPaneReadbackReady(sample,pulse,session,1,1,100,101.5));
++    assert(!DF180EmptyPaneReadbackReady(@{},pulse,session,1,0,100,101.5));
++    puts("QA180_REAL_EMPTY_PANE_BARRIER_POLICY_PASS_13_CASES");
++    return 0;
++}}
+diff --git a/sideplay/duoface-native-scene-host/tests/qa180_uikit_stub/UIKit/UIKit.h b/sideplay/duoface-native-scene-host/tests/qa180_uikit_stub/UIKit/UIKit.h
+new file mode 100644
+index 0000000..de53a27
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/tests/qa180_uikit_stub/UIKit/UIKit.h
+@@ -0,0 +1,38 @@
++#import <Foundation/Foundation.h>
++#import <CoreGraphics/CoreGraphics.h>
++typedef NS_ENUM(NSInteger,UITouchPhase) {UITouchPhaseBegan,UITouchPhaseMoved,UITouchPhaseStationary,UITouchPhaseEnded,UITouchPhaseCancelled};
++typedef NS_ENUM(NSInteger,UIEventType) {UIEventTypeTouches=0};
++@class UIView,UIWindow;
++@interface UITouch : NSObject
++@property(nonatomic) UITouchPhase phase;
++@property(nonatomic,weak) UIView *view;
++@property(nonatomic,weak) UIWindow *window;
++@end
++@interface UIEvent : NSObject
++@property(nonatomic) UIEventType type;
++@property(nonatomic,strong) NSSet<UITouch *> *allTouches;
++@end
++@interface UIView : NSObject
++@property(nonatomic) CGRect frame;
++@property(nonatomic) CGRect bounds;
++@property(nonatomic) CGFloat alpha;
++@property(nonatomic) BOOL hidden;
++@property(nonatomic) BOOL userInteractionEnabled;
++@property(nonatomic) BOOL multipleTouchEnabled;
++@property(nonatomic,weak) UIWindow *window;
++@property(nonatomic,weak) UIView *superview;
++@property(nonatomic,strong) NSMutableArray<UIView *> *subviews;
++@property(nonatomic) NSUInteger forwardedBegan;
++@property(nonatomic) NSUInteger forwardedEnd;
++- (instancetype)initWithFrame:(CGRect)frame;
++- (void)addSubview:(UIView *)view;
++- (BOOL)isDescendantOfView:(UIView *)view;
++- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;
++- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event;
++- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
++- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
++- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
++- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
++@end
++@interface UIWindow : UIView
++@end
+diff --git a/sideplay/duoface-native-scene-host/tests/qa180_uikit_stub/UIKitStub.m b/sideplay/duoface-native-scene-host/tests/qa180_uikit_stub/UIKitStub.m
+new file mode 100644
+index 0000000..0f1140e
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/tests/qa180_uikit_stub/UIKitStub.m
+@@ -0,0 +1,25 @@
++#import <UIKit/UIKit.h>
++@implementation UITouch
++@end
++@implementation UIEvent
++@end
++@implementation UIView
++- (instancetype)initWithFrame:(CGRect)frame {
++    if((self=[super init])){_frame=frame;_bounds=(CGRect){CGPointZero,frame.size};_alpha=1;_userInteractionEnabled=YES;_subviews=[NSMutableArray new];}
++    return self;
++}
++- (void)addSubview:(UIView *)view {[self.subviews addObject:view];view.superview=self;view.window=self.window;}
++- (BOOL)isDescendantOfView:(UIView *)view {for(UIView *v=self;v;v=v.superview)if(v==view)return YES;return NO;}
++- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {(void)event;return CGRectContainsPoint(self.bounds,point);}
++- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
++    if(self.hidden || !self.userInteractionEnabled || self.alpha<=.01 || ![self pointInside:point withEvent:event])return nil;
++    for(UIView *v in self.subviews.reverseObjectEnumerator) {UIView *hit=[v hitTest:point withEvent:event];if(hit)return hit;}
++    return self;
++}
++- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {(void)event;self.forwardedBegan+=touches.count;}
++- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {(void)touches;(void)event;}
++- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {(void)event;self.forwardedEnd+=touches.count;}
++- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {(void)touches;(void)event;}
++@end
++@implementation UIWindow
++@end
+diff --git a/sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py b/sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py
+index e1a7cf9..afa949c 100644
+--- a/sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py
++++ b/sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py
+@@ -45,20 +45,22 @@ class QA172Wakefix2(unittest.TestCase):
+    self.assertNotIn(token, CHROME)
+ 
+  def test_permanent_gate_present(self):
+-  for token in ("DFNativeWakeGateView","ensureWakeGates","wakeGateViews",
+-                "source=gate-touch"):
+-   self.assertIn(token, CHROME)
++  # User contract supersedes QA179 passive-only policy. Existing root/surface,
++  # never another shield window or transient topmost overlay.
++  self.assertIn("DFNativePanePassthroughView : DFOwnedWakeSurface180", CHROME)
++  self.assertIn("ensureWakeGates", CHROME)
++  self.assertNotIn("DFNativeWakeGateView", CHROME)
++  scene=(ROOT/"DFSceneHost.m").read_text()
++  self.assertIn("DFSceneSurface : DFOwnedWakeSurface180", scene)
+ 
+  def test_gate_hittest_contract(self):
+-  gate = CHROME.split("@implementation DFNativeWakeGateView")[1].split("@end")[0]
+-  self.assertIn("hitTest:", gate)
+-  # QA179 uses a passive wake observer: never intercept or replay the touch.
+-  self.assertIn("shouldWake", gate)
+-  self.assertIn("observedWakeTouch", gate)
+-  self.assertIn("return nil", gate)
+-  self.assertNotIn("shouldConsume", gate)
+-  self.assertNotIn("touchesBegan", gate)
+-  self.assertNotIn("return self;", gate)
++  gate=(ROOT/"DFOwnedWakeSurface180.m").read_text()
++  self.assertIn("reservesWakeAtPoint180:point event:event])return self;",gate)
++  self.assertIn("[super hitTest:point withEvent:event]",gate)
++  self.assertIn("touchesBegan:",gate)
++  self.assertIn("touchesCancelled:",gate)
++  # Actual production methods are executed by wake_gate_180_runtime.m too.
++  self.assertIn("[forward minusSet:self.wakeContacts180",gate)
+ 
+  def test_gate_respects_keyboard(self):
+   self.assertIn("kbVisible177", CHROME)
+@@ -116,10 +118,9 @@ class QA172Wakefix2(unittest.TestCase):
+    self.assertIn('DF177AppTouchNextGeneration(self.touch177RecheckGeneration)',section)
+   self.assertIn('if(DF177CurrentTouchOwner==self)DF177CurrentTouchOwner=nil;',stop)
+ 
+- def test_keyboard_is_owned_and_unknown_state_does_not_consume(self):
++ def test_legacy_keyboard_relayout_still_requires_owned_state(self):
+   self.assertIn('verifiedPIDForHostedView:surface',CHROME)
+   self.assertIn('DF177ReadKeyboardState(bundle,pid)',CHROME)
+-  self.assertIn('!owner.kbStateKnown177',CHROME)
+   begin=CHROME.index('- (void)df177HandleKbState {')
+   end=CHROME.index('- (void)df177HandleAppTouch {',begin)
+   body=CHROME[begin:end]
+diff --git a/sideplay/duoface-native-scene-host/tests/test_qa172w_wakefix.py b/sideplay/duoface-native-scene-host/tests/test_qa172w_wakefix.py
+index 129b449..2ff201e 100644
+--- a/sideplay/duoface-native-scene-host/tests/test_qa172w_wakefix.py
++++ b/sideplay/duoface-native-scene-host/tests/test_qa172w_wakefix.py
+@@ -1,9 +1,6 @@
+-"""QA172 wakefix contract: the QA172 logorecall1 build with the wake
+-path reworked after the 2026-11-04 device A/B. App-touch signals
+-extend the visibility timers only (never a layout pass); a
+-first-touch shield window gives DuoNavi wake semantics; the relays
+-report keyboard visibility so the shield never arms over a live
+-keyboard. This is not device acceptance.
++"""QA180 owner-scoped in-path wake plus preserved legacy keyboard relays.
++The first hidden contact wakes only; app-side injection remains allowlisted.
++These source assertions do not establish device touch delivery.
+ """
+ import pathlib,unittest
+ ROOT=pathlib.Path(__file__).resolve().parents[1]
+@@ -18,12 +15,13 @@ class QA172Wakefix(unittest.TestCase):
+    self.assertIn(token,h)
+  def test_chrome_shield_and_receivers(self):
+   chrome=(ROOT/"DFNative12Chrome.m").read_text()
+-  for token in ('wakeGateViews','DFNativeWakeGateView','df177HandleKbState',
++  for token in ('ensureWakeGates','DFOwnedWakeSurface180','df177HandleKbState',
+                 'notify_register_dispatch(DF177KbWakeName',
+                 'notify_cancel(self.kbWake177Token)',
+-                'qa177-recall source=gate-touch','qa177-kb-state',
+-                'DF155PilotAppID','kbVisible177'):
++                'qa180-wake-contact','qa177-kb-state',
++                'DF177CurrentTouchOwner','kbVisible177'):
+    self.assertIn(token,chrome)
++  self.assertIn('!DF155PilotAppID(bundle)',(ROOT/'DF154GeneralAppStateRelay.m').read_text())
+  def test_app_touch_never_recalls_directly(self):
+   chrome=(ROOT/"DFNative12Chrome.m").read_text()
+   start=chrome.index('- (void)df177HandleAppTouch')
+diff --git a/sideplay/duoface-native-scene-host/tests/test_qa180_owned_wake_map_replace.py b/sideplay/duoface-native-scene-host/tests/test_qa180_owned_wake_map_replace.py
+new file mode 100644
+index 0000000..7f1e397
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/tests/test_qa180_owned_wake_map_replace.py
+@@ -0,0 +1,76 @@
++"""QA180 production integration guards. Behavior runs separately in Objective-C.
++These guards are NOT physical event delivery or native CarPlay rendering tests.
++"""
++import hashlib
++import os
++from pathlib import Path
++import unittest
++ROOT=Path(os.environ.get('QA180_SOURCE_ROOT',Path(__file__).resolve().parents[1]))
++def read(name):
++    p=ROOT/name
++    return p.read_text() if p.exists() else ''
++CHROME=read('DFNative12Chrome.m')
++SCENE=read('DFSceneHost.m')
++GATE=read('DFOwnedWakeSurface180.m')
++def method(source,start,end):
++    if start not in source:return ''
++    a=source.index(start);b=source.find(end,a+len(start))
++    return source[a:b if b>=0 else len(source)]
++class OwnedWakeMap180(unittest.TestCase):
++    def test_hidden_contact_contract_not_passive(self):
++        self.assertIn('DFNativePanePassthroughView : DFOwnedWakeSurface180',CHROME)
++        self.assertIn('DFSceneSurface : DFOwnedWakeSurface180',SCENE)
++        self.assertIn('reservesWakeAtPoint180:point event:event])return self;',GATE)
++    def test_occupied_map_selection_starts_explicit_replacement(self):
++        tap=method(CHROME,'- (void)appPicker:(DFAppPickerVC *)picker\n    didSelectNativeMapBundleID:',
++                   '- (void)appPicker:(DFAppPickerVC *)picker\n didSelectBundleID:')
++        self.assertIn('[self df180BeginMapReplacement:bundleID name:name visual:slot physical:physical];',tap)
++        self.assertIn('qa180-native-map-card-entry',tap)
++    def test_no_new_shield_and_no_keyboard_ipc_prerequisite(self):
++        bind=method(CHROME,'- (void)ensureWakeGates {','- (void)layoutControls {')
++        for token in ('kbStateKnown177','kbVisible177','wakeGateEligible','initWithFrame:', 'layoutControls];'):
++            self.assertNotIn(token,bind)
++        self.assertIn('owner!=DF177CurrentTouchOwner',bind)
++        self.assertIn('[owner df178RecallChromeVisualOnly];',bind)
++        self.assertNotIn('DFNativeWakeGateView',CHROME)
++    def test_gate_wakes_only_on_delivered_contact_and_drains_tail(self):
++        hit=method(GATE,'- (UIView *)hitTest:','- (void)touchesBegan:')
++        self.assertNotIn('self.wakeContact180(',hit)
++        self.assertIn('touch.view!=self',GATE)
++        self.assertIn('[forward minusSet:self.wakeContacts180',GATE)
++        self.assertIn('touchesCancelled:',GATE)
++        self.assertIn('isDescendantOfView:self',GATE)
++    def test_replacement_waits_for_actual_empty_readback(self):
++        wait=method(CHROME,'- (void)df180AwaitEmptyPane:', '- (void)df180BeginMapReplacement:')
++        self.assertIn('DF180EmptyPaneReadbackReady(',wait)
++        self.assertIn('physical-panes.v1.plist',wait)
++        self.assertNotIn('writeToFile:',wait)
++        self.assertLess(wait.index('DF180EmptyPaneReadbackReady('),wait.index('didSelectNativeMapBundleID:'))
++    def test_selected_pane_only_and_no_forced_native_adoption(self):
++        begin=method(CHROME,'- (void)df180BeginMapReplacement:', '- (void)df178PollNativeMapPicker:')
++        self.assertIn('self.hostedScenes[(NSUInteger)physical]=NSNull.null;',begin)
++        self.assertIn('bundleIDForHostedView:active',begin)
++        self.assertNotIn('stopAllHosts',begin)
++        self.assertNotIn('kill(',begin)
++        self.assertIn('DFNativeMapFreshLease',begin)
++        self.assertIn('DFNativeMapAckReadState',CHROME)
++    def test_cancel_or_timeout_requires_restore_ack_before_rollback(self):
++        poll=method(CHROME,'- (void)df180PollMapRestore:', '- (void)df180AbortMapReplacement:')
++        self.assertIn('DFNativeMapAckReadState(ack,request,@"Restore"',poll)
++        self.assertIn('restorePrevious:YES reason:@"restore-ack-confirmed"',poll)
++        self.assertIn('restorePrevious:NO reason:@"restore-unverified-pane-left-empty"',poll)
++        abort=method(CHROME,'- (void)df180AbortMapReplacement:', '- (void)df180AwaitEmptyPane:')
++        self.assertIn('previous[@"RequestID"]',abort)
++        self.assertIn('@"Operation":@"Restore"',abort)
++    def test_no_underlock_gofa_or_native_coordinator_change(self):
++        blobs={'DFSceneLifecycle.m':'524a1af4ddc0789517890b8fea4d0bd2071bebb4',
++               '../native-carplay-scene-v1/DFNativeMapPaneCoordinator.m':'7d70264250da60d705dbaf31e2411c0b6231778f',
++               'DF154GeneralAppStateRelay.m':'160f4c52f9dc524223712ce61f0dd8f2a58830ed'}
++        for name,expected in blobs.items():
++            b=(ROOT/name).read_bytes()
++            self.assertEqual(hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest(),expected,name)
++    def test_gate_is_in_actual_build_not_only_a_test_fixture(self):
++        self.assertIn('DFOwnedWakeSurface180.m DFSceneHost.m',read('build.sh'))
++        self.assertIn('#import "DFOwnedWakeSurface180.h"',SCENE)
++        self.assertIn('#import "DFOwnedWakeSurface180.h"',CHROME)
++if __name__=='__main__':unittest.main()
+diff --git a/sideplay/duoface-native-scene-host/tests/wake_gate_180_runtime.m b/sideplay/duoface-native-scene-host/tests/wake_gate_180_runtime.m
+new file mode 100644
+index 0000000..4178fc5
+--- /dev/null
++++ b/sideplay/duoface-native-scene-host/tests/wake_gate_180_runtime.m
+@@ -0,0 +1,56 @@
++// Executes the production owned-view gate against a small UIKit dispatch model.
++// Not a real UIKit simulator, remote HID path or physical CarPlay test.
++#import "../DFOwnedWakeSurface180.h"
++#include <assert.h>
++static UITouch *touch(UIView *view,UIWindow *window) {
++    UITouch *t=[UITouch new];t.view=view;t.window=window;t.phase=UITouchPhaseBegan;return t;
++}
++int main(void) {@autoreleasepool {
++    UIWindow *window=[[UIWindow alloc]initWithFrame:CGRectMake(0,0,100,100)];window.window=window;
++    DFOwnedWakeSurface180 *gate=[[DFOwnedWakeSurface180 alloc]initWithFrame:window.bounds];gate.window=window;
++    UIView *button=[[UIView alloc]initWithFrame:window.bounds];[gate addSubview:button];
++    __block BOOL hidden=YES;__block NSUInteger wakes=0,finishes=0;
++    gate.wakeCaptureAllowed180=^BOOL{return hidden;};
++    gate.wakeContact180=^(NSString *phase,NSUInteger count){
++        if([phase isEqual:@"began"]){assert(count>0);wakes++;hidden=NO;}
++        else {assert(count==0);finishes++;}
++    };
++    CGPoint point=CGPointMake(25,25);UIEvent *e=[UIEvent new];e.allTouches=[NSSet set];
++    assert([gate hitTest:point withEvent:nil]==gate && wakes==0 && hidden);
++    for(NSUInteger i=0;i<20;i++) {
++        hidden=YES;e.allTouches=[NSSet set];
++        // Empty preflight allTouches must not bypass the gate.
++        UIView *target=[gate hitTest:point withEvent:e];assert(target==gate);
++        UITouch *t=touch(target,window);e.allTouches=[NSSet setWithObject:t];
++        [target touchesBegan:e.allTouches withEvent:e];assert(!hidden && gate.hasWakeContacts180);
++        t.phase=UITouchPhaseMoved;[target touchesMoved:e.allTouches withEvent:e];
++        t.phase=UITouchPhaseEnded;[target touchesEnded:e.allTouches withEvent:e];
++        assert(!gate.hasWakeContacts180 && button.forwardedEnd==i);
++        e.allTouches=[NSSet set];target=[gate hitTest:point withEvent:e];assert(target==button);
++        t=touch(target,window);e.allTouches=[NSSet setWithObject:t];
++        [target touchesBegan:e.allTouches withEvent:e];t.phase=UITouchPhaseEnded;
++        [target touchesEnded:e.allTouches withEvent:e];assert(button.forwardedEnd==i+1);
++    }
++    assert(wakes==20 && finishes==20 && gate.forwardedBegan==0 && gate.forwardedEnd==0);
++    // Expiry must not seize the tail/additional finger of an existing child gesture.
++    hidden=NO;e.allTouches=[NSSet set];assert([gate hitTest:point withEvent:e]==button);
++    UITouch *drag=touch(button,window);drag.phase=UITouchPhaseMoved;e.allTouches=[NSSet setWithObject:drag];
++    hidden=YES;assert([gate hitTest:point withEvent:e]==button && wakes==20);
++    // Two fingers in a wake gesture remain consumed until both are finished.
++    e.allTouches=[NSSet set];assert([gate hitTest:point withEvent:e]==gate);
++    UITouch *a=touch(gate,window),*b=touch(gate,window);
++    [gate touchesBegan:[NSSet setWithObject:a] withEvent:e];
++    e.allTouches=[NSSet setWithObject:a];assert([gate hitTest:point withEvent:e]==gate);
++    [gate touchesBegan:[NSSet setWithObject:b] withEvent:e];assert(wakes==21);
++    a.phase=UITouchPhaseEnded;[gate touchesEnded:[NSSet setWithObject:a] withEvent:e];assert(gate.hasWakeContacts180);
++    b.phase=UITouchPhaseCancelled;[gate touchesCancelled:[NSSet setWithObject:b] withEvent:e];assert(!gate.hasWakeContacts180 && finishes==21);
++    // Existing child responder-chain events and visible keyboard/control input pass.
++    UITouch *foreign=touch(button,window);[gate touchesBegan:[NSSet setWithObject:foreign] withEvent:e];
++    assert(gate.forwardedBegan==1 && wakes==21);
++    e.allTouches=[NSSet set];hidden=YES;gate.userInteractionEnabled=NO;
++    assert([gate hitTest:point withEvent:e]==nil && wakes==21);
++    gate.userInteractionEnabled=YES;gate.wakeCaptureAllowed180=^BOOL{return NO;};
++    assert([gate hitTest:point withEvent:e]==button && wakes==21);
++    puts("QA180_PRODUCTION_WAKE_GATE_BEHAVIOR_PASS_20_CYCLES_CANCEL_MULTI_VISIBLE_DRAG_NO_REPLAY");
++    return 0;
++}}
