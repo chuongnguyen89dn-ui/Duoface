@@ -13,6 +13,9 @@
 #import "DF156DarwinMailbox.h"
 #import "DFAppTouch177.h"
 #import "DFChromeVisual178.h"
+#import "DFCarPlayAppRoute178.h"
+#import "../native-carplay-scene-v1/DFNativeMapCommandProtocol.h"
+#import "../native-carplay-scene-v1/DFNativeMapLaunchPolicy.h"
 #import "DF155PilotAppScope.h"
 #import <notify.h>
 #import "DFEnabledAppsPolicy.h"
@@ -328,6 +331,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) NSTimer *chromeVisualTimer178;
 @property(nonatomic,assign) NSUInteger chromeVisualGeneration178;
+@property(nonatomic,copy) NSString *nativeMapPickerRequest178;
+@property(nonatomic,assign) NSUInteger nativeMapPickerGeneration178;
 @property(nonatomic,assign) int touchWake177Token;
 @property(nonatomic,strong) NSMutableDictionary *touch177Bundles;
 @property(nonatomic,copy) NSString *touch177LastBundle;
@@ -2315,10 +2320,123 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     // A real scene is only confirmed later via sceneReady: (not here).
     return YES;
 }
+// Native CarPlay map and iPhone AppBridge are distinct owners. A card tap
+// is an EXPLICIT Attach request, never an automatic launch from the phone
+// settings allowlist or a fake CarPlay Home icon. The existing CarPlay owner
+// validates Dashboard/window/scene/physical slot before an Applied ACK.
+- (void)df178PollNativeMapPicker:(NSString *)request generation:(NSUInteger)generation
+                   session:(NSUInteger)session requestedAt:(NSTimeInterval)requestedAt
+                  startedAt:(NSTimeInterval)startedAt polls:(NSUInteger)polls {
+    BOOL active=self.appPickerVisible && self.appPickerController &&
+       DF177AppTouchSessionMatches(self.touch177Session,session,self,DF177CurrentTouchOwner);
+    DFNativeMapPollDecision decision=DFNativeMapPollDecisionForRequest(
+        request,self.nativeMapPickerRequest178,generation,self.nativeMapPickerGeneration178,
+        active,startedAt,NSProcessInfo.processInfo.systemUptime,polls);
+    if(decision==DFNativeMapPollStop)return;
+    if(decision==DFNativeMapPollTimedOut){
+        self.nativeMapPickerRequest178=nil;
+        [self.appPickerController showAppPickerStatus:@"Bản đồ chưa được ghép · hết thời gian xác nhận"];
+        DFCLog(@"qa178-native-map-picker-ack-timeout-no-success");
+        return;
+    }
+    NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:
+        @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist"];
+    DFNativeMapAckState state=DFNativeMapAckReadState(ack,request,@"Attach",
+                               requestedAt,NSDate.date.timeIntervalSince1970);
+    if(state==DFNativeMapAckApplied){
+        self.nativeMapPickerRequest178=nil;
+        self.appPickerVisible=NO;
+        self.appPickerWindow.hidden=YES;
+        [self layoutControls];
+        DFCLog(@"qa178-native-map-picker-ack-applied-scene-pixels-unverified");
+        return;
+    }
+    if(state==DFNativeMapAckRejected || state==DFNativeMapAckCancelled){
+        self.nativeMapPickerRequest178=nil;
+        [self.appPickerController showAppPickerStatus:@"CarPlay chưa ghép được bản đồ"];
+        DFCLog([NSString stringWithFormat:@"qa178-native-map-picker-rejected reason=%@",
+                ack[@"Reason"]?:@"unknown"]);
+        return;
+    }
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                  (int64_t)(DFNativeMapClientAckPollInterval*NSEC_PER_SEC)),
+                  dispatch_get_main_queue(),^{
+        [weakOwner df178PollNativeMapPicker:request generation:generation
+            session:session requestedAt:requestedAt startedAt:startedAt polls:polls+1];
+    });
+}
+- (void)appPicker:(DFAppPickerVC *)picker
+    didSelectNativeMapBundleID:(NSString *)bundleID displayName:(NSString *)name {
+    if(picker!=self.appPickerController || !self.appPickerVisible ||
+       !DFNativeMapAllowedBundle(bundleID) ||
+       !DFPickerAllowsApp(bundleID,DFConfiguredEnabledAppIDs()))return;
+    if(self.nativeMapPickerRequest178.length){
+        [picker showAppPickerStatus:@"Đang đợi xác nhận bản đồ CarPlay"];
+        return;
+    }
+    // Exactly two physical panes are currently implemented by the native
+    // owner. Never move or terminate a phone scene in an occupied slot.
+    NSInteger slot=self.selectedSlot;
+    if(DFSlotCountForPreset(self.preset)!=2 || slot<0 || slot>1){
+        [picker showAppPickerStatus:@"Bản đồ native chỉ hỗ trợ bố cục hai ô"];
+        return;
+    }
+    NSInteger physical=[self physicalForVisual:slot];
+    if(physical<0 || (NSUInteger)physical>=self.hostedScenes.count ||
+       [self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
+       [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class]){
+        [picker showAppPickerStatus:@"Hãy chọn ô còn trống để ghép bản đồ"];
+        return;
+    }
+    if(![DFNativeMapCatalogBundles() containsObject:bundleID]){
+        [picker showAppPickerStatus:@"Chưa có bản đồ native được CarPlay xác nhận"];
+        [picker refreshInstalledApps];return;
+    }
+    NSString *request=NSUUID.UUID.UUIDString;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    NSDictionary *command=@{@"Version":@(DFNativeMapCommandVersion),
+          @"Operation":@"Attach",@"BundleID":bundleID,@"MapSlot":@(slot),
+          @"RequestID":request,@"Timestamp":@(now)};
+    if(!DFNativeMapFreshExplicitCommand(command,now) ||
+       ![command writeToFile:
+         @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist"
+         atomically:YES]){
+        [picker showAppPickerStatus:@"Không gửi được lệnh ghép bản đồ"];
+        return;
+    }
+    self.nativeMapPickerGeneration178=
+        DFNativeMapNextCommandGeneration(self.nativeMapPickerGeneration178);
+    NSUInteger generation=self.nativeMapPickerGeneration178;
+    NSUInteger session=self.touch177Session.generation;
+    self.nativeMapPickerRequest178=request;
+    notify_post("com.duoface.nativehost.map-pane.command.v1");
+    [picker showAppPickerStatus:@"Đang đợi CarPlay ghép bản đồ native"];
+    DFCLog([NSString stringWithFormat:
+        @"qa178-native-map-picker-request slot=%ld bundle=%@ name=%@",
+        (long)slot,bundleID,name]);
+    __weak typeof(self) weakOwner=self;
+    NSTimeInterval started=NSProcessInfo.processInfo.systemUptime;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+            (int64_t)(DFNativeMapClientAckPollInterval*NSEC_PER_SEC)),
+            dispatch_get_main_queue(),^{
+        [weakOwner df178PollNativeMapPicker:request generation:generation
+            session:session requestedAt:now startedAt:started polls:0];
+    });
+}
 - (void)appPicker:(DFAppPickerVC *)picker
  didSelectBundleID:(NSString *)bundleID displayName:(NSString *)name {
-    if(picker!=self.appPickerController || !self.appPickerWindow || 
+    if(picker!=self.appPickerController || !self.appPickerWindow ||
        ![bundleID isKindOfClass:NSString.class] || !bundleID.length)return;
+    // A supported native map never falls back to a phone MainDisplay scene.
+    if(DFNativeMapAllowedBundle(bundleID)){
+        [picker showAppPickerStatus:@"Hãy chọn bản đồ native đã được xác minh"];
+        return;
+    }
+    if(self.nativeMapPickerRequest178.length){
+        [picker showAppPickerStatus:@"Đang đợi yêu cầu bản đồ trước đó"];
+        return;
+    }
     NSInteger slot=self.selectedSlot;
     NSInteger physicalSlot=[self physicalForVisual:slot];
     if(physicalSlot<0 || physicalSlot>=DFSlotCountForPreset(self.preset))return;
@@ -2748,6 +2866,8 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 - (void)stop {
     [self.chromeVisualTimer178 invalidate];self.chromeVisualTimer178=nil;
     ++self.chromeVisualGeneration178; // No old idle callback after Home/reconnect.
+    ++self.nativeMapPickerGeneration178;
+    self.nativeMapPickerRequest178=nil;
     self.touch177Session=DF177AppTouchEndSession(self.touch177Session);
     self.touch177RecheckGeneration=
         DF177AppTouchNextGeneration(self.touch177RecheckGeneration);
