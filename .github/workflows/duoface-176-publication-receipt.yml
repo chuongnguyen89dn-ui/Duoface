@@ -1,0 +1,138 @@
+name: DuoFace 176 independent public Sileo checksum receipt
+on:
+  push:
+    branches: [fix/qa180-owned-wake-map-replace-20261106]
+    paths: ['.github/workflows/duoface-176-publication-receipt.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface176-publication-receipt
+  cancel-in-progress: false
+jobs:
+  verify-and-record:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Independently check actual Pages Packages, Release, DEB and both rollback bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = chuongnguyen89dn-ui/Duoface
+          python3 - <<'PY'
+          import gzip,hashlib,json,os,urllib.request
+          from pathlib import Path
+          from datetime import datetime,timezone
+          def get(url):
+              req=urllib.request.Request(url,headers={'User-Agent':'DuoFace-176-independent-public-proof'})
+              with urllib.request.urlopen(req,timeout=45) as response:
+                  return response.read()
+          publisher=json.loads(get('https://api.github.com/repos/chuongnguyen89dn-ui/carplaydsp/actions/runs/42178000974'))
+          assert publisher['head_sha']=='ab4d9d14bdbc3cbddb14f33a844deca8fe606f73'
+          assert publisher['status']=='completed' and publisher['conclusion']=='success',publisher
+          site='https://chuongnguyen89dn-ui.github.io/carplaydsp/'
+          version='0.0.176~appwake1'
+          filename='com.duoface.jb.embedded_'+version+'_iphoneos-arm64.deb'
+          expected='6d7cf1eff02e4c238ff0b36c93de851a834f99ef54ba2e38e19d99b50d8a0c14'
+          packages=get(site+'Packages')
+          records=[]
+          for block in packages.decode().split('\n\n'):
+              fields={}
+              for line in block.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      key,value=line.split(': ',1);fields[key]=value
+              if fields.get('Package')=='com.duoface.jb.embedded':records.append(fields)
+          assert len(records)==1,records
+          entry=records[0]
+          assert entry['Version']==version and entry['SHA256']==expected
+          assert entry['Filename']=='debs/'+filename and entry['Architecture']=='iphoneos-arm64'
+          compressed=get(site+'Packages.gz')
+          assert gzip.decompress(compressed)==packages,'Packages.gz does not decompress to actual Packages'
+          release=get(site+'Release').decode()
+          sha_lines=release.split('SHA256:',1)[1].splitlines()
+          advertised={}
+          for line in sha_lines:
+              if line and not line.startswith(' '):break
+              parts=line.split()
+              if len(parts)==3:advertised[parts[2]]=(parts[0],int(parts[1]))
+          assert advertised['Packages']==(hashlib.sha256(packages).hexdigest(),len(packages))
+          deb=get(site+'debs/'+filename)
+          assert hashlib.sha256(deb).hexdigest()==expected
+          assert int(entry['Size'])==len(deb) and len(deb)>1000000
+          old={
+              '0.0.174~mapwake1':'f45e30bc92c984b7beaf13d1d03d88ffd5015780bd0080c15d859bddbc3f02cd',
+              '0.0.175~wakepick1':'e53451895bd991be072dfa1cfaf515ee5a1fee28ca992b6952c09c259bf6dbb1'}
+          for previous,sha in old.items():
+              prior=get(site+'debs/com.duoface.jb.embedded_'+previous+'_iphoneos-arm64.deb')
+              assert hashlib.sha256(prior).hexdigest()==sha,(previous,'rollback SHA mismatch')
+          result={
+              'status':'PUBLICATION_VERIFIED','package':'com.duoface.jb.embedded',
+              'version':version,'public_source':site,'public_deb':site+'debs/'+filename,
+              'deb_sha256':expected,'size':len(deb),'index_count':len(records),
+              'release_index_sha_verified':True,'gzip_index_verified':True,
+              'qa174_rollback_verified':True,'qa175_rollback_verified':True,
+              'publisher_run':42178000974,'publisher_commit':publisher['head_sha'],
+              'publisher_conclusion':publisher['conclusion'],
+              'publisher_yaml_validation_run':42178000876,
+              'source_sha':'3d0fafcc2e17bca9739cf900d0bac5668ebc1aef',
+              'signed_build_run':42177180870,
+              'archive_commit':'bf4e7a52f928e1bf157007d366cee6b472df673b',
+              'receipt_run':os.environ['GITHUB_RUN_ID'],
+              'verified_utc':datetime.now(timezone.utc).isoformat(),
+              'device_tested':False,
+              'standalone_maps_and_home_icons_fixed':False}
+          out=Path(os.environ['RUNNER_TEMP'],'duoface176-independent-public-receipt.json')
+          out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(result,indent=2),flush=True)
+          print('DUOFACE176_INDEPENDENT_PUBLIC_INDEX_GZIP_RELEASE_DEB_QA174_QA175_VERIFIED')
+          PY
+      - name: Commit receipt and synchronize both canonical handoffs only after independent PASS
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=fix/qa180-owned-wake-map-replace-20261106
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            git checkout --detach FETCH_HEAD
+            python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          src=Path(os.environ['RUNNER_TEMP'],'duoface176-independent-public-receipt.json')
+          raw=src.read_text()
+          receipt=json.loads(raw)
+          assert receipt['status']=='PUBLICATION_VERIFIED'
+          folder=Path('sideplay/audit/qa176-appwake1-20261106')
+          folder.mkdir(parents=True,exist_ok=True)
+          (folder/'publication-receipt.json').write_text(raw)
+          marker='## CHECKPOINT QA176-INDEPENDENT-OFFICIAL-SILEO-PUBLIC-VERIFIED-20261106'
+          note=(marker+'\n\n'
+                '- Official Sileo QA176 0.0.176~appwake1 independently downloaded+SHA verified; one APT entry, Packages.gz content, Release SHA of Packages, and 174/175 immutable rollback DEBs PASS. Public SHA256 '+receipt['deb_sha256']+', '+str(receipt['size'])+' bytes; QA176 is distribution PASS, NOT physical CarPlay acceptance.\n'
+                '- Publisher commit ab4d9d14bdbc3cbddb14f33a844deca8fe606f73, YAML validator run42178000876 SUCCESS; build/deploy/five-job public verifier run42178000974 SUCCESS. Independent receipt run '+str(receipt['receipt_run'])+'; verified UTC '+receipt['verified_utc']+'. Receipt: sideplay/audit/qa176-appwake1-20261106/publication-receipt.json.\n'
+                '- Signed source3d0fafcc2e17bca9739cf900d0bac5668ebc1aef, signed run42177180870 SUCCESS, immutable archive bf4e7a52f928e1bf157007d366cee6b472df673b, same exact DEB SHA; no same-version byte substitution or rebuild on publisher.\n'
+                '- User may Refresh Sources and upgrade existing Sileo package; respring if requested. Parked CarPlay must confirm first hidden tap wakes ONLY then second tap enters app and occupied-pane map replacement real pixels/touch. Keyboard, Safari/GOFA and Home retain prior behavior; standalone Google Maps scene identity and independent Home app icons remain OPEN. Do not claim car/device PASS, do not request prior four logs again.\n\n')
+          for filename in ('sideplay/tiep tuc du an.md','tiep tuc du an.md'):
+              path=Path(filename);old=path.read_text()
+              if marker not in old:path.write_text(note+old)
+              assert path.read_text().startswith(marker)
+          PY
+            git add -- 'sideplay/tiep tuc du an.md' 'tiep tuc du an.md' 'sideplay/audit/qa176-appwake1-20261106/publication-receipt.json'
+            if git diff --cached --quiet; then exit 0; fi
+            git diff --cached --check
+            git commit -m 'docs: independent DuoFace176 public APT Release DEB and QA174/175 rollback verified [skip ci]'
+            if git push origin "HEAD:refs/heads/$BRANCH"; then
+              git rev-parse HEAD
+              exit 0
+            fi
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DuoFace176-independent-public-receipt
+          path: sideplay/audit/qa176-appwake1-20261106/publication-receipt.json
+          if-no-files-found: warn
