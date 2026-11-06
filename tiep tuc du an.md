@@ -1,3 +1,9 @@
+## CHECKPOINT QA176-FIXTURE-CORRECTION-20261106
+
+Corrected regression fixture bundle: reset supplies com.apple.Maps, so sibling-view case now requests com.apple.Maps. It logs the actual rejection reason. Old baseline CI must fail specifically with native-launch-owned-base-view-unverified, not just any failure. Production runtime unchanged from8d1c4bd1024645c9f06c747bd757b7397629bd4b. Prior CI42173393041 failure retained below. New run pending; no test PASS, device success or publication claimed. Exact commands remain in .github/workflows/duoface-176-owned-base-regression.yml. Next: inspect run on this commit, complete all tests, then resolve logo evidence blocker.
+
+---
+
 ## CHECKPOINT IMMEDIATE-SAVE-QA176-CI-FAILED-20261106
 
 User explicitly ordered immediate incremental saving to survive credit exhaustion. This checkpoint supersedes the pending-CI status below. No release success or completed logo fix.

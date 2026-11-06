@@ -27,6 +27,7 @@ jobs:
           set -e
           test "$result" -ne 0
           grep -F 'NATIVE_MAP_LAUNCH_FAIL QA175 attested base without root-view ancestry submits once' "$RUNNER_TEMP/old-launch.log"
+          grep -F 'QA175_OWNED_BASE_REJECTION native-launch-owned-base-view-unverified' "$RUNNER_TEMP/old-launch.log"
       - name: Production launch runtime regressions
         run: |
           set -euo pipefail

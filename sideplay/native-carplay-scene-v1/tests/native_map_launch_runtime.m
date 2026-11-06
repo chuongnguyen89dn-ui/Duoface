@@ -393,7 +393,9 @@ int main(void){@autoreleasepool{
  reset();owned=useOwnedBase();
  ((DFLaunchTestView *)owned.viewIfLoaded).superview=nativeWindow;
  reason=nil;
- check(perform(nil,@"com.google.Maps",&reason) && handleCalls==1,
+ BOOL submitted=perform(nil,@"com.apple.Maps",&reason);
+ if(!submitted)NSLog(@"QA175_OWNED_BASE_REJECTION %@",reason);
+ check(submitted && handleCalls==1,
        @"QA175 attested base without root-view ancestry submits once");
  reset();owned=useOwnedBase();((DFLaunchTestView *)owned.viewIfLoaded).hidden=YES;
  refused(@"hidden owned leaf still refused");
