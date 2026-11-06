@@ -32,7 +32,7 @@ jobs:
           test "$GITHUB_REPOSITORY" = 'chuongnguyen89dn-ui/Duoface'
           test "$GITHUB_REF_NAME" = "$BRANCH"
           git fetch --no-tags origin "$NEXT_BRANCH"
-          git show "$SOURCE:sideplay/tiep tuc du an.md" | head -n 9 > "$RUNNER_TEMP/qa180-checkpoint.txt"
+          git show "$SOURCE:sideplay/tiep tuc du an.md" > "$RUNNER_TEMP/qa180-checkpoint.txt"
           grep -Fq QA180-OWNED-WAKE-MAP-REPLACE-SOURCE-20261106 "$RUNNER_TEMP/qa180-checkpoint.txt"
           git cat-file -e "$SOURCE:sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.m"
           git config user.name 'github-actions[bot]'
