@@ -7,6 +7,9 @@
 #ifndef DF176_WAKE_READ_RECORD
 #define DF176_WAKE_READ_RECORD(path) [NSDictionary dictionaryWithContentsOfFile:(path)]
 #endif
+#ifndef DF176_WAKE_NOW
+#define DF176_WAKE_NOW() NSDate.date.timeIntervalSince1970
+#endif
 static NSString *const DF176WakeStatePath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.wake-state.v1.plist";
 #ifdef DF177_APP_SIDE_SENDER
 static BOOL DF176TouchInOwnedScene(UITouch *touch,NSString *sceneID) {
@@ -49,7 +52,7 @@ static BOOL DF176ConsumeWakeEvent(UIEvent *event,NSString *bundle) {
     }
     if(!consume && !forwarded.count && began && DF177AppTouchEnabled() &&
        NSThread.isMainThread) {
-        NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+        NSTimeInterval now=DF176_WAKE_NOW();
         NSDictionary *state=DF176_WAKE_READ_RECORD(DF176WakeStatePath);
         NSDictionary *pulse=DF176_WAKE_READ_RECORD(@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
         id deadline=state[@"Until"],stamp=state[@"Timestamp"];
