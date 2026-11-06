@@ -48,6 +48,7 @@ jobs:
             binary="$RUNNER_TEMP/$source"
             xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror \
               -Wno-deprecated-declarations -framework Foundation \
+              -I sideplay/duoface-native-scene-host \
               "sideplay/duoface-native-scene-host/tests/$source.m" -o "$binary"
             "$binary"
           done
