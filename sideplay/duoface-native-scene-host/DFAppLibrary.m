@@ -47,4 +47,31 @@
     return result;
 }
 
++ (NSArray<DFAppInfo *> *)selectedAppFallbackForBundleIDs:(NSArray<NSString *> *)selected {
+    if(![selected isKindOfClass:NSArray.class])return @[];
+    Class proxyClass=NSClassFromString(@"LSApplicationProxy");
+    SEL lookup=NSSelectorFromString(@"applicationProxyForIdentifier:");
+    if(!proxyClass || ![proxyClass respondsToSelector:lookup])return @[];
+    NSMutableArray<DFAppInfo *> *result=[NSMutableArray new];
+    NSMutableSet<NSString *> *seen=[NSMutableSet new];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    for(id item in selected) {
+        if(!DFIsEligibleAppID(item) || [seen containsObject:item])continue;
+        id proxy=nil;
+        @try {proxy=[proxyClass performSelector:lookup withObject:item];}
+        @catch(__unused NSException *exception){continue;}
+        NSDictionary *record=DFCatalogRecordForProxy(proxy);
+        if(![record[@"bundle"] isEqualToString:item])continue;
+        DFAppInfo *app=[DFAppInfo new];
+        app.bundleID=record[@"bundle"];
+        app.displayName=record[@"name"];
+        [result addObject:app];
+        [seen addObject:item];
+    }
+#pragma clang diagnostic pop
+    return result;
+}
+
+
 @end
