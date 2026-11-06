@@ -1,4 +1,4 @@
-name: QA174 device contract review - documentation only
+name: DuoFace active source continuation pointer - documentation only
 on:
   push:
     branches: [fix/qa173-logo-map-touch-recall-20261106]
@@ -21,64 +21,48 @@ jobs:
           sparse-checkout: |
             /tiep tuc du an.md
             /sideplay/tiep tuc du an.md
-            /sideplay/audit/qa174-device-rejected-20261106/
-      - name: Preserve history and record superseding user contract
+      - name: Link existing canonical handoffs to source-tested QA180 branch
         env:
           BRANCH: fix/qa173-logo-map-touch-recall-20261106
+          NEXT_BRANCH: fix/qa180-owned-wake-map-replace-20261106
+          SOURCE: ca7ebdad2129594087b5c9acd0bff73b11dc33e0
         shell: bash
         run: |
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = 'chuongnguyen89dn-ui/Duoface'
           test "$GITHUB_REF_NAME" = "$BRANCH"
+          git fetch --no-tags origin "$NEXT_BRANCH"
+          git show "$SOURCE:sideplay/tiep tuc du an.md" | head -n 9 > "$RUNNER_TEMP/qa180-checkpoint.txt"
+          grep -Fq QA180-OWNED-WAKE-MAP-REPLACE-SOURCE-20261106 "$RUNNER_TEMP/qa180-checkpoint.txt"
+          git cat-file -e "$SOURCE:sideplay/duoface-native-scene-host/DFOwnedWakeSurface180.m"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           for attempt in 1 2 3; do
             git fetch --no-tags origin "$BRANCH"
             git checkout --detach FETCH_HEAD
             python3 - <<'PY'
+          import os
           from pathlib import Path
-          from datetime import datetime, timezone
-          import os, subprocess
-          marker = '## CHECKPOINT QA174-USER-WAKE-CONTRACT-20261106'
-          report_path = 'sideplay/audit/qa174-device-rejected-20261106/MECHANISM_REVIEW_20261106.md'
-          report = Path(report_path).read_text(encoding='utf-8')
-          assert 'DFUnderLockBackground123' in report
-          assert 'MUST NOT activate the app underneath' in report
-          assert 'FAILED' in report
-          assert Path('sideplay/audit/qa174-device-rejected-20261106/FINDINGS.md').is_file()
-          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
-          stamp = datetime.now(timezone.utc).isoformat()
-          run = os.environ['GITHUB_RUN_ID']
-          note = '\n'.join([
-              marker, '',
-              '- LATEST USER CONTRACT: hidden controls -> first contact in owned app pane wakes controls and is CONSUMED; visible controls -> ordinary touches pass unchanged. This SUPERSEDES the assistant-authored passive-only / never-consume-first-tap policy in earlier QA179 and QA174 entries. Preserve history below; do not enforce the older conflicting instruction.',
-              '- Current QA174 source actually returns nil from DFNativeWakeGateView and observes/returns the original target in DFSceneSurface.hitTest; its QA172w2 source test explicitly forbids interception. That is a confirmed contract mismatch, not proof of correct behavior. Existing logoWakeOnlyTap is a concrete wake-only precedent. Proposed in-path gate must own the entire wake contact through Ended/Cancelled, never replay it or eat subsequent visible-state touches; no global shield/window, keyboard reflow or independent red-border wake.',
-              '- App architecture review: current refreshInstalledApps filters selectedSet before native classification, not a native-plus-selected union. Native category, selected phone-bridge category and per-pane selection must remain distinct. In-car picker, live pane rendering/input and Home icons OUTSIDE DuoFace are THREE separate acceptance criteria; do not mark Home done from picker changes.',
-              '- Important corrections to supplied document: native coordinator ALREADY has beginPendingLaunch -> DFNativeMapDispatchLaunchGuarded -> dashboard handleEvent:, so it does not merely wait passively. DFSceneLifecycle ALREADY installs SBSuspendedUnderLockManager._shouldBeBackgroundUnderLockForScene:withSettings: and post-lock intercept; do not duplicate hooks. One geometry authority per scene is valid, but two competing writers to the SAME scene and screen-blank as present root cause are not yet proved.',
-              '- Evidence-based assessment and exact source/reference paths: `' + report_path + '` (created in commit 0458b2712ad1ac0a0f1bc65d270270241267a24b). Runtime/code review pinned to 2336b9e8b65f87bc3c0803924cfa1429a73afaef, compiled QA174 source d8144d3c58833764fbc6a53e25044682adf852e2. User request is document assessment; no runtime source patch, app test, DEB build or Sileo deployment performed here.',
-              '- QA174 user device rejection REMAINS FAILED. No fresh device log was supplied or used. No log is needed to recognize the wrong wake contract or selected-only roster; runtime evidence is still needed to identify native launch rejection and validate eventual touch/geometry behavior. Next: behavioral wake regression -> correct owned in-path gate -> roster and explicit per-app launch/ownership crosswalk -> separate Home publication. Preserve GOFA, keyboard, media and divider.',
-              '- Reused documentation-only checkpoint workflow; success is NOT device functionality. Docs run: ' + run + '; UTC: ' + stamp + '; pre-write HEAD: ' + head + '.',
-              '', ''
-          ])
-          for name in ('sideplay/tiep tuc du an.md', 'tiep tuc du an.md'):
-              path = Path(name)
-              original = path.read_text(encoding='utf-8')
-              if marker not in original:
-                  path.write_text(note + original, encoding='utf-8')
-                  assert path.read_text(encoding='utf-8').endswith(original)
-              assert marker in path.read_text(encoding='utf-8')
-          print('USER_CONTRACT_REVIEW_CHECKPOINTED_NOT_IMPLEMENTED', head, report_path)
+          marker='## CHECKPOINT QA180-ACTIVE-WORK-BRANCH-20261106'
+          branch=os.environ['NEXT_BRANCH'];source=os.environ['SOURCE']
+          note=(marker+'\n\n'
+            '- ACTIVE IMPLEMENTATION HAS MOVED to `'+branch+'` in this SAME repository. Do not resume coding on the old QA173 branch or rebuild published0.0.174 with new bytes. Read `sideplay/tiep tuc du an.md` and `tiep tuc du an.md` on the new branch first.\n'
+            '- Verified source and handoff commit: `'+source+'`; source-only CI run42167040381 completed successfully. Implemented actual owned in-path hidden-contact wake capture plus selected occupied-pane native-map replacement, with actual empty-pane readback and ACK/restore/rollback.\n'
+            '- Evidence: new branch `sideplay/audit/qa180-owned-wake-map-replace-20261106/IMPLEMENTATION.md`, `changes.patch`, `evidence/`; workflow `.github/workflows/duoface-180-owned-wake-map-replace.yml` contains exact executed commands. Two original-source regressions rejected,41 Python tests passed, production gate tested using UIKit MODEL through20 hide/wake cycles,13 Foundation policy cases passed,4 production files passed iOSarm64 syntax compilation. These are NOT physical CarPlay acceptance.\n'
+            '- Under-lock/lifecycle, native coordinator and GOFA general relay unchanged by blob checks. New-version packaging and official-source delivery are next. Existing Sileo0.0.174 is unchanged and remains user-rejected; separate Google Maps standalone scene identity and Home publication remain OPEN. No additional device logs needed for these two repairs.\n'
+            '- This pointer update changes documentation ONLY, preserving all earlier findings below. Pointer job '+os.environ['GITHUB_RUN_ID']+'.\n\n')
+          for filename in ('sideplay/tiep tuc du an.md','tiep tuc du an.md'):
+              path=Path(filename);old=path.read_text()
+              if marker not in old:path.write_text(note+old)
+              assert marker in path.read_text() and path.read_text().endswith(old)
           PY
             git add -- 'sideplay/tiep tuc du an.md' 'tiep tuc du an.md'
-            if git diff --cached --quiet; then
-              echo DOCS_ALREADY_CURRENT
-              exit 0
-            fi
-            git commit -m 'docs: supersede passive wake policy; record verified versus unproved OmniCar assertions [skip ci]'
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'docs: continue on source-tested QA180 branch ca7ebdad; old release unchanged [skip ci]'
             if git push origin "HEAD:refs/heads/$BRANCH"; then
               git show -s --format='%H %s'
               exit 0
             fi
           done
-          echo 'Documentation push conflicted; no force-push performed' >&2
+          echo 'Handoff pointer conflicted; no force-push' >&2
           exit 1
