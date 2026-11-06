@@ -1,0 +1,228 @@
+name: QA176 - distinct signed DuoFace 0.0.176 appwake1 candidate (no publication)
+on:
+  push:
+    branches: [fix/qa180-owned-wake-map-replace-20261106]
+    paths: ['.github/workflows/duoface-176-release-appwake1.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa176-release-appwake1-signed
+  cancel-in-progress: false
+jobs:
+  prepare-version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      source_sha: ${{ steps.prepare.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Stamp distinct QA176 version with SHA-checked runtime
+        id: prepare
+        env:
+          BRANCH: fix/qa180-owned-wake-map-replace-20261106
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'chuongnguyen89dn-ui/Duoface'
+          test "$GITHUB_REF_NAME" = "$BRANCH"
+          git fetch --no-tags origin "$BRANCH"
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          python3 - <<'PY'
+          import os, subprocess
+          from pathlib import Path
+          root=Path('sideplay/duoface-native-scene-host')
+          names=['build.sh','control','Info.plist','DFDeepTrace.h',
+                 'tests/test_qa172w2_wakefix2.py','tests/test_qa172w_wakefix.py',
+                 'tests/test_qa172r_logo_recall.py']
+          paths=[root/n for n in names]+[
+              Path('sideplay/jb-embedded-appbridge/package_integrated.py'),
+              Path('sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py')]
+          for path in paths:
+              old=path.read_text()
+              new=old.replace('0.0.175~wakepick1','0.0.176~appwake1').replace('0.1.175~wakepick1','0.1.176~appwake1')
+              new=new.replace('<key>CFBundleVersion</key><string>175</string>','<key>CFBundleVersion</key><string>176</string>')
+              new=new.replace('<key>CFBundleShortVersionString</key><string>0.1.175</string>','<key>CFBundleShortVersionString</key><string>0.1.176</string>')
+              if path.name=='test_qa172w2_wakefix2.py':
+                  new=new.replace('"wakepick1"','"appwake1"').replace("'wakepick1'","'appwake1'")
+              assert new!=old or '176' in old, str(path)
+              assert '0.0.175~wakepick1' not in new and '0.1.175~wakepick1' not in new,str(path)
+              path.write_text(new)
+          # Runtime patch is already source-tested. No new functional edits here.
+          expected={'DFNative12Chrome.m':'fcdaf7d690986f04fe43b192d731760fefd11f6c',
+                    'DFOwnedWakeSurface180.m':'bf6645ea81b5a018958dd73277d53670a05a19a6',
+                    'DFSceneLifecycle.m':'524a1af4ddc0789517890b8fea4d0bd2071bebb4',
+                    'DF154GeneralAppStateRelay.m':'160f4c52f9dc524223712ce61f0dd8f2a58830ed',
+                    'DFYouTubeOrientationRelay.m':'1194941c1bac2c38cace3ba824fc48c59397b0ec',
+                    'DFAppTouch177.h':'153315cc74b8883284efb3cb4175cc4b4b937ba4',
+                    'DFAppWakeGate176.h':'863fed53784ef8a7a04769216f12818dff23769f'}
+          assert subprocess.check_output(['git','hash-object',str(root.parent/'native-carplay-scene-v1/DFNativeMapLaunchRuntime.m')],text=True).strip()=='d23bfd140bd19d1d13ad6275d3a59aff9d0c9e5d'
+          for name,sha in expected.items():
+              got=subprocess.check_output(['git','hash-object',str(root/name)],text=True).strip()
+              assert got==sha,(name,got)
+          marker='## CHECKPOINT QA176-APPWAKE1-BUILD-REQUESTED-20261106'
+          note=(marker+'\n\n- User requested to continue and complete QA176. Tested candidate commit 8ee848aa006239431334cf494af67da66a15bee0; CI42176321219 SUCCESS (actual app sender integration/gate model/iOSarm64 syntax and owned-base regression). Existing official0.0.175 device result FAILED.\n'
+                '- Preparing DISTINCT integrated0.0.176~appwake1 / nativehost0.1.176~appwake1, CFBundleVersion176. Only release stamps and their version tests are changed; SHA-pinned runtime files verified unchanged. Build run '+os.environ['GITHUB_RUN_ID']+'.\n'
+                '- Signed-package audit, immutable archive and Sileo publication PENDING at this checkpoint; DEVICE_TESTED=false. Keep previous0.0.174/0.0.175 rollback DEBs. Workflow .github/workflows/duoface-176-release-appwake1.yml reuses pinned original QA179 recipe.\n\n')
+          for filename in ('sideplay/tiep tuc du an.md','tiep tuc du an.md'):
+              path=Path(filename);old=path.read_text()
+              if marker not in old:path.write_text(note+old)
+              assert marker in path.read_text()
+          subprocess.run(['git','add','--',*(str(p) for p in paths),'sideplay/tiep tuc du an.md','tiep tuc du an.md'],check=True)
+          PY
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if ! git diff --cached --quiet; then
+            git commit -m 'release: version 0.0.176 appwake1 from source-tested QA176 candidate [skip ci]'
+            git push origin "HEAD:refs/heads/$BRANCH"
+          fi
+          echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  signed-release:
+    needs: prepare-version
+    runs-on: macos-15-intel
+    timeout-minutes: 60
+    env:
+      SOURCE_SHA: ${{ needs.prepare-version.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare-version.outputs.source_sha }}
+          fetch-depth: 0
+      - name: Extract verified existing build scripts with only release metadata updates
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess,os
+          path=Path('.github/workflows/duoface-179-mapwake1-signed-private.yml')
+          assert subprocess.check_output(['git','hash-object',str(path)],text=True).strip()=='c3d47a5ec2c531660815dd86a413117759e0323a'
+          text=path.read_text()
+          tasks={
+              'guards':'First-party source guards',
+              'foundation':'Native Foundation contracts',
+              'toolchain':'Prepare pinned existing',
+              'components':'Build unchanged independent',
+              'host':'Compile and sign distinct',
+              'package':'Assemble unique integrated',
+              'archive':'Archive signed build'}
+          folder=Path(os.environ['RUNNER_TEMP'])/'release176-scripts';folder.mkdir()
+          for key,title in tasks.items():
+              start=text.index('      - name: '+title)
+              end=text.find('\n      - ',start+1)
+              block=text[start:end if end>=0 else len(text)]
+              content=block.split('        run: |\n',1)[1]
+              lines=content.splitlines()
+              assert all(not line.strip() or line.startswith('          ') for line in lines)
+              script='\n'.join(line[10:] if line.startswith('          ') else '' for line in lines)+'\n'
+              script=script.replace('0.0.174','0.0.176').replace('0.1.174','0.1.176').replace('mapwake1','appwake1')
+              script=script.replace("= '174'","= '176'")
+              script=script.replace('QA179','QA176').replace('$GITHUB_SHA','$SOURCE_SHA')
+              script=script.replace('fix/qa173-logo-map-touch-recall-20261106','fix/qa180-owned-wake-map-replace-20261106')
+              # Keep the existing qa179 idle trace: runtime code is not altered.
+              if key=='host':
+                  script+='strings -a "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F "qa180-wake-contact"\n'
+                  script+='strings -a "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F "qa180-map-replace-prepared"\n'
+                  script+='strings -a "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F "DFOwnedWakeSurface180"\n'
+                  script+='strings -a "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F "com.duoface.nativehost.wake-state.v1.plist"\n'
+                  for mod in ('DF155GeneralAppStateRelay','DFYouTubeOrientationRelay'):
+                      script+='strings -a "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/'+mod+'.dylib" | grep -F "com.duoface.nativehost.wake-state.v1.plist"\n'
+              out=folder/(key+'.sh');out.write_text(script)
+              subprocess.run(['bash','-n',str(out)],check=True)
+          print('VERIFIED_EXISTING_BUILD_SCRIPTS_REUSED',os.environ['SOURCE_SHA'])
+          PY
+      - name: Source and integration regressions including QA180 behavior
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash "$RUNNER_TEMP/release176-scripts/guards.sh"
+          python3 sideplay/duoface-native-scene-host/tests/test_qa180_owned_wake_map_replace.py -v
+          bash "$RUNNER_TEMP/release176-scripts/foundation.sh"
+          cd sideplay/duoface-native-scene-host
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -O1 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -I tests/qa180_uikit_stub -framework Foundation -framework CoreGraphics \
+            DFOwnedWakeSurface180.m tests/qa180_uikit_stub/UIKitStub.m tests/wake_gate_180_runtime.m -o "$RUNNER_TEMP/wake176"
+          "$RUNNER_TEMP/wake176"
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -O1 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -framework Foundation tests/map_replace_180_runtime.m -o "$RUNNER_TEMP/map176"
+          "$RUNNER_TEMP/map176"
+          python3 tests/test_app_wake_176_integration.py DFAppTouch177.h
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -I tests/qa180_uikit_stub -framework Foundation -framework CoreGraphics \
+            tests/qa180_uikit_stub/UIKitStub.m tests/app_wake_176_runtime.m -o "$RUNNER_TEMP/appwake176"
+          "$RUNNER_TEMP/appwake176"
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -x objective-c -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -DDF177_APP_SIDE_SENDER=1 \
+            -include DFAppTouch177.h /dev/null
+          for source in DFNative12Chrome.m DFOwnedWakeSurface180.m DFSceneHost.m ../native-carplay-scene-v1/DFNativeMapLaunchRuntime.m; do
+            xcrun --sdk iphoneos clang -fsyntax-only -target arm64-apple-ios16.0 -isysroot "$SDK" \
+              -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -DDF144_SPRINGBOARD=1 "$source"
+          done
+          cd ../native-carplay-scene-v1
+          xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            -framework Foundation DFNativeMapLaunchRuntime.m DFNativeMapLaunchContext.m tests/native_map_launch_runtime.m -o "$RUNNER_TEMP/launch176"
+          "$RUNNER_TEMP/launch176"
+      - name: Prepare existing rootless iOS toolchain
+        run: bash "$RUNNER_TEMP/release176-scripts/toolchain.sh"
+      - name: Build independent first-party components
+        run: bash "$RUNNER_TEMP/release176-scripts/components.sh"
+      - name: Build and sign 0.1.176 host and verify actual compiled wake gate
+        run: bash "$RUNNER_TEMP/release176-scripts/host.sh"
+      - name: Assemble signed 0.0.176 and audit whole DEB provenance
+        run: bash "$RUNNER_TEMP/release176-scripts/package.sh"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA176-0.0.176-appwake1-SIGNED-FOR-SILEO
+          if-no-files-found: error
+          path: |
+            sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.176~appwake1_iphoneos-arm64.deb
+            sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json
+            sideplay/jb-embedded-appbridge/packages/QA176_AUDIT_SUMMARY.json
+      - name: Archive immutable signed DEB and checksum in source repository
+        run: bash "$RUNNER_TEMP/release176-scripts/archive.sh"
+      - name: Checkpoint signed release evidence without claiming public deployment
+        env:
+          BRANCH: fix/qa180-owned-wake-map-replace-20261106
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$BRANCH"
+          DEST="$(mktemp -d)"
+          git worktree add --detach "$DEST" FETCH_HEAD
+          export DEST
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          root=Path(os.environ['DEST']);run=os.environ['GITHUB_RUN_ID']
+          folder='sideplay/jb-embedded-appbridge/evidence/runs/'+run+'/'
+          audit=json.loads((root/folder/'audit-summary.json').read_text())
+          assert audit['version']=='0.0.176~appwake1' and audit['source_sha']==os.environ['SOURCE_SHA']
+          marker='## CHECKPOINT QA176-APPWAKE1-SIGNED-READY-20261106'
+          note=(marker+'\n\n- Signed integrated0.0.176~appwake1 / nativehost0.1.176~appwake1 and whole-DEB static audit PASSED in run '+run+'. Compiled source SHA '+os.environ['SOURCE_SHA']+'; immutable DEB SHA256 '+audit['deb_sha256']+'.\n'
+                '- Archive/checksum/provenance: `'+folder+'`. Signed app relay binaries and SpringBoard receiver contain matching DF176 wake-state path. Native map/wake model, actual sender integration and iOS arm64 syntax tested before signing. No protected runtime source modified by versioning. DEVICE_TESTED=false.\n'
+                '- NEXT: publish only these exact audited bytes to official carplaydsp, preserve0.0.174 and0.0.175 rollback, independently verify public index/download checksum. This signed-build job did NOT publish or do live CarPlay acceptance.\n\n')
+          for filename in ('sideplay/tiep tuc du an.md','tiep tuc du an.md'):
+              p=root/filename;old=p.read_text()
+              if marker not in old:p.write_text(note+old)
+              assert marker in p.read_text()
+          PY
+          git -C "$DEST" config user.name 'github-actions[bot]'
+          git -C "$DEST" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git -C "$DEST" add -- 'sideplay/tiep tuc du an.md' 'tiep tuc du an.md'
+          git -C "$DEST" commit -m 'docs: 176 signed build and immutable checksum ready for official Sileo [skip ci]'
+          git -C "$DEST" push origin "HEAD:refs/heads/$BRANCH"
+          git -C "$DEST" rev-parse HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: QA176-176-release-audit-and-scripts
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/release176-scripts/
+            ${{ runner.temp }}/qa179-audit/
+            ${{ runner.temp }}/qa179-audit-console.log
