@@ -312,6 +312,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL dividerOwnerSuspended;
 @property(nonatomic,assign) BOOL logoTouchPending;
 @property(nonatomic,assign) BOOL logoWakeOnlyTap;
+@property(nonatomic,assign) BOOL dividerWakeOnlyPan;
+@property(nonatomic,assign) BOOL secondaryWakeOnlyPan;
 @property(nonatomic,copy) NSDictionary *workspace;
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *restoreQueue;
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *restoreRetryCounts;
@@ -640,7 +642,9 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     self.styleVisible=NO;
     self.logoTouchPending=NO;
     _dividerDrag.active=false;
-        self.logoWakeOnlyTap=NO;
+    self.logoWakeOnlyTap=NO;
+    self.dividerWakeOnlyPan=NO;
+    self.secondaryWakeOnlyPan=NO;
     self.startupActive=YES;
     if(self.homeReentrySkipsSplash)self.startupActive=NO;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
@@ -1732,7 +1736,9 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
         self.panActive=NO;
         self.logoTouchPending=NO;
         self.logoWakeOnlyTap=NO;
-                DFCLog(@"divider92-hidden-owner-contact-cancelled-for-next-reveal");
+        self.dividerWakeOnlyPan=NO;
+        self.secondaryWakeOnlyPan=NO;
+        DFCLog(@"divider92-hidden-owner-contact-cancelled-for-next-reveal");
     }
     CGRect cr=self.contentRect;
     if(self.appPickerController.hostExpanded!=self.hostFullscreen){
@@ -2825,28 +2831,48 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 // Bare divider track retains ratio-only drag; quick logo tap still swaps.
 - (void)logoTouchDown:(id)sender {
     if(sender!=self.dividerLogo || _dividerDrag.active || self.logoTouchPending)return;
-    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
-    self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    BOOL hidden=!DF178ChromeVisible(now,self.controlsUntil,self.panActive,NO);
+    self.logoWakeOnlyTap=hidden;
     self.logoTouchPending=YES;
+    if(hidden) {
+        // Reserve the ENTIRE first raw gesture. Never begin a divider drag,
+        // change split geometry, or dispatch SWAP while Chrome was hidden.
+        [self df178RecallChromeVisualOnly];
+        DFCLog(@"qa176-a1-direct-logo-hidden-contact-reserved");
+        return;
+    }
+    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
     [self beginDividerDragAt:point];
-    if(!_dividerDrag.active){self.logoTouchPending=NO;return;}
-    _dividerDrag.allowLogo=true; // Only raw touches that started on the logo.
+    if(!_dividerDrag.active){
+        self.logoTouchPending=NO;self.logoWakeOnlyTap=NO;return;
+    }
+    _dividerDrag.allowLogo=true;
     DFCLog(@"logo-two-axis-drag-begin-no-hold");
 }
 - (void)logoTouchChanged:(id)sender {
-    if(sender!=self.dividerLogo || !self.logoTouchPending)return;
+    if(sender!=self.dividerLogo || !self.logoTouchPending ||
+       self.logoWakeOnlyTap)return;
     CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
     [self updateDividerDragAt:point];
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside cancelled:(BOOL)cancelled {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
+    if(self.logoWakeOnlyTap) {
+        // Keep the first contact consumed until Ended/Cancelled, even though
+        // Chrome is now visible. The next independent contact may move/swap.
+        self.logoTouchPending=NO;self.logoWakeOnlyTap=NO;
+        [self df178RecallChromeVisualOnly];
+        DFCLog(cancelled?@"qa176-a1-direct-logo-wake-cancelled":
+                         @"qa176-a1-direct-logo-wake-ended-no-swap");
+        return;
+    }
     CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
-    BOOL wakeOnly=self.logoWakeOnlyTap;
     BOOL tap=[self finishDividerDragAt:point cancelled:cancelled];
     self.logoTouchPending=NO;
     self.logoWakeOnlyTap=NO;
-    if(tap && inside && !wakeOnly)[self swapPressed:sender];
+    if(tap && inside)[self swapPressed:sender];
     else [self noteUserActivity];
 }
 - (void)swapPressed:(id)sender {
@@ -2875,9 +2901,24 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 }
 - (void)dividerPan:(UIPanGestureRecognizer *)pan {
     UIGestureRecognizerState state=pan.state;
+    if(self.dividerWakeOnlyPan) {
+        if(state==UIGestureRecognizerStateEnded || state==UIGestureRecognizerStateCancelled ||
+           state==UIGestureRecognizerStateFailed) {
+            self.dividerWakeOnlyPan=NO;
+            DFCLog(@"qa176-a1-divider-hidden-gesture-ended-no-resize");
+        }
+        return;
+    }
     CGPoint current=[self dividerTouchOnScreen:pan];
     if(state==UIGestureRecognizerStateBegan){
         if(self.logoTouchPending || _dividerDrag.active || self.dividerWindow.hidden)return;
+        if(!DF178ChromeVisible(NSDate.date.timeIntervalSince1970,
+                self.controlsUntil,self.panActive,self.logoTouchPending)) {
+            self.dividerWakeOnlyPan=YES;
+            [self df178RecallChromeVisualOnly];
+            DFCLog(@"qa176-a1-divider-hidden-gesture-reserved");
+            return;
+        }
         // Recover touch-down from translation: Began arrives after UIKit slop.
         CGPoint translation=[pan translationInView:self.dividerTrack];
         CGPoint local=[pan locationInView:self.dividerTrack];
@@ -2906,7 +2947,22 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
 - (void)secondaryDividerPan:(UIPanGestureRecognizer *)pan {
     if(self.pickerVisible||self.styleVisible||self.focus>=0||self.preset<3)return;
     UIGestureRecognizerState state=pan.state;
+    if(self.secondaryWakeOnlyPan) {
+        if(state==UIGestureRecognizerStateEnded || state==UIGestureRecognizerStateCancelled ||
+           state==UIGestureRecognizerStateFailed) {
+            self.secondaryWakeOnlyPan=NO;
+            DFCLog(@"qa176-a1-secondary-hidden-gesture-ended-no-resize");
+        }
+        return;
+    }
     if(state==UIGestureRecognizerStateBegan){
+        if(!DF178ChromeVisible(NSDate.date.timeIntervalSince1970,
+                self.controlsUntil,self.panActive,self.logoTouchPending)) {
+            self.secondaryWakeOnlyPan=YES;
+            [self df178RecallChromeVisualOnly];
+            DFCLog(@"qa176-a1-secondary-hidden-gesture-reserved");
+            return;
+        }
         CGPoint start=[self secondaryTouchOnScreen:pan];
         if(!isfinite(start.x)||!isfinite(start.y))return;
         self.secondaryDragStartPoint=start;
@@ -3035,7 +3091,10 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
     self.restoringPhysical=-1;
     [self.restoreQueue removeAllObjects];
     self.logoTouchPending=NO;
-        _dividerDrag.active=false;
+    self.logoWakeOnlyTap=NO;
+    self.dividerWakeOnlyPan=NO;
+    self.secondaryWakeOnlyPan=NO;
+    _dividerDrag.active=false;
     if(self.hostFullscreen)[self restoreHostFullscreenGeometry];
     self.startupActive=NO;
     ++self.borderGeneration;
