@@ -7,6 +7,7 @@
 #import "DFAppLibrary.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFCarPlaySelectedAppCatalog.h"
+#import "DFCarPlayAppRoute178.h"
 #import "DFAppHabits.h"
 #import "DFAppPickerDisplayPolicy.h"
 #import "DFExtendedSettingsPolicy.h"
@@ -478,6 +479,12 @@
     }
 }
 - (void)zoomTapped {[self.delegate appPickerDidRequestZoom:self];}
+- (void)showAppPickerStatus:(NSString *)message {
+    if(!NSThread.isMainThread || ![message isKindOfClass:NSString.class] ||
+       !message.length || self.runningMode)return;
+    self.titleLabel.text=message;
+    [self.view setNeedsLayout];
+}
 - (void)presentInstalledApps {
     self.runningMode=NO;
     self.runningBundleIDs=@[];
@@ -536,7 +543,18 @@
     NSUInteger generation=++self.inventoryGeneration;
     __weak typeof(self) weakSelf=self;
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0), ^{
-        NSArray<DFAppInfo *> *results=[DFAppLibrary installedUserApps];
+        // OmniCar-style separation: explicitly selected iPhone AppBridge apps
+        // come from installed LS inventory, with one exact-proxy fallback
+        // when the bulk inventory omits an otherwise installed selected app.
+        NSArray<NSString *> *requested=DFConfiguredEnabledAppIDs();
+        NSMutableArray<DFAppInfo *> *results=[[DFAppLibrary installedUserApps] mutableCopy];
+        NSMutableSet<NSString *> *existing=[NSMutableSet new];
+        for(DFAppInfo *item in results)if(item.bundleID.length)[existing addObject:item.bundleID];
+        for(DFAppInfo *item in [DFAppLibrary selectedAppFallbackForBundleIDs:requested]){
+            if(![existing containsObject:item.bundleID]){
+                [results addObject:item];[existing addObject:item.bundleID];
+            }
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             DFAppPickerVC *owner=weakSelf;
             if(!owner || owner.inventoryGeneration!=generation)return;
@@ -546,12 +564,20 @@
             // One canonical iPhone choice -> installed-app roster, shared
             // with the future genuine CarPlay Home catalog publisher. Never
             // synthesize a CarPlay icon for an uninstalled/disabled app.
+            NSArray<NSString *> *installedIDs=[results valueForKey:@"bundleID"];
             NSArray<NSString *> *selectedIDs=DFCarPlaySelectedInstalledBundleIDs(
-                [results valueForKey:@"bundleID"],enabled);
+                installedIDs,enabled);
+            // Native membership is an actual CarPlay owner's discovered FBS
+            // catalog, NOT the selected phone AppBridge plist.
+            NSArray<NSString *> *nativeMaps=DFNativeMapCatalogBundles();
             NSSet<NSString *> *selectedSet=[NSSet setWithArray:selectedIDs];
             NSMutableArray<DFAppInfo *> *visible=[NSMutableArray new];
-            for(DFAppInfo *app in results)
-                if([selectedSet containsObject:app.bundleID])[visible addObject:app];
+            for(DFAppInfo *app in results){
+                if(![selectedSet containsObject:app.bundleID])continue;
+                app.carPlayRoute178=DF178RouteForSelectedBundle(
+                    app.bundleID,installedIDs,enabled,nativeMaps);
+                if(app.carPlayRoute178!=DF178AppUnavailable)[visible addObject:app];
+            }
             // Default, pinned and successful prior selections ONLY affect
             // card ordering. Never assign an app to any pane or auto-start.
             NSArray<NSString *> *orderedIDs=DFRankAppIDsByHabits(
@@ -565,8 +591,8 @@
                 }
             owner.apps=ranked;
             [owner reloadCards];
-            NSLog(@"[DuoFace] native-card-picker real-installed-apps=%lu",
-                  (unsigned long)owner.apps.count);
+            NSLog(@"[DuoFace] qa178-app-picker selected-installed=%lu native-catalog=%lu",
+                  (unsigned long)owner.apps.count,(unsigned long)nativeMaps.count);
         });
     });
 }
@@ -672,7 +698,10 @@
     card.appStateBadge.image=badgeImage?[badgeImage imageWithConfiguration:palette]:nil;
     card.icon.image=[self installedIconForBundle:app.bundleID];
     card.icon.tintColor=UIColor.whiteColor;
-    card.accessibilityLabel=app.displayName;
+    NSString *routeLabel=app.carPlayRoute178==DF178NativeMapReady?
+        @"Bản đồ native CarPlay":(app.carPlayRoute178==DF178NativeMapUnverified?
+        @"Đang chờ bản đồ native CarPlay":@"AppBridge iPhone");
+    card.accessibilityLabel=[NSString stringWithFormat:@"%@ — %@",app.displayName,routeLabel];
     return card;
 }
 - (void)collectionView:(UICollectionView *)collectionView
@@ -686,9 +715,21 @@
         [self refreshInstalledApps];
         return;
     }
-    if(app.bundleID.length){
-        [self.delegate appPicker:self didSelectBundleID:app.bundleID displayName:app.displayName];
+    if(!app.bundleID.length)return;
+    if(app.carPlayRoute178==DF178NativeMapReady){
+        if([self.delegate respondsToSelector:
+            @selector(appPicker:didSelectNativeMapBundleID:displayName:)])
+            [self.delegate appPicker:self didSelectNativeMapBundleID:app.bundleID
+                        displayName:app.displayName];
+        return;
     }
+    if(app.carPlayRoute178==DF178NativeMapUnverified){
+        [self showAppPickerStatus:@"Bản đồ native chưa sẵn sàng"];
+        [self refreshInstalledApps];
+        return;
+    }
+    if(app.carPlayRoute178==DF178PhoneAppBridge)
+        [self.delegate appPicker:self didSelectBundleID:app.bundleID displayName:app.displayName];
 }
 - (NSString *)verifiedRunningIDForIndex:(NSInteger)index {
     if(!self.runningMode || index<0 ||
