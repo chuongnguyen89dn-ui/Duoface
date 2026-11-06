@@ -36,5 +36,5 @@ class QA172RLogoRecall(unittest.TestCase):
   self.assertIn('VERSION="0.0.174~mapwake1"',INT.read_text())
   self.assertIn('Version: 0.1.174~mapwake1',(ROOT/"control").read_text())
   info=(ROOT/"Info.plist").read_text()
-  self.assertIn('<key>CFBundleVersion</key><string>173</string>',info)
+  self.assertIn('<key>CFBundleVersion</key><string>174</string>',info)
 if __name__=="__main__":unittest.main()
