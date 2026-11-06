@@ -78,8 +78,12 @@ jobs:
           set -euo pipefail
           cd sideplay/duoface-native-scene-host
           xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -I tests/qa180_uikit_stub -framework Foundation -framework CoreGraphics tests/qa180_uikit_stub/UIKitStub.m tests/app_wake_176_runtime.m -o "$RUNNER_TEMP/appwake"
+          set +e
           "$RUNNER_TEMP/appwake" > "$RUNNER_TEMP/appwake.log" 2>&1
+          model_status=$?
+          set -e
           cat "$RUNNER_TEMP/appwake.log"
+          test "$model_status" -eq 0
           grep -F QA176_A1_APP_WAKE_MODEL_PASS "$RUNNER_TEMP/appwake.log"
       - name: Actual iOS arm64 syntax
         run: |
