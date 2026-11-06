@@ -1,0 +1,60 @@
+name: Validate DuoFace fast QA and immutable archive pipeline
+on:
+  push:
+    branches: [spec-main]
+    paths:
+      - '.github/workflows/duoface-jb-embedded-appbridge-package.yml'
+      - '.github/workflows/validate-qa-pipeline.yml'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Check fast gate plus two-tier CI semantics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pyyaml
+          python3 - <<'PY'
+          from pathlib import Path
+          import yaml
+          path=Path('.github/workflows/duoface-jb-embedded-appbridge-package.yml')
+          cfg=yaml.safe_load(path.read_text())
+          assert cfg['permissions']['contents']=='read'
+          assert len(cfg['jobs'])==2, list(cfg['jobs'])
+          candidate=cfg['jobs']['package-candidate']
+          steps=candidate['steps']
+          assert any(s.get('uses')=='actions/checkout@v4' and s.get('with',{}).get('fetch-depth')==1 for s in steps)
+          assert any(s.get('uses')=='actions/cache@v4' and 'theos' in str(s.get('with',{}).get('path','')) for s in steps)
+          assert any('test_integrated_package.py' in s.get('run','') for s in steps)
+          assert any('test_integrated_package_144.py' in s.get('run','') for s in steps)
+          assert any('xcrun clang' in s.get('run','') for s in steps)
+          assert any('package_integrated.py --build' in s.get('run','') for s in steps)
+          archive=[s for s in steps if 'duoface-debs-' in s.get('name','')]
+          assert len(archive)==1
+          assert 'DUOFACE_DEBS_WRITE_TOKEN' in archive[0].get('env',{})
+          assert not any('git -C "$TEMP" add -f' in s.get('run','') for s in steps)
+          matrix=cfg['jobs']['full-regression-matrix']
+          assert matrix.get('continue-on-error') is True
+          assert matrix['strategy']['fail-fast'] is False
+          assert len(matrix['strategy']['matrix']['component'])>=5
+          print('QA_FAST_BLOCKING_AND_ADVISORY_MATRIX_AND_ARCHIVE_POLICY_PASS')
+          PY
+      - name: Execute fast integrated package policy tests on source (no build)
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
+      - name: Check GitHub Actions semantics with actionlint
+        run: |
+          set -euo pipefail
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
+          "$HOME/go/bin/actionlint" -color -shellcheck= .github/workflows/duoface-jb-embedded-appbridge-package.yml .github/workflows/validate-qa-pipeline.yml
