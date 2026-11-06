@@ -32,9 +32,12 @@ class QA180H1Wake3(unittest.TestCase):
         self.assertNotIn("dictionaryWithContentsOfFile:", gate)
         self.assertNotIn("DF177KbComputeVisible(", gate)
         self.assertRegex(gate, r"DF188ControlsHiddenKnown\s*&&\s*DF188ControlsHidden\s*&&\s*!DF188KbSessionVisible")
-        self.assertIn("DF177AppTouchNoteBeganEx(DF177TouchBundle, YES);",gate)
+        self.assertIn("DF177AppTouchNoteBeganExWithGate(DF177TouchBundle, YES, gateAtDecision);",gate)
         self.assertIn("return; // consumed: the original never receives this event",gate)
-        self.assertIn("DF177AppTouchNoteBegan(DF177TouchBundle);",gate)
+        self.assertIn("DF177AppTouchNoteBeganExWithGate(DF177TouchBundle, NO, gateAtDecision);",gate)
+        self.assertIn("if (hasBegan) gateAtDecision = DF188GateAtDecision();",gate)
+        self.assertLess(gate.index("gateAtDecision = DF188GateAtDecision()"),
+                        gate.index("DF177SendEventOriginal)("))
 
     def test_relay_receivers_and_initial_one_time_query(self):
         self.assertIn("static BOOL DF188ControlsHidden = NO;",self.app)
@@ -69,14 +72,19 @@ class QA180H1Wake3(unittest.TestCase):
         self.assertIn("notify_cancel(DF188QueryToken)",self.host)
 
     def test_normal_and_swallowed_records_include_gate_and_host_logs_it(self):
-        record=self.app.split("static inline void DF177AppTouchNoteBeganEx(",1)[1].split(
-            "static inline void DF177AppTouchNoteBegan(",1)[0]
-        for name in ('@"gate": [NSString stringWithFormat:', '@"known=%d hidden=%d kb=%d"',
+        sender=self.app.split("static inline void DF177AppTouchNoteBeganExWithGate(",1)[1].split(
+            "static inline void DF177AppTouchNoteBeganEx(",1)[0]
+        snap=self.app.split("static inline NSString *DF188GateAtDecision(",1)[1].split(
+            "static inline void DF177AppTouchNoteBeganExWithGate(",1)[0]
+        for name in ('@"known=%d hidden=%d kb=%d"',
                      '(int)DF188ControlsHiddenKnown','(int)DF188ControlsHidden',
-                     '(int)DF188KbSessionVisible','@"swallowed": @(swallowed)'):
-            self.assertIn(name,record)
+                     '(int)DF188KbSessionVisible'):
+            self.assertIn(name,snap)
+        self.assertIn('@"gate": decisionGate ?: DF188GateAtDecision()',sender)
+        self.assertIn('@"swallowed": @(swallowed)',sender)
         self.assertIn("DF177AppTouchNoteBeganEx(bundle, NO)",self.app)
-        self.assertIn("DF177AppTouchNoteBeganEx(DF177TouchBundle, YES)",self.app)
+        self.assertIn("DF177AppTouchNoteBeganExWithGate(DF177TouchBundle, YES, gateAtDecision)",self.app)
+        self.assertIn("DF177AppTouchNoteBeganExWithGate(DF177TouchBundle, NO, gateAtDecision)",self.app)
         self.assertIn('rec[@"gate"]',self.host)
         self.assertIn("swallowed=%d gate=%@",self.host)
 

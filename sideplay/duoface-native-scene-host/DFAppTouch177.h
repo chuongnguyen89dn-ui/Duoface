@@ -101,7 +101,17 @@ static BOOL DF188ControlsHidden = NO;
 static BOOL DF188ControlsHiddenKnown = NO;
 static BOOL DF188KbSessionVisible = NO;
 
-static inline void DF177AppTouchNoteBeganEx(NSString *bundle, BOOL swallowed) {
+// Capture the gate BEFORE UIKit's original sendEvent: can change keyboard state.
+// An ordinary record is written afterwards but must report the prior decision.
+static inline NSString *DF188GateAtDecision(void) {
+    return [NSString stringWithFormat:@"known=%d hidden=%d kb=%d",
+            (int)DF188ControlsHiddenKnown, (int)DF188ControlsHidden,
+            (int)DF188KbSessionVisible];
+}
+
+static inline void DF177AppTouchNoteBeganExWithGate(NSString *bundle,
+                                                      BOOL swallowed,
+                                                      NSString *decisionGate) {
     if (!bundle.length || !DF177AppTouchEnabled()) return;
     NSTimeInterval now = NSDate.date.timeIntervalSince1970;
     // A swallowed wake tap is the only signal the host gets; it must
@@ -118,11 +128,7 @@ static inline void DF177AppTouchNoteBeganEx(NSString *bundle, BOOL swallowed) {
                               @"pid": @(getpid()),
                               @"count": @(DF177TouchCount), @"ts": @(now),
                               @"swallowed": @(swallowed),
-                              @"gate": [NSString stringWithFormat:
-                                  @"known=%d hidden=%d kb=%d",
-                                  (int)DF188ControlsHiddenKnown,
-                                  (int)DF188ControlsHidden,
-                                  (int)DF188KbSessionVisible]};
+                              @"gate": decisionGate ?: DF188GateAtDecision()};
         NSData *bytes = [NSJSONSerialization dataWithJSONObject:rec
                                                           options:0 error:nil];
         uint64_t generation = 0;
@@ -131,6 +137,10 @@ static inline void DF177AppTouchNoteBeganEx(NSString *bundle, BOOL swallowed) {
                                 generation ?: 1))
             notify_post(DF177TouchWakeName);
     } @catch (__unused NSException *e) {}
+}
+
+static inline void DF177AppTouchNoteBeganEx(NSString *bundle, BOOL swallowed) {
+    DF177AppTouchNoteBeganExWithGate(bundle, swallowed, DF188GateAtDecision());
 }
 
 static inline void DF177AppTouchNoteBegan(NSString *bundle) {
@@ -239,11 +249,13 @@ static BOOL DF188Swallowing = NO;
 static NSMutableSet<NSValue *> *DF188SwallowedTouches = nil;
 
 static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
+    NSString *gateAtDecision = nil;
     if (event.type == UIEventTypeTouches) {
         NSSet<UITouch *> *touches = event.allTouches;
         BOOL hasBegan = NO;
         for (UITouch *touch in touches)
             if (touch.phase == UITouchPhaseBegan) { hasBegan = YES; break; }
+        if (hasBegan) gateAtDecision = DF188GateAtDecision();
         if (DF188Swallowing) {
             BOOL intersects = NO;
             for (UITouch *touch in touches)
@@ -275,7 +287,7 @@ static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
                 for (UITouch *touch in touches)
                     [DF188SwallowedTouches addObject:
                         [NSValue valueWithPointer:(const void *)touch]];
-                DF177AppTouchNoteBeganEx(DF177TouchBundle, YES);
+                DF177AppTouchNoteBeganExWithGate(DF177TouchBundle, YES, gateAtDecision);
                 DF177KbRefreshFromScan();
                 return; // wake-only tap: the app never receives it
             }
@@ -288,7 +300,7 @@ static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
     if (event.type == UIEventTypeTouches) {
         for (UITouch *touch in event.allTouches) {
             if (touch.phase == UITouchPhaseBegan) {
-                DF177AppTouchNoteBegan(DF177TouchBundle);
+                DF177AppTouchNoteBeganExWithGate(DF177TouchBundle, NO, gateAtDecision);
                 DF177KbRefreshFromScan();
                 break;
             }

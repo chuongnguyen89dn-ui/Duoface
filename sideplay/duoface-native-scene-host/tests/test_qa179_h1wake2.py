@@ -21,7 +21,7 @@ class QA179H1Wake2(unittest.TestCase):
         self.assertNotIn("DF177KbComputeVisible(", gate)
         self.assertRegex(gate, r"DF188ControlsHiddenKnown\s*&&\s*DF188ControlsHidden\s*&&\s*!DF188KbSessionVisible")
         self.assertNotIn("DF188RefreshControlsHidden();", gate)
-        self.assertIn("DF177AppTouchNoteBeganEx(DF177TouchBundle, YES);", gate)
+        self.assertIn("DF177AppTouchNoteBeganExWithGate(DF177TouchBundle, YES, gateAtDecision);", gate)
         self.assertIn("return; // consumed: the original never receives this event", gate)
 
     def test_keyboard_session_show_and_hide_notifications(self):
