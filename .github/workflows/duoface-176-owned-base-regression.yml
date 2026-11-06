@@ -49,6 +49,14 @@ jobs:
           "$RUNNER_TEMP/wake"
           xcrun --sdk macosx clang -fobjc-arc -fblocks -O1 -Wall -Wextra -Werror -Wno-deprecated-declarations -framework Foundation tests/map_replace_180_runtime.m -o "$RUNNER_TEMP/map"
           "$RUNNER_TEMP/map"
+      - name: App sender old failure and new integration
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          git show 29f4ff31840191e6545163e29c4b694cc2020bee:sideplay/duoface-native-scene-host/DFAppTouch177.h > "$RUNNER_TEMP/old-sender.h"
+          if python3 tests/test_app_wake_176_integration.py "$RUNNER_TEMP/old-sender.h" > "$RUNNER_TEMP/old-sender.log" 2>&1; then exit 1; fi
+          grep -F QA175_GATE_MISSING_FROM_APP_DELIVERY "$RUNNER_TEMP/old-sender.log"
+          python3 tests/test_app_wake_176_integration.py DFAppTouch177.h
       - name: Actual app delivery gate model
         run: |
           set -euo pipefail
