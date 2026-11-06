@@ -1341,7 +1341,7 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
        self.pickerVisible || self.styleVisible || self.appPickerVisible)return;
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     self.controlsUntil=MAX(self.controlsUntil,now+4.0);
-    self.borderUntil=MAX(self.borderUntil,now+2.0);
+    // Logo recall does not request red border or change pane/input geometry.
     [self df178RefreshChromeArtwork];
     [self df178ScheduleChromeExpiry];
 }
@@ -1988,8 +1988,11 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
         // a RED outline appears only briefly after a real user action; a
         // loaded pane never retains a permanent border while playing media.
         BOOL splitVisible=(!self.startupActive && self.focus<0);
-        BOOL touched=(splitVisible && !self.pickerVisible &&
-                     NSDate.date.timeIntervalSince1970<self.borderUntil);
+        // The red outline must never outlive or appear without the logo.
+        BOOL touched=(splitVisible && controlsVisible &&
+                      !self.pickerVisible && !self.styleVisible &&
+                      !self.appPickerVisible &&
+                      NSDate.date.timeIntervalSince1970<self.borderUntil);
         BOOL empty=(!loaded && !negotiating);
         v.layer.borderWidth=splitVisible?(touched?1.0:(empty?0.75:0.0)):0.0;
         v.layer.borderColor=(touched?
