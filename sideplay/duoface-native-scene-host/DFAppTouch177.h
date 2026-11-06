@@ -16,11 +16,11 @@
 // per kDF177TouchThrottleSeconds; the count is cumulative so a lost
 // wakeup loses nothing.
 //
-// Observation point: -[UIApplication sendEvent:]. The original
-// implementation runs FIRST; the hook only reads the event afterwards
-// (any touch with phase Began) — it never keeps, delays, reorders or
-// cancels a touch. Installed only inside apps that carry an app-side
-// relay (DF155 pilot scope, plus YouTube via its own relay).
+// Observation point: the EXISTING per-relay -[UIApplication sendEvent:] hook.
+// Eligible hidden-first gestures are reserved before original delivery only
+// after an exact owned scene, keyboard and transport preflight. Otherwise the
+// original dispatch runs first and a Began is observed afterwards. No new hook
+// or window; installed only into DF155 relays plus the YouTube relay.
 //
 // Kill switch: key AppTouchRecall177 in the qa177 prefs plist
 // (absent = ON). Both sides read it live; 0 stops the sender and makes
@@ -95,28 +95,33 @@ static NSTimeInterval DF177TouchLastSentAt = 0;
 static DF156Mailbox DF177TouchBox;
 static BOOL DF177TouchBoxReady = NO;
 
-static inline void DF177AppTouchNoteBegan(NSString *bundle) {
-    if (!bundle.length || !DF177AppTouchEnabled()) return;
-    NSTimeInterval now = NSDate.date.timeIntervalSince1970;
-    if (now - DF177TouchLastSentAt < kDF177TouchThrottleSeconds) return;
-    DF177TouchLastSentAt = now;
-    DF177TouchCount++;
+static inline BOOL DF177AppTouchNoteBegan(NSString *bundle,BOOL wakeReserved) {
+    if(!bundle.length || !DF177AppTouchEnabled())return NO;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(!wakeReserved && now-DF177TouchLastSentAt<kDF177TouchThrottleSeconds)
+        return NO; // Normal observation may throttle; a reserved wake may not.
     @try {
-        if (!DF177TouchBoxReady) {
-            DF156Init(&DF177TouchBox, DF177TouchMailboxName);
-            DF177TouchBoxReady = YES;
+        if(!DF177TouchBoxReady) {
+            DF156Init(&DF177TouchBox,DF177TouchMailboxName);
+            DF177TouchBoxReady=YES;
         }
-        NSDictionary *rec = @{@"version": @2, @"bundle": bundle,
-                              @"pid": @(getpid()),
-                              @"count": @(DF177TouchCount), @"ts": @(now)};
-        NSData *bytes = [NSJSONSerialization dataWithJSONObject:rec
-                                                          options:0 error:nil];
-        uint64_t generation = 0;
-        arc4random_buf(&generation, sizeof(generation));
-        if (bytes && DF156Write(&DF177TouchBox, bytes.bytes, bytes.length,
-                                generation ?: 1))
-            notify_post(DF177TouchWakeName);
-    } @catch (__unused NSException *e) {}
+        uint64_t nextCount=DF177TouchCount+1;
+        NSDictionary *rec=@{@"version":@2,@"bundle":bundle,
+            @"pid":@(getpid()),@"count":@(nextCount),@"ts":@(now),
+            @"reserved":@(wakeReserved)};
+        NSData *bytes=[NSJSONSerialization dataWithJSONObject:rec
+                                                      options:0 error:nil];
+        uint64_t generation=0;
+        arc4random_buf(&generation,sizeof(generation));
+        // DF156Write posts its own committed-mailbox wake; the explicit
+        // app-touch notification MUST also succeed before we consume input.
+        if(!bytes || !DF156Write(&DF177TouchBox,bytes.bytes,bytes.length,
+                                generation?:1) ||
+           notify_post(DF177TouchWakeName)!=NOTIFY_STATUS_OK)return NO;
+        DF177TouchCount=nextCount;
+        DF177TouchLastSentAt=now;
+        return YES;
+    } @catch (__unused NSException *e) {return NO;}
 }
 
 static IMP DF177SendEventOriginal = NULL;
@@ -182,14 +187,14 @@ static inline void DF177KbRefreshFromScan(void) {
 #import "DFAppWakeGate176.h"
 static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
     if(DF176ConsumeWakeEvent(event,DF177TouchBundle))return;
-    // Original first: the app receives the event exactly as before.
+    // Every non-reserved/unknown event is forwarded unchanged to the app.
     ((void (*)(UIApplication *, SEL, UIEvent *))DF177SendEventOriginal)(
         self, _cmd, event);
     // Read-only observation afterwards.
     if (event.type == UIEventTypeTouches) {
         for (UITouch *touch in event.allTouches) {
             if (touch.phase == UITouchPhaseBegan) {
-                DF177AppTouchNoteBegan(DF177TouchBundle);
+                DF177AppTouchNoteBegan(DF177TouchBundle,NO);
                 DF177KbRefreshFromScan();
                 break;
             }
