@@ -1,14 +1,32 @@
 {
-  "checked_at_utc": "2026-11-05T22:06:38.958945+00:00",
+  "checked_at_utc": "2026-11-06T02:33:14.199219+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4354,
+  "total_actions_runs": 4363,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 12,
-      "success": 11,
+      "recent_runs": 13,
+      "success": 12,
       "failure": 0,
       "other": 1
+    },
+    "QA173 logo + selected apps native/bridge - signed private candidate": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
+    },
+    "QA178 independent logo and OmniCar-style app roster source gates": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "QA172 wakefix5 guarded native map launch - signed candidate": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
     },
     "QA172 wakefix4 activity ownership and native-map restoration - signed candidate": {
       "recent_runs": 1,
@@ -137,25 +155,109 @@
       "other": 0
     },
     "QA173 touch and log reduction - private rootless signed DuoFace DEB": {
-      "recent_runs": 8,
+      "recent_runs": 3,
       "success": 1,
-      "failure": 4,
-      "other": 3
-    },
-    "QA172 GOFA payload decoder shadow - private rootless signed DuoFace DEB": {
-      "recent_runs": 4,
-      "success": 1,
-      "failure": 3,
+      "failure": 2,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 42151026124,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 117,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42151026124",
+      "created_at": "2026-11-06T02:33:01Z",
+      "head_sha": "8dbb23c51d33a7bcd8345aca1ab4fa5cac5ab0db"
+    },
+    {
+      "id": 42144397387,
+      "name": "QA173 logo + selected apps native/bridge - signed private candidate",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42144397387",
+      "created_at": "2026-11-06T01:31:25Z",
+      "head_sha": "0c3faf02e5a8596842a12ddc7b86b429ce3aab1a"
+    },
+    {
+      "id": 42144378337,
+      "name": "QA178 independent logo and OmniCar-style app roster source gates",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42144378337",
+      "created_at": "2026-11-06T01:31:15Z",
+      "head_sha": "4f9dda2fbca0f577a44da3a5eab75478721903f6"
+    },
+    {
+      "id": 42143863275,
+      "name": "QA173 logo + selected apps native/bridge - signed private candidate",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42143863275",
+      "created_at": "2026-11-06T01:26:31Z",
+      "head_sha": "b96b98fd05090c1afd3ad1d3940dd99c3b2e862f"
+    },
+    {
+      "id": 42143731926,
+      "name": "QA173 logo + selected apps native/bridge - signed private candidate",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42143731926",
+      "created_at": "2026-11-06T01:25:20Z",
+      "head_sha": "5a52dcf98f5ba1c918a8e1f4cfcf1519f9ddbbc5"
+    },
+    {
+      "id": 42143363794,
+      "name": "QA178 independent logo and OmniCar-style app roster source gates",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42143363794",
+      "created_at": "2026-11-06T01:22:08Z",
+      "head_sha": "71f635c38779844e545ac2b9c54f2975a1a56fe9"
+    },
+    {
+      "id": 42122359843,
+      "name": "QA172 wakefix5 guarded native map launch - signed candidate",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42122359843",
+      "created_at": "2026-11-05T22:32:32Z",
+      "head_sha": "88702ca96c122c81d06b44032d0e51f41249bc17"
+    },
+    {
+      "id": 42121665247,
+      "name": "QA172 wakefix5 guarded native map launch - signed candidate",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42121665247",
+      "created_at": "2026-11-05T22:27:35Z",
+      "head_sha": "ced51130d84d2a18c5af690443d769aea6892d23"
+    },
+    {
+      "id": 42119125234,
+      "name": "QA172 wakefix5 guarded native map launch - signed candidate",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42119125234",
+      "created_at": "2026-11-05T22:10:03Z",
+      "head_sha": "06b56ac1e11cba1507913d16c4cc5c38f6e0d82e"
+    },
+    {
       "id": 42118586704,
       "name": "DuoFace Actions status snapshot",
       "run_number": 116,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42118586704",
       "created_at": "2026-11-05T22:06:21Z",
       "head_sha": "f6a72f546eb5e178cef6df9f18178121b5615ffd"
@@ -359,96 +461,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41754217426",
       "created_at": "2026-11-04T01:27:47Z",
       "head_sha": "a1910433f30b220e2f0651bcfe736bec6899f8fb"
-    },
-    {
-      "id": 41719007774,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 109,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41719007774",
-      "created_at": "2026-11-03T21:08:11Z",
-      "head_sha": "0fb661177fdd29f3d8cb49eb7c2e8fddf6c5b958"
-    },
-    {
-      "id": 41662255830,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 108,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41662255830",
-      "created_at": "2026-11-03T15:17:00Z",
-      "head_sha": "a9fec8137d8be6f5ae8b71dc5651dc1e51d749d4"
-    },
-    {
-      "id": 41639519757,
-      "name": "QA187 kbwidth1 (QA172 base + keyboard width adaptation only) - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41639519757",
-      "created_at": "2026-11-03T12:53:28Z",
-      "head_sha": "7d9a53188fab38fded1ed993acdd83aa56ff3326"
-    },
-    {
-      "id": 41634111776,
-      "name": "QA172 logorecall1 (QA171 base + QA177 H1 only) - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41634111776",
-      "created_at": "2026-11-03T12:14:59Z",
-      "head_sha": "2f283ec90380c622561da44c3b4aec762dd5819a"
-    },
-    {
-      "id": 41626756922,
-      "name": "QA186 split supersample + scene liveness - private rootless signed DuoFace DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41626756922",
-      "created_at": "2026-11-03T11:20:45Z",
-      "head_sha": "2d408d469fc90cbe52f1bebeaecdc6e21c450df7"
-    },
-    {
-      "id": 41626456136,
-      "name": "QA186 split supersample + scene liveness - private rootless signed DuoFace DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41626456136",
-      "created_at": "2026-11-03T11:18:35Z",
-      "head_sha": "f2ebf4083b08d50a12e7cd9f7e5799163456fc15"
-    },
-    {
-      "id": 41617303355,
-      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41617303355",
-      "created_at": "2026-11-03T10:12:24Z",
-      "head_sha": "39ab58f108c977cc4e9b52fafef6214578288ddd"
-    },
-    {
-      "id": 41616954464,
-      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616954464",
-      "created_at": "2026-11-03T10:09:55Z",
-      "head_sha": "0c3c9762a14b4d3c7d3279f2f463040b13da35c1"
-    },
-    {
-      "id": 41616950043,
-      "name": "QA185 destination-size geometry - private rootless signed DuoFace DEB",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/41616950043",
-      "created_at": "2026-11-03T10:09:54Z",
-      "head_sha": "c3a5f46b3828e358510a7daf7559bc653b36c174"
     }
   ]
 }
