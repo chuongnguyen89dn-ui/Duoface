@@ -1,3 +1,13 @@
+## CHECKPOINT QA175-DEVICE-FAIL-LOG4-20261106
+
+- User reports 0.0.175~wakepick1 still fails: only direct-logo touch recalls logo; native map selection blinks and restores old app; no added CarPlay Home icons.
+- Diagnosed ONLY newest main upload commit `2066903f4b04eaa93ddd74085810558fe52ed066` (DuoFaceAudit 4.txt + three * 4.ips); no older logs used. Full findings: `sideplay/audit/qa175-device-fail-log4-20261106/FINDINGS.md`.
+- Wake: current traces contain ZERO `qa180-wake-contact`; old qa177 app-touch relay signals exist. QA180 gate is not receiving the real hidden pane contact on device. Direct logo raw touch still works.
+- Maps: picker/replace gap IS fixed: card-entry, replace-prepared and real picker requests exist. Current failures are downstream: every sampled completion `applied=0 restore=1 reason=native-launch-owned-base-view-unverified`; summary ACK same reason. Source maps this to DFNativeMapLaunchRuntime visibility check for DuoFace currentBase view. Blink = old host withdrawn then restored after reject.
+- Home: selected LS inclusion and FBSApplicationLibrary bridge declarations exist, but log explicitly says not-icon-proof; selected policy has launch=0 and Dashboard ABI shows `iconManager:launchIcon:` absent, `launchIconForIconView:` present. User visual result is zero new icons. Need real Dashboard icon publication/data-source path, separate from declarations.
+- Three IPS are old Nov2/4 disk-write resource reports, not QA175 crash evidence.
+- Physical QA175 acceptance: FAILED. Next source priorities A actual pane touch owner, B native launch owned-base visibility reconciliation, C real Home icon publication. Do not retune idle timer or redo picker. Preserve GOFA/keyboard/media/divider/lifecycle unless evidence changes.
+
 ## CHECKPOINT QA175-OFFICIAL-SILEO-PUBLIC-VERIFIED-20261106
 
 - User ordered publication; COMPLETED for exact signed DuoFace `0.0.175~wakepick1`. This supersedes prior blocked/staged-only distribution status; NOT physical functional acceptance.
