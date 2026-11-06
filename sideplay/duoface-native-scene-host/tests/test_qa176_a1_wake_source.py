@@ -64,6 +64,9 @@ class A1WakeWiring(unittest.TestCase):
                       "DF177KbComputeVisible()",
                       "DF177IsKeyboardWindow(window)"):
             self.assertIn(token,GATE)
+        self.assertIn("DF177KbNotificationVisible ||",APP)
+        self.assertIn("UIKeyboardWillShowNotification",APP)
+        self.assertIn("UIKeyboardDidHideNotification",APP)
 
     def test_both_direct_logo_and_primary_divider_are_wake_only(self):
         logo=method(CHROME,"- (void)logoTouchDown:","- (void)logoTouchChanged:")
