@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-11-06 — UI Attach trên wakefix5: không có nút chữ Attach
+
+- **Yêu cầu mới nhất:** Người dùng hỏi nút Attach nằm ở đâu trên bản Sileo `0.0.172~wakefix5`. Đây là yêu cầu giải thích UI, **không yêu cầu sửa mã, build hay phát hành**.
+- **Đã đọc và xác minh mã nguồn đúng nhánh** `feature/sideplay-native-launch-wakefix5-20261106`, commit trước ghi `7a250041a857c93bca2dedd490b6c88aebbb2b72`; nguồn `sideplay/duoface-native-scene-host/DFNativeHostRootController.m` blob `c6b2e13b7fb14e56d4c56083023c28ec53809eeb`. Dòng 199–204: tab `Trạng thái | Ứng dụng | Bố cục`. Dòng 531–545: trong tab Ứng dụng, nhóm `Quản lý`, hàng `Bản đồ CarPlay native`; dòng 988–993 gọi `showNativeMapPaneChoices`. Dòng 967–976: alert `Maps native — thử nghiệm` tạo action theo `Tên bản đồ — bên trái/bên phải` và action đó gọi `nativeMapPaneCommand:@"Attach" slot:slot bundle:bundle`. Dòng 978–981: `Khôi phục giao diện Maps` gọi `Restore`. Dòng 575–577 và 1032–1037: tab Bố cục có đường đi `Thử nghiệm bản đồ CarPlay native` vào cùng alert.
+- **Kết luận chính xác:** Attach là chuỗi Operation nội bộ, **không tồn tại nút riêng được gắn nhãn "Attach" trong UI này**. Thao tác thực tế: iPhone DuoFace → `Ứng dụng` → `Quản lý` → `Bản đồ CarPlay native` → `Google Maps/Apple Maps/Waze — bên trái/bên phải` (chỉ hiện app có trong danh mục). Hoặc `Bố cục` → `Thử nghiệm bản đồ CarPlay native` → chọn tên app và ô. `Khôi phục giao diện Maps` là Restore.
+- **Giới hạn:** xác minh tĩnh từ mã nguồn, không có screenshot trực tiếp hoặc kiểm chứng phiên bản đã cài trên iPhone/CarPlay. Không thay production code/DEB/publisher, không khởi động workflow hoặc deploy. Bản phát hành đã xác minh theo checkpoint trước: publisher run `42130281891` 5/5 success, DEB SHA256 `90efffed61ee5a1a44db3e0371f9d205a54cdb3b55a76cc5ec27f63d26f12d47`. PR #2 vẫn draft. Tại lần kiểm tra 2026-11-06, không có workflow in_progress ở cả hai repo.
+- **Bước kế tiếp:** người dùng có thể chọn đúng dòng bản đồ–ô trong UI khi xe đang đỗ và gửi ảnh/log nếu mục không hiện hoặc bản đồ không attach; kiểm tra phiên bản cài và lỗi thật trước khi làm bản tiếp theo. Tiêu chí chốt: phân biệt đã gọi Attach với Applied ACK và hiển thị/cảm ứng thực tế; không tuyên bố device PASS từ kiểm thử CI.
+
+---
+
 ## TRẠNG THÁI HIỆN TẠI — SILEO 0.0.172~wakefix5 ĐÃ PHÁT HÀNH (2026-11-06)
 
 - **Yêu cầu người dùng mới nhất (đã thực hiện):** "Đưa lên sileo bản tiếp theo ko cần thử nghiệm. Hỏng thì sửa". Đưa bản đã ký `0.0.172~wakefix5` trực tiếp thành bản update bình thường trong source Sileo đang dùng, không thêm kênh/staging QA. Các phiên bản cũ vẫn có thể tải để rollback. Không tự tuyên bố đã test thiết bị hoặc sửa được lỗi hiển thị thực tế.
