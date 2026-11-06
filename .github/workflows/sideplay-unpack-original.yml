@@ -30,22 +30,39 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f com.sideplay_1.0.4-1_iphoneos-arm64.deb
+          SRC='com.sideplay_1.0.4-1_iphoneos-arm64.deb'
+          URL='https://raw.githubusercontent.com/chuongnguyen89dn-ui/duoface-debs-/64527544b923e1af6b2dd5a9b43c433a35001507/historical/com.sideplay_1.0.4-1_iphoneos-arm64.deb'
+          curl -fLsS --retry 4 --max-time 120 "$URL" -o "$SRC"
+          printf '%s  %s\n' '7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c' "$SRC" | sha256sum -c -
+          test "$(git hash-object "$SRC")" = 'dd577b786744b73306dd99037abd32c657d855b1'
           python3 -m py_compile sideplay/tools/extract_sideplay_deb.py
           python3 sideplay/tools/extract_sideplay_deb.py --deb com.sideplay_1.0.4-1_iphoneos-arm64.deb
           test -s sideplay/audit/deb-1.0.4-1/inventory.json
           test -s sideplay/audit/deb-1.0.4-1/SHA256SUMS.txt
-      - name: Save unpacked files and full static inventory to GitHub
+      - name: Persist concise text-only extraction conclusion
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- sideplay/extracted-1.0.4-1 sideplay/audit/deb-1.0.4-1
+          python3 - <<'PY'
+          from pathlib import Path
+          audit=Path('sideplay/audit/deb-1.0.4-1')
+          assert (audit/'inventory.json').is_file()
+          assert (audit/'SHA256SUMS.txt').is_file()
+          (audit/'ARCHIVE_SUMMARY.md').write_text(
+              '# SidePlay original 1.0.4-1 static extraction\n\n'
+              'Original 4,352,576-byte DEB archived outside DuoFace Git at '
+              '`duoface-debs-/historical/com.sideplay_1.0.4-1_iphoneos-arm64.deb`.\n\n'
+              'SHA256: `7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c`.\n\n'
+              'CI ran static extraction. Raw unpacked files and JSON are available '
+              'as temporary CI artifacts, not recommitted to source.\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- sideplay/audit/deb-1.0.4-1/ARCHIVE_SUMMARY.md
           if git diff --cached --quiet; then
-            echo 'No unpacked changes to commit.'
+            echo 'SIDEPAY_STATIC_AUDIT_SUMMARY_ALREADY_RECORDED'
           else
-            git commit -m 'audit(sideplay): preserve full DEB payload, control, file hashes and Mach-O inventory [skip ci]'
+            git commit -m 'audit: summarize archived SidePlay extraction without raw dumps [skip ci]'
             git push origin HEAD:main
           fi
       - name: Upload forensic evidence even if repository push fails
