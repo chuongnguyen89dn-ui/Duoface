@@ -49,6 +49,16 @@ class QA178LogoVisibility(unittest.TestCase):
         self.assertIn("BOOL touched=(splitVisible && controlsVisible &&",layout)
         self.assertIn("self.borderUntil",layout)
 
+    def test_logo_expiry_clears_painted_red_without_layout_or_input_changes(self):
+        refresh=method("- (void)df178RefreshChromeArtwork {",
+                       "- (void)df178RecallChromeVisualOnly {")
+        self.assertIn("self.dividerLogo.alpha=visible?1.0:0.02;",refresh)
+        self.assertIn("if(!visible) {",refresh)
+        self.assertIn("paneView.layer.borderWidth=0.0;",refresh)
+        for forbidden in ("layoutControls", "window.frame", "kbVisible177",
+                          "hostViewForBundleID", "userInteractionEnabled"):
+            self.assertNotIn(forbidden,refresh)
+
     def test_drag_and_deadline_behavior(self):
         self.assertIn("DF178ChromeVisible",CHROME)
         self.assertIn("isDragging || logoTouchPending",HEADER)

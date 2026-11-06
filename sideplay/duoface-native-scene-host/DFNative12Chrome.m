@@ -1333,7 +1333,18 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
                                   self.controlsUntil,self.panActive,self.logoTouchPending);
     self.dividerLogo.alpha=visible?1.0:0.02;
     [self updateGripBlinkForVisibleSession:visible];
-    if(!visible)DFCLog(@"qa178-logo-idle-4s-hidden-visual-only");
+    if(!visible) {
+        // A 4s logo timeout must also remove any STILL PAINTED red border.
+        // The old delayed layout can be suppressed while the keyboard is up;
+        // repaint only our 1pt red border, never panes/scenes/keyboard geometry.
+        for(UIView *paneView in self.appSceneContainers) {
+            if([paneView isKindOfClass:UIView.class] &&
+               paneView.layer.borderWidth>0.99 &&
+               paneView.layer.borderWidth<1.01)
+                paneView.layer.borderWidth=0.0;
+        }
+        DFCLog(@"qa179-logo-idle-red-border-hidden-visual-only");
+    }
 }
 // Visual-only recall; no geometry, keyboard or app-scene layout changes.
 - (void)df178RecallChromeVisualOnly {

@@ -18,6 +18,19 @@ class AppRoster178(unittest.TestCase):
   self.assertIn("DFCarPlaySelectedInstalledBundleIDs",PICKER)
   self.assertIn("DFNativeMapCatalogBundles",PICKER)
   self.assertIn("DFPickerAllowsApp",PICKER)
+ def test_phone_manual_map_choices_do_not_hide_selected_maps_from_stale_catalog(self):
+  # Manual phone action and in-car picker must apply the same selected roster.
+  phone=(ROOT/"DFNativeHostRootController.m").read_text()
+  start=phone.index("- (void)showNativeMapPaneChoices {")
+  end=phone.index("- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:",start)
+  menu=phone[start:end]
+  self.assertIn("DFConfiguredEnabledAppIDs()",menu)
+  self.assertIn("DFNativeMapAllowedBundle(bundle)",menu)
+  self.assertIn("DFPickerAllowsApp(bundle,selected)",menu)
+  self.assertIn("[self nativeMapPaneCommand:",menu)
+  self.assertNotIn("(!native || [native containsObject:bundle])",menu)
+  self.assertNotIn("DFNativeMapAckApplied",menu)
+
  def test_no_native_owner_bypass_or_synthetic_home(self):
   for forbidden in ("MSHookMessageEx", "setIconState:forVehicleID:", "CPMapTemplate alloc"):
    self.assertNotIn(forbidden,CAT)

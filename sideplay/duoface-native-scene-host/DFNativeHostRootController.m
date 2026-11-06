@@ -952,11 +952,16 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)showNativeMapPaneChoices {
-    NSArray<NSString *> *native=DFNativeMapCatalogBundles();
+    // OmniCar-style separation: installed + user-selected apps can be
+    // requested; a missing or stale FBS catalog is NOT a launch verdict.
+    // The native CarPlay coordinator still validates declaration, live scene,
+    // physical slot and ownership before any successful attach ACK.
+    NSArray<NSString *> *selected=DFConfiguredEnabledAppIDs();
     NSMutableArray<NSDictionary *> *maps=[NSMutableArray new];
     for(NSDictionary *app in [self queryInstalledApps]) {
         NSString *bundle=app[@"bundle"];
-        if(DFNativeMapAllowedBundle(bundle) && (!native || [native containsObject:bundle]))
+        if(DFNativeMapAllowedBundle(bundle) &&
+           DFPickerAllowsApp(bundle,selected))
             [maps addObject:app];
     }
     NSString *detail=@"Chỉ dùng khi xe đang đỗ. Để trống ô DuoFace muốn ghép rồi chọn ứng dụng và bên dưới đây. Nếu chưa có bản đồ phù hợp, DuoFace sẽ thử yêu cầu CarPlay mở đúng ứng dụng một lần và chỉ ghép khi xác minh được bản đồ cùng ô trống trong phiên CarPlay hiện tại. Hiển thị, cảm ứng và dẫn đường vẫn cần kiểm tra trên xe; chưa xác nhận khả năng giữ ứng dụng chạy nền.";
