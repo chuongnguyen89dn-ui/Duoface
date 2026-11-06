@@ -31,8 +31,8 @@ class QA172Wakefix(unittest.TestCase):
   self.assertIn('touch177RecheckGeneration',body)
   self.assertIn('qa177-extend-while-hidden',body)
  def test_version_coherence(self):
-  self.assertIn('0.1.174~mapwake1',(ROOT/"build.sh").read_text())
-  self.assertIn('VERSION="0.0.174~mapwake1"',INT.read_text())
-  self.assertIn('Version: 0.1.174~mapwake1',(ROOT/"control").read_text())
-  self.assertIn('build=0.0.174~mapwake1',(ROOT/"DFDeepTrace.h").read_text())
+  self.assertIn('0.1.175~wakepick1',(ROOT/"build.sh").read_text())
+  self.assertIn('VERSION="0.0.175~wakepick1"',INT.read_text())
+  self.assertIn('Version: 0.1.175~wakepick1',(ROOT/"control").read_text())
+  self.assertIn('build=0.0.175~wakepick1',(ROOT/"DFDeepTrace.h").read_text())
 if __name__=="__main__":unittest.main()

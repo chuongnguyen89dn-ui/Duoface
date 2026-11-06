@@ -1,3 +1,10 @@
+## CHECKPOINT QA180-175-SILEO-REQUESTED-20261106
+
+- User explicitly requested official Sileo publication of the two source fixes. Active branch fix/qa180-owned-wake-map-replace-20261106; tested runtime baseline ca7ebdad2129594087b5c9acd0bff73b11dc33e0, source-only CI42167040381.
+- Preparing NEW integrated version 0.0.175~wakepick1 / native host0.1.175~wakepick1, CFBundleVersion175. Published0.0.174 bytes remain untouched. Only release version/stamps and corresponding version tests changed; key tested runtime blobs verified unchanged.
+- Build workflow .github/workflows/duoface-180-release175.yml reuses the SHA-verified existing QA179 signing/audit/archive scripts with exact new version and pinned source SHA. Build run 42168269030. Commands are in workflow and template .github/workflows/duoface-179-mapwake1-signed-private.yml.
+- Signed build/publication pending at this checkpoint. After signed audit PASS, publish immutable DEB through existing carplaydsp source, preserve QA174 rollback and verify public Packages/Release/SHA. Physical CarPlay not yet tested; standalone Google Maps scene join and Home icons remain OPEN.
+
 ## CHECKPOINT QA180-OWNED-WAKE-MAP-REPLACE-SOURCE-20261106
 
 - Active work branch: `fix/qa180-owned-wake-map-replace-20261106`, from verified d27298e18c987621090d3e79f246b512a034ddca.
