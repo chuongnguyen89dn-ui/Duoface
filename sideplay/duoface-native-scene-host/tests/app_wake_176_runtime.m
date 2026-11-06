@@ -10,8 +10,8 @@ static NSTimeInterval fakeNow;
 static BOOL transportOK=YES,localKeyboardVisible=NO;
 static UIWindow *keyboardWindow;
 static BOOL DF177AppTouchEnabled(void){return YES;}
-static BOOL DF177AppTouchNoteBegan(NSString *bundle,BOOL reserved){
-    (void)bundle;
+static BOOL DF177AppTouchNoteBegan(NSString *bundle,BOOL reserved,NSString *scene){
+    (void)bundle;(void)scene;
     if(!transportOK || !reserved)return NO;
     wakes++;return YES;
 }
