@@ -3,6 +3,7 @@
 // system Dock manipulation, fabricated UIKit touches, or autorun overlay.
 #import <UIKit/UIKit.h>
 #import "DFDeepTrace.h"
+#import "DF181B0Probe.h"
 #import "DFGeometrySnapshot119.h"
 #import "DFCarPlayOwnerLease.h"
 #import "DFNative12Chrome.h"
@@ -412,6 +413,7 @@ static void DFMaybeRestoreDisplay132(NSString *cause) {
     });
 }
 static void DFOriginalScreenBlank132(int blanked) {
+    DF181B0Record(@"duoface",@"native-carplay",@"bks-blank-observed", @"unavailable",@"SpringBoard",@"unavailable",@"phone-display",[NSString stringWithFormat:@"blanked=%d",blanked]);
     DFScreenBlankFn132 original=sDFBKSOriginal132;
     if(!original)return;
     // All non-1 requests and all unrelated sessions get the original call.
