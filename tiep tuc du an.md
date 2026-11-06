@@ -1,3 +1,22 @@
+## CHECKPOINT QA176-SOURCE-TESTS-PASS-LOGO-UNRESOLVED-20261106
+
+LATEST VERIFIED RESULT, 2026-11-06 13:22:11 ICT:
+- Run42173857480 SUCCESS: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42173857480 ; job127747681611. Tested commit66300b85dc5d3d7f7c229da3d5e7a3a96583b933; runtime change remains8d1c4bd1024645c9f06c747bd757b7397629bd4b.
+- Old baseline3f01a97ebad0b06d6f79d518ddd279eb2de22e9b FAILS new model case with exact logged reason "QA175_OWNED_BASE_REJECTION native-launch-owned-base-view-unverified" (06:21:41Z). New runtime PASS474 assertions (06:21:45Z).
+- Existing Python suites PASS6+6+11+4+5+9=41 tests. Production wake MODEL PASS20 cycles/cancellation/multiple contacts/visible drag/no replay (06:21:51Z). Empty-pane policy PASS13 cases (06:21:53Z). Actual iOSarm64 syntax PASS for DFNative12Chrome.m, DFOwnedWakeSurface180.m, DFSceneHost.m, DFNativeMapLaunchRuntime.m. Full commands in .github/workflows/duoface-176-owned-base-regression.yml; full evidence in job127747681611.
+- Prior run42173393041 failed due mismatched test fixture request (Google Maps) versus reset app-info (Apple Maps). Corrected to matching Apple Maps and required exact old refusal; test result is now established, not inferred.
+
+SCOPE/VERDICT:
+Map: bounded SOURCE CANDIDATE tested, NOT physical repaired verdict. Uses existing live provider-owned base evidence and retains exact window/bundle/visibility/controller/modal/current-request checks. No change to native transaction, rollback or post-launch adoption ACK. The original failure occurs before native launch dispatch. The added sibling-view case validates the alternative ownership contract; car log does not prove that exact topology caused all eight failures.
+Logo: NOT FIXED. Existing wake model passing does not establish real app touch routing. No evidenced new ingress was found in supplied build175 log: zero hosted hit-test/wake traces, touch-owner lifecycle/command ACKs only, logo-control direct divider touches only. No code changes to logo/gate/keyboard/GOFA/lifecycle. Need bounded receiver diagnostics/evidence before choosing a new gate location. Do not claim CI cured physical routing.
+Release: no version metadata changed, no signed DEB, no new SHA, no Sileo publication. 175 remains device FAILED;174/175 rollback unchanged. DEVICE_TESTED=false.
+
+FILES CHANGED this task: sideplay/native-carplay-scene-v1/DFNativeMapLaunchRuntime.m; sideplay/native-carplay-scene-v1/tests/native_map_launch_runtime.m; .github/workflows/duoface-176-owned-base-regression.yml; tiep tuc du an.md; sideplay/tiep tuc du an.md.
+No local checkout or uncommitted repository edits. All required source/test/workflow changes are committed remotely. No job remains running in the tested run. Source-level tests need not be repeated without changes/failures.
+NEXT: resolve real app-pane touch ingress within user bounds (no global event hook/second UIWindow/child gesture seizure/keyboard changes); do not relocate to DFSceneSurface as if new, since it already inherits gate. Add a justified routing regression once ingress is known. Then unique new version, full build/sign/package audit, official Sileo publish keeping174/175, public checksum verification and parked-car acceptance by Nguyen. If no ingress evidence is accessible, explicitly state the missing evidence instead of inventing a completed fix. Continue incremental saves after every new finding/result.
+
+---
+
 ## CHECKPOINT QA176-FIXTURE-CORRECTION-20261106
 
 Corrected regression fixture bundle: reset supplies com.apple.Maps, so sibling-view case now requests com.apple.Maps. It logs the actual rejection reason. Old baseline CI must fail specifically with native-launch-owned-base-view-unverified, not just any failure. Production runtime unchanged from8d1c4bd1024645c9f06c747bd757b7397629bd4b. Prior CI42173393041 failure retained below. New run pending; no test PASS, device success or publication claimed. Exact commands remain in .github/workflows/duoface-176-owned-base-regression.yml. Next: inspect run on this commit, complete all tests, then resolve logo evidence blocker.
