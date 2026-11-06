@@ -82,11 +82,11 @@ class QA172Wakefix2(unittest.TestCase):
 
  def test_touch_sender_and_receiver_use_process_owned_v2(self):
   sender=(ROOT/'DFAppTouch177.h').read_text()
-  begin=sender.index('static inline void DF177AppTouchNoteBegan(')
+  begin=sender.index('static inline BOOL DF177AppTouchNoteBegan(')
   end=sender.index('static IMP DF177SendEventOriginal',begin)
   body=sender[begin:end]
-  self.assertIn('@"version": @2',body)
-  self.assertIn('@"pid": @(getpid())',body)
+  self.assertIn('@"version":@2',body)
+  self.assertIn('@"pid":@(getpid())',body)
   self.assertTrue(touch_admission_precedes_timers(CHROME))
   # A validator somewhere in the file is insufficient: removing the actual
   # return, trusting the sender PID or mutating a timer first must be caught.
