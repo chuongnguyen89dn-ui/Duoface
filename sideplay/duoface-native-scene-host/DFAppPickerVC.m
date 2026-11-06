@@ -700,7 +700,7 @@
     card.icon.tintColor=UIColor.whiteColor;
     NSString *routeLabel=app.carPlayRoute178==DF178NativeMapReady?
         @"Bản đồ native CarPlay":(app.carPlayRoute178==DF178NativeMapUnverified?
-        @"Đang chờ bản đồ native CarPlay":@"AppBridge iPhone");
+        @"CarPlay chưa xác minh · chạm để ghép":@"AppBridge iPhone");
     card.accessibilityLabel=[NSString stringWithFormat:@"%@ — %@",app.displayName,routeLabel];
     return card;
 }
@@ -716,16 +716,16 @@
         return;
     }
     if(!app.bundleID.length)return;
-    if(app.carPlayRoute178==DF178NativeMapReady){
+    // OmniCar separation: a chosen installed native map enters the real
+    // CarPlay owner transaction. A stale catalog is not a launch verdict.
+    // Only the coordinator can accept an actual scene/physical-pane lease.
+    if(app.carPlayRoute178==DF178NativeMapReady ||
+       app.carPlayRoute178==DF178NativeMapUnverified){
         if([self.delegate respondsToSelector:
             @selector(appPicker:didSelectNativeMapBundleID:displayName:)])
             [self.delegate appPicker:self didSelectNativeMapBundleID:app.bundleID
                         displayName:app.displayName];
-        return;
-    }
-    if(app.carPlayRoute178==DF178NativeMapUnverified){
-        [self showAppPickerStatus:@"Bản đồ native chưa sẵn sàng"];
-        [self refreshInstalledApps];
+        else [self showAppPickerStatus:@"Thiếu bộ điều phối bản đồ CarPlay"];
         return;
     }
     if(app.carPlayRoute178==DF178PhoneAppBridge)
