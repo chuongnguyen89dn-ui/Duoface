@@ -143,6 +143,9 @@ static NSString *DF177TouchBundle = nil;
 static NSHashTable *DF177KbKnownWindows;
 static BOOL DF177KbHasPublished = NO;
 static BOOL DF177KbVisible = NO;
+// A visible keyboard may not enumerate a UIRemoteKeyboardWindow on the
+// first UIKit event. Notifications are read-only evidence, not layout changes.
+static BOOL DF177KbNotificationVisible = NO;
 
 static inline BOOL DF177IsKeyboardWindow(id window) {
     Class keyboard=NSClassFromString(@"UIRemoteKeyboardWindow");
@@ -160,7 +163,8 @@ static inline BOOL DF177KbComputeVisible(void) {
     for (UIWindow *window in UIApplication.sharedApplication.windows) {
         if(DF177IsKeyboardWindow(window))[scanned addObject:window];
     }
-    return DF177KeyboardSnapshot(DF177KbKnownWindows,scanned);
+    return DF177KbNotificationVisible ||
+           DF177KeyboardSnapshot(DF177KbKnownWindows,scanned);
 }
 
 static inline void DF177KbSetVisible(BOOL visible) {
@@ -252,6 +256,21 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
             }
         }];
     }
+    // UIKit keyboard notifications cover the remote-keyboard interval in
+    // which UIRemoteKeyboardWindow is not discoverable by scene/window scan.
+    // A Show stays conservatively visible until DidHide confirms closure.
+    [nc addObserverForName:UIKeyboardWillShowNotification
+                    object:nil queue:NSOperationQueue.mainQueue
+                usingBlock:^(__unused NSNotification *note) {
+        DF177KbNotificationVisible=YES;
+        DF177KbRefreshFromScan();
+    }];
+    [nc addObserverForName:UIKeyboardDidHideNotification
+                    object:nil queue:NSOperationQueue.mainQueue
+                usingBlock:^(__unused NSNotification *note) {
+        DF177KbNotificationVisible=NO;
+        DF177KbRefreshFromScan();
+    }];
     // Initial snapshot also lets a host that starts later read retained state.
     DF177KbRefreshFromScan();
 }
