@@ -1459,8 +1459,9 @@ static __weak DFNative12Chrome *DF177CurrentTouchOwner;
         NSString *uiScene=parsed[@"scene"];
         NSString *fbScene=liveSceneIDs[bundle];
         DFCLog([NSString stringWithFormat:
-            @"qa176-a1-relay-scene-diagnostic bundle=%@ match=%d ui=%@ fb=%@",
+            @"qa176-a1-relay-scene-diagnostic bundle=%@ match=%d wakeStateReadable=%d ui=%@ fb=%@",
             bundle,(fbScene.length && [fbScene isEqual:uiScene])?1:0,
+            [parsed[@"wakeStateReadable"] boolValue]?1:0,
             uiScene?:@"absent",fbScene?:@"absent"]);
     }
     if(bundleChanged || now-lastLog>=5.0){
