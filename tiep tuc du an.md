@@ -1,3 +1,9 @@
+## CHECKPOINT QA176-APPWAKE1-BUILD-REQUESTED-20261106
+
+- User requested to continue and complete QA176. Tested candidate commit 8ee848aa006239431334cf494af67da66a15bee0; CI42176321219 SUCCESS (actual app sender integration/gate model/iOSarm64 syntax and owned-base regression). Existing official0.0.175 device result FAILED.
+- Preparing DISTINCT integrated0.0.176~appwake1 / nativehost0.1.176~appwake1, CFBundleVersion176. Only release stamps and their version tests are changed; SHA-pinned runtime files verified unchanged. Build run 42177180870.
+- Signed-package audit, immutable archive and Sileo publication PENDING at this checkpoint; DEVICE_TESTED=false. Keep previous0.0.174/0.0.175 rollback DEBs. Workflow .github/workflows/duoface-176-release-appwake1.yml reuses pinned original QA179 recipe.
+
 ## CHECKPOINT QA176-APP-GATE-FOLLOWUP-CI-PASS-20261106
 
 - Latest remote source/test branch HEAD before this checkpoint: `8ee848aa006239431334cf494af67da66a15bee0` (confirmed Git ref). Follow-up regression workflow `.github/workflows/duoface-176-owned-base-regression.yml` push run `42176321219`, job `127755498416`, completed SUCCESS on 2026-11-06 at 06:46:37Z. URL: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42176321219 . All steps PASS: old runtime fails only the targeted owned-base case, new native-map runtime (474 assertions), 41 existing Python tests, 20-cycle wake model and 13 empty-pane policies, old app sender fails missing-production-integration assertion, new app sender source passes, actual app-gate model including stale snapshot/session and multi-contact, and iOS arm64 syntax of production sender header/Chrome/scene/map sources. Detailed executable commands and negative controls remain in that workflow and job logs; no unverified numerical test claims beyond prior established counts.
