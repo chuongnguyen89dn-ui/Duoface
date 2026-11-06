@@ -52,9 +52,13 @@ class QA172Wakefix2(unittest.TestCase):
  def test_gate_hittest_contract(self):
   gate = CHROME.split("@implementation DFNativeWakeGateView")[1].split("@end")[0]
   self.assertIn("hitTest:", gate)
-  self.assertIn("shouldConsume", gate)
+  # QA179 uses a passive wake observer: never intercept or replay the touch.
+  self.assertIn("shouldWake", gate)
+  self.assertIn("observedWakeTouch", gate)
   self.assertIn("return nil", gate)
-  self.assertIn("touchesBegan", gate)
+  self.assertNotIn("shouldConsume", gate)
+  self.assertNotIn("touchesBegan", gate)
+  self.assertNotIn("return self;", gate)
 
  def test_gate_respects_keyboard(self):
   self.assertIn("kbVisible177", CHROME)
