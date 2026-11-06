@@ -61,3 +61,30 @@
 
 - Phân tích source `DFAppWakeGate176.h`: khi điều kiện hidden khớp, gate đặt `consume=YES` và gọi `DF177AppTouchNoteBegan(bundle)`, sau đó trả `YES` để bỏ original app dispatch. Nhưng `DF177AppTouchNoteBegan` trong `DFAppTouch177.h` hiện trả `void`, có các đường `return` trước, `DF156Write` có thể thất bại, `notify_post` có thể thất bại, và `@catch` nuốt exception. **Không có kết quả transport hay ACK từ host được trả lại cho quyết định consume.** Như vậy có một đường source-level: event bị nuốt nhưng wake chưa được chứng minh đã gửi/nhận. Đây là **lỗ hổng logic xác nhận**, không phải kết luận thiết bị đã gặp đúng đường này.
 - Phương án cải tiến: trước khi commit nuốt gesture, cần chứng minh transport send được kích hoạt theo chính trạng thái session, tối thiểu trả kết quả write/notify, log kết quả fail-open và không lấy `recalledUntil` làm bằng chứng host đã wake. ACK host và visual state phải được ghi nhận độc lập; các ràng buộc latency/input safety cần được test trên thiết bị. Không tự khẳng định chỉ việc đảo thứ tự hoặc trả boolean sẽ bảo đảm host hiện logo.
+
+
+## 6. Phản hồi đối chiếu và quyết định hiệu chỉnh 06/11/2026
+
+**Tình trạng:** Người dùng chuyển phản hồi chấp thuận phần lớn phân tích, điều chỉnh ba điểm hẹp và thêm cổng bắt buộc ở B1. Đây là yêu cầu cập nhật kế hoạch, không phải phê duyệt sửa mã/phát hành. Trong lần này đã đọc **toàn bộ blob** `main:sideplay/log/DuoFaceAudit 5.txt` (SHA `5eedbc8aadea7558329ea2e1ce4e49054fe24ede`), 43.358 dòng/5.462.784 ký tự; lọc đúng 486 bản ghi timestamp `build=0.0.176~appwake1`. Phân tích log trực tiếp mới thay thế giới hạn đọc qua báo cáo log trong lần trước.
+
+### Những điểm được chấp nhận
+
+1. **Roster/picker:** giữ nguyên mã hiện tại, không đập đi làm lại. QA175 có 8 UUID thay ô và QA176 có map-picker request/ACK, song bằng chứng chỉ giới hạn theo từng phiên; QA174 từng mở picker không ghi được lựa chọn. Vẫn bắt buộc nghiệm thu trên xe: mở lưới thấy Maps/Waze và app đã chọn dù không bật ở CarPlay Settings gốc, chọn đúng ứng dụng vào từng slot và có giao dịch chọn ghi nhận. App icon trên Home cần nghiệm thu riêng.
+2. **Keep-alive:** lùi hoàn toàn xuống *sau B1*, chỉ can thiệp nếu chứng minh native scene mất vì lock/background. B0 phải giải quyết foreground/scene owner và teardown. LOG5 có marker QA176 `touchowner-stop reason=scene-background-or-external-window-lost`, `dock-reply reason=no-fresh-foreground-session`, không chỉ là giả thuyết process sống/chết.
+3. **OmniCar declaration:** `_loadFromProxy:` + `CRCarPlayAppDeclaration` theo tài liệu OmniCar chỉ dành cho app **bridge thiếu declaration**; Maps/Waze đã có declaration thật thì không áp dụng mắt 7 và giữ nguyên. Declaration không tạo entitlement/CarPlay native lifecycle hay bằng chứng Home icon.
+4. **Cổng giao A/B:** sau khi B1 thay đường trình bày Maps bằng *native CarPlay dashboard scene*, bắt buộc **test lại idle-hide → chạm đầu chỉ wake → chạm sau vào Maps** ngay trên scene native, không SWAP, không thao tác Maps ở chạm đầu. H1 PASS trên scene hosted không tự động được mang sang native. A1/A2 vẫn làm trước cho YouTube/GOFA hiện đang hosted.
+5. **A1 hiện tại:** "giữ hook QA176" chỉ có nghĩa lấy làm nền truy vết, không phải giữ hành vi lỗi. Giữ một hook app-side scoped; đo then sửa đúng delivery/capture, không lặp lại cài mới hay rollback cơ học QA172. Ngoài ra phải đo cả **direct-logo/host touch**; app-side `UIApplication sendEvent:` không tự sửa đường chạm nút logo của SpringBoard.
+
+### Sửa sai/định danh chính xác từ raw LOG5
+
+- Trong đúng `build=0.0.176~appwake1`, tìm được **11** `logo-two-axis-drag-begin-no-hold`, **6** `command-dispatched action=SWAP`, **6** `qa179-logo-idle-red-border-hidden-visual-only`, **0** `qa177-app-touch`, **0** `qa177-recall`, **4** `touchowner-stop` và **4** `dock-reply reason=no-fresh-foreground-session`. Vì vậy nói **không có SWAP trong QA176** là sai; nhưng việc SWAP gắn với **cú chạm đầu vào app-pane sau ẩn** chưa có bằng chứng.
+- Ví dụ chính xác: UTC `07:33:40.839601` marker `qa179-logo-idle-red-border-hidden-visual-only` (theo source phát khi `!visible`). Sau đó `07:33:42.498635` `logo-control raw-began id=5`, `07:33:42.519804` `logo-two-axis-drag-begin-no-hold`, `07:33:42.589263` `raw-ended id=5`, `07:33:42.611698` `divider-axis-end`; tiếp theo `07:33:44.007072` `logo-control raw-began id=6`, `07:33:44.120611` `command-dispatched action=SWAP seq=4` và `swap-button`. **Không khẳng định id=5 đã SWAP**: log chứng minh direct-logo touch vẫn vào logic kéo sau marker hidden và id=6 sau đó tạo SWAP. Cần thử rõ lộ trình first hidden touch trên app-pane và direct-logo như hai đường độc lập.
+- Cổng A mở rộng: khi đang ẩn, chạm vào vùng logo/divider cũng phải **chỉ gọi hiện logo**, không kéo divider/SWAP, cho tới thao tác kế tiếp. Đường host này không được coi là đã sửa chỉ vì app relay có chặn.
+
+### Thứ tự/giới hạn đã cập nhật
+
+**A1:** trên QA176 đo app relay, touch scene/provenance iPhone vs CarPlay, keyboard known/unknown, state plist accessibility, transport result/host ACK và direct-logo path; sửa chỉ bằng bằng chứng. **A2:** ba chu kỳ đầu-chỉ-wake/sau-thao-tác đúng, trên app hosted YouTube/GOFA lẫn direct-logo, không SWAP hoặc phá bàn phím. **B0:** chứng minh Dashboard foreground owner/scene id và contract private API trên iOS16.7.16; đối chiếu hồ sơ DuoNavi/OmniCar có dẫn mục. **B1:** một Maps native trong ô + DuoFace vẫn active/visible + live pixel/touch; picker/roster thực tế; **test lại first-touch wake ngay trên native Maps**. **B2:** app khác, đa ô, resize, return/Home, keep-alive khi cần. Không dùng ACK hay CI làm bằng chứng CarPlay runtime PASS.
+
+Người gửi cho biết họ đã đọc bản cục bộ DuoNavi 10.262 dòng và OmniCar 14.286 dòng, có chỉ mục `OMNICAR_APP_BAN_DO.md` / `OMNICAR_CO_CHE_APP.md`. Đây là **thông tin do người gửi cung cấp**, không được ghi là đã mở/kiểm chứng độc lập trong phiên này.
+
+**Thực thi:** chỉ bổ sung tài liệu/nhật ký GitHub, KHÔNG sửa source/build/CI/DEB/Sileo và KHÔNG có test xe mới. Giữ rollback 174/175/176, keyboard/GOFA/YouTube và các giới hạn hiện có.
