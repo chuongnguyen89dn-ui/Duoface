@@ -1,3 +1,9 @@
+## CHECKPOINT QA176-APPWAKE1-SIGNED-READY-20261106
+
+- Signed integrated0.0.176~appwake1 / nativehost0.1.176~appwake1 and whole-DEB static audit PASSED in run 42177180870. Compiled source SHA 3d0fafcc2e17bca9739cf900d0bac5668ebc1aef; immutable DEB SHA256 6d7cf1eff02e4c238ff0b36c93de851a834f99ef54ba2e38e19d99b50d8a0c14.
+- Archive/checksum/provenance: `sideplay/jb-embedded-appbridge/evidence/runs/42177180870/`. Signed app relay binaries and SpringBoard receiver contain matching DF176 wake-state path. Native map/wake model, actual sender integration and iOS arm64 syntax tested before signing. No protected runtime source modified by versioning. DEVICE_TESTED=false.
+- NEXT: publish only these exact audited bytes to official carplaydsp, preserve0.0.174 and0.0.175 rollback, independently verify public index/download checksum. This signed-build job did NOT publish or do live CarPlay acceptance.
+
 ## CHECKPOINT QA176-PUBLISHER-DIFF-PLAN-20261106
 
 - While signed-release run42177180870 remains active (prepare-version SUCCESS, source/QA176 integration SUCCESS; compiling iOS dylibs at latest poll), read actual official publisher `chuongnguyen89dn-ui/carplaydsp` main `08ec914bcae9136493ae80aa1e432d68415ff648`, `.github/workflows/build.yml` blob `0fa0d13fed72516c367971be4f4bb35fc52f9030` (383307 characters/4889 lines). No publisher run was active; current public latest still0.0.175~wakepick1. The new archive SHA/hash DO NOT EXIST YET; no publish change made.
