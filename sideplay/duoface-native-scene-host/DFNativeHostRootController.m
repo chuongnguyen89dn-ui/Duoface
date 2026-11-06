@@ -13,6 +13,7 @@
 #import "DFExtendedSettingsPolicy.h"
 #import "DFDisconnectClosePolicy.h"
 #import "DFNativeMapLeasePolicy.h"
+#import "../native-carplay-scene-v1/DFNativeMapCommandProtocol.h"
 #import "DFVoiceAssistant.h"
 #import "DFNativeDiagnostics.h"
 #import "DFSpeedVisibility169.h"
@@ -133,12 +134,23 @@
 @property(nonatomic,strong) NSArray<NSDictionary *> *installedApps;
 @property(nonatomic,copy) NSString *appSearch;
 @property(nonatomic,assign) NSInteger currentPreset;
+@property(nonatomic,assign) NSUInteger nativeMapCommandGeneration;
+@property(nonatomic,copy) NSString *nativeMapActiveRequest;
 - (instancetype)initWithCarPlay:(BOOL)carPlay;
 @end
 @implementation DFNativeHostRootController
 - (instancetype)initWithCarPlay:(BOOL)carPlay {
- if((self=[super initWithNibName:nil bundle:nil]))_carPlay=carPlay;
+ if((self=[super initWithNibName:nil bundle:nil])){
+    _carPlay=carPlay;
+    if(!carPlay)[NSNotificationCenter.defaultCenter addObserver:self
+        selector:@selector(nativeMapPhoneDidEnterBackground:)
+        name:UIApplicationDidEnterBackgroundNotification object:nil];
+ }
  return self;
+}
+- (void)dealloc {
+ [NSNotificationCenter.defaultCenter removeObserver:self
+     name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 - (UIImage *)art:(NSString *)name {
  return [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
@@ -853,37 +865,83 @@
     // An actual opt-in action from the iPhone app, never an automatic hook
     // on Maps navigation. CarPlay-only coordinator verifies one genuine
     // DBApplicationSceneViewController, real system Dock and same UIWindow.
+    if(!DFNativeMapProtocolOperation(operation))return;
+    if([operation isEqual:@"Attach"] &&
+       (!DFNativeMapAllowedBundle(bundle) || slot<0 || slot>1))return;
     NSString *request=NSUUID.UUID.UUIDString;
+    NSTimeInterval requestedAt=NSDate.date.timeIntervalSince1970;
+    NSTimeInterval startedMonotonic=NSProcessInfo.processInfo.systemUptime;
+    self.nativeMapCommandGeneration=
+        DFNativeMapNextCommandGeneration(self.nativeMapCommandGeneration);
+    NSUInteger generation=self.nativeMapCommandGeneration;
+    self.nativeMapActiveRequest=request;
     NSString *commandPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
-    NSMutableDictionary *record=[@{@"Version":@1,@"Operation":operation,
+    NSMutableDictionary *record=[@{@"Version":@(DFNativeMapCommandVersion),@"Operation":operation,
         @"MapSlot":@(slot),@"RequestID":request,
-        @"Timestamp":@(NSDate.date.timeIntervalSince1970)} mutableCopy];
+        @"Timestamp":@(requestedAt)} mutableCopy];
     if([operation isEqual:@"Attach"]) {
-        if(!DFNativeMapAllowedBundle(bundle) || slot<0 || slot>1)return;
         record[@"BundleID"]=bundle;
     }
     if(![record writeToFile:commandPath atomically:YES]){
+        self.nativeMapActiveRequest=nil;
         [self nativeMapPaneAlert:@"Không gửi được lệnh" detail:@"Không thể ghi yêu cầu vào iPhone. Bản đồ trên xe không bị thay đổi."];
         return;
     }
     notify_post("com.duoface.nativehost.map-pane.command.v1");
+    // Exactly one command write/post. Polling never renews its timestamp or
+    // retries a launch; Pending is not a completed controller operation.
     __weak typeof(self) weakSelf=self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.5*NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                   (int64_t)(DFNativeMapClientAckPollInterval*NSEC_PER_SEC)),
                    dispatch_get_main_queue(),^{
-        typeof(self) strongSelf=weakSelf;
-        if(!strongSelf || !strongSelf.isViewLoaded || !strongSelf.view.window)return;
-        NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:
-          @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist"];
-        if(![ack[@"RequestID"] isEqualToString:request]){
-            [strongSelf nativeMapPaneAlert:@"Chưa có phản hồi CarPlay"
-                detail:@"Chưa nhận được ACK. Có thể chưa có CarPlay hoặc bộ thử nghiệm chưa được cài. Không coi là bản đồ đã ghép thành công."];
-            return;
-        }
-        BOOL applied=[ack[@"Applied"] isEqual:@YES];
+        [weakSelf pollNativeMapAckForRequest:request operation:operation
+            generation:generation requestedAt:requestedAt
+            startedMonotonic:startedMonotonic completedPolls:0];
+    });
+}
+- (void)pollNativeMapAckForRequest:(NSString *)request operation:(NSString *)operation
+    generation:(NSUInteger)generation requestedAt:(NSTimeInterval)requestedAt
+    startedMonotonic:(NSTimeInterval)startedMonotonic completedPolls:(NSUInteger)completedPolls {
+    BOOL active=self.isViewLoaded && self.view.window &&
+        !self.isBeingDismissed && !self.isMovingFromParentViewController;
+    DFNativeMapPollDecision decision=DFNativeMapPollDecisionForRequest(
+        request,self.nativeMapActiveRequest,generation,self.nativeMapCommandGeneration,active,
+        startedMonotonic,NSProcessInfo.processInfo.systemUptime,completedPolls);
+    if(decision==DFNativeMapPollStop)return; // Superseded/dismissed UI is silent.
+    if(decision==DFNativeMapPollTimedOut){
+        self.nativeMapActiveRequest=nil;
+        [self nativeMapPaneAlert:@"Chưa có kết quả CarPlay"
+            detail:@"Chưa nhận được kết quả hợp lệ trong 8 giây. Không coi là bản đồ đã ghép thành công. Kiểm tra kết nối CarPlay và bản đồ trên xe trước khi thử lại."];
+        return;
+    }
+    NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:
+        @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist"];
+    DFNativeMapAckState state=DFNativeMapAckReadState(ack,request,operation,
+        requestedAt,NSDate.date.timeIntervalSince1970);
+    BOOL terminal=state==DFNativeMapAckApplied || state==DFNativeMapAckRejected ||
+                  state==DFNativeMapAckCancelled;
+    // An action alert may still be dismissing on the first poll. A valid
+    // terminal result waits for presentation availability within the same
+    // deadline; it is never shown later for a superseded request/controller.
+    if(terminal && !self.presentedViewController){
+        self.nativeMapActiveRequest=nil;
+        BOOL applied=state==DFNativeMapAckApplied;
+        NSString *title=applied?([operation isEqual:@"Attach"]?
+            @"Đã xác nhận ghép ô":@"Đã xác nhận khôi phục"):
+            (state==DFNativeMapAckCancelled?@"Yêu cầu bản đồ đã bị hủy":@"CarPlay từ chối yêu cầu");
         NSString *detail=[NSString stringWithFormat:
-            @"%@: %@. ACK chỉ xác nhận thao tác controller, KHÔNG xác nhận Maps vẽ đúng hoặc dẫn đường liên tục.",
-            ack[@"OwnerProcess"]?:@"CarPlay",ack[@"Reason"]?:@"unknown"];
-        [strongSelf nativeMapPaneAlert:applied?@"Đã nhận thao tác":@"CarPlay từ chối ghép" detail:detail];
+            @"%@: %@. Phản hồi này chỉ xác nhận kết quả thao tác gắn/khôi phục. Hiển thị, cảm ứng và dẫn đường liên tục vẫn cần kiểm tra trên xe.",
+            ack[@"OwnerProcess"],ack[@"Reason"]];
+        [self nativeMapPaneAlert:title detail:detail];
+        return;
+    }
+    __weak typeof(self) weakSelf=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                   (int64_t)(DFNativeMapClientAckPollInterval*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),^{
+        [weakSelf pollNativeMapAckForRequest:request operation:operation
+            generation:generation requestedAt:requestedAt
+            startedMonotonic:startedMonotonic completedPolls:completedPolls+1];
     });
 }
 - (void)nativeMapPaneAlert:(NSString *)title detail:(NSString *)detail {
@@ -901,8 +959,8 @@
         if(DFNativeMapAllowedBundle(bundle) && (!native || [native containsObject:bundle]))
             [maps addObject:app];
     }
-    NSString *detail=@"Chỉ dùng khi xe đang đỗ. Mở đúng ứng dụng bản đồ trực tiếp trên CarPlay, để trống ô DuoFace muốn ghép, rồi chọn ứng dụng và bên dưới đây. Cần bản đồ native đang hiện trên xe; DuoFace chưa tự mở hoặc giữ ứng dụng chạy nền. Việc vẽ bản đồ và dẫn đường cần kiểm tra trên xe.";
-    if(!maps.count)detail=@"Chưa thấy Google Maps, Apple Maps hoặc Waze sẵn có trong danh sách bản đồ. Kết nối CarPlay, mở ứng dụng bản đồ trên xe rồi mở lại mục này. Các ứng dụng CarPlay khác chưa hỗ trợ ghép ô.";
+    NSString *detail=@"Chỉ dùng khi xe đang đỗ. Để trống ô DuoFace muốn ghép rồi chọn ứng dụng và bên dưới đây. Nếu chưa có bản đồ phù hợp, DuoFace sẽ thử yêu cầu CarPlay mở đúng ứng dụng một lần và chỉ ghép khi xác minh được bản đồ cùng ô trống trong phiên CarPlay hiện tại. Hiển thị, cảm ứng và dẫn đường vẫn cần kiểm tra trên xe; chưa xác nhận khả năng giữ ứng dụng chạy nền.";
+    if(!maps.count)detail=@"Chưa thấy Google Maps, Apple Maps hoặc Waze sẵn có trong danh sách bản đồ. Kết nối CarPlay, kiểm tra ứng dụng đã được cài rồi mở lại mục này. Các ứng dụng CarPlay khác chưa hỗ trợ ghép ô.";
     UIAlertController *menu=[UIAlertController alertControllerWithTitle:@"Maps native — thử nghiệm"
         message:detail
         preferredStyle:UIAlertControllerStyleAlert];
@@ -983,7 +1041,18 @@
  if(self.carPlay)[self.nativeSurface start];
  else [self reloadLiveStatus];
 }
+- (void)nativeMapPhoneDidEnterBackground:(NSNotification *)notification {
+ (void)notification;
+ // Lock/background can leave view.window intact. Revoke only the client's
+ // pending presentation; the explicitly authorized server operation remains.
+ self.nativeMapCommandGeneration=
+     DFNativeMapNextCommandGeneration(self.nativeMapCommandGeneration);
+ self.nativeMapActiveRequest=nil;
+}
 - (void)viewWillDisappear:(BOOL)animated {
+ self.nativeMapCommandGeneration=
+     DFNativeMapNextCommandGeneration(self.nativeMapCommandGeneration);
+ self.nativeMapActiveRequest=nil; // Do not present a result after this UI leaves.
  [self.nativeSurface stop];[super viewWillDisappear:animated];
 }
 @end

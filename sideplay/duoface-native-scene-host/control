@@ -1,8 +1,8 @@
 Package: com.duoface.carplay.nativescenehost
 Name: DuoFace Native Dashboard Scene Host (Development)
-Version: 0.1.172~wakefix4
+Version: 0.1.172~wakefix5
 Architecture: iphoneos-arm64
 Section: Development
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: DuoFace QA172 wakefix4 repair candidate: accept app activity only from a current verified hosted process; isolate deferred callbacks across sessions; validate native map restoration ownership and exact pane mappings. Retains wakefix3 keyboard, reconnect and package integrity repairs. Physical CarPlay behavior remains unverified.
+Description: DuoFace QA172 wakefix5 repair candidate: open an explicitly selected native map through a verified native launch context and event, with runtime ABI checks and bounded current-session ownership. Adopt only an observed exact scene; retain wakefix4 activity, callback, restoration and pane guards. Physical CarPlay behavior remains unverified.

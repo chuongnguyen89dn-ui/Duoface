@@ -1,0 +1,722 @@
+{
+  "base_commit": "0a75a3f4f1d943e64deb50a3945cc80630e67e74",
+  "deferred_to_macos_ci": [
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/app_state_ipc_156_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/home_admission_141_forwarding_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/safari_home_roster_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/native_dashboard_context_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/keyboard_state_177_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/app_touch_177_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/native-carplay-scene-v1/tests/native_map_restore_policy_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/native-carplay-scene-v1/tests/physical_map_binding_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/native_map_lease_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/duoface-native-scene-host/tests/native_map_catalog_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/native-carplay-scene-v1/tests/native_map_command_protocol_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/native-carplay-scene-v1/tests/native_map_launch_policy_runtime.m"
+    },
+    {
+      "kind": "foundation_runtime",
+      "source": "sideplay/native-carplay-scene-v1/tests/native_map_launch_runtime.m"
+    },
+    {
+      "kind": "ios_compile",
+      "step": "Compile-check QA154 app-only relay source without packaging it"
+    },
+    {
+      "kind": "ios_compile",
+      "step": "Syntax-check independent Apple CarPlay maneuver adapter (iOS16)"
+    }
+  ],
+  "device_tested": false,
+  "finished_at_utc": "2026-11-05T19:05:57.811602+00:00",
+  "foundation_runtime_gates_pending": 0,
+  "ios_compile_gates_pending": 0,
+  "local_checkpoint_deferred_gates": {
+    "foundation_runtime": 13,
+    "ios_compile": 2
+  },
+  "macos_ci_completion": {
+    "foundation_runtime_programs_passed": 13,
+    "ios_compile_steps_passed": 2,
+    "job_id": 127577713604,
+    "receipt": "ci-validation.json",
+    "run_conclusion": "success",
+    "run_id": 42122359843,
+    "source_sha": "88702ca96c122c81d06b44032d0e51f41249bc17"
+  },
+  "macos_compile_followup": {
+    "cause": "Foundation includes POSIX read(); the new ACK test helper used the same name.",
+    "failed_job_id": 127575310504,
+    "failed_run_id": 42121665247,
+    "foundation_compile_result": "passed in CI run 42122359843",
+    "local_wiring_tests_passed": 6,
+    "repair": "Rename only the test helper and its calls to DFTestReadAck. Production ACK policy unchanged."
+  },
+  "passed": true,
+  "portable_runtime_count": 8,
+  "python_skipped_count": 0,
+  "python_suite_count": 41,
+  "python_test_count": 176,
+  "results": [
+    {
+      "elapsed_seconds": 0.004,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-1",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.046,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "mailbox156",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.055,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "mailbox156",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.039,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "dock147",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "dock147",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.043,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "manager149",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "manager149",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.049,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa144_no_split_home_redirect.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 5
+    },
+    {
+      "elapsed_seconds": 0.044,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa145_controlled_home.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 5
+    },
+    {
+      "elapsed_seconds": 0.048,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa146_native_home_exit.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.048,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa147_mount_ack_reentrancy.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.051,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa148_real_pid_and_stop_identity.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.061,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa149_manager_live_scene.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa150_workspace_preflight.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.051,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa151_workspace_owner_capture.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.047,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa152_workspace_prepare.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.053,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa153_phone_foreground_eviction.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.053,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa157_solo_owned_pill.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.045,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa158_home_only.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.045,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa159_native_home.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.044,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa160_homegrid_latency.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.051,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa161_first_solo_geometry.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.059,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa162_gofa_speed8_integration.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.052,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa163_global_speed8_owner.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.058,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa164_speed8_fullscreen_drag.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 5
+    },
+    {
+      "elapsed_seconds": 0.043,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa165_native_gofa_standalone_roster.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa166_traffic_nav_evidence.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.041,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "gofa167",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "gofa167",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.036,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "nav168",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.001,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "nav168",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.042,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa168_native_maneuver.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.056,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa169_bubble_visibility.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa170_transparent_x_real_gps.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa167_gofa_event_schema.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.046,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa171_gofa_diagnostics_export.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.047,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa172r_logo_recall.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 5
+    },
+    {
+      "elapsed_seconds": 0.047,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa172w_wakefix.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.053,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa172w2_wakefix2.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 11
+    },
+    {
+      "elapsed_seconds": 0.452,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "gofa-speed8-protocol",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "gofa-speed8-protocol",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.043,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa154_staged_app_state.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.059,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa155_integrated_relay.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.045,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_bridged_content_window.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.042,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "workspace152",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.001,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "workspace152",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.044,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_integrated_package_144.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 4
+    },
+    {
+      "elapsed_seconds": 0.055,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_qa141_map_layout.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 2
+    },
+    {
+      "elapsed_seconds": 0.041,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_scoped_bks_132.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 6
+    },
+    {
+      "elapsed_seconds": 0.043,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_native_owner_contract.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 3
+    },
+    {
+      "elapsed_seconds": 0.042,
+      "exit_code": 0,
+      "kind": "portable_compile",
+      "name": "gofa141",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.001,
+      "exit_code": 0,
+      "kind": "portable_runtime",
+      "name": "gofa141",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-2",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.16,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_disconnect_timer_policy.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 1
+    },
+    {
+      "elapsed_seconds": 0.053,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_duodash_disconnect_workspace_110.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 5
+    },
+    {
+      "elapsed_seconds": 0.11,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_native_map_policy.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 7
+    },
+    {
+      "elapsed_seconds": 0.054,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_native_map_launch_coordinator.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 8
+    },
+    {
+      "elapsed_seconds": 0.052,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_native_map_command_protocol.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 6
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-3",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-4",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-5",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.004,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-6",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-7",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.003,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-8",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.004,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-9",
+      "passed": true
+    },
+    {
+      "exit_code": 0,
+      "kind": "embedded_python_syntax",
+      "name": "stage-only-9-audit",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.148,
+      "exit_code": 0,
+      "kind": "python_unittest",
+      "name": "test_audit_integrated_deb.py",
+      "passed": true,
+      "skipped_count": 0,
+      "test_count": 9
+    },
+    {
+      "elapsed_seconds": 0.003,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "stage-only-11",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exit_code": 0,
+      "kind": "bash_syntax",
+      "name": "native-host-build",
+      "passed": true
+    },
+    {
+      "elapsed_seconds": 0.016,
+      "exit_code": 0,
+      "kind": "diff_check",
+      "name": "working-tree",
+      "passed": true
+    }
+  ],
+  "runner_label_followup": {
+    "all_other_workflow_settings_identical": true,
+    "all_workflow_steps_identical": true,
+    "official_reference": "https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job",
+    "previous_runner": "macos-15",
+    "prior_source_sha": "06b56ac1e11cba1507913d16c4cc5c38f6e0d82e",
+    "product_target_unchanged": "arm64-apple-ios16.0",
+    "reason": "Original run42119125234 remained queued for more than15minutes with zero steps and no runner/log. Try a documented standard alternative pool once.",
+    "runner": "macos-15-intel",
+    "workflow_shell_syntax_rechecked": true
+  },
+  "schema_version": 1,
+  "scope": "Existing workflow Python gates, portable C/C++ runtime and syntax only; no local iOS build or device acceptance",
+  "source_snapshot_sha256": {
+    ".github/workflows/duoface-172-wakefix5-signed-private.yml": "81301128975452bfc6ab333e1ce99c937d373fcf423518d53960b04258af72ab",
+    "sideplay/duoface-native-scene-host/DFCarPlayOwnerObserver.h": "ccfd32c65d55d1cfc272d3671143aea56eca7064bd7e037ad2d5361e857b8800",
+    "sideplay/duoface-native-scene-host/DFDeepTrace.h": "c5623ffbb1f40ffaa43d80bf2d9e0a46d768c6072a7d88cb171b8fa71e4dfeba",
+    "sideplay/duoface-native-scene-host/DFHomeStandalone144.m": "f663187d6ff77141779a94b23670623ab2f12a10f06e5820ee99c7f138636864",
+    "sideplay/duoface-native-scene-host/DFNativeHostRootController.m": "1773a26260efcc17a6fd704564283be5f900fa514419903e70a6f8e0be01682d",
+    "sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m": "2a8562b26704fd77bfd73c55782f699f5a2f3decc1dd924684661f538854c2a5",
+    "sideplay/duoface-native-scene-host/build.sh": "d7bb62ed5bdec9af6aebcac24bd57d3ef2922bf3dad6ff0762b1dafb9ad3cc8f",
+    "sideplay/duoface-native-scene-host/control": "0e76fae3bc0823a745ed5ecfe71b4a0ed228d13c2d626e640045dce535b963c9",
+    "sideplay/duoface-native-scene-host/tests/test_native_map_command_protocol.py": "3e76ac76d26206999f007e7cf833eadb8c6a6ed41cf1dcbcb338e9c652f3acf5",
+    "sideplay/duoface-native-scene-host/tests/test_qa144_no_split_home_redirect.py": "8413a33785ce51d5ffbe5174ad5aec662f130d8e7f088a3309f3fc4b61aaec40",
+    "sideplay/duoface-native-scene-host/tests/test_qa145_controlled_home.py": "cb1502595283e1a57fbe67d3d9b26ec4231a3aa359f677f7ff122088304ce305",
+    "sideplay/duoface-native-scene-host/tests/test_qa161_first_solo_geometry.py": "8ebc02ee760eb43718ae6dc4afd21915dabefd87b5318912658f385644061b80",
+    "sideplay/duoface-native-scene-host/tests/test_qa162_gofa_speed8_integration.py": "20ec72c3cfaba980d536412eb3da56773b6a4d3f035b2e34f3861dc6cbdff2ae",
+    "sideplay/duoface-native-scene-host/tests/test_qa163_global_speed8_owner.py": "e2b9c53b10cfdfb3a3918c267a736d3acb1067ee15a29e66c94f4262828b028f",
+    "sideplay/duoface-native-scene-host/tests/test_qa164_speed8_fullscreen_drag.py": "694b5198eb0e75778906431d022a8fe49f22cebb03649a0a648c120cbe0006ad",
+    "sideplay/duoface-native-scene-host/tests/test_qa165_native_gofa_standalone_roster.py": "267664c66053eac835ec94942e2e79b21da924c3f91cee6d44f443a623c48f19",
+    "sideplay/duoface-native-scene-host/tests/test_qa169_bubble_visibility.py": "3fac91384f32f062b8fe44269c33be38fb8549fa357eab37ab5e3f32c8b3f3db",
+    "sideplay/duoface-native-scene-host/tests/test_qa170_transparent_x_real_gps.py": "8c4440bb72614b437526b50a9328a35496d85bda977a9251bdfd5ae1d583d13d",
+    "sideplay/duoface-native-scene-host/tests/test_qa172r_logo_recall.py": "2ccb7fb625c552d5217545b68a4bee364b01dcc29a28d4109e6e345287e97511",
+    "sideplay/duoface-native-scene-host/tests/test_qa172w2_wakefix2.py": "ed9e84a9ee7a0e5918cf9900d5b929b21540bbabde7928e77a63c9433fccab11",
+    "sideplay/duoface-native-scene-host/tests/test_qa172w_wakefix.py": "4e6598fb7bcc2673e7716166a820dcc93d4952b8626f7e2bdf2949b5acc2c5a6",
+    "sideplay/jb-embedded-appbridge/package_integrated.py": "3105f07c1ad3852e0fbe2fbd87e46d369c510ca2bd9bb47cf5a785405f21b301",
+    "sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py": "99d3a8198d5f9e1e80f16c6ca9451784bf252021ac1e8b3289d62d41d66bf343",
+    "sideplay/native-carplay-scene-v1/DFNativeMapCommandProtocol.h": "1eb0e3df93751359fe1f98d4f43147878554f09af2f5a1545311c620fe509793",
+    "sideplay/native-carplay-scene-v1/DFNativeMapLaunchContext.h": "b0d7c65fc5c2fe6108b1584b76cac90a087e5eb33f9c03aab8f46259e4a8d8b1",
+    "sideplay/native-carplay-scene-v1/DFNativeMapLaunchContext.m": "59cba78878fb4f288a857778ee60357e5b58145ec596026130eb274078ba60ea",
+    "sideplay/native-carplay-scene-v1/DFNativeMapLaunchPolicy.h": "2b35efae57b342386677dcd53d22f4837cbd43705b7c6dba197c42613a54db39",
+    "sideplay/native-carplay-scene-v1/DFNativeMapLaunchRuntime.h": "007ad27f08e0d23f734ac3c6242daa846b19d56644472981229f6ac488a3342d",
+    "sideplay/native-carplay-scene-v1/DFNativeMapLaunchRuntime.m": "ff054fd87ce8b1f6d67284b0490304aea8abe886e266e81580eedfb588ff3d21",
+    "sideplay/native-carplay-scene-v1/DFNativeMapOwnedBasePolicy.h": "194663d5ed04a9b2d10d873415aca34b7e422bd2ae4625219a00f4ca765100f3",
+    "sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m": "ac1f9431dbf0484200905b9e2b761c51d22923bf21380580997bbd63e92f0c71",
+    "sideplay/native-carplay-scene-v1/tests/native_map_command_protocol_runtime.m": "8d8905eab62a73605fe2c82def4ff2d78c3612e769de52efb16de6a994dae0e1",
+    "sideplay/native-carplay-scene-v1/tests/native_map_launch_policy_runtime.m": "1bdc4adc5061496a1ff4f8627785f8e4d00fa651e412b87008f910687345fa06",
+    "sideplay/native-carplay-scene-v1/tests/native_map_launch_runtime.m": "f05957e83ff38827d3256c052ba351f40c9163118877b00f81925c36d47e5b49",
+    "sideplay/native-carplay-scene-v1/tests/test_native_map_launch_coordinator.py": "5d6ebd23ec82a5bc511a334687f873734063dcdddb2198b7be3bb0f73263febb"
+  },
+  "started_at_utc": "2026-11-05T19:05:54.632717+00:00",
+  "tracked_fixture_verified": "b1c88a09e31f7a867ccb858da1a7ae15485134b0",
+  "workflow": ".github/workflows/duoface-172-wakefix5-signed-private.yml",
+  "workflow_sha256": "81301128975452bfc6ab333e1ce99c937d373fcf423518d53960b04258af72ab"
+}

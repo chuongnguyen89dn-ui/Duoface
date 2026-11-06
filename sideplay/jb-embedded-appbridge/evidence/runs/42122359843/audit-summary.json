@@ -1,0 +1,25 @@
+{
+  "binary_roster_matches_source": true,
+  "code_signature_hashes_pass": true,
+  "counts": {
+    "compiled_nibs": 2,
+    "control_regular_files": 3,
+    "links": 0,
+    "mach_o_files": 11,
+    "mach_o_slices": 14,
+    "payload_regular_files": 40,
+    "plists": 12,
+    "png_files": 15
+  },
+  "deb_sha256": "90efffed61ee5a1a44db3e0371f9d205a54cdb3b55a76cc5ec27f63d26f12d47",
+  "device_tested": false,
+  "entitlements_match_source": true,
+  "expected_sha256_verified": true,
+  "injection_filters_match_source": true,
+  "minimum_ios16_pass": true,
+  "package": "com.duoface.jb.embedded",
+  "package_contract_pass": true,
+  "stable_dylib_install_names_pass": true,
+  "static_integrity_pass": true,
+  "version": "0.0.172~wakefix5"
+}
