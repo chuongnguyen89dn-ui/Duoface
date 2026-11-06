@@ -954,6 +954,14 @@ static NSInteger DFObservedSceneForeground(id scene) {
         surface.window && surface.appController.viewIfLoaded.window==surface.window &&
         DFHostingFlag(surface.appController,@"isHostingAnApp",NO);
 }
+- (NSString *)sceneIdentifierForHostedView:(UIView *)view {
+    if(![self isLiveSceneForHostedView:view])return nil;
+    DFSceneSurface *surface=(DFSceneSurface *)view;
+    id scene=DFCall0(DFCall0(surface.appController,@"sceneHandle"),@"sceneIfExists");
+    if(!scene || scene!=surface.scene)return nil;
+    id identifier=DFCall0(scene,@"identifier");
+    return [identifier isKindOfClass:NSString.class] && [identifier length]>0 ? identifier : nil;
+}
 - (NSNumber *)verifiedPIDForHostedView:(UIView *)view {
  if(![self isLiveSceneForHostedView:view])return nil;
  DFSceneSurface *surface=(DFSceneSurface *)view;
