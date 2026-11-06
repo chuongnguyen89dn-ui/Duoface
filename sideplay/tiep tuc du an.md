@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-11-06 — QA173 FIRST SIGNED CI FAILED TEST HARNESS INCLUDE, RETRY RUNNING
+
+- **CI failure evidence:** [run 42143731926](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42143731926), job `127650050035`, **COMPLETED FAILURE** at step `Native Foundation contracts and Safari native Home preservation`, before Theos build/sign. Step 3 Python QA178 + updated QA172/wakefix tests and integrated packaging contract **PASS**. Runtime logo policy PASS `DF178_VISUAL_ONLY_LOGO_4S_POLICY_PASS`, route policy PASS `DF178_NATIVE_MAP_VS_PHONE_APPBRIDGE_POLICY_PASS`, Safari preservation PASS `SAFARI_SELECTED_ADMISSION_REAL_FBS_RECORD_DECLARATION_NOTIFY_NATIVE_PRESERVATION_PASS`. Exact error: `sideplay/duoface-native-scene-host/tests/catalog_policy_runtime.m:2:9: fatal error: 'DFAppCatalogPolicy.h' file not found`. This is an omission of **test compile include path**, not a product source failure. No DEB built or published by this run.
+- **Scoped CI-only correction:** `.github/workflows/duoface-173-logoapps1-signed-private.yml` add `-I sideplay/duoface-native-scene-host` to Objective-C Foundation test compile; commit `b96b98fd05090c1afd3ad1d3940dd99c3b2e862f`. Source production and version `0.0.173~logoapps1` unchanged.
+- **Triggered exact retry:** [run **42143863275**](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42143863275) **IN_PROGRESS** at check, job `127650488662`. Must check all steps, signed DEB, hash and archive before declaring success; on failure inspect exact step log and fix. Official Sileo remains published `0.0.172~wakefix5`; no device run.
+
+---
+
 ## CHECKPOINT 2026-11-06 — QA178 SOURCE CI PASS, QA173 UNIQUE PRIVATE SIGNED BUILD QUEUED
 
 - **Repo/branch commit before checkpoint:** `chuongnguyen89dn-ui/Duoface` `feature/sideplay-logo-app-roster-fix-20261106`, head `5a52dcf98f5ba1c918a8e1f4cfcf1519f9ddbbc5`. User GitHub authorization already granted; **do not ask again**.
