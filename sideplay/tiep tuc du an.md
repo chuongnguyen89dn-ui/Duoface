@@ -1,3 +1,9 @@
+## CHECKPOINT QA177-A1WAKE1-SIGNED-READY-20261106
+
+- Signed integrated0.0.177~a1wake1 / nativehost0.1.177~a1wake1 and whole-DEB static audit PASSED in run 42193994412. Compiled source SHA e8449cbb9e457f97bc4fe4ac64445a3669b205f2; immutable DEB SHA256 9123cabba7f84bf676fd04f637e161a245de9e6bfbc88a1c406254fc32223027.
+- Archive/checksum/provenance: `sideplay/jb-embedded-appbridge/evidence/runs/42193994412/`. Signed app relay binaries and SpringBoard receiver contain matching DF176 wake-state path. Native map/wake model, actual sender integration and iOS arm64 syntax tested before signing. No protected runtime source modified by versioning. DEVICE_TESTED=false.
+- NEXT: publish only these exact audited bytes to official carplaydsp, preserve0.0.174/0.0.175/0.0.176 rollback, independently verify public index/download checksum. This signed-build job did NOT publish or do live CarPlay acceptance.
+
 ## CHECKPOINT QA177-A1-SIGNED-CANDIDATE-RUN-20261106
 
 - **Code gate proven:** QA176 bounded regression GitHub Actions run `42193156605` `status=completed/conclusion=success` on commit `ec5c2ad40e439405f6d314b4269d30d39bba1eea`, all existing/negative, synthetic 3-cycle and iOS arm64 syntax PASS. No claim of device/carplay PASS.
