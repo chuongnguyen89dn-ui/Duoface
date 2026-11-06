@@ -13,10 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)appPicker:(DFAppPickerVC *)picker
     didSelectBundleID:(NSString *)bundleID
           displayName:(NSString *)name;
-// Explicit native-map request; do not route it to the phone scene host.
+// Only the split-pane owner supports native CarPlay map adoption. Standalone
+// Safari/phone AppBridge owners must not be forced to implement this callback.
+@optional
 - (void)appPicker:(DFAppPickerVC *)picker
     didSelectNativeMapBundleID:(NSString *)bundleID
                  displayName:(NSString *)name;
+@required
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker;
 // Original setupCardContent has THREE modes: Apps, Layout, Recent.
 // Each request is routed to the EXISTING independent real scene owner.
