@@ -34,9 +34,9 @@ class QA178H1Wake(unittest.TestCase):
   self.assertNotIn('DFAppTouch177',chrome)
   self.assertNotIn('DFH1Wake188',chrome)
  def test_version_coherence(self):
-  self.assertIn('0.1.180~h1wake3',(ROOT/"build.sh").read_text())
-  self.assertIn('VERSION="0.0.180~h1wake3"',INT.read_text())
-  self.assertIn('Version: 0.1.180~h1wake3',(ROOT/"control").read_text())
+  self.assertIn('0.1.181~b0probe1',(ROOT/"build.sh").read_text())
+  self.assertIn('VERSION="0.0.181~b0probe1"',INT.read_text())
+  self.assertIn('Version: 0.1.181~b0probe1',(ROOT/"control").read_text())
   info=(ROOT/"Info.plist").read_text()
-  self.assertIn('<key>CFBundleVersion</key><string>180</string>',info)
+  self.assertIn('<key>CFBundleVersion</key><string>181</string>',info)
 if __name__=="__main__":unittest.main()
