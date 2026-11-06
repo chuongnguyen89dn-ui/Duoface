@@ -1,0 +1,163 @@
+name: QA179 logo + selected apps native/bridge - signed private candidate
+on:
+  push:
+    branches:
+      - fix/qa173-logo-map-touch-recall-20261106
+    paths:
+      - '.github/workflows/duoface-179-mapwake1-signed-private.yml'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.m'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.h'
+      - 'sideplay/duoface-native-scene-host/DFAppLibrary.m'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/DFDeepTrace.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa178_*.py'
+      - 'sideplay/duoface-native-scene-host/DFChromeVisual178.h'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayAppRoute178.h'
+      - 'sideplay/duoface-native-scene-host/build.sh'
+      - 'sideplay/duoface-native-scene-host/control'
+      - 'sideplay/duoface-native-scene-host/Info.plist'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: qa179-mapwake1-private-no-sileo
+  cancel-in-progress: true
+jobs:
+  signed-qa179:
+    runs-on: macos-15-intel
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: First-party source guards and old wakefix negative regressions
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          for test in tests/test_qa178_logo_visual_only.py tests/test_qa178_app_picker_route.py \
+                      tests/test_qa172w2_wakefix2.py tests/test_qa172w_wakefix.py \
+                      tests/test_qa172r_logo_recall.py; do
+            python3 "$test" -v
+          done
+          cd ..
+          python3 -m unittest discover -s jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
+          echo QA179_PRE_SIGN_SOURCE_GUARDS_PASS
+      - name: Native Foundation contracts and Safari native Home preservation
+        run: |
+          set -euo pipefail
+          for source in chrome_visual_178_runtime carplay_app_route_178_runtime safari_home_roster_runtime \
+                        catalog_policy_runtime native_map_catalog_runtime; do
+            binary="$RUNNER_TEMP/$source"
+            xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror \
+              -Wno-deprecated-declarations -framework Foundation \
+              -I sideplay/duoface-native-scene-host \
+              "sideplay/duoface-native-scene-host/tests/$source.m" -o "$binary"
+            "$binary"
+          done
+          echo QA179_FOUNDATION_MAP_SAFARI_CATALOG_LOGO_PASS
+      - name: Prepare pinned existing macOS rootless iOS toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build unchanged independent preflight and first-party components
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+      - name: Compile and sign distinct 0.1.174 scene host (no old DEB overwrite)
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.174~mapwake1_iphoneos-arm64.deb'
+          test -s "$HOST"
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.174~mapwake1'
+          mkdir -p "$RUNNER_TEMP/qa179-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa179-host"
+          ldid -e "$RUNNER_TEMP/qa179-host/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" >/dev/null
+          for mod in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator \
+                     DFYouTubeOrientationRelay DF155GeneralAppStateRelay; do
+            ldid -e "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$mod.dylib" >/dev/null
+          done
+          strings -a "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'qa179-logo-idle-red-border-hidden-visual-only'
+          strings -a "$RUNNER_TEMP/qa179-host/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib" | grep -F 'qa178-native-map-picker-ack-applied'
+          test "$(plutil -extract CFBundleVersion raw "$RUNNER_TEMP/qa179-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '174'
+          echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
+      - name: Assemble unique integrated signed 0.0.174 candidate and audit
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py \
+            --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.174~mapwake1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.174~mapwake1'
+          mkdir -p "$RUNNER_TEMP/qa179-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa179-merged"
+          test -s "$RUNNER_TEMP/qa179-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaMapResize141.dylib"
+          test -s "$RUNNER_TEMP/qa179-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib"
+          test -s "$RUNNER_TEMP/qa179-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
+          test -s "$RUNNER_TEMP/qa179-merged/var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib"
+          SHA="$(shasum -a 256 "$OUT" | awk '{print $1}')"
+          python3 sideplay/tools/audit_integrated_deb.py \
+            --deb "$OUT" --out "$RUNNER_TEMP/qa179-audit" \
+            --expected-sha256 "$SHA" --source-sha "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" \
+            > "$RUNNER_TEMP/qa179-audit-console.log" 2>&1 || {
+              cat "$RUNNER_TEMP/qa179-audit-console.log"; exit 1;
+            }
+          python3 - "$OUT" "$SHA" "$GITHUB_SHA" "$GITHUB_RUN_ID" <<'PY'
+          import json,pathlib,sys
+          out,sha,source,run=sys.argv[1:]
+          p=pathlib.Path("sideplay/jb-embedded-appbridge/packages/QA179_AUDIT_SUMMARY.json")
+          p.write_text(json.dumps(dict(package="com.duoface.jb.embedded",
+               version="0.0.174~mapwake1",deb_sha256=sha,
+               sha256_verified=True,whole_deb_static_audit_pass=True,
+               source_sha=source,run_id=run,signed=True,
+               sileo_published=False,device_tested=False),indent=2)+"\n")
+          print("QA179_FULL_DEB_STATIC_AUDIT_PASS_DEVICE_UNTESTED",sha)
+          PY
+          echo "QA179_OUTPUT=$OUT" >> "$GITHUB_ENV"
+      - name: Upload immutable signed candidate to Actions (NOT Sileo)
+        uses: actions/upload-artifact@v4
+        with:
+          name: QA179-mapwake1-SIGNED-PRIVATE-UNPUBLISHED
+          if-no-files-found: error
+          path: |
+            sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.174~mapwake1_iphoneos-arm64.deb
+            sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json
+            sideplay/jb-embedded-appbridge/packages/QA179_AUDIT_SUMMARY.json
+      - name: Archive signed build with checksum in same DuoFace feature branch
+        run: |
+          set -euo pipefail
+          BRANCH='fix/qa173-logo-map-touch-recall-20261106'
+          ART='com.duoface.jb.embedded_0.0.174~mapwake1_iphoneos-arm64.deb'
+          for n in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$OUT"
+            cp "$QA179_OUTPUT" "$OUT/$ART"
+            ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
+            cp sideplay/jb-embedded-appbridge/packages/QA179_AUDIT_SUMMARY.json "$OUT/audit-summary.json"
+            printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nDEVICE_TESTED=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$DIR" commit -m 'qa179: archive signed logo and app roster candidate; device pending [skip ci]'
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$DIR"
+              echo QA179_PRIVATE_SIGNED_SOURCE_AUDIT_ARCHIVED_NO_SILEO
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
