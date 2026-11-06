@@ -61,7 +61,7 @@ jobs:
           test "$(dpkg-deb -f "$HOST" Version)" = '0.1.180~h1wake3'
           mkdir -p "$RUNNER_TEMP/qa180-host"
           dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa180-host"
-          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa180-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '179'
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa180-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '180'
           for module in DFTouchOwnerProbe DFCarPlayDockOwner DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
             ldid -e "$RUNNER_TEMP/qa180-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$module.dylib" >/dev/null
           done
@@ -92,7 +92,7 @@ jobs:
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-controls-state'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-app-touch-wake'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'gate=%@'
-          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa180-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '179'
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa180-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '180'
           echo "QA180_INTEGRATED=$OUT" >> "$GITHUB_ENV"
           shasum -a 256 "$OUT"
           echo 'QA180_SIGNED_H1WAKE3_CONTRACT_AND_BINARY_PASS_DEVICE_UNTESTED'
@@ -119,7 +119,7 @@ jobs:
             git -C "$DIR" config user.name 'github-actions[bot]'
             git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
-            git -C "$DIR" commit -m "qa180: archive exact signed H1 wake2 DEB [skip ci]"
+            git -C "$DIR" commit -m "qa180: archive exact signed H1 wake3 DEB [skip ci]"
             if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
               git worktree remove --force "$DIR"
               git fetch --no-tags origin "$BRANCH"
