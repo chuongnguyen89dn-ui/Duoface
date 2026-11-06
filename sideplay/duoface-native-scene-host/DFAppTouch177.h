@@ -95,7 +95,11 @@ static NSTimeInterval DF177TouchLastSentAt = 0;
 static DF156Mailbox DF177TouchBox;
 static BOOL DF177TouchBoxReady = NO;
 
-static inline BOOL DF177AppTouchNoteBegan(NSString *bundle,BOOL wakeReserved) {
+static inline NSString *DF177SceneIdentifierForTouch(UITouch *touch) {
+    return touch.window.windowScene.session.persistentIdentifier;
+}
+static inline BOOL DF177AppTouchNoteBegan(NSString *bundle,BOOL wakeReserved,
+                                         NSString *sceneID) {
     if(!bundle.length || !DF177AppTouchEnabled())return NO;
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     if(!wakeReserved && now-DF177TouchLastSentAt<kDF177TouchThrottleSeconds)
@@ -108,7 +112,7 @@ static inline BOOL DF177AppTouchNoteBegan(NSString *bundle,BOOL wakeReserved) {
         uint64_t nextCount=DF177TouchCount+1;
         NSDictionary *rec=@{@"version":@2,@"bundle":bundle,
             @"pid":@(getpid()),@"count":@(nextCount),@"ts":@(now),
-            @"reserved":@(wakeReserved)};
+            @"reserved":@(wakeReserved),@"scene":sceneID?:@""};
         NSData *bytes=[NSJSONSerialization dataWithJSONObject:rec
                                                       options:0 error:nil];
         uint64_t generation=0;
@@ -194,7 +198,8 @@ static void DF177SendEventHook(UIApplication *self, SEL _cmd, UIEvent *event) {
     if (event.type == UIEventTypeTouches) {
         for (UITouch *touch in event.allTouches) {
             if (touch.phase == UITouchPhaseBegan) {
-                DF177AppTouchNoteBegan(DF177TouchBundle,NO);
+                DF177AppTouchNoteBegan(DF177TouchBundle,NO,
+                                      DF177SceneIdentifierForTouch(touch));
                 DF177KbRefreshFromScan();
                 break;
             }
