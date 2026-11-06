@@ -521,7 +521,8 @@ static void DFZWatch(NSUInteger generation) {
 extern void DFIntegratedCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession);
 static void DFZMapSceneWatch(NSUInteger generation) {
     if(generation!=DFZGeneration || !DFZCarPlayProcess())return;
-    if([NSProcessInfo.processInfo.processName isEqualToString:@"CarPlayApp"])
+    if([NSProcessInfo.processInfo.processName isEqualToString:@"CarPlayApp"] ||
+       [NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"])
         DFIntegratedCarPlayCaptureLiveOwnerSnapshot(@"qa181-b0-stock-and-duoface-scene-timeline");
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.5*NSEC_PER_SEC)),
                    dispatch_get_main_queue(),^{ DFZMapSceneWatch(generation); });

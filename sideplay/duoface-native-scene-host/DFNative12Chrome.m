@@ -2,6 +2,7 @@
 #import "DFDividerDrag.h"
 #import "DFDeepTrace.h"
 #import "DF181B0Probe.h"
+#import "DF182NativeMapAssignment.h"
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
 #import "DFNative12PresetPreview.h"
@@ -293,6 +294,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
+- (BOOL)assignNativeMaps182:(NSInteger)physical;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
 @property(nonatomic,strong) UIWindow *speedHUDWindow;
 @property(nonatomic,strong) UIWindow *speedDismissWindow;
@@ -444,6 +446,10 @@ static void DFCLog(NSString *text) {
        }
        if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
           [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class])continue;
+       if([bundle isEqual:@"com.google.Maps"]) {
+          [self assignNativeMaps182:physical];
+          continue; // Native restore never creates a phone scene or retries phone hosting.
+       }
        NSError *error=nil;
        UIView *surface=[host hostViewForBundleID:bundle error:&error];
        if(!surface) {
@@ -1259,6 +1265,7 @@ static void DFCLog(NSString *text) {
     if(self.startupActive || DFSlotCountForPreset(self.preset)!=2 ||
        self.focus>=0 || self.appSceneWindows.count!=4)return @[];
     NSMutableArray *result=[NSMutableArray new];
+    NSDictionary *native=DF182Assignment();
     for(NSInteger physical=0;physical<2;physical++){
        UIWindow *w=self.appSceneWindows[(NSUInteger)physical];
        NSInteger visual=[self visualForPhysical:physical];
@@ -1268,7 +1275,11 @@ static void DFCLog(NSString *text) {
           @"Frame":NSStringFromCGRect(w.frame),
           @"OnExternalScreen":@(w.screen!=UIScreen.mainScreen),
           @"WindowVisible":@(!w.hidden),
-          @"HasLiveApp":@([self.sceneHandleReady[(NSUInteger)physical] boolValue])}];
+          @"HasLiveApp":@([self.sceneHandleReady[(NSUInteger)physical] boolValue]),
+          @"CoordinateSpace":@"external-UIScreen-points",
+          @"WindowLevel":@(w.windowLevel),
+          @"NativeAssignmentID":[native[@"PhysicalSlot"] isEqual:@(physical)]?
+             native[@"AssignmentID"]:@"unknown"}];
     }
     return result;
 }
@@ -1596,7 +1607,9 @@ static void DFCLog(NSString *text) {
         // Preserve the same UIWindow/UIView for pending and loaded scenes:
         // no demo tiles, labels or invented app content.
         BOOL focusedElsewhere=(self.focus>=0 && self.focus!=visualSlot);
-        appWindow.hidden=(self.startupActive || focusedElsewhere);
+        NSDictionary *native182=DF182Assignment();
+        BOOL nativeReserved=[native182[@"PhysicalSlot"] isEqual:@(i)];
+        appWindow.hidden=(self.startupActive || focusedElsewhere || nativeReserved);
         v.hidden=appWindow.hidden;
         // Empty/negotiating panes cannot steal gestures.
         v.userInteractionEnabled=loaded;
@@ -1965,6 +1978,40 @@ static void DFCLog(NSString *text) {
     // A real scene is only confirmed later via sceneReady: (not here).
     return YES;
 }
+- (BOOL)assignNativeMaps182:(NSInteger)physical {
+    NSInteger visual=[self visualForPhysical:physical];
+    if(physical<0||physical>1||DFSlotCountForPreset(self.preset)!=2||self.focus>=0) {
+        DF182Log(@"summary",nil,@"catalog=UNVERIFIED launch=UNVERIFIED scene=UNVERIFIED frame=FAIL lifecycle=UNVERIFIED touch=UNVERIFIED reason=two-pane-unfocused-target-required fallback=forbidden");
+        return NO;
+    }
+    NSDictionary *prior=DF182Assignment();
+    NSDictionary *assignment=DF182Assign(physical,visual);
+    if(!assignment) {
+        DF182Log(@"summary",nil,@"catalog=FAIL launch=UNVERIFIED scene=UNVERIFIED frame=UNVERIFIED lifecycle=UNVERIFIED touch=UNVERIFIED reason=assignment-write-or-session-invalid fallback=forbidden");
+        return NO;
+    }
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    for(NSInteger i=0;i<4;i++) {
+        id active=self.hostedScenes[(NSUInteger)i],pending=self.pendingScenes[(NSUInteger)i];
+        BOOL isOldMap=([active isKindOfClass:UIView.class] &&
+            [[host bundleIDForHostedView:active] isEqual:@"com.google.Maps"]);
+        if(i!=physical && !isOldMap)continue;
+        if([active isKindOfClass:UIView.class])[host releaseHostedView:active];
+        if([pending isKindOfClass:UIView.class])[host releaseHostedView:pending];
+        self.hostedScenes[(NSUInteger)i]=NSNull.null;
+        self.pendingScenes[(NSUInteger)i]=NSNull.null;
+        self.sceneHandleReady[(NSUInteger)i]=@NO;
+        if(i!=physical)(void)DFSavePhysicalBundle(i,@"");
+    }
+    if(prior && ![prior[@"PhysicalSlot"] isEqual:@(physical)])
+        (void)DFSavePhysicalBundle([prior[@"PhysicalSlot"] integerValue],@"");
+    (void)DFSavePhysicalBundle(physical,@"com.google.Maps");
+    self.workspace=DFCurrentWorkspace();
+    self.restorePending=NO;self.restoringPhysical=-1;
+    self.appPickerVisible=NO;self.appPickerWindow.hidden=YES;
+    [self layoutControls];
+    return YES;
+}
 - (void)appPicker:(DFAppPickerVC *)picker
  didSelectBundleID:(NSString *)bundleID displayName:(NSString *)name {
     if(picker!=self.appPickerController || !self.appPickerWindow || 
@@ -1973,6 +2020,13 @@ static void DFCLog(NSString *text) {
     NSInteger physicalSlot=[self physicalForVisual:slot];
     if(physicalSlot<0 || physicalSlot>=DFSlotCountForPreset(self.preset))return;
     DF181B0Record(@"duoface",bundleID,@"picker-selection", @"pending",@"DFNative12Chrome",NSStringFromCGRect(self.appSceneContainers[(NSUInteger)physicalSlot].bounds),self.display?NSStringFromClass([self.display class]):@"no-display",[NSString stringWithFormat:@"visual=%ld physical=%ld",(long)slot,(long)physicalSlot]);
+    if([bundleID isEqual:@"com.google.Maps"]) {
+        [self assignNativeMaps182:physicalSlot];
+        [self restoreNextSavedWorkspaceApp];
+        return; // Native assignment has NO phone-scene fallback, even on failure.
+    }
+    NSDictionary *native182=DF182Assignment();
+    if([native182[@"PhysicalSlot"] isEqual:@(physicalSlot)])DF182Revoke(@"app-replaced-in-native-slot");
     DFSceneHost *owner=[DFSceneHost sharedHost];
     UIView *active=self.hostedScenes[(NSUInteger)physicalSlot];
     UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
@@ -2136,6 +2190,7 @@ static void DFCLog(NSString *text) {
 - (void)closeHostedSlot:(NSInteger)slot {
     NSInteger physicalSlot=[self physicalForVisual:slot];
     if(physicalSlot<0||physicalSlot>=DFSlotCountForPreset(self.preset))return;
+    if([DF182Assignment()[@"PhysicalSlot"] isEqual:@(physicalSlot)])DF182Revoke(@"native-slot-unassigned");
     DFSceneHost *owner=[DFSceneHost sharedHost];
     UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
     if([pending isKindOfClass:UIView.class])[owner releaseHostedView:pending];
@@ -2397,6 +2452,7 @@ static void DFCLog(NSString *text) {
     DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
 }
 - (void)stop {
+    DF182Revoke(@"Chrome-Home-or-disconnect");
     ++self.restoreGeneration;
     self.restorePending=NO;
     self.restoringPhysical=-1;

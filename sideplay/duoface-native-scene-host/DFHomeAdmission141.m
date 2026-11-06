@@ -14,6 +14,7 @@
 #import "DFHome140Consent.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFSelectedHomeAdmission.h"
+#import "DF182NativeMapAssignment.h"
 
 typedef void (*DF141Hook)(Class,SEL,IMP,IMP *);
 static id (*DF141Original3)(id,SEL,id,Class,Class);
@@ -187,6 +188,7 @@ static id DF141Policy(id evaluator,SEL s,id declaration) {
 static id DF141Factory(id receiver,SEL s) {
  // Forward exactly once and retain the original library object/metadata.
  id library=DF141OriginalFactory?DF141OriginalFactory(receiver,s):nil;
+ if(library)DF182CaptureLibrary(library);
  if(!library || !DFHome140Enabled())return library;
  @try {
    NSInteger count=DFHome136ReconcileVerifiedLibrary(library);

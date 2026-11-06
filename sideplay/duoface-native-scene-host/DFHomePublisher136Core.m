@@ -11,6 +11,7 @@
 #import "DFCarPlayHomeCatalogPolicy.h"
 #import "DFSelectedHomeAdmission.h"
 #import "DFHomePublisher136Config.h"
+#import "DF182NativeMapAssignment.h"
 extern void DF137ObserveExistingAppInfo(id info, NSString *stage);
 // QA165: diagnostics only, without inserting duplicates into Apple's native
 // icon roster. An FBS record is not proof an icon is actually displayed.
@@ -73,6 +74,40 @@ static NSArray *DF136InstalledIDs(void) {
 extern BOOL DFHome141CompleteInfo(id info);
 extern BOOL DFHome141InfoHasDeclaration(id info);
 extern BOOL DFHome141RequestSelectedAdmission(id proxy);
+// B1 only reconciles the original live library for an active native assignment.
+// Native declaration is read, never fabricated/completed/replaced here.
+id DF182ReconcileNativeMaps(id library,NSString **reason) {
+ if(reason)*reason=@"catalog-ABI-or-assignment-unverified";
+ if(!DF182Assignment() || ![NSProcessInfo.processInfo.processName isEqual:@"CarPlay"] ||
+    ![library isKindOfClass:objc_getClass("FBSApplicationLibrary")] ||
+    !DF136Exact(library,sel_registerName("applicationInfoForBundleIdentifier:"),"@24@0:8@16") ||
+    !DF136Exact(library,sel_registerName("allInstalledApplications"),"@16@0:8") ||
+    !DF136Exact(library,sel_registerName("addApplicationProxy:withOverrideURL:"),"v32@0:8@16@24") ||
+    !DF136Exact(library,sel_registerName("_notifyDidAddApplications:"),"v24@0:8@16"))return nil;
+ NSString *bundle=@"com.google.Maps";
+ id info=((id(*)(id,SEL,id))objc_msgSend)(library,sel_registerName("applicationInfoForBundleIdentifier:"),bundle);
+ if(!info) {
+  id proxy=DF136InstalledProxy(bundle);
+  if(!proxy){if(reason)*reason=@"Maps-installed-proxy-unverified";return nil;}
+  ((void(*)(id,SEL,id,id))objc_msgSend)(library,sel_registerName("addApplicationProxy:withOverrideURL:"),proxy,nil);
+  info=((id(*)(id,SEL,id))objc_msgSend)(library,sel_registerName("applicationInfoForBundleIdentifier:"),bundle);
+ }
+ if(![DF136Identifier(info) isEqual:bundle] || !DFHome141InfoHasDeclaration(info)) {
+  if(reason)*reason=@"Maps-genuine-declaration-or-library-record-missing";return nil;
+ }
+ id apps=((id(*)(id,SEL))objc_msgSend)(library,sel_registerName("allInstalledApplications"));
+ BOOL included=NO;
+ if([apps isKindOfClass:NSArray.class])for(id item in apps)
+  if([DF136Identifier(item) isEqual:bundle]){included=YES;break;}
+ if(!included){if(reason)*reason=@"Maps-not-in-live-library-membership";return nil;}
+ ((void(*)(id,SEL,id))objc_msgSend)(library,sel_registerName("_notifyDidAddApplications:"),@[info]);
+ id readback=((id(*)(id,SEL,id))objc_msgSend)(library,sel_registerName("applicationInfoForBundleIdentifier:"),bundle);
+ if(readback!=info || !DFHome141InfoHasDeclaration(readback)) {
+  if(reason)*reason=@"Maps-original-info-readback-changed";return nil;
+ }
+ if(reason)*reason=@"original-live-library-membership-and-native-declaration-readback";
+ return info;
+}
 // Returns count of verified new FBS records, or -1 for unavailable native ABI.
 NSInteger DFHome136ReconcileVerifiedLibrary(id library) {
  if(!DFHome136Enabled() ||

@@ -13,6 +13,7 @@
 #import "DFCarPlayNativeMapViewportPlan.h"
 #import "DFCarPlayPhysicalPaneBinding.h"
 #import "../duoface-native-scene-host/DFNativeMapLeasePolicy.h"
+#import "../duoface-native-scene-host/DF182NativeMapAssignment.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 
@@ -396,6 +397,7 @@ static NSDictionary *DFMapMeasureLiveDock(UIWindow **outDashboard,
 - (void)tick:(NSTimer *)timer {
     (void)timer;
     if(!NSThread.isMainThread)return;
+    if(DF182Assignment())return; // QA182 owns this one native scene; no parallel legacy adoption.
     if(self.adapter.isAttached) {
         // Native CarPlay role/screen, root ownership and current Maps VC
         // must remain stable. Do not keep a stale foreign VC across Home.

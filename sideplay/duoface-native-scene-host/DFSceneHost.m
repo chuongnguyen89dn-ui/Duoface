@@ -1,5 +1,6 @@
 #import "DFDeepTrace.h"
 #import "DF181B0Probe.h"
+#import "DF182NativeMapAssignment.h"
 // .74: media host restored from nativehost .47 source 7cd4004d. Current touch wake retained.
 // Independently maintained first-party DuoFace module, ported from the
 // project's own prior scene-host experiments; no vendor binary or license.
@@ -846,6 +847,11 @@ static NSInteger DFObservedSceneForeground(id scene) {
     return self;
 }
 - (UIView *)hostViewForBundleID:(NSString *)bundleID error:(NSError **)error {
+    if([bundleID isEqual:@"com.google.Maps"] && DF182Assignment()) {
+        if(error)*error=DFSceneError(182,@"Maps native assignment forbids phone-scene hosting");
+        DF182Log(@"phone-host-rejected",DF182Assignment(),@"fallback=forbidden");
+        return nil;
+    }
     if (![NSThread isMainThread] || ![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"]) {
         if (error) *error=DFSceneError(101,@"Host phải chạy trên luồng chính SpringBoard");
         return nil;

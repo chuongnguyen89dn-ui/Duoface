@@ -73,6 +73,7 @@
       @"/var/mobile/Library/Logs/DuoFaceDockOwner.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeCatalogABI.log",
       @"/var/mobile/Library/Logs/DuoFaceHomePublisher136.log",
+      @"/var/mobile/Library/Logs/DuoFaceHomeRoster165.log",
       @"/var/mobile/Library/Logs/DuoFaceTrafficNav166.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission137.log",
       @"/var/mobile/Library/Logs/DuoFaceHomeAdmission140.log",
@@ -100,6 +101,9 @@
         [summary appendFormat:@"\n=== %@ (last 2 MiB; timestamped diagnostic build) ===\n%@\n",name,[self tailAtPath:trace maxBytes:2*1024*1024]];
     }
     NSString *session=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
+    NSDictionary *b1=[NSDictionary dictionaryWithContentsOfFile:
+      @"/var/mobile/Library/Preferences/com.duoface.nativehost.native-map182.result.plist"];
+    [summary appendFormat:@"\nQA182 B1 latest evidence (not vehicle acceptance): %@\n",b1?:@{@"Result":@"UNVERIFIED"}];
     NSDictionary *sessionValue=[NSDictionary dictionaryWithContentsOfFile:session];
     [summary appendFormat:@"\nSession active: %@; heartbeat age seconds: ",
        [sessionValue[@"Active"] boolValue]?@"YES":@"NO"];

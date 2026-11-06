@@ -18,6 +18,7 @@
 #import "speed8/DFNative8SpeedHUDView.h"
 #import "DFSpeedVisibility169.h"
 #import "DFEnabledAppsPolicy.h"
+#import "DF182NativeMapAssignment.h"
 #if defined(DF144_SPRINGBOARD)
 #import "DFSceneHost.h"
 #import "DFAppPickerVC.h"
@@ -133,6 +134,15 @@ static void DF144HomeAppeared(id owner,SEL sel,BOOL animated) {
 
 typedef void (*DF144Hook)(Class,SEL,IMP,IMP*);
 #import "DF151WorkspaceOwnerCapture.h"
+#import "DFNativeDashboardContext.h"
+id DF182CapturedDashboardWorkspace(void) {
+ return DF151IsDashboardOwner(DF151DashboardOwner)?DF151DashboardWorkspace:nil;
+}
+id DF182ExistingApplicationLibrary(void) {
+ id library=nil;
+ if(!DF151SafeObjectGetter(DFNativeCarApplication(),"sharedApplicationLibrary",&library))return nil;
+ return library;
+}
 #import "DFNativeDashboardContext.h"
 // QA160 read-only native page identification: controller visibility is NOT pixel
 // proof, and native Home/Apple workspace are never driven or replaced here.
@@ -285,6 +295,7 @@ static BOOL DF144BeginSelectedBridge(NSString *bundle,id nativeHome,NSString *or
 // This symbol is called from DFCarPlayDockOwner.m's real statusbar hook.
 // The two .m files are separate translation units linked in ONE signed dylib.
 void DF157NativeHomeCallbackObserved(void) {
+ DF182Revoke(@"native-Home");
  DF144NativeHomeHandled=YES;
  if(DF147Life.active && DF147Captured &&
     DF147RequestID.length && DF147Session.length && DF147Bundle.length) {
