@@ -2,7 +2,15 @@ name: QA176 bounded owned-base regression
 on:
   push:
     branches: [fix/qa180-owned-wake-map-replace-20261106]
-    paths: ['.github/workflows/duoface-176-owned-base-regression.yml']
+    paths:
+      - '.github/workflows/duoface-176-owned-base-regression.yml'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFAppWakeGate176.h'
+      - 'sideplay/duoface-native-scene-host/DFAppTouch177.h'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFSceneHost.h'
+      - 'sideplay/duoface-native-scene-host/tests/app_wake_176_runtime.m'
+      - 'sideplay/duoface-native-scene-host/tests/test_qa176_a1_wake_source.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -57,12 +65,22 @@ jobs:
           if python3 tests/test_app_wake_176_integration.py "$RUNNER_TEMP/old-sender.h" > "$RUNNER_TEMP/old-sender.log" 2>&1; then exit 1; fi
           grep -F QA175_GATE_MISSING_FROM_APP_DELIVERY "$RUNNER_TEMP/old-sender.log"
           python3 tests/test_app_wake_176_integration.py DFAppTouch177.h
+      - name: A1 guarded source contract and old gate negative control
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          git show 3d0fafcc2e17bca9739cf900d0bac5668ebc1aef:sideplay/duoface-native-scene-host/DFAppWakeGate176.h > "$RUNNER_TEMP/old-gate.h"
+          if grep -F 'scene.session.persistentIdentifier' "$RUNNER_TEMP/old-gate.h"; then exit 1; fi
+          grep -F 'scene.session.persistentIdentifier' DFAppWakeGate176.h
+          python3 tests/test_qa176_a1_wake_source.py -v
       - name: Actual app delivery gate model
         run: |
           set -euo pipefail
           cd sideplay/duoface-native-scene-host
           xcrun --sdk macosx clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations -I tests/qa180_uikit_stub -framework Foundation -framework CoreGraphics tests/qa180_uikit_stub/UIKitStub.m tests/app_wake_176_runtime.m -o "$RUNNER_TEMP/appwake"
-          "$RUNNER_TEMP/appwake"
+          "$RUNNER_TEMP/appwake" > "$RUNNER_TEMP/appwake.log" 2>&1
+          cat "$RUNNER_TEMP/appwake.log"
+          grep -F QA176_A1_APP_WAKE_MODEL_PASS "$RUNNER_TEMP/appwake.log"
       - name: Actual iOS arm64 syntax
         run: |
           set -euo pipefail
