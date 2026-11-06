@@ -27,7 +27,7 @@ class AppRoster178(unittest.TestCase):
   self.assertIn("DFConfiguredEnabledAppIDs()",menu)
   self.assertIn("DFNativeMapAllowedBundle(bundle)",menu)
   self.assertIn("DFPickerAllowsApp(bundle,selected)",menu)
-  self.assertIn("[self nativeMapPaneCommand:",menu)
+  self.assertIn("[weakSelf nativeMapPaneCommand:",menu)
   self.assertNotIn("(!native || [native containsObject:bundle])",menu)
   self.assertNotIn("DFNativeMapAckApplied",menu)
 
