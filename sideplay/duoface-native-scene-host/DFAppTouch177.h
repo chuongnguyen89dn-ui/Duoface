@@ -234,9 +234,9 @@ static inline void DF177InstallAppTouchHook(NSString *bundle) {
     // QA172 wakefix: keyboard visibility observers for the wake
     // shield. Installed once per process, alongside the touch hook.
     static BOOL kbObserversInstalled = NO;
+    NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
     if (!kbObserversInstalled) {
         kbObserversInstalled = YES;
-        NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
         [nc addObserverForName:UIWindowDidBecomeVisibleNotification
                         object:nil queue:NSOperationQueue.mainQueue
                     usingBlock:^(__unused NSNotification *note) {
