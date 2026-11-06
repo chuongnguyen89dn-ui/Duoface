@@ -1,3 +1,12 @@
+## CURRENT 2026-11-06 — DuoFace 0.0.173~logoapps1 (DEVICE TEST PENDING)
+
+- Đây là **mốc tiếp nối hiện hành** cho nhánh SidePlay/CarPlay (ưu tiên các yêu cầu mới nhất của người dùng); chi tiết đầy đủ, danh sách 6 ca, bằng chứng và bước kế tiếp đã lưu tại **`sideplay/tiep tuc du an.md`**, mục `CHECKPOINT 2026-11-06 — QA173 logoapps1`. Không nhầm với `0.0.173~touchlog1` của 02/11.
+- Repo `chuongnguyen89dn-ui/Duoface`, default branch `spec-main`; source branch `feature/sideplay-logo-app-roster-fix-20261106`, source SHA `0c3faf02e5a8596842a12ddc7b86b429ce3aab1a`. CI run `42144397387` PASS (job `127652257881`, signed private artifact `13468694442`), DEB `com.duoface.jb.embedded_0.0.173~logoapps1_iphoneos-arm64.deb` in `sideplay/jb-embedded-appbridge/evidence/runs/42144397387/`, SHA256 `324d3fc4c06937fbc911473df95cf2e80077101ef17e4139dd1e74f5a1c8072f`; evidence `CI_RESULT.txt`, `SHA256SUMS.txt`, `audit-summary.json`.
+- Verified CI status: `BUILD=success`, `SIGNED=true`, `SILEO_PUBLISHED=false`, `DEVICE_TESTED=false`. **ALL 6 CarPlay on-device tests are currently PENDING**, priority (1) logo auto-hide at ~4s/recall and (4) live touchable Google Maps/Waze in split pane. Other tests: keyboard safe while logo hides; selected installed app list; Safari via AppBridge and GOFA existing path (no new GOFA native controller); Home/return/split restoration and touch.
+- **Action this checkpoint:** Documentation only; no source, DEB, deploy or runtime changed. Next gather real device evidence for tests 1 and 4 first, then remaining tests; investigate only proven failures. Follow independent DuoFace architecture, use DuoNavi only as mechanism reference, not license source.
+
+---
+
 > **NO DEB WITHOUT EXPLICIT USER REQUEST (2026-10-14):** Được sửa source, chạy compile-only, chuẩn bị tài nguyên và lưu git; tuyệt đối KHÔNG tự build/package/export DEB hoặc Sileo, không tự kích hoạt workflow_dispatch đóng gói. Tất cả DEB/export workflows phải manual-only. Zoom đỏ theo tab selected, không ghim đỏ khi chọn App/Style.
 
 > **USER ZOOM OVERRIDE 2026-10-14:** Chỉ chuyển hai tác vụ fullscreen đã có từ top bar/nút thu nhỏ nổi vào một nút Zoom In/Zoom Out trong menu; xóa hai UI cũ khỏi build mới; callback 3 menu gốc không thay; native focus/restore từng ô giữ nguyên. KHÔNG phân tích lại.
