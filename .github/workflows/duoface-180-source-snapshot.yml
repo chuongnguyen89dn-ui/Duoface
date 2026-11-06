@@ -1,0 +1,50 @@
+name: QA180 source snapshot - no build or deployment
+on:
+  push:
+    branches: [fix/qa180-owned-wake-map-replace-20261106]
+    paths: ['.github/workflows/duoface-180-source-snapshot.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: d27298e18c987621090d3e79f246b512a034ddca
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /sideplay/duoface-native-scene-host/*.h
+            /sideplay/duoface-native-scene-host/*.m
+            /sideplay/duoface-native-scene-host/*.xm
+            /sideplay/duoface-native-scene-host/*.sh
+            /sideplay/duoface-native-scene-host/Makefile
+            /sideplay/duoface-native-scene-host/tests/
+            /sideplay/native-carplay-scene-v1/
+            /.github/workflows/duoface-178-logo-app-roster-source-ci.yml
+            /sideplay/audit/qa174-four-latest-logs-20261106/FINDINGS.md
+            /sideplay/audit/qa174-device-rejected-20261106/MECHANISM_REVIEW_20261106.md
+            /sideplay/tiep tuc du an.md
+            /tiep tuc du an.md
+      - name: Export pinned first-party source only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = d27298e18c987621090d3e79f246b512a034ddca
+          mkdir -p "$RUNNER_TEMP/source-snapshot"
+          git ls-files -z | while IFS= read -r -d '' path; do
+            if test -f "$path"; then
+              mkdir -p "$RUNNER_TEMP/source-snapshot/$(dirname "$path")"
+              cp "$path" "$RUNNER_TEMP/source-snapshot/$path"
+            fi
+          done
+          git rev-parse HEAD > "$RUNNER_TEMP/source-snapshot/SOURCE_SHA.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA180-pinned-first-party-source
+          path: ${{ runner.temp }}/source-snapshot/
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: error
