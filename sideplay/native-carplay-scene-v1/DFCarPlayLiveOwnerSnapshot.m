@@ -7,6 +7,8 @@
 #import "DFCarPlayNativeMapViewportPlan.h"
 // Observational state only; never retains UIView/FBScene or manipulates a scene.
 static NSDictionary *DFCarPlayPreviousTimeline = nil;
+// Last scalar snapshot only: no retained scene/controller/view objects.
+static NSDictionary<NSString *,NSDictionary *> *DF181PreviousNative = nil;
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -150,6 +152,7 @@ static void DFVisitController(UIViewController *vc,
         @"viewBounds":v?DFRect(v.bounds):@"nil",
         @"viewSceneRole":v.window.windowScene.session.role?:@"nil",
         @"viewSceneIdentifier":v.window.windowScene.session.persistentIdentifier?:@"nil",
+        @"viewSceneActivationState":v.window.windowScene?@(v.window.windowScene.activationState):@(-1),
         @"hasSceneHandleSelector":@(class_getInstanceMethod(object_getClass(vc),NSSelectorFromString(@"sceneHandle"))!=NULL),
         @"hasSceneSelector":@(class_getInstanceMethod(object_getClass(vc),NSSelectorFromString(@"scene"))!=NULL),
         @"hasApplicationInfoSelector":@(class_getInstanceMethod(object_getClass(vc),NSSelectorFromString(@"applicationInfo"))!=NULL)
@@ -265,6 +268,7 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
         NSDictionary *phoneLayout=[NSDictionary dictionaryWithContentsOfFile:DFPhoneSplitLayout];
         NSDictionary *mapViewport=DFCarPlayNativeMapViewportPlan(scenes,phoneLayout);
         NSUInteger nativeMatches=0;
+        NSMutableDictionary<NSString *, NSDictionary *> *currentNative=[NSMutableDictionary new];
         for(NSDictionary *record in controllers) {
             if(![record[@"controllerClass"] isEqual:@"DBApplicationSceneViewController"])continue;
             NSString *bundle=record[@"hostedBundleIdentifier"];
@@ -272,9 +276,21 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
                 bundle=record[@"nativeSceneProcessBundleIdentifier"];
             if(![bundle isKindOfClass:NSString.class] || !bundle.length)
                 bundle=@"native-carplay";
+            // Foreground Active/Inactive are measured UIKit states, not a guessed launch action.
+            NSInteger activation=[record[@"viewSceneActivationState"] integerValue];
+            if(activation!=UISceneActivationStateForegroundActive &&
+               activation!=UISceneActivationStateForegroundInactive)continue;
             nativeMatches++;
             NSString *sid=record[@"hostedSceneIdentifier"]?:record[@"viewSceneIdentifier"]?:@"unavailable";
-            DF181B0Record(@"stock",bundle,@"native-controller-observed",sid,
+            NSString *identity=[NSString stringWithFormat:@"%@|%@|%@",
+                                 bundle,sid,record[@"controllerPointer"]?:@"unknown"];
+            NSDictionary *previous=DF181PreviousNative[identity];
+            NSString *event=previous?
+                ([previous[@"activation"] integerValue]==activation?@"foreground-sampled":@"activation-changed"):
+                @"foreground-appeared";
+            currentNative[identity]=@{@"bundle":bundle,@"sid":sid,@"activation":@(activation),
+                                      @"bounds":record[@"viewBounds"]?:@"unavailable"};
+            DF181B0Record(@"stock",bundle,event,sid,
                 record[@"controllerClass"]?:@"unknown",
                 record[@"viewBounds"]?:@"unavailable",
                 record[@"viewSceneRole"]?:@"unavailable",
@@ -282,6 +298,15 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
                  record[@"sceneHostViewStatus"]?:@"unknown",
                  record[@"nativeSceneProcessBundleIdentifier"]?:@"unknown"]);
         }
+        for(NSString *identity in DF181PreviousNative) {
+            if(currentNative[identity])continue;
+            NSDictionary *missing=DF181PreviousNative[identity];
+            DF181B0Record(@"stock",missing[@"bundle"],@"foreground-not-observed",
+                missing[@"sid"],@"DBApplicationSceneViewController",
+                missing[@"bounds"],@"CarPlay external",
+                @"sampled-disappearance-not-proof-of-scene-destruction");
+        }
+        DF181PreviousNative=[currentNative copy];
         DF181B0Record(@"stock",@"native-carplay",
             nativeMatches?@"native-controller-count":@"native-controller-not-observed",
             @"unavailable",process,
