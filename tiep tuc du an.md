@@ -1,3 +1,31 @@
+## CHECKPOINT IMMEDIATE-SAVE-QA176-CI-FAILED-20261106
+
+User explicitly ordered immediate incremental saving to survive credit exhaustion. This checkpoint supersedes the pending-CI status below. No release success or completed logo fix.
+
+CURRENT STATE
+- Repo chuongnguyen89dn-ui/Duoface; branch fix/qa180-owned-wake-map-replace-20261106; runtime/test/workflow candidate commit 8d1c4bd1024645c9f06c747bd757b7397629bd4b, confirmed current remote HEAD before this save.
+- Candidate changes DFNativeMapLaunchRuntime.m, tests/native_map_launch_runtime.m (both sideplay/native-carplay-scene-v1), .github/workflows/duoface-176-owned-base-regression.yml; both canonical handoffs already updated and read back at candidate commit. No local checkout/uncommitted working-tree patch; draft strings in session store are NOT a durable dependency. All candidate code is in GitHub.
+- CI run 42173393041: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42173393041 ; job 127746193901 COMPLETED FAILURE at 2026-11-06T06:17:32Z (13:17:32 ICT). New workflow has contents:read only; it does not publish.
+- Old-runtime negative test SUCCESS: old source compiled, exited134 and logged "NATIVE_MAP_LAUNCH_FAIL QA175 attested base without root-view ancestry submits once".
+- New-runtime test FAILURE: source compiled but exited134 at SAME assertion, "NATIVE_MAP_LAUNCH_FAIL QA175 attested base without root-view ancestry submits once". Thus old-fail/new-pass has NOT been established.
+- Existing 41 Python regressions, wake model,13 empty-pane cases and4 arm64 syntax checks were SKIPPED after the runtime failure. Do NOT report them PASS for this candidate.
+- Artifact13482505190 qa176-old-runtime-negative; ZIP SHA2567ba46c5d9e5883318f3908e99257ba34eeddb1bb0f21fa64f1e72387d467156c. Complete durable CI log is job127746193901; no secret values retained.
+- Likely fixture bug identified immediately before this save: reset() creates nativeInfo with bundle com.apple.Maps; newly added regression calls perform(...,com.google.Maps,...), without adjusting app-info/declaration fixture. This is a hypothesis supported by source, not yet corrected or rerun. A bundle mismatch can make new source reject for an unrelated reason. FIRST NEXT STEP: make requested bundle and fixture bundle consistent, and log/assert rejection reason so old negative proves native-launch-owned-base-view-unverified specifically, not merely any failure. Then rerun CI; preserve all negative ownership/cancellation tests.
+
+ANALYSIS TO PRESERVE
+- Coordinator actual path is sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m. :670 invokes native dispatch; :677–679 publishes Rejected when dispatcher refuses. The observed owned-base-view-unverified is a PRE-LAUNCH refusal, not proof target Maps/Waze was launched and then failed final verification. Transaction/rollback must stay intact.
+- DFNativeMapLaunchRuntime.m DFLaunchPresentationReady requires exact provider-owned currentBase, DBApplicationSceneViewController, DuoFace app bundle, and formerly its superview chain crossing root.viewIfLoaded. The relevant owner is CarPlay's DuoFace base, not a new SpringBoard Maps view.
+- Existing provider dependency DFCarPlayOwnerObserver.h:97–170 confirms unique visible foreground FBScene/controller, fresh physical/host/native scene bindings, exact external CarPlay window/currentBase and controller ancestry; then returns OwnedBase. Candidate uses that existing attestation plus direct loaded leaf/root window and leaf visibility checks, while retaining controller ancestry/modal checks, repeated provider verification and actual post-launch adoption ACK.
+- This supports an alternative ownership contract; actual device log does NOT expose the exact failing superview/ABI edge. Do not assert sibling topology was observed on Nguyen's car.
+- Logo NOT IMPLEMENTED. Build-tagged175 counts: qa180-wake=0, qa120-hosted-touch-hit=0, media-pane-hit-test-target=0; touch-owner98 records are lifecycle/commands/ACKs, logo-control18 records prove divider only. DFSceneSurface already inherits DFOwnedWakeSurface180, so moving to that same method is not a justified repair. No evidence of a real pane touch receiver yet. Need bounded receiver evidence/diagnostics before placement; do not fake a model proving real routing or modify protected GOFA/lifecycle/keyboard.
+- Pinned log remains sideplay/log/DuoFaceAudit 4.txt at2066903f4b04eaa93ddd74085810558fe52ed066. Actual downloaded representation has42475 lines; build175 starts41253. SHA2567cea75f1ee1ad543b794ad2a68ac9ab8f53f7f7511b20f1977a4438fefe5c354. Filter exact build; no older logs/audits.
+
+EXECUTION/RESUME
+Exact compile/test commands and repo-relative working directories are in .github/workflows/duoface-176-owned-base-regression.yml at8d1c4bd1024645c9f06c747bd757b7397629bd4b. Runtime Foundation harness uses DFNativeMapLaunchRuntime.m + DFNativeMapLaunchContext.m + tests/native_map_launch_runtime.m. Old baseline is3f01a97ebad0b06d6f79d518ddd279eb2de22e9b. macos-15-intel runner; xcrun macOS Foundation toolchain, then iPhoneOS arm64 syntax.
+No version metadata changed, no DEB/signing/publication. Official175 remains FAILED on car;174/175 rollback preserved. DEVICE_TESTED=false. Task still requires logo ingress fix, both regressions, full prescribed tests, NEW distinct version and official Sileo checksum verification. Do not publish partial candidate as both repairs complete. Read current branch/head and running jobs before continuing. Save next result immediately into both canonical handoffs.
+
+---
+
 ## CHECKPOINT QA176-OWNED-BASE-CANDIDATE-20261106
 
 User authorized bounded coordinator/test/workflow access ("Làm đi"). Correct coordinator location: sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m (the previously suggested scene-host path returned 404). Initial branch HEAD 3f01a97ebad0b06d6f79d518ddd279eb2de22e9b; no in_progress job before work.
