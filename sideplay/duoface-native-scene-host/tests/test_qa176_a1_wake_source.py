@@ -32,9 +32,11 @@ class A1WakeWiring(unittest.TestCase):
         self.assertLess(sender.index("notify_post(DF177TouchWakeName)"),
                         sender.index("DF177TouchCount=nextCount"))
         self.assertIn('@"reserved":@(wakeReserved)',sender)
+        self.assertIn('@"scene":sceneID?:@""',sender)
+        self.assertIn("DF177SceneIdentifierForTouch(touch)",APP)
         gate=method(GATE,"static BOOL DF176ConsumeWakeEvent(","#endif")
-        self.assertIn("if(DF177AppTouchNoteBegan(bundle,YES)) {",gate)
-        self.assertLess(gate.index("DF177AppTouchNoteBegan(bundle,YES)"),
+        self.assertIn("if(DF177AppTouchNoteBegan(bundle,YES,sceneID)) {",gate)
+        self.assertLess(gate.index("DF177AppTouchNoteBegan(bundle,YES,sceneID)"),
                         gate.index("consume=YES;"))
         self.assertNotIn("DF177TouchLastSentAt=0",gate)
 
