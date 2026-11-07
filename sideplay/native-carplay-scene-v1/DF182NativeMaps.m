@@ -197,6 +197,28 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
  hook(vc,sel_registerName("backgroundSceneWithCompletion:"),(IMP)DF182Background,(IMP*)&DF182OriginalBackground);
  return DF182OriginalFrame && DF182OriginalDeactivate && DF182OriginalBackground && DF182OriginalPresent;
 }
+
+// Diagnostic only: missing values stay explicit; no fallback grants admission.
+static id DF185Value(id value) { return value ?: @"<missing>"; }
+static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expected,
+                       NSString *source,NSDictionary *assignment) {
+ if(!ok) {
+  NSDictionary *picker=[NSDictionary dictionaryWithContentsOfFile:
+   @"/var/mobile/Library/Preferences/com.duoface.nativehost.picker-evidence185.plist"];
+  NSDictionary *record=@{@"stage":DF185Value(stage),@"key":key,
+   @"actual":DF185Value(actual),@"expected":DF185Value(expected),@"source":source,
+   @"pickerSource":@"/var/mobile/Library/Preferences/com.duoface.nativehost.picker-evidence185.plist",
+   @"picker":DF185Value(picker),@"pickerRead":@"diagnostic-only-not-admission",
+   @"assignment":DF185Value(assignment)};
+  NSData *data=[NSJSONSerialization dataWithJSONObject:record options:NSJSONWritingSortedKeys error:nil];
+  DF182Log(@"membership-reject-detail",assignment,data?
+   [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]:@"diagnostic-serialization-failed");
+ }
+ return ok;
+}
+#define DF185_REQUIRE(ok,key,actual,expected,source) \
+ do { if(!DF185Check((ok),stage,(key),(actual),(expected),(source),self.assignment)) return NO; } while(0)
+
 @implementation DF182MapsOwner
 - (void)clearMembership {
  NSDictionary *old=[NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath];
@@ -211,49 +233,76 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
 }
 - (BOOL)publishMembershipStage:(NSString *)stage controller:(UIViewController *)vc {
  BOOL committed=[stage isEqual:@"COMMITTED"],presented=[stage isEqual:@"PRESENTED"];
- if((!committed&&!presented)||self.stopped||!self.assignment||
-    ![self.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] ||
-    vc!=self.presentedController || DF182Scene(vc)!=self.presentedScene ||
-    !DF182NativeOwner(vc))return NO;
+ DF185_REQUIRE(committed||presented,@"stage",stage,@"PRESENTED|COMMITTED",@"argument");
+ DF185_REQUIRE(!self.stopped,@"stopped",@(self.stopped),@NO,@"DF182MapsOwner");
+ DF185_REQUIRE(self.assignment!=nil,@"assignment",@(self.assignment!=nil),@YES,@"DF182MapsOwner");
+ NSDictionary *choiceRead=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapChoicePath];
+ NSDictionary *pulseRead=DF182Pulse();
+ NSTimeInterval assignmentReadAt=NSDate.date.timeIntervalSince1970;
+ NSDictionary *current=DF182AssignmentFromRecords(choiceRead,pulseRead,assignmentReadAt);
+ NSDictionary *assignmentReads=@{@"choicePath":DFNativeMapChoicePath,
+  @"choice":choiceRead?:@{},@"pulsePath":@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist",
+  @"pulse":pulseRead?:@{},@"readAt":@(assignmentReadAt),@"validated":current?:@{}};
+ DF185_REQUIRE([self.assignment[@"AssignmentID"] isEqual:current[@"AssignmentID"]],
+  @"AssignmentID",assignmentReads,self.assignment,@"DF182Assignment(): validated choice + pulse; empty means validation failed");
+ DF185_REQUIRE(vc==self.presentedController,@"presentedController",@(vc==self.presentedController),@YES,@"DF182MapsOwner");
+ DF185_REQUIRE(DF182Scene(vc)==self.presentedScene,@"presentedScene",@(DF182Scene(vc)==self.presentedScene),@YES,@"controller.scene|sceneHandle.sceneIfExists");
+ NSDictionary *provenance=DF182Provenance(vc);
+ UIView *proofHost=DF182Get(vc,"sceneHostView"),*proofView=vc.viewIfLoaded;
+ NSMutableDictionary *ownerProof=[provenance mutableCopy];
+ ownerProof[@"sceneHostView.isUIView"]=@([proofHost isKindOfClass:UIView.class]);
+ ownerProof[@"sceneHostView.isViewOrDescendant"]=@([proofHost isKindOfClass:UIView.class] && (proofHost==proofView||[proofHost isDescendantOfView:proofView]));
+ ownerProof[@"sceneHostView.sameWindow"]=@([proofHost isKindOfClass:UIView.class] && proofHost.window==proofView.window);
+ ownerProof[@"view.window.exists"]=@(proofView.window!=nil);
+ ownerProof[@"parentViewController.exists"]=@(vc.parentViewController!=nil);
+ DF185_REQUIRE(DF182NativeOwner(vc),@"nativeOwner",ownerProof,@"native CarPlay owner + attached host + parent",@"DF182NativeOwner(controller)");
  UIWindow *w=vc.viewIfLoaded.window;
- if(!w || w!=self.presentedWindow || w!=self.window ||
-    w.hidden || w.alpha<.95 || vc.viewIfLoaded.hidden ||
-    vc.viewIfLoaded.alpha<.95 ||
-    ![NSStringFromClass(w.rootViewController.class) isEqual:@"DBDashboardRootViewController"])
-  return NO;
+ DF185_REQUIRE(w!=nil,@"window",@(w!=nil),@YES,@"controller.viewIfLoaded.window");
+ DF185_REQUIRE(w==self.presentedWindow,@"presentedWindow",@(w==self.presentedWindow),@YES,@"DF182MapsOwner");
+ DF185_REQUIRE(w==self.window,@"ownerWindow",@(w==self.window),@YES,@"DF182MapsOwner");
+ DF185_REQUIRE(!w.hidden,@"hidden",@(w.hidden),@NO,@"controller.viewIfLoaded.window");
+ DF185_REQUIRE(!(w.alpha<.95),@"alpha",@(w.alpha),@0.95,@"controller.viewIfLoaded.window; minimum");
+ DF185_REQUIRE(!vc.viewIfLoaded.hidden,@"hidden",@(vc.viewIfLoaded.hidden),@NO,@"controller.viewIfLoaded");
+ DF185_REQUIRE(!(vc.viewIfLoaded.alpha<.95),@"alpha",@(vc.viewIfLoaded.alpha),@0.95,@"controller.viewIfLoaded; minimum");
+ DF185_REQUIRE([NSStringFromClass(w.rootViewController.class) isEqual:@"DBDashboardRootViewController"],
+  @"rootViewController.class",NSStringFromClass(w.rootViewController.class),@"DBDashboardRootViewController",@"window");
  CGRect target=CGRectZero;
- if(![self targetForWindow:w rect:&target] || !DF182Near(target,self.target))
-  return NO;
+ DF185_REQUIRE([self targetForWindow:w rect:&target],@"targetForWindow",@NO,@YES,@"see physical-target predicate record");
+ DF185_REQUIRE(DF182Near(target,self.target),@"target",
+  NSStringFromCGRect(target),NSStringFromCGRect(self.target),@"targetForWindow result versus DF182MapsOwner.target; tolerance=2");
  NSTimeInterval now=NSDate.date.timeIntervalSince1970;
- if(!isfinite(self.presentedAt)||self.presentedAt<=0||now<self.presentedAt ||
-    (presented && !DF184Fresh(now,@(self.presentedAt),0.85)))return NO;
+ DF185_REQUIRE(isfinite(self.presentedAt),@"presentedAt.finite",@(isfinite(self.presentedAt)),@YES,@"DF182MapsOwner");
+ DF185_REQUIRE(self.presentedAt>0,@"presentedAt",@(self.presentedAt),@">0",@"DF182MapsOwner");
+ DF185_REQUIRE(now>=self.presentedAt,@"presentedAt",@(self.presentedAt),@(now),@"DF182MapsOwner; must not exceed now");
+ DF185_REQUIRE(!presented||DF184Fresh(now,@(self.presentedAt),0.85),@"presentationAge",@(now-self.presentedAt),@0.85,@"DF182MapsOwner.presentedAt; max seconds");
  UIView *host=DF182Get(vc,"sceneHostView");
  BOOL hostAttached=[host isKindOfClass:UIView.class] &&
-   (host==vc.viewIfLoaded || [host isDescendantOfView:vc.viewIfLoaded]) &&
-   host.window==w;
- if(!hostAttached)return NO;
+   (host==vc.viewIfLoaded || [host isDescendantOfView:vc.viewIfLoaded]) && host.window==w;
+ DF185_REQUIRE(hostAttached,@"hostAttached",@(hostAttached),@YES,@"controller.sceneHostView");
  BOOL frameVerified=NO,hitVerified=NO;
  if(committed) {
-  if(![self owns:vc] || !self.pane.clipsToBounds ||
-     !DF182Near(vc.viewIfLoaded.frame,self.pane.bounds))return NO;
+  DF185_REQUIRE([self owns:vc],@"owns",@NO,@YES,@"DF182MapsOwner.owns");
+  DF185_REQUIRE(self.pane.clipsToBounds,@"clipsToBounds",@(self.pane.clipsToBounds),@YES,@"DF182MapsOwner.pane");
+  DF185_REQUIRE(DF182Near(vc.viewIfLoaded.frame,self.pane.bounds),@"view.frame",NSStringFromCGRect(vc.viewIfLoaded.frame),NSStringFromCGRect(self.pane.bounds),@"pane bounds; tolerance=2");
   CGRect actual=[w convertRect:self.pane.bounds fromView:self.pane];
   frameVerified=DF182Near(target,actual);
   CGPoint center=CGPointMake(CGRectGetMidX(self.pane.bounds),CGRectGetMidY(self.pane.bounds));
   UIView *hit=[self.pane hitTest:center withEvent:nil];
-  hitVerified=hit && (hit==vc.viewIfLoaded ||
-                       [hit isDescendantOfView:vc.viewIfLoaded]);
-  if(!frameVerified || !hitVerified)return NO;
+  hitVerified=hit && (hit==vc.viewIfLoaded || [hit isDescendantOfView:vc.viewIfLoaded]);
+  DF185_REQUIRE(frameVerified,@"paneFrame",NSStringFromCGRect(actual),NSStringFromCGRect(target),@"window converted pane.bounds; tolerance=2");
+  DF185_REQUIRE(hitVerified,@"hitVerified",@(hitVerified),@YES,@"pane.hitTest:center");
  }
  NSDictionary *pulse=DF182Pulse();
  NSString *sceneID=DF182String(DF182Get(DF182Scene(vc),"identifier"));
- if(!DF184UUID(pulse[@"Session"]) ||
-    ![pulse[@"Session"] isEqual:self.assignment[@"Session"]] ||
-    ![pulse[@"Active"] isEqual:@YES] ||
-    ![pulse[@"HostSceneID"] isKindOfClass:NSString.class] ||
-    [pulse[@"HostSceneID"] length]==0 ||
-    [sceneID isEqual:@"unknown"] || ![w.windowScene.session.role isEqual:
-      @"UIWindowSceneSessionRoleCarPlay"] || !w.screen ||
-    w.screen==UIScreen.mainScreen)return NO;
+ DF185_REQUIRE(DF184UUID(pulse[@"Session"]),@"Session.UUID",DF185Value(pulse[@"Session"]),@"UUID",@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
+ DF185_REQUIRE([pulse[@"Session"] isEqual:self.assignment[@"Session"]],@"Session",DF185Value(pulse[@"Session"]),DF185Value(self.assignment[@"Session"]),@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
+ DF185_REQUIRE([pulse[@"Active"] isEqual:@YES],@"Active",DF185Value(pulse[@"Active"]),@YES,@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
+ DF185_REQUIRE([pulse[@"HostSceneID"] isKindOfClass:NSString.class],@"HostSceneID.type",DF185Value(pulse[@"HostSceneID"]),@"NSString",@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
+ DF185_REQUIRE([pulse[@"HostSceneID"] length]>0,@"HostSceneID.length",@([pulse[@"HostSceneID"] length]),@">0",@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
+ DF185_REQUIRE(![sceneID isEqual:@"unknown"],@"identifier",sceneID,@"known",@"controller.scene");
+ DF185_REQUIRE([w.windowScene.session.role isEqual:@"UIWindowSceneSessionRoleCarPlay"],@"role",DF185Value(w.windowScene.session.role),@"UIWindowSceneSessionRoleCarPlay",@"window.windowScene.session");
+ DF185_REQUIRE(w.screen!=nil,@"screen.exists",@(w.screen!=nil),@YES,@"window");
+ DF185_REQUIRE(w.screen!=UIScreen.mainScreen,@"screen.isMain",@(w.screen==UIScreen.mainScreen),@NO,@"window.screen versus UIScreen.mainScreen");
  NSDictionary *receipt=@{@"Version":@1,@"Process":@"CarPlay",
   @"Session":pulse[@"Session"],@"HostSceneID":pulse[@"HostSceneID"],
   @"AssignmentID":self.assignment[@"AssignmentID"],
@@ -269,6 +318,7 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
   @"PaneFrame":NSStringFromCGRect(target),
   @"Stage":stage,@"PresentedAt":@(self.presentedAt),@"Timestamp":@(now)};
  BOOL saved=[receipt writeToFile:DF184MapMembershipPath atomically:YES];
+ DF185_REQUIRE(saved,@"writeToFile",@(saved),@YES,DF184MapMembershipPath);
  if(saved && committed)DF182Log(@"pane-member-committed",self.assignment,
    [NSString stringWithFormat:@"scene=%@ slot=%@ frame=%@ stage=COMMITTED hit-region-readback=1 actual-pixels=UNVERIFIED",
     sceneID,self.assignment[@"PhysicalSlot"],NSStringFromCGRect(target)]);
@@ -340,34 +390,48 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
  [self summary:reason];
 }
 - (BOOL)targetForWindow:(UIWindow *)window rect:(CGRect *)out {
- if(!window || !window.screen || window.screen==UIScreen.mainScreen)return NO;
- NSDictionary *sample=[NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"];
+ NSString *stage=@"physical-target";
+ NSString *source=@"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist";
+ DF185_REQUIRE(window!=nil,@"window.exists",@(window!=nil),@YES,@"targetForWindow argument");
+ DF185_REQUIRE(window.screen!=nil,@"screen.exists",@(window.screen!=nil),@YES,@"window");
+ DF185_REQUIRE(window.screen!=UIScreen.mainScreen,@"screen.isMain",@(window.screen==UIScreen.mainScreen),@NO,@"window.screen versus UIScreen.mainScreen");
+ NSDictionary *sample=[NSDictionary dictionaryWithContentsOfFile:source];
  double age=NSDate.date.timeIntervalSince1970-[sample[@"Timestamp"] doubleValue];
- if(![sample[@"Session"] isEqual:self.assignment[@"Session"]] ||
-    ![sample[@"Owner"] isEqual:@"SpringBoard"] || ![sample[@"ActiveSlots"] isEqual:@2] ||
-    ![sample[@"Focus"] isEqual:@(-1)] || !isfinite(age)||age<0||age>1.75)return NO;
+ DF185_REQUIRE([sample[@"Session"] isEqual:self.assignment[@"Session"]],@"Session",DF185Value(sample[@"Session"]),DF185Value(self.assignment[@"Session"]),source);
+ DF185_REQUIRE([sample[@"Owner"] isEqual:@"SpringBoard"],@"Owner",DF185Value(sample[@"Owner"]),@"SpringBoard",source);
+ DF185_REQUIRE([sample[@"ActiveSlots"] isEqual:@2],@"ActiveSlots",DF185Value(sample[@"ActiveSlots"]),@2,source);
+ DF185_REQUIRE([sample[@"Focus"] isEqual:@(-1)],@"Focus",DF185Value(sample[@"Focus"]),@(-1),source);
+ DF185_REQUIRE(isfinite(age),@"Timestamp.age.finite",@(isfinite(age)),@YES,source);
+ DF185_REQUIRE(age>=0,@"Timestamp.age",@(age),@">=0",source);
+ DF185_REQUIRE(age<=1.75,@"Timestamp.age",@(age),@1.75,source);
  NSArray *entries=sample[@"Windows"];
- if(![entries isKindOfClass:NSArray.class]||entries.count!=2)return NO;
+ DF185_REQUIRE([entries isKindOfClass:NSArray.class],@"Windows.type",DF185Value(entries),@"NSArray",source);
+ DF185_REQUIRE(entries.count==2,@"Windows.count",@(entries.count),@2,source);
  for(NSDictionary *e in entries) {
   if(![e[@"PhysicalSlot"] isEqual:self.assignment[@"PhysicalSlot"]])continue;
-  if(![e[@"NativeAssignmentID"] isEqual:self.assignment[@"AssignmentID"]] ||
-     ![e[@"WindowVisible"] isEqual:@NO] ||
-     ![e[@"OnExternalScreen"] isEqual:@YES] ||
-     ![e[@"CoordinateSpace"] isEqual:@"external-UIScreen-points"])return NO;
+  DF185_REQUIRE([e[@"NativeAssignmentID"] isEqual:self.assignment[@"AssignmentID"]],@"Windows[PhysicalSlot].NativeAssignmentID",e,self.assignment,source);
+  DF185_REQUIRE([e[@"WindowVisible"] isEqual:@NO],@"Windows[PhysicalSlot].WindowVisible",DF185Value(e[@"WindowVisible"]),@NO,source);
+  DF185_REQUIRE([e[@"OnExternalScreen"] isEqual:@YES],@"Windows[PhysicalSlot].OnExternalScreen",DF185Value(e[@"OnExternalScreen"]),@YES,source);
+  DF185_REQUIRE([e[@"CoordinateSpace"] isEqual:@"external-UIScreen-points"],@"Windows[PhysicalSlot].CoordinateSpace",DF185Value(e[@"CoordinateSpace"]),@"external-UIScreen-points",source);
   CGRect screenRect=CGRectFromString(e[@"Frame"]);
-  if(!isfinite(screenRect.origin.x)||!isfinite(screenRect.origin.y)||
-     !isfinite(screenRect.size.width)||!isfinite(screenRect.size.height)||
-     screenRect.size.width<90||screenRect.size.height<120 ||
-     !CGRectContainsRect(window.screen.bounds,screenRect))return NO;
+  DF185_REQUIRE(isfinite(screenRect.origin.x),@"Windows[PhysicalSlot].Frame.x.finite",e,@YES,source);
+  DF185_REQUIRE(isfinite(screenRect.origin.y),@"Windows[PhysicalSlot].Frame.y.finite",e,@YES,source);
+  DF185_REQUIRE(isfinite(screenRect.size.width),@"Windows[PhysicalSlot].Frame.width.finite",e,@YES,source);
+  DF185_REQUIRE(isfinite(screenRect.size.height),@"Windows[PhysicalSlot].Frame.height.finite",e,@YES,source);
+  DF185_REQUIRE(!(screenRect.size.width<90),@"Windows[PhysicalSlot].Frame.width",@(screenRect.size.width),@90,source);
+  DF185_REQUIRE(!(screenRect.size.height<120),@"Windows[PhysicalSlot].Frame.height",@(screenRect.size.height),@120,source);
+  DF185_REQUIRE(CGRectContainsRect(window.screen.bounds,screenRect),@"Windows[PhysicalSlot].Frame.screenContainment",NSStringFromCGRect(screenRect),NSStringFromCGRect(window.screen.bounds),source);
   for(NSDictionary *other in entries) {
    if(other==e)continue;
-   if(![other[@"CoordinateSpace"] isEqual:@"external-UIScreen-points"])return NO;
+   DF185_REQUIRE([other[@"CoordinateSpace"] isEqual:@"external-UIScreen-points"],@"Windows[peer].CoordinateSpace",DF185Value(other[@"CoordinateSpace"]),@"external-UIScreen-points",source);
    CGRect intersection=CGRectIntersection(screenRect,CGRectFromString(other[@"Frame"]));
-   if(!CGRectIsNull(intersection) && intersection.size.width>2 && intersection.size.height>2)return NO;
+   DF185_REQUIRE(CGRectIsNull(intersection)||!(intersection.size.width>2 && intersection.size.height>2),@"Windows.intersection",NSStringFromCGRect(intersection),@"no overlap >2 points",source);
   }
   *out=[window convertRect:screenRect fromCoordinateSpace:window.screen.coordinateSpace];
-  return CGRectContainsRect(window.bounds,*out);
+  DF185_REQUIRE(CGRectContainsRect(window.bounds,*out),@"convertedTarget.windowContainment",NSStringFromCGRect(*out),NSStringFromCGRect(window.bounds),@"window.convertRect from screen.coordinateSpace");
+  return YES;
  }
+ DF185_REQUIRE(NO,@"Windows.PhysicalSlot",entries,DF185Value(self.assignment[@"PhysicalSlot"]),source);
  return NO;
 }
 - (void)tick {

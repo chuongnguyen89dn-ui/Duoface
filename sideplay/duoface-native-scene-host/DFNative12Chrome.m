@@ -1849,6 +1849,16 @@ static void DFCLog(NSString *text) {
         if(otherID.length)[others addObject:otherID];
     }
     self.appPickerController.otherSlotBundleIDs=others.array;
+    // Diagnostic picker truth, separate from membership/lease authority.
+    NSDictionary *pickerEvidence=@{@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+        @"Session":DF182Pulse()[@"Session"]?:@"<missing>",@"physical":@(physical),
+        @"visual":@(slot),@"live":current?:@"", @"pending":pendingBundle?:@"",
+        @"liveSource":@"DFSceneHost live hosted view; appPicker currentSlotBundleID"};
+    BOOL pickerEvidenceSaved=[pickerEvidence writeToFile:
+        @"/var/mobile/Library/Preferences/com.duoface.nativehost.picker-evidence185.plist" atomically:YES];
+    DFCLog([NSString stringWithFormat:@"picker-evidence185 saved=%d physical=%ld live=%@",
+        pickerEvidenceSaved,(long)physical,current?:@""]);
+
     DFCLog([NSString stringWithFormat:
         @"app-picker-live-vs-pending visual=%ld physical=%ld live=%@ pending=%@ otherLive=%@",
         (long)slot,(long)physical,current?:@"",pendingBundle?:@"",others.array]);

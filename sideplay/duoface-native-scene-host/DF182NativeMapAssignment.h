@@ -15,9 +15,7 @@ static inline BOOL DF182UUID(id s) {
 static inline NSDictionary *DF182Pulse(void) {
  return [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
 }
-static inline NSDictionary *DF182AssignmentAtPaths(NSString *choicePath,NSString *pulsePath,NSTimeInterval now) {
- NSDictionary *a=[NSDictionary dictionaryWithContentsOfFile:choicePath];
- NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:pulsePath];
+static inline NSDictionary *DF182AssignmentFromRecords(NSDictionary *a,NSDictionary *p,NSTimeInterval now) {
  if(![a[@"Version"] isEqual:@2] || !DF182UUID(a[@"AssignmentID"]) ||
     !DF182UUID(a[@"Session"]) || ![a[@"Session"] isEqual:p[@"Session"]] ||
     ![p[@"Active"] isEqual:@YES] || ![p[@"Timestamp"] isKindOfClass:NSNumber.class] ||
@@ -29,6 +27,11 @@ static inline NSDictionary *DF182AssignmentAtPaths(NSString *choicePath,NSString
  double age=now-[p[@"Timestamp"] doubleValue],assigned=now-[a[@"AssignedAt"] doubleValue];
  if(!isfinite(age)||age<0||age>2.5||!isfinite(assigned)||assigned<0)return nil;
  return a;
+}
+static inline NSDictionary *DF182AssignmentAtPaths(NSString *choicePath,NSString *pulsePath,NSTimeInterval now) {
+ NSDictionary *a=[NSDictionary dictionaryWithContentsOfFile:choicePath];
+ NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:pulsePath];
+ return DF182AssignmentFromRecords(a,p,now);
 }
 static inline NSDictionary *DF182Assignment(void) {
  return DF182AssignmentAtPaths(DFNativeMapChoicePath,
