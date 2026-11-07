@@ -296,7 +296,7 @@ static void DFG0SettingsMetadata(void) {
 @implementation DFG0Runner
 - (void)tick {
     DFG0Ticks++;
-    if(DFG0Ticks==1 || DFG0Ticks%15==0) {
+    if(DFG0Ticks==1 || DFG0Ticks%75==0) {
        DFG0FindFiles();
        DFG0Emit(@"stock.candidate.discovery",@{@"filesDiscovered":@(DFG0Files.count)});
        DFG0ABI();
@@ -313,7 +313,7 @@ static void DFG0SettingsMetadata(void) {
     DFG0Files=[NSMutableArray new];
     DFG0Emit(@"start.readonly",@{@"systemVersion":UIDevice.currentDevice.systemVersion?:@"unknown",
         @"runtimeMutation":@NO,@"stockReaderVerified":@NO});
-    self.timer=[NSTimer scheduledTimerWithTimeInterval:2.0 target:self
+    self.timer=[NSTimer scheduledTimerWithTimeInterval:0.4 target:self
                 selector:@selector(tick) userInfo:nil repeats:YES];
     [self tick];
 }
