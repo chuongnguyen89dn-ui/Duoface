@@ -11,7 +11,7 @@ class QA182B1(unittest.TestCase):
   manual=chrome.split('- (void)appPicker:(DFAppPickerVC *)picker\n didSelectBundleID:',1)[1]
   self.assertLess(manual.index('[self assignNativeMaps182:physicalSlot]'),manual.index('hostViewForBundleID:bundleID'))
   restore=chrome.split('- (void)restoreNextSavedWorkspaceApp {',1)[1].split('- (',1)[0]
-  self.assertLess(restore.index('[self assignNativeMaps182:physical]'),restore.index('hostViewForBundleID:bundle'))
+  self.assertLess(restore.index('[self assignNativeMaps182:physical origin:@"workspace-restore"]'),restore.index('hostViewForBundleID:bundle'))
   self.assertIn('Maps native assignment forbids phone-scene hosting',read('DFSceneHost.m'))
   self.assertIn('native-slot-unassigned',chrome)
   self.assertIn('Chrome-Home-or-disconnect',chrome)
