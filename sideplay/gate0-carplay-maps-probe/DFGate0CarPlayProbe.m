@@ -5,6 +5,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <dlfcn.h>
+#import <dispatch/dispatch.h>
 #import <fcntl.h>
 #import <unistd.h>
 #import <sys/stat.h>
@@ -55,8 +56,8 @@ static void DFG0FindFiles(void) {
             if(++walked>6000)break;
             if(en.level>4){[en skipDescendants];continue;}
             NSString *name=u.lastPathComponent.lowercaseString;
-            if(![name hasSuffix:@".plist"]||![name containsString:@"carplay"]||
-               ![name containsString:@"iconstate"])continue;
+            if(![name hasSuffix:@".plist"]||
+               !([name containsString:@"carplay"]||[name containsString:@"iconstate"]))continue;
             NSNumber *regular=nil;[u getResourceValue:&regular forKey:NSURLIsRegularFileKey error:nil];
             if(!regular.boolValue)continue;
             if(found.count<40)[found addObject:u.path];
@@ -171,17 +172,24 @@ static BOOL DFG0PresentABI(Method m) {
     return YES;
 }
 static void DFG0Present(id owner,SEL cmd,id vc,BOOL animated,unsigned long long source,id completion){
+    // Capture entry time without disk I/O on the CarPlay UI stack.
+    NSTimeInterval entryWall=NSDate.date.timeIntervalSince1970;
+    NSTimeInterval entryUptime=NSProcessInfo.processInfo.systemUptime;
     id info=DFG0Getter(vc,"applicationInfo")?:DFG0Getter(vc,"proxyApplicationInfo");
-    id scene=DFG0Getter(vc,"scene");
     NSString *bid=DFG0Bundle(info);
-    NSString *sceneID=DFG0Getter(scene,"identifier");
+    id scene=DFG0Getter(vc,"scene");
+    id sceneID=DFG0Getter(scene,"identifier");
+    // Forward unmodified, exactly once. Original UIKit completion ownership is untouched.
+    DFG0OriginalPresent(owner,cmd,vc,animated,source,completion);
+    if(![bid isEqual:DFG0Map])return;
+    NSTimeInterval exitWall=NSDate.date.timeIntervalSince1970;
     NSDictionary *d=@{@"controller":vc?NSStringFromClass([vc class]):@"nil",
       @"targetBundle":bid,@"sceneID":[sceneID isKindOfClass:NSString.class]?sceneID:@"unknown",
-      @"animated":@(animated),@"launchSource":@(source)};
-    DFG0Emit(@"presentBase.entry",d);
-    // Always forward original exactly once, unchanged. Never call/replace completion.
-    DFG0OriginalPresent(owner,cmd,vc,animated,source,completion);
-    DFG0Emit(@"presentBase.return",d);
+      @"animated":@(animated),@"launchSource":@(source),
+      @"presentEnteredWall":@(entryWall),@"presentEnteredUptime":@(entryUptime),
+      @"presentReturnedWall":@(exitWall),@"eventCapture":@"post-original-sync-snapshot"};
+    // Logs are read-only observations, NOT a claim that the native scene was adopted.
+    DFG0Emit(@"presentBase.original-returned",d);
 }
 static void DFG0TryHook(void) {
     if(DFG0PresentInstalled)return;
