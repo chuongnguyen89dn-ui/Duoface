@@ -7,8 +7,8 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
-VERSION = "0.0.184~nativeowner1"
-NATIVE = "0.1.184~nativeowner1"
+VERSION = "0.0.184~nativeowner2diag1"
+NATIVE = "0.1.184~nativeowner2diag1"
 
 class QA184Package(unittest.TestCase):
     def test_exact_versions_are_coordinated(self):

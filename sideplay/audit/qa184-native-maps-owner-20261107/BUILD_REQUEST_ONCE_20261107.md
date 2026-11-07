@@ -9,3 +9,9 @@ Package: `com.duoface.jb.embedded`, version `0.0.184~nativeowner1`. NativeHost `
 ## Build retry after code-version test mismatch
 - First user-authorized run 42336895085 failed during prebuild QA180 version assertions, before building/signing any binaries. Source-only companion 42336894822 failed the same stale assertion. QA182/H1 implementation was not changed and the version in two actual log stampers needed QA184 update.
 - Follow-up source commit updates exact runtime log stampers `DFDeepTrace.h` and `DFTouchOwnerProbe.m` to `0.0.184~nativeowner1` and adjusts only QA180/QA179/QA188 test expectations to current package version. All frozen behavior remains unchanged. This same one-shot build request marker is intentionally modified to trigger exactly one retry on the same QA184 branch. The signed workflow push path now matches ONLY this marker (not workflow file nor generic source changes).
+
+## User-requested PRESENTED diagnostic package — 2026-11-07
+- Latest user: “Chưa có deb thì làM j?” — proceed to build/sign/check/deliver private integrated diagnostic DEB now. No Sileo.
+- New version 0.0.184~nativeowner2diag1; NativeHost 0.1.184~nativeowner2diag1. Exact diagnostic code 43f973ff29e9cf013e5acbe1d6303fd4bf037197 passed source CI 42340063112. This build adds only synchronized version labels/tests and exact linked diagnostic-marker verification.
+- Reuse existing user-request marker one-shot mechanism because connector has no workflow_dispatch capability and browser is signed out. No credential access requested. Trigger matches this path, branch and exact request commit message only. Restore workflow_dispatch-only immediately after run registration.
+- No in_progress/queued jobs observed before this request. Preserve AppDelegate background/heartbeat and all admission predicates; no Home fix claimed. Verify binary markers, Mach-O signatures, metadata, SHA256 and durable archive before delivery.
