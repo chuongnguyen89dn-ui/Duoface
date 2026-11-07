@@ -31,5 +31,5 @@ OUT="dist/${PKG}_${VERSION}_iphoneos-arm64.deb"
 dpkg-deb --root-owner-group --build "$STAGING" "$OUT"
 test "$(dpkg-deb -f "$OUT" Version)" = "$VERSION"
 test -s "$OUT"
-shasum -a 256 "$OUT" > "dist/SHA256SUMS.txt"
+( cd dist && shasum -a 256 "${PKG}_${VERSION}_iphoneos-arm64.deb" > SHA256SUMS.txt )
 echo "GATE0_PRIVATE_PROBE_BUILT=${OUT}"
