@@ -46,10 +46,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/gate0-carplay-maps-probe/build_private_probe.sh
-          P='sideplay/gate0-carplay-maps-probe/dist/com.duoface.carplay.gate0probe_0.0.1~gate0readonly1_iphoneos-arm64.deb'
+          P='sideplay/gate0-carplay-maps-probe/dist/com.duoface.carplay.gate0probe_0.0.2~gate0audit2_iphoneos-arm64.deb'
           test -s "$P"
           test "$(dpkg-deb -f "$P" Package)" = 'com.duoface.carplay.gate0probe'
-          test "$(dpkg-deb -f "$P" Version)" = '0.0.1~gate0readonly1'
+          test "$(dpkg-deb -f "$P" Version)" = '0.0.2~gate0audit2'
           test "$(dpkg-deb -f "$P" Architecture)" = 'iphoneos-arm64'
           test "$(dpkg-deb -f "$P" Depends)" = 'firmware (>= 16.0), mobilesubstrate'
           ROOT_MODE="$(dpkg-deb -c "$P" | awk 'NR==1 {print $1}')"

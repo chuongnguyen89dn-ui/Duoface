@@ -126,6 +126,29 @@ class Gate0Tests(unittest.TestCase):
             self.assertEqual(len(errors), 1)
             self.assertEqual(mod.analyze(values, errors)["gate0Status"], "MEASUREMENT_BLOCKED")
 
+    def test_gate0_audit_mirror_and_window_provenance_regression(self):
+        src = (ROOT / "DFGate0CarPlayProbe.m").read_text()
+        build = (ROOT / "build_private_probe.sh").read_text()
+        flow = (ROOT.parents[1] / ".github/workflows/duoface-gate0-onoff-readonly-signed.yml").read_text()
+        # Compiled Objective-C newline escape must be ONE slash, not a literal "\\n".
+        self.assertIn(r'area=gate0 %@\n",', src)
+        self.assertNotIn(r'area=gate0 %@\\n",', src)
+        self.assertIn("auditMirrorWrite", src)
+        self.assertIn("O_WRONLY|O_CREAT|O_APPEND|O_CLOEXEC", src)
+        self.assertIn("DFG0CandidateSnapshot=DFG0ReadCandidates();", src)
+        emitter = src.split("static void DFG0Emit(", 1)[1].split("static void DFG0ABI(", 1)[0]
+        self.assertNotIn("DFG0ReadCandidates()", emitter)
+        self.assertIn('@"candidateSampleWall"', emitter)
+        self.assertIn('@"stockSampleWall":@0', emitter)
+        self.assertIn("DFG0LastNativeMapsVC=vc;", src)
+        self.assertIn("DFG0VCReadback(DFG0LastNativeMapsVC)", src)
+        self.assertNotIn("if(ws.screen==UIScreen.mainScreen)continue;", src)
+        self.assertIn('@"carplayRoleWindowCount"', src)
+        self.assertIn('@"screenExternalByComparison"', src)
+        self.assertIn("0.0.2~gate0audit2", build)
+        self.assertIn("0.0.2~gate0audit2", flow)
+        self.assertIn("0.0.2~gate0audit2", src)
+
     def test_first_party_probe_is_diagnostic_only(self):
         src = (ROOT / "DFGate0CarPlayProbe.m").read_text()
         inject = (ROOT / "DFGate0CarPlayProbe.plist").read_text()

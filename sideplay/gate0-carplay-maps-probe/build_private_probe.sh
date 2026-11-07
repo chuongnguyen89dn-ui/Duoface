@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
 command -v ldid >/dev/null
 command -v dpkg-deb >/dev/null
-VERSION='0.0.1~gate0readonly1'
+VERSION='0.0.2~gate0audit2'
 PKG='com.duoface.carplay.gate0probe'
 STAGING="$(mktemp -d)"
 trap 'rm -rf "$STAGING"' EXIT
