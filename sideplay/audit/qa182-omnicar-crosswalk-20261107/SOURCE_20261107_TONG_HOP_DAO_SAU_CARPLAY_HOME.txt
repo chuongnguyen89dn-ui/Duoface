@@ -1,0 +1,1810 @@
+================================================================================
+TONG HOP DAO SAU: BAI TOAN DUA APP LEN CARPLAY HOME / VAO O DUOFACE
+Du an DuoFace — doi chieu OmniCar va DuoNavi goc
+Ngay dong goi: 07/11/2026
+================================================================================
+
+PHAM VI VA PHUONG PHAP
+- Hai luot dao theo lenh cua Nguyen (07/11/2026), tong 9 agent, chi-doc:
+  Luot 1: (1) QA tu ban dau tien toi QA150; (2) QA 162-182; (3) ban do toan bo
+  so hieu (82 nhanh repo Duoface, 1.086 file .deb trong kho duoface-debs-,
+  167 version tich hop 0.0.1 -> 0.0.182, file lich su sideplay/tiep tuc du an.md
+  615.303 byte); (4) OmniCar che do doc lap; (5) OmniCar che do o chia.
+  Luot 2 (tang ma may): (6) than ham OmniCarSplitScreen.dylib chua doc;
+  (7) duoi OmniCar: helper declaration, publishCarPlayApps, zoom, BKS unblank,
+  giao thuc host, OmniCarCore; (8) deb DuoNavi goc muc ma may;
+  (9) tai lieu goc chua doc truc tiep (picker OmniCar 29/10, QA155, QA157,
+  qa183-187, QA173 logoapps1, cac thu muc audit con sot).
+- Quy uoc bang chung: [MA MAY] = doc truc tiep tu disassembly/chuoi trong
+  binary (llvm-objdump-18, co dia chi IMP/insn); [HO SO] = tu ho so deb/audit
+  da co; [LOG] = tu log thiet bi; [SUY LUAN] = inference, ghi ro tai cho.
+- Nguyen tac: chi khang dinh dieu trich duoc nguon; thieu thi ghi
+  "khong co du kien".
+
+================================================================================
+PHAN A — BAN DO TOAN BO CAC LAN THU (theo so lieu quet duoc)
+================================================================================
+
+Truc chinh: goi tich hop com.duoface.jb.embedded co 167 chuoi version phan biet
+(0.0.1 -> 0.0.182). Bai toan Home/roster xuat hien tu 20/10/2026, truoc truc so.
+
+Thoi ky tien-so-hieu (19-20/10/2026, tu ten nhanh + package phu):
+- Dong "native12" (nhanh analysis/native12-complete-wiring-20261019,
+  feature/duoface-native12-*): dung UI chia o kieu native-12 cua chinh DuoFace.
+- Dong MyTweak song song (mytweak-dashboard-activation, -appdock,
+  -carplayapp-presentation, -workspace-owner...).
+- ADMISSION DOI DAU NHAT (20/10): nhanh
+  feature/duoface-firstparty-carplay-admission-20261020 va
+  feature/duoface-sb-admission-probe-20261020; cac deb phu:
+  com.duoface.carplay.firstpartyadmission 0.0.1~candidate1 -> 0.0.5~ready1
+  (hau to: candidate/signal/roster/trace/ready);
+  com.duoface.carplay.sbadmissionprobe 0.0.1~readonly1, 0.0.2~target1;
+  com.duoface.qa.controlapp 0.1.3~admission1 -> 0.1.7~ready1;
+  com.duoface.carplay.gate1smoke 0.0.1~smoke1 -> 0.0.7~fbsquery1;
+  com.duoface.carplay.nativejoinprobe 0.0.1~sceneprobe1, 0.0.3~rosterabi1,
+  0.0.4~mapowner1, 0.0.5~mapowner2 (probe quyen so huu scene ban do);
+  com.duoface.carplay.ownerprobe, com.duoface.carplay.mapownerexport;
+  com.duoface.carplay.nativebridgeqa 0.0.1~bridgeqa1 -> 0.0.6~dockcrop1.
+
+Truc tich hop theo cum so hieu (hau to = mo ta vong thu):
+- N=1-8: 1~candidate1, 2~nativecontent1, 3~steadyack1, 4~sbpair1,
+  5~registered1, 6~rosterlog1 (ghi log roster), 7~divider1, 8~template1.
+- N=9-53 (thoi ky native12): gom 15~native12home1, 41~medialogo3s1,
+  45~sceneowner1, 49~logotouch1...; goi host di kem
+  com.duoface.carplay.nativescenehost 0.1.0 -> 0.1.48 va
+  com.duoface.sideplaydisplay 0.1.1 -> 0.1.9.
+- N=54-92: gom 85~mapscene1, 91~nativemapqa1, 90~nativegetters1.
+- N=94-125: gom 110~duodash-managed-map1, 111~home-reentry-youtube1,
+  123~underlock1.
+- N=126-146 (30-31/10, dot Home/admission day nhat): 126 observer-forensics
+  (chi nhanh, khong deb), 133~native12catalog1, 135~homeabi1, 136~nativehome1,
+  137~homeabi2, 138~selectedlayout1, 140~guardedhome1, 141~declmap1,
+  142~homeabi1, 143~homebridge1, 144~standalone-probe1,
+  145~standalone-controlled1, 146~native-home-release1.
+- N=147-161 (chi co trong muc Chronology cua lich su, khong deb tich hop):
+  147 bi Log23 bac; 148-153 chuoi transaction workspace; 154 source-only;
+  155~appack1; 156~nativebridge1->4; 157~solopicker1; 158~homeonly1;
+  159~nativehome1; 160~homegridprobe1; 161~firstframe1.
+  Kem observer DuoNavi goc: com.duoface.qa.duonaviobserver 0.0.3~homeflow1.
+- N=162-172: 162~gofaspeed8test1, 165~nativegofahome1, 171~gofadiag1
+  (ban nen chuan sau hoan nguyen), 172~gofadecoder1 (va ban 172~logorecall1
+  o nhanh da khoi phuc, khong co trong kho deb).
+- N=173 TRUNG SO, hai ban khac nhau: (a) 173~touchlog1 (02/11, da publish);
+  (b) 173~logoapps1 (06/11, nhanh sideplay-logo-app-roster-fix, ky rieng tu,
+  chua publish Sileo, chua test xe).
+- N=174-177 dong ban phim/cham 02-03/11 (174~auditfix1, 175~touchfix1,
+  176~recallhud1, 177~apptouch1) + dong GPT 06/11 (mapwake1/wakepick1/
+  appwake1/a1wake1 — hau to nay KHONG xuat hien trong kho deb lan lich su;
+  chi con dau vet qua ten nhanh wakefix4/wakefix5/owned-wake).
+- N=178-180 chang logo: 178~h1wake1, 179~h1wake2, 180~h1wake3 (180 PASS xe).
+- N=181-182 giai doan B: 181~b0probe1, 182~b1nativemaps1.
+
+Cac khoang so hieu TRONG o ca 3 nguon: N=93; N=96-105 (khoang lon nhat);
+N=121-122; N=126 (co nhanh, khong deb); N=148-153 (chi Chronology);
+N=183-187 (khong nhanh, khong deb, lich su khong nhac — xem them Phan B.9).
+
+================================================================================
+PHAN B — CHI TIET TUNG CHANG: NGUYEN TAC DA THU + VERDICT
+================================================================================
+
+B.1. DONG ROSTER/ENTITLEMENT DOI DAU (0.0.x)
+- 0.0.4~sbpair1 -> 0.0.6~rosterlog1: hook entitlement cho CHINH bundle DuoFace
+  trong SpringBoard: DFFirstPartySpringBoard.m kiem ABI roi MSHookMessageEx
+  len LSBundleInfoCachedValues boolForKey: (B24@0:8@16) — chi tra YES cho key
+  CARCapableApp/SBStarkCapable khi goc tra false + dung object da "tag";
+  phia CarPlay DFFirstPartyAdmission.m arm trong constructor; Info.plist them
+  SBStarkLaunchModes=Default. VERDICT: FAIL — chua test xe luc phat hanh
+  (DEVICE_NATIVE_CARPLAY_ICON_VERIFIED=false); audit 30/10 ghi ket qua user:
+  "hooks armed, app not on real Dashboard".
+  Nguon: lich su main muc 20/10/2026; evidence/runs/39579928533/;
+  sideplay/audit/carplay-home-icons-20261030/REPORT.md.
+- Gate1 smoke (com.duoface.carplay.gate1smoke 0.0.5~roster1): hook hep
+  FBSApplicationLibrary allInstalledApplications, tao 1 candidate
+  DBApplicationInfo tu LSApplicationProxy cua chinh bundle minh, goi one-shot
+  DBApplicationController _loadApplicationWithInfo: + _didAddApplications:
+  (ABI-guard). VERDICT: chua test thiet bi; probe doi truoc do phia CarPlay
+  DBControllerLoaded=0 / Roster=DB_CLASS_NOT_LOADED — class dich khong he load
+  trong process CarPlay.
+- 0.0.15~native12home1, 0.0.26~stylepicker1, 0.0.37~native12dockzoom1,
+  0.0.41~medialogo3s1: ca 4 ke thua nguyen module roster
+  firstpartyadmission 0.0.6~sbpair1, hau to chi mo ta thay doi o NativeHost.
+  VERDICT: chua test xe; provenance deu ghi
+  DEVICE_NATIVE_CARPLAY_ICON_VERIFIED=false, risk nguyen van:
+  "Home app roster/CarPlay scene admission still needs actual device proof".
+
+B.2. DONG NATIVE12 (QA6-QA11, goi com.duoface.sideplaydisplay, host SidePlay)
+- QA6 0.1.4~native12root6: gan UI Native12 vao root host qua
+  DFSPNative12Host/DFSPApply(...), ti le tu SPDash.ratio. FAIL tren xe
+  (anh user 18/10/2026): duong fallback trong Tweak.xm tu kich hoat (host bi
+  tu choi vi dieu kien chua xac dinh) -> UI quay ve SidePlay legacy, khong
+  pill/logo divider, khong thanh CarPlay.
+- QA7 0.1.5~native12visual7: bo fallback legacy (host invalid thi
+  DFSPVisualCompatibility=YES, van gan DFSPNativeFrame + DFSPRefresh, khoa
+  Zoom; khong phuc hoi thanh bar). Ket qua: build/tinh PASS, chua nghiem thu
+  CarPlay tai tai lieu; ve sau thanh baseline theo user: "UI kha dong bo
+  nhung khong co thanh bar CarPlay".
+- QA8 (late-host-bootstrap): KHONG CO DU KIEN (khong file QA8 trong
+  native12-display/; chi biet QA9 lam "tu QA7, khong nang theo QA8").
+- QA9 0.1.7~native12chrome9: chrome/bar qua IPC hai process:
+  DFSPChromeBridge sender SpringBoard -> receiver o CarPlayApp/CarPlay/
+  Dashboard, do DBStatusBarWindow/CARStatusBarWindow, snapshot hidden,
+  ACK statusbarObserved/visibilityApplied; divider tinh theo thu tu thuc
+  cua pane. Chua test xe (CI SUCCESS, "chua co device ACK thuc"). QA10 ve
+  sau chung minh kenh IPC nay dung NSDistributedNotificationCenter — tra nil
+  tren iOS — la root cause bar khong len.
+- QA10 (picker-divider, source-only): mot owner duy nhat cho Dock:
+  DFSPNativeDock.xm quan sat chinh cua so DBStatusBarWindow/CARStatusBarWindow
+  (Normal hidden=NO, Zoom hidden=YES, restore khi detach), bounds dung
+  safeAreaInsets + fallback trai 64pt cua Native12; IPC doi sang Darwin
+  notify name-only + ACK/retry; XOA han DFSPChromeBridge. Chua build, chua
+  test thiet bi (tai lieu cam tuyen bo "thanh bar da co").
+- QA11 (restore-native-dock-split-menu): KHONG CO DU KIEN ngoai ten nhanh.
+- 0.0.111~home-reentry-youtube1: "Home" o day la vong doi ve Home/re-entry
+  (an external windows truoc detach Dock, phan biet unplug/Home bang
+  AVExternalDevice.screenIDs), khong phai roster. Chua test tai report.
+- 0.0.117~dock-wake1 / 0.0.118~dock-rollback1: chi xac minh duoc su ton tai;
+  co che/verdict khong co du kien.
+
+B.3. OBSERVER/OWNER (QA126-QA133)
+- QA126 0.0.126~observertrace1: forensic-only:
+  DFObserverForwardBreadcrumb126 trong DFSceneLifecycle.m tai
+  -[SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings:],
+  khong doi hanh vi. Phat hien nen: teardown vo dieu kien khi scene-background
+  (13 su kien teardown=1 du external-window=1) -> khong phan biet duoc
+  CarPlay Home voi lock tu du kien san co. FAIL phat hanh: user bao YouTube
+  nhay loan hon QA125 -> rollback ve QA125; chung cu cung cho thay
+  instrumentation QA126 chua tung chay trong cac process crash (UUID dylib
+  la cua QA125).
+- QA127 0.0.127~ownerreflow1: bo ghi foreground trung trong
+  DFSceneHost updateSettingsWithBlock:, siet DFYouTubeOrientationRelay
+  windowVisible:; Home-vs-lock ghi ro la future work. FAIL tren xe ve
+  crash/cham (bao cao thuc dia + anh GOFA nua o).
+- QA128 0.0.128~manualowner1: baseline duoc chap nhan (crash + GOFA user
+  PASS). Gia tri lon nhat la truy vet duong Home cua DuoNavi goc: hook
+  homeButtonUp: tren DBRootStatusBarViewController/
+  CARRootStatusBarViewController -> CBBridgeManagerDashboard.sharedInstance
+  (activated) -> stopBridging -> requestDismiss -> requestStateChange: ->
+  handleStateDict:/bridgeDidActivate: cap nhat Dock + Home-in-app. Nhung
+  tai lieu tu gioi han: presence/signature cua hai selector nay tren iOS
+  cua user chua kiem runtime.
+- QA129 (ban public 0.0.129~nativeowner1): owner lease doc lap + Home hook
+  kieu QA128 (revoke sticky theo UUID truoc khi forward original), postlock
+  settings normalization. FAIL theo bao cao user: app khong len man CarPlay
+  + GOFA regress (QA128 da fix) — va tai lieu nhan manh khong co log cung
+  phien de chot nguyen nhan ("NOT a runtime functionality PASS").
+- QA130 0.0.130~sceneowner1: observer sceneHandle:didDestroyScene: chi tren
+  SBAppViewController (ABI-validated) + tombstone weak-set; override
+  background chi cho scene owner da xac nhan, fail-closed goi original dung
+  1 lan. Ghi thang: "does NOT implement selected-app icons on system CarPlay
+  Home". Chua test xe (DEVICE_QA=false).
+- QA132 0.0.132~ownedbks1: PASS do user xac nhan nhung cho dim/touch (man
+  iPhone sang mo duoi CarPlay + cham duoc), khong phai Home.
+- QA133 0.0.133~native12catalog1: chi lam catalog cho picker noi bo:
+  DFCarPlaySelectedAppCatalog.h / DFCarPlaySelectedInstalledBundleIDs =
+  installed giao DFEnabledAppsPolicy enabled, DFAppPickerVC tieu thu +
+  reload theo Darwin notice doi preference. Tai lieu ghi ranh gioi nguyen
+  van: "A REAL native CarPlay Home roster registration/launch hook was not
+  implemented or claimed". Signed + Sileo verified; xe chua test tai proof;
+  Home = chua co tinh nang (by design).
+
+B.4. HOME PUBLISHER THAT (QA135-QA142) — chang do ABI tren may user
+- QA135 0.0.135~homeabi1: probe chi-doc DFCarPlayHomeABIProbe.m (khong hook,
+  khong add proxy). Do that tren iPhone X/iOS 16.7.16, process CarPlay:
+  FBSApplicationLibrary -addApplicationProxy:withOverrideURL: PRESENT
+  (v32@0:8@16@24), -_notifyDidAddApplications: PRESENT,
+  DBApplicationInfo -_loadFromProxy: PRESENT,
+  CRCarPlayAppPolicyEvaluator -effectivePolicyForAppDeclaration: PRESENT;
+  CARApplication _newApplicationLibrary UNAVAILABLE (class khong load —
+  duong cua deb goc chet tren may nay). FAIL Home by design (Log15:
+  allowlist configured=6 preference=present o ca SpringBoard lan CarPlay —
+  loi nam downstream cua persistence).
+- QA136 0.0.136~nativehome1: publisher dau tien: DFHomePublisher136Core.m
+  (chi process CarPlay) tim instance FBSApplicationLibrary song,
+  addApplicationProxy:withOverrideURL: cho app da chon, roi chi
+  setCarPlaySupported: + tuy chon setLaunchAsCarApplication:. FAIL tren xe
+  (Log16): log reconcile=6 (6 record tra thay sau add) nhung user bao 0 icon
+  moi; audit ket luan moi xong "one intermediate proxy-registration step" —
+  thieu declaration/policy/icon-model/launch; them defect: DF136PromoteNewInfo
+  return som vi getter isCarPlaySupported khong ton tai tren ABI nay.
+- QA137 0.0.137~homeabi2: phat hien quyet dinh: factory Home that tren iOS
+  nay la +[DashBoard _newApplicationLibrary] (@16@0:8, image DashBoard,
+  process com.apple.CarPlayApp, PID 89388); CARApplication va
+  _CARDashboardHomeViewController deu class-absent; DBApplicationInfo co
+  getter carPlayDeclaration nhung isCarPlaySupported/canDisplayOnCarScreen/
+  launchAsCarApplication method-absent. FAIL (Log17): "QA137 Home icon NOT
+  DISPLAYED".
+- QA138 0.0.138~selectedlayout1: DFHomeAdmission138.m: hook original-first
+  hai typed getter LSBundleProxy entitlementValueForKey:ofClass:valuesOfClass:
+  + chan +[DashBoard _newApplicationLibrary] truoc loc + hook
+  CRCarPlayAppPolicyEvaluator effectivePolicyForAppDeclaration: ap setter len
+  policy object. FAIL NANG (Log18): DF138Answer goi saved original cua getter
+  2 tham so -> iOS forward sang getter 3 tham so (cung bi hook) -> DE QUY VO
+  HAN (DF138Answer -> DF138Entitlement3 -> DFFirstPartyAdmission x165),
+  EXC_BAD_ACCESS stack guard, CarPlay den, 20 PID relaunch trong ~3 phut,
+  0 message admission nao.
+- QA139 0.0.139~recovery1371: khoi phuc byte-exact runtime QA137, loai han
+  module QA138 khoi ban ship. PASS khoi phuc UI; Home van FAIL dung du kien.
+- QA140 0.0.140~guardedhome1: DFHomeAdmission140.m: chong de quy bang
+  per-thread native-only query depth + fresh consent rieng (mac dinh OFF +
+  kill switch). FAIL (Log19): 190 quan sat — 6 app chon van
+  carPlayDeclaration = nil, 0 declaration duoc tao, 0 policy callback cho
+  duong synthetic; ket luan nguyen van "FBS inclusion was not icon proof".
+- QA141 0.0.141~declmap1: DFHome141.m: chi voi DBApplicationInfo
+  installed+selected+admitted ma declaration = nil: tao owned
+  CRCarPlayAppDeclaration, gan qua runtime-object-ivar (route thuc te da
+  dung), verify getter readback identity truoc khi notify; policy chi ap
+  cho declaration tu tao. PASS MOT NUA — LAN DAU ICON HIEN THAT: user xac
+  nhan 6 app da chon hien icon tren CarPlay Home that (Log20: 6/6
+  getterReadback=1, newRecords=6, 8 policy callback). FAIL o cham: cham
+  icon khong mo app — QA141 khong co duong routing nao tu Home icon toi
+  DFSceneHost; launch=0 vi setter setLaunchAsCarApplication: unavailable.
+- QA142 (khong co DEB runtime moi): hai checkpoint phan tich: (Log20) quet
+  tinh deb goc thay launch bridge rieng khac tang admission:
+  shouldInterceptLaunchForApp: -> iconManager:launchIcon:/
+  iconManager:launchIconForIconView: -> startBridging: (DuoNavi
+  DuoNaviDashboard.dylib, 22 ham khop marker); (Log21) probe
+  DFHomeLaunchABI142.m do selector that tren may:
+  -[DBDashboardHomeViewController iconManager:launchIconForIconView:]
+  ton tai (v32@0:8@16@24), ban iconManager:launchIcon: absent;
+  DBApplicationController sharedInstance/applicationWithBundleIdentifier:
+  deu absent (cam cay duong launch do tu app tham chieu khac). QA142 "was
+  never designed to open apps".
+
+B.5. LAUNCH BRIDGE + STANDALONE OWNER (QA143-QA160)
+- QA143 0.0.143~homebridge1: DFHomeLaunch143.m hook dung selector Log21,
+  doc bundle ID cua icon duoc cham, nhung forward original launch bang icon
+  DuoFace that (com.duoface.native.scenehost) + one-shot plist intent ->
+  phia SpringBoard goi DFNative12Chrome appPicker:didSelectBundleID:
+  (duong split). FAIL wrong owner: user bac — mo app ngoai tu Home lai chui
+  vao giao dien DuoFace chia man hinh; audit chot "wired by design to enter
+  the DuoFace split UI".
+- QA144 0.0.144~standalone-probe1: sua wrong-owner bang tach owner:
+  DFHomeStandalone144.m (hai bien the DF144_CARPLAY/DF144_SPRINGBOARD), hop
+  dong cam goi DFNative12Chrome/split/picker cho app tu Home; intent
+  one-shot <=2s + opt-in rieng mac dinh OFF -> owner SpringBoard rieng
+  DF144Solo gan DFSceneHost hostViewForBundleID:error: vao mot external
+  window content-only duy nhat; ACK ghi trung thuc
+  scene-hosted-render-and-touch-unverified. Private, chua test xe
+  (DEVICE_DIRECT_HOME_TESTED=false).
+- QA145 0.0.145~standalone-controlled1: ban controlled cua QA144 (them muc
+  iPhone "Mo truc tiep App tu CarPlay Home" mac dinh OFF + fresh receiver
+  lease <=2s). Test xe Log22 — FAIL mot nua: Facebook/YouTube MO DUOC tu
+  Home native (pending-scene sau ~0,12-0,23s) nhung KHONG THOAT DUOC: hook
+  viewDidAppear: tren DBDashboardHomeViewController khong cai duoc tren
+  may (log home=0), con homeButtonUp: co san thi bi DFOWnerHomeReceived()
+  chan sau dieu kien phai co CPTemplate session — ma standalone co y
+  khong co session do.
+- QA146 0.0.146~native-home-release1: chi sua mat thoat:
+  notify_post(standalone144.stop) TRUOC cong session cu trong
+  DFCarPlayOwnerObserver.h. Publish PASS, nhung user REJECTED voi 4 mode
+  hong doc lap: (1) mo/dieu huong cham; (2) bam Home mat ngu canh, nhay
+  thang ve CarPlay Home; (3) app dang mo khong hien dang recent/active
+  trong Dock native; (4) nhieu app sai chieu. Crosswalk chi ra QA146 thieu
+  toan bo dong bo cua goc: CBBridgeManagerDashboard -bridgeDidActivate: ->
+  setActivated:/setAppDockActiveBundleID:/setHomeButtonInApp: +
+  -prepareHomeScreenForBridge:.
+- QA147 0.0.147~native-dock-sync1: DFNativeDockSync147.h: producer chi gui
+  ready-result Version2 sau khi scene that + bundle khop + PID da kiem
+  chung (verifiedPIDForHostedView:); consumer tim DBAppDockViewController
+  that, snapshot history/Home state roi moi update native history + active
+  + refresh, restore co dieu kien. FAIL toan dien (Log23), bi bac:
+  26 request / 16 scene quan sat / 0 ACK / 0 qa147-native-dock-active;
+  them 8 loi attach "Scene attach exception: bogus reference size" va
+  2/26 request bi dao width/height tai host (595x331.333 -> 331.333x595).
+- QA148-QA153 (deb van mang ten 0.0.147~native-dock-sync1, private) —
+  chuoi xay transaction cua goc theo thu tu, moi vong deu chua test xe:
+  QA148: verifiedProcessStatePIDForView: fallback cho PID that
+  (SBApplication.processState.pid + kill(pid,0)) + tach notification dung
+  de phan biet Home vat ly voi watchdog.
+  QA149: DFManagerLifecycle149.h — manager receipt doi request
+  identity/freshness + live owned scene observation ("A PID observation
+  alone cannot activate").
+  QA150: DFWorkspaceABIProbe150.h — inventory ABI chi-doc cua
+  DBMutableWorkspaceStateChangeRequest/DBWorkspace/
+  DBDashboardHomeViewController (chi class_getInstanceMethod/
+  method_getTypeEncoding, khong goi).
+  QA151: DF151WorkspaceOwnerCapture.h — capture live DBWorkspace dung cua
+  dashboard bang cach hook -[DBWorkspace initWithOwner:] chi khi owner la
+  DBDashboardWorkspaceOwner.
+  QA152: vong state-changing dau tien: DF152NativeWorkspacePrepare.h —
+  DBMutableWorkspaceStateChangeRequest deactivateApplication: +
+  requestStateChange: chi khi du 7 dieu kien dong thoi; continuation
+  once-only 250ms; thieu dieu kien -> khong mutate.
+  QA153: DF153PhoneEviction.h — evict app khoi man dien thoai kieu goc
+  evictAppFromPhoneScreen:completion: rut gon thanh 1 lan
+  SBUIController clickedMenuButton sau khi du ABI/owner checks;
+  fallback 120ms.
+- QA154 (source-only): DF154AppStateProtocol.h: app-state lease 3 giay
+  (owner + sceneIdentifier + bundle) qua NSDistributedNotificationCenter;
+  relay DF154GeneralAppStateRelay.m giu/restore frame window. Receiver
+  KHONG duoc dong goi/inject; va chinh giao thuc phan phoi nay ve sau duoc
+  xac dinh la blocker ACK=0 cua QA155 (API macOS, registration khong khop
+  tren iOS — duong iOS-compatible san co la Darwin notify_register_dispatch
+  cua DFAppViewportRelay.m).
+- QA156 0.0.156~nativebridge1->4: mot transaction chung
+  DF144BeginSelectedBridge cho ca Home icon lan Dock press (gate
+  enabled-app + Dock-owner consent; khong verify duoc -> fallback original
+  Apple launch); cua so UIRootSceneWindow full-root + child content,
+  hit-test pass-through ngoai content. FAIL tren xe (Log26, nativebridge4):
+  ca 5 request deu native-dashboard-context-verified, manager/live
+  scene/PID/Dock-active du, 66 app ACK — nhung DICH HOME SAI: user bac
+  "Home di thang 'Home CarPlay', khong phai trang chon app". Doi chieu
+  goc: nhanh showingApp=NO cua prepareHomeScreenForBridge: von khong
+  deactivate dashboard — cam "sua" bang deactivate.
+- QA157 (host 0.1.157~solopicker1): DFSoloPill157.h: pill 3 cham +
+  DFAppPickerVC tren cua so DF144Solo, chon app qua native Dock ACK +
+  chooser lease (DF144PickerNotify). Khac biet cot loi voi goc: goc route
+  picker qua active manager currentApp/CBWindow, QA157 dung picker doc lap
+  cua SpringBoard. Build ky SUCCESS (run 41276681110, SHA256 deb
+  3ae35449...), publish Sileo goc verified. KHONG CO TEST XE — tai lieu
+  ghi nguyen van "NO new device CarPlay test performed".
+- QA158 0.0.158~homeonly1: bo pill, giu picker an cho homeChooser:
+  Home-stop thu df157ReturnHomeToPicker truoc. FAIL tren xe — "WRONG HOME
+  DESTINATION" (huong nguoc QA156): log vat ly co 6 su kien
+  solo-home-return-to-first-party-picker — picker cua DuoFace o lai phu
+  len Apple Home du original van duoc forward va Dock restore thanh cong.
+  User dinh chinh dich dung la Apple CarPlay Home native app grid.
+- QA159 0.0.159~nativehome1: go picker khoi duong Home: Home notification
+  that -> VO DIEU KIEN [DF144Owner stop:@"native-Home-exit"], khong
+  instantiate DFAppPickerVC. FAIL tren xe — "native CarPlay DASHBOARD, not
+  APP GRID": het picker DuoFace nhung Home roi vao Dashboard (map + Now
+  Playing) thay vi app-icon GRID. Khoang trong source duoc chi dich danh
+  (chua chung minh la nguyen nhan): DF144Launch chan
+  iconManager:launchIconForIconView: ma khong forward original khi bridge
+  thanh cong; DF147ActivateDock/DF147RestoreDock chi lo Dock, khong co
+  snapshot page/history nao cua native grid.
+- QA160 0.0.160~homegridprobe1: chi them tracing trang thai trang Home
+  native + poll scene-ready nhanh hon; tai lieu tu thua nhan "DOES NOT
+  implement a proven change to native Home-grid destination". FAIL khi
+  test lai: van roi Dashboard, khong phai grid.
+
+B.6. QA155 — VERDICT CHI TIET LOG24 (doc truc tiep luot 2)
+Co che appack (0.0.155~appack1): QA154 de lai lease trang thai phia host
+nhung receiver phia app chi compile cu phap, khong vao build.sh/package.
+QA155 dong goi that DF154GeneralAppStateRelay.m thanh
+DF155GeneralAppStateRelay.dylib, filter hep chi Safari + VLC; lease 3 giay
+(owner + sceneIdentifier + bundle) gui qua NSDistributedNotificationCenter;
+app chi sua window khi khop scene ID UIKit that, restore frame/bounds khi
+stop/thay the/timeout; phai qua them cong EnabledBundleIDs; ACK nguoc bang
+marker qa155-app-side-ack. Ban ky private verified (run 41235256020),
+publish Sileo goc o ban appack1 (SHA256 24143b18...).
+Ket qua xe/Log24 (user bao 01/11: "Dua safari len carplay ko dc. Da test
+vlc"; Log24 = DuoFaceAudit 24.txt, export 06:56 01/11 ICT):
+qa155-app-side-ack = 0 tren toan file; 0 request VLC, 0 request Safari
+trong cua so phien -> Log24 khong chan doan duoc VLC; 11 request
+standalone-requested-not-yet-ready (Facebook 5, YouTube 3, TikTok 1,
+ChatGPT 1, Gemini 1); 7 marker qa149-manager-live-scene-owned +
+qa147-native-dock-active; 4 loi stage=failed "Scene attach exception:
+bogus reference size".
+Hai mode hong chot o muc source:
+(1) Transport chet: DF154Center() dung NSDistributedNotificationCenter —
+API cua macOS, khong ton tai tren iOS (lai dang ky thieu bien the
+suspensionBehavior:) -> center nil -> ca hai chieu thanh no-op im lang;
+phia app chi log transport-unavailable. Day la ly do he thong cho ACK=0.
+(DOI CHIEU: xem cau hoi mo ve OmniCar o Phan F — OmniCar dung chinh API
+nay lam kenh payload, co bang chung ma may.)
+(2) Safari bi chinh cong nha loai: DF144Allowed doi DFIsRecommendedAppID,
+ma ham nay cam moi bundle com.apple.* -> Safari khong bao gio vao duong
+standalone; dong thoi DF141Selected va vong reconcile cua
+DFHomePublisher136Core cung skip toan bo com.apple.*. Da sua o
+nativebridge3 (0.0.156~nativebridge3): header DFSelectedHomeAdmission.h
+chi mo dung com.apple.mobilesafari, test runtime PASS, ky + publish Sileo
+verified — nhung nghiem thu vat ly "Safari hien tren Home" van chua co.
+VEHICLE_QA.md cua QA155 ghi phien nghiem thu xe la "not yet performed".
+
+B.7. QA162-QA168 VA NEN QA171
+Nguyen tac nen ve roster/Home (thua huong tu QA136-144, QA165 kiem chung
+lai): bo reconciler Home DFHomePublisher136Core.m BO QUA moi app da co
+CarPlay declaration:
+  if(already && DFHome141InfoHasDeclaration(already)) continue.
+Bang chung nen: Log19 (qa141) — class CRCarPlayAppDeclaration, 22 mau moi
+app cho com.google.Maps, com.waze.iphone, com.lumi.GOFA; YouTube/TikTok/
+Facebook la nil. Log21 (qa142): 6 icon Home cua app khong-native hien duoc
+nhung cham khong launch duoc — "registration != launch".
+He qua thiet ke: DuoFace co y khong tao icon cho app native; chi app thieu
+declaration native (kieu Safari) moi duoc bridge-declaration de hien icon.
+- QA162 gofaspeed8test1: HUD toc do GOFA (inject vao process GOFA, tu tao
+  CLLocationManager). CI/Sileo PASS; chua test may.
+- QA163 globalspeed8test1: FAIL xe — HUD khong co so toc do, bi kep trong
+  dung mot o chia (nguyen nhan nguon QA164 chung minh: HUD la subview cua
+  appSceneWindows[i], DFAllowedArea clamp theo superview.bounds).
+- QA164 globaldragtest1: HUD sang cua so floating rieng; chua nghiem thu
+  xe; phan hoi xe lam phat sinh QA165: HUD van no-data + Maps/Waze/GOFA
+  khong len Home.
+- QA165 nativegofahome1: Roster: CHI them log, co y khong them admission —
+  DFHomePublisher136Core.m ghi DuoFaceHomeRoster165.log voi cac trang thai
+  nguyen van NATIVE_DECLARATION_EXISTS_OS_HOME_ICON_NOT_MANAGED_BY_DUOFACE,
+  BRIDGE_DECLARATION_SENT_TO_FBS_ICON_NOT_YET_VERIFIED...; audit ghi:
+  "Deliberately does NOT manufacture new native Maps/Waze/GOFA icons
+  because the OS Home roster is separately owned." CI/Sileo PASS; tren xe
+  moi thu UNVERIFIED — "native CarPlay icons still NOT confirmed to appear".
+- QA166 trafficnavprobe1 / QA167 gofaeventproof1 / QA168 nativecpmaneuver1:
+  probe/forensic GOFA, khong lien quan co che Home; khong vong nao co bang
+  chung test xe PASS ve roster/Home. Khong tai lieu nao ghi DuoFace tung
+  tao thanh cong icon native Maps/Waze/GOFA tren CarPlay Home.
+- QA171 0.0.171~gofadiag1 (ban nen): giu nguyen toan bo co che Home/roster
+  cua QA165 (duong skip app native declaration, DFHomeStandalone144, cong
+  hoi quy Home/roster cua QA165 van bi CI ep chay). Khong commit nao trong
+  nhanh QA171 thay doi DFHomePublisher136Core.m, admission hay host scene.
+  Co che dua app vao o dang chay o nen nay: scene hosting — DFSceneHost
+  host remote scene cua app vao cua so slot tren man hinh ngoai; dieu kien
+  chon app o DFAppEligibility.h (moi app ben thu ba + danh sach trang app
+  Apple do nguoi dung chon); module gia entitlement DFFirstPartyAdmission
+  dormant sau cong consent kep — khong phai duong dang chay.
+
+B.8. QA173 logoapps1 (06/11) — phan loai route kieu OmniCar trong picker
+Khong co thu muc audit rieng; tai lieu o checkpoint dau file lich su tren
+nhanh, workflow duoface-173-logoapps1-signed-private.yml, evidence run
+42144397387 (nhanh tip 1fa23032...). Day la ban 173 thu hai, khac han
+173~touchlog1 ngay 02/11.
+Co che (source mang ten noi bo "QA178", dong goi thanh 0.0.173~logoapps1):
+- DFCarPlayAppRoute178.h: app thuoc installed giao selected duoc chia 3
+  dien: (i) ban do native da kiem chung — Google Maps/Apple Maps/Waze co
+  mat trong FBS-native catalog dang song; (ii) native catalog khong co ->
+  khong phone-host; (iii) phone AppBridge — Safari/GOFA.
+- DFAppCatalogPolicy.h + DFAppLibrary: fallback exact LSApplicationProxy
+  khi thieu applicationIdentifier (khong noi cac chot hidden/placeholder/
+  launch-prohibited); DFAppPickerVC hop nhat bulk + exact inventory, bat
+  buoc selected, tra catalog FBS native that va hien thi trang thai route
+  native/phone tren the app.
+- Cham the ban do native trong picker DuoFace -> DFNative12Chrome gui lenh
+  Attach tuong minh toi coordinator phia CarPlay (chi vao o trong, preset
+  2 o, kem bundle/slot/request/time) va poll ACK theo
+  request/session/generation; chi ACK Applied moi dong picker; ban do
+  native KHONG BAO GIO roi xuong phone MainDisplay host.
+- Khong chich icon Home native gia — tai lieu ghi ro "no unverified native
+  Home icon injection"; roster Home native van la quyen cua OS,
+  DFHomePublisher136Core giu nguyen moi declaration native co san.
+- Kem: logo visual-only het han sau 4 giay (owner/generation timer).
+Trang thai: hai run ky dau FAIL o CI (thieu include path cua test
+harness; delegate native-map khai @required lam DF144Solo/Safari loi bien
+dich — da sua thanh @optional trong DFAppPickerVC.h). Run 3 42144397387
+SUCCESS: deb ky + archive verified (1.287.788 byte, SHA256 324d3fc4...;
+CI_RESULT.txt ghi SILEO_PUBLISHED=false, DEVICE_TESTED=false). Checkpoint
+moi nhat ghi publisher carplaydsp da cap nhat pin QA173 lam ban live duy
+nhat (giu 0.0.172~wakefix5 lam rollback) o trang thai "publish triggered,
+public verification pending". CHUA CO NGHIEM THU XE nao trong tai lieu.
+
+B.9. QA174-QA176 (dong GPT 06/11, ho so o nhanh
+fix/qa180-owned-wake-map-replace-20261106 @124f885f; log DuoFaceAudit
+3/4/5.txt tren main)
+- QA174 0.0.174~mapwake1 — CHET TRUOC KHI DISPATCH:
+  Co che: picker selected-only, khong union: DFAppPickerVC.m
+  refreshInstalledApps dung selectedIDs roi LOAI moi app ngoai selectedSet
+  TRUOC khi phan loai route native-map — native catalog chi la nhan route,
+  khong cong app native vao luoi. Route tach doi (DFCarPlayAppRoute178.h):
+  GOFA di phone AppBridge; Google Maps/Apple Maps/Waze di guarded native
+  coordinator — DFNativeMapPaneCoordinator.m
+  handleAttachCommand:allowLaunch: -> beginPendingLaunch: ->
+  DFNativeMapDispatchLaunchGuarded; DFNativeMapLaunchRuntime.m goi
+  dashboard handleEvent: sau kiem tra context/ABI. Guard o da co app (diem
+  chet cu the): appPicker:didSelectNativeMapBundleID:displayName: trong
+  DFNative12Chrome.m — o da co hosted/pending UIView thi return som (hien
+  cau "Hay chon o con trong de ghep ban do") TRUOC khi ghi command va
+  truoc log picker-request; lan tu choi nay khong duoc log.
+  Ket qua FAILED toan bo: Map trong o: 0 record
+  qa178-native-map-picker-request, 0 command=Attach; footer "Native Map
+  ACK: applied=NO attached=NO reason=none owner=unknown". Ca 5 lan mo
+  picker deu o o da loaded. Duong standalone: 7 lan
+  qa160-native-grid-icon-pressed cho Maps, FBScene attach duoc nhung
+  app-side ACK tra scene=sceneID:com.google.Maps-default
+  phase=scene-unmatched (relay DF154GeneralAppStateRelay khong khop noi
+  connectedScenes theo _sceneIdentifier). Home: newRecords=4;
+  not-icon-proof; CRCarPlayAppPolicy launch=0 capable=1 display=1. Nguyen
+  xac nhan: chi GOFA mo duoc; Maps/Waze khong mo; khong app da chon nao
+  hien tren CarPlay Home ngoai DuoFace.
+- QA175 0.0.175~wakepick1 — CHET O CONG KIEM CHUNG, SAU DISPATCH:
+  Co che: picker-request lan nay phat that cho ca Waze va Google Maps
+  (guard o cua 174 da qua duoc) -> giao dich thay o (replace transaction)
+  qua native coordinator; cong DFLaunchPresentationReady trong
+  DFNativeMapLaunchRuntime doi base view cua DuoFace phai "visible within
+  root" (DFLaunchViewVisibleWithinRoot(base.viewIfLoaded, rootView,
+  window)).
+  Ket qua FAILED ca 3 hanh vi: 8/8 giao dich thay o rollback — 8 request
+  UUID phan biet (3 Waze, 5 Google Maps), tat ca ket thuc applied=0
+  restore=1 current=1 reason=native-launch-owned-base-view-unverified
+  (token nay xuat hien 50 lan trong log tich luy). Vi tri hong: sau picker
+  dispatch, truoc khi submit launch event — cong tu bac bo chinh base view
+  cua DuoFace. Hien tuong nhap nhay tren xe = host dien thoai cu bi rut
+  roi restore khi ACK bi tu choi. Wake: be mat so huu
+  DFOwnedWakeSurface180 co 0 record qa180-wake-contact. Home: newRecords=4;
+  not-icon-proof, Nguyen xac nhan zero new Home icons.
+- QA176 0.0.176~appwake1 — ACK QUA, ROI BI TEARDOWN:
+  Co che thay doi: noi predicate launch — DFNativeMapLaunchRuntime.m:141-205
+  bo yeu cau "owned base view phai nam duoi root.viewIfLoaded", thay bang
+  owned controller + window da load + alpha visible + ancestry.
+  DFNativeMapPaneCoordinator.m adoptCommand: dat geometryVerified=YES,
+  adoptionCommitted=YES, luu lease roi tra Applied ngay voi
+  reason=native-owner-attached-physical-frame-observed-map-tiles-not-verified;
+  khau hau kiem refreshAdoptedNativeMapBounds khong co cong thu hoi Applied
+  khi DuoFace mat foreground.
+  Ket qua (ACK duong tinh gia — mode hong chuan): replace thanh cong tren
+  giay: qa180-map-replace-finish applied=1 restore=0
+  reason=native-attach-ack; tong 3 command=Attach status=Applied (Maps x1,
+  Waze x2); footer "Native Map ACK: applied=YES attached=YES owner=CarPlay",
+  kem frame o ban do app=0, owner unverified. Ngay sau ACK ~0,4 giay:
+  qa124-scene-resign-retained-await-background -> phia CarPlay
+  native-owner-state active=0 visible-candidates=0 unique-duoface=0 ->
+  native12-chrome-stop, teardown toan bo cua so ngoai — lap y het o ca 2
+  lan thu Waze. Tren xe: o hien hinh nen CarPlay Home thay vi giao dien
+  Maps. Ket luan cua chinh ho so B0 cua QA176: ACK chi chung minh
+  adoption/controller/frame; gia thuyet dan dau (ghi la hypothesis): app
+  ban do native chiem foreground CarPlay thay vi o lai trong o. Home: van
+  newRecords=4; not-icon-proof, launch=0, icon-and-tap-unverified.
+
+B.10. QA181-QA182 (giai doan B)
+- QA181 0.0.181~b0probe1 — vong do B0: bo do marker qa181-b0 chia 2 path —
+  path=duoface 416 dong (process SpringBoard), path=stock dung 1 dong
+  (process CarPlay).
+  Q2 — duong DuoFace: TRA LOI DUOC, chac. Scene DuoFace host la scene dien
+  thoai/main, owner FBScene:
+    path=duoface bundle=com.google.Maps event=poll-scene-present
+    sceneID=sceneID:com.google.Maps-default owner=FBScene
+    size={297.5, 360} display={{0, 0}, {640, 360}}
+  Maps: 169 poll-scene-present, size o {297.5,360}/{595,360}, ready=1;
+  Waze tuong tu FBScene voi sceneID dang UUID (3 ID trong phien). Dung 1
+  dong picker-selection (owner DFNative12Chrome). Hinh hoc khong bao gio
+  khop: ca 35 dong scene-frame-readback deu same=0 —
+  actual={{0,0},{414,736}} (khung dien thoai) vs
+  target={{0,0},{595,720}}/{1190,720}. Verdict xe rieng: Maps giao dien
+  toi trong DuoFace mo xem duoc nhung KHONG cam ung duoc — vung hinh va
+  vung cham lech nhau.
+  Q1 — duong stock: KHONG tra loi duoc. Toan phan 181 chi co:
+    path=stock bundle=native-carplay event=observer-ready
+    sceneID=unavailable owner=CarPlay size=unavailable
+    detail=native-owner-observer-installed; no scene mutation
+  Observer phia CarPlay khong ghi duoc bat ky su kien scene native nao.
+  Bang chung scene native hien chi co anh chup cua Nguyen (hai scene
+  Google Maps khac nhau: giao dien CarPlay native sang khi mo tu Home goc
+  vs giao dien dien thoai bi host).
+  Q3 — MOT PHAN: BKS blank quan sat duoc tu SpringBoard: 13 cap
+  blanked=1->0 (khoang dai nhat ~423 giay o phien 1, ~12,5 phut o phien 2
+  — trung khoang dung CarPlay goc); underlock-observed dung 2 dong voi
+  sceneID=unavailable, owned=0 foreground=1; shouldBeBackgroundUnderLock:
+  0 dong trong ca build 181 lan 182. Footer cuoi phien van: "Native Map
+  ACK: applied=NO reason=native-maps-scene-host-identity-unverified
+  owner=CarPlay".
+  DINH CHINH (Nguyen chi dung 07/11 05:40): nghiem thu B0 goc doi "mo Maps
+  tu Home CarPlay goc" la tien de sai — Home goc o cau hinh hien tai khong
+  hien app ban do (muon hien phai bat trong Cai dat iPhone -> CarPlay).
+- QA182 0.0.182~b1nativemaps1 — PASS noi bo, FAIL ben vung + FAIL tren xe:
+  Co che da chay (dung bo huong OmniCar cua ban quyet dinh 06/11): hook
+  ABI khop ca 3 (match=1) — DBDashboard sceneFrameForAppInfo:proxyAppInfo:,
+  DBApplicationSceneViewController deactivateSceneWithReasonMask:,
+  DBApplicationSceneViewController backgroundSceneWithCompletion:.
+  8 assignment, CHI cho Google Maps (khong co assignment Waze nao), moi
+  assignment du chuoi created -> catalog -> launch -> scene-seen ->
+  frame-placed -> lifecycle-swallowed -> revoked -> restored -> summary.
+  Catalog: catalog=PASS library=FBSApplicationLibrary
+  reason=original-live-library-membership-and-native-declaration-readback
+  declaration=original-unmodified.
+  Launch: b1-launch-issued workspace=DBWorkspace info=DBApplicationInfo
+  launch=UNVERIFIED fallback=forbidden — chi nang len launch=PASS o
+  summary sau khi thay scene.
+  Scene-seen (process CarPlay pid 5374):
+  controller=DBApplicationSceneViewController,
+  controllerProvenance="existing-native-dashboard-controller-tree",
+  sceneClass=FBScene, settingsClass=CRSUIProxyApplicationSceneSettings,
+  windowRole=UIWindowSceneSessionRoleCarPlay. Chi co 2 sceneID that cho
+  ca 8 assignment: Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps
+  (x5) va Car[2-5]:...:com.google.Maps (x3). sceneRole=unknown,
+  sceneClientProcessBundle=unknown.
+  Frame: request giu origin, size {640,360} -> {297.5,360}; frame-placed:
+    after={{342.5, 0}, {297.5, 360}}
+    coordinate=native-dashboard-UIWindow-points clipping=1
+    native-window-level=-1.0 native-parent=DBDashboardRootViewController
+    subview-index=5 target-SpringBoard-window=hidden touch=UNVERIFIED
+  -> container la cay cua dashboard CarPlay GOC, khong phai cua so/slot
+  cua DuoFace.
+  Lifecycle: chi nuot duoc deactivateSceneWithReasonMask: mask=0 (8/8);
+  nuot backgroundSceneWithCompletion: KHONG HE xay ra tren thuc te.
+  Restore 8/8, frame tra ve {{0,0},{640,360}}.
+  Summary: catalog/launch/scene/frame=PASS x16, lifecycle PASS x8 +
+  UNVERIFIED x8, native-pixels=UNVERIFIED va touch=UNVERIFIED x16, so dong
+  chua FAIL: 0.
+  Nhung PASS khong ben: 7/8 assignment bi b1-assignment-revoked
+  reason=Chrome-Home-or-disconnect chi 0,839-1,611 giay sau frame-placed,
+  ngay truoc do la native-owner-state active=0 -> touch-owner
+  event=watchdog-detach; assignment con lai bi revoke vi
+  app-replaced-in-native-slot sau 0,953s. Verdict cua chinh du an trong
+  AUDIT11_NATIVE_OWNER_TEARDOWN.md: sustained split/lifecycle FAIL —
+  frame PASS chi la kiem tra cuc bo tai thoi diem dat.
+  Scene dien thoai com.google.Maps-default: 0 lan trong build 182 (so voi
+  184 lan o 181) — duong phone-host khong bi dung.
+  stock-settings=unknown o 107/107 dong B1 — log khong tu tach duoc che
+  do BAT/TAT trong Cai dat iPhone -> CarPlay (Nguyen cho biet phien co ca
+  hai che do; thieu moc thoi gian doi cai dat de doi chieu theo uptime).
+  Verdict xe (Nguyen, kem anh 07/11 07:50): FAILED — "cang loi them":
+  Maps bat ra o dashboard CarPlay goc (dashboard goc chay Maps native o
+  phan chinh, luoi DuoFace nam canh), khong vao o DuoFace.
+
+B.11. CAC HO SO PHU DA DONG (luot 2)
+- QA091 0.0.91~nativemapqa1 (28/10/2026): bo nghien cuu trong
+  native12-083-rotation-20261028/ giai ma transaction adopt scene native
+  cua OmniCar (adopt:slot: @0x1942c = vong doi cha-con UIKit
+  willMove/addChild/addSubview/didMove + setSceneSize:; pushSceneSizes
+  @0x1c550; detachVC:background: @0x1a77c) va stage ghep viewport DuoFace;
+  QA091 cua chinh DuoFace (DFNativeMapPaneCoordinator, muc "Thu nghiem
+  ban do CarPlay native" trong app) da ky + len Sileo roi rollback theo
+  device gate.
+- qa183-qa187 tren spec-main: KHONG ton tai thu muc audit qa183/qa184/
+  qa185/qa186/qa187 — danh sach sideplay/audit/ dung o
+  qa180-kbcycle-alive-20261103. Tai lieu QA183-185 duy nhat nam o
+  sideplay/spec-knowledge/ (5 file bao cao): QA183 = chang ban phim
+  (kbsuite), QA184 = ban phim (fit2; cac "so do Maps/Waze" chi la do ban
+  phim xuat hien trong Maps/Waze), QA185 = quet A-Z doi chieu kien truc
+  deb DuoNavi goc vs deb hien tai (chi nhac thoang "ta co dock-zoom va
+  home publisher", khong co nguyen tac/verdict ve Home/roster/ban do
+  native). QA186, QA187: khong co bat ky tai lieu nao tren spec-main.
+- Duong dan roster nam rai: khong thu muc audit nao co "roster" trong ten;
+  tai lieu roster nam trong carplay-home-icons-20261030/:
+  DUONAVI_NATIVE12_ORIGINAL_HOME_ROSTER_VERDICT_20261030.md +
+  ORIGINAL_DUONAVI_NATIVE12_HOME_ROSTER_EXACT_FINDINGS_20261030.md +
+  original-deb-evidence/HOME_ROSTER_XREF.json — forensic ma may (xref
+  ARM64) chung minh ca DuoNavi goc lan ban Native12-derived deu nham dung
+  CARApplication _newApplicationLibrary + setLaunchAsCarApplication: +
+  bridgedApps de dua app da bat vao roster Home that — chinh la class ma
+  QA135 ve sau do thay khong load tren iOS 16.7.16 cua may nay.
+- qa156-native-dashboard-context-20261101/: sua "dich Home" bang cach
+  resolve dashboard that (_currentDashboard/currentDashboard), verify
+  workspace/exact external screen/showingApp truoc khi deactivate app
+  chinh thuc va don Dock/Home state dung ngu canh; harness + publish
+  nativebridge4 PASS, nhung DEVICE_ACCEPTANCE.md ghi ro "No hardware
+  acceptance is recorded".
+- carplay-home-reentry-youtube-111/: ban .111 sua vong doi ve Home cua
+  CHINH DuoFace (an toan bo overlay ngay dau stop, khong replay splash
+  khi quay lai Home, rehost YouTube co retry + noi timeout Chrome len
+  13,5s) — Home cua DuoFace, khong phai roster Home goc.
+- Tren nhanh QA173: sideplay/audit/wakefix5-20261106/
+  CURRENT_DEB_OMNICAR_MAP_VISIBILITY_20261106.md — phan tich goc re vi sao
+  Maps/Waze/GOFA da chon ma khong hien: EnabledBundleIDs chi la danh sach
+  quyen chu khong phai lenh dat icon/launch/ghep o;
+  DFHomePublisher136Core bo qua moi app da co carPlayDeclaration (log
+  NATIVE_DECLARATION_EXISTS_OS_HOME_ICON_NOT_MANAGED_BY_DUOFACE);
+  whitelist native Attach chi gom dung 3 bundle Maps/Waze — khong co GOFA.
+
+================================================================================
+PHAN C — OMNICAR: CHE DO APP DOC LAP TREN CARPLAY
+(deb com.anlai.omnicar_1.0.3, SHA256 d9297b01...; toan bo hook o
+OmniCarSplitScreen.dylib, tien trinh CarPlayApp, cai bang MSHookMessageEx
+trong hai ham init sub_44a8 va sub_58b4, co guard CrashGuard + guard
+bundle id) [MA MAY]
+================================================================================
+
+KHUNG TONG THE: OmniCar co HAI duong, quyet dinh bang
+SCPCarSplit -isCarPlayApp: (IMP 0xff20):
+- App CarPlay-native (gom app ban do): OmniCar KHONG host, KHONG tao scene,
+  KHONG sua declaration. iOS/DBWorkspace so huu session nhu binh thuong;
+  OmniCar chi can thiep tai cac diem quyet dinh cua dashboard.
+- App iPhone thuan (nguoi dung chon): duoc "che" declaration de lot vao thu
+  vien, nhung khi mo thi bi divert sang duong host scene main-display phia
+  SpringBoard (ABHost) — duong App Bridge (Phan D).
+
+C.1. NHOM THU VIEN / ROSTER / ICON (quyet dinh "app co mat tren xe")
+1. DashBoard (metaclass) +_newApplicationLibrary — IMP sub_4af0: goi goc
+   lay thu vien goc (doi tuong thu vien la FBSApplicationLibrary), roi NOI
+   cac app iPhone da chon vao chinh thu vien do de chung hien ngay trong
+   Home CarPlay goc. Chuoi log trong binary: "AppIcons: them %lu / %lu app
+   da chon vao thu vien %@"; thao tac qua
+   addApplicationProxy:withOverrideURL: / removeApplicationProxy:; co
+   duong refresh _handleAppLibraryRefresh khi danh sach doi ("AppIcons:
+   danh sach doi -> bo %lu app, ve lai man chinh").
+2. DBApplicationInfo -_loadFromProxy: — sub_4bcc: goi goc, roi chay helper
+   0x9b34 xu ly declaration cho MOI app info (chi tiet muc C.2).
+3. DBDashboardHomeViewController -initWithEnvironment: — sub_4c70: hook
+   ton tai — neo tang chia o cua OmniCar vao chinh Home view controller
+   goc. [MA MAY: ton tai hook; vai tro suy ra tu vi tri]
+4. DBDashboardHomeViewController -viewDidLayoutSubviews / -viewDidAppear:
+   / -viewDidDisappear: — sub_4cb4 / 0x4d24 / 0x4d90: hook ton tai, cung
+   nhom neo UI vao Home goc.
+5. SBIconListGridLayoutConfiguration -iconImageInfo,
+   -numberOfPortraitColumns, -numberOfPortraitRows,
+   -numberOfLandscapeColumns, -numberOfLandscapeRows — sub_5104 / 0x51a0 /
+   0x51d8 / 0x5210 / 0x5248: sua hinh hoc luoi icon cua Home phia xe (so
+   cot/hang, thong tin anh icon) de luoi chua duoc danh sach da noi them.
+6. SBIconView -setLabelHidden: — sub_5280: dieu khien an/hien nhan icon
+   tren luoi xe.
+7. SBIconView -isIconVisible: — sub_5338: DIEM QUAN HIEN THI ICON CUA
+   RIENG OMNICAR: quyet dinh icon hien hay an theo hai key prefs cua ho
+   (homeScreenHiddenApps / homeScreenShownApps) thay vi chi theo lua chon
+   "Tuy chinh" cua iOS — chuoi trong binary: "an khoi man chinh
+   (isIconVisible: NO):" va "hien lai (iOS da bo trong Tuy chinh,
+   isIconVisible: YES):" (tuc app bi iOS bo trong Tuy chinh van duoc hien
+   lai). DAY LA MAT XICH KHIEN VIEC HIEN/AN TREN XE KHONG DI QUA DANH SACH
+   BAT/TAT CUA CAI DAT CARPLAY GOC.
+8. DBIconView (metaclass, co guard objc_opt_respondsToSelector)
+   +maxLabelSizeForIconImageSize: — sub_5438: kich thuoc nhan icon phia
+   dashboard.
+Ghi chu ten class: doi tuong thu vien do +_newApplicationLibrary tao mang
+ten FBSApplicationLibrary (cfstring FBSApplicationLibraryConfiguration).
+Khong co class nao ten DBApplicationLibrary xuat hien trong ho so.
+
+C.2. DECLARATION: GIU NGUYEN VOI APP NATIVE, CHE VOI APP DA CHON
+Helper 0x9b34 (do hook _loadFromProxy: goi) xu ly tung app info [MA MAY]:
+1. Lay bundleIdentifier; neu bundle KHONG nam trong NSSet doc tu key
+   appBridgeApps (helper 0x9a60) -> bo qua ngay.
+2. Doc _carPlayDeclaration san co cua app (KVC dong). Neu da co declaration
+   that: kiem tags — chua co tag OmniCarAppBridge thi ghi log "AppIcons:
+   %@ da co declaration that (app CarPlay) -> khong chen" roi BO QUA,
+   khong chen — app native (ke ca khi nguoi dung lo tick chon) van nguyen
+   trang.
+3. Chi khi app CHUA co declaration moi sang nhanh che:
+   - Tao moi CRCarPlayAppDeclaration (lay class dong bang objc_getClass,
+     alloc/init), cau hinh toan bo bang selector dong (NSSelectorFromString
+     + respondsToSelector):
+     setSupportsTemplates: <- NO (insn 0x9c44-0x9c6c)
+     setSupportsMaps: <- YES (call-site: NSSelectorFromString tai insn
+       0x9ccc, msgSend voi w2=1 tai 0x9cf4)
+     setBundleIdentifier: <- bundle id cua app (0x9d20)
+     setBundlePath: <- duong dan tu bundleURL (0x9df0)
+   - Gan declaration vao app info bang setter dong cho key
+     _carPlayDeclaration (stub 0xa3c4 tai 0x9e48); dung lai _tags kem tag
+     cua ho; ep _valid = true neu isValid tra NO (0x9ed4-0x9f4c).
+   - Co co che khu trung declaration: chuoi log "AppIcons: bo khai bao
+     trung %@ (tranh assert cua iOS 15)".
+DUOI HELPER (doc bo sung luot 2) [MA MAY]: so dang ky cac bundle da xu ly
+la mot NSMutableSet tinh trong __bss tai 0x880c0, chi chua chuoi bundle
+id, thuan bo nho — khong ghi prefs, khong metadata. Set tao luoi bang
+dispatch_once (token 0x88108; block literal @0x789c0, invoke @0xd68c).
+Doan duoi tu 0x9f50: objc_sync_enter(set) -> was = [set containsObject:
+bundleID] -> [set addObject:bundleID] (vo dieu kien) -> objc_sync_exit.
+Neu bundle da co trong set: bo qua moi thu, chi release cac object tam
+roi thoat. Neu lan dau: doc dong 3 thuoc tinh cua app info qua
+NSSelectorFromString + respondsToSelector (thieu selector thi goi
+_SCPMissingSelector va dung 0): isHidden, isInstalled, presentsFullScreen;
+cong co _valid va path; dinh dang bang NSString stringWithFormat: voi
+format "AppIcons: chen %@: valid=%d hidden=%d installed=%d fullScreen=%d
+path=%@", roi _OMCLogWrite(@"SplitScreen", ...) tai 0xa0f0 — log chan
+doan chi phat MOT LAN cho moi bundle trong vong doi process. Trong toan
+bo doan duoi 0x9f50-0xa14c khong co loi goi CFPreferences nao. Ham ket
+thuc tai 0xa14c.
+
+C.3. LUA CHON CUA NGUOI DUNG: LUU O DAU, DI VAO THU VIEN BANG DUONG NAO
+- Ghi (phia dien thoai): OMCAppBridgeAppsController (105 method) trong
+  OmniCarPrefs.bundle (chay trong Settings) liet ke kho app tu
+  LSApplicationWorkspace allInstalledApplications (loadState @0x1cdd8),
+  loc applicationType User/System, loai app co appTags hidden /
+  isLaunchProhibited / isPlaceholder. Lua chon ghi boi
+  OMCAppBridgeAppsController.storeChoices (@0x1e920) vao CFPreferences
+  domain com.anlai.omnicar, key appBridgeApps (tach rieng khoi
+  homeScreenHiddenApps/homeScreenShownApps; con co homeScreenCarApps,
+  splitScreenCarPlayApps). Doi lua chon thi phat Darwin notify
+  com.anlai.omnicar/prefschanged. Lua chon theo-o (ghim app, o trai/phai)
+  ghi vao cac key splitScreenPinnedApp, splitScreenLastLeft/Right... qua
+  helper 0x37698 (CFPreferencesSetAppValue + CFPreferencesAppSynchronize
+  + notify prefschanged) boi OMCSplitScreenAppPickerController.
+- Danh muc native do phia xe tu lap: SCPCarSplit publishCarPlayApps
+  (IMP 0x21b1c, trong CarPlayApp) quet app da cai (helper 0x21d4c), gom
+  truong id cua cac app native, ghi qua +[SCPPrefs setCarPlayApps:]
+  (IMP 0x4e0a4, chi ghi khi khac gia tri cu) vao key
+  splitScreenCarPlayApps cung domain. Log tu thu:
+  "CarSplit: %lu app CarPlay cho Settings, %lu app iPhone da chon
+  (App Bridge)". Key nay chay nguoc ve Settings (loadState nap thanh
+  carplayIDs/carplayGuessed de hien thi/khoa app da-la-CarPlay;
+  OMCSplitScreenAppPickerController.viewDidLoad dung lam ho ung vien
+  native cho picker chia o).
+- publishCarPlayApps — PHEP LOC "NATIVE" PHAN SAU (doc luot 2) [MA MAY]:
+  helper 0x21d4c lay nguon app tu ham 0x4672c =
+  [[UIApplication sharedApplication] sharedApplicationLibrary] (selector
+  dong, co guard respondsToSelector), roi gui allInstalledApplications.
+  Cong tung app = ham 0xffb4(proxy), tra YES khi du: bundleIdentifier
+  khac rong; KHONG bang bat ky: com.apple.CarPlayTemplateUIHost,
+  com.apple.CarPlayApp, com.apple.CarPlaySettings,
+  com.apple.InCallService (danh sach loai tru cung 4 bundle he thong);
+  KHONG phai _SCPIsInjectedPhoneApp(proxy); proxy responds
+  carPlayDeclaration VA declaration != nil; isHidden == NO; ket qua cuoi
+  = NOT presentsFullScreen.
+  Bo loc giao nhau = ham 0xdb30(): duyet connectedScenes -> UIWindowScene
+  -> windows, walker de quy (gioi han depth 14) tim view co ten class
+  hasSuffix: @"IconListView"; doc dong model/folder/lists/icons; moi icon
+  lay bundle id bang ham 0x44b5c — thu lan luot hai getter:
+  applicationBundleID roi leafIdentifier; gom vao NSMutableOrderedSet.
+  Ket qua cache o __bss 0x88198, chi thay khi so phan tu >= 2 VA mang moi
+  khac cache; khi thay thi log "CarSplit: man chinh CarPlay co %lu app:
+  %@". Trong 0x21d4c: tap nay non-nil -> app chi qua neu bundle id thuoc
+  tap; nil -> bo qua dieu kien giao nhau. TUC LA ROSTER NATIVE CUA
+  OMNICAR = DECLARATION THAT GIAO VOI TAP ICON DANG THAT SU CO TREN MAN
+  CHINH CARPLAY SONG.
+  Dict xuat ra: {"id": bundleID, "name": displayName ?: bundleID}.
+  CALLER cua publishCarPlayApps: hook DBDashboardRootViewController
+  -viewDidAppear: @0x6988 (xem Phan D.4).
+- Di vao thu vien: phia xe, catalog cua picker/tang chia o = app CarPlay
+  native hop app trong appBridgeApps. Duong vao Home goc gom hai mat
+  xich: (i) hook +_newApplicationLibrary noi cac app da chon vao doi
+  tuong thu vien goc bang addApplicationProxy:withOverrideURL:; (ii) moi
+  app info chay qua _loadFromProxy: + helper 0x9b34 de declaration duoc
+  giu nguyen (native) hoac che (da chon). Hien thi icon tren luoi do hook
+  isIconVisible: + hai key homeScreenHiddenApps/homeScreenShownApps cua
+  chinh OmniCar quyet dinh.
+- Phia Core (SpringBoard) co mot ham tieu thu duy nhat 0x4ca0 doc ca hai
+  key appBridgeApps/splitScreenCarPlayApps cung mot bang bundle cung de
+  PHAN LOAI bundle->nhan (system/car/ten-key): bang cung gom nhom dan
+  duong com.apple.Music, com.apple.Maps, com.apple.podcasts,
+  vn.vietmap.live, com.lumi.GOFA, com.waze.iphone — day la bang phan loai
+  dong san, KHONG phai gia tri mac dinh cua hai key, va ham nay chi doc
+  chu khong ghi.
+
+C.4. NHOM LAUNCH (quyet dinh app mo bang duong nao)
+9. DBApplicationLaunchInfo (metaclass) +launchInfoForApplication: —
+   sub_4dfc [MA MAY doc luot 2]: lay bundleIdentifier bang selector dung
+   dong (NSSelectorFromString, thieu selector thi _SCPMissingSelector),
+   roi kiem _SCPIsInjectedPhoneApp(bundleID) @0x9980 (kiem tra bundleID
+   co nam trong mot tap toan cuc duoc @synchronized bao ve — tap app
+   iPhone da duoc inject declaration). App da inject -> TRA NIL THANG,
+   khong goi goc (launch info bi chan o tang nay). App thuong/native ->
+   goi IMP goc (luu tai [0x87fe0]) va tra nguyen ket qua.
+10. DBApplicationLaunchInfo (metaclass)
+    +launchInfoForApplication:withActivationSettings: — sub_4f30
+    [MA MAY]: app da inject -> goi [[SCPCarSplit shared]
+    launchPhoneAppIfNeeded:bundleID] (chuyen launch sang duong AppBridge)
+    ROI VAN TRA NIL. App thuong -> goi IMP goc voi du (self, _cmd, app,
+    activationSettings). Catch exception -> log "launchInfoForApplication",
+    tra nil. Khac biet duy nhat giua hai hook: ban co activationSettings
+    chu dong bao cho SCPCarSplit de no tu lo viec mo app; ban mot tham so
+    chi chan lang.
+11. DBDashboard -_launchAppWithInfo:forURL: — sub_61d0: diem re nhanh:
+    lay bundle -> SCPCarSplit launchPhoneAppIfNeeded: — neu isCarPlayApp:
+    dung (app native, gom ban do) -> GOI LAUNCH GOC NGUYEN VEN; chi app
+    bridge moi bi divert sang tu host (openApp:slot: khi split active,
+    hostSolo: khi solo).
+
+C.5. TAI LIEU GOC CUA DU AN VE PICKER OMNICAR (29/10) — DOI CHIEU
+Thu muc sideplay/audit/omnicar-iphone-picker-20261029/ tren spec-main:
+2 file nghien cuu tang tren (DUODASH_OMNICAR_COMBINED_ARCHITECTURE_
+RESEARCH_20261029.md, VERIFIED_ORIGINAL_IPHONE_ALLOWLIST_TO_CARPLAY_
+20261029.md), 4 thu muc runs (4 file REPORT.md gan nhu trung het nhau,
+la ban dump bang chung payload/method/strings cua deb goc),
+APP_MANAGER_METHODS.md, RESOLVED_105_APP_MANAGER.md,
+ORIGINAL_OMNICAR_APP_FILTER_ARM64.md (quet callsite ARM64 tung ham).
+- Khop: toan bo khung prefs/picker khop tung IMP/key voi ho so deb — day
+  chinh la nguon goc ma ho so deb ke thua.
+- Tai lieu goc sau hon o tang iPhone prefs + callsite ARM64 cua
+  loadState/storeChoices/publishCarPlayApps, va thua hai phan ho so deb
+  khong co: bang chung DuoDash (DuoDashAppPickerController, My Apps/System
+  Apps, appbridge_app_sections) va ban khuyen nghi thiet ke ket hop 7
+  diem cho DuoFace .94.
+- Tai lieu goc thieu/nong hon o tang dashboard: khong he chua cac hook
+  DB*/DashBoard ma ho so deb dao duoc o dot sau. Chinh tai lieu goc tu
+  ghi gioi han: "Original method strings do not by themselves prove prefs
+  save and CarPlay filtering callback branches" — tai thoi diem viet
+  (29/10) chua disasm tron chuoi read/write/containsObject.
+
+================================================================================
+PHAN D — OMNICAR: CHE DO TRONG O CHIA (SPLIT SLOT)
+================================================================================
+
+D.0. HAI DUONG VAO O CHIA
+- Duong A — App Bridge (app iPhone thuan, nguoi dung chon trong Settings):
+  co HOST that — ABHost phia SpringBoard host scene cua app vao cua so xe.
+- Duong B — app CarPlay-native (gom app ban do): KHONG host gi ca — scene
+  CarPlay van do iOS/DBWorkspace tao va so huu; OmniCar chi dung trong
+  process CarPlay uon hai quyet dinh cua dashboard (kich thuoc frame +
+  khong cho deactivate/background) cong cong trinh bay (muc D.4, D.5).
+
+D.1. DUONG A — CHUOI HAM: CHON APP -> SCENE HIEN TRONG O [MA MAY]
+Phia xe (process CarPlayApp, OmniCarSplitScreen.dylib) — dieu phoi slot:
+- SCPCarSplit publishCarPlayApps (IMP 0x21b1c) dung catalog picker = app
+  CarPlay native hop app trong CFPreferences key appBridgeApps (nguoi
+  dung chon o Settings, OMCAppBridgeAppsController.storeChoices ghi).
+- Chon app cho o: SCPCarSplit openApp:slot: (IMP 0x164d4) ->
+  sendLaunch:bundle:tries: (0x16e04) -> hostApp:inPane: (0x3e490); che do
+  mot app toan vung: hostSolo: (0x3f9c0), don solo cu bang
+  endHostedSolo/showSoloCoverForBundle:.
+- Giao thuc sang SpringBoard (tu vung API): hostPost:info:,
+  hostFrameInfo:pane:live:handle:, hostFrameForPane:,
+  hostPassInsetsForPane:, hostClose:terminate:, hostCloseAll, hostSolo:;
+  chieu nguoc hostedApp:state:.
+Phia SpringBoard (OmniCarAppBridge.dylib, class ABHost, +shared, ~64
+method):
+1. ABHost openApp:frame: (IMP 0xb8a0) -> ensureWindow (0xaea8): duyet cac
+   screen, doc thuoc tinh dong uniqueId, khop voi ABHost.displayID
+   (helper 0xb4e4 resolve CADisplay + AVExternalDevice
+   currentCarPlayExternalDevice); dung FBSDisplayIdentity bang
+   initWithCADisplay:isMainDisplay: va FBSDisplayConfiguration bang
+   initWithDisplayConfiguration: -> tao UIRootSceneWindow cua SpringBoard
+   dat tren display CarPlay (ABHost.carWindow, IMP 0xf3d0; co chuoi loi
+   "khong tao duoc UIRootSceneWindow"). TIEN TRINH SO HUU CUA SO XE =
+   SPRINGBOARD.
+2. Tao ABPane + ABBoxView (initWithFrame:, nen den, clipsToBounds) ->
+   setupLiveAppViewForPane: (IMP 0xc2bc) ->
+   setFrame:forApp:live:handle:passInsets: -> setupHandleForPane: ->
+   shield.
+3. Than setupLiveAppViewForPane: da giai ma day du: SBApplicationController
+   sharedInstance -> applicationWithBundleIdentifier: ->
+   SBSceneManagerCoordinator -> mainDisplaySceneManager (ep
+   SBMainDisplaySceneManager) -> lay displayIdentity cua chinh manager do
+   (= identity cua MAIN DISPLAY/dien thoai) -> helper invocation 0xdef0
+   goi sceneIdentityForApplication voi display = main ->
+   SBApplicationSceneHandleRequest
+   defaultRequestForApplication:sceneIdentity:displayIdentity:
+   (displayIdentity van la main) ->
+   fetchOrCreateApplicationSceneHandleForRequest: ->
+   SBDeviceApplicationSceneHandle -> SBAppViewController
+   initWithApplicationSceneHandle: -> _createSceneViewController ->
+   setDisplayMode:animationFactory:completion: voi
+   defaultDisplayModeAnimationFactory -> gan pane.application,
+   pane.appViewController, pane.sceneMonitor, chen view cua VC vao
+   pane.box (ABBoxView).
+KET LUAN DUONG A: scene duoc host la scene primary/main-display co san cua
+app (dung FBScene iPhone dang hien thi), lay-hoac-tao qua
+SBMainDisplaySceneManager voi main display identity o ca hai cho; identity
+cua display xe chi dung o tang cua so (ensureWindow). Toan bo tham chieu
+FrontBoard/SpringBoard resolve luc chay bang chuoi dong (chong quet tinh).
+Kenh lien lac giua cac vai: Darwin notify ho
+com.anlai.omnicar/appbridge.* — .open, .close, .closeall, .frame, .shield,
+.knobs, .knobtouch, .handletap, .handledrag, .baraction, .bardismiss,
+.keyboard, .key, .orientation, .apporient, .state — cong
+com.anlai.omnicar/car.connected, /prefschanged, /lite, /log va
+com.anlai.omnicar/splitscreen.{native,ack,ready,kill}; du lieu trang thai
+di kem qua notify-state/CFPreferences domain com.anlai.omnicar.
+GIAO THUC HOST* — PAYLOAD (doc luot 2, ca hai dau) [MA MAY]: co che mang
+payload la NSDistributedNotificationCenter voi payload la NSDictionary
+trong userInfo — khong phai Darwin notify name-only, khong dung
+notify_set_state/get_state, khong dung CFPreferences cho cac lenh host*.
+- Dau phat (SplitScreen): hostPost:info: IMP 0x3c968 co than dung mot
+  viec: [[NSDistributedNotificationCenter defaultCenter]
+  postNotificationName:name object:nil userInfo:info].
+  hostFrameInfo:pane:live:handle: IMP 0x3d39c dung dict (11 cap roi
+  mutableCopy va bo sung) voi cac key: identifier, x, y, w, h (bon so
+  hinh hoc dong hop NSNumber), live, handle, pt/pl/pb/pr (passInsets lay
+  tu [self hostPassInsetsForPane:]; pane nil -> UIEdgeInsetsZero). Caller
+  dang dict nay duoi ten com.anlai.omnicar/appbridge.frame.
+  Cac ten lenh khac chot tu call-site cua hostPost:info::
+  com.anlai.omnicar/appbridge.open (info 5 cap),
+  com.anlai.omnicar/appbridge.closeall (info = {except: <id>} hoac dict
+  rong — than hostCloseAll @0x3f25c).
+- Dau nhan (AppBridge, phia SpringBoard): trong ham bootstrap @0x7004+:
+  center = [NSDistributedNotificationCenter defaultCenter]; dang ky
+  addObserverForName:object:queue:usingBlock: lan luot cho
+  .../appbridge.open, /frame, /shield, /close, /closeall, /knobs; cac
+  handler doc [notification userInfo] roi objectForKeyedSubscript: tung
+  key — khop voi than xu ly @0x783c cua ABHost.
+- Kenh phu: notify_register_dispatch cho
+  com.anlai.omnicar/appbridge.apporient va .../appbridge.keyboard —
+  name-only that. Ngoai ra ABHost con nghe NSNotificationCenter cuc bo
+  CarPlayIsConnectedDidChange.
+
+D.2. DUONG B — CHUOI HAM (app ban do/native) [MA MAY]
+SplitScreen cai MSHookMessageEx truc tiep (installer ~0x4550) len cac
+diem quyet dinh cua CarPlayApp:
+1. Danh muc: publishCarPlayApps tu quet app da cai, phan loai native, ghi
+   prefs splitScreenCarPlayApps; app iPhone thuan do nguoi dung chon ->
+   appBridgeApps.
+2. Vao thu vien Home: hook DashBoard +_newApplicationLibrary (IMP hook
+   0x4af0) — goi goc lay thu vien CarPlay goc roi noi cac app bridge vao
+   chinh thu vien do (helper 0x9a60/0xc37c/0xa500). Moi app info chay qua
+   hook DBApplicationInfo -_loadFromProxy: (0x4bcc) -> helper 0x9b34:
+   app da co _carPlayDeclaration that -> ghi log "da co declaration that
+   (app CarPlay) -> khong chen" va bo qua nguyen trang; app bridge chua
+   co -> che CRCarPlayAppDeclaration (xem Phan C.2).
+3. Mo app: hook DBDashboard -_launchAppWithInfo:forURL: (IMP 0x61d0) ->
+   SCPCarSplit launchPhoneAppIfNeeded:: la app bridge -> bo qua launch
+   goc, divert sang duong A (openApp:slot: khi split active / hostSolo:
+   khi solo); la app native -> GOI GOC NGUYEN VEN. Cac hook tang
+   launch-info: DBApplicationLaunchInfo (xem C.4).
+4. Trinh bay: scene CarPlay cua app do DBApplicationSceneViewController
+   cua iOS trinh bay nhu binh thuong (vo boc phia OmniCar: SCPHostedAppVC
+   — xem D.5).
+5. Vao o: xem D.3 (hinh hoc) va D.4/D.5 (giu song + cong trinh bay).
+He qua: voi app native, OmniCar khong tao scene thu hai, khong gianh
+quyen so huu session -> Cai dat CarPlay goc giu nguyen khong xung dot.
+
+D.3. HINH HOC: sceneBox, CHU GHI, TRANSFORM
+Duong A [MA MAY]:
+- ABPane giu hai hinh hoc tach bach: _frame (CGRect — vi tri/kich thuoc o
+  trong cua so xe) va _sceneBox (CGSize — kich thuoc noi dung scene; ivar
+  offset 128, accessor sceneBox @0xa2a8 trong AppBridge).
+- setFrame:forApp:live:handle:passInsets: (IMP 0xfe68) la diem ghi: set
+  frame cho box + set frame/center cho view cua appViewController, doc
+  sceneBox, roi goi layoutPane: + layoutBarForPane: (co
+  animateWithDuration).
+- layoutPane: day kich thuoc vao scene qua NSInvocation dung dong — dich
+  la cap nhat reference size + orientation cua scene view; khop chuoi mo
+  ta hook trong binary tren SBSceneView -_updateReferenceSize:
+  andOrientation:. Cap nhat settings scene qua ho selector FBScene
+  -updateSettings:withTransitionContext:completion:,
+  updateSettingsWithBlock:, clearActivationSettings.
+- Phia SplitScreen co cac ham tuong ung: pushSceneSizes,
+  sendHostFrameForPane:live:, hostFrameInfo:pane:live:handle:; SCPCarPane
+  giu _sceneSize + _hostFrame + _hostHole.
+- App render O KICH THUOC O (sceneBox = kich thuoc o x he so zoom tuy
+  chon appBridgeZoom/ABHost.zoom), KHONG render kich thuoc dien thoai roi
+  thu nho, KHONG co hang so supersample.
+- CHU GHI DUY NHAT = phia SpringBoard (scene settings + reference size
+  qua SBSceneView). Khong co lease vao process app, khong co relay resize
+  cua so trong app. Tai tinh moi lan setFrame: (khi hien/doi o), khong bam
+  thoi gian thuc luc keo divider.
+- APPBRIDGEZOOM — CONG THUC DA CHOT (doc luot 2) [MA MAY]: kich thuoc
+  render = kich thuoc o CHIA cho zoom, lam tron toi so nguyen gan nhat
+  bang frinta; view host duoc scale nguoc lai bang dung zoom do. Zoom =
+  pref phan tram chia 100, kep trong [0,6 - 1,0].
+  -[ABHost zoom] IMP 0xae20: _OMCPrefsSync() roi _OMCPref(@"appBridgeZoom",
+  mac dinh); z = value / 100.0 (fdiv voi hang 100.0 tai 0xae60); fmaxnm
+  voi hang 0,6; neu > 1,0 thi lay 1,0. (Gia tri mac dinh cu the cua pref —
+  object literal @0x395a0 — chua giai ra so; khong anh huong cong thuc.)
+  Noi ap dung chinh: -[ABHost layoutPane:] IMP 0xec80 (so 0xd9d4 trong ho
+  so cu khong khop IMP nay): W,H = pane.appViewController.bounds.size;
+  neu W < 2 hoac H < 2 thi bo qua; tai 0xed74: contentW = frinta(W / z),
+  0xed7c: contentH = frinta(H / z). Sau do tren view cua scene: reset
+  setTransform: identity -> setFrame: = {0, 0, contentW, contentH} ->
+  setTransform: = CGAffineTransformMakeScale(z, z) -> setCenter: =
+  {W/2, H/2}. Phia scene: updateSettingsWithBlock: voi block invoke
+  @0xf210 dat setFrame: = {0,0,sw,sh} — (sw,sh) la (contentW,contentH),
+  hoan doi khi orientation thuoc nhom landscape — kem
+  setInterfaceOrientation:, setBackgrounded: NO, setForeground: YES (scene
+  lay qua chuoi dong sceneHandle -> sceneIfExists).
+  Tai 0xf074: [pane setSceneBox:{W, H}] — tuc ivar sceneBox cua ABPane
+  luu KICH THUOC O GOC, khong phai kich thuoc da chia zoom; con so render
+  that (o chia zoom) song o frame cua view host va settings cua scene.
+  zoom con duoc goi trong openApp:frame: (call-site 0xbbec) va nudgePane:
+  (call-site 0xfaac).
+Duong B [MA MAY]:
+- Hook DBDashboard -sceneFrameForAppInfo:proxyAppInfo: (IMP 0x5cf0): goi
+  goc lay frame goc; neu app dang trong o chia (SCPCarSplit
+  paneSize:forBundle: tra YES + size) -> THAY SIZE cua frame bang size o,
+  GIU NGUYEN origin. Scene CarPlay goc tu render dung kich thuoc o. Chu
+  ghi kich thuoc o = SCPCarSplit paneSize:forBundle: (mot nguon duy nhat
+  phia CarPlayApp).
+- Hook DBDashboard -safeAreaInsetsForAppInfo:proxyAppInfo: (IMP sub_5e84,
+  doc luot 2) [MA MAY]: goi IMP goc TRUOC, giu nguyen bo insets goc
+  (d8-d11). Tinh bundle that bang
+  _SCPRealBundleForInfos(appInfo, proxyAppInfo), roi hoi
+  [[SCPCarSplit shared] paneSize:forBundle:]. Neu app dang nam trong o
+  chia (paneSize tra YES) -> thay toan bo insets bang UIEdgeInsetsZero
+  (nap tu _UIEdgeInsetsZero tai 0x5f48-0x5f54). Neu khong -> tra insets
+  goc nguyen ven. No KHONG cong/tru tung canh — chi co hai trang thai:
+  goc hoac zero. Toan than boc @try/@catch: exception -> log tag
+  "safeAreaInsetsForAppInfo" (helper 0x75cc) va roi ve insets goc.
+
+D.4. CONG TRINH BAY CUA DASHBOARD GOC (doc luot 2) [MA MAY]
+- DBDashboardRootViewController
+  -presentBaseViewController:animated:launchSource:completion: —
+  sub_636c: Split khong active -> goi goc thuan tuy. Split active: hoi
+  [split wantsViewController:vc]. Neu YES -> [split
+  adoptViewController:vc], TU GOI completion block cua dashboard roi
+  KHONG GOI GOC — VC bi split "nhan nuoi" vao o cua no thay vi duoc
+  dashboard trinh toan man. Neu NO -> ghi log dung chuoi:
+  "CarSplit: DashBoard mo %@ toan man -> tat split" (CFString 0x79ee0,
+  category SplitScreen), goi [split closeGoingHome:NO], roi goi goc. Sau
+  khi goc chay xong: log "CarSplit: DashBoard trinh bay %@ toan man
+  (nguon %llu)" (%llu = launchSource), goi [split
+  baseViewControllerPresented] + [split refreshAppTabSoon], dong thoi
+  hen dispatch_after ~0,8s tren main queue: neu luc do
+  currentBaseViewController cua root van la VC vua trinh -> [split
+  repairPresentedViewController:vc] (tag catch cua nhanh nay la
+  "presentBaseViewController (adopt)"). Vai tro: day la diem gac cong hai
+  chieu — VC ma split quan thi chan khong cho len toan man; VC la duoc
+  len toan man thi split ghi nhan "tat split", va con mot vong "repair"
+  tre 0,8s de gianh lai neu VC toan man do thuc ra thuoc ve no.
+- DBDashboardRootViewController -dismissBaseViewControllerAnimated:
+  completion: — sub_66dc: KHONG chan dismiss. Split active thi: doc
+  [self currentBaseViewController]; neu == nil -> log "CarSplit:
+  DashBoard ve man chinh -> tat split" + [split closeGoingHome:NO]; luon
+  goi [split removeAppTab] truoc, goi goc, roi [split refreshAppTabSoon]
+  sau.
+- DBDashboardRootViewController -viewDidLayoutSubviews — sub_68e8: goi
+  goc truoc, sau do [[SCPCarSplit shared] rootDidLayout] — moi layout cua
+  root la mot nhip de split bo tri lai. Tag catch: "rootDidLayout".
+- DBDashboardRootViewController -viewDidAppear: — sub_6988: goi goc, roi
+  hen hai moc tren main queue: +3,0s (0xb2d05e00 ns) -> [split
+  publishCarPlayApps], [split carScreenAppeared],
+  _SCPAppIconsCarScreenOK() (tag catch nguyen van "viewDidAppear (sau
+  3s)"); +7,0s (0x1a13b8600 ns) -> _SCPDumpAppLibraryOnce() (dump thu
+  vien app mot lan, thuan chan doan).
+- DBDashboard -_handleHomeEvent: — sub_601c: TRUOC goc:
+  wasActive = [split active]; neu dang active -> [split
+  closeGoingHome:NO]; luon goi [split homePressedDuringSplit:wasActive].
+  Sau do GOI IMP GOC VO DIEU KIEN — su kien Home khong bi nuot, hook chi
+  bao cho SCPCarSplit biet de no tu dong split. Tag catch:
+  "_handleHomeEvent".
+- DBDashboard -invalidate — sub_611c: goi [[SCPCarSplit shared]
+  dashboardInvalidated] roi tail-call IMP goc.
+- DBApplicationSceneViewController -sceneManager:didDestroyScene: —
+  sub_6c78: TRUOC goc: ownScene = [split sceneOfViewController:self]; goi
+  goc; SAU goc: [split scene:<scene vua huy>
+  destroyedForViewController:self ownScene:ownScene] — de SCPCarSplit doi
+  chieu scene bi huy co phai scene dang host trong o cua no khong ma don
+  pane.
+- FBSDisplayLayoutPublisher -addElement: — sub_6e10: day la hook CHONG
+  KHAI BAO TRUNG layout element, khong lien quan truc tiep toi scene app:
+  lay element.identifier; khong phai NSString -> goi goc ngay. Quet do
+  thi ivar kieu object cua chinh publisher (duyet ca chuoi superclass
+  bang class_copyIvarList/object_getIvar/class_getSuperclass): ivar la
+  NSDictionary/NSMapTable -> thu objectForKey:identifier, roi quet key
+  co hasSuffix: ":" + identifier, va phan tu con co thuoc tinh identifier
+  bang isEqualToString: (helper de quy tai 0x8350); ivar conform
+  NSFastEnumeration -> liet ke phan tu va kiem tuong tu. Neu identifier
+  DA ton tai: log "CarSplit: bo khai bao trung %@ (tranh assert cua
+  iOS 15)", KHONG goi goc, va tra ve mot SCPNoopLayoutAssertion moi
+  (class tu dinh nghia cua binary, chi co -invalidate rong) lam assertion
+  thay the — tranh assert trung element cua iOS 15. Chua ton tai -> goi
+  IMP goc, tra ket qua goc.
+
+D.5. SCPHostedAppVC — VO TUAN THU GIAO THUC, KHONG HOST SCENE [MA MAY]
+@interface UIViewController, ivar duy nhat _bundleID:
+- viewDidLoad @0xfc58: [super viewDidLoad];
+  self.view.backgroundColor = [UIColor colorWithWhite:0.08 alpha:1.0] —
+  chi son nen xam gan den.
+- backgroundSceneWithCompletion: @0xfd14: neu completion != nil thi GOI
+  NGAY LAP TUC; khong dung vao bat ky scene nao.
+- foregroundSceneWithSettings:completion: @0xfd60: bo qua settings, goi
+  completion ngay; khong foreground scene nao.
+- applicationInfo @0xfdac / proxyApplicationInfo @0xfdb4 /
+  sceneHostView @0xfdbc: ca ba deu la hai lenh "mov x0, #0; ret" — TRA
+  NIL CUNG.
+- bundleID/setBundleID:: accessor copy tong hop thong thuong.
+KET LUAN: SCPHostedAppVC khong tu host scene nao ca — khong FBScene,
+khong scene handle, khong chen view con; view cua chinh no chi la mot nen
+mau. No la VC "vo tuan thu giao thuc": mang dung bo method ma dashboard
+mong doi o mot scene view controller nhung moi method deu tra loi
+rong/xong-ngay. [SUY LUAN] Vai tro cua no la de SCPCarSplit co mot VC hop
+le ve mat giao dien lap trinh ma dat vao cac vi tri dashboard theo doi
+(base view controller), trong khi scene that cua app duoc quan o noi
+khac — phu hop voi viec hook present goi adoptViewController:/
+repairPresentedViewController: o muc D.4.
+
+D.6. GIU SCENE SONG: CAC HOOK DIEM-QUYET-DINH
+Duong A — phia SpringBoard (cai trong init 0x6e08 cua AppBridge, chi chay
+khi mainBundle.bundleIdentifier == "SpringBoard"; 4 MSHookMessageEx len
+SBSuspendedUnderLockManager, SBSceneView, FBScene + MSHookFunction len
+BKSDisplayServicesSetScreenBlanked qua dlsym) [MA MAY]:
+- SBSuspendedUnderLockManager
+  -_shouldBeBackgroundUnderLockForScene:withSettings: — hook tai dung
+  noi SpringBoard quyet dinh xep scene vao dien background-duoi-khoa;
+  chan quyet dinh do cho scene cua app duoc host -> scene khong bi chim
+  duoi khoa. [kem HO SO qa130]
+- BKSDisplayServicesSetScreenBlanked (MSHookFunction) — DUONG UNBLANK DA
+  CHOT TOAN BO (doc luot 2) [MA MAY]: Installer nam trong ham init
+  @0x6e08 cua AppBridge: tai 0x6f50 dlsym(RTLD_DEFAULT,
+  "BKSDisplayServicesSetScreenBlanked"); neu NULL -> log "khong tim thay
+  BKSDisplayServicesSetScreenBlanked"; neu co -> MSHookFunction(fn,
+  replacement=0x777c, &orig tai slot 0x3ea10). Ham thay the sub_777c
+  @0x777c: neu tham so blanked != 1 -> tail-call orig(blanked). Neu
+  blanked == 1: n = [[ABHost shared] count]; n == 0 -> tail-call orig(1),
+  khong hen gio; n != 0 -> goi orig(1) ngay, roi
+  dispatch_after(dispatch_time(0, 0x3B9ACA00 = 1.000.000.000 ns),
+  main queue, block @0x347d0) va return. Block @0x347d0: block toan cuc
+  (khong capture); invoke @0x9688 gom dung: nap orig tu slot 0x3ea10,
+  w0 = 0, tail-branch — tuc orig(0). DIEU KIEN count != 0 CHI KIEM TAI
+  THOI DIEM BLANK, KHONG KIEM LAI KHI BLOCK CHAY.
+- Chet scene: ABHost sceneMonitor:sceneWasDestroyed: + phia SplitScreen
+  sceneManager:didDestroyScene: / verifySceneOfPane:expected:retry: ->
+  don pane, tranh giu view chet.
+- Ngat CarPlay: ABHost.carDisconnected; kenh
+  com.anlai.omnicar/car.connected do OmniCarCarProbe (CarPlayApp, quan
+  sat UIScreenDidConnect/Disconnect) phat.
+Duong B — phia CarPlayApp [MA MAY]:
+- DBApplicationSceneViewController -deactivateSceneWithReasonMask:
+  (IMP hook 0x6b44): hoi SCPCarSplit protectsViewController: — app dang
+  duoc bao ve (dang trong o) -> ghi log "chan deactivate scene (mask=%llu)
+  cua app trong ngan" va NUOT LUON, KHONG goi goc; khong duoc bao ve ->
+  tail-call goc nguyen ven. Dieu kien kich hoat = app nam trong o chia
+  tai thoi diem dashboard ra lenh deactivate.
+- DBApplicationSceneViewController -backgroundSceneWithCompletion:
+  (IMP hook 0x69fc): chan background scene cua app trong o (chuoi log cua
+  ho: "chan background scene cua app trong ngan").
+
+D.7. DUONG CHAM: TU MAN XE TOI PROCESS APP
+Duong A [MA MAY + suy luan ghi ro]:
+- Vi scene that duoc host bang SBAppViewController trong mot
+  UIRootSceneWindow that cua SpringBoard tren display xe, cham di theo
+  touch-stack thuong cua SpringBoard -> cua so xe -> scene host view ->
+  scene cua app — scene nhan cham TRUC TIEP, khong chuyen tiep, khong
+  tong hop su kien. [MA MAY — bang chung vang mat: 241 import cua
+  AppBridge khong co IOHIDEvent*, khong IOSurface/capture API; phan "di
+  theo duong thuong" la SUY LUAN co hoc tu cau truc host.]
+- Lop chan co lo (dieu kien cham toi app): ABShieldView phu tren pane —
+  touchesBegan:withEvent: (@0xa4c4) -> ABHost.outsideTouched (cham NGOAI
+  vung app = su kien chrome, khong vao app); setHole: (@0x9b2c) /
+  setHole:forApp: (@0x12ce4 tren ABHost) khoet lo trong shield dung vung
+  pane de cham xuyen xuong scene. Ban guong phia SplitScreen:
+  SCPCTouchWatch (UIView: hitTest:withEvent: override @0xe88c, setHoles:
+  @0xf4d4, block touched/exempt/outside).
+- Cac class cua so tao dong duoc them hitTest:withEvent: bang
+  class_addMethod luc chay (luong ensureWindow cua ABHost; luong
+  _SPPMakeCarWindow cua SplitScreen).
+- Hop dong toa do: scene render dung kich thuoc sceneBox (= kich thuoc o,
+  hoac o chia zoom theo D.3) nen toa do cham trong pane khop khong gian
+  toa do cua app theo thiet ke — khong can anh xa lai.
+- Cham chrome KHONG vao app: keo divider, num, nut bar duoc relay qua
+  Darwin notify com.anlai.omnicar/appbridge.handledrag, .handletap,
+  .knobtouch, .baraction, .bardismiss tu UI xe sang ABHost. (Kenh
+  appbridge.key qua NSDistributedNotification la kenh TEXT cho phim tu
+  ve, khong phai kenh cham.)
+Duong B [SUY LUAN tu co che da verified]: app native duoc dashboard goc
+trinh bay bang chinh DBApplicationSceneViewController cua iOS trong
+dashboard; OmniCar chi thay SIZE frame (giu origin) nen duong cham la
+duong cham goc cua stack CarPlay toi scene view do — khong co lop chuyen
+tiep nao cua OmniCar. Ho so chua co disasm rieng cho duong cham cua
+duong B.
+
+D.8. OMNICARCORE.DYLIB — RAO CAN LA TINH CHAT CUA BINARY [MA MAY, luot 2]
+Khong lay duoc inventory class/method vi Core DINH NGHIA 0 class/category
+ObjC — khong co gi de liet ke. Day la thu vien ham C thuan cong gui
+message toi class he thong.
+Bang chung: llvm-readobj-18 --sections doc section table binh thuong,
+nhung toan bo danh sach section khong co __objc_classlist va khong co
+__objc_catlist; section __objc_classname chi co kich thuoc 1 byte (rong);
+moi symbol _OBJC_CLASS_$_* trong llvm-nm-18 deu la U (undefined/import).
+Quet thu cong cau truc class_ro_t tren toan vung du lieu cho 0 ung vien
+hop le.
+Inventory thay the, lay duoc day du tu binary: 126 selector refs trong
+__objc_methname — noi bat: postNotificationName:object:userInfo:,
+addObserverForName:object:queue:usingBlock:,
+scheduledTimerWithTimeInterval:repeats:block:,
+displayLinkWithTarget:selector:, dataTaskWithRequest:completionHandler:,
+stringWithContentsOfFile:encoding:error:, writeToFile:atomically:,
+dictionaryWithContentsOfFile:...; 288 CFString; 32 classrefs; va cac
+export C (nm, ky hieu T): _OMCPrefsSync 0x6528, _OMCPref 0x6534,
+_OMCLogWrite 0x6be4, _OMCCheckHooks 0x7408, _OMCEnabled 0x659c,
+_OMCFeatureEnabled 0x65f8, _OMCLiteActive 0x6688, _OMCCrashGuard 0x7de8,
+_OMCTrustedTimeStart 0x44a8, _OMCExpired 0xc414, _OMCCarClass 0x72c0,
+_OMCCarLaunchInfo 0x7cd8, _OMCCarWireless 0x67e4, _OMCLogoMeshImage
+0xcb38, _OMCTr 0xc8c0, _OMCCurrentLanguage 0xc528.
+
+D.9. TONG KET KY LUAT CUA OMNICAR (tu tong hop hai luot)
+Bon nhom hook CarPlay cua SplitScreen deu theo cung mot ky luat — app
+native/VC la thi goi goc nguyen ven va chi quan sat + ghi log; can thiep
+cung chi xay ra dung ba cho: insets->zero va launchInfo->nil cho app da
+inject/dang trong o, chan present khi split "muon" VC do, va tra
+assertion rong khi layout element bi khai bao trung.
+
+================================================================================
+PHAN E — DUONAVI GOC: LAUNCH BRIDGE, CHUOI CBBridgeManager, CO CHE ICON HOME
+================================================================================
+
+DINH DANH: "DuoNavi goc" ma QA128/QA142/QA146 doi chieu la goi
+com.duonavi.app 1.0.4, dylib DuoNaviDashboard.dylib SHA256
+44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15, deb
+SHA256 f3f911de...328dd. Thu vien local KHONG giu file deb 1.0.4 nguyen
+ven — bang chung muc ma may cua ban 1.0.4 nam trong cac tai lieu audit
+tren repo (quet CI, ghim SHA). Ban dao truc tiep duoc tai local:
+- S1: ~/workspace/deb-ho-so/duonavi-1.0.3-12/HO_SO.md — goi com.duonavi.app
+  1.0.3-12+border-focus-red3, dylib ten DuoFaceDashboard.dylib, chua day
+  du CBBridgeManager/CBBridgeManagerDashboard. Muc bang chung: metadata
+  ObjC + chuoi + log format (ho so tu ghi: khong disassembly tung than
+  ham).
+- S2: ~/workspace/deb-ho-so/duoface-goc-1.0.4-1/HO_SO.md — cay rootfs goc
+  da boc san (nhan chu du an 1.0.4-1), co bang 243 diem hook giai tu
+  disassembly constructor + IMP tung method.
+- S3: repo spec-main sideplay/audit/qa128-postlock-helper-20261030/
+  ACTIVATION_HOME_RESULT.md — disassembly that cua dylib 1.0.4 (14 ham,
+  1.177 lenh ARM64).
+- S4: repo spec-main sideplay/audit/qa142-log20-home-launch-20261031/
+  REPORT.md + TWO_DEB_COMPARISON_AND_LAUNCH_GAP.md — callsite muc dia chi
+  trong dylib 1.0.4.
+- S5: repo spec-main sideplay/audit/qa146-native-home-dock-parity-20261031/
+  QA146_..._CROSSWALK.md — xref cung-ham cua dylib 1.0.4 (run CI
+  41186440398).
+- S6: repo spec-main sideplay/audit/duonavi-homeflow-observer-20261101/
+  LOG_20261101_VERDICT.md — log CHAY THAT tren may cua observer
+  (com.duoface.qa.duonaviobserver) ghi thu tu su kien cua ban goc.
+"DuoDash" trong kho la repack cua DuoFace, khong phai goc — khong dung lam
+bang chung DuoNavi. Dia chi IMP luon kem ban nguon vi moi binary co he dia
+chi rieng.
+
+E.1. TANG HOOK CHAM ICON (diem vao)
+Ban goc hook TOAN BO ho selector launch cua ca ba lop icon-manager phia
+CarPlay (S2, bang hook giai tu constructor; S1 Muc 5.2 — Dashboard tu ghi
+cac diem nay trong chuoi log [DuoFaceDB]):
+- CARIconManager: launchIcon: (#174), launchIcon:location:animated:
+  completionHandler: (#175), launchIconForIconView: (#172),
+  launchIconForIconView:withActions: (#173), iconTapped:,
+  iconTapped:modifierFlags: (#176/#177) — IMP 0x2cff50 / 0x2d0058 /
+  0x2cfd20 / 0x2cfe24 / 0x2d01c4 / 0x2d02c8.
+- SBHIconManager: launchIconForIconView: (#168),
+  launchIconForIconView:withActions: (#169), iconTapped:,
+  iconTapped:modifierFlags: (#170/#171) — IMP 0x2cf8d8 / 0x2cf9dc /
+  0x2cfb08 / 0x2cfc0c.
+- _CARDashboardHomeViewController: iconManager:launchIcon: (#231),
+  iconManager:launchIcon:location: (#232),
+  iconManager:launchIcon:location:animated: (#233),
+  iconManager:launchIcon:location:animated:completionHandler: (#234),
+  iconManager:launchIconForIconView: (#229),
+  iconManager:launchIconForIconView:withActions: (#230) — IMP
+  0x2eaa28 -> 0x2eaf60.
+- SBIconView/CARIconView/DBIconView: _handleTapGesture: (+ touchesEnded
+  o SBIconView) (S1 Muc 5.2, chuoi log).
+Moi bien the handler deu log cung mot khuon "bid=%@, isBridged=%d" (S1
+Muc 6.2): handler trich bundle id tu icon/iconView (ham C noi bo
+CBBundleIDForIconView; khi trich that bai co log "CBBundleIDForIconView
+FAILED"), roi phan nhanh theo co bridged. Nhanh chan co log rieng:
+"intercepted bridged app tap: %@" o ca CARIconView/DBIconView/SBIconView.
+
+E.2. DIEM QUYET DINH: +shouldInterceptLaunchForApp:
+- La class method cua CBBridgeManagerDashboard, types B24@0:8@16, IMP
+  0x2a314c (S2). Cung cum class method phan loai: +isOfficialApp:
+  (IMP 0x283c4c), +isBridgedApp: (IMP 0x283ea8),
+  +isDashboardPolicySignalActive (IMP 0x284068), +bridgedApps
+  (IMP 0x2a3364).
+- Trong dylib 1.0.4, callsite duoc trich tai ham xu ly icon 0x311094,
+  voi cac tham chieu cung-ham theo thu tu: setIcon: ->
+  shouldInterceptLaunchForApp: (0x3110f4) -> startBridging: (0x311144) ->
+  pending (0x311164) -> activated (0x31119c) -> stopBridging (0x3111d8);
+  con it nhat hai bien the handler nua tai 0x3112ac/0x3112fc va
+  0x311464/0x3114b0 (S4, S5). Tuc predicate nam BEN TRONG handler launch
+  da hook, quyet dinh tai cho: di bridge hay roi xuong launcher goc.
+- Dieu kien chan — phan co du kien: dau vao quyet dinh gom (a) tu cach
+  thanh vien cua bridgedApps — danh sach bundle nguoi dung chon trong app
+  cau hinh DuoFaceUI, luu o preferences com.duoface.plist; gia tri mac
+  dinh postinst ghi san 9 bundle: com.google.Maps, com.apple.Maps,
+  com.google.ios.youtube, com.apple.Music, com.apple.podcasts,
+  com.apple.tv, com.ss.iphone.ugc.Ame, com.ss.iphone.ugc.tiktok.lite,
+  vn.com.vng.zingalo (S1 Muc 8.2); (b) predicate isOfficialApp: (app von
+  la CarPlay app chinh thuc); (c) trang thai "policy signal" phia
+  Dashboard (isDashboardPolicySignalActive, dong bo qua dia bang
+  CBBridgeManager -syncDashboardPolicySignalToDisk); (d) cong license:
+  chuoi log nguyen van phan hai nhanh — "License inactive/expired for
+  native CarPlay app %@ -> PASS-THROUGH to native launcher" va "License
+  inactive/expired for non-native app %@ -> INTERCEPTING to present
+  warning modal" (S1 Muc 6.2). Tuong tu o tang policy:
+  "effectivePolicyForAppDeclaration: policy signal inactive for native
+  app %@ -> 100% %orig pass-through".
+- KHONG CO DU KIEN: cong thuc boolean chinh xac ben trong than IMP cua
+  shouldInterceptLaunchForApp: (thu tu AND/OR giua bridged/official/
+  license) — ca S1 (khong disassembly than ham) lan S3/S4 (chi trich
+  callsite/xref) deu khong giai toi muc do. Cung chua ro app vua native
+  vua nam trong bridgedApps (vd com.google.Maps co mat trong danh sach
+  mac dinh) thi predicate nghieng ve nhanh nao khi license con han.
+
+E.3. startBridging: VA DUONG KICH HOAT
+CBBridgeManagerDashboard (33 instance method, instanceSize 24, ivar
+_activated, _pending, _pendingCompletion — S1; IMP theo S2):
+- -startBridging: IMP 0x2a33c0; -startBridging:withCompletion:
+  IMP 0x2a33d0.
+- Chuoi chuan bi: -prepareAndRequestActivation: (IMP 0x2a3478) ->
+  -prepareHomeScreenForBridge: (IMP 0x2a3600, tham so la completion
+  block) -> -requestActivation: (IMP 0x2a3ad0; log "[DuoFaceDB]
+  requestActivation called for bundleID=%@ (pending=%d)").
+- Du lieu truyen qua dau (S1 Muc 7.3 — 3 kenh song song): (1) file
+  request plist do class CBBridgeRequest ghi (log loi "Failed to write
+  request plist", "Failed to save request plist: %@"); (2) Darwin notify
+  / CFNotificationCenter Darwin (Dashboard import ca
+  CFNotificationCenterPostNotification lan notify_post/
+  notify_register_dispatch); (3) file trang thai
+  /var/tmp/com.duoface.bridgestate.plist (postinst chmod 0666 de moi tien
+  trinh ke ca app sandbox deu doc/ghi duoc; ban legacy
+  /var/tmp/com.tiz.carbridge.bridgestate.plist).
+- Phia SpringBoard nhan: CBBridgeManager
+  -receivedAppRequestNotification: -> -loadNewAppFromCurrentRequest:
+  (S1 metadata CBBridgeManager, 73 method) -> dung CBWindow tren display
+  xe, host scene app (mot o: CBBridgedUIApp/CBBridgedPortalApp; chia o:
+  CBBridgedSplitApp) -> gui trang thai nguoc lai bang
+  -sendStateToApp:shouldBridge: va co che state-dict (muc E.4).
+
+E.4. CHUOI GIAO DICH CBBridgeManager / CBBridgeManagerDashboard
+Hai owner tach biet, khong duoc gop co (S3 nhan manh):
+CBBridgeManagerDashboard song phia Dashboard/CarPlayApp giu co activated
+cua rieng no; CBBridgeManager (instanceSize 144) song phia SpringBoard
+giu co activated rieng (getter 0x1bf3cc/setter 0x1bf3d4 trong ban 1.0.4)
+cong _currentApp, _sessionBridgedBundleIDs, _autoResumeBundleID.
+- Kich hoat (Dashboard nhan state): CBBridgeManagerDashboard
+  -handleStateDict: (IMP S2 0x2a45f4; ban 1.0.4 tai 0x2c6f88) doc khoa
+  activated (bool) cua dictionary trang thai:
+  activated=true -> -bridgeDidActivate: (IMP S2 0x2a4738; 1.0.4 tai
+  0x2c70cc). Xref cung-ham trong ban 1.0.4 (S5): setActivated: ->
+  setAppDockActiveBundleID: -> setHomeButtonInApp:, dung thu tu do.
+  activated=false -> -bridgeDidDeactivate (IMP S2 0x2a47ac; 1.0.4 tai
+  0x2c7140) — xref cung-ham cung la BA selector tren: dat co NO tai
+  0x2c715c, xoa Dock bundle, setHomeButtonInApp: NO (S3).
+  -setHomeButtonInApp: (IMP S2 0x2a4a3c; 1.0.4 tai 0x2c73d0) ben trong
+  tham chieu homeButton va setDisplayState: (S5) — tuc no dieu khien
+  TRANG THAI HIEN THI CUA NUT HOME GOC trong app, khong chi la mot co
+  noi bo. Co bay loi rieng: "[DuoFaceDB] setHomeButtonInApp exception:
+  %@" (S1).
+- Trang thai duoc dong bo khi kich hoat/huy kich hoat: (1) co activated
+  cua Dashboard manager; (2) bundle id dang active trong Dock goc
+  (setAppDockActiveBundleID: — day la mat lam app dang bridge hien dien
+  nhu app active/recent trong Dock native); (3) trang thai nut Home
+  (setHomeButtonInApp: + setDisplayState:); (4) phia SpringBoard:
+  currentApp, tap _sessionBridgedBundleIDs, va noi dung bridgestate
+  plist ma phia app doc lai qua CBAppStateListener -checkStateFile — app
+  tu ghi nhan "Activated via disk state file: size={%.1f, %.1f}, o=%ld,
+  isSplit=%d", tuc dict/file mang it nhat kich thuoc o, orientation, co
+  split (S1 Muc 7.3). Viec dong bo HISTORY/PAGE cua luoi goc: KHONG CO DU
+  KIEN — khong selector/field nao trong metadata/xref da giai nhac toi
+  page index hay history cua icon grid; thu gan nhat la Dock active
+  bundle o tren.
+- Nut Home (duong thoat) — disassembly ban 1.0.4 (S3, day du dia chi):
+  Initializer 0x30f1ac hook homeButtonUp: tren CA HAI class
+  DBRootStatusBarViewController (replacement 0x30f4d4, original luu
+  0x3ae3c8) va CARRootStatusBarViewController (replacement 0x30f6c8,
+  original luu 0x3ae3e8) — cung mot selector. Ca hai replacement (68
+  lenh): lay CBBridgeManagerDashboard.sharedInstance, kiem activated;
+  neu dang active thi goi -stopBridging (call 0x30f5a0 phia DB /
+  0x30f794 phia CAR); SAU DO LUAN HOI TU VE IMP GOC VA GOI DUNG MOT LAN
+  voi receiver/selector/event da luu.
+  -stopBridging (0x2c5d44) -> -stopBridgingWithCompletion: (0x2c5d54)
+  -> -requestDismiss (0x2c669c).
+  -requestDismiss: dat pending=YES; dung dictionary DUNG HAI KHOA:
+  source="CBBridgeManagerCarPlay:requestDismiss", activate=NO
+  (numberWithBool: w2=0 tai 0x2c6774); goi -requestStateChange:
+  (0x2c67d0).
+  -requestStateChange: phia Dashboard (0x2c686c) chua ca thao tac
+  writeToFile:atomically: lan notification — ranh gioi van chuyen la
+  file + notify (S3 tu gioi han: khong khang dinh da trace tron
+  receiver).
+  Log chay that xac nhan dung thu tu nay tren may (S6): "Home ->
+  stopBridging -> requestDismiss -> bridgeDidDeactivate -> clear native
+  Dock bundle -> Home in-app false / display state 1", voi ba lan kich
+  hoat app khong duoc ho tro (Facebook, YouTube, Gemini) xen giua cac
+  callback Home goc.
+- prepareHomeScreenForBridge: — hai nhanh showingApp: IMP S2 0x2a3600;
+  ban 1.0.4 tai 0x2c5f3c. Xref cung-ham (S5): showingApp va
+  closeOfficialTopApp:. Method -closeOfficialTopApp: ton tai rieng trong
+  CBBridgeManagerDashboard (IMP S2 0x2a37f0, tham so completion block).
+  Dien giai o muc xref cho phep: khi chuan bi man Home cho mot bridge,
+  ham doc trang thai showingApp cua dashboard goc (co app chinh thuc dang
+  hien thi hay khong) va co duong goi closeOfficialTopApp: — tuc nhanh
+  "dang co app official tren san" phai dong app do truoc khi bridge
+  chiem san. S6 bo sung ngu canh: trong phien quan sat that, ngay truoc
+  su kien Home, dashboard goc o trang thai showingApp=false, workspace
+  activeBundle=com.apple.CarPlay.dashboard, foregroundScene=nil — va tai
+  lieu ghi ro showingApp=false o day khong phai loi. KHONG CO DU KIEN:
+  than ham 0x2c5f3c chua duoc giai lenh-tung-lenh de khang dinh chinh xac
+  nhanh YES lam gi / nhanh NO lam gi, cung nhu showingApp duoc doc tu
+  object nao.
+- Cac mat phu cua chuoi: -handleDockIconTap: (IMP S2 0x2a47fc) + hook
+  CARAppDockViewController -_dockButtonPressed: (log "[DuoFaceDB]
+  CARAppDockViewController _dockButtonPressed: bundleID=%@") — cu cham
+  icon TRONG DOCK cung di qua cung bo may bridge, khong chi icon tren
+  luoi. -handleSBStateChange: (IMP S2 0x2a4418): dau nhan phia Dashboard
+  cho state tu SpringBoard gui ve, tach khoi handleStateDict:. Phia
+  SpringBoard: CBBridgeManager -requestStateChange: /
+  -requestStateChangeWithDictionary: /
+  -receivedStateChangeRequestNotificiation: (loi chinh ta "Notificiation"
+  la nguyen van trong binary), -trackBridgedBundleID:,
+  -runningBridgedApplications (ban 1.0.4 tai 0x2a32b4, xref cung-ham:
+  currentApp, appViews, allApplicationProcesses,
+  applicationWithBundleIdentifier:) — manager duy tri DANH TINH app
+  dang/da bridge chu khong chi mot bundle hien tai. Vong doi phien (S1
+  Muc 7.4): connect -> auto-launch/resume app da chon; disconnect -> gui
+  shouldBridge:NO, watchdog bat buoc 60 giay ("MANDATORY 1-MIN WATCHDOG")
+  moi terminate toan bo app cua phien; file /var/tmp/
+  carbridge_autoresume_bid giu bundle de khoi phuc phien.
+
+E.5. DUONAVI DUA ICON APP LEN HOME GOC BANG CO CHE GI?
+Tra loi ngan: no TU DANG KY vao tang thu vien + icon model cua Apple,
+khong dung roster/declaration goc cua Apple cho cac app thuong; va no
+phan biet rach roi hai loai app.
+Bang chung (S2 bang hook; S1 Muc 5.2 + 7.4 buoc 1):
+1. Hook factory thu vien: CARApplication +_newApplicationLibrary va
+   -_newApplicationLibrary (log "[DuoFaceDB] CARApplication
+   +_newApplicationLibrary: %@"), dong thoi ca DashBoard
+   +-_newApplicationLibrary (hook #222-#226, IMP thay the
+   0x2ea1a8-0x2ea410). — NO PHONG SAN CA HAI TRUONG PHAI iOS.
+2. Hook nap info: DBApplicationInfo -_loadFromProxy: (#133, 0x2cb730) va
+   CARApplicationInfo -_loadFromProxy: (#136, 0x2cb958).
+3. Chen vao danh sach app da cai: FBSApplicationLibrary
+   -allInstalledApplications (#139, 0x2cbb80) — log nguyen van
+   "FBSApplicationLibrary allInstalledApplications injected special app:
+   %@". Ham C noi bo CBUpdateApplicationLibrary lam phan dang ky:
+   "CBUpdateApplicationLibrary executing on library: %@",
+   "CBUpdateApplicationLibrary registered info for %@",
+   "Notifying library of %lu added applications".
+4. Chen icon vao model cua luoi: hook CARIconModel -loadAllIcons (#167,
+   0x2cf2cc), -_showInternalApps (#164), -_showPrototypeApps (#165),
+   -hiddenBundleIdentifiers (#166); log "Explicitly adding leaf icon %@
+   to CARIconModel", "Explicitly adding leaf icon %@ to rootFolder",
+   "CARIconModel check leafIconForIdentifier:%@ -> %@" — tuc icon duoc
+   THEM THANG VAO ROOT FOLDER cua CARIconModel.
+5. Tang policy: hook CRCarPlayAppPolicyEvaluator
+   -effectivePolicyForAppDeclaration: (#140, 0x2cc0b0) ket hop "policy
+   signal" dong bo qua dia (syncDashboardPolicySignalToDisk). Chuoi log
+   cho thay khi policy signal khong active doi voi app native thi de 100%
+   orig pass-through — DuoNavi khong gia mao declaration cho app native;
+   tang declaration/policy chi bi can thiep trong ngu canh signal cua
+   chinh no. (QA142 doi chieu doc lap cung ghi nhan phia DuoNavi co du
+   chuoi "CARApplication _newApplicationLibrary, FBS library,
+   DBApplicationInfo, CR declaration, original native catalog merge".)
+Phan biet hai loai app:
+- App von la CarPlay app (+isOfficialApp: = YES): da co san trong
+  roster/declaration goc cua Apple — DuoNavi khong can va khong bom icon
+  cho chung; khi license het han chung van pass-through ve native
+  launcher. Viec "hien" cua chung la cua Apple.
+- App thuong duoc nguoi dung chon (thanh vien bridgedApps): khong co
+  entitlement/declaration CarPlay goc — DuoNavi lam cho chung hien bang
+  cach tu dang ky info vao FBSApplicationLibrary qua _newApplicationLibrary/
+  CBUpdateApplicationLibrary va tu them leaf icon vao CARIconModel nhu
+  tren. Day la co che "tu dang ky", khac han duong QA141 cua DuoFace (gan
+  declaration vao record co san): DuoNavi can thiep o CA BA TANG
+  library -> info -> icon model, cong tang policy.
+KHONG CO DU KIEN: than ham CBUpdateApplicationLibrary chua duoc giai lenh
+(chi con ten trong chuoi log — S1 Muc 10), nen chi tiet "registered info"
+tao object loai gi (proxy/info tu che hay clone tu LSApplicationProxy)
+chua khang dinh duoc.
+
+E.6. DOI CHIEU: QA146 CUA DUOFACE THIEU DUNG NHUNG MAT NAO
+Theo crosswalk S5 + phan "Verified current QA145/QA146 architecture" cung
+tai lieu (doc tu source DuoFace, khong suy luan):
+1. bridgeDidActivate: dong bo Dock active bundle that qua
+   setAppDockActiveBundleID: — QA146: DF144Solo begin: chi dung
+   UIRootSceneWindow rieng cua minh; khong bao gio dong bo bundle active
+   vao Dock native -> trieu chung user: app dang mo khong hien dang
+   recent/active trong Dock goc (that bai #3 cua QA146).
+2. setHomeButtonInApp: quan trang thai nut Home goc (tham chieu
+   homeButton + setDisplayState:) — QA146 chi chan homeButtonUp: roi phat
+   notify_post(standalone144.stop) truoc cong session cu de tat overlay —
+   khong quan display-state cua nut Home -> bam Home mat ngu canh, nhay
+   thang ve CarPlay Home (that bai #2).
+3. prepareHomeScreenForBridge: — buoc chuan bi man Home truoc khi bridge,
+   co doc showingApp va duong closeOfficialTopApp: — QA146 khong co buoc
+   tuong duong: no nuot cu cham icon (DFHomeStandalone144.m chan
+   iconManager:launchIconForIconView:, ghi standalone144-request.plist +
+   notify, khong goi activation goc cho app duoc duyet) roi phu overlay
+   len.
+4. CBBridgeManager theo doi tap app da bridge: trackBridgedBundleID:,
+   runningBridgedApplications (currentApp + appViews +
+   allApplicationProcesses) — QA146 chi luu mot DF144Owner.bundle; khong
+   cap nhat danh tinh recent-app native nao.
+5. Dinh huong scene theo tung app: CBBridgedUIAppView
+   -updateSceneSettingsFrame xref setContentReferenceSize:
+   withInterfaceOrientation: / setContentReferenceSize:
+   withContentOrientation:andContainerOrientation: + sceneHandle/
+   sceneIfExists — QA146 chi co frame cua cua so ngoai + relay dinh
+   huong rieng cho YouTube (DFYouTubeOrientationRelay.m) — khong co hop
+   dong orientation tong quat theo scene -> nhieu app sai chieu (that
+   bai #4).
+6. bridgeDidDeactivate chay CUNG BO BA setActivated/
+   setAppDockActiveBundleID/setHomeButtonInApp de KHOI PHUC trang thai
+   dieu huong goc — phia QA146, deactivate chi la Darwin notify stop ->
+   SpringBoard an overlay va tha view host; khong khoi phuc Dock/app/Home
+   state goc.
+7. May trang thai co pending -> activated voi completion
+   (_pendingCompletion, startBridging:withCompletion:) va phan hoi state
+   hai chieu (handleStateDict:/handleSBStateChange:) — giao thuc QA146
+   la ghi-plist + Darwin notify mot chieu, bat dong bo; Log22 chi ghi
+   duoc pending-scene (~0,12-0,23 giay sau cham) cho Facebook/YouTube,
+   khong co ACK scene-ready/PID da kiem chung — S5 ghi day la gia thuyet
+   ve do cham (that bai #1), khong phai so do.
+8. Duong Home la SU KIEN CO NGU NGHIA RIENG trong Dashboard process:
+   hook homeButtonUp: kiem activated -> stopBridging -> requestDismiss
+   voi dict hai khoa co source dinh danh, va IMP goc van duoc goi dung
+   mot lan (S3) — QA146 muon homeButtonUp: phia DFCarPlayOwnerObserver
+   chi de tat overlay cua chinh no; khong co request-dismiss mang danh
+   tinh phien, khong phan biet duoc "ve Home chu dong" voi cac chuyen
+   trang thai khac trong cung mot may trang thai.
+Tom lai cho muc nay: QA146 la mot lop host phu ngoai (separate UIWindow
++ plist/notify) THIEU TOAN BO TANG DONG BO DIEU HUONG CUA BAN GOC: Dock
+active bundle, Home-in-app/display state, buoc prepare-home
+(showingApp/closeOfficialTopApp), danh tinh recent apps, hop dong
+orientation theo scene-settings, va may trang thai
+pending->active->deactivated co khoi phuc. Day cung la ket luan nguyen
+van cua crosswalk: "app active status + Dock active icon + Home-button
+display-state are coupled to bridge activation/deactivation" o ban goc,
+con QA146 la "a side-layer host missing those transitions".
+
+================================================================================
+PHAN F — TONG KET
+================================================================================
+
+F.1. HAI HO NGUYEN TAC DUOFACE LAP LAI NHIEU NHAT (xuyen suot tu dau)
+1. Sua du lieu dau vao cua roster goc roi cho Apple tu hien icon: can
+   thiep vao LaunchServices/FBS — entitlement boolForKey: (0.0.4/0.0.6),
+   addApplicationProxy:withOverrideURL: (QA136), hook typed getter LS +
+   factory (QA138/140), gan CRCarPlayAppDeclaration (QA141), bypass/log
+   (QA165). Ho nay lap lai nhieu nhat theo so vong.
+2. Chan su kien Home/launch cua Apple roi tu host scene bang owner tu
+   che: homeButtonUp: (QA128/129) -> iconManager:launchIconForIconView:
+   (QA143) -> owner standalone DF144Solo + cac lop dong bo va len tren
+   (Dock sync QA147, workspace transaction QA148-153, bridge QA156,
+   picker QA157/158). Ho nay sinh ra nhieu vong con nhat (144-160 gan nhu
+   la mot kien truc va dan).
+3. Duong thu ba o doi sau: trinh bay scene native trong o (174-176
+   coordinator/replace; 181 do; 182 bo OmniCar rut gon) — gay o quyen so
+   huu trinh bay.
+
+F.2. NGUYEN TAC DA BI BAC BO DUT DIEM BANG BANG CHUNG
+1. Picker selected-only + guard "o da co app thi return som" (QA174):
+   0 request/0 Attach trong ca phien — loi chet truoc dispatch va khong
+   de lai log.
+2. Native coordinator + giao dich thay o bi chan boi cong
+   owned-base-view (QA175): 8/8 rollback
+   native-launch-owned-base-view-unverified — cong bac bo chinh base view
+   cua DuoFace sau khi da dispatch.
+3. Noi long kiem chung de ACK di qua (QA176): ACK applied=YES/attached=YES
+   la duong tinh gia — frame o app=0, owner unverified, va DuoFace bi
+   teardown ~0,4s sau ACK o ca 3 lan. He qua ky luat: moi ket luan dua
+   tren ACK/reply cua coordinator deu vo gia tri.
+4. Dua vao FBS newRecords lam bang chung icon Home (QA165 ghi nhan,
+   174-176 lap lai): ca 3 ban deu newRecords=4; not-icon-proof, launch=0,
+   nguoi dung xac nhan 0 icon moi. "Registration != launch" da co tu
+   Log21.
+5. Host scene dien thoai thay cho scene native (nen 171 -> do dut diem o
+   QA181): scene -default owner FBScene la scene khac ban chat — giao
+   dien toi cua dien thoai, hinh hoc same=0 35/35, cham khong dung duoc.
+6. Dat view cua scene native vao cay cua dashboard goc roi goi la "trong
+   o" (QA182): parent la DBDashboardRootViewController — container cua
+   doi thu; tren xe Maps hien o dashboard goc, va 7/8 assignment bi thu
+   hoi trong ~1 giay boi chinh trang thai owner phia SpringBoard
+   (watchdog-detach sau native-owner-state active=0).
+7. Chi nuot deactivateSceneWithReasonMask: la du giu scene song (QA182):
+   nuot backgroundSceneWithCompletion: khong he xay ra, assignment van
+   chet — su song cua scene khong quyet dinh o hai method do.
+8. Be mat/gate phia host de bat cu cham trong app (phan wake di kem
+   174/175): gate passive return nil theo thiet ke (174, recall = 0) va
+   DFOwnedWakeSurface180 khong nam duoc cu cham nao (175, 0 contact) —
+   diem quan sat/chan phia SpringBoard khong thay duoc cham trong app
+   duoc host. (Mat nay ve sau duoc giai quyet o duong khac — relay phia
+   app, QA177 H1 -> QA180 — ngoai pham vi ban dao nay.)
+
+F.3. NGUYEN TAC CHUA TUNG DUOC THU (HOAC CHUA TUNG HOAN TAT)
+1. Baseline phia stock (Q1) chua tung thu duoc: observer phia CarPlay
+   chua bao gio ghi duoc mot scene native mo thuan tu Home goc (181:
+   dung 1 dong observer-ready; o 182 bo do chi thay scene native sau khi
+   B1 tu launch). Tuc chua tung co ban ghi tham chieu "dung" cua diem
+   quyet dinh trinh bay de doi chieu — moi thiet ke B1/B2 deu thieu moc
+   nay.
+2. Ghep "scene native + container cua DuoFace": moi lan thu deu roi vao
+   mot trong hai nua — scene dien thoai trong cua so DuoFace (sai scene)
+   hoac scene native trong cay dashboard goc (sai container). To hop
+   dung chua tung dat, va cung chua co bang chung nao cho thay no kha
+   thi hay bat kha thi.
+3. Duong declaration che tao (_loadFromProxy: / CRCarPlayAppDeclaration
+   hop le cho app chua co declaration): QA182 giu
+   declaration=original-unmodified vi Maps von co declaration that;
+   duong che tao chua tung duoc thuc thi voi app nao.
+4. Giu scene o diem quyet dinh SBSuspendedUnderLockManager
+   -_shouldBeBackgroundUnderLockForScene:withSettings: cho scene native:
+   hook nay ton tai tu cac chang cu cho scene cua DuoFace
+   (DFSceneLifecycle), nhung voi scene native thi B0 chua quan sat duoc
+   du chi mot su kien thuoc diem nay (0 dong o ca 181/182) — chua do
+   duoc, noi gi toi can thiep.
+5. Doc trang thai Cai dat CarPlay goc tu nguon da kiem chung:
+   stock-settings=unknown o 100% dong B1 cua QA182 — gia thuyet "vong kep
+   cai dat" (BAT = phien goc giu, TAT = khong scene) toi nay van chua
+   duoc kiem chung bang instrumentation, du no la cau hoi Nguyen chot la
+   van de loi hom 07/11.
+6. B2 va Waze: QA182 chi chay Maps; Waze chua co assignment native nao.
+   Cong pixels/touch cho duong native (native-pixels, touch) o moi vong
+   cham toi deu dung o UNVERIFIED — chua tung co mot lan nghiem thu
+   pixels/cham hoan chinh cho scene native trong o.
+
+F.4. DIEM NGHEN CHUNG CUA CA DONG
+Moi vong deu gay o CUNG MOT DUONG NOI: QUYEN QUYET DINH TRINH BAY
+(presentation ownership). DuoFace da chung minh duoc gan nhu moi viec
+XUNG QUANH quyet dinh do — liet ke/chon app (picker, catalog reconcile o
+182), phat lenh launch (175 dispatch duoc, 182 launch duoc), tham chi
+dinh vi duoc scene native that kem controller provenance (182) — nhung
+CHUA BAO GIO NAM DUOC NOI SCENE NATIVE DUOC TRINH BAY VA GIU NO O DO:
+phien CarPlay cua iOS (DBWorkspace/DBDashboard phia CarPlay + trang thai
+native-owner phia SpringBoard) la chu duy nhat, va moi lan DuoFace cham
+vao, he thong hoac bac tu cong (175), hoac nhan roi thu hoi trong ~1
+giay (176 teardown sau ACK; 182 revoke 7/8), hoac trinh bay luon trong
+container cua chinh no (182 tren xe). Ba yeu to lam diem nghen nay khong
+duoc nhin thay som hon, lap lai suot dong: (1) lop kiem chung do hanh
+dong cua chinh DuoFace (ACK, PASS noi bo) thay vi hai thu quyet dinh —
+pixels trong container cua DuoFace va trang thai owner ben vung; (2)
+baseline phia stock chua tung thu duoc nen khong co moc "dung" de so;
+(3) trang thai cai dat goc khong quan sat duoc (stock-settings=unknown)
+khien mot nua so phien do khong quy duoc ve cau hinh nao.
+
+Bo sung tu luot dao sau: (4) ABI cua stack CarPlay tren dung iOS
+16.7.16 lien tuc khac deb goc/tai lieu tham chieu: CARApplication
+._newApplicationLibrary khong ton tai trong process CarPlay (factory
+that la +[DashBoard _newApplicationLibrary]), DBApplicationController
+khong load, getter isCarPlaySupported/canDisplayOnCarScreen absent, hook
+viewDidAppear: cua DBDashboardHomeViewController khong cai duoc (home=0).
+Moi vong deu phat hien them mot mat xich "cua ban goc" khong ton tai tren
+may nay — co che tham chieu chua bao gio nguyen ven de ma chep. (5) Ba be
+mat cua Apple bi lan lam mot dich: Dashboard (map + Now Playing),
+app-icon GRID (Home that), va picker cua DuoFace — dich Home sai o ca ba
+huong trong cac vong lien tiep (QA156 ve CarPlay Home, QA158 ve picker
+cua minh, QA159/160 ve Dashboard), cho thay "Home" chua bao gio duoc
+dinh nghia/khoa o tang su kien truoc khi build. (6) Phan biet Home voi
+lock va thoat Home dung ngu canh la bai toan phu khong bao gio dong: tu
+QA126 (khong phan biet noi Home/lock), QA145 (thoat bi cong session
+chan), toi QA146 (thoat duoc thi mat ngu canh + Dock khong nhan app).
+
+F.5. KHAC BIET COT LOI DUOFACE vs OMNICAR (theo doi chieu co san trong
+tai lieu — moc so sanh la DuoFace 172)
+1. Vi tri can thiep: OmniCar co mot tang song trong tien trinh CarPlay
+   tai dung cac diem iOS ra quyet dinh (thu vien _newApplicationLibrary,
+   info _loadFromProxy:, launch-info, launch, sceneFrame,
+   deactivate/background). DuoFace 172 khong co bat ky hook nao tai cac
+   diem do (da kiem chung theo vang mat trong toan cay): thanh phan phia
+   CarPlay cua DuoFace chi co DFCarPlayDockOwner (dock),
+   DFHomeStandalone144 (chan tap icon Home -> chuyen SpringBoard host),
+   va DFNativeMapPaneCoordinator.
+2. Quan he voi session goc: OmniCar dung luon session/scene CarPlay goc
+   cua app ban do, chi uon kich thuoc frame + giu song -> cai dat goc vo
+   can. DuoFace dung duong so huu song song (host scene main-display tu
+   SpringBoard + thi nghiem reframe view) -> va cham quyen so huu voi
+   session goc moi khi app con bat trong CarPlay goc.
+3. Thanh phan ban do rieng cua DuoFace la quan sat thu dong:
+   DFNativeMapPaneCoordinator loc chi vao process CarPlay, mac dinh OFF,
+   phai nguoi dung arm (opt-in), khong hook DBDashboard/
+   DBApplicationSceneViewController — chi quan sat
+   DBDashboardRootViewController, doi dung mot owner thuoc whitelist cung
+   3 app (com.google.Maps, com.apple.Maps, com.waze.iphone) roi reframe
+   bounds cua view; scene settings foreground/orientation van
+   native-owned. Lenh qua plist map-pane.command.v1 + cac lease/choice
+   plist — khong phai co che thu vien/launch.
+4. Tu cach vao Home: OmniCar noi app vao thu vien Home goc va tu quan
+   hien thi icon; DuoFace theo ho so khong viet duoc roster Home goc (iOS
+   so huu — ket luan QA173 trong ho so) — app nguoi dung chon chi len qua
+   giao dien rieng cua DuoFace.
+5. Eligibility: OmniCar = allowlist nguoi dung chon tuong minh trong
+   Settings (appBridgeApps) hop native tu thu hoach; DuoFace = quy tac
+   cung trong code (DFAppEligibility.h: moi app ben thu ba du dieu kien,
+   app Apple theo whitelist) — eligibility cua DuoFace khong chan app ban
+   do; diem gay nam o tang session/quyet dinh, khong nam o eligibility.
+6. Diem KHONG khac: scene cua app iPhone thuan — ca hai cung host scene
+   main-display (OmniCar: ABHost qua SBMainDisplaySceneManager; DuoFace:
+   DFSceneHost) [verified ca hai phia]. Khac biet quyet dinh chi nam o
+   tang CarPlayApp.
+He qua duoc ho so ghi lai: app ban do con BAT trong CarPlay goc ->
+DBWorkspace so huu session, DuoFace khong co diem trong tai; TAT khoi
+CarPlay goc -> khong con CarPlay scene -> app thanh app iPhone thuan ->
+duong host main-display moi chay — khop voi phan nan goc cua Nguyen (da
+chon trong DuoFace nhung khong hien; phai bat trong Cai dat iPhone ->
+CarPlay moi hien duoc).
+
+F.6. CAC DIEM CHUA XAC LAP CON LAI (sau ca hai luot — danh sach day du)
+1. Cong thuc boolean day du trong than shouldInterceptLaunchForApp: cua
+   DuoNavi — chua giai (chi co callsite/xref/dau vao).
+2. Than ham C CBUpdateApplicationLibrary cua DuoNavi — chi co ten +
+   chuoi log; chi tiet "registered info" tao object loai gi chua khang
+   dinh duoc.
+3. Hai nhanh YES/NO cua showingApp trong prepareHomeScreenForBridge: —
+   moi o muc xref cung-ham (showingApp + closeOfficialTopApp:).
+4. Gia tri mac dinh dang so cua pref appBridgeZoom cua OmniCar khi nguoi
+   dung chua dat (cong thuc va khoang kep [0,6-1,0] da chot tu ma may).
+5. Than helper 0x22210 trong OmniCarSplitScreen (chi anh huong so dem
+   thu hai trong dong log cua publishCarPlayApps).
+6. Payload chi tiet neu co cua hai kenh Darwin notify
+   com.anlai.omnicar/appbridge.apporient va .../appbridge.keyboard —
+   diem dang ky khong mang payload, phan xu ly phia nhan chua dao tiep.
+7. CAU HOI MO ve NSDistributedNotificationCenter: ma may cua OmniCar cho
+   thay kenh payload host* cua no chinh la NSDistributedNotificationCenter
+   + userInfo giua hai process (CarPlayApp phat, SpringBoard nhan) — cung
+   API ma QA154/155 cua DuoFace ket luan la "chet tren iOS" (ACK=0 do
+   center nil). Hai du kien mau thuan nhau o be mat; diem khac biet co
+   the nam o process dang ky/dieu kien dung, nhung phan do chua ai kiem
+   chung — ghi nhan la cau hoi mo co bang chung hai phia, khong ket luan.
+8. Dong bo history/page cua luoi icon goc khi bridge kich hoat (DuoNavi)
+   — khong co du kien o bat ky nguon nao da dao.
+9. QA8 va QA11 cua dong native12: khong co du kien (khong file/thu muc
+   rieng, lich su khong tach muc).
+
+F.7. KET LUAN NEN (sau khi dao toi muc ma may)
+- Co che mau TON TAI DAY DU VA DOC DUOC: OmniCar (29 hook SplitScreen +
+  ABHost + Core) va DuoNavi (243 diem hook, chuoi CBBridgeManager) deu da
+  duoc giai ma toi muc ham/dia chi cho cac mat quyet dinh cua bai toan.
+- Thu chua tung ton tai trong du an la: mot ban trien khai du ca ba tang
+  (thu vien -> hien thi icon -> giao dich trang thai) tren dung ABI cua
+  may iOS 16.7.16 nay, cong mot lan nghiem thu bang mat tren xe cho tang
+  do.
+- Diem mu bat bien qua 3 tuan: chua tung thu duoc baseline "dung" phia
+  stock; trang thai cai dat goc khong quan sat duoc; log PASS khac man
+  hinh PASS.
+
+================================================================================
+NGUON CHINH DA DUNG
+================================================================================
+- Thu vien ho so deb local: ~/workspace/deb-ho-so/ (omnicar-1.0.3,
+  duonavi-1.0.3-12, duoface-goc-1.0.4-1, ...).
+- Tai lieu audit local: ~/workspace/duoface-audit/ (OMNICAR_CO_CHE_APP.md,
+  OMNICAR_APP_NATIVE.md, OMNICAR_APP_BAN_DO.md, OMNICAR_BAN_PHIM.md),
+  ~/workspace/duoface-claude-rotation/QUYET_DINH_KHAC_PHUC_20261106.md.
+- Repo chuongnguyen89dn-ui/Duoface (spec-main, main va cac nhanh
+  feature/fix lien quan): sideplay/audit/* (gom carplay-home-icons-
+  20261030/31, qa126-qa165, omnicar-iphone-picker-20261029,
+  duonavi-homeflow-observer-20261101, qa155, native12-083-rotation-
+  20261028, wakefix5-20261106 tren nhanh QA173), sideplay/tiep tuc du
+  an.md, sideplay/spec-knowledge/ (bao cao QA183-185).
+- Repo kho chuongnguyen89dn-ui/duoface-debs- (1.086 deb).
+- Log thiet bi: DuoFaceAudit 3/4/5.txt (main), DuoFaceAudit 9/10/11.txt
+  (phien 181/182).
+
+GIOI HAN CUA DOT DAO
+- Toan bo la phan tich tinh chi-doc: khong chay binary, khong ghi repo,
+  khong build.
+- Cac file JSON dump trong thu muc picker OmniCar va cac file log/json
+  phu trong thu muc QA155/QA156 khong duoc doc tung dong — noi dung cua
+  chung da duoc cac file MD cung thu muc tong hop va trich dan.
+- Bang chung la tinh + log thiet bi da co; runtime presence/signature
+  cua homeButtonUp: tren dung iOS cua may nguoi dung chua duoc ban trace
+  tinh xac lap (gioi han do chinh tai lieu S3 ghi).
+
+— Het —
