@@ -144,6 +144,9 @@ jobs:
           strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'DF186NativePaneController'
           strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'pane-layout-reconciled'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'owned-host-layout-reconciled'
+          # Verify the exact QA187 containment fix is LINKED, not merely present in sources.
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'scene-frame-original-preserved'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'native-maps-restore-deferred-explicit-picker-required'
           strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'picker-evidence185.plist'
           strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'picker-evidence185 saved='
           ldid -e "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" >/dev/null
