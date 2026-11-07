@@ -123,7 +123,7 @@ static void DF182Present(id root,SEL sel,id base,BOOL animated,
     ![owner.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] ||
     ![base isKindOfClass:UIViewController.class])return;
  UIViewController *vc=(UIViewController *)base;
- if(![NSStringFromClass(root.class) isEqual:@"DBDashboardRootViewController"] ||
+ if(![NSStringFromClass([root class]) isEqual:@"DBDashboardRootViewController"] ||
     ![NSStringFromClass(vc.class) isEqual:@"DBApplicationSceneViewController"] ||
     vc.viewIfLoaded.window.rootViewController!=root ||
     vc.viewIfLoaded.window!=owner.window || !DF182NativeOwner(vc))return;
