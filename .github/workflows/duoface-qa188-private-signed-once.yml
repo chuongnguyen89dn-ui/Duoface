@@ -37,6 +37,9 @@ jobs:
           p='sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
           before=subprocess.check_output(['git','show','e0aab963d9c60fef9b6c0cf7a95d81d7c0f397c7:'+p]).decode()
           assert pathlib.Path(p).read_text()==before.replace('build=0.0.188~mapowner1','build=0.0.188~mapowner1')
+          p2='sideplay/duoface-native-scene-host/DFDeepTrace.h'
+          before2=subprocess.check_output(['git','show','e0aab963d9c60fef9b6c0cf7a95d81d7c0f397c7:'+p2]).decode()
+          assert pathlib.Path(p2).read_text()==before2.replace('build=0.0.187~regressionsafe1','build=0.0.188~mapowner1')
           print('QA188_NATIVE_MAP_OWNER_HOME_KEYBOARD_FROZEN_PASS')
           PY
       - name: Verify QA184 membership, QA182 native assignment, frozen H1 and package contracts
