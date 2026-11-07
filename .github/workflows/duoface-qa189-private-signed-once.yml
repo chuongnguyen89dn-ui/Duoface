@@ -1,0 +1,235 @@
+name: QA189 private Maps and H1 signed DEB (NO SILEO)
+on:
+  push:
+    branches: [feature/duoface-qa189-private-signed-20261107]
+    paths:
+      - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md'
+# Private QA189 ONE-SHOT marker; no Sileo publisher or tag/release.
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa188-private-signed-once-20261107
+  cancel-in-progress: false
+jobs:
+  build-and-archive:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze QA189 functional source and confirm version-only package delta
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib,subprocess
+          base="e88a73d24335802e9540032b23cf18ec8f10bf83"
+          allowed={
+            ".github/workflows/duoface-qa189-private-signed-once.yml",
+            "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md",
+            "sideplay/duoface-native-scene-host/build.sh",
+            "sideplay/duoface-native-scene-host/control",
+            "sideplay/duoface-native-scene-host/Info.plist",
+            "sideplay/jb-embedded-appbridge/package_integrated.py",
+            "sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m",
+            "sideplay/duoface-native-scene-host/DFDeepTrace.h",
+            "sideplay/duoface-native-scene-host/tests/test_qa184_signed_package.py",
+            "sideplay/duoface-native-scene-host/tests/test_qa188_h1wake1.py",
+            "sideplay/duoface-native-scene-host/tests/test_qa182_b1nativemaps1.py",
+            "sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py",
+          }
+          changed=set(subprocess.check_output(["git","diff","--name-only",base,"HEAD"],text=True).splitlines())
+          assert changed<=allowed,(changed-allowed)
+          old="0.0.188~mapowner1";new="0.0.189~mapsh1fix1"
+          for name in ["sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m","sideplay/duoface-native-scene-host/DFDeepTrace.h"]:
+            previous=subprocess.check_output(["git","show",base+":"+name],text=True)
+            assert pathlib.Path(name).read_text()==previous.replace(old,new),name
+          for name in [
+            "sideplay/duoface-native-scene-host/DFH1Wake188.m",
+            "sideplay/duoface-native-scene-host/DFAppTouch177.h",
+            "sideplay/duoface-native-scene-host/DFNative12Chrome.m",
+            "sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m",
+            "sideplay/duoface-native-scene-host/DFSceneHost.m",
+            "sideplay/native-carplay-scene-v1/DF182NativeMaps.m",
+            "sideplay/duoface-native-scene-host/DF184NativeMapMembership.h",
+            "sideplay/duoface-native-scene-host/DFCarPlayOwnerLease.h",
+            "sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m",
+          ]:
+            assert pathlib.Path(name).read_bytes()==subprocess.check_output(["git","show",base+":"+name]),name
+          info=pathlib.Path("sideplay/duoface-native-scene-host/Info.plist").read_text()
+          previous=subprocess.check_output(["git","show",base+":sideplay/duoface-native-scene-host/Info.plist"],text=True)
+          assert info==previous.replace("<string>188</string>","<string>189</string>").replace("<string>0.1.188</string>","<string>0.1.189</string>")
+          print("QA189_FROZEN_MAPS_H1_KEYBOARD_HOME_SOURCE_DELTA_PASS")
+          PY
+      - name: Verify QA184 membership, QA182 native assignment, frozen H1 and package contracts
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa184_owner.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa185_admission.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa184_signed_package.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa182_b1nativemaps1.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa180_h1wake3.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa179_h1wake2.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa188_h1wake1.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
+      - name: Reconfirm runtime Foundation owner/lease acceptance matrix
+        run: |
+          set -euo pipefail
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-unused-variable -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/launch_admission_185_runtime.m \
+            -o "$RUNNER_TEMP/launch-admission-185"
+          "$RUNNER_TEMP/launch-admission-185"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-unused-variable -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/map_membership_184_runtime.m \
+            -o "$RUNNER_TEMP/qa184-membership"
+          "$RUNNER_TEMP/qa184-membership"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-unused-variable -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/owner_lease_records_test.m \
+            -o "$RUNNER_TEMP/qa184-owner-lease"
+          "$RUNNER_TEMP/qa184-owner-lease"
+      - name: Verify QA189 source safety regression
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa187_native_scene_regression.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa189_two_phase_map_handoff.py' -v
+      - name: Prepare existing signed iOS16 toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile and sign unchanged first-party baseline module DEBs
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+      - name: Compile and sign QA184 native scene-host and both app relays
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.189~mapsh1fix1_iphoneos-arm64.deb'
+          test -s "$HOST"
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.189~mapsh1fix1'
+          mkdir -p "$RUNNER_TEMP/qa184-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa184-host"
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '188'
+          for module in DFTouchOwnerProbe DFCarPlayDockOwner DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
+            ldid -e "$RUNNER_TEMP/qa184-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$module.dylib" >/dev/null
+          done
+          echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
+      - name: Assemble signed integrated QA184 and inspect exact code/signatures
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.189~mapsh1fix1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.189~mapsh1fix1'
+          test "$(dpkg-deb -f "$OUT" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$RUNNER_TEMP/qa184-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa184-merged"
+          LIBS="$RUNNER_TEMP/qa184-merged/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          for module in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
+            test -s "$LIBS/$module.dylib"
+            ldid -e "$LIBS/$module.dylib" >/dev/null
+          done
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'com.duoface.apptouch177.wake'
+          python3 - <<'PY'
+          import pathlib
+          relay=pathlib.Path('sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m').read_text()
+          assert relay.index('DF177InstallAppTouchHook(bundle);') < relay.index('if(!DF156Listen(bundle,NO')
+          assert relay.count('DF177InstallAppTouchHook(bundle);')==1
+          print('QA189_H1_OPTIONAL_CHANNEL_UNCOUPLED_PASS')
+          PY
+          for module in DF155GeneralAppStateRelay DFYouTubeOrientationRelay DFTouchOwnerProbe; do
+            for channel in com.duoface.controls188.hidden com.duoface.controls188.shown com.duoface.controls188.query; do
+              strings -a "$LIBS/$module.dylib" | grep -F "$channel"
+            done
+          done
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIRemoteKeyboardWindow'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-controls-state'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-app-touch-wake'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'gate=%@'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'qa182-b1'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'phone-host-rejected'
+          for lib in DFTouchOwnerProbe DFCarPlayDockOwner; do
+            strings -a "$LIBS/$lib.dylib" | grep -F 'qa181-b0'
+          done
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '188'
+          # Check the new presenter/owner lease made it into linked signed binaries.
+          for module in DFNativeMapPaneCoordinator DFTouchOwnerProbe; do
+            strings -a "$LIBS/$module.dylib" | grep -F 'com.duoface.nativehost.maps-membership.v1.plist'
+          done
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'DBDashboardRootViewController.presentBase:post-original'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'pane-member-committed'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'membership-reject-detail'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'launch-identity-captured'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'identity-admitted'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'post-admission-visibility'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'DF186NativePaneController'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'pane-layout-reconciled'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'owned-host-layout-reconciled'
+          # Verify the exact QA189 protected Maps source is LINKED, not merely present in sources.
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'scene-frame-original-preserved'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'presented-target-yield-expired-before-COMMITTED-STOP'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa189-native-map-stage-changed'
+          for module in DFNativeMapPaneCoordinator DFTouchOwnerProbe; do
+            strings -a "$LIBS/$module.dylib" | grep -F 'com.duoface.nativehost.maps-membership.changed.v1'
+          done
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-native-maps-saved-restore-request'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-native-maps-picker-request'
+          strings -a "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" | grep -F 'qa188-background-owner-gate'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'picker-evidence185.plist'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'picker-evidence185 saved='
+          ldid -e "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" >/dev/null
+          CONTROL="$RUNNER_TEMP/qa184-merged-control"
+          mkdir -p "$CONTROL"
+          dpkg-deb -e "$OUT" "$CONTROL"
+          test -x "$CONTROL/postinst" && test -x "$CONTROL/postrm"
+          ! grep -E 'respring|killall|uicache -u' "$CONTROL/postinst" "$CONTROL/postrm"
+          test "$(dpkg-deb -f "$OUT" Depends)" = 'firmware (>= 16.0), mobilesubstrate'
+          echo "QA184_INTEGRATED=$OUT" >> "$GITHUB_ENV"
+          shasum -a 256 "$OUT"
+          ( cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 "$(basename "$OUT")" > QA189_SHA256SUMS.txt && shasum -a 256 -c QA189_SHA256SUMS.txt )
+          echo 'QA189_SIGNED_MAP_OWNER_PRIVATE_DEVICE_UNTESTED_NO_SILEO'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA189-mapsh1fix1-signed-integrated-DEB
+          path: |
+            sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.189~mapsh1fix1_iphoneos-arm64.deb
+            sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json
+            sideplay/jb-embedded-appbridge/packages/QA189_SHA256SUMS.txt
+          if-no-files-found: error
+      - name: Archive exact signed QA184 bytes in DuoFace source repo for independent transfer
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa189-private-signed-20261107'
+          ART='com.duoface.jb.embedded_0.0.189~mapsh1fix1_iphoneos-arm64.deb'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$OUT"
+            cp "$QA184_INTEGRATED" "$OUT/$ART"
+            ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
+            printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nDEVICE_TESTED=false\nPACKAGE=0.0.189~mapsh1fix1\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$DIR" commit -m "qa184: archive exact signed native Maps owner test DEB [skip ci]"
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$DIR"
+              git fetch --no-tags origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/SHA256SUMS.txt"
+              echo QA189_SIGNED_SOURCE_ARCHIVE_VERIFIED_NO_SILEO
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
