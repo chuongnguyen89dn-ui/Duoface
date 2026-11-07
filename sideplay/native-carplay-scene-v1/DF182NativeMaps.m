@@ -1,6 +1,7 @@
 // QA182 B1 NEW implementation; no historical three-hook source was recovered.
 // Apple's native workspace/scene/input own Maps. No phone-scene fallback.
 #import "../duoface-native-scene-host/DF182NativeMapAssignment.h"
+#import "../duoface-native-scene-host/DF184NativeMapMembership.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -76,6 +77,13 @@ static void DF182Walk(UIViewController *vc,NSMutableArray *out,NSUInteger depth)
 @property(nonatomic,assign) BOOL launchAttempted;
 @property(nonatomic,assign) NSTimeInterval deadline;
 @property(nonatomic,strong) NSDictionary *provenance;
+@property(nonatomic,weak) UIViewController *presentedController;
+@property(nonatomic,weak) UIWindow *presentedWindow;
+@property(nonatomic,weak) id presentedScene;
+@property(nonatomic,assign) NSTimeInterval presentedAt;
+- (void)clearMembership;
+- (BOOL)publishMembershipStage:(NSString *)stage controller:(UIViewController *)vc;
+- (BOOL)ownsOrPresenting:(id)controller;
 - (void)tick;
 - (void)summary:(NSString *)reason;
 - (void)fail:(NSString *)gate reason:(NSString *)reason;
@@ -85,6 +93,7 @@ static void DF182Walk(UIViewController *vc,NSMutableArray *out,NSUInteger depth)
 @end
 static DF182MapsOwner *DF182Owner;
 static CGRect (*DF182OriginalFrame)(id,SEL,id,id);
+static void (*DF182OriginalPresent)(id,SEL,id,BOOL,NSUInteger,id);
 static void (*DF182OriginalDeactivate)(id,SEL,NSUInteger);
 static void (*DF182OriginalBackground)(id,SEL,id);
 typedef void(*DF182Hook)(Class,SEL,IMP,IMP*);
@@ -104,8 +113,36 @@ static CGRect DF182Frame(id obj,SEL sel,id info,id proxy) {
  }
  return r;
 }
+// Admission begins at the actual Apple presentation gate (post-original).
+// A launch request or assignment intent is not native Maps pane ownership.
+static void DF182Present(id root,SEL sel,id base,BOOL animated,
+                         NSUInteger source,id completion) {
+ DF182OriginalPresent(root,sel,base,animated,source,completion);
+ DF182MapsOwner *owner=DF182Owner;
+ if(!owner || owner.stopped || !owner.assignment || source!=0 ||
+    ![owner.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] ||
+    ![base isKindOfClass:UIViewController.class])return;
+ UIViewController *vc=(UIViewController *)base;
+ if(![NSStringFromClass(root.class) isEqual:@"DBDashboardRootViewController"] ||
+    ![NSStringFromClass(vc.class) isEqual:@"DBApplicationSceneViewController"] ||
+    vc.viewIfLoaded.window.rootViewController!=root ||
+    vc.viewIfLoaded.window!=owner.window || !DF182NativeOwner(vc))return;
+ owner.presentedController=vc;
+ owner.presentedWindow=vc.viewIfLoaded.window;
+ owner.presentedScene=DF182Scene(vc);
+ owner.presentedAt=NSDate.date.timeIntervalSince1970;
+ if(![owner publishMembershipStage:@"PRESENTED" controller:vc]) {
+  owner.presentedController=nil;owner.presentedWindow=nil;
+  owner.presentedScene=nil;owner.presentedAt=0;
+  DF182Log(@"present-member-rejected",owner.assignment,
+   @"native-scene-or-physical-pane-proof-rejected-post-original");
+  return;
+ }
+ DF182Log(@"present-member",owner.assignment,
+   @"stage=PRESENTED actor=CarPlay CarPlay-window-verified=1 awaiting-pane-commit");
+}
 static void DF182Deactivate(id obj,SEL sel,NSUInteger mask) {
- if([DF182Owner owns:obj]) {
+ if([DF182Owner ownsOrPresenting:obj]) {
   DF182Owner.gates[@"Lifecycle"]=@"PASS";
   DF182Log(@"lifecycle-swallowed",DF182Owner.assignment,
    [NSString stringWithFormat:@"method=deactivateSceneWithReasonMask: mask=%lu",(unsigned long)mask]);
@@ -115,7 +152,7 @@ static void DF182Deactivate(id obj,SEL sel,NSUInteger mask) {
 }
 #import "../duoface-native-scene-host/DF182BlockCompletionABI.h"
 static void DF182Background(id obj,SEL sel,id completion) {
- if([DF182Owner owns:obj]) {
+ if([DF182Owner ownsOrPresenting:obj]) {
   if(!DF182VoidCompletion(completion)) {
    [DF182Owner fail:@"Lifecycle" reason:@"background-completion-ABI-unverified"];
    DF182OriginalBackground(obj,sel,completion);return;
@@ -142,19 +179,115 @@ static BOOL DF182Method(Class cls,const char *name,const char *ret,NSArray<NSStr
  return match;
 }
 static BOOL DF182InstallHooks(NSDictionary *a) {
- if(DF182OriginalFrame && DF182OriginalDeactivate && DF182OriginalBackground)return YES;
+ if(DF182OriginalFrame && DF182OriginalDeactivate && DF182OriginalBackground &&
+    DF182OriginalPresent)return YES;
  Class dash=objc_getClass("DBDashboard"),vc=objc_getClass("DBApplicationSceneViewController");
+ Class root=objc_getClass("DBDashboardRootViewController");
  BOOL frame=DF182Method(dash,"sceneFrameForAppInfo:proxyAppInfo:",@encode(CGRect),@[@"@",@"@"],a);
  BOOL deactivate=DF182Method(vc,"deactivateSceneWithReasonMask:",@encode(void),@[[NSString stringWithUTF8String:@encode(NSUInteger)]],a);
  BOOL background=DF182Method(vc,"backgroundSceneWithCompletion:",@encode(void),@[@"@?"],a);
+ BOOL present=DF182Method(root,"presentBaseViewController:animated:launchSource:completion:",
+    @encode(void),@[@"@",@"B",@"Q",@"@?"],a);
  DF182Hook hook=(DF182Hook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
- if(!frame||!deactivate||!background||!hook)return NO; // No partial installation.
+ if(!frame||!deactivate||!background||!present||!hook)return NO; // No partial installation.
+ hook(root,sel_registerName("presentBaseViewController:animated:launchSource:completion:"),
+   (IMP)DF182Present,(IMP*)&DF182OriginalPresent);
  hook(dash,sel_registerName("sceneFrameForAppInfo:proxyAppInfo:"),(IMP)DF182Frame,(IMP*)&DF182OriginalFrame);
  hook(vc,sel_registerName("deactivateSceneWithReasonMask:"),(IMP)DF182Deactivate,(IMP*)&DF182OriginalDeactivate);
  hook(vc,sel_registerName("backgroundSceneWithCompletion:"),(IMP)DF182Background,(IMP*)&DF182OriginalBackground);
- return DF182OriginalFrame && DF182OriginalDeactivate && DF182OriginalBackground;
+ return DF182OriginalFrame && DF182OriginalDeactivate && DF182OriginalBackground && DF182OriginalPresent;
 }
 @implementation DF182MapsOwner
+- (void)clearMembership {
+ NSDictionary *old=[NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath];
+ if(![old[@"Session"] isEqual:self.assignment[@"Session"]] ||
+    ![old[@"AssignmentID"] isEqual:self.assignment[@"AssignmentID"]])return;
+ NSMutableDictionary *dead=[old mutableCopy];
+ dead[@"Stage"]=@"REVOKED";dead[@"PaneBound"]=@NO;
+ dead[@"PaneFrameVerified"]=@NO;
+ dead[@"Timestamp"]=@(NSDate.date.timeIntervalSince1970);
+ if(![dead writeToFile:DF184MapMembershipPath atomically:YES])
+  (void)[NSFileManager.defaultManager removeItemAtPath:DF184MapMembershipPath error:nil];
+}
+- (BOOL)publishMembershipStage:(NSString *)stage controller:(UIViewController *)vc {
+ BOOL committed=[stage isEqual:@"COMMITTED"],presented=[stage isEqual:@"PRESENTED"];
+ if((!committed&&!presented)||self.stopped||!self.assignment||
+    ![self.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] ||
+    vc!=self.presentedController || DF182Scene(vc)!=self.presentedScene ||
+    !DF182NativeOwner(vc))return NO;
+ UIWindow *w=vc.viewIfLoaded.window;
+ if(!w || w!=self.presentedWindow || w!=self.window ||
+    w.hidden || w.alpha<.95 || vc.viewIfLoaded.hidden ||
+    vc.viewIfLoaded.alpha<.95 ||
+    ![NSStringFromClass(w.rootViewController.class) isEqual:@"DBDashboardRootViewController"])
+  return NO;
+ CGRect target=CGRectZero;
+ if(![self targetForWindow:w rect:&target] || !DF182Near(target,self.target))
+  return NO;
+ NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+ if(!isfinite(self.presentedAt)||self.presentedAt<=0||now<self.presentedAt ||
+    (presented && !DF184Fresh(now,@(self.presentedAt),0.85)))return NO;
+ UIView *host=DF182Get(vc,"sceneHostView");
+ BOOL hostAttached=[host isKindOfClass:UIView.class] &&
+   (host==vc.viewIfLoaded || [host isDescendantOfView:vc.viewIfLoaded]) &&
+   host.window==w;
+ if(!hostAttached)return NO;
+ BOOL frameVerified=NO,hitVerified=NO;
+ if(committed) {
+  if(![self owns:vc] || !self.pane.clipsToBounds ||
+     !DF182Near(vc.viewIfLoaded.frame,self.pane.bounds))return NO;
+  CGRect actual=[w convertRect:self.pane.bounds fromView:self.pane];
+  frameVerified=DF182Near(target,actual);
+  CGPoint center=CGPointMake(CGRectGetMidX(self.pane.bounds),CGRectGetMidY(self.pane.bounds));
+  UIView *hit=[self.pane hitTest:center withEvent:nil];
+  hitVerified=hit && (hit==vc.viewIfLoaded ||
+                       [hit isDescendantOfView:vc.viewIfLoaded]);
+  if(!frameVerified || !hitVerified)return NO;
+ }
+ NSDictionary *pulse=DF182Pulse();
+ NSString *sceneID=DF182String(DF182Get(DF182Scene(vc),"identifier"));
+ if(!DF184UUID(pulse[@"Session"]) ||
+    ![pulse[@"Session"] isEqual:self.assignment[@"Session"]] ||
+    ![pulse[@"Active"] isEqual:@YES] ||
+    ![pulse[@"HostSceneID"] isKindOfClass:NSString.class] ||
+    [pulse[@"HostSceneID"] length]==0 ||
+    [sceneID isEqual:@"unknown"] || ![w.windowScene.session.role isEqual:
+      @"UIWindowSceneSessionRoleCarPlay"] || !w.screen ||
+    w.screen==UIScreen.mainScreen)return NO;
+ NSDictionary *receipt=@{@"Version":@1,@"Process":@"CarPlay",
+  @"Session":pulse[@"Session"],@"HostSceneID":pulse[@"HostSceneID"],
+  @"AssignmentID":self.assignment[@"AssignmentID"],
+  @"PhysicalSlot":self.assignment[@"PhysicalSlot"],@"BundleID":@"com.google.Maps",
+  @"ControllerClass":@"DBApplicationSceneViewController",
+  @"SceneClass":@"FBScene",@"NativeSceneID":sceneID,
+  @"PresentationSource":@"DBDashboardRootViewController.presentBase:post-original",
+  @"WindowRole":@"UIWindowSceneSessionRoleCarPlay",
+  @"WindowExternal":@YES,@"WindowVisible":@YES,
+  @"SceneHostAttached":@YES,
+  @"PaneBound":@(committed),@"PaneFrameVerified":@(frameVerified),
+  @"HitRegionVerified":@(hitVerified),
+  @"PaneFrame":NSStringFromCGRect(target),
+  @"Stage":stage,@"PresentedAt":@(self.presentedAt),@"Timestamp":@(now)};
+ BOOL saved=[receipt writeToFile:DF184MapMembershipPath atomically:YES];
+ if(saved && committed)DF182Log(@"pane-member-committed",self.assignment,
+   [NSString stringWithFormat:@"scene=%@ slot=%@ frame=%@ stage=COMMITTED hit-region-readback=1 actual-pixels=UNVERIFIED",
+    sceneID,self.assignment[@"PhysicalSlot"],NSStringFromCGRect(target)]);
+ return saved;
+}
+- (BOOL)ownsOrPresenting:(id)controller {
+ if([self owns:controller])return YES;
+ if(self.stopped||!self.presentedAt||controller!=self.presentedController ||
+    DF182Scene(controller)!=self.presentedScene ||
+    !DF182NativeOwner(controller) ||
+    !DF184Fresh(NSDate.date.timeIntervalSince1970,@(self.presentedAt),0.85))
+  return NO;
+ NSDictionary *receipt=[NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath];
+ return [receipt[@"Stage"] isEqual:@"PRESENTED"] &&
+   [receipt[@"Session"] isEqual:self.assignment[@"Session"]] &&
+   [receipt[@"AssignmentID"] isEqual:self.assignment[@"AssignmentID"]] &&
+   [receipt[@"NativeSceneID"] isEqual:DF182String(DF182Get(DF182Scene(controller),"identifier"))] &&
+   DF184Fresh(NSDate.date.timeIntervalSince1970,receipt[@"Timestamp"],0.85);
+}
 - (void)summary:(NSString *)reason {
  NSMutableDictionary *r=[self.gates mutableCopy];
  r[@"AssignmentID"]=self.assignment[@"AssignmentID"]?:@"unknown";
@@ -175,6 +308,7 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
 }
 - (BOOL)restore:(NSString *)reason {
  self.stopped=YES; // Revokes swallow BEFORE containment is restored.
+ [self clearMembership];
  if(!self.placed)return YES;
  UIViewController *vc=self.owner;UIView *v=vc.viewIfLoaded;
  if(!vc||!v||v.superview!=self.pane||!self.oldSuperview||
@@ -201,6 +335,8 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
 - (void)fail:(NSString *)gate reason:(NSString *)reason {
  self.gates[gate]=@"FAIL";
  [self restore:reason];
+ if([DF182Assignment()[@"AssignmentID"] isEqual:self.assignment[@"AssignmentID"]])
+   DF182Revoke(reason?:@"native-pane-admission-failed");
  [self summary:reason];
 }
 - (BOOL)targetForWindow:(UIWindow *)window rect:(CGRect *)out {
@@ -215,7 +351,7 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
  for(NSDictionary *e in entries) {
   if(![e[@"PhysicalSlot"] isEqual:self.assignment[@"PhysicalSlot"]])continue;
   if(![e[@"NativeAssignmentID"] isEqual:self.assignment[@"AssignmentID"]] ||
-     ![e[@"WindowVisible"] isEqual:@NO] || ![e[@"HasLiveApp"] isEqual:@NO] ||
+     ![e[@"WindowVisible"] isEqual:@NO] ||
      ![e[@"OnExternalScreen"] isEqual:@YES] ||
      ![e[@"CoordinateSpace"] isEqual:@"external-UIScreen-points"])return NO;
   CGRect screenRect=CGRectFromString(e[@"Frame"]);
@@ -240,6 +376,7 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
   if(self.assignment && !self.stopped){[self restore:@"Home-replaced-unassigned-disconnected-or-stale-session"];[self summary:@"assignment-released"];}
   if(!current || self.placed)return; // A failed restore blocks further foreign scene mutation.
   self.assignment=current;self.stopped=NO;self.launchAttempted=NO;self.provenance=nil;
+  self.presentedController=nil;self.presentedWindow=nil;self.presentedScene=nil;self.presentedAt=0;
   self.gates=[@{@"Catalog":@"UNVERIFIED",@"Launch":@"UNVERIFIED",@"Scene":@"UNVERIFIED",@"Frame":@"UNVERIFIED",@"Lifecycle":@"UNVERIFIED"} mutableCopy];
   self.deadline=NSProcessInfo.processInfo.systemUptime+10.0;
   if(!DF182InstallHooks(current)){[self fail:@"Scene" reason:@"required-hook-ABI-missing-or-mismatched-STOP"];return;}
@@ -294,6 +431,9 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
     @"before=%@ after=%@ coordinate=native-dashboard-UIWindow-points clipping=1 target-SpringBoard-window=hidden reflow=1",
     NSStringFromCGRect(before),NSStringFromCGRect(target)]);
   }
+  if(![self publishMembershipStage:@"COMMITTED" controller:self.owner]) {
+   [self fail:@"Frame" reason:@"committed-native-pane-attestation-lost-STOP"];return;
+  }
   return;
  }
  NSMutableArray *candidates=[NSMutableArray new];
@@ -304,7 +444,8 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
   for(UIWindow *w in ws.windows)if(!w.hidden && [NSStringFromClass(w.rootViewController.class) isEqual:@"DBDashboardRootViewController"])
    DF182Walk(w.rootViewController,candidates,0);
  }
- if(candidates.count==1 && DF182NativeOwner(candidates.firstObject)) {
+ if(candidates.count==1 && candidates.firstObject==self.presentedController &&
+    DF182NativeOwner(candidates.firstObject)) {
   UIViewController *vc=candidates.firstObject;UIWindow *w=vc.viewIfLoaded.window;
   self.provenance=DF182Provenance(vc);
   if(![self.gates[@"Scene"] isEqual:@"PASS"])
@@ -335,6 +476,9 @@ static BOOL DF182InstallHooks(NSDictionary *a) {
   CGRect actual=[w convertRect:pane.bounds fromView:pane];
   if(!DF182Near(actual,target)||!pane.clipsToBounds||v.window!=w||vc.parentViewController!=root) {
    [self fail:@"Frame" reason:@"native-placement-readback-mismatch-STOP"];return;
+  }
+  if(![self publishMembershipStage:@"COMMITTED" controller:vc]) {
+   [self fail:@"Frame" reason:@"presented-scene-not-committed-to-verified-pane-STOP"];return;
   }
   self.gates[@"Frame"]=@"PASS";
   DF182Log(@"frame-placed",self.assignment,[NSString stringWithFormat:

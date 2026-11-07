@@ -10,6 +10,7 @@ typedef void (^DFNative12ChromeCommand)(NSString *action, NSNumber *ratio);
                   contentRect:(CGRect)content
                       command:(DFNative12ChromeCommand)command;
 - (NSDictionary *)geometryReadback119;
+- (void)reconcileNativeMaps184;
 - (BOOL)start;
 - (void)skipStartupSplashForHomeReentry;
 - (void)hideAllExternalWindowsImmediately;

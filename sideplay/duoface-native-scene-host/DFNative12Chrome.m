@@ -3,6 +3,7 @@
 #import "DFDeepTrace.h"
 #import "DF181B0Probe.h"
 #import "DF182NativeMapAssignment.h"
+#import "DFCarPlayOwnerLease.h"
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
 #import "DFNative12PresetPreview.h"
@@ -334,6 +335,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSUInteger restoreGeneration;
 @property(nonatomic,assign) BOOL restorePending;
 @property(nonatomic,assign) NSInteger restoringPhysical;
+@property(nonatomic,copy) NSString *lastNativeAssignment184;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -1978,6 +1980,40 @@ static void DFCLog(NSString *text) {
     // A real scene is only confirmed later via sceneReady: (not here).
     return YES;
 }
+- (void)reconcileNativeMaps184 {
+    if(!NSThread.isMainThread || self.appSceneWindows.count!=4)return;
+    NSDictionary *assignment=DF182Assignment();
+    NSString *current=assignment[@"AssignmentID"];
+    if(self.lastNativeAssignment184 &&
+       ![self.lastNativeAssignment184 isEqual:current]) {
+        // Revoke/replace came from the actual CarPlay owner; unhide the
+        // still-live prior app in its original physical pane.
+        self.lastNativeAssignment184=[current copy];
+        [self layoutControls];
+        DFCLog(@"qa184-maps-handoff-released-layout-rollback");
+        return;
+    }
+    if(!current)return;
+    NSDictionary *receipt=[NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath];
+    NSDictionary *pulse=DF182Pulse();
+    BOOL valid=DF184MapMembershipAccepted(pulse,
+        [NSDictionary dictionaryWithContentsOfFile:DFOwnerEvidencePath],
+        receipt,assignment,
+        [NSDictionary dictionaryWithContentsOfFile:DFOwnerRevokePath],
+        NSDate.date.timeIntervalSince1970);
+    if(valid && [receipt[@"Stage"] isEqual:@"COMMITTED"]) {
+        // Still do not destroy prior target app. It remains hidden and
+        // recoverable until a separate explicit app replacement.
+        static NSString *lastCommitted;
+        NSString *key=[NSString stringWithFormat:@"%@:%@",assignment[@"Session"],current];
+        if(![lastCommitted isEqual:key]) {
+            lastCommitted=key;
+            DFCLog([NSString stringWithFormat:
+              @"qa184-native-map-member-committed assignment=%@ slot=%@ existing-target-retained=1",
+              current,assignment[@"PhysicalSlot"]]);
+        }
+    }
+}
 - (BOOL)assignNativeMaps182:(NSInteger)physical {
     NSInteger visual=[self visualForPhysical:physical];
     if(physical<0||physical>1||DFSlotCountForPreset(self.preset)!=2||self.focus>=0) {
@@ -1990,19 +2026,11 @@ static void DFCLog(NSString *text) {
         DF182Log(@"summary",nil,@"catalog=FAIL launch=UNVERIFIED scene=UNVERIFIED frame=UNVERIFIED lifecycle=UNVERIFIED touch=UNVERIFIED reason=assignment-write-or-session-invalid fallback=forbidden");
         return NO;
     }
-    DFSceneHost *host=[DFSceneHost sharedHost];
-    for(NSInteger i=0;i<4;i++) {
-        id active=self.hostedScenes[(NSUInteger)i],pending=self.pendingScenes[(NSUInteger)i];
-        BOOL isOldMap=([active isKindOfClass:UIView.class] &&
-            [[host bundleIDForHostedView:active] isEqual:@"com.google.Maps"]);
-        if(i!=physical && !isOldMap)continue;
-        if([active isKindOfClass:UIView.class])[host releaseHostedView:active];
-        if([pending isKindOfClass:UIView.class])[host releaseHostedView:pending];
-        self.hostedScenes[(NSUInteger)i]=NSNull.null;
-        self.pendingScenes[(NSUInteger)i]=NSNull.null;
-        self.sceneHandleReady[(NSUInteger)i]=@NO;
-        if(i!=physical)(void)DFSavePhysicalBundle(i,@"");
-    }
+    // Two-phase handoff. A native assignment is intent, not a pane commit.
+    // Keep any previous live app at the target physical slot recoverable.
+    // Do not tear down the other physical slot on Maps selection.
+    // layoutControls hides only the target UIWindow during presentation.
+    self.lastNativeAssignment184=assignment[@"AssignmentID"];
     if(prior && ![prior[@"PhysicalSlot"] isEqual:@(physical)])
         (void)DFSavePhysicalBundle([prior[@"PhysicalSlot"] integerValue],@"");
     (void)DFSavePhysicalBundle(physical,@"com.google.Maps");

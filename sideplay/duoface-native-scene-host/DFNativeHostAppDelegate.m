@@ -202,7 +202,9 @@ void DFNativeHostLog(NSString *message) {
         !self.carWindow.hidden && self.carWindow.alpha>=.95 && self.carWindow.screen &&
         self.carWindow.screen!=UIScreen.mainScreen;
     BOOL revoked=DFOwnerSessionRevoked(self.touchSession);
-    BOOL nativeOwner=background && DFOwnerNativeEvidence(self.touchSession,hostID);
+    BOOL nativeOwner=background &&
+        (DFOwnerNativeEvidence(self.touchSession,hostID) ||
+         DFOwnerNativeMapsEvidence(self.touchSession,hostID));
     BOOL mayRenew=DFOwnerMayRenew(foreground,background,self.touchSession!=nil,
                                  externalVisible,revoked,nativeOwner);
     if(!self.carWindow || !self.basicController || !self.touchOwnerScene ||

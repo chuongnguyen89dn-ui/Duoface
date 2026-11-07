@@ -1,0 +1,52 @@
+name: QA184 native Maps owner source-only verification (NO DEB)
+on:
+  push:
+    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
+    paths:
+      - '.github/workflows/duoface-qa184-native-owner-sourceonly.yml'
+      - 'sideplay/duoface-native-scene-host/**'
+      - 'sideplay/native-carplay-scene-v1/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify present gate and owner lease + old QA182 H1 contracts
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa184_owner.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa182_b1nativemaps1.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa180_h1wake3.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa179_h1wake2.py' -v
+      - name: Run real Foundation lease predicates and sticky Home tests
+        run: |
+          set -euo pipefail
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-unused-variable -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/map_membership_184_runtime.m \
+            -o "$RUNNER_TEMP/map-membership-184"
+          "$RUNNER_TEMP/map-membership-184"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-unused-variable -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/owner_lease_records_test.m \
+            -o "$RUNNER_TEMP/owner-lease-existing"
+          "$RUNNER_TEMP/owner-lease-existing"
+      - name: Compile only changed iOS 16 arm64 ownership code
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          for source in \
+            sideplay/native-carplay-scene-v1/DF182NativeMaps.m \
+            sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m \
+            sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m \
+            sideplay/duoface-native-scene-host/DFNative12Chrome.m; do
+            xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
+              -fobjc-arc -fblocks -fsyntax-only -Werror -Wno-deprecated-declarations \
+              -framework UIKit -framework Foundation -framework CarPlay \
+              -framework CoreGraphics -framework QuartzCore "$source"
+          done
+          echo 'QA184_SOURCE_ONLY_COMPILE_PASS_NO_DEB_NO_DEVICE_TEST'

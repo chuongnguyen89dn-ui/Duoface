@@ -532,6 +532,7 @@ static void DFWatchdog(NSUInteger generation) {
         DFStopProbe(@"inactive-or-stale-heartbeat");
         return;
     }
+    [sChrome reconcileNativeMaps184];
     if(DFGFresh(pulse,NSDate.date.timeIntervalSince1970) &&
        ![sGeometrySample119 isEqual:pulse[@"GeometrySample"]]){
         sGeometrySample119=[pulse[@"GeometrySample"] copy];

@@ -2,6 +2,8 @@
 #define DF_CARPLAY_OWNER_LEASE_H
 #import <Foundation/Foundation.h>
 #import "DFOwnerLeasePolicy.h"
+#import "DF184NativeMapMembership.h"
+#import "DFNativeMapLeasePolicy.h"
 static NSString *const DFOwnerEvidencePath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.native-owner.v1.plist";
 static NSString *const DFOwnerRevokePath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.owner-revoke.v1.plist";
 static const char *const DFOwnerRevokeNotify="com.duoface.nativehost.owner-revoke.v1";
@@ -52,9 +54,35 @@ static inline BOOL DFOwnerNativeEvidence(NSString *session, NSString *hostSceneI
         NSDate.date.timeIntervalSince1970);
 }
 static inline BOOL DFOwnerAcceptPulse(NSDictionary *pulse) {
-    return DFOwnerAcceptRecords(pulse,
-        [NSDictionary dictionaryWithContentsOfFile:DFOwnerEvidencePath],
-        [NSDictionary dictionaryWithContentsOfFile:DFOwnerRevokePath],
-        NSDate.date.timeIntervalSince1970);
+    NSDictionary *owner=[NSDictionary dictionaryWithContentsOfFile:DFOwnerEvidencePath];
+    NSDictionary *revoke=[NSDictionary dictionaryWithContentsOfFile:DFOwnerRevokePath];
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(DFOwnerAcceptRecords(pulse,owner,revoke,now))return YES;
+    // Not a watchdog bypass: receipt must be post-original native presentation,
+    // independent active CarPlay Home hook, exact assignment and fresh slot.
+    return DF184MapMembershipAccepted(pulse,owner,
+        [NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath],
+        [NSDictionary dictionaryWithContentsOfFile:DFNativeMapChoicePath],
+        revoke,now);
+}
+static inline BOOL DFOwnerNativeMapsEvidence(NSString *session,NSString *hostSceneID) {
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:
+        @"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist"];
+    if(!DFOwnerValidSession(session) ||
+       ![pulse[@"Session"] isEqual:session] ||
+       ![pulse[@"HostSceneID"] isEqual:hostSceneID] ||
+       ![pulse[@"Active"] isEqual:@YES])return NO;
+    // Called only while the actual CPTemplate scene is BACKGROUND.
+    // The on-disk pulse may still describe its immediately preceding
+    // foreground iteration. Evaluate the real transition as background,
+    // without writing or changing the authoritative shared heartbeat.
+    NSMutableDictionary *transition=[pulse mutableCopy];
+    transition[@"HostBackground"]=@YES;
+    return DF184MapMembershipAccepted(transition,
+          [NSDictionary dictionaryWithContentsOfFile:DFOwnerEvidencePath],
+          [NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath],
+          [NSDictionary dictionaryWithContentsOfFile:DFNativeMapChoicePath],
+          [NSDictionary dictionaryWithContentsOfFile:DFOwnerRevokePath],
+          NSDate.date.timeIntervalSince1970);
 }
 #endif
