@@ -7,8 +7,8 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
-VERSION = "0.0.186~panelayout1"
-NATIVE = "0.1.186~panelayout1"
+VERSION = "0.0.187~regressionsafe1"
+NATIVE = "0.1.187~regressionsafe1"
 
 class QA184Package(unittest.TestCase):
     def test_exact_versions_are_coordinated(self):
@@ -18,8 +18,8 @@ class QA184Package(unittest.TestCase):
         pack = (REPO / "sideplay/jb-embedded-appbridge/package_integrated.py").read_text()
         self.assertIn(NATIVE, build)
         self.assertIn("Version: " + NATIVE, control)
-        self.assertEqual(info["CFBundleVersion"], "186")
-        self.assertEqual(info["CFBundleShortVersionString"], "0.1.186")
+        self.assertEqual(info["CFBundleVersion"], "187")
+        self.assertEqual(info["CFBundleShortVersionString"], "0.1.187")
         self.assertIn('VERSION="' + VERSION + '"', pack)
         self.assertIn(NATIVE, pack)
         self.assertNotIn("0.1.182~b1nativemaps1", build)
