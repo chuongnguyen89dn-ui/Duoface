@@ -101,12 +101,12 @@ class QA180H1Wake3(unittest.TestCase):
 
     def test_exact_qa180_versions(self):
         integrated=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
-        self.assertIn('VERSION="0.0.188~mapowner1"',integrated)
-        self.assertIn("0.1.188~mapowner1",(ROOT/"build.sh").read_text())
-        self.assertIn("Version: 0.1.188~mapowner1",(ROOT/"control").read_text())
-        self.assertIn("<key>CFBundleVersion</key><string>188</string>",(ROOT/"Info.plist").read_text())
+        self.assertIn('VERSION="0.0.189~mapsh1fix1"',integrated)
+        self.assertIn("0.1.189~mapsh1fix1",(ROOT/"build.sh").read_text())
+        self.assertIn("Version: 0.1.189~mapsh1fix1",(ROOT/"control").read_text())
+        self.assertIn("<key>CFBundleVersion</key><string>189</string>",(ROOT/"Info.plist").read_text())
         for name in ("DFDeepTrace.h","DFTouchOwnerProbe.m"):
-            self.assertIn("0.0.188~mapowner1",(ROOT/name).read_text())
+            self.assertIn("0.0.189~mapsh1fix1",(ROOT/name).read_text())
 
 if __name__=="__main__":
     unittest.main()
