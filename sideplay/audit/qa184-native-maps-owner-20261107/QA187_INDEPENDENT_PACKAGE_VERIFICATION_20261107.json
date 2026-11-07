@@ -1,0 +1,97 @@
+{
+  "timestamp_utc": "2026-11-07T08:21:00Z",
+  "status": "PASS",
+  "scope": "Private signed iOS16 rootless DEB integrity only; no vehicle native Maps+Waze rendering or touch acceptance",
+  "signing_run_id": 42354698205,
+  "signing_job_id": 128350100838,
+  "source_ci_run_id": 42354499519,
+  "source_ci_job_id": 128349492974,
+  "source_commit": "ac105df683db640f3cb2050314b7fd447f4e4b08",
+  "package": "com.duoface.jb.embedded",
+  "version": "0.0.187~regressionsafe1",
+  "filename": "com.duoface.jb.embedded_0.0.187~regressionsafe1_iphoneos-arm64.deb",
+  "bytes": 1292248,
+  "sha256": "0819b2352c3204e6325875ab8ff79bdd50550f0da90995750e71142bcccaca77",
+  "source_archive_path": "sideplay/jb-embedded-appbridge/evidence/runs/42354698205",
+  "artifact_id": 13566819341,
+  "verified_rootless": true,
+  "verified_deb_package_version_architecture_dependencies": true,
+  "verified_provenance_source_sha": true,
+  "verified_CFBundleVersion": "187",
+  "linked_runtime_markers": [
+    "scene-frame-original-preserved",
+    "native-maps-restore-deferred-explicit-picker-required",
+    "pane-layout-reconciled",
+    "owned-host-layout-reconciled"
+  ],
+  "independent_macho_code_directory_verification": {
+    "macho_files": 11,
+    "architecture_slices": 14,
+    "code_directories": 28,
+    "hashed_code_pages": 1292,
+    "pass": true,
+    "qualification": "Checks embedded CodeDirectory code-page hashes; does not replace on-device OS code-signing acceptance"
+  },
+  "macho_pages": [
+    [
+      "DF155GeneralAppStateRelay.dylib",
+      50
+    ],
+    [
+      "DFCarPlayDockOwner.dylib",
+      152
+    ],
+    [
+      "DFFirstPartyAdmission.dylib",
+      80
+    ],
+    [
+      "DFGofaMapResize141.dylib",
+      38
+    ],
+    [
+      "DFGofaSpeedSource162.dylib",
+      50
+    ],
+    [
+      "DFNativeDashboardBridgeQA.dylib",
+      124
+    ],
+    [
+      "DFNativeMapPaneCoordinator.dylib",
+      90
+    ],
+    [
+      "DFTouchOwnerProbe.dylib",
+      348
+    ],
+    [
+      "DFV1APreflight.dylib",
+      132
+    ],
+    [
+      "DFYouTubeOrientationRelay.dylib",
+      60
+    ],
+    [
+      "DuoFaceNativeHost",
+      168
+    ]
+  ],
+  "signer_workflow_status": "completed/success",
+  "source_ci_status": "completed/success",
+  "sileo_published": false,
+  "device_carplay_tested": false,
+  "warnings": [
+    "Package has Conflicts com.duonavi.app. If installer offers to remove DuoNavi, cancel immediately.",
+    "QA187 safety defers automatic Maps workspace restore; selecting Maps explicitly may be necessary. Does not prove a fully functional two-pane Maps+peer display."
+  ],
+  "local_validation_commands": [
+    "unzip -o QA187-regressionsafe1-signed-integrated-DEB.zip -d /mnt/data/QA187-check",
+    "cd /mnt/data/QA187-check && sha256sum -c QA187_SHA256SUMS.txt",
+    "dpkg-deb -f com.duoface.jb.embedded_0.0.187~regressionsafe1_iphoneos-arm64.deb",
+    "dpkg-deb -x com.duoface.jb.embedded_0.0.187~regressionsafe1_iphoneos-arm64.deb expanded",
+    "dpkg-deb -e com.duoface.jb.embedded_0.0.187~regressionsafe1_iphoneos-arm64.deb control",
+    "python3 /mnt/data/QA187-check/verify_qa187.py"
+  ]
+}
