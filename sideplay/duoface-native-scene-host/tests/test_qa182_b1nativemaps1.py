@@ -61,7 +61,7 @@ class QA182B1(unittest.TestCase):
   self.assertIn('qa181-b0',read('DF181B0Probe.h'))
  def test_versions(self):
   self.assertIn('Version: 0.1.189~mapsh1fix1',read('control'))
-  self.assertIn('<key>CFBundleVersion</key><string>188</string>',read('Info.plist'))
+  self.assertIn('<key>CFBundleVersion</key><string>189</string>',read('Info.plist'))
   self.assertIn('VERSION="0.0.189~mapsh1fix1"',(REPO/'sideplay/jb-embedded-appbridge/package_integrated.py').read_text())
  @unittest.skipUnless(sys.platform=='darwin','Foundation runtime requires macOS CI')
  def test_real_assignment_expiry_and_completion_abi(self):
