@@ -50,6 +50,7 @@ jobs:
             sideplay/native-carplay-scene-v1/DF182NativeMaps.m \
             sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m \
             sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m \
+            sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m \
             sideplay/duoface-native-scene-host/DFNative12Chrome.m \
             sideplay/duoface-native-scene-host/DFSceneHost.m; do
             xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \

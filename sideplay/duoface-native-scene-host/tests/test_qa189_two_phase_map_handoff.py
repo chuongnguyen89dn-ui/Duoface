@@ -40,6 +40,13 @@ class BoundedNativeMapHandoff(unittest.TestCase):
   self.assertIn("qa184-maps-handoff-released-layout-rollback",recon)
   self.assertNotIn("stopAllHosts",recon)
   self.assertNotIn("releaseHostedView:",recon)
+ def test_h1_recall_independent_of_optional_scene_state_channel(self):
+  relay=read("sideplay/duoface-native-scene-host/DF154GeneralAppStateRelay.m")
+  self.assertIn("DF155PilotAppID(bundle)",relay)
+  self.assertIn("DF177InstallAppTouchHook(bundle);",relay)
+  self.assertLess(relay.index("DF177InstallAppTouchHook(bundle);"),
+                  relay.index("if(!DF156Listen(bundle,NO"))
+  self.assertEqual(relay.count("DF177InstallAppTouchHook(bundle);"),1)
  def test_home_h1_keyboard_and_system_frame_are_not_bypassed(self):
   self.assertIn('DFStopProbe(@"inactive-or-stale-heartbeat")',self.p)
   self.assertIn('DFStopProbe(@"native-home-button")',self.p)

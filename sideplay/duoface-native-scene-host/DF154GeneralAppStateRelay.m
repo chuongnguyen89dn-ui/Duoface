@@ -181,6 +181,11 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
      !DF155PilotAppID(bundle) ||
      NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
   dispatch_async(dispatch_get_main_queue(),^{
+    // H1 first-touch recall must not depend on the optional DF156
+    // app-viewport state listener. A native CarPlay Maps scene may not
+    // receive a phone-scene lease; app-side UIKit touch events still work.
+    // This runs only inside the existing DF155 fixed pilot allowlist.
+    DF177InstallAppTouchHook(bundle);
     DF154GeneralAppStateRelay *relay=[DF154GeneralAppStateRelay new];
     relay.bundle=bundle;
     relay.originals=[NSMapTable weakToStrongObjectsMapTable];
@@ -192,12 +197,8 @@ __attribute__((constructor))static void DF154StartAppSide(void) {
       return;
     }
     DF154Relay=relay;
-    // QA177 H1 (the ONLY change ported onto the QA171 base in this
-    // build): app-side "user touched" signal for controls recall.
-    // This constructor only proceeds inside a DF155 pilot app, so the
-    // sendEvent: observation hook (original first, read-only) is
-    // installed with the right scope. See DFAppTouch177.h.
-    DF177InstallAppTouchHook(bundle);
+    // H1 is already installed before the optional scene-state transport.
+    // Successful DF156 setup is not a prerequisite for logo recall.
     [[NSNotificationCenter defaultCenter] addObserverForName:
       UISceneDidActivateNotification object:nil queue:NSOperationQueue.mainQueue
       usingBlock:^(__unused NSNotification *n){[relay reconcile];}];
