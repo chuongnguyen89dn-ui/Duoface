@@ -1,5 +1,10 @@
 # Gate0 audit2 v2, Audit13, and OFF-first branch gate — verified 2026-11-07
 
+## Update from user after Audit13 review — no further OFF retest
+The user directly confirms the most recent physical session already included Google Maps being OFF/hidden in the stock paired-car Customize menu. Despite OFF, Google Maps was visible and touch-responsive inside DuoFace, with the same persistent wrong layout. This is an operator-observed physical outcome, **not** a verified programmatic OFF field on any Gate0 record; all those records still have UNKNOWN/UNVERIFIED. Do not send the user to repeat the same test. The next code target is native Dashboard presentation/pane geometry, a positive Maps owner attestation consumed by the existing SpringBoard watchdog lease, and transactional rollback of the second pane and Home.
+Static reviewed source: feature/duoface-qa182-b1nativemaps1-20261107, DFCarPlayOwnerLease.h lines 17-43 hard-require com.duoface.native.scenehost in background; DFCarPlayOwnerObserver.h lines 73-127 only writes nativehost identity; DF182NativeMaps.m lines 170-174 can validate Maps actual owner but does not feed the lease; DFTouchOwnerProbe.m lines 521-533 watchdog stops the session; DFNative12Chrome.m lines 1981-2013 starts replacing prior content before verification, and DF182NativeMaps.m lines 325-344 places scene content into Dashboard. Audit13 17/17 assignments revoked. The exact cause of the user-visible wrong rendering is not proven by a viewport receipt alone; inspect native view containment, scene surface and geometry when repairing.
+Only documentation changes occurred in this response; no new source, CI, DEB, installed package, or physical test. The rest of this report remains historical evidence.
+
 ## Source and identity
 Repository: `chuongnguyen89dn-ui/Duoface`. Documentation branch: `spec-main`. User-uploaded real test logs are on `main` at commit `ccaaa2bc378c8790d03e0db9d798815fe1015478` (2026-11-07 03:02:12 UTC). No new implementation was written in this documentation pass.
 
