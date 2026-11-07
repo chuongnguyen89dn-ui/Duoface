@@ -4,6 +4,7 @@ on:
     branches: [feature/duoface-qa189-private-signed-20261107]
     paths:
       - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md'
+      - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY1_ONCE.md'
 # Private QA189 ONE-SHOT marker; no Sileo publisher or tag/release.
 permissions:
   contents: write
@@ -27,6 +28,7 @@ jobs:
           allowed={
             ".github/workflows/duoface-qa189-private-signed-once.yml",
             "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md",
+            "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY1_ONCE.md",
             "sideplay/tiep tuc du an.md",
             "sideplay/duoface-native-scene-host/build.sh",
             "sideplay/duoface-native-scene-host/control",
