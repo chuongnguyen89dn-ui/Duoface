@@ -3,7 +3,6 @@ on:
   push:
     branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
     paths:
-      - '.github/workflows/duoface-184-nativeowner-signed-once.yml'
       - 'sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md'
   workflow_dispatch:
 permissions:
@@ -19,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify QA184 membership, QA184 native assignment, frozen H1 and package contracts
+      - name: Verify QA184 membership, QA182 native assignment, frozen H1 and package contracts
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa184_owner.py' -v
@@ -140,7 +139,7 @@ jobs:
             cp "$QA184_INTEGRATED" "$OUT/$ART"
             ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
             cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
-            printf 'BUILD=success\\nSIGNED=true\\nSOURCE_SHA=%s\\nRUN_ID=%s\\nSILEO_PUBLISHED=false\\nDEVICE_TESTED=false\\nPACKAGE=0.0.184~nativeowner1\\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            printf 'BUILD=success\nSIGNED=true\nSOURCE_SHA=%s\nRUN_ID=%s\nSILEO_PUBLISHED=false\nDEVICE_TESTED=false\nPACKAGE=0.0.184~nativeowner1\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
             git -C "$DIR" config user.name 'github-actions[bot]'
             git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
