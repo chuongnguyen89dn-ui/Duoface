@@ -41,7 +41,7 @@ def eligible(record: dict) -> bool:
         return False
     if record.get("stockProfileMatch") is not True:
         return False
-    if not isinstance(record.get("stockSource"), str) or record["stockSource"].startswith("UNVALIDATED_"):
+    if not isinstance(record.get("stockSource"), str) or not record["stockSource"] or record["stockSource"].startswith("UNVALIDATED_"):
         return False
     if not isinstance(record.get("stockProfileDigest"), str) or len(record["stockProfileDigest"]) < 8:
         return False
