@@ -400,18 +400,27 @@ static NSInteger DFObservedSceneForeground(id scene) {
     if (!self.started || self.stopped || self.layingOutScene || self.committingSceneGeometry) return;
     CGSize size=self.bounds.size;
     if (size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
-    if (CGSizeEqualToSize(size,self.lastApplied)) return;
     // A divider drag can produce dozens of intermediate frames. Scale the
     // existing UIKit scene immediately and leave the remote player intact.
     CGSize logical=DFHostedLogicalSizeForBundle(size,self.bundleID);
     if(logical.width<=0 || logical.height<=0)return;
+    UIView *host=self.appController.viewIfLoaded;
+    if(!host || host.superview!=self)return;
+    CGAffineTransform expectedTransform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
+    CGPoint expectedCenter=CGPointMake(size.width/2,size.height/2);
+    BOOL geometryChanged=!CGSizeEqualToSize(size,self.lastApplied);
+    BOOL hostMatches=CGRectEqualToRect(host.bounds,(CGRect){CGPointZero,logical}) &&
+        CGAffineTransformEqualToTransform(host.transform,expectedTransform) &&
+        CGPointEqualToPoint(host.center,expectedCenter);
+    // A stable OUTER size does not prove the remote controller's UIView
+    // retained its geometry after UIKit/private controller layout.
+    if(!geometryChanged && hostMatches)return;
     self.layingOutScene=YES;
     @try {
-    UIView *host=self.appController.view;
     host.transform=CGAffineTransformIdentity;
     host.frame=(CGRect){CGPointZero,logical};
-    host.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
-    host.center=CGPointMake(size.width/2,size.height/2);
+    host.transform=expectedTransform;
+    host.center=expectedCenter;
     self.lastApplied=size;
     } @finally { self.layingOutScene=NO; }
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
@@ -420,7 +429,11 @@ static NSInteger DFObservedSceneForeground(id scene) {
         DFSceneLog(@"media-viewport-ui-only",self.bundleID,NSStringFromCGSize(size));
     }
     DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
-    if (!self.ready) return;
+    if(!geometryChanged)
+        DFSceneLog(@"owned-host-layout-reconciled",self.bundleID,NSStringFromCGSize(size));
+    if (!self.ready || CGSizeEqualToSize(size,self.committedReferenceSize)) return;
+    // Existing debounce/scene ownership remain unchanged for remote IPC.
+    if(self.geometryCommitTimer && CGSizeEqualToSize(self.pendingReferenceSize,size))return;
     self.pendingReferenceSize=size;
     [self.geometryCommitTimer invalidate];
     // QA161: on the very first scene-ready frame of a single independent
@@ -755,6 +768,9 @@ static NSInteger DFObservedSceneForeground(id scene) {
                     DFSceneLog(@"app-habit-save-failed-nonfatal",self.bundleID,@"no-scene-change");
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
+            // Read/repair only the same attached owned host. No new lifecycle
+            // or foreground writer; an unchanged valid frame is a no-op.
+            [self layoutScene];
             [self publishYouTubeState];
             return;
         }

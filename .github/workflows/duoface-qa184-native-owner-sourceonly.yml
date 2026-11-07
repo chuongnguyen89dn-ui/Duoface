@@ -48,9 +48,12 @@ jobs:
             sideplay/native-carplay-scene-v1/DF182NativeMaps.m \
             sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m \
             sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m \
-            sideplay/duoface-native-scene-host/DFNative12Chrome.m; do
+            sideplay/duoface-native-scene-host/DFNative12Chrome.m \
+            sideplay/duoface-native-scene-host/DFSceneHost.m; do
             xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
               -fobjc-arc -fblocks -fsyntax-only -Werror -Wno-deprecated-declarations \
               "$source"
           done
           echo 'QA184_SOURCE_ONLY_COMPILE_PASS_NO_DEB_NO_DEVICE_TEST'
+      - name: Run real UIKit pane drift and ownership cancellation harness
+        run: bash sideplay/duoface-native-scene-host/tests/run_pane_layout_186_uikit.sh

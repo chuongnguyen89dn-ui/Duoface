@@ -60,6 +60,8 @@ static void DF182Walk(UIViewController *vc,NSMutableArray *out,NSUInteger depth)
  for(UIViewController *child in vc.childViewControllers)DF182Walk(child,out,depth+1);
  if(vc.presentedViewController)DF182Walk(vc.presentedViewController,out,depth+1);
 }
+#import "DF186NativePaneController.h"
+
 @interface DF182MapsOwner:NSObject
 @property(nonatomic,strong) NSDictionary *assignment;
 @property(nonatomic,copy) NSDictionary *launchAssignment;
@@ -70,6 +72,9 @@ static void DF182Walk(UIViewController *vc,NSMutableArray *out,NSUInteger depth)
 @property(nonatomic,strong) UIViewController *oldParent;
 @property(nonatomic,strong) UIView *oldSuperview;
 @property(nonatomic,strong) UIView *pane;
+@property(nonatomic,strong) DF186NativePaneController *paneController;
+@property(nonatomic,strong) UIView *mountedView;
+@property(nonatomic,assign) BOOL refreshingLayout;
 @property(nonatomic,assign) CGRect oldFrame;
 @property(nonatomic,assign) CGRect target;
 @property(nonatomic,assign) UIViewAutoresizing oldAutoresizing;
@@ -83,6 +88,7 @@ static void DF182Walk(UIViewController *vc,NSMutableArray *out,NSUInteger depth)
 @property(nonatomic,weak) UIWindow *presentedWindow;
 @property(nonatomic,weak) id presentedScene;
 @property(nonatomic,assign) NSTimeInterval presentedAt;
+- (BOOL)layoutOwnedPane;
 - (void)clearMembership;
 - (BOOL)publishMembershipStage:(NSString *)stage controller:(UIViewController *)vc;
 - (BOOL)ownsOrPresenting:(id)controller;
@@ -293,6 +299,8 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  BOOL frameVerified=NO,hitVerified=NO;
  if(committed) {
   DF185_REQUIRE([self owns:vc],@"owns",@NO,@YES,@"DF182MapsOwner.owns");
+  DF185_REQUIRE(vc.viewIfLoaded==self.mountedView,@"mountedView.identity",@(vc.viewIfLoaded==self.mountedView),@YES,@"exact UIView captured at adoption");
+  DF185_REQUIRE(vc.parentViewController==self.paneController,@"paneController",@(vc.parentViewController==self.paneController),@YES,@"independent UIKit containment owner");
   DF185_REQUIRE(self.pane.clipsToBounds,@"clipsToBounds",@(self.pane.clipsToBounds),@YES,@"DF182MapsOwner.pane");
   DF185_REQUIRE(DF182Near(vc.viewIfLoaded.frame,self.pane.bounds),@"view.frame",NSStringFromCGRect(vc.viewIfLoaded.frame),NSStringFromCGRect(self.pane.bounds),@"pane bounds; tolerance=2");
   CGRect actual=[w convertRect:self.pane.bounds fromView:self.pane];
@@ -362,10 +370,14 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  return NSThread.isMainThread && !self.stopped && self.placed && controller &&
   controller==self.owner && [self.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] &&
   DF182Scene(controller)==self.scene && DF182NativeOwner(controller) &&
-  self.owner.viewIfLoaded.superview==self.pane && self.pane.window==self.window;
+  self.owner.viewIfLoaded==self.mountedView &&
+  self.owner.parentViewController==self.paneController &&
+  self.paneController.parentViewController==self.window.rootViewController &&
+  self.mountedView.superview==self.pane && self.pane.window==self.window;
 }
 - (BOOL)restore:(NSString *)reason {
  self.stopped=YES; // Revokes swallow BEFORE containment is restored.
+ self.paneController.layoutAuthorized=nil;
  [self clearMembership];
  if(!self.placed)return YES;
  UIViewController *vc=self.owner;UIView *v=vc.viewIfLoaded;
@@ -382,7 +394,11 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  [vc didMoveToParentViewController:self.oldParent];
  BOOL verified=vc.parentViewController==self.oldParent && v.superview==self.oldSuperview &&
   DF182Near(v.frame,self.oldFrame) && v.window==self.window;
- if(verified){[self.pane removeFromSuperview];self.pane=nil;self.placed=NO;}
+ if(verified){
+  [self.paneController willMoveToParentViewController:nil];
+  [self.pane removeFromSuperview];[self.paneController removeFromParentViewController];
+  self.paneController=nil;self.mountedView=nil;self.pane=nil;self.placed=NO;
+ }
  self.gates[@"Lifecycle"]=verified?@"PASS":@"FAIL";
  DF182Log(@"lifecycle-restored",self.assignment,[NSString stringWithFormat:
   @"restoration=%@ reason=%@ parent=%@ frame=%@ coordinate=original-superview",
@@ -442,6 +458,30 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  DF185_REQUIRE(NO,@"Windows.PhysicalSlot",entries,DF185Value(self.assignment[@"PhysicalSlot"]),source);
  return NO;
 }
+- (BOOL)layoutOwnedPane {
+ if(self.refreshingLayout || ![self owns:self.owner])return NO;
+ CGRect target=CGRectZero;
+ if(![self targetForWindow:self.window rect:&target])return NO;
+ self.refreshingLayout=YES;
+ @try {
+  UIView *root=self.window.rootViewController.view;
+  CGRect before=self.mountedView.frame;
+  self.pane.frame=[root convertRect:target fromView:self.window];
+  self.target=target;
+  [self.pane setNeedsLayout];[self.pane layoutIfNeeded];
+  [self.paneController layoutNativeContent];
+  CGRect actual=[self.window convertRect:self.pane.bounds fromView:self.pane];
+  BOOL verified=[self owns:self.owner] && DF182Near(actual,target) &&
+    DF182Near(self.mountedView.frame,self.pane.bounds);
+  if(!DF182Near(before,self.mountedView.frame))
+   DF182Log(@"pane-layout-reconciled",self.assignment,[NSString stringWithFormat:
+    @"view=%p controller=%p sceneHostView=%p before=%@ after=%@ pane=%@ post-layout-verified=%d",
+    self.mountedView,self.owner,DF182Get(self.owner,"sceneHostView"),
+    NSStringFromCGRect(before),NSStringFromCGRect(self.mountedView.frame),
+    NSStringFromCGRect(self.pane.bounds),verified]);
+  return verified;
+ } @finally {self.refreshingLayout=NO;}
+}
 - (void)tick {
  NSDictionary *current=DF182Assignment();
  if(![current[@"AssignmentID"] isEqual:self.assignment[@"AssignmentID"]]) {
@@ -494,22 +534,10 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
   self.deadline=NSProcessInfo.processInfo.systemUptime+10.0;
  }
  if(self.placed) {
-  CGRect target=CGRectZero;
-  if(![self owns:self.owner] || ![self targetForWindow:self.window rect:&target]) {
+  // Reconcile the owned UIKit layout before sampling its post-layout state.
+  // Identity/scene/window loss still fails immediately; no grace lease.
+  if(![self layoutOwnedPane]) {
    [self fail:@"Frame" reason:@"native-owner-or-live-pane-binding-lost-STOP"];return;
-  }
-  if(!DF182Near(self.target,target)) {
-   CGRect before=[self.window convertRect:self.pane.bounds fromView:self.pane];
-   self.pane.frame=[self.window.rootViewController.view convertRect:target fromView:self.window];
-   self.owner.view.frame=self.pane.bounds;
-   self.target=target;
-   CGRect actual=[self.window convertRect:self.pane.bounds fromView:self.pane];
-   if(!DF182Near(actual,target)) {
-    [self fail:@"Frame" reason:@"native-reflow-readback-mismatch-STOP"];return;
-   }
-   DF182Log(@"frame-placed",self.assignment,[NSString stringWithFormat:
-    @"before=%@ after=%@ coordinate=native-dashboard-UIWindow-points clipping=1 target-SpringBoard-window=hidden reflow=1",
-    NSStringFromCGRect(before),NSStringFromCGRect(target)]);
   }
   if(![self publishMembershipStage:@"COMMITTED" controller:self.owner]) {
    [self fail:@"Frame" reason:@"committed-native-pane-attestation-lost-STOP"];return;
@@ -549,25 +577,29 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
   }
   UIViewController *root=w.rootViewController;
   UIView *v=vc.viewIfLoaded;
-  // Preserve parent/frame/subview order; do not change private scene settings directly.
+  // Preserve original parent/frame/order for rollback; native sceneFrame hook owns requested size.
   self.owner=vc;self.window=w;self.scene=DF182Scene(vc);
   self.oldParent=vc.parentViewController;self.oldSuperview=v.superview;
   self.oldIndex=[v.superview.subviews indexOfObject:v];self.oldFrame=v.frame;
   self.oldAutoresizing=v.autoresizingMask;self.target=target;
-  UIView *pane=[[UIView alloc]initWithFrame:target];pane.clipsToBounds=YES;
-  pane.backgroundColor=UIColor.clearColor;pane.userInteractionEnabled=YES;
-  [root.view addSubview:pane];
-  // Window rect -> root coordinates, measured rather than assuming matching origins.
+  DF186NativePaneController *container=[DF186NativePaneController new];
+  self.paneController=container;self.mountedView=v;
+  [root addChildViewController:container];
+  UIView *pane=container.view;
   pane.frame=[root.view convertRect:target fromView:w];
+  [root.view addSubview:pane];[container didMoveToParentViewController:root];
   [vc willMoveToParentViewController:nil];[v removeFromSuperview];[vc removeFromParentViewController];
-  [root addChildViewController:vc];v.frame=pane.bounds;
+  [container addChildViewController:vc];v.frame=pane.bounds;
   v.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-  [pane addSubview:v];[vc didMoveToParentViewController:root];
+  [pane addSubview:v];[vc didMoveToParentViewController:container];
+  container.nativeController=vc;container.mountedView=v;
   self.pane=pane;self.placed=YES;
-  CGRect actual=[w convertRect:pane.bounds fromView:pane];
-  if(!DF182Near(actual,target)||!pane.clipsToBounds||v.window!=w||vc.parentViewController!=root) {
+  __weak DF182MapsOwner *weakOwner=self;
+  container.layoutAuthorized=^BOOL{ return [weakOwner owns:weakOwner.owner]; };
+  if(![self layoutOwnedPane]) {
    [self fail:@"Frame" reason:@"native-placement-readback-mismatch-STOP"];return;
   }
+  CGRect actual=[w convertRect:pane.bounds fromView:pane];
   if(![self publishMembershipStage:@"COMMITTED" controller:vc]) {
    [self fail:@"Frame" reason:@"presented-scene-not-committed-to-verified-pane-STOP"];return;
   }

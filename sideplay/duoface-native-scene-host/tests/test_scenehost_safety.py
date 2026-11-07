@@ -561,12 +561,13 @@ class NativeCarPlayHost(unittest.TestCase):
 
  def test_media_scene_deduplicates_private_resize_in_pending_state(self):
   host=file("DFSceneHost.m")
-  self.assertIn("if (CGSizeEqualToSize(size,self.lastApplied)) return;",host)
+  self.assertIn("if(!geometryChanged && hostMatches)return;",host)
+  self.assertIn("if(self.geometryCommitTimer && CGSizeEqualToSize(self.pendingReferenceSize,size))return;",host)
   self.assertIn("self.lastApplied=CGSizeZero;",host)
   self.assertIn("media-viewport-ui-only",host)
   self.assertIn("media-pane-hit-test-target",host)
   self.assertIn("media-reference-committed-after-stable-viewport",host)
-  self.assertIn("if (!self.ready) return;",host)
+  self.assertIn("if (!self.ready || CGSizeEqualToSize(size,self.committedReferenceSize)) return;",host)
   self.assertIn("if (timer && self.geometryCommitTimer!=timer) return;",host)
   self.assertIn("[self.geometryCommitTimer invalidate]",host)
   self.assertIn("!self.window || !self.appController",host)
