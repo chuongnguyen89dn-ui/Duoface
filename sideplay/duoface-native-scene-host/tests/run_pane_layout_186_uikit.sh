@@ -19,7 +19,7 @@ qa186_sdk="$(xcrun --sdk iphonesimulator --show-sdk-path)"
 qa186_arch="$(uname -m)"
 xcrun clang -target "$qa186_arch-apple-ios16.0-simulator" -isysroot "$qa186_sdk" \
  -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-deprecated-declarations \
- -framework UIKit -framework Foundation \
+ -framework UIKit -framework Foundation -framework CoreGraphics \
  "$repo_root/sideplay/duoface-native-scene-host/tests/pane_layout_186_uikit.m" \
  -o "$qa186_app/PaneLayout186"
 codesign --force --sign - "$qa186_app"
