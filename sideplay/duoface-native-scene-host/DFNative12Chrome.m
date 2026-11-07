@@ -450,8 +450,11 @@ static void DFCLog(NSString *text) {
        if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
           [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class])continue;
        if([bundle isEqual:@"com.google.Maps"]) {
-          [self assignNativeMaps182:physical origin:@"workspace-restore"];
-          continue; // Native restore never creates a phone scene or retries phone hosting.
+          // Audit16: both automatically restored native attempts revoked
+          // membership and stopped the entire split. Stored preference is not
+          // a verified authorization to change native FBScene geometry.
+          DFCLog(@"native-maps-restore-deferred-explicit-picker-required");
+          continue; // No native launch and no phone-scene fallback.
        }
        NSError *error=nil;
        UIView *surface=[host hostViewForBundleID:bundle error:&error];
@@ -1611,7 +1614,17 @@ static void DFCLog(NSString *text) {
         // no demo tiles, labels or invented app content.
         BOOL focusedElsewhere=(self.focus>=0 && self.focus!=visualSlot);
         NSDictionary *native182=DF182Assignment();
-        BOOL nativeReserved=[native182[@"PhysicalSlot"] isEqual:@(i)];
+        BOOL nativeReserved=NO;
+        if([native182[@"PhysicalSlot"] isEqual:@(i)]) {
+            // Do not hide an existing phone pane from an uncommitted native intent.
+            NSDictionary *member=[NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath];
+            nativeReserved=[member[@"Stage"] isEqual:@"COMMITTED"] &&
+                DF184MapMembershipAccepted(DF182Pulse(),
+                  [NSDictionary dictionaryWithContentsOfFile:DFOwnerEvidencePath],
+                  member,native182,
+                  [NSDictionary dictionaryWithContentsOfFile:DFOwnerRevokePath],
+                  NSDate.date.timeIntervalSince1970);
+        }
         appWindow.hidden=(self.startupActive || focusedElsewhere || nativeReserved);
         v.hidden=appWindow.hidden;
         // Empty/negotiating panes cannot steal gestures.
@@ -2019,6 +2032,8 @@ static void DFCLog(NSString *text) {
         NSString *key=[NSString stringWithFormat:@"%@:%@",assignment[@"Session"],current];
         if(![lastCommitted isEqual:key]) {
             lastCommitted=key;
+            // First valid COMMITTED receipt is the point for the real handoff.
+            [self layoutControls];
             DFCLog([NSString stringWithFormat:
               @"qa184-native-map-member-committed assignment=%@ slot=%@ existing-target-retained=1",
               current,assignment[@"PhysicalSlot"]]);

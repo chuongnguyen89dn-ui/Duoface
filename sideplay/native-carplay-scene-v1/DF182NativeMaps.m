@@ -114,10 +114,13 @@ static CGRect DF182Frame(id obj,SEL sel,id info,id proxy) {
    [DF182Owner.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] &&
    ([DF182Bundle(info) isEqual:@"com.google.Maps"] || [DF182Bundle(proxy) isEqual:@"com.google.Maps"]) &&
    [DF182Owner targetForWindow:DF182Owner.window rect:&target]) {
-  CGRect before=r;r.size=target.size;
-  DF182Log(@"scene-frame-request",DF182Owner.assignment,[NSString stringWithFormat:
-   @"before=%@ after=%@ coordinate=system-scene-frame-origin-preserved size-source=native-dashboard-UIWindow-points placement=UNVERIFIED",
-   NSStringFromCGRect(before),NSStringFromCGRect(r)]);
+  // Audit16: this override changed a real 640x360 FBScene to 198x360.
+  // Restoring controller.view does NOT reverse a private scene-size request.
+  // Until the paired inverse scene-size transaction is verified, preserve
+  // the OS frame byte-for-byte. This is safety only, not split-size PASS.
+  DF182Log(@"scene-frame-original-preserved",DF182Owner.assignment,[NSString stringWithFormat:
+   @"original=%@ requested-pane=%@ override=DISABLED native-split-size=UNVERIFIED",
+   NSStringFromCGRect(r),NSStringFromCGRect(target)]);
  }
  return r;
 }
