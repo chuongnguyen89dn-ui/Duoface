@@ -4,6 +4,7 @@ on:
     branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
     paths:
       - 'sideplay/jb-embedded-appbridge/build-request/QA188_SIGNED_ONCE.md'
+      - 'sideplay/jb-embedded-appbridge/build-request/QA188_SIGNED_RETRY1_ONCE.md'
 # Private QA188 ONE-SHOT marker; no Sileo publisher or tag/release.
 permissions:
   contents: write
@@ -36,7 +37,7 @@ jobs:
           import pathlib,subprocess
           p='sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
           before=subprocess.check_output(['git','show','e0aab963d9c60fef9b6c0cf7a95d81d7c0f397c7:'+p]).decode()
-          assert pathlib.Path(p).read_text()==before.replace('build=0.0.188~mapowner1','build=0.0.188~mapowner1')
+          assert pathlib.Path(p).read_text()==before.replace('build=0.0.187~regressionsafe1','build=0.0.188~mapowner1')
           p2='sideplay/duoface-native-scene-host/DFDeepTrace.h'
           before2=subprocess.check_output(['git','show','e0aab963d9c60fef9b6c0cf7a95d81d7c0f397c7:'+p2]).decode()
           assert pathlib.Path(p2).read_text()==before2.replace('build=0.0.187~regressionsafe1','build=0.0.188~mapowner1')
