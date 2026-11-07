@@ -1,14 +1,26 @@
 {
-  "checked_at_utc": "2026-11-06T23:15:23.689073+00:00",
+  "checked_at_utc": "2026-11-07T02:55:39.519529+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4427,
+  "total_actions_runs": 4442,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 13,
-      "success": 12,
+      "recent_runs": 9,
+      "success": 8,
       "failure": 0,
       "other": 1
+    },
+    "DuoFace Gate0 - read-only ON OFF probe private signed artifact": {
+      "recent_runs": 12,
+      "success": 5,
+      "failure": 4,
+      "other": 3
+    },
+    "QA182 b1nativemaps1 - native Maps one-assignment B1 signed CI archive": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
     },
     "QA181 b0probe1 - read-only scene measurement signed CI archive": {
       "recent_runs": 6,
@@ -167,43 +179,169 @@
       "other": 0
     },
     "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB": {
-      "recent_runs": 7,
+      "recent_runs": 3,
       "success": 1,
-      "failure": 5,
-      "other": 1
-    },
-    "QA172 nativemap1 (QA172R base + native map Step 1 intervention) - private rootless signed DuoFace DEB": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "QA187 kbwidth1 (QA172 base + keyboard width adaptation only) - private rootless signed DuoFace DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA172 logorecall1 (QA171 base + QA177 H1 only) - private rootless signed DuoFace DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA186 split supersample + scene liveness - private rootless signed DuoFace DEB": {
-      "recent_runs": 2,
-      "success": 0,
       "failure": 2,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 42331568503,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 121,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42331568503",
+      "created_at": "2026-11-07T02:55:29Z",
+      "head_sha": "c677969fd9cc01dc50318ed176e312cda0322e51"
+    },
+    {
+      "id": 42330321209,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42330321209",
+      "created_at": "2026-11-07T02:39:30Z",
+      "head_sha": "a4be9544e528e5374e1ed0665d1a4a44b233a853"
+    },
+    {
+      "id": 42328683349,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42328683349",
+      "created_at": "2026-11-07T02:19:43Z",
+      "head_sha": "8668f85080385ea2b4f9d1445a6f9a4597005ebd"
+    },
+    {
+      "id": 42327289965,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327289965",
+      "created_at": "2026-11-07T02:03:38Z",
+      "head_sha": "1d4c5d0bfb574625a9f5c5103bee7c0acb9ef25b"
+    },
+    {
+      "id": 42327285243,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327285243",
+      "created_at": "2026-11-07T02:03:35Z",
+      "head_sha": "881dcbe9154a8d2f8aba71e30248750d502bdac6"
+    },
+    {
+      "id": 42327270858,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327270858",
+      "created_at": "2026-11-07T02:03:26Z",
+      "head_sha": "1ef51f721f7756ed0e3802342abff84119a9d3f5"
+    },
+    {
+      "id": 42327045406,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327045406",
+      "created_at": "2026-11-07T02:00:55Z",
+      "head_sha": "5ad1b19f7c07dccdefb968d2e89d5754a45f64f0"
+    },
+    {
+      "id": 42327012992,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327012992",
+      "created_at": "2026-11-07T02:00:34Z",
+      "head_sha": "cfb28615330d5a1d65d5f7b83e8b0970afd82ecd"
+    },
+    {
+      "id": 42326972648,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326972648",
+      "created_at": "2026-11-07T02:00:10Z",
+      "head_sha": "197e6ffbb015ecebb9fb36ab23b0da3940cc9edc"
+    },
+    {
+      "id": 42326958668,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326958668",
+      "created_at": "2026-11-07T02:00:02Z",
+      "head_sha": "2dac7194555ee91445d387c52efa9e8edb06fd00"
+    },
+    {
+      "id": 42326849870,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326849870",
+      "created_at": "2026-11-07T01:58:38Z",
+      "head_sha": "334aa45fb1d4d12a0c5bd780b852379cb1729448"
+    },
+    {
+      "id": 42326845158,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326845158",
+      "created_at": "2026-11-07T01:58:35Z",
+      "head_sha": "55cf2ebb79a70222ae7e2bc222c8fa9f5235c39f"
+    },
+    {
+      "id": 42326792935,
+      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326792935",
+      "created_at": "2026-11-07T01:57:57Z",
+      "head_sha": "dbb98f61b72e4f8387a0d647057b2a78f560786b"
+    },
+    {
+      "id": 42314369824,
+      "name": "QA182 b1nativemaps1 - native Maps one-assignment B1 signed CI archive",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42314369824",
+      "created_at": "2026-11-06T23:49:22Z",
+      "head_sha": "bdd1116b5308869210a65b79b92b7d873fe4a04c"
+    },
+    {
+      "id": 42313897809,
+      "name": "QA182 b1nativemaps1 - native Maps one-assignment B1 signed CI archive",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42313897809",
+      "created_at": "2026-11-06T23:44:34Z",
+      "head_sha": "42b7a9ff9f6113aaffe93732a8b640a14088a670"
+    },
+    {
       "id": 42310616365,
       "name": "DuoFace Actions status snapshot",
       "run_number": 120,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42310616365",
       "created_at": "2026-11-06T23:15:14Z",
       "head_sha": "3779cc40d89305776f6ef2d2336f217ec283c511"
@@ -347,156 +485,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210581031",
       "created_at": "2026-11-06T11:29:06Z",
       "head_sha": "fbbecac8dba1bf319980944c4643ea4b6535b02a"
-    },
-    {
-      "id": 42210436371,
-      "name": "SidePlay unpack original DEB to repository",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210436371",
-      "created_at": "2026-11-06T11:27:53Z",
-      "head_sha": "4c7e2749418b287b375b20c4b164cdae3451daa3"
-    },
-    {
-      "id": 42210091144,
-      "name": "SidePlay unpack original DEB to repository",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210091144",
-      "created_at": "2026-11-06T11:25:02Z",
-      "head_sha": "03762e88ae68ad1d98d46517560a6f35413a3a44"
-    },
-    {
-      "id": 42210049272,
-      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210049272",
-      "created_at": "2026-11-06T11:24:41Z",
-      "head_sha": "326fa05a065f2fcc3cd3fd822441580d95ce7ded"
-    },
-    {
-      "id": 42208841046,
-      "name": "CarPlayPro 0.9.97 exhaustive read-only static audit",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42208841046",
-      "created_at": "2026-11-06T11:15:05Z",
-      "head_sha": "48b1808638b9891f469551ffff2354bb94b0f8ee"
-    },
-    {
-      "id": 42208840979,
-      "name": "SidePlay unpack original DEB to repository",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42208840979",
-      "created_at": "2026-11-06T11:15:05Z",
-      "head_sha": "48b1808638b9891f469551ffff2354bb94b0f8ee"
-    },
-    {
-      "id": 42207634143,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 118,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42207634143",
-      "created_at": "2026-11-06T11:05:43Z",
-      "head_sha": "efdd4ebeb166864e676dcc059b12145111b3174f"
-    },
-    {
-      "id": 42193994412,
-      "name": "QA177 - distinct signed DuoFace 0.0.177 a1wake1 candidate (no publication)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42193994412",
-      "created_at": "2026-11-06T09:18:03Z",
-      "head_sha": "74aedb7151600db2347f849ecf0d437f03e30622"
-    },
-    {
-      "id": 42193156605,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42193156605",
-      "created_at": "2026-11-06T09:11:29Z",
-      "head_sha": "ec5c2ad40e439405f6d314b4269d30d39bba1eea"
-    },
-    {
-      "id": 42192968678,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42192968678",
-      "created_at": "2026-11-06T09:10:06Z",
-      "head_sha": "ccf8c8bfd37f3117424d153024586875871ef1af"
-    },
-    {
-      "id": 42192730713,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42192730713",
-      "created_at": "2026-11-06T09:08:13Z",
-      "head_sha": "01f4dc4230debcfbd82e28d05cfa98030559abcd"
-    },
-    {
-      "id": 42192727333,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42192727333",
-      "created_at": "2026-11-06T09:08:11Z",
-      "head_sha": "d9363e99aa2deb1e5ac9a372b934110f59a38529"
-    },
-    {
-      "id": 42192694389,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42192694389",
-      "created_at": "2026-11-06T09:07:56Z",
-      "head_sha": "cb65868bccb594ed27d8fb7ba1ce406d5a729c03"
-    },
-    {
-      "id": 42192261801,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42192261801",
-      "created_at": "2026-11-06T09:04:31Z",
-      "head_sha": "1ecb5959c158b0157e4dce4be58298492debcee6"
-    },
-    {
-      "id": 42191957875,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 15,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191957875",
-      "created_at": "2026-11-06T09:02:02Z",
-      "head_sha": "399ab610491a0a30c0d6f5d7265441d9dfc60390"
-    },
-    {
-      "id": 42191678789,
-      "name": "QA176 bounded owned-base regression",
-      "run_number": 14,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42191678789",
-      "created_at": "2026-11-06T08:59:53Z",
-      "head_sha": "3503b97ee36321d9a1dc2b21853b39b34920adeb"
     }
   ]
 }
