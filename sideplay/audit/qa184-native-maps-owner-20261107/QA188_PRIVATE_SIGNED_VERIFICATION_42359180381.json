@@ -1,0 +1,58 @@
+{
+  "checked_at_utc": "2026-11-07T09:23:30Z",
+  "package": "com.duoface.jb.embedded_0.0.188~mapowner1_iphoneos-arm64.deb",
+  "package_version": "0.0.188~mapowner1",
+  "native_version": "0.1.188~mapowner1",
+  "package_bytes": 1292616,
+  "package_sha256": "1dc1ae21a3dc93bc5f7b0854136a98707b8393bf26e2bd567a84c04ab141487a",
+  "source_commit": "2fbd5ba88b3f817da53db6d173244000c9267022",
+  "functional_fix_commit": "e0aab963d9c60fef9b6c0cf7a95d81d7c0f397c7",
+  "source_ci": {
+    "run": 42358695067,
+    "conclusion": "success",
+    "commit": "4756f1d6a23b0015eb43afc41e8eba3b6173d781"
+  },
+  "signing_ci": {
+    "run": 42359180381,
+    "job": 128363698572,
+    "conclusion": "success",
+    "archive_commit": "302b394c57fc22f7c987842ebd0f5e976c1f2daf"
+  },
+  "artifact": {
+    "id": 13569520308,
+    "name": "QA188-mapowner1-signed-integrated-DEB",
+    "file": "QA188-mapowner1-signed-integrated-DEB.zip"
+  },
+  "permanent_source_archive": {
+    "repository": "chuongnguyen89dn-ui/Duoface",
+    "branch": "feature/duoface-qa184-native-map-owner-sourceonly-20261107",
+    "path": "sideplay/jb-embedded-appbridge/evidence/runs/42359180381/",
+    "binary_blob_sha": "32eff4759733c818c6fd568cb90e782fe9244b17"
+  },
+  "independent_verification": {
+    "environment": "current Linux container, dpkg-deb + Python3; no iOS device access",
+    "command": "cd /mnt/data/QA188-check && sha256sum -c QA188_SHA256SUMS.txt && dpkg-deb -f com.duoface.jb.embedded_0.0.188~mapowner1_iphoneos-arm64.deb Package Version Architecture Depends Conflicts && mkdir -p expanded control && dpkg-deb -x com.duoface.jb.embedded_0.0.188~mapowner1_iphoneos-arm64.deb expanded && dpkg-deb -e com.duoface.jb.embedded_0.0.188~mapowner1_iphoneos-arm64.deb control && python3 verify_qa188.py",
+    "verification_script": "sideplay/audit/qa184-native-maps-owner-20261107/verify_qa188_private_signed_deb.py",
+    "script_sha256": "fb5eb57f3b481d19fddddc7e73bffbe4dc6e74e2dbe110135a1e123fa425c0fe",
+    "result": "PASS",
+    "checks": [
+      "SHA256 against Actions manifest and GitHub archive",
+      "rootless package version architecture dependencies",
+      "CFBundleVersion188 and CFBundleShortVersionString0.1.188",
+      "runtime markers scene-frame-original-preserved, qa188-native-maps-saved-restore-request, qa188-native-maps-picker-request, qa188-background-owner-gate, pane-layout-reconciled, owned-host-layout-reconciled",
+      "all 11 Mach-O CodeDirectory code-slot page hashes recomputed and match"
+    ],
+    "sileo_published": false,
+    "device_tested": false,
+    "caveat": "CodeDirectory page hashes indicate internally consistent signatures; no claim of iOS on-device acceptance."
+  },
+  "package_conflicts": [
+    "com.duonavi.app"
+  ],
+  "warnings": [
+    "DO NOT install if package manager proposes removal of DuoNavi",
+    "NOT proven Google Maps+Waze simultaneous correct pixels/touch/keyboard; this is a private diagnostic candidate",
+    "QA187 had regressed Maps opening; QA188 fixes request path and background owner predicate only",
+    "Never publish to Sileo until user verifies physical UI and explicitly authorizes"
+  ]
+}
