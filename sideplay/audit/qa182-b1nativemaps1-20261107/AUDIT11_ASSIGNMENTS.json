@@ -1,0 +1,256 @@
+{
+  "main_commit": "ba2ff26cbe6cfe9eafda3d7877b2173c2c1e26c7",
+  "path": "sideplay/log/DuoFaceAudit 11.txt",
+  "git_blob": "8c884b1ac2b24c7ab3407df50812b9117f8a286b",
+  "bytes": 6869806,
+  "line_count": 31550,
+  "export_vietnam": "2026-11-07T07:47:38+07:00",
+  "runtime": "0.0.182~b1nativemaps1",
+  "event_counts": {
+    "b1-assignment-created": 8,
+    "b1-hook-ABI": 3,
+    "b1-catalog-reconciled": 8,
+    "b1-scene-frame-request": 24,
+    "b1-launch-issued": 8,
+    "b1-scene-seen": 8,
+    "b1-frame-placed": 8,
+    "b1-summary": 16,
+    "b1-lifecycle-swallowed": 8,
+    "b1-assignment-revoked": 8,
+    "b1-lifecycle-restored": 8
+  },
+  "assignments": [
+    {
+      "assignment": "EB8EF4B0-A95B-415C-AAC2-F930AFC185F7",
+      "session": "345D3E44-63F4-4BCC-B599-F8D78F281368",
+      "created_line": 29782,
+      "catalog_line": 29800,
+      "launch_line": 29802,
+      "scene_line": 29828,
+      "scene_id": "Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 29843,
+      "revoked_line": 29854,
+      "restore_line": 29864,
+      "placed_to_revoke_seconds": 0.839133,
+      "revoke_reason": "Chrome-Home-or-disconnect",
+      "background_lines": [
+        29847
+      ],
+      "native_owner_inactive_lines": [
+        29849
+      ],
+      "watchdog": [
+        {
+          "line": 29851,
+          "age": 0.13,
+          "active": "1",
+          "session_match": "1"
+        }
+      ],
+      "stock_settings": "unknown"
+    },
+    {
+      "assignment": "441A67B0-89E7-4653-808E-7899906EB327",
+      "session": "356DF403-0C4C-474D-A03B-1E28A382CC37",
+      "created_line": 29932,
+      "catalog_line": 29963,
+      "launch_line": 29965,
+      "scene_line": 29971,
+      "scene_id": "Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 29986,
+      "revoked_line": 30003,
+      "restore_line": 30008,
+      "placed_to_revoke_seconds": 0.92373,
+      "revoke_reason": "Chrome-Home-or-disconnect",
+      "background_lines": [
+        29990
+      ],
+      "native_owner_inactive_lines": [
+        29997
+      ],
+      "watchdog": [
+        {
+          "line": 30000,
+          "age": 0.2,
+          "active": "1",
+          "session_match": "1"
+        }
+      ],
+      "stock_settings": "unknown"
+    },
+    {
+      "assignment": "AA2D6DD9-7E70-4A0C-92FB-F595FD0D1E8A",
+      "session": "94CCA034-59BF-479D-887D-646A6EF324E0",
+      "created_line": 30071,
+      "catalog_line": 30094,
+      "launch_line": 30096,
+      "scene_line": 30115,
+      "scene_id": "Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 30130,
+      "revoked_line": 30141,
+      "restore_line": 30154,
+      "placed_to_revoke_seconds": 1.435075,
+      "revoke_reason": "Chrome-Home-or-disconnect",
+      "background_lines": [
+        30134
+      ],
+      "native_owner_inactive_lines": [
+        30136
+      ],
+      "watchdog": [
+        {
+          "line": 30138,
+          "age": 0.7,
+          "active": "1",
+          "session_match": "1"
+        }
+      ],
+      "stock_settings": "unknown"
+    },
+    {
+      "assignment": "1931799B-3431-4018-A9AB-216605B9BABD",
+      "session": "32BE2FB9-3F1D-47F6-870E-7AD391A1F4E5",
+      "created_line": 30194,
+      "catalog_line": 30218,
+      "launch_line": 30220,
+      "scene_line": 30241,
+      "scene_id": "Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 30256,
+      "revoked_line": 30266,
+      "restore_line": 30276,
+      "placed_to_revoke_seconds": 0.957378,
+      "revoke_reason": "Chrome-Home-or-disconnect",
+      "background_lines": [
+        30260
+      ],
+      "native_owner_inactive_lines": [
+        30262
+      ],
+      "watchdog": [
+        {
+          "line": 30263,
+          "age": 0.25,
+          "active": "1",
+          "session_match": "1"
+        }
+      ],
+      "stock_settings": "unknown"
+    },
+    {
+      "assignment": "3DCF68D0-B436-4267-97FF-0772D6DEE9D7",
+      "session": "10E5C533-B2D2-44A1-984A-600B6EACA09C",
+      "created_line": 30311,
+      "catalog_line": 30338,
+      "launch_line": 30340,
+      "scene_line": 30354,
+      "scene_id": "Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 30369,
+      "revoked_line": 30383,
+      "restore_line": 30393,
+      "placed_to_revoke_seconds": 1.611486,
+      "revoke_reason": "Chrome-Home-or-disconnect",
+      "background_lines": [
+        30376
+      ],
+      "native_owner_inactive_lines": [
+        30379
+      ],
+      "watchdog": [
+        {
+          "line": 30380,
+          "age": 0.65,
+          "active": "1",
+          "session_match": "1"
+        }
+      ],
+      "stock_settings": "unknown"
+    },
+    {
+      "assignment": "7547244C-C80F-456E-A0C7-2FBCD0C2D23E",
+      "session": "927135C6-6C58-4C86-9503-D6722068B0AB",
+      "created_line": 30487,
+      "catalog_line": 30506,
+      "launch_line": 30508,
+      "scene_line": 30526,
+      "scene_id": "Car[2-5]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 30542,
+      "revoked_line": 30554,
+      "restore_line": 30566,
+      "placed_to_revoke_seconds": 1.357054,
+      "revoke_reason": "Chrome-Home-or-disconnect",
+      "background_lines": [
+        30546
+      ],
+      "native_owner_inactive_lines": [
+        30548
+      ],
+      "watchdog": [
+        {
+          "line": 30550,
+          "age": 0.39,
+          "active": "1",
+          "session_match": "1"
+        }
+      ],
+      "stock_settings": "unknown"
+    },
+    {
+      "assignment": "5DC1E3AF-9DDB-4EC8-BB27-02C16C2CF797",
+      "session": "37C03733-6917-4A39-AA66-55430BAD1925",
+      "created_line": 30635,
+      "catalog_line": 30658,
+      "launch_line": 30660,
+      "scene_line": 30679,
+      "scene_id": "Car[2-5]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 30694,
+      "revoked_line": 30707,
+      "restore_line": 30721,
+      "placed_to_revoke_seconds": 0.953031,
+      "revoke_reason": "app-replaced-in-native-slot",
+      "background_lines": [
+        30703
+      ],
+      "native_owner_inactive_lines": [],
+      "watchdog": [],
+      "stock_settings": "unknown"
+    },
+    {
+      "assignment": "DE11F3D8-A99C-420B-98D7-3A85FD09ED98",
+      "session": "CB3D03F6-5069-41FD-B2B8-79A822A42D3E",
+      "created_line": 31422,
+      "catalog_line": 31428,
+      "launch_line": 31430,
+      "scene_line": 31435,
+      "scene_id": "Car[2-5]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "placed_line": 31450,
+      "revoked_line": 31462,
+      "restore_line": 31475,
+      "placed_to_revoke_seconds": 1.216593,
+      "revoke_reason": "Chrome-Home-or-disconnect",
+      "background_lines": [
+        31455
+      ],
+      "native_owner_inactive_lines": [
+        31458
+      ],
+      "watchdog": [
+        {
+          "line": 31459,
+          "age": 0.51,
+          "active": "1",
+          "session_match": "1"
+        }
+      ],
+      "stock_settings": "unknown"
+    }
+  ],
+  "watchdog_revocations": 7,
+  "app_replacements": 1,
+  "verdict": {
+    "native_scene_observed": 8,
+    "sustained_split": "FAIL",
+    "global_frame_acceptance": "FAIL",
+    "stock_off_on_comparison": "UNVERIFIED",
+    "touch": "UNVERIFIED"
+  }
+}
