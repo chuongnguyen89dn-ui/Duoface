@@ -1,25 +1,31 @@
 {
-  "checked_at_utc": "2026-11-07T10:24:56.200857+00:00",
+  "checked_at_utc": "2026-11-07T16:53:37.985179+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4480,
+  "total_actions_runs": 4487,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 0,
       "other": 1
+    },
+    "QA189 private Maps and H1 signed DEB (NO SILEO)": {
+      "recent_runs": 4,
+      "success": 1,
+      "failure": 3,
+      "other": 0
+    },
+    "QA184 native Maps owner source-only verification (NO DEB)": {
+      "recent_runs": 27,
+      "success": 14,
+      "failure": 13,
+      "other": 0
     },
     "QA188 private Maps owner peer retention DEB (NO SILEO)": {
       "recent_runs": 2,
       "success": 1,
       "failure": 1,
-      "other": 0
-    },
-    "QA184 native Maps owner source-only verification (NO DEB)": {
-      "recent_runs": 25,
-      "success": 12,
-      "failure": 13,
       "other": 0
     },
     "QA187 Maps regression safety private signed integrated DEB (NO SILEO)": {
@@ -113,30 +119,12 @@
       "other": 0
     },
     "QA176 bounded owned-base regression": {
-      "recent_runs": 21,
-      "success": 4,
-      "failure": 17,
+      "recent_runs": 17,
+      "success": 1,
+      "failure": 16,
       "other": 0
     },
     "DuoFace 176 independent public Sileo checksum receipt": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA176 - distinct signed DuoFace 0.0.176 appwake1 candidate (no publication)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace 175 public checksum and handoff receipt": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA180 - signed DuoFace 0.0.175 wakepick1 for official Sileo": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
@@ -145,11 +133,81 @@
   },
   "latest_runs": [
     {
+      "id": 42393554073,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 123,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42393554073",
+      "created_at": "2026-11-07T16:53:29Z",
+      "head_sha": "4a728eecd4ac481663bdbd22458e695d7b5881d7"
+    },
+    {
+      "id": 42382653770,
+      "name": "QA189 private Maps and H1 signed DEB (NO SILEO)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42382653770",
+      "created_at": "2026-11-07T14:39:56Z",
+      "head_sha": "0b34224cb5cd259e5c9909cc40593b55c74d5f6a"
+    },
+    {
+      "id": 42382525341,
+      "name": "QA189 private Maps and H1 signed DEB (NO SILEO)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42382525341",
+      "created_at": "2026-11-07T14:38:12Z",
+      "head_sha": "f86ec105f66d316297a40e17774980c8fd1017e9"
+    },
+    {
+      "id": 42382351197,
+      "name": "QA189 private Maps and H1 signed DEB (NO SILEO)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42382351197",
+      "created_at": "2026-11-07T14:35:53Z",
+      "head_sha": "7aa3718c43690ea7a68245a6b3ef124b991b0ce7"
+    },
+    {
+      "id": 42382187096,
+      "name": "QA189 private Maps and H1 signed DEB (NO SILEO)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42382187096",
+      "created_at": "2026-11-07T14:33:53Z",
+      "head_sha": "b063e0cfd2389f57b3772d2292647c251a10c07b"
+    },
+    {
+      "id": 42365996983,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 27,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42365996983",
+      "created_at": "2026-11-07T10:55:47Z",
+      "head_sha": "e88a73d24335802e9540032b23cf18ec8f10bf83"
+    },
+    {
+      "id": 42365807965,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42365807965",
+      "created_at": "2026-11-07T10:52:57Z",
+      "head_sha": "eda69216302bfe20d8d6c1bb36bed849590f04ab"
+    },
+    {
       "id": 42363843951,
       "name": "DuoFace Actions status snapshot",
       "run_number": 122,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42363843951",
       "created_at": "2026-11-07T10:24:47Z",
       "head_sha": "d025192c12c768b32ff46a2dd9ad223be3a429b3"
@@ -373,76 +431,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42343003298",
       "created_at": "2026-11-07T05:30:23Z",
       "head_sha": "1d75be7715d77d30082f4b8077971241ee318a31"
-    },
-    {
-      "id": 42342900787,
-      "name": "QA184 native Maps owner source-only verification (NO DEB)",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42342900787",
-      "created_at": "2026-11-07T05:28:55Z",
-      "head_sha": "6c43c381c5a1b5d78a33cb3dd0587563122bc256"
-    },
-    {
-      "id": 42342757451,
-      "name": "QA184 native Maps owner source-only verification (NO DEB)",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42342757451",
-      "created_at": "2026-11-07T05:26:45Z",
-      "head_sha": "8aaef5e6f00c87f63054b66e9ebff4ed19860940"
-    },
-    {
-      "id": 42340737122,
-      "name": "QA184 native Maps owner source-only verification (NO DEB)",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340737122",
-      "created_at": "2026-11-07T04:58:51Z",
-      "head_sha": "098e7b8ae306480e204275576f134db5717c97c2"
-    },
-    {
-      "id": 42340737032,
-      "name": "QA184 native Maps owner integrated signed PRIVATE test artifact (NO SILEO)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340737032",
-      "created_at": "2026-11-07T04:58:51Z",
-      "head_sha": "098e7b8ae306480e204275576f134db5717c97c2"
-    },
-    {
-      "id": 42340641150,
-      "name": "QA184 native Maps owner integrated signed PRIVATE test artifact (NO SILEO)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340641150",
-      "created_at": "2026-11-07T04:57:19Z",
-      "head_sha": "ea288313a5d7e300b69413e43756cc9752bfdabc"
-    },
-    {
-      "id": 42340592334,
-      "name": "QA184 native Maps owner source-only verification (NO DEB)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340592334",
-      "created_at": "2026-11-07T04:56:35Z",
-      "head_sha": "aab808210b7e0dcde55d60252007e620ae18a363"
-    },
-    {
-      "id": 42340591501,
-      "name": ".github/workflows/duoface-184-nativeowner-signed-once.yml",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340591501",
-      "created_at": "2026-11-07T04:56:34Z",
-      "head_sha": "aab808210b7e0dcde55d60252007e620ae18a363"
     }
   ]
 }
