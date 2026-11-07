@@ -41,6 +41,29 @@ static BOOL DFG0ContainsMaps(id o,NSUInteger depth) {
     }
     return NO;
 }
+// Record only hashed property-list *locations* containing Maps, never other apps
+// or the raw paired-vehicle identifiers. A Maps occurrence is not ON/OFF.
+static void DFG0MapsLocations(id node,NSString *position,NSMutableArray *out,NSUInteger depth) {
+    if(!node || depth>18 || out.count>=24)return;
+    if([node isKindOfClass:NSString.class]) {
+        if([node isEqual:DFG0Map])[out addObject:DFG0Digest(position)];
+    } else if([node isKindOfClass:NSArray.class]) {
+        NSUInteger n=0;
+        for(id item in (NSArray *)node) {
+            if(++n>4096 || out.count>=24)break;
+            DFG0MapsLocations(item,[position stringByAppendingString:@"/[]"],out,depth+1);
+        }
+    } else if([node isKindOfClass:NSDictionary.class]) {
+        NSUInteger n=0;
+        for(id key in (NSDictionary *)node) {
+            if(++n>4096 || out.count>=24)break;
+            NSString *name=[key isKindOfClass:NSString.class]?key:NSStringFromClass([key class]);
+            NSString *sub=[position stringByAppendingFormat:@"/%@",name];
+            if([name isEqual:DFG0Map])[out addObject:DFG0Digest(sub)];
+            DFG0MapsLocations(((NSDictionary *)node)[key],sub,out,depth+1);
+        }
+    }
+}
 static void DFG0FindFiles(void) {
     NSMutableArray *found=[NSMutableArray new];
     NSArray *roots=@[@"/var/mobile/Library/SpringBoard",@"/var/mobile/Library/Preferences",
@@ -81,9 +104,13 @@ static NSDictionary *DFG0ReadCandidates(void) {
         NSString *kind=[name containsString:@"desirediconstate"]?@"DESIRED":
                        ([name containsString:@"displayiconstate"]?@"DISPLAY":@"OTHER");
         if(contains)matched++;
-        // Only source file fingerprint and boolean; never log other app lists or car GUID.
+        NSMutableArray *locations=[NSMutableArray new];
+        DFG0MapsLocations(state,@"root",locations,0);
+        // A location digest distinguishes map-in-visible-list from map-in-hidden-list
+        // AFTER real ON/OFF calibration, but is never itself an OS setting verdict.
         [a addObject:@{@"fileId":DFG0Digest(path),@"kind":kind,
-           @"mapsPresent":@(contains),@"bytes":@(size),
+           @"mapsPresent":@(contains),@"mapsLocationHashes":locations,
+           @"bytes":@(size),
            @"modified":@([attrs[NSFileModificationDate] timeIntervalSince1970])}];
     }
     return @{@"stockSettings":@"UNKNOWN",@"stockSourceStatus":@"UNVERIFIED",
