@@ -1,8 +1,5 @@
 name: QA186 owned pane layout signed integrated test package
 on:
-  push:
-    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
-    paths: ['sideplay/jb-embedded-appbridge/build-request/QA186_SIGNED_ONCE.md']
   workflow_dispatch:
 # User request record: sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md
 permissions:
@@ -12,9 +9,6 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build-and-archive:
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && github.event.head_commit.message == 'qa186: retry signed package after CFBundle version test sync')
     runs-on: macos-15
     timeout-minutes: 60
     steps:
