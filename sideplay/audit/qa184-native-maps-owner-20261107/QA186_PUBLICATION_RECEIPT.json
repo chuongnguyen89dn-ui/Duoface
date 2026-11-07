@@ -1,0 +1,66 @@
+{
+  "kind": "qa186_public_sileo_release_readback",
+  "verified_at_utc": "2026-11-07T07:10:47Z",
+  "package": "com.duoface.jb.embedded",
+  "version": "0.0.186~panelayout1",
+  "filename": "debs/com.duoface.jb.embedded_0.0.186~panelayout1_iphoneos-arm64.deb",
+  "size": 1292976,
+  "sha256": "68adadb1e6b82aaa7a93920ff417ecc8f23f1187b9b544cd5d0eedc8be25ba1e",
+  "integrated_source_commit": "11aa17b236f396ba2235a7b991ab57338660acc5",
+  "source_signed_run": 42346900184,
+  "source_archive_commit": "ab29c4e62ddba5ceb52e7a21b0319efcbfa75037",
+  "immutable_deb_archive_repo": "chuongnguyen89dn-ui/duoface-debs-",
+  "immutable_deb_archive_commit": "8600b9f3c4f8c9093f6c6f4539c5095c63868d9e",
+  "publisher_repo": "chuongnguyen89dn-ui/carplaydsp",
+  "publisher_commit": "fa72866d879eb82934425bb525cbda0d04fcbec2",
+  "publisher_run": 42349994360,
+  "publisher_run_status": "completed",
+  "publisher_run_conclusion": "success",
+  "publisher_run_jobs": [
+    {
+      "job_id": 128335881587,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "job_id": 128336304008,
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "job_id": 128336349176,
+      "name": "verify-duoface-integrated-pages",
+      "conclusion": "success"
+    },
+    {
+      "job_id": 128336349197,
+      "name": "verify-duonavi-observer-pages",
+      "conclusion": "success"
+    },
+    {
+      "job_id": 128336349215,
+      "name": "verify-qa11-pages",
+      "conclusion": "success"
+    }
+  ],
+  "yaml_validator_run": 42349994355,
+  "yaml_validator_conclusion": "success",
+  "public_site": "https://chuongnguyen89dn-ui.github.io/carplaydsp/",
+  "public_package_index": "https://chuongnguyen89dn-ui.github.io/carplaydsp/Packages",
+  "public_apt_index_records_for_package": 1,
+  "public_deb_sha256_match": true,
+  "public_deb_verified_by_job": 128336349176,
+  "public_qa185_rollback_sha256_verified": true,
+  "public_qa182_rollback_sha256_verified": true,
+  "public_qa177_through_qa181_rollback_sha256_verified": true,
+  "public_release_contains_sha256": true,
+  "ui_simulator_tested": true,
+  "vehicle_two_pane_pixels_touch_tested": false,
+  "device_install_performed": false,
+  "notes": [
+    "GitHub Actions job readback verified exact public Sileo Packages stanza, version, filename, arch, package ID, DEB downloaded SHA256 and preserved rollback SHA256. Full publisher run succeeded.",
+    "QA185 and earlier releases remain downloadable as rollback but are not separate APT records.",
+    "Stale log label DUONAVI_OBSERVER4_PUBLIC_SINGLE_INDEX_AND_DUOFACE_QA185_SELECTED still echoes QA185 despite executing and passing updated QA186 version assertion; label cosmetic, no release regression.",
+    "Local direct public URL fetch from tools unavailable; independent public verification was performed on GitHub Actions runner, evidenced by job 128336349176 logs."
+  ]
+}
