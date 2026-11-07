@@ -5,6 +5,7 @@ on:
     paths:
       - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md'
       - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY1_ONCE.md'
+      - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY2_ONCE.md'
 # Private QA189 ONE-SHOT marker; no Sileo publisher or tag/release.
 permissions:
   contents: write
@@ -29,6 +30,7 @@ jobs:
             ".github/workflows/duoface-qa189-private-signed-once.yml",
             "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md",
             "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY1_ONCE.md",
+            "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY2_ONCE.md",
             "sideplay/tiep tuc du an.md",
             "sideplay/duoface-native-scene-host/build.sh",
             "sideplay/duoface-native-scene-host/control",
@@ -38,6 +40,8 @@ jobs:
             "sideplay/duoface-native-scene-host/DFDeepTrace.h",
             "sideplay/duoface-native-scene-host/tests/test_qa184_signed_package.py",
             "sideplay/duoface-native-scene-host/tests/test_qa188_h1wake1.py",
+            "sideplay/duoface-native-scene-host/tests/test_qa180_h1wake3.py",
+            "sideplay/duoface-native-scene-host/tests/test_qa179_h1wake2.py",
             "sideplay/duoface-native-scene-host/tests/test_qa182_b1nativemaps1.py",
             "sideplay/jb-embedded-appbridge/tests/test_integrated_package_144.py",
           }
