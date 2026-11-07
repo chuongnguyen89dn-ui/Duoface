@@ -1,0 +1,81 @@
+{
+  "package": "com.duoface.jb.embedded",
+  "version": "0.0.182~b1nativemaps1",
+  "architecture": "iphoneos-arm64",
+  "size": 1274984,
+  "sha256": "a879bc6e617f72b51e2d763b216626f5240495d94a6c1da2abff30b60d0e9860",
+  "git_blob": "dd556a6a2b88af80e1d9805fd7b9ac9c8fc25f27",
+  "source_commit": "bdd1116b5308869210a65b79b92b7d873fe4a04c",
+  "source_ci": {
+    "run": 42314369824,
+    "job": 128223281828,
+    "conclusion": "success",
+    "tests_passed": 29
+  },
+  "source_archive_commit": "5d460f684012a331f3a99fbbb621c4d32132b09a",
+  "debs_archive": {
+    "repository": "chuongnguyen89dn-ui/duoface-debs-",
+    "commit": "4a9eef05d9ffa6a6d110ddc6babaf2713a58703c",
+    "run": 42314762448,
+    "job": 128224557874,
+    "conclusion": "success"
+  },
+  "publisher": {
+    "repository": "chuongnguyen89dn-ui/carplaydsp",
+    "commit": "4933f9855d25c11efd5971761b4cda55815c62d2",
+    "run": 42315405987,
+    "conclusion": "success",
+    "validator_run": 42315405910,
+    "jobs": [
+      {
+        "id": 128226679207,
+        "name": "build",
+        "conclusion": "success"
+      },
+      {
+        "id": 128227548331,
+        "name": "deploy",
+        "conclusion": "success"
+      },
+      {
+        "id": 128227723937,
+        "name": "verify-duonavi-observer-pages",
+        "conclusion": "success"
+      },
+      {
+        "id": 128227724082,
+        "name": "verify-duoface-integrated-pages",
+        "conclusion": "success"
+      },
+      {
+        "id": 128227724384,
+        "name": "verify-qa11-pages",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "public_verification": {
+    "public_selected": "0.0.182~b1nativemaps1",
+    "count": 1,
+    "sha256": "a879bc6e617f72b51e2d763b216626f5240495d94a6c1da2abff30b60d0e9860",
+    "size": 1274984,
+    "public_bytes_equal_signed_source": true,
+    "qa181_rollback_sha_verified": true,
+    "checked_vietnam": "2026-11-07T07:03:30.469972+07:00"
+  },
+  "rollback": {
+    "version": "0.0.181~b0probe1",
+    "sha256": "85377a2bba3c572b2b26b783f72af54af6ab774119f6c45f8bf4a3b1f9058714",
+    "public_checksum_verified": true
+  },
+  "device": {
+    "maps_off": "UNVERIFIED",
+    "maps_on": "UNVERIFIED",
+    "private_dashboard_abi_on_ios_16_7_16": "UNVERIFIED",
+    "native_pixels": "UNVERIFIED",
+    "touch": "UNVERIFIED",
+    "b1_acceptance": "UNVERIFIED"
+  },
+  "source_report": "sideplay/audit/qa182-b1nativemaps1-20261107/STEP0_SOURCE_VERIFICATION.md",
+  "vehicle_plan": "sideplay/audit/qa182-b1nativemaps1-20261107/RELEASE_AND_VEHICLE_GATES.md"
+}
