@@ -1,14 +1,62 @@
 {
-  "checked_at_utc": "2026-11-07T02:55:39.519529+00:00",
+  "checked_at_utc": "2026-11-07T10:24:56.200857+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4442,
+  "total_actions_runs": 4480,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 9,
-      "success": 8,
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
+    },
+    "QA188 private Maps owner peer retention DEB (NO SILEO)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "QA184 native Maps owner source-only verification (NO DEB)": {
+      "recent_runs": 25,
+      "success": 12,
+      "failure": 13,
+      "other": 0
+    },
+    "QA187 Maps regression safety private signed integrated DEB (NO SILEO)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA186 owned pane layout signed integrated test package": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "QA185 independent public Sileo byte receipt": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA185 launch-identity admission signed integrated test package": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "QA184 native Maps owner integrated signed PRIVATE test artifact (NO SILEO)": {
+      "recent_runs": 4,
+      "success": 2,
+      "failure": 2,
+      "other": 0
+    },
+    ".github/workflows/duoface-184-nativeowner-signed-once.yml": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
     },
     "DuoFace Gate0 - read-only ON OFF probe private signed artifact": {
       "recent_runs": 12,
@@ -93,398 +141,308 @@
       "success": 1,
       "failure": 0,
       "other": 0
-    },
-    "DuoFace active source continuation pointer - documentation only": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "QA180 owned wake and map replacement - source only": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "QA180 source snapshot - no build or deployment": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA174 latest four uploaded logs - analysis only": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
-    "QA174 device contract review - documentation only": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA174 device rejection - documentation only": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA178 independent logo and OmniCar-style app roster source gates": {
-      "recent_runs": 7,
-      "success": 5,
-      "failure": 2,
-      "other": 0
-    },
-    "QA179 logo + selected apps native/bridge - signed private candidate": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "QA173 logo + selected apps native/bridge - signed private candidate": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "QA172 wakefix5 guarded native map launch - signed candidate": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "QA172 wakefix4 activity ownership and native-map restoration - signed candidate": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA172 wakefix3 keyboard, reconnect and native-map repair - private signed DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA172 wakefix2 (wakefix2 base + permanent wake gate, no shield window) - private rootless signed DuoFace DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "QA172 wakefix2map1 (wakefix1 base + permanent wake gate + native map self-launch) - private rootless signed DuoFace DEB": {
-      "recent_runs": 2,
-      "success": 0,
-      "failure": 2,
-      "other": 0
-    },
-    "QA172 wakefix1 (QA172R base + wake shield, app-touch timers-only) - private rootless signed DuoFace DEB": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 42331568503,
+      "id": 42363843951,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 121,
+      "run_number": 122,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42331568503",
-      "created_at": "2026-11-07T02:55:29Z",
-      "head_sha": "c677969fd9cc01dc50318ed176e312cda0322e51"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42363843951",
+      "created_at": "2026-11-07T10:24:47Z",
+      "head_sha": "d025192c12c768b32ff46a2dd9ad223be3a429b3"
     },
     {
-      "id": 42330321209,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 12,
+      "id": 42359180381,
+      "name": "QA188 private Maps owner peer retention DEB (NO SILEO)",
+      "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42330321209",
-      "created_at": "2026-11-07T02:39:30Z",
-      "head_sha": "a4be9544e528e5374e1ed0665d1a4a44b233a853"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42359180381",
+      "created_at": "2026-11-07T09:18:33Z",
+      "head_sha": "2fbd5ba88b3f817da53db6d173244000c9267022"
     },
     {
-      "id": 42328683349,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 11,
+      "id": 42359008501,
+      "name": "QA188 private Maps owner peer retention DEB (NO SILEO)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42359008501",
+      "created_at": "2026-11-07T09:16:06Z",
+      "head_sha": "4d293721b10ca13d898c3e40f11133decb38d301"
+    },
+    {
+      "id": 42358695067,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 25,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42328683349",
-      "created_at": "2026-11-07T02:19:43Z",
-      "head_sha": "8668f85080385ea2b4f9d1445a6f9a4597005ebd"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42358695067",
+      "created_at": "2026-11-07T09:11:52Z",
+      "head_sha": "4756f1d6a23b0015eb43afc41e8eba3b6173d781"
     },
     {
-      "id": 42327289965,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 10,
+      "id": 42358505188,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42358505188",
+      "created_at": "2026-11-07T09:09:19Z",
+      "head_sha": "826a740a8d48bdb9336ec78d888bbfa572ccaf55"
+    },
+    {
+      "id": 42357715076,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 23,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327289965",
-      "created_at": "2026-11-07T02:03:38Z",
-      "head_sha": "1d4c5d0bfb574625a9f5c5103bee7c0acb9ef25b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42357715076",
+      "created_at": "2026-11-07T08:58:33Z",
+      "head_sha": "e0aab963d9c60fef9b6c0cf7a95d81d7c0f397c7"
     },
     {
-      "id": 42327285243,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "id": 42357553649,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42357553649",
+      "created_at": "2026-11-07T08:56:06Z",
+      "head_sha": "ff88f363fc16669ab340fc4c0b488043ac2a545d"
+    },
+    {
+      "id": 42357482201,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42357482201",
+      "created_at": "2026-11-07T08:55:03Z",
+      "head_sha": "53a8a86bbda23b89ca9bf710da7240d7bf835202"
+    },
+    {
+      "id": 42357384021,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42357384021",
+      "created_at": "2026-11-07T08:53:35Z",
+      "head_sha": "6d704e8a62b84b90f3f254ea5ff8ec918d97849b"
+    },
+    {
+      "id": 42354698205,
+      "name": "QA187 Maps regression safety private signed integrated DEB (NO SILEO)",
       "run_number": 9,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327285243",
-      "created_at": "2026-11-07T02:03:35Z",
-      "head_sha": "881dcbe9154a8d2f8aba71e30248750d502bdac6"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42354698205",
+      "created_at": "2026-11-07T08:15:29Z",
+      "head_sha": "ac105df683db640f3cb2050314b7fd447f4e4b08"
     },
     {
-      "id": 42327270858,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "id": 42354499519,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42354499519",
+      "created_at": "2026-11-07T08:12:44Z",
+      "head_sha": "817041d61dbe52511316cea550221755d4d597e2"
+    },
+    {
+      "id": 42354419195,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42354419195",
+      "created_at": "2026-11-07T08:11:39Z",
+      "head_sha": "6bd0057848fb82e20a983b6b0f621fba4553c4af"
+    },
+    {
+      "id": 42352166925,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42352166925",
+      "created_at": "2026-11-07T07:39:09Z",
+      "head_sha": "8d8dc79f1f1c8c327e9f8c9805cbbf55ebebe66a"
+    },
+    {
+      "id": 42352080042,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42352080042",
+      "created_at": "2026-11-07T07:37:50Z",
+      "head_sha": "8490eca98dfa91f5c12ed0e96097cd449f70a527"
+    },
+    {
+      "id": 42346900184,
+      "name": "QA186 owned pane layout signed integrated test package",
       "run_number": 8,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327270858",
-      "created_at": "2026-11-07T02:03:26Z",
-      "head_sha": "1ef51f721f7756ed0e3802342abff84119a9d3f5"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42346900184",
+      "created_at": "2026-11-07T06:24:57Z",
+      "head_sha": "11aa17b236f396ba2235a7b991ab57338660acc5"
     },
     {
-      "id": 42327045406,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "id": 42346900033,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42346900033",
+      "created_at": "2026-11-07T06:24:57Z",
+      "head_sha": "11aa17b236f396ba2235a7b991ab57338660acc5"
+    },
+    {
+      "id": 42346777027,
+      "name": "QA186 owned pane layout signed integrated test package",
       "run_number": 7,
       "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42346777027",
+      "created_at": "2026-11-07T06:23:15Z",
+      "head_sha": "b501dfe3908686a213a2e3a3f19d6e42701a39ae"
+    },
+    {
+      "id": 42346776979,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42346776979",
+      "created_at": "2026-11-07T06:23:15Z",
+      "head_sha": "b501dfe3908686a213a2e3a3f19d6e42701a39ae"
+    },
+    {
+      "id": 42346325830,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 13,
+      "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327045406",
-      "created_at": "2026-11-07T02:00:55Z",
-      "head_sha": "5ad1b19f7c07dccdefb968d2e89d5754a45f64f0"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42346325830",
+      "created_at": "2026-11-07T06:17:17Z",
+      "head_sha": "47438633c429031c3d03975a5a69ffc44b49b0bd"
     },
     {
-      "id": 42327012992,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42327012992",
-      "created_at": "2026-11-07T02:00:34Z",
-      "head_sha": "cfb28615330d5a1d65d5f7b83e8b0970afd82ecd"
-    },
-    {
-      "id": 42326972648,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326972648",
-      "created_at": "2026-11-07T02:00:10Z",
-      "head_sha": "197e6ffbb015ecebb9fb36ab23b0da3940cc9edc"
-    },
-    {
-      "id": 42326958668,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 4,
+      "id": 42346232522,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 12,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326958668",
-      "created_at": "2026-11-07T02:00:02Z",
-      "head_sha": "2dac7194555ee91445d387c52efa9e8edb06fd00"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42346232522",
+      "created_at": "2026-11-07T06:15:59Z",
+      "head_sha": "a0236ee4cb8f268c3e8a87f034f25033f790351c"
     },
     {
-      "id": 42326849870,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326849870",
-      "created_at": "2026-11-07T01:58:38Z",
-      "head_sha": "334aa45fb1d4d12a0c5bd780b852379cb1729448"
-    },
-    {
-      "id": 42326845158,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326845158",
-      "created_at": "2026-11-07T01:58:35Z",
-      "head_sha": "55cf2ebb79a70222ae7e2bc222c8fa9f5235c39f"
-    },
-    {
-      "id": 42326792935,
-      "name": "DuoFace Gate0 - read-only ON OFF probe private signed artifact",
+      "id": 42343786171,
+      "name": "QA185 independent public Sileo byte receipt",
       "run_number": 1,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42326792935",
-      "created_at": "2026-11-07T01:57:57Z",
-      "head_sha": "dbb98f61b72e4f8387a0d647057b2a78f560786b"
-    },
-    {
-      "id": 42314369824,
-      "name": "QA182 b1nativemaps1 - native Maps one-assignment B1 signed CI archive",
-      "run_number": 2,
-      "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42314369824",
-      "created_at": "2026-11-06T23:49:22Z",
-      "head_sha": "bdd1116b5308869210a65b79b92b7d873fe4a04c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42343786171",
+      "created_at": "2026-11-07T05:41:20Z",
+      "head_sha": "dcf9455775cda739ce154a938df509da5b74b5ee"
     },
     {
-      "id": 42313897809,
-      "name": "QA182 b1nativemaps1 - native Maps one-assignment B1 signed CI archive",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42313897809",
-      "created_at": "2026-11-06T23:44:34Z",
-      "head_sha": "42b7a9ff9f6113aaffe93732a8b640a14088a670"
-    },
-    {
-      "id": 42310616365,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 120,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42310616365",
-      "created_at": "2026-11-06T23:15:14Z",
-      "head_sha": "3779cc40d89305776f6ef2d2336f217ec283c511"
-    },
-    {
-      "id": 42267394716,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 119,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42267394716",
-      "created_at": "2026-11-06T18:04:41Z",
-      "head_sha": "4808256552c6d6a5ce05b6b3410084b26979170f"
-    },
-    {
-      "id": 42237345803,
-      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "id": 42343166133,
+      "name": "QA185 launch-identity admission signed integrated test package",
       "run_number": 6,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42237345803",
-      "created_at": "2026-11-06T14:49:21Z",
-      "head_sha": "35f0379f1a3fac1586aa097a51bc4f31a6e6c7d3"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42343166133",
+      "created_at": "2026-11-07T05:32:33Z",
+      "head_sha": "5bdf81e348f11e474ba2d1e39611e49c83b02dd0"
     },
     {
-      "id": 42236762204,
-      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "id": 42343003298,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42343003298",
+      "created_at": "2026-11-07T05:30:23Z",
+      "head_sha": "1d75be7715d77d30082f4b8077971241ee318a31"
+    },
+    {
+      "id": 42342900787,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42342900787",
+      "created_at": "2026-11-07T05:28:55Z",
+      "head_sha": "6c43c381c5a1b5d78a33cb3dd0587563122bc256"
+    },
+    {
+      "id": 42342757451,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42342757451",
+      "created_at": "2026-11-07T05:26:45Z",
+      "head_sha": "8aaef5e6f00c87f63054b66e9ebff4ed19860940"
+    },
+    {
+      "id": 42340737122,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340737122",
+      "created_at": "2026-11-07T04:58:51Z",
+      "head_sha": "098e7b8ae306480e204275576f134db5717c97c2"
+    },
+    {
+      "id": 42340737032,
+      "name": "QA184 native Maps owner integrated signed PRIVATE test artifact (NO SILEO)",
       "run_number": 5,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236762204",
-      "created_at": "2026-11-06T14:45:26Z",
-      "head_sha": "e39063a908c34fda2a0b7ef28a55c3ec01dfbe78"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340737032",
+      "created_at": "2026-11-07T04:58:51Z",
+      "head_sha": "098e7b8ae306480e204275576f134db5717c97c2"
     },
     {
-      "id": 42236431006,
-      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "id": 42340641150,
+      "name": "QA184 native Maps owner integrated signed PRIVATE test artifact (NO SILEO)",
       "run_number": 4,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236431006",
-      "created_at": "2026-11-06T14:43:16Z",
-      "head_sha": "9b8165b862d0530a9969c66de8bbac89e44cf1c5"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340641150",
+      "created_at": "2026-11-07T04:57:19Z",
+      "head_sha": "ea288313a5d7e300b69413e43756cc9752bfdabc"
     },
     {
-      "id": 42236422749,
-      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
+      "id": 42340592334,
+      "name": "QA184 native Maps owner source-only verification (NO DEB)",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340592334",
+      "created_at": "2026-11-07T04:56:35Z",
+      "head_sha": "aab808210b7e0dcde55d60252007e620ae18a363"
+    },
+    {
+      "id": 42340591501,
+      "name": ".github/workflows/duoface-184-nativeowner-signed-once.yml",
       "run_number": 3,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236422749",
-      "created_at": "2026-11-06T14:43:13Z",
-      "head_sha": "f754bf818f279c29a0446cf3af67d386599d98b6"
-    },
-    {
-      "id": 42236336594,
-      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236336594",
-      "created_at": "2026-11-06T14:42:38Z",
-      "head_sha": "ae526ca2423d3a30556ef035d3c3c724eb1dd3de"
-    },
-    {
-      "id": 42236178473,
-      "name": "QA181 b0probe1 - read-only scene measurement signed CI archive",
-      "run_number": 1,
-      "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42236178473",
-      "created_at": "2026-11-06T14:41:33Z",
-      "head_sha": "a49b0b180e2bdb3cc785f21d52565c7223837fbe"
-    },
-    {
-      "id": 42223536826,
-      "name": "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42223536826",
-      "created_at": "2026-11-06T13:11:49Z",
-      "head_sha": "ae3242fe90894bde5f6072be5c2c07204ecc7981"
-    },
-    {
-      "id": 42222692624,
-      "name": "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42222692624",
-      "created_at": "2026-11-06T13:05:32Z",
-      "head_sha": "0c73e9c8f6bbbf5764e9d72eef6c120e8bbb89ab"
-    },
-    {
-      "id": 42222137520,
-      "name": "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42222137520",
-      "created_at": "2026-11-06T13:01:22Z",
-      "head_sha": "43d7fdd80b6e9d1d934c9d7663be67aa3cca72eb"
-    },
-    {
-      "id": 42216418651,
-      "name": "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42216418651",
-      "created_at": "2026-11-06T12:16:34Z",
-      "head_sha": "04840c1c282f1ae8e2f09e919867b8bb523adeea"
-    },
-    {
-      "id": 42215921066,
-      "name": "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42215921066",
-      "created_at": "2026-11-06T12:12:43Z",
-      "head_sha": "9d7986dc76d646e78cc72cd3238f32833b3eaf27"
-    },
-    {
-      "id": 42215694104,
-      "name": "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42215694104",
-      "created_at": "2026-11-06T12:10:53Z",
-      "head_sha": "680eb0b733bdcd8162ebf56c7492ba972aa9cbf8"
-    },
-    {
-      "id": 42210581031,
-      "name": "Validate DuoFace fast QA and immutable archive pipeline",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42210581031",
-      "created_at": "2026-11-06T11:29:06Z",
-      "head_sha": "fbbecac8dba1bf319980944c4643ea4b6535b02a"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42340591501",
+      "created_at": "2026-11-07T04:56:34Z",
+      "head_sha": "aab808210b7e0dcde55d60252007e620ae18a363"
     }
   ]
 }
