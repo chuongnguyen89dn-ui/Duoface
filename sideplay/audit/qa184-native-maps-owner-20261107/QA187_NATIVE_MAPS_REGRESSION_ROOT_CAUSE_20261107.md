@@ -1,0 +1,37 @@
+# QA187 — Native Maps regression caused by DuoFace source (2026-11-07)
+
+## Exact question and response
+User asks why the car view did **not** show persistent half-size native Maps + exposed CarPlay Home before DuoFace modifications, but did after QA182–QA186. The photographed QA186 display **does not meet** two-application-pane acceptance; inspect our changes, do not blame device or claim repeated device tests are needed to admit a code defect.
+
+## Source regression introduced
+- Pre-QA182 QA180 did not include the new native B1 assignment/scene-frame hook.
+- Initial QA182 B1 source commit `42b7a9ff9f6113aaffe93732a8b640a14088a670`; specific **prelaunch scene-frame override change** `bdd1116b5308869210a65b79b92b7d873fe4a04c` (2026-11-06 23:49 UTC), file `sideplay/native-carplay-scene-v1/DF182NativeMaps.m`:
+  `DF182Frame` calls `DF182OriginalFrame` then, as soon as a saved/selected Maps assignment exists, returns `r.size = target.size` **before** a confirmed native pane owner. The root under test begins with a native 640x360 FBScene and target 198.333x360; the new method also captures an original UIKit view frame for rollback, but `restore:` only reparents `controller.view` / sets `v.frame=self.oldFrame`. There is no inverse `FBScene sceneSize`/settings transaction to restore the original system scene dimension after failed membership.
+- `DFNative12Chrome.m`, `restoreNextSavedWorkspaceApp` automatically calls `assignNativeMaps182:physical origin:@"workspace-restore"` every time a previously saved Google Maps slot is detected; assignment cannot be trusted as permission to mutate native scene geometry. `layoutControls` immediately hid target SpringBoard window from any assignment intent, **even before actual COMMITTED member**.
+
+## Observed forensic events from uploaded Audit16, not from unprovided QA186 logs
+- `sideplay/log/DuoFaceAudit 16.txt` blob `79d8d3637c182517508dddf16a50cbfefd85aaca`.
+- QA185 `build=0.0.185~admission1`: `b1-scene-frame-request` for Maps: before `{{0,0},{640,360}}`, after `{{0,0},{198.3333,360}}`.
+- First native `b1-pane-member-committed` at UTC `1794030937.868540` (assignment `79DC7C09-04D4-4623-80DB-119A4C1387B3`). At `1794030938.133009`, `b1-membership-reject-detail` reported `view.frame={{0,0},{0,0}}`; then `lifecycle-restored` PASS at `1794030938.139559`, `assignment-revoked reason=committed-native-pane-attestation-lost-STOP` at `1794030938.141586`; SpringBoard watchdog detached and all external windows hidden, then Waze/Chrome torn down.
+- Second occurrence assignment `9FC0C233-7F75-43C8-A36A-9AA9EB0D8C89`, committed `1794030955.643345` and `1794030955.917531`, rejected with `view.frame={{0,0},{0,0}}` at `1794030956.179223`, revoked `1794030956.191617`; same common cleanup. These runtime records are from QA185; **do not assert** identical dynamic predicate failed for QA186 without new QA186 logs.
+- `DFTouchOwnerProbe.m` `DFWatchdog` calls `DFStopProbe` if owner pulse invalid, unconditionally hides all SpringBoard DuoFace windows and `[old stop]`. That teardown is appropriate for Home safety, but makes a **failed native Maps attempt drop the peer pane too**.
+- User-supplied photo head-unit clock `14:14` shows native-looking Maps in a partial viewport and Home-like grid of icons + wallpaper occupying the remaining area, not two active app scenes. It cannot itself prove installed version or the dynamic teardown reason. Latest main GitHub log upload still QA185 Audit16; Audit17–26 predate November 7.
+
+## Applied first-party containment patch (SOURCE-ONLY, not current Sileo)
+- Feature branch `feature/duoface-qa184-native-map-owner-sourceonly-20261107`, commit `8490eca98dfa91f5c12ed0e96097cd449f70a527`, 5 paths:
+  1. `sideplay/native-carplay-scene-v1/DF182NativeMaps.m`: capture target for observation but return `DF182OriginalFrame` exactly as issued by OS, log `scene-frame-original-preserved`, no `r.size` mutation. Does not solve native split scene-size yet.
+  2. `sideplay/duoface-native-scene-host/DFNative12Chrome.m`: `workspace-restore` defers Maps, does not auto issue native launch; no phone fallback; does not block restoring unrelated other apps.
+  3. Same Chrome: physical native slot no longer hides a previously hosted app from mere assignment intent; requires fresh exact `COMMITTED` receipt and exact CarPlay owner/lease before hiding. `reconcileNativeMaps184` calls `layoutControls` once when first verified committed member arrives.
+  4. Updated older `test_qa182_b1nativemaps1.py` legacy contract; new `test_qa187_native_scene_regression.py` checks original scene-frame preserved, no auto restore, commit-only handoff, strict Home owner revoke.
+  5. Existing QA184 source-only CI workflow now runs this new test; does **not** build or publish a DEB.
+- First CI `42352080042` failed because older QA185 static test `test_source_route_is_explicit` asserted the **now-removed** unattended restore. Updated only that test at commit `8d8dc79f1f1c8c327e9f8c9805cbbf55ebebe66a`. Re-run `42352166925` was in progress, with Python regression + Foundation + iOS16 ARM64 compile successful, UIKit simulation pending at last read.
+- Current public Sileo package remains **QA186 `0.0.186~panelayout1`**. No claim that a public update protects the user's device. No signed QA187 build, deploy, install or hardware two-pane pass has been executed by this patch.
+
+## Remaining engineering question
+Implement independent, verified **reversible native FBScene scene-size** change, owning host/controller/scene dimensions as one transaction; no blind reuse of OmniCar's private selectors or copied vendor code. Ensure the device actually composites native map pixels and independent peer host pixels with valid touch and no cropped UI over repeated resize/Home/reconnect. Source-only safety is not functional completion. Never re-enable automatic mutation from remembered Maps selection without this contract.
+
+## Required next steps / verification criteria
+1. Finish existing source CI `42352166925`; resolve only actual errors, rerun on updated SHA; record exact macOS Foundation/iOS16 compile/real UIKit result.
+2. Source is already committed on GitHub. Preserve no-Sileo policy for this mitigation until a signed version bump is independently verified and user authorizes new publication.
+3. Collect runtime QA186 `DuoFaceAudit` and `DuoFaceMapsGate0-CarPlay.jsonl` for the pictured attempt when available; confirm actual current installed build and correlate native assignment/scene-frame/watchdog sequence instead of assuming QA185 reproduced identically.
+4. For follow-on functional implementation prove native scene frame size, UIView and FBScene settings reflect same owned pane, and an inverse restores original 640x360 under revoke/replacement; confirm peer app visible, full content and touch in a physical test.
