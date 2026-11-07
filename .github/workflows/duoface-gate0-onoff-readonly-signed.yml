@@ -51,6 +51,10 @@ jobs:
           test "$(dpkg-deb -f "$P" Package)" = 'com.duoface.carplay.gate0probe'
           test "$(dpkg-deb -f "$P" Version)" = '0.0.1~gate0readonly1'
           test "$(dpkg-deb -f "$P" Architecture)" = 'iphoneos-arm64'
+          test "$(dpkg-deb -f "$P" Depends)" = 'firmware (>= 16.0), mobilesubstrate'
+          ROOT_MODE="$(dpkg-deb -c "$P" | awk 'NR==1 {print $1}')"
+          test "$ROOT_MODE" = 'drwxr-xr-x'
+          echo GATE0_DEB_STAGING_ROOT_MODE_0755_VERIFIED
           mkdir -p "$RUNNER_TEMP/gate0-root"
           dpkg-deb -x "$P" "$RUNNER_TEMP/gate0-root"
           LIB="$RUNNER_TEMP/gate0-root/var/jb/Library/MobileSubstrate/DynamicLibraries"
