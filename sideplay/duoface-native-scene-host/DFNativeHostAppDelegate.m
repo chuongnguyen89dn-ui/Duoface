@@ -290,15 +290,24 @@ void DFNativeHostLog(NSString *message) {
     if(scene!=self.touchOwnerScene)return;
     // Background is a lifecycle observation. It cannot grant ownership.
     // Without an independently observed current native owner, retain old cleanup.
-    BOOL retain=DFOwnerNativeEvidence(self.touchSession,scene.session.persistentIdentifier);
+    // QA188: the heartbeat already recognizes two independently attested
+    // owners, but this immediate background callback only checked the old
+    // native-host scene. A valid PRESENTED/COMMITTED native Maps membership
+    // must use the SAME strict session-bound owner predicate, or the
+    // callback can tear down Waze/the peer before the next heartbeat.
+    // Neither pending assignment nor an issued launch grants retention.
+    BOOL hostOwner=DFOwnerNativeEvidence(self.touchSession,scene.session.persistentIdentifier);
+    BOOL nativeMapsMember=DFOwnerNativeMapsEvidence(self.touchSession,scene.session.persistentIdentifier);
+    BOOL retain=hostOwner||nativeMapsMember;
     BOOL exterior=self.carWindow && self.carWindow.screen &&
                   self.carWindow.screen!=UIScreen.mainScreen;
     DFNativeHostLog([NSString stringWithFormat:
-        @"qa125-background-boundary own-state=%ld app-state=%ld protected-data=%d external-window=%d connected-scenes=%lu native-owner=%d",
+        @"qa188-background-owner-gate own-state=%ld app-state=%ld protected-data=%d external-window=%d connected-scenes=%lu native-host=%d native-maps-member=%d retained=%d",
         (long)scene.activationState,
         (long)UIApplication.sharedApplication.applicationState,
         UIApplication.sharedApplication.protectedDataAvailable,
-        exterior,(unsigned long)UIApplication.sharedApplication.connectedScenes.count,retain]);
+        exterior,(unsigned long)UIApplication.sharedApplication.connectedScenes.count,
+        hostOwner,nativeMapsMember,retain]);
     if(retain) {
         [self renewTouchOwnerHeartbeat:self.touchHeartbeat];
         DFNativeHostLog(@"native-owner-background-retention-requested");

@@ -34,6 +34,22 @@ class QA184NativeOwner(unittest.TestCase):
   self.assertIn('DFOwnerAcceptPulse(pulse)',sb)
   self.assertIn('DFStopProbe(@"inactive-or-stale-heartbeat")',sb)
   self.assertNotIn('watchdogDisabled',sb)
+ def test_native_maps_lease_matches_background_callback_and_heartbeat(self):
+  app=source('sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m')
+  lease=source('sideplay/duoface-native-scene-host/DFCarPlayOwnerLease.h')
+  background=app.split('- (void)sceneDidEnterBackground:(UIScene *)scene {',1)[1].split('- (void)sceneDidDisconnect:',1)[0]
+  renewal=app.split('- (void)renewTouchOwnerHeartbeat:(NSTimer *)timer {',1)[1].split('- (void)startTouchOwnerForScene:',1)[0]
+  # Both transition and recurring heartbeat must use the SAME strict
+  # membership predicate; never accept a mere picker intent or launch.
+  self.assertIn('DFOwnerNativeMapsEvidence(self.touchSession,scene.session.persistentIdentifier)',background)
+  self.assertIn('BOOL retain=hostOwner||nativeMapsMember;',background)
+  self.assertIn('DFOwnerNativeMapsEvidence(self.touchSession,hostID)',renewal)
+  self.assertIn('DFOwnerMayRenew(foreground,background',renewal)
+  self.assertIn('DF184MapMembershipAccepted(transition,',lease)
+  self.assertIn('if(retain) {',background)
+  self.assertIn('stopTouchOwnerWithReason:@"scene-background"',background)
+  self.assertIn('native-maps-member=%d retained=%d',background)
+
  def test_other_pane_preserved_and_rollback(self):
   chrome=source('sideplay/duoface-native-scene-host/DFNative12Chrome.m')
   s=source('sideplay/native-carplay-scene-v1/DF182NativeMaps.m')
