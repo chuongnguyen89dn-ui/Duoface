@@ -1,0 +1,76 @@
+name: DuoFace Gate0 - read-only ON OFF probe private signed artifact
+on:
+  push:
+    branches: [feature/duoface-gate0-onoff-readonly-20261107]
+    paths:
+      - '.github/workflows/duoface-gate0-onoff-readonly-signed.yml'
+      - 'sideplay/gate0-carplay-maps-probe/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: duoface-gate0-readonly-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gate0 complete negative and calibration regression tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/gate0-carplay-maps-probe/tests -p 'test_gate0.py' -v
+          python3 -m py_compile sideplay/gate0-carplay-maps-probe/analyze_gate0.py
+          python3 -m py_compile sideplay/gate0-carplay-maps-probe/tests/test_gate0.py
+      - name: Ensure all QA182 and H1 source unmodified by this diagnostic
+        run: |
+          set -euo pipefail
+          git diff --quiet bdd1116b5308869210a65b79b92b7d873fe4a04c HEAD -- sideplay/duoface-native-scene-host sideplay/native-carplay-scene-v1 sideplay/jb-embedded-appbridge
+          echo GATE0_QA182_H1_SOURCE_IMMUTABLE
+  signed-private-probe:
+    needs: source-contract
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare signing and Debian packaging tools
+        run: |
+          set -euo pipefail
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          xcrun --sdk iphoneos --show-sdk-path
+      - name: Compile iOS16 ARM64 rootless read-only observer and sign
+        run: |
+          set -euo pipefail
+          bash sideplay/gate0-carplay-maps-probe/build_private_probe.sh
+          P='sideplay/gate0-carplay-maps-probe/dist/com.duoface.carplay.gate0probe_0.0.1~gate0readonly1_iphoneos-arm64.deb'
+          test -s "$P"
+          test "$(dpkg-deb -f "$P" Package)" = 'com.duoface.carplay.gate0probe'
+          test "$(dpkg-deb -f "$P" Version)" = '0.0.1~gate0readonly1'
+          test "$(dpkg-deb -f "$P" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$RUNNER_TEMP/gate0-root"
+          dpkg-deb -x "$P" "$RUNNER_TEMP/gate0-root"
+          LIB="$RUNNER_TEMP/gate0-root/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          test -s "$LIB/DFGate0CarPlayProbe.dylib"
+          ldid -e "$LIB/DFGate0CarPlayProbe.dylib" >/dev/null
+          strings -a "$LIB/DFGate0CarPlayProbe.dylib" | grep -F 'presentBaseViewController:animated:launchSource:completion:'
+          strings -a "$LIB/DFGate0CarPlayProbe.dylib" | grep -F 'stockSourceStatus'
+          strings -a "$LIB/DFGate0CarPlayProbe.dylib" | grep -F 'UNVERIFIED'
+          grep -F 'Preferences' "$LIB/DFGate0CarPlayProbe.plist"
+          (cd sideplay/gate0-carplay-maps-probe/dist && shasum -a 256 -c SHA256SUMS.txt)
+          echo GATE0_READ_ONLY_SIGNED_PRIVATE_DEB_PASS_NO_DEVICE_TEST_NO_SILEO
+      - name: Archive source and signed artifact receipt
+        run: |
+          set -euo pipefail
+          mkdir -p sideplay/gate0-carplay-maps-probe/dist
+          printf 'SOURCE_SHA=%s\nRUN_ID=%s\nBUILD=success\nSIGNED=true\nSILEO_PUBLISHED=false\nDEVICE_TESTED=false\nSTOCK_ON_OFF_SOURCE_VERIFIED=false\nNATIVE_MAPS_IN_DUOFACE_ACCEPTED=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > sideplay/gate0-carplay-maps-probe/dist/CI_RESULT.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-Gate0-readonly-signed-private-DEB
+          path: |
+            sideplay/gate0-carplay-maps-probe/dist/*.deb
+            sideplay/gate0-carplay-maps-probe/dist/SHA256SUMS.txt
+            sideplay/gate0-carplay-maps-probe/dist/CI_RESULT.txt
+          if-no-files-found: error
+          retention-days: 30
