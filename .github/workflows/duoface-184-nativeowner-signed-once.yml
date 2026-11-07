@@ -1,7 +1,9 @@
 name: QA184 native Maps owner integrated signed PRIVATE test artifact (NO SILEO)
 on:
   workflow_dispatch:
-# User request record: sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md
+  push:
+    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
+    paths: [sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md]
 permissions:
   contents: write
 concurrency:
@@ -9,6 +11,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build-and-archive:
+    if: >-
+      github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'build(qa184): user-requested PRESENTED diagnostic DEB once'
     runs-on: macos-15
     timeout-minutes: 60
     steps:

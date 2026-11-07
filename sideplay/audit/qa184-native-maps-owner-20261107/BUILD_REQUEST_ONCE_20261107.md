@@ -16,4 +16,5 @@ Package: `com.duoface.jb.embedded`, version `0.0.184~nativeowner1`. NativeHost `
 - Reuse existing user-request marker one-shot mechanism because connector has no workflow_dispatch capability and browser is signed out. No credential access requested. Trigger matches this path, branch and exact request commit message only. Restore workflow_dispatch-only immediately after run registration.
 - No in_progress/queued jobs observed before this request. Preserve AppDelegate background/heartbeat and all admission predicates; no Home fix claimed. Verify binary markers, Mach-O signatures, metadata, SHA256 and durable archive before delivery.
 
-- First trigger source aab808210b7e0dcde55d60252007e620ae18a363: run 42340591501 failed at workflow parsing before any jobs. Correct YAML by using folded scalar for exact-message if guard (colon in message); retry once. No binaries produced by failed run.
+- Attempt aab8082/run42340591501 failed YAML parsing before jobs; folded exact-message guard fixed.
+- Attempt ea28831/run42340641150 job128307335550 passed QA184 source/package and QA182 behavioral tests, failed stale QA182 Version literal before toolchain/build. Exact error: AssertionError: 'Version: 0.1.184~nativeowner1' not found. Update remaining QA182 and integrated144 version expectations only; no behavior test removed or weakened. Re-run authorized diagnostic build.
