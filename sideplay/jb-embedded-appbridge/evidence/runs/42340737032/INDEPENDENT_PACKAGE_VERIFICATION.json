@@ -1,0 +1,323 @@
+{
+  "package": "com.duoface.jb.embedded_0.0.184~nativeowner2diag1_iphoneos-arm64.deb",
+  "bytes": 1289336,
+  "sha256": "3271d14d615bbd15c3b3d23c496f739a5fdcc30b47a1c0b5b8989b6a57c27d88",
+  "metadata": {
+    "Package": "com.duoface.jb.embedded",
+    "Version": "0.0.184~nativeowner2diag1",
+    "Architecture": "iphoneos-arm64",
+    "Depends": "firmware (>= 16.0), mobilesubstrate"
+  },
+  "source": "098e7b8ae306480e204275576f134db5717c97c2",
+  "machoCount": 11,
+  "machos": [
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+      "sha256": "c8c41fe26ebbcb9159dede8b05a011fff5718f9db3e6a68a434508bbef18c4f4",
+      "slices": [
+        {
+          "uuid": "e64e4d74bf3b3c658140039acefbc0cd",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 31,
+              "codeLimit": 125936,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 31,
+              "codeLimit": 125936,
+              "flags": 0
+            }
+          ]
+        },
+        {
+          "uuid": "93bb1f45c2413857b7b5801e4ffeb1c2",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 35,
+              "codeLimit": 142320,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 35,
+              "codeLimit": 142320,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib",
+      "sha256": "52566b36a1793d968f80cbc61178874090572fd8457b418a22e153e5c860f9a0",
+      "slices": [
+        {
+          "uuid": "322fc9f3c8b23435b42cfed1fe8f6376",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 30,
+              "codeLimit": 121552,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 30,
+              "codeLimit": 121552,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+      "sha256": "4e63ac1d1dbb12fcd346b8e830a868c483f220164a58abf02ecaead6b8c9b2aa",
+      "slices": [
+        {
+          "uuid": "f79bbc90b5973f2d9805428dcd86f0b1",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 31,
+              "codeLimit": 125840,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 31,
+              "codeLimit": 125840,
+              "flags": 0
+            }
+          ]
+        },
+        {
+          "uuid": "08e86b4f75583d64bfd9034da83bc78b",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 31,
+              "codeLimit": 125840,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 31,
+              "codeLimit": 125840,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "sha256": "f904413ba8d900013afaf7b8d73ebcfcdfe8d6bf944a31bbd178cb13b27a0ccd",
+      "slices": [
+        {
+          "uuid": "b22ec2b2f2da3c6daf701b9391cf7bb5",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 174,
+              "codeLimit": 710576,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 174,
+              "codeLimit": 710576,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+      "sha256": "d6592b03df2e5a3e2612f29557225d9a24bcc4589d49ca282bc8405144db9005",
+      "slices": [
+        {
+          "uuid": "a39e6e37af753a1cad0ac3f3a282a2e8",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 76,
+              "codeLimit": 310384,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 76,
+              "codeLimit": 310384,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DF155GeneralAppStateRelay.dylib",
+      "sha256": "738ca6e2d825a2d5da6f6cfc845c21f7ec60eb771d37b238d33d5c1baa50a61d",
+      "slices": [
+        {
+          "uuid": "37f9a41b787e322a8c02311f11d1ac85",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 25,
+              "codeLimit": 101648,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 25,
+              "codeLimit": 101648,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+      "sha256": "343662f7e6152972996bc9d1a11e131a4168e6756b7b79e85223d080c993564b",
+      "slices": [
+        {
+          "uuid": "9cbcca1cabe537aab5a52da760a8e0ed",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 18,
+              "codeLimit": 70608,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 18,
+              "codeLimit": 70608,
+              "flags": 0
+            }
+          ]
+        },
+        {
+          "uuid": "ac06144eb2e13990973ee4475784f671",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 22,
+              "codeLimit": 86992,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 22,
+              "codeLimit": 86992,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaSpeedSource162.dylib",
+      "sha256": "d698aed9438a218410cf29c6e1a1e8535c11daa308fdab61ef33447d7f5555dc",
+      "slices": [
+        {
+          "uuid": "b56b86d62ba2367f8b6174262c4b7775",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 25,
+              "codeLimit": 99632,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 25,
+              "codeLimit": 99632,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFGofaMapResize141.dylib",
+      "sha256": "d191c7bbae687845ee54cdc485dc3b48d633923394c6b8f8ccc00a1cfc73db37",
+      "slices": [
+        {
+          "uuid": "6b4d3e654ffb3c4781300e162dab0ddc",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 19,
+              "codeLimit": 75776,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 19,
+              "codeLimit": 75776,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeMapPaneCoordinator.dylib",
+      "sha256": "833c4c4cc7f2a8dcc6aa46f3f1697072867708674e1846cb7d13cf950d062745",
+      "slices": [
+        {
+          "uuid": "3647c27fcd0733a884c04bcdaff37baf",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 44,
+              "codeLimit": 179888,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 44,
+              "codeLimit": 179888,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "sha256": "d63b19cd003da2c99a5102dceff7b29a01417e00d69e3df511a9570d1c67fd15",
+      "slices": [
+        {
+          "uuid": "f9e004eef66d3ef88550bd32a20c264e",
+          "codeDirectories": [
+            {
+              "hash": "sha1",
+              "pages": 84,
+              "codeLimit": 343040,
+              "flags": 0
+            },
+            {
+              "hash": "sha256",
+              "pages": 84,
+              "codeLimit": 343040,
+              "flags": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "codePageHashes": "PASS",
+  "diagnosticMarkers": "PASS",
+  "sileoPublished": false,
+  "deviceTested": false
+}
