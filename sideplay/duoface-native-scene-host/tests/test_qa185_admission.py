@@ -22,8 +22,13 @@ class Admission185(unittest.TestCase):
   self.assertIn('DF184Fresh(NSDate.date.timeIntervalSince1970,@(self.presentedAt),0.85)',s)
  def test_source_route_is_explicit(self):
   c=(ROOT/'DFNative12Chrome.m').read_text()
-  self.assertNotIn('assignNativeMaps182:physical origin:@"workspace-restore"',c)
-  self.assertIn('native-maps-restore-deferred-explicit-picker-required',c)
+  # QA188: restored native-only saved Maps intent is an EXPLICIT request,
+  # not native launch acceptance or a phone-scene fallback.
+  restore=c.split('- (void)restoreNextSavedWorkspaceApp {',1)[1].split('// Shift physical scene WINDOWS',1)[0]
+  self.assertIn('DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs())',restore)
+  self.assertIn('assignNativeMaps182:physical origin:@"workspace-restore"',restore)
+  self.assertIn('scene=UNVERIFIED',restore)
+  self.assertIn('continue; // Native scene only; no phone-scene fallback on failure.',restore)
   self.assertIn('origin:@"picker"',c)
   self.assertIn('DF182AssignForOrigin(physical,visual,origin)',c)
 if __name__=='__main__': unittest.main()
