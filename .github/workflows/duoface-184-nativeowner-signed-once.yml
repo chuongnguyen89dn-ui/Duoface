@@ -1,0 +1,157 @@
+name: QA184 native Maps owner integrated signed PRIVATE test artifact (NO SILEO)
+on:
+  push:
+    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
+    paths:
+      - '.github/workflows/duoface-184-nativeowner-signed-once.yml'
+      - 'sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa184-nativeowner-signed-once-20261107
+  cancel-in-progress: false
+jobs:
+  build-and-archive:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify QA184 membership, QA184 native assignment, frozen H1 and package contracts
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa184_owner.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa184_signed_package.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa182_b1nativemaps1.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa180_h1wake3.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa179_h1wake2.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_qa188_h1wake1.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package_144.py' -v
+      - name: Reconfirm runtime Foundation owner/lease acceptance matrix
+        run: |
+          set -euo pipefail
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-unused-variable -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/map_membership_184_runtime.m \
+            -o "$RUNNER_TEMP/qa184-membership"
+          "$RUNNER_TEMP/qa184-membership"
+          clang -fobjc-arc -fblocks -Wall -Wextra -Werror -Wno-unused-variable -framework Foundation \
+            sideplay/duoface-native-scene-host/tests/owner_lease_records_test.m \
+            -o "$RUNNER_TEMP/qa184-owner-lease"
+          "$RUNNER_TEMP/qa184-owner-lease"
+      - name: Prepare existing signed iOS16 toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          command -v ldid >/dev/null || brew install ldid
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile and sign unchanged first-party baseline module DEBs
+        run: |
+          set -euo pipefail
+          ( cd sideplay/mytweak-independent-v1a && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/mytweak-native-bridgeqa && make clean package FINALPACKAGE=1 )
+          ( cd sideplay/firstparty-carplay-admission && make clean package FINALPACKAGE=1 )
+      - name: Compile and sign QA184 native scene-host and both app relays
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          HOST='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.184~nativeowner1_iphoneos-arm64.deb'
+          test -s "$HOST"
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.1.184~nativeowner1'
+          mkdir -p "$RUNNER_TEMP/qa184-host"
+          dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa184-host"
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '184'
+          for module in DFTouchOwnerProbe DFCarPlayDockOwner DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
+            ldid -e "$RUNNER_TEMP/qa184-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$module.dylib" >/dev/null
+          done
+          echo "NATIVEHOST_SHA=$(shasum -a 256 "$HOST" | awk '{print $1}')" >> "$GITHUB_ENV"
+      - name: Assemble signed integrated QA184 and inspect exact code/signatures
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          OUT='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.184~nativeowner1_iphoneos-arm64.deb'
+          test -s "$OUT"
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$OUT" Version)" = '0.0.184~nativeowner1'
+          test "$(dpkg-deb -f "$OUT" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$RUNNER_TEMP/qa184-merged"
+          dpkg-deb -x "$OUT" "$RUNNER_TEMP/qa184-merged"
+          LIBS="$RUNNER_TEMP/qa184-merged/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          for module in DFTouchOwnerProbe DFCarPlayDockOwner DFNativeMapPaneCoordinator DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
+            test -s "$LIBS/$module.dylib"
+            ldid -e "$LIBS/$module.dylib" >/dev/null
+          done
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'com.duoface.apptouch177.wake'
+          for module in DF155GeneralAppStateRelay DFYouTubeOrientationRelay DFTouchOwnerProbe; do
+            for channel in com.duoface.controls188.hidden com.duoface.controls188.shown com.duoface.controls188.query; do
+              strings -a "$LIBS/$module.dylib" | grep -F "$channel"
+            done
+          done
+          strings -a "$LIBS/DF155GeneralAppStateRelay.dylib" | grep -F 'UIRemoteKeyboardWindow'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-controls-state'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'qa188-h1-app-touch-wake'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'gate=%@'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'qa182-b1'
+          strings -a "$LIBS/DFTouchOwnerProbe.dylib" | grep -F 'phone-host-rejected'
+          for lib in DFTouchOwnerProbe DFCarPlayDockOwner; do
+            strings -a "$LIBS/$lib.dylib" | grep -F 'qa181-b0'
+          done
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '184'
+          # Check the new presenter/owner lease made it into linked signed binaries.
+          for module in DFNativeMapPaneCoordinator DFTouchOwnerProbe; do
+            strings -a "$LIBS/$module.dylib" | grep -F 'com.duoface.nativehost.maps-membership.v1.plist'
+          done
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'DBDashboardRootViewController.presentBase:post-original'
+          strings -a "$LIBS/DFNativeMapPaneCoordinator.dylib" | grep -F 'pane-member-committed'
+          ldid -e "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost" >/dev/null
+          CONTROL="$RUNNER_TEMP/qa184-merged-control"
+          mkdir -p "$CONTROL"
+          dpkg-deb -e "$OUT" "$CONTROL"
+          test -x "$CONTROL/postinst" && test -x "$CONTROL/postrm"
+          ! grep -E 'respring|killall|uicache -u' "$CONTROL/postinst" "$CONTROL/postrm"
+          test "$(dpkg-deb -f "$OUT" Depends)" = 'firmware (>= 16.0), mobilesubstrate'
+          echo "QA184_INTEGRATED=$OUT" >> "$GITHUB_ENV"
+          shasum -a 256 "$OUT"
+          ( cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 "$(basename "$OUT")" > QA184_SHA256SUMS.txt && shasum -a 256 -c QA184_SHA256SUMS.txt )
+          echo 'QA184_SIGNED_NATIVE_OWNER_CONTRACT_AND_BINARY_PASS_DEVICE_UNTESTED_NO_SILEO'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QA184-nativeowner1-signed-integrated-PRIVATE-DEB
+          path: |
+            sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.184~nativeowner1_iphoneos-arm64.deb
+            sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json
+            sideplay/jb-embedded-appbridge/packages/QA184_SHA256SUMS.txt
+          if-no-files-found: error
+      - name: Archive exact signed QA184 bytes in DuoFace source repo for independent transfer
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa184-native-map-owner-sourceonly-20261107'
+          ART='com.duoface.jb.embedded_0.0.184~nativeowner1_iphoneos-arm64.deb'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            OUT="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID"
+            mkdir -p "$OUT"
+            cp "$QA184_INTEGRATED" "$OUT/$ART"
+            ( cd "$OUT" && shasum -a 256 "$ART" > SHA256SUMS.txt && shasum -a 256 -c SHA256SUMS.txt )
+            cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json "$OUT/"
+            printf 'BUILD=success\\nSIGNED=true\\nSOURCE_SHA=%s\\nRUN_ID=%s\\nSILEO_PUBLISHED=false\\nDEVICE_TESTED=false\\nPACKAGE=0.0.184~nativeowner1\\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$OUT/CI_RESULT.txt"
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
+            git -C "$DIR" commit -m "qa184: archive exact signed native Maps owner test DEB [skip ci]"
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$DIR"
+              git fetch --no-tags origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/SHA256SUMS.txt"
+              echo QA184_SIGNED_SOURCE_ARCHIVE_VERIFIED_NO_SILEO
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
