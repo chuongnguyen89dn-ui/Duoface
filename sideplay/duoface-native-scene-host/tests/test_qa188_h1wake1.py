@@ -38,5 +38,5 @@ class QA178H1Wake(unittest.TestCase):
   self.assertIn('VERSION="0.0.186~panelayout1"',INT.read_text())
   self.assertIn('Version: 0.1.186~panelayout1',(ROOT/"control").read_text())
   info=(ROOT/"Info.plist").read_text()
-  self.assertIn('<key>CFBundleVersion</key><string>185</string>',info)
+  self.assertIn('<key>CFBundleVersion</key><string>186</string>',info)
 if __name__=="__main__":unittest.main()
