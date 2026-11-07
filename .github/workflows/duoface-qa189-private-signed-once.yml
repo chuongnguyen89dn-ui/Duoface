@@ -6,6 +6,7 @@ on:
       - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md'
       - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY1_ONCE.md'
       - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY2_ONCE.md'
+      - 'sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY3_ONCE.md'
 # Private QA189 ONE-SHOT marker; no Sileo publisher or tag/release.
 permissions:
   contents: write
@@ -31,6 +32,7 @@ jobs:
             "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_ONCE.md",
             "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY1_ONCE.md",
             "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY2_ONCE.md",
+            "sideplay/jb-embedded-appbridge/build-request/QA189_SIGNED_RETRY3_ONCE.md",
             "sideplay/tiep tuc du an.md",
             "sideplay/duoface-native-scene-host/build.sh",
             "sideplay/duoface-native-scene-host/control",
@@ -123,7 +125,7 @@ jobs:
           test "$(dpkg-deb -f "$HOST" Version)" = '0.1.189~mapsh1fix1'
           mkdir -p "$RUNNER_TEMP/qa184-host"
           dpkg-deb -x "$HOST" "$RUNNER_TEMP/qa184-host"
-          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '188'
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-host/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '189'
           for module in DFTouchOwnerProbe DFCarPlayDockOwner DF155GeneralAppStateRelay DFYouTubeOrientationRelay; do
             ldid -e "$RUNNER_TEMP/qa184-host/var/jb/Library/MobileSubstrate/DynamicLibraries/$module.dylib" >/dev/null
           done
@@ -166,7 +168,7 @@ jobs:
           for lib in DFTouchOwnerProbe DFCarPlayDockOwner; do
             strings -a "$LIBS/$lib.dylib" | grep -F 'qa181-b0'
           done
-          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '188'
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '189'
           # Check the new presenter/owner lease made it into linked signed binaries.
           for module in DFNativeMapPaneCoordinator DFTouchOwnerProbe; do
             strings -a "$LIBS/$module.dylib" | grep -F 'com.duoface.nativehost.maps-membership.v1.plist'
