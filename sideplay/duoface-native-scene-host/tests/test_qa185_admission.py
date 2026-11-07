@@ -22,7 +22,8 @@ class Admission185(unittest.TestCase):
   self.assertIn('DF184Fresh(NSDate.date.timeIntervalSince1970,@(self.presentedAt),0.85)',s)
  def test_source_route_is_explicit(self):
   c=(ROOT/'DFNative12Chrome.m').read_text()
-  self.assertIn('origin:@"workspace-restore"',c)
+  self.assertNotIn('assignNativeMaps182:physical origin:@"workspace-restore"',c)
+  self.assertIn('native-maps-restore-deferred-explicit-picker-required',c)
   self.assertIn('origin:@"picker"',c)
   self.assertIn('DF182AssignForOrigin(physical,visual,origin)',c)
 if __name__=='__main__': unittest.main()
