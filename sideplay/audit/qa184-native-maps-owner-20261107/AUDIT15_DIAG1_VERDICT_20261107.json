@@ -1,0 +1,151 @@
+{
+  "uploadCommit": "7de99fe130006e85146005c23c174c163a349a48",
+  "auditBlob": "12f17265731d7c20c2bec062c8b67f0bd9d2bbb7",
+  "gateBlob": "18101dd4c860d6549c76a238b6ec76bfbe989dfc",
+  "records": [
+    {
+      "line": 28822,
+      "text": "utc=1794028122.726755 uptime=104721.727339 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=81D4965E-3AE8-4D74-9F78-AA0AD5B821E8 main=1 area=chrome workspace-restore-snapshot preset=1 saved=("
+    },
+    {
+      "line": 28830,
+      "text": "utc=1794028122.965221 uptime=104721.965807 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=81D4965E-3AE8-4D74-9F78-AA0AD5B821E8 main=1 area=qa182-b1 qa182-b1 event=b1-assignment-created assignment=52B90E01-EB6B-417C-9301-1F11F2F3F799 session=0F43EE45-6E70-4C99-911A-3B91C3721922 bundle=com.google.Maps physical=0 stock-settings=unknown phone-fallback=forbidden"
+    },
+    {
+      "line": 28835,
+      "text": "utc=1794028123.048747 uptime=104722.049335 build=0.0.184~nativeowner2diag1 pid=7749 process=CarPlay run=7D35B622-ED3C-49FB-89BB-95D24D87E68B main=1 area=qa182-b1 qa182-b1 event=b1-membership-reject-detail assignment=52B90E01-EB6B-417C-9301-1F11F2F3F799 session=0F43EE45-6E70-4C99-911A-3B91C3721922 bundle=com.google.Maps physical=0 stock-settings=unknown {\"actual\":\"D7C7F842-CC9D-4315-B40E-DEFA3FFC78E1\",\"assignment\":{\"AssignedAt\":1794028122.963412,\"AssignmentID\":\"52B90E01-EB6B-417C-9301-1F11F2F3F799\",\"BundleID\":\"com.google.Maps\",\"PhysicalSlot\":0,\"Session\":\"0F43EE45-6E70-4C99-911A-3B91C3721922\",\"Slot\":1,\"Version\":2},\"expected\":\"0F43EE45-6E70-4C99-911A-3B91C3721922\",\"key\":\"Session\",\"picker\":\"<missing>\",\"pickerRead\":\"diagnostic-only-not-admission\",\"pickerSource\":\"\\/var\\/mobile\\/Library\\/Preferences\\/com.duoface.nativehost.picker-evidence185.plist\",\"source\":\"\\/var\\/mobile\\/Library\\/Preferences\\/com.duoface.nativehost.physical-panes.v1.plist\",\"stage\":\"physical-target\"}"
+    },
+    {
+      "line": 28866,
+      "text": "utc=1794028123.672006 uptime=104722.672597 build=0.0.184~nativeowner2diag1 pid=7749 process=CarPlay run=7D35B622-ED3C-49FB-89BB-95D24D87E68B main=1 area=qa182-b1 qa182-b1 event=b1-membership-reject-detail assignment=52B90E01-EB6B-417C-9301-1F11F2F3F799 session=0F43EE45-6E70-4C99-911A-3B91C3721922 bundle=com.google.Maps physical=0 stock-settings=unknown {\"actual\":true,\"assignment\":{\"AssignedAt\":1794028122.963412,\"AssignmentID\":\"52B90E01-EB6B-417C-9301-1F11F2F3F799\",\"BundleID\":\"com.google.Maps\",\"PhysicalSlot\":0,\"Session\":\"0F43EE45-6E70-4C99-911A-3B91C3721922\",\"Slot\":1,\"Version\":2},\"expected\":false,\"key\":\"hidden\",\"picker\":\"<missing>\",\"pickerRead\":\"diagnostic-only-not-admission\",\"pickerSource\":\"\\/var\\/mobile\\/Library\\/Preferences\\/com.duoface.nativehost.picker-evidence185.plist\",\"source\":\"controller.viewIfLoaded\",\"stage\":\"PRESENTED\"}"
+    },
+    {
+      "line": 28888,
+      "text": "utc=1794028124.784364 uptime=104723.784966 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=EF699222-124B-4232-8D13-6CB2B1505C7C main=1 area=touch-owner event=watchdog-detach age=0.17 active=1 session-match=1"
+    },
+    {
+      "line": 28892,
+      "text": "utc=1794028124.795912 uptime=104723.796513 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=81D4965E-3AE8-4D74-9F78-AA0AD5B821E8 main=1 area=qa182-b1 qa182-b1 event=b1-assignment-revoked assignment=52B90E01-EB6B-417C-9301-1F11F2F3F799 session=0F43EE45-6E70-4C99-911A-3B91C3721922 bundle=com.google.Maps physical=0 stock-settings=unknown reason=Chrome-Home-or-disconnect"
+    },
+    {
+      "line": 28945,
+      "text": "utc=1794028141.361549 uptime=104740.362257 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=81D4965E-3AE8-4D74-9F78-AA0AD5B821E8 main=1 area=chrome home-reentry-no-startup-splash-restore-saved-scenes"
+    },
+    {
+      "line": 28946,
+      "text": "utc=1794028141.362215 uptime=104740.362923 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=81D4965E-3AE8-4D74-9F78-AA0AD5B821E8 main=1 area=chrome workspace-restore-snapshot preset=1 saved=("
+    },
+    {
+      "line": 28953,
+      "text": "utc=1794028141.663050 uptime=104740.663760 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=81D4965E-3AE8-4D74-9F78-AA0AD5B821E8 main=1 area=qa182-b1 qa182-b1 event=b1-assignment-created assignment=28F42E80-DF46-466B-BBE5-D10DCC1DCA79 session=5087E463-B69A-4C0A-B752-BDD31FA3425D bundle=com.google.Maps physical=0 stock-settings=unknown phone-fallback=forbidden"
+    },
+    {
+      "line": 28976,
+      "text": "utc=1794028141.866027 uptime=104740.866738 build=0.0.184~nativeowner2diag1 pid=7749 process=CarPlay run=7D35B622-ED3C-49FB-89BB-95D24D87E68B main=1 area=qa182-b1 qa182-b1 event=b1-membership-reject-detail assignment=28F42E80-DF46-466B-BBE5-D10DCC1DCA79 session=5087E463-B69A-4C0A-B752-BDD31FA3425D bundle=com.google.Maps physical=0 stock-settings=unknown {\"actual\":\"0F43EE45-6E70-4C99-911A-3B91C3721922\",\"assignment\":{\"AssignedAt\":1794028141.6574349,\"AssignmentID\":\"28F42E80-DF46-466B-BBE5-D10DCC1DCA79\",\"BundleID\":\"com.google.Maps\",\"PhysicalSlot\":0,\"Session\":\"5087E463-B69A-4C0A-B752-BDD31FA3425D\",\"Slot\":1,\"Version\":2},\"expected\":\"5087E463-B69A-4C0A-B752-BDD31FA3425D\",\"key\":\"Session\",\"picker\":\"<missing>\",\"pickerRead\":\"diagnostic-only-not-admission\",\"pickerSource\":\"\\/var\\/mobile\\/Library\\/Preferences\\/com.duoface.nativehost.picker-evidence185.plist\",\"source\":\"\\/var\\/mobile\\/Library\\/Preferences\\/com.duoface.nativehost.physical-panes.v1.plist\",\"stage\":\"physical-target\"}"
+    },
+    {
+      "line": 28994,
+      "text": "utc=1794028142.452680 uptime=104741.453393 build=0.0.184~nativeowner2diag1 pid=7749 process=CarPlay run=7D35B622-ED3C-49FB-89BB-95D24D87E68B main=1 area=qa182-b1 qa182-b1 event=b1-membership-reject-detail assignment=28F42E80-DF46-466B-BBE5-D10DCC1DCA79 session=5087E463-B69A-4C0A-B752-BDD31FA3425D bundle=com.google.Maps physical=0 stock-settings=unknown {\"actual\":true,\"assignment\":{\"AssignedAt\":1794028141.6574349,\"AssignmentID\":\"28F42E80-DF46-466B-BBE5-D10DCC1DCA79\",\"BundleID\":\"com.google.Maps\",\"PhysicalSlot\":0,\"Session\":\"5087E463-B69A-4C0A-B752-BDD31FA3425D\",\"Slot\":1,\"Version\":2},\"expected\":false,\"key\":\"hidden\",\"picker\":\"<missing>\",\"pickerRead\":\"diagnostic-only-not-admission\",\"pickerSource\":\"\\/var\\/mobile\\/Library\\/Preferences\\/com.duoface.nativehost.picker-evidence185.plist\",\"source\":\"controller.viewIfLoaded\",\"stage\":\"PRESENTED\"}"
+    },
+    {
+      "line": 29005,
+      "text": "utc=1794028143.971350 uptime=104742.972073 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=EF699222-124B-4232-8D13-6CB2B1505C7C main=1 area=touch-owner event=watchdog-detach age=0.57 active=1 session-match=1"
+    },
+    {
+      "line": 29008,
+      "text": "utc=1794028143.982220 uptime=104742.982942 build=0.0.184~nativeowner2diag1 pid=7726 process=SpringBoard run=81D4965E-3AE8-4D74-9F78-AA0AD5B821E8 main=1 area=qa182-b1 qa182-b1 event=b1-assignment-revoked assignment=28F42E80-DF46-466B-BBE5-D10DCC1DCA79 session=5087E463-B69A-4C0A-B752-BDD31FA3425D bundle=com.google.Maps physical=0 stock-settings=unknown reason=Chrome-Home-or-disconnect"
+    }
+  ],
+  "gate": [
+    {
+      "line": 2073,
+      "pid": 7749,
+      "candidateSampleWall": 1794028105.382062,
+      "stockSettings": "UNKNOWN",
+      "candidateContainingMaps": 28,
+      "stockSource": "UNVALIDATED_CARPLAY_ICONSTATE_CANDIDATES",
+      "screenExternalByComparison": true,
+      "weakAlive": true,
+      "screenIsMain": 0,
+      "windowHidden": 0,
+      "auditMirrorWrite": "complete",
+      "parent": "DBDashboardRootViewController",
+      "wall": 1794028123.669478,
+      "animated": true,
+      "candidateCount": 29,
+      "presentEnteredUptime": 104722.65152137501,
+      "eventCapture": "post-original-sync-snapshot",
+      "version": 2,
+      "stockProfileMatch": false,
+      "stockSampleWall": 0,
+      "process": "CarPlay",
+      "bundle": "com.google.Maps",
+      "uptime": 104722.67007091668,
+      "windowAttached": 1,
+      "carplayRoleVerified": true,
+      "windowFrame": "{{0, 0}, {640, 360}}",
+      "presentReturnedWall": 1794028123.669269,
+      "sceneClass": "FBScene",
+      "seq": 16,
+      "windowRole": "UIWindowSceneSessionRoleCarPlay",
+      "stockSampleUptime": 0,
+      "physicalSlot": 0,
+      "controller": "DBApplicationSceneViewController",
+      "assignmentID": "52B90E01-EB6B-417C-9301-1F11F2F3F799",
+      "launchSource": 0,
+      "event": "presentBase.original-returned",
+      "session": "0F43EE45-6E70-4C99-911A-3B91C3721922",
+      "viewFrame": "{{0, 0}, {414, 736}}",
+      "presentEnteredWall": 1794028123.65093,
+      "stockSourceStatus": "UNVERIFIED",
+      "sceneID": "Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "targetBundle": "com.google.Maps",
+      "run": "283E90A1-ADD7-4D1C-95AA-10A29509ADB1"
+    },
+    {
+      "line": 2086,
+      "pid": 7749,
+      "candidateSampleWall": 1794028135.350397,
+      "stockSettings": "UNKNOWN",
+      "candidateContainingMaps": 28,
+      "stockSource": "UNVALIDATED_CARPLAY_ICONSTATE_CANDIDATES",
+      "screenExternalByComparison": true,
+      "weakAlive": true,
+      "screenIsMain": 0,
+      "windowHidden": 0,
+      "auditMirrorWrite": "complete",
+      "parent": "DBDashboardRootViewController",
+      "wall": 1794028142.450577,
+      "animated": true,
+      "candidateCount": 29,
+      "presentEnteredUptime": 104741.43121412501,
+      "eventCapture": "post-original-sync-snapshot",
+      "version": 2,
+      "stockProfileMatch": false,
+      "stockSampleWall": 0,
+      "process": "CarPlay",
+      "bundle": "com.google.Maps",
+      "uptime": 104741.45129029168,
+      "windowAttached": 1,
+      "carplayRoleVerified": true,
+      "windowFrame": "{{0, 0}, {640, 360}}",
+      "presentReturnedWall": 1794028142.450451,
+      "sceneClass": "FBScene",
+      "seq": 29,
+      "windowRole": "UIWindowSceneSessionRoleCarPlay",
+      "stockSampleUptime": 0,
+      "physicalSlot": 0,
+      "controller": "DBApplicationSceneViewController",
+      "assignmentID": "28F42E80-DF46-466B-BBE5-D10DCC1DCA79",
+      "launchSource": 0,
+      "event": "presentBase.original-returned",
+      "session": "5087E463-B69A-4C0A-B752-BDD31FA3425D",
+      "viewFrame": "{{0, 0}, {414, 736}}",
+      "presentEnteredWall": 1794028142.430501,
+      "stockSourceStatus": "UNVERIFIED",
+      "sceneID": "Car[2-3]:com.apple.CarPlayTemplateUIHost:com.google.Maps",
+      "targetBundle": "com.google.Maps",
+      "run": "283E90A1-ADD7-4D1C-95AA-10A29509ADB1"
+    }
+  ]
+}

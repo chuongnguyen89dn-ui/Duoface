@@ -1,0 +1,28 @@
+# Audit15 nativeowner2diag1 — measured admission rejection and automatic Maps restore
+Checked 2026-11-07. Repository chuongnguyen89dn-ui/Duoface.
+## Inputs and scope
+Latest main upload 7de99fe130006e85146005c23c174c163a349a48, 2026-11-07T05:12:23Z, changes exactly two files:
+- sideplay/log/DuoFaceAudit 15.txt, blob12f17265731d7c20c2bec062c8b67f0bd9d2bbb7, 7389051 bytes. Export 2026-11-07 05:10:04 UTC, iOS16.7.16. 29176 lines; 296 timestamped nativeowner2diag1 lines.
+- sideplay/log/DuoFaceMapsGate0-CarPlay.jsonl, blob18101dd4c860d6549c76a238b6ec76bfbe989dfc, 7045968 bytes. All2143 JSONL rows parse; newest run283E90A1-ADD7-4D1C-95AA-10A29509ADB1 has86 rows, including3 post-original presentations (2 assigned).
+Preferences blobb7fbdeac7ada76f09f5909d59736d741486adaab unchanged from previous upload; do not call it fresh/newly measured.
+Both large files returned empty content through fetch_file; read full content successfully using fetch_blob with exact observed SHAs. This turn did not run on-device commands or new CI/build. Current in_progress jobs query returned zero.
+Source exact delivered package098e7b8ae306480e204275576f134db5717c97c2. NativeHost instrumentation successfully loaded on real device; no claim from photo alone.
+User photo attachment IMG_A6668EAE-7312-4D97-AFCD-B38557B1D38F.jpeg (Library libfile_102fed189c848191b28e48529a19b617) shows native Maps occupying a narrow portion with remainder blank; user reports opening DuoFace automatically switches to Google Maps. Visual failure remains.
+## Confirmed automatic launch cause
+Audit lines28822–28827 and28946–28951 show workspace-restore-snapshot preset=1 saved=(com.google.Maps,com.waze.iphone,"",""). First assignment created at28830, second28953; no actual picker-open/live evidence events in these296 build lines.
+Delivered DFNative12Chrome.m beginSavedWorkspaceRestore -> restoreNextSavedWorkspaceApp iterates saved PhysicalBundles; Google Maps branch calls assignNativeMaps182:physical immediately. Thus observed Maps launch is saved-workspace automatic restore, not a new picker selection or a conclusion that the user chose Maps. Second run home-reentry-no-startup-splash-restore-saved-scenes at28945.
+All4 detailed reject rows picker=<missing>; this matches no picker-open route. It does not prove picker write/read permissions failed. Existing measurement covers picker events, so restore path needs its own correlated intent evidence if compared.
+## Exact measured failures
+| Assignment | Session | Early physical-target Session read | PRESENTED reject | Created→revoked |
+|---|---|---|---|---|
+|52B90E01-EB6B-417C-9301-1F11F2F3F799|0F43EE45-6E70-4C99-911A-3B91C3721922|D7C7F842-CC9D-4315-B40E-DEFA3FFC78E1|controller.viewIfLoaded.hidden actual=true expected=false|1.830691s|
+|28F42E80-DF46-466B-BBE5-D10DCC1DCA79|5087E463-B69A-4C0A-B752-BDD31FA3425D|0F43EE45-6E70-4C99-911A-3B91C3721922|controller.viewIfLoaded.hidden actual=true expected=false|2.319170s|
+Physical-target rejection source exact /var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist key Session, rows28835 and28976. Second sample carries immediately preceding session: stale-session read measured, not guessed.
+PRESENTED rejection rows28866 and28994; following generic reject rows28867/28995. Because guard returns at hidden view, subsequent target/freshness/pulse/receipt checks have NOT passed in these calls. Do not say session mismatch is the direct PRESENTED rejection or sole remaining blocker.
+Counts2 assignments,2 catalog PASS,2 launch-issued,6 scene-frame-request,4 detailed rejects (2 physical-target +2 PRESENTED),2 generic reject,0 present-member,0 pane-member-committed,0 frame-placed. Watchdog rows28888/29005 have active=1 session-match=1 and age0.17/0.57; revoke rows28892/29008, peer Waze then closes. Receipt never committed, not committed-then-removed.
+Gate0 exact matching records lines2073/2086: real DBApplicationSceneViewController, FBScene, CarPlay role verified, attached, windowHidden=0, window640x360, inner view414x736, animated=true, post-original-sync-snapshot. Window visible does not imply controller.view visible.
+## Interpretation and next implementation boundary
+Confirmed: sync post-original admission reads hidden=true in2/2 animated presentations; early physical-pane sample uses previous session in2/2; saved-workspace restore initiates Maps before any picker.
+Hypothesis requiring implementation/readback: immediate original-return is too early for final visibility during animated presentation. Logs do NOT prove view later becomes visible or that merely removing hidden guard would fix anything.
+Next patch only measured transaction sequencing: publish/readback same-session physical-pane/assignment intent before native launch (do not accept stale session); bounded deferred native-ready attestation after verified lifecycle completion/visibility+geometry with same session/assignment/scene/window checks; initialize target from matching verified pane before comparison; cancel on Home/session/scene replacement/timeout; preserve fail-closed watchdog and rollback. Do not force view.hidden=NO, remove visibility/session checks, globally swallow lifecycle or claim hidden=false before readback. Route saved-workspace restoration through that same transaction and record request origin=workspace-restore versus picker, with slot/bundle/session/time.
+Keep DFNativeHostAppDelegate heartbeat/background repair separate until a real b1-pane-member-committed is observed, per user directive. Native Home icon work remains separate/unimplemented. No repeated OFF/ON or unchanged diagnostic trial needed. No source fix/new DEB/Sileo/device acceptance in this log-review turn.
