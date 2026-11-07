@@ -1,0 +1,40 @@
+name: QA185 independent public Sileo byte receipt
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
+    paths: ['.github/workflows/duoface-qa185-public-receipt.yml']
+permissions:
+  contents: write
+concurrency:
+  group: qa185-independent-public-receipt
+  cancel-in-progress: false
+jobs:
+  verify-public:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify actual public repository and download exact signed candidate
+        run: python3 sideplay/audit/qa184-native-maps-owner-20261107/verify_qa185_publication.py
+      - name: Save independently verified public receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-qa184-native-map-owner-sourceonly-20261107'
+          PATH_IN_REPO='sideplay/audit/qa184-native-maps-owner-20261107/QA185_PUBLICATION_RECEIPT.json'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags --depth=1 origin "$BRANCH"
+            git checkout -B "$BRANCH" FETCH_HEAD
+            cp "$RUNNER_TEMP/QA185_PUBLICATION_RECEIPT.json" "$PATH_IN_REPO"
+            git add "$PATH_IN_REPO"
+            git commit -m 'qa185: independent public Sileo byte and metadata receipt [skip ci]'
+            if git push origin "HEAD:refs/heads/$BRANCH"; then
+              git fetch --no-tags --depth=1 origin "$BRANCH"
+              git cat-file -e "FETCH_HEAD:$PATH_IN_REPO"
+              exit 0
+            fi
+          done
+          exit 1

@@ -13,6 +13,7 @@ assert oldcommit in text and text.count("assert len(hits)==6,hits")==1
 text=text.replace(oldver,newver).replace(oldsha,a.sha).replace(oldcommit,a.archive)
 text=text.replace("= '1274984'","= '"+str(a.size)+"'")
 text=text.replace('QA182','QA185').replace('selected182','selected185')
+text=text.replace('QA185 B1: one native Maps assignment','QA185 admission1: launch-identity membership before rendering gates').replace('Source CI 42314369824','Signed CI 42343166133; source CI 42343003298').replace('# QA181 is nearest rollback; original QA180 and older bytes remain online.','# QA182 is nearest public rollback; QA181/QA180 and older bytes remain online.').replace('qa182-release-verify','qa185-release-verify')
 text=text.replace("str(info['CFBundleVersion'])=='182'","str(info['CFBundleVersion'])=='185'")
 text=text.replace("assert len(hits)==6,hits","assert len(hits)==7,hits")
 needle="'0.0.181~b0probe1','0.0.185~admission1'},hits"
@@ -65,3 +66,4 @@ for job in workflow['jobs'].values():
 assert text.count('assert len(hits)==7,hits')==1
 assert newfile in text and oldfile in text
 print('QA185_PUBLISHER_YAML_BASH_PYTHON_VALIDATED',count,'python blocks')
+
