@@ -1,3 +1,10 @@
+## 2026-11-07 — Đính chính trao đổi ON/OFF: icon hiện không chứng minh bản đồ trong ô dùng được
+- Nguyen hỏi “Vậy là vĩnh viễn app bản đồ ko bao giờ hiện trên carplay như những app khác?” rồi “Bật lên nó chỉ đường như cũ sao mà đi?”. Yêu cầu sử dụng vẫn là mặt bản đồ native thao tác được trong ô; danh sách chỉ đường/phone-companion như ảnh trước chưa đạt mục tiêu.
+- OFF/ON chỉ là hai điều kiện kiểm chứng QA182, không phải phương án khắc phục và không có quyết định bắt người dùng tắt Maps vĩnh viễn. Bật lại icon Home gốc không tự sửa rendering/touch trong ô DuoFace. Câu trả lời trước chỉ nói icon có thể hiện đã chưa giải đáp đúng vấn đề sử dụng.
+- Không gán lời hỏi này thành verdict xe QA182 mới: chưa xác định đã cài/chạy182 và thời điểm tái hiện. Đã kiểm GitHub main:sideplay/log, commit mới nhất vẫn2406d1f1c7df7fa7419aa2aa15eaca6076176f1c (Audit10 trước release182); chưa có log runtimeQA182 để biết cổngABI/catalog/launch/scene/frame/lifecycle nào đạt/dừng.
+- Trạng thái kỹ thuật không đổi: softwarebuild/archive/publicSileo182PASS, nativepixels/touch/xeOFF/ONUNVERIFIED; không tuyên bố lỗi danh sách đã sửa. Nếu có runtime182 tái hiện, đọc log của đúng lần đó; không yêu cầu lặp bật/tắt như một cách chữa lỗi, không thay cơ chế ngoài v2 khi thiếu bằng chứng.
+- Lượt này chỉ kiểm trạng thái nguồn/log và cập nhật đính chính; không sửa source/DEB/CI/Sileo.
+
 ## 2026-11-07 — Đính chính hướng dẫn OFF: chọn từ lưới DuoFace, KHÔNG từ Home CarPlay gốc
 - Nguyen hỏi “Off rồi ứng dụng có xuất hiện ko mà mở”. Đây là câu hỏi về tính khả thi bước test, chưa phải verdict đã thử và Maps mất khỏi picker DuoFace.
 - OFF làm Maps không còn là mục để mở từ Home gốc. Test QA182 phải vào DuoFace bằng icon DuoFace, mở lưới App của ô và chọn Maps tại đó. Giữ Maps được chọn trong My Apps của DuoFace; không đồng nhất My Apps với danh sách CarPlay gốc.
