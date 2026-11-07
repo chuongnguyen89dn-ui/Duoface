@@ -18,3 +18,8 @@ Package: `com.duoface.jb.embedded`, version `0.0.184~nativeowner1`. NativeHost `
 
 - Attempt aab8082/run42340591501 failed YAML parsing before jobs; folded exact-message guard fixed.
 - Attempt ea28831/run42340641150 job128307335550 passed QA184 source/package and QA182 behavioral tests, failed stale QA182 Version literal before toolchain/build. Exact error: AssertionError: 'Version: 0.1.184~nativeowner1' not found. Update remaining QA182 and integrated144 version expectations only; no behavior test removed or weakened. Re-run authorized diagnostic build.
+
+## QA185 admission1 authorized signed build + Sileo candidate
+- User now explicitly orders fix/build/CI/package/publish Sileo. Source-only CI42343003298 job128314620140 SUCCESS on1d75be7715d77d30082f4b8077971241ee318a31 (all source contracts,31 new launch/Home +44 receipt +35 lease cases, iOS16 arm64 syntax).
+- Produce0.0.185~admission1; exact real native launch identity for PRESENTED, view hidden/alpha after admission, watchdog/Home/AppDelegate frozen. No claim of hardware PASS.
+- Same scoped once-only request marker. Restore manual-only immediately after registered signed job. After verified artifact, archive unchanged signed DEB in duoface-debs- and publish via existing carplaydsp workflow with pinned SHA, preserve QA182 rollback. Acceptance remains actual COMMITTED, sustained minutes, correct touch.

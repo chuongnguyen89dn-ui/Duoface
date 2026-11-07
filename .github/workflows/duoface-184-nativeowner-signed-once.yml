@@ -1,6 +1,9 @@
 name: QA185 launch-identity admission signed integrated test package
 on:
   workflow_dispatch:
+  push:
+    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
+    paths: [sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md]
 # User request record: sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md
 permissions:
   contents: write
@@ -9,6 +12,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build-and-archive:
+    if: >-
+      github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'build(qa185): user-authorized admission fix signed package once'
     runs-on: macos-15
     timeout-minutes: 60
     steps:

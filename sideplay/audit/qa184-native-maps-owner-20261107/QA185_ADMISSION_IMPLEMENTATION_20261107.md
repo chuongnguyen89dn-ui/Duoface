@@ -19,3 +19,6 @@ Acceptance fixed before testing: user installs from existing Sileo source, opens
 
 ## Second source CI: runtime policy PASS, iOS macro diagnostic corrected
 - Run42342900787 job128314310661: all source tests passed;31 new real Foundation launch/Home cases,44 existing membership cases and35 existing lease cases PASS. iOS syntax failed DF182NativeMaps.m273: too many arguments provided to function-like macro invocation; parentheses required around dictionary literal diagnostic macro argument. Added parentheses only. Signed workflow preflight also corrects second CFBundleVersion check185 and explicitly freezes AppDelegate/lease/Home files against875aeb0; watchdog probe may differ only build label.
+
+## Source CI PASS / signed packaging requested
+- Source1d75be7715d77d30082f4b8077971241ee318a31, run42343003298 job128314620140 SUCCESS.31 new launch/Home +44 membership +35 lease runtime cases and iOS16 arm64 compilation passed. Activate one scoped user-request signed build; publication authorized only after independent byte/signature verification. User acceptance still pending.
