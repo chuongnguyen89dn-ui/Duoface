@@ -8,7 +8,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: duoface-qa188-private-signed-once-20261107
+  group: duoface-qa189-private-signed-once-20261107
   cancel-in-progress: false
 jobs:
   build-and-archive:
@@ -205,7 +205,7 @@ jobs:
             sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json
             sideplay/jb-embedded-appbridge/packages/QA189_SHA256SUMS.txt
           if-no-files-found: error
-      - name: Archive exact signed QA184 bytes in DuoFace source repo for independent transfer
+      - name: Archive exact signed QA189 bytes in DuoFace source repo for independent transfer
         run: |
           set -euo pipefail
           BRANCH='feature/duoface-qa189-private-signed-20261107'
@@ -223,7 +223,7 @@ jobs:
             git -C "$DIR" config user.name 'github-actions[bot]'
             git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git -C "$DIR" add "sideplay/jb-embedded-appbridge/evidence/runs/$GITHUB_RUN_ID/"
-            git -C "$DIR" commit -m "qa184: archive exact signed native Maps owner test DEB [skip ci]"
+            git -C "$DIR" commit -m "qa189: archive exact signed Maps+H1 trial DEB [skip ci]"
             if git -C "$DIR" push origin "HEAD:refs/heads/$BRANCH"; then
               git worktree remove --force "$DIR"
               git fetch --no-tags origin "$BRANCH"
