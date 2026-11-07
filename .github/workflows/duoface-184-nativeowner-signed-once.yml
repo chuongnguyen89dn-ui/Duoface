@@ -1,10 +1,7 @@
 name: QA187 Maps regression safety private signed integrated DEB (NO SILEO)
 on:
-  push:
-    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
-    paths:
-      - 'sideplay/jb-embedded-appbridge/build-request/QA187_SIGNED_ONCE.md'
   workflow_dispatch:
+# QA187 one-shot push consumed by run 42354698205. Never auto-repeat signing.
 # User request record: sideplay/audit/qa184-native-maps-owner-20261107/BUILD_REQUEST_ONCE_20261107.md
 permissions:
   contents: write
