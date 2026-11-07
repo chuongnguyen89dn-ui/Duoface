@@ -15,3 +15,5 @@ Package: `com.duoface.jb.embedded`, version `0.0.184~nativeowner1`. NativeHost `
 - New version 0.0.184~nativeowner2diag1; NativeHost 0.1.184~nativeowner2diag1. Exact diagnostic code 43f973ff29e9cf013e5acbe1d6303fd4bf037197 passed source CI 42340063112. This build adds only synchronized version labels/tests and exact linked diagnostic-marker verification.
 - Reuse existing user-request marker one-shot mechanism because connector has no workflow_dispatch capability and browser is signed out. No credential access requested. Trigger matches this path, branch and exact request commit message only. Restore workflow_dispatch-only immediately after run registration.
 - No in_progress/queued jobs observed before this request. Preserve AppDelegate background/heartbeat and all admission predicates; no Home fix claimed. Verify binary markers, Mach-O signatures, metadata, SHA256 and durable archive before delivery.
+
+- First trigger source aab808210b7e0dcde55d60252007e620ae18a363: run 42340591501 failed at workflow parsing before any jobs. Correct YAML by using folded scalar for exact-message if guard (colon in message); retry once. No binaries produced by failed run.
