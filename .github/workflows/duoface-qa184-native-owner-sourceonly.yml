@@ -46,7 +46,6 @@ jobs:
             sideplay/duoface-native-scene-host/DFNative12Chrome.m; do
             xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
               -fobjc-arc -fblocks -fsyntax-only -Werror -Wno-deprecated-declarations \
-              -framework UIKit -framework Foundation -framework CarPlay \
-              -framework CoreGraphics -framework QuartzCore "$source"
+              "$source"
           done
           echo 'QA184_SOURCE_ONLY_COMPILE_PASS_NO_DEB_NO_DEVICE_TEST'
