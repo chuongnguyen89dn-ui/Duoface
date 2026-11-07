@@ -1,9 +1,6 @@
 name: QA185 independent public Sileo byte receipt
 on:
   workflow_dispatch:
-  push:
-    branches: [feature/duoface-qa184-native-map-owner-sourceonly-20261107]
-    paths: ['.github/workflows/duoface-qa185-public-receipt.yml']
 permissions:
   contents: write
 concurrency:
