@@ -25,8 +25,10 @@ Architecture: iphoneos-arm64
 Maintainer: DuoFace
 Priority: optional
 Section: Tweaks
+Depends: firmware (>= 16.0), mobilesubstrate
 Description: Independent read-only CarPlay ON/OFF discovery and native scene ABI observer. No rendering changes.
 CONTROL
+chmod 0755 "$STAGING"
 OUT="dist/${PKG}_${VERSION}_iphoneos-arm64.deb"
 dpkg-deb --root-owner-group --build "$STAGING" "$OUT"
 test "$(dpkg-deb -f "$OUT" Version)" = "$VERSION"
