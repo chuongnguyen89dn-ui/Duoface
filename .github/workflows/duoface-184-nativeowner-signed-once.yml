@@ -15,6 +15,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Verify unchanged watchdog Home and AppDelegate scope
+        run: |
+          set -euo pipefail
+          git diff --exit-code 875aeb0d3ef2c7ec577c4c7122f26514989d153f -- \
+            sideplay/duoface-native-scene-host/DFNativeHostAppDelegate.m \
+            sideplay/duoface-native-scene-host/DF184NativeMapMembership.h \
+            sideplay/duoface-native-scene-host/DFCarPlayOwnerLease.h \
+            sideplay/duoface-native-scene-host/DFHomePublisher136Core.m
+          python3 - <<'PY'
+          import pathlib,subprocess
+          p='sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+          before=subprocess.check_output(['git','show','875aeb0d3ef2c7ec577c4c7122f26514989d153f:'+p]).decode()
+          assert pathlib.Path(p).read_text()==before.replace('build=0.0.184~nativeowner2diag1','build=0.0.185~admission1')
+          print('QA185_WATCHDOG_HOME_APPDELEGATE_FROZEN_PASS')
+          PY
       - name: Verify QA184 membership, QA182 native assignment, frozen H1 and package contracts
         run: |
           set -euo pipefail
@@ -101,7 +116,7 @@ jobs:
           for lib in DFTouchOwnerProbe DFCarPlayDockOwner; do
             strings -a "$LIBS/$lib.dylib" | grep -F 'qa181-b0'
           done
-          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '184'
+          test "$(plutil -extract CFBundleVersion raw -o - "$RUNNER_TEMP/qa184-merged/var/jb/Applications/DuoFaceNativeHost.app/Info.plist")" = '185'
           # Check the new presenter/owner lease made it into linked signed binaries.
           for module in DFNativeMapPaneCoordinator DFTouchOwnerProbe; do
             strings -a "$LIBS/$module.dylib" | grep -F 'com.duoface.nativehost.maps-membership.v1.plist'

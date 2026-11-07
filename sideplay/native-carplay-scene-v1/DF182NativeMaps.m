@@ -269,7 +269,7 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  // Visibility is verified only AFTER identity admission, never during animated PRESENTED.
  if(committed) {
   DF185_REQUIRE(DF185PostAdmissionVisible(vc.viewIfLoaded.hidden,vc.viewIfLoaded.alpha),
-   @"postAdmissionViewVisible",@{@"hidden":@(vc.viewIfLoaded.hidden),@"alpha":@(vc.viewIfLoaded.alpha)},
+   @"postAdmissionViewVisible",(@{@"hidden":@(vc.viewIfLoaded.hidden),@"alpha":@(vc.viewIfLoaded.alpha)}),
    @"hidden=false alpha>=0.95",@"COMMITTED controller.viewIfLoaded");
  }
  DF185_REQUIRE([NSStringFromClass(w.rootViewController.class) isEqual:@"DBDashboardRootViewController"],

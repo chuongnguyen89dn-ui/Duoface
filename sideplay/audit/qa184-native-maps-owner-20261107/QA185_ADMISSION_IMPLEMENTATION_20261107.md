@@ -16,3 +16,6 @@ Acceptance fixed before testing: user installs from existing Sileo source, opens
 
 ## First source CI result and route-test correction
 - Run42342757451 job128313853005 failed only the QA182 restore source-string test: ValueError substring not found on legacy [self assignNativeMaps182:physical]. New restore call explicitly adds origin:@"workspace-restore". Updated expected exact call while preserving ordering assertion before any phone host invocation; no behavior guard removed. QA184/newQA185 tests, QA182 native library/provenance/expiry/frozen H1/version tests passed. Foundation new cases/iOS compile not reached in first run.
+
+## Second source CI: runtime policy PASS, iOS macro diagnostic corrected
+- Run42342900787 job128314310661: all source tests passed;31 new real Foundation launch/Home cases,44 existing membership cases and35 existing lease cases PASS. iOS syntax failed DF182NativeMaps.m273: too many arguments provided to function-like macro invocation; parentheses required around dictionary literal diagnostic macro argument. Added parentheses only. Signed workflow preflight also corrects second CFBundleVersion check185 and explicitly freezes AppDelegate/lease/Home files against875aeb0; watchdog probe may differ only build label.
