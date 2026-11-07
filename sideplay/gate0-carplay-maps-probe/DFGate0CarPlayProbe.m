@@ -143,6 +143,32 @@ static NSDictionary *DFG0SessionFields(void) {
     return @{@"session":session,@"assignmentID":assign,
              @"physicalSlot":[a[@"PhysicalSlot"] isKindOfClass:NSNumber.class]?a[@"PhysicalSlot"]:@(-1)};
 }
+// The shipping DuoFace iPhone button exports DuoFaceAudit.txt from
+// DFNativeDiagnostics.prepareShareFiles, which already includes the last 2 MiB
+// of DuoFaceDeepTrace.log. Mirror a tagged JSON record into that existing
+// bounded export stream. Independent JSONL remains optional secondary evidence.
+// If the probe is NOT installed/injected, no Gate0 marker will appear in Audit.
+static void DFG0MirrorToAudit(NSData *json) {
+    if(!json.length || json.length>32768)return;
+    NSString *body=[[NSString alloc]initWithData:json encoding:NSUTF8StringEncoding];
+    if(!body)return;
+    NSString *line=[NSString stringWithFormat:
+      @"utc=%.6f uptime=%.6f build=gate0-0.0.2~gate0audit1 pid=%d process=%@ area=gate0 %@\\n",
+      NSDate.date.timeIntervalSince1970,NSProcessInfo.processInfo.systemUptime,
+      getpid(),NSProcessInfo.processInfo.processName?:@"unknown",body];
+    NSData *bytes=[line dataUsingEncoding:NSUTF8StringEncoding];
+    const char *path="/var/mobile/Library/Logs/DuoFaceDeepTrace.log";
+    int fd=open(path,O_WRONLY|O_CREAT|O_APPEND,0644);
+    if(fd<0) {
+        NSLog(@"[DuoFaceGate0] audit-mirror-open-denied process=%@",
+              NSProcessInfo.processInfo.processName);
+        return;
+    }
+    ssize_t written=write(fd,bytes.bytes,bytes.length);
+    close(fd);
+    if(written<0 || (NSUInteger)written!=bytes.length)
+        NSLog(@"[DuoFaceGate0] audit-mirror-write-incomplete");
+}
 static void DFG0Emit(NSString *event,NSDictionary *detail) {
     @autoreleasepool {
         NSDictionary *raw=DFG0ReadCandidates();
@@ -166,6 +192,9 @@ static void DFG0Emit(NSString *event,NSDictionary *detail) {
         if(!encoded)return;
         NSString *process=NSProcessInfo.processInfo.processName?:@"unknown";
         if(![@[@"CarPlay",@"CarPlayApp",@"Preferences",@"dashboard",@"Dashboard"] containsObject:process])return;
+        // PRIMARY path: the iPhone's existing DuoFaceAudit.txt export.
+        DFG0MirrorToAudit(encoded);
+        // SECONDARY path: raw per-process JSONL only if writable.
         NSString *file=[DFG0LogDir stringByAppendingPathComponent:
            [NSString stringWithFormat:@"DuoFaceMapsGate0-%@.jsonl",process]];
         int fd=open(file.fileSystemRepresentation,O_WRONLY|O_APPEND|O_CREAT,0644);
