@@ -47,18 +47,22 @@ static inline void DF182Log(NSString *event,NSDictionary *a,NSString *detail) {
   event,DF182String(a[@"AssignmentID"]),DF182String(a[@"Session"]),
   DF182String(a[@"BundleID"]),a[@"PhysicalSlot"]?:@"unknown",detail?:@"evidence=UNVERIFIED"]);
 }
-static inline NSDictionary *DF182Assign(NSInteger physical,NSInteger visual) {
+static inline NSDictionary *DF182AssignForOrigin(NSInteger physical,NSInteger visual,NSString *origin) {
  NSDictionary *p=DF182Pulse();
  if(physical<0||physical>1||visual<0||visual>1||!DF182UUID(p[@"Session"])||
     ![p[@"Active"] isEqual:@YES])return nil;
  NSDictionary *a=@{@"Version":@2,@"AssignmentID":NSUUID.UUID.UUIDString,
-  @"Session":p[@"Session"],@"BundleID":@"com.google.Maps",@"PhysicalSlot":@(physical),
+  @"Session":p[@"Session"],@"HostSceneID":DF182String(p[@"HostSceneID"]),
+  @"RequestOrigin":origin?:@"unknown",@"BundleID":@"com.google.Maps",@"PhysicalSlot":@(physical),
   @"Slot":@(visual),@"AssignedAt":@(NSDate.date.timeIntervalSince1970)};
  if(![a writeToFile:DFNativeMapChoicePath atomically:YES] ||
     ![DF182Assignment()[@"AssignmentID"] isEqual:a[@"AssignmentID"]])return nil;
  DF182Log(@"assignment-created",a,@"phone-fallback=forbidden");
  notify_post(DF182Changed);
  return a;
+}
+static inline NSDictionary *DF182Assign(NSInteger physical,NSInteger visual) {
+ return DF182AssignForOrigin(physical,visual,@"unspecified");
 }
 static inline void DF182Revoke(NSString *reason) {
  NSDictionary *a=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapChoicePath];

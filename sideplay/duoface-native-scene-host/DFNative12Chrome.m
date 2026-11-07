@@ -296,6 +296,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 - (BOOL)assignNativeMaps182:(NSInteger)physical;
+- (BOOL)assignNativeMaps182:(NSInteger)physical origin:(NSString *)origin;
 @property(nonatomic,strong) DFNative8SpeedHUDView *gofaSpeedHUD;
 @property(nonatomic,strong) UIWindow *speedHUDWindow;
 @property(nonatomic,strong) UIWindow *speedDismissWindow;
@@ -449,7 +450,7 @@ static void DFCLog(NSString *text) {
        if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
           [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class])continue;
        if([bundle isEqual:@"com.google.Maps"]) {
-          [self assignNativeMaps182:physical];
+          [self assignNativeMaps182:physical origin:@"workspace-restore"];
           continue; // Native restore never creates a phone scene or retries phone hosting.
        }
        NSError *error=nil;
@@ -2025,13 +2026,16 @@ static void DFCLog(NSString *text) {
     }
 }
 - (BOOL)assignNativeMaps182:(NSInteger)physical {
+    return [self assignNativeMaps182:physical origin:@"picker"];
+}
+- (BOOL)assignNativeMaps182:(NSInteger)physical origin:(NSString *)origin {
     NSInteger visual=[self visualForPhysical:physical];
     if(physical<0||physical>1||DFSlotCountForPreset(self.preset)!=2||self.focus>=0) {
         DF182Log(@"summary",nil,@"catalog=UNVERIFIED launch=UNVERIFIED scene=UNVERIFIED frame=FAIL lifecycle=UNVERIFIED touch=UNVERIFIED reason=two-pane-unfocused-target-required fallback=forbidden");
         return NO;
     }
     NSDictionary *prior=DF182Assignment();
-    NSDictionary *assignment=DF182Assign(physical,visual);
+    NSDictionary *assignment=DF182AssignForOrigin(physical,visual,origin);
     if(!assignment) {
         DF182Log(@"summary",nil,@"catalog=FAIL launch=UNVERIFIED scene=UNVERIFIED frame=UNVERIFIED lifecycle=UNVERIFIED touch=UNVERIFIED reason=assignment-write-or-session-invalid fallback=forbidden");
         return NO;

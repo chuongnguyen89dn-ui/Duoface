@@ -2,6 +2,7 @@
 // Apple's native workspace/scene/input own Maps. No phone-scene fallback.
 #import "../duoface-native-scene-host/DF182NativeMapAssignment.h"
 #import "../duoface-native-scene-host/DF184NativeMapMembership.h"
+#import "../duoface-native-scene-host/DF185LaunchAdmission.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -61,6 +62,7 @@ static void DF182Walk(UIViewController *vc,NSMutableArray *out,NSUInteger depth)
 }
 @interface DF182MapsOwner:NSObject
 @property(nonatomic,strong) NSDictionary *assignment;
+@property(nonatomic,copy) NSDictionary *launchAssignment;
 @property(nonatomic,strong) NSMutableDictionary *gates;
 @property(nonatomic,weak) UIViewController *owner;
 @property(nonatomic,weak) UIWindow *window;
@@ -120,9 +122,15 @@ static void DF182Present(id root,SEL sel,id base,BOOL animated,
  DF182OriginalPresent(root,sel,base,animated,source,completion);
  DF182MapsOwner *owner=DF182Owner;
  if(!owner || owner.stopped || !owner.assignment || source!=0 ||
-    ![owner.assignment[@"AssignmentID"] isEqual:DF182Assignment()[@"AssignmentID"]] ||
     ![base isKindOfClass:UIViewController.class])return;
  UIViewController *vc=(UIViewController *)base;
+ NSDictionary *currentChoice=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapChoicePath];
+ NSString *bundle=DF182Bundle(DF182Get(vc,"applicationInfo")?:DF182Get(vc,"proxyApplicationInfo"));
+ if(!DF185LaunchIdentityMatches(owner.launchAssignment,currentChoice,bundle)) {
+  DF182Log(@"present-identity-rejected",owner.assignment,
+   @"source=captured-launch-assignment reason=replaced-unassigned-or-wrong-native-bundle");
+  return;
+ }
  if(![NSStringFromClass([root class]) isEqual:@"DBDashboardRootViewController"] ||
     ![NSStringFromClass(vc.class) isEqual:@"DBApplicationSceneViewController"] ||
     vc.viewIfLoaded.window.rootViewController!=root ||
@@ -237,14 +245,10 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  DF185_REQUIRE(!self.stopped,@"stopped",@(self.stopped),@NO,@"DF182MapsOwner");
  DF185_REQUIRE(self.assignment!=nil,@"assignment",@(self.assignment!=nil),@YES,@"DF182MapsOwner");
  NSDictionary *choiceRead=[NSDictionary dictionaryWithContentsOfFile:DFNativeMapChoicePath];
- NSDictionary *pulseRead=DF182Pulse();
- NSTimeInterval assignmentReadAt=NSDate.date.timeIntervalSince1970;
- NSDictionary *current=DF182AssignmentFromRecords(choiceRead,pulseRead,assignmentReadAt);
- NSDictionary *assignmentReads=@{@"choicePath":DFNativeMapChoicePath,
-  @"choice":choiceRead?:@{},@"pulsePath":@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist",
-  @"pulse":pulseRead?:@{},@"readAt":@(assignmentReadAt),@"validated":current?:@{}};
- DF185_REQUIRE([self.assignment[@"AssignmentID"] isEqual:current[@"AssignmentID"]],
-  @"AssignmentID",assignmentReads,self.assignment,@"DF182Assignment(): validated choice + pulse; empty means validation failed");
+ NSString *nativeBundle=DF182Bundle(DF182Get(vc,"applicationInfo")?:DF182Get(vc,"proxyApplicationInfo"));
+ DF185_REQUIRE(DF185LaunchIdentityMatches(self.launchAssignment,choiceRead,nativeBundle),
+  @"launchIdentity",choiceRead?:@{},self.launchAssignment?:@{},
+  @"captured-launch-assignment versus atomic native-map-choice; no physical-pane session read");
  DF185_REQUIRE(vc==self.presentedController,@"presentedController",@(vc==self.presentedController),@YES,@"DF182MapsOwner");
  DF185_REQUIRE(DF182Scene(vc)==self.presentedScene,@"presentedScene",@(DF182Scene(vc)==self.presentedScene),@YES,@"controller.scene|sceneHandle.sceneIfExists");
  NSDictionary *provenance=DF182Provenance(vc);
@@ -262,12 +266,19 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  DF185_REQUIRE(w==self.window,@"ownerWindow",@(w==self.window),@YES,@"DF182MapsOwner");
  DF185_REQUIRE(!w.hidden,@"hidden",@(w.hidden),@NO,@"controller.viewIfLoaded.window");
  DF185_REQUIRE(!(w.alpha<.95),@"alpha",@(w.alpha),@0.95,@"controller.viewIfLoaded.window; minimum");
- DF185_REQUIRE(!vc.viewIfLoaded.hidden,@"hidden",@(vc.viewIfLoaded.hidden),@NO,@"controller.viewIfLoaded");
- DF185_REQUIRE(!(vc.viewIfLoaded.alpha<.95),@"alpha",@(vc.viewIfLoaded.alpha),@0.95,@"controller.viewIfLoaded; minimum");
+ // Visibility is verified only AFTER identity admission, never during animated PRESENTED.
+ if(committed) {
+  DF185_REQUIRE(DF185PostAdmissionVisible(vc.viewIfLoaded.hidden,vc.viewIfLoaded.alpha),
+   @"postAdmissionViewVisible",@{@"hidden":@(vc.viewIfLoaded.hidden),@"alpha":@(vc.viewIfLoaded.alpha)},
+   @"hidden=false alpha>=0.95",@"COMMITTED controller.viewIfLoaded");
+ }
  DF185_REQUIRE([NSStringFromClass(w.rootViewController.class) isEqual:@"DBDashboardRootViewController"],
   @"rootViewController.class",NSStringFromClass(w.rootViewController.class),@"DBDashboardRootViewController",@"window");
- CGRect target=CGRectZero;
- DF185_REQUIRE([self targetForWindow:w rect:&target],@"targetForWindow",@NO,@YES,@"see physical-target predicate record");
+ // Target was measured before launch and captured beside that exact assignment.
+ // Re-read live geometry only at COMMITTED/reflow, not to decide membership.
+ CGRect target=CGRectFromString(self.launchAssignment[@"LaunchPaneFrame"]);
+ if(committed)
+  DF185_REQUIRE([self targetForWindow:w rect:&target],@"targetForWindow",@NO,@YES,@"COMMITTED live physical-target predicate record");
  DF185_REQUIRE(DF182Near(target,self.target),@"target",
   NSStringFromCGRect(target),NSStringFromCGRect(self.target),@"targetForWindow result versus DF182MapsOwner.target; tolerance=2");
  NSTimeInterval now=NSDate.date.timeIntervalSince1970;
@@ -292,19 +303,13 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
   DF185_REQUIRE(frameVerified,@"paneFrame",NSStringFromCGRect(actual),NSStringFromCGRect(target),@"window converted pane.bounds; tolerance=2");
   DF185_REQUIRE(hitVerified,@"hitVerified",@(hitVerified),@YES,@"pane.hitTest:center");
  }
- NSDictionary *pulse=DF182Pulse();
  NSString *sceneID=DF182String(DF182Get(DF182Scene(vc),"identifier"));
- DF185_REQUIRE(DF184UUID(pulse[@"Session"]),@"Session.UUID",DF185Value(pulse[@"Session"]),@"UUID",@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
- DF185_REQUIRE([pulse[@"Session"] isEqual:self.assignment[@"Session"]],@"Session",DF185Value(pulse[@"Session"]),DF185Value(self.assignment[@"Session"]),@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
- DF185_REQUIRE([pulse[@"Active"] isEqual:@YES],@"Active",DF185Value(pulse[@"Active"]),@YES,@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
- DF185_REQUIRE([pulse[@"HostSceneID"] isKindOfClass:NSString.class],@"HostSceneID.type",DF185Value(pulse[@"HostSceneID"]),@"NSString",@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
- DF185_REQUIRE([pulse[@"HostSceneID"] length]>0,@"HostSceneID.length",@([pulse[@"HostSceneID"] length]),@">0",@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist");
  DF185_REQUIRE(![sceneID isEqual:@"unknown"],@"identifier",sceneID,@"known",@"controller.scene");
  DF185_REQUIRE([w.windowScene.session.role isEqual:@"UIWindowSceneSessionRoleCarPlay"],@"role",DF185Value(w.windowScene.session.role),@"UIWindowSceneSessionRoleCarPlay",@"window.windowScene.session");
  DF185_REQUIRE(w.screen!=nil,@"screen.exists",@(w.screen!=nil),@YES,@"window");
  DF185_REQUIRE(w.screen!=UIScreen.mainScreen,@"screen.isMain",@(w.screen==UIScreen.mainScreen),@NO,@"window.screen versus UIScreen.mainScreen");
  NSDictionary *receipt=@{@"Version":@1,@"Process":@"CarPlay",
-  @"Session":pulse[@"Session"],@"HostSceneID":pulse[@"HostSceneID"],
+  @"Session":self.launchAssignment[@"Session"],@"HostSceneID":self.launchAssignment[@"HostSceneID"],
   @"AssignmentID":self.assignment[@"AssignmentID"],
   @"PhysicalSlot":self.assignment[@"PhysicalSlot"],@"BundleID":@"com.google.Maps",
   @"ControllerClass":@"DBApplicationSceneViewController",
@@ -319,6 +324,9 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
   @"Stage":stage,@"PresentedAt":@(self.presentedAt),@"Timestamp":@(now)};
  BOOL saved=[receipt writeToFile:DF184MapMembershipPath atomically:YES];
  DF185_REQUIRE(saved,@"writeToFile",@(saved),@YES,DF184MapMembershipPath);
+ if(saved && presented)DF182Log(@"identity-admitted",self.assignment,
+  [NSString stringWithFormat:@"stage=PRESENTED source=launch-assignment viewHidden=%d pixels=UNVERIFIED touch=UNVERIFIED",
+   vc.viewIfLoaded.hidden]);
  if(saved && committed)DF182Log(@"pane-member-committed",self.assignment,
    [NSString stringWithFormat:@"scene=%@ slot=%@ frame=%@ stage=COMMITTED hit-region-readback=1 actual-pixels=UNVERIFIED",
     sceneID,self.assignment[@"PhysicalSlot"],NSStringFromCGRect(target)]);
@@ -439,7 +447,7 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  if(![current[@"AssignmentID"] isEqual:self.assignment[@"AssignmentID"]]) {
   if(self.assignment && !self.stopped){[self restore:@"Home-replaced-unassigned-disconnected-or-stale-session"];[self summary:@"assignment-released"];}
   if(!current || self.placed)return; // A failed restore blocks further foreign scene mutation.
-  self.assignment=current;self.stopped=NO;self.launchAttempted=NO;self.provenance=nil;
+  self.assignment=current;self.launchAssignment=nil;self.stopped=NO;self.launchAttempted=NO;self.provenance=nil;
   self.presentedController=nil;self.presentedWindow=nil;self.presentedScene=nil;self.presentedAt=0;
   self.gates=[@{@"Catalog":@"UNVERIFIED",@"Launch":@"UNVERIFIED",@"Scene":@"UNVERIFIED",@"Frame":@"UNVERIFIED",@"Lifecycle":@"UNVERIFIED"} mutableCopy];
   self.deadline=NSProcessInfo.processInfo.systemUptime+10.0;
@@ -468,6 +476,14 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
   typedef NSDictionary *(*Launch)(NSDictionary *);
   Launch launch=(Launch)dlsym(RTLD_DEFAULT,"DF182CatalogAndLaunch");
   if(!launch){[self fail:@"Launch" reason:@"native-dashboard-launch-owner-unavailable-STOP"];return;}
+  // Capture exact launch identity once. It survives a delayed geometry snapshot;
+  // replacement/Home still invalidates it through the atomic assignment.
+  NSMutableDictionary *launchRecord=[self.assignment mutableCopy];
+  launchRecord[@"LaunchPaneFrame"]=NSStringFromCGRect(measured);
+  self.launchAssignment=[launchRecord copy];
+  DF182Log(@"launch-identity-captured",self.launchAssignment,
+   [NSString stringWithFormat:@"source=assignment-at-native-launch origin=%@ frame=%@",
+    self.launchAssignment[@"RequestOrigin"]?:@"unknown",self.launchAssignment[@"LaunchPaneFrame"]]);
   self.launchAttempted=YES;
   NSDictionary *result=launch(self.assignment);
   self.gates[@"Catalog"]=result[@"Catalog"]?:@"UNVERIFIED";
@@ -515,6 +531,17 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
   if(![self.gates[@"Scene"] isEqual:@"PASS"])
    DF182Log(@"scene-seen",self.assignment,[NSString stringWithFormat:@"provenance=%@",self.provenance]);
   self.gates[@"Scene"]=@"PASS";self.gates[@"Launch"]=@"PASS";
+  // Post-admission rendering/input gate. Never force UIKit visibility or renew
+  // an uncommitted PRESENTED lease indefinitely.
+  if(!DF185PostAdmissionVisible(vc.viewIfLoaded.hidden,vc.viewIfLoaded.alpha)) {
+   DF182Log(@"post-admission-visibility",self.assignment,
+    [NSString stringWithFormat:@"stage=WAIT hidden=%d alpha=%.3f presentedAge=%.3f pixels=UNVERIFIED touch=UNVERIFIED",
+     vc.viewIfLoaded.hidden,(double)vc.viewIfLoaded.alpha,
+     NSDate.date.timeIntervalSince1970-self.presentedAt]);
+   if(!DF184Fresh(NSDate.date.timeIntervalSince1970,@(self.presentedAt),0.85))
+    [self fail:@"Frame" reason:@"post-admission-visible-view-timeout-STOP"];
+   return;
+  }
   CGRect target=CGRectZero;
   if(![self targetForWindow:w rect:&target]) {
    if(NSProcessInfo.processInfo.systemUptime<self.deadline)return;
