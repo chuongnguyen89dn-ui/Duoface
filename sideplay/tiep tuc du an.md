@@ -1,3 +1,9 @@
+## 2026-11-07 — Đính chính hướng dẫn OFF: chọn từ lưới DuoFace, KHÔNG từ Home CarPlay gốc
+- Nguyen hỏi “Off rồi ứng dụng có xuất hiện ko mà mở”. Đây là câu hỏi về tính khả thi bước test, chưa phải verdict đã thử và Maps mất khỏi picker DuoFace.
+- OFF làm Maps không còn là mục để mở từ Home gốc. Test QA182 phải vào DuoFace bằng icon DuoFace, mở lưới App của ô và chọn Maps tại đó. Giữ Maps được chọn trong My Apps của DuoFace; không đồng nhất My Apps với danh sách CarPlay gốc.
+- Đã đọc source QA182 DFAppLibrary.m (blob c4e6135e8862b98202f74d27fda669156cde4f57): LSApplicationWorkspace.defaultWorkspace/allInstalledApplications; DFAppPickerVC.m (blob5ef4b715cec2b6206b25448bcc9f2d42a4eb5895) refreshInstalledApps giao installed IDs với DFConfiguredEnabledAppIDs/My Apps. Đây là source expectation, chưa chứng minh picker có Maps sau OFF trên thiết bị.
+- Nếu Maps không xuất hiện ngay trong lưới DuoFace thì dừng trước assignment: cần ghi nhận lỗi roster/precondition và log, không yêu cầu bật ON để tính OFF PASS; không suy picker hoạt động độc lập đã được test. Không sửa code/DEB/Sileo ở lượt giải thích.
+
 ## 2026-11-07 — QA182 OFFICIAL SILEO PUBLISHED + PUBLIC BYTES VERIFIED; DEVICE B1 UNVERIFIED
 - **Current selected:** com.duoface.jb.embedded 0.0.182~b1nativemaps1 trên https://chuongnguyen89dn-ui.github.io/carplaydsp/; đúngMỘTAPTentry. QA1810.0.181~b0probe1 nearestrollback nguyênbytes, QA180/179/178/177 giữpublic vàchecksums. Không ghi B1xePASS.
 - **Source/signed:** feature/duoface-qa182-b1nativemaps1-20261107; sourcebdd1116b5308869210a65b79b92b7d873fe4a04c; signedCI42314369824 job128223281828 success, 29testsPASS, nativehost/integratedcompile+sign+binarychecksPASS. Initialsource42b7 CI42313897809 failedUIKitimport; fixedBDD1116 (historypreserved).
