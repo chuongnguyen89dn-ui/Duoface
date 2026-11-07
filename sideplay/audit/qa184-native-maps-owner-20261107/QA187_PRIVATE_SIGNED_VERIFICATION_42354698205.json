@@ -1,0 +1,46 @@
+{
+  "checked_at_utc": "2026-11-07T08:20:00Z",
+  "package": "com.duoface.jb.embedded_0.0.187~regressionsafe1_iphoneos-arm64.deb",
+  "package_version": "0.0.187~regressionsafe1",
+  "package_bytes": 1292248,
+  "package_sha256": "0819b2352c3204e6325875ab8ff79bdd50550f0da90995750e71142bcccaca77",
+  "source_commit": "ac105df683db640f3cb2050314b7fd447f4e4b08",
+  "source_ci": {
+    "run": 42354499519,
+    "conclusion": "success"
+  },
+  "build_ci": {
+    "run": 42354698205,
+    "job": 128350100838,
+    "conclusion": "success"
+  },
+  "artifact": {
+    "id": 13566819341,
+    "name": "QA187-regressionsafe1-signed-integrated-DEB"
+  },
+  "archive": {
+    "repository": "chuongnguyen89dn-ui/Duoface",
+    "branch": "feature/duoface-qa184-native-map-owner-sourceonly-20261107",
+    "path": "sideplay/jb-embedded-appbridge/evidence/runs/42354698205/",
+    "git_blob_sha": "d7f8f995d33afd88194d05218d92a759795143f0"
+  },
+  "independent_verification": {
+    "environment": "local Linux container with dpkg-deb and Python 3, iOS device not accessed",
+    "input": "GitHub Actions artifact ZIP 13566819341 delivered to /mnt/data/QA187-regressionsafe1-signed-integrated-DEB.zip; extracted to /mnt/data/qa187-extracted",
+    "command": "python3 /mnt/data/qa187-extracted/verify_qa187.py",
+    "source_script": "QA187-specific adaptation of sideplay/jb-embedded-appbridge/evidence/runs/42343166133/verify_duoface_qa185.py; QA187 verifier script in local test directory, source script in repository from QA185",
+    "checks": {
+      "archive_sha256": "PASS, sha256sum -c QA187_SHA256SUMS.txt",
+      "metadata": "PASS; package=com.duoface.jb.embedded, version=0.0.187~regressionsafe1, architecture=iphoneos-arm64, depends=firmware (>= 16.0), mobilesubstrate",
+      "payload": "PASS rootless only, executable postinst/postrm, no auto respring/killall/uicache -u",
+      "signed_macho": "PASS 11/11 Mach-O LC_CODE_SIGNATURE CodeDirectory page hashes recomputed and matched",
+      "linked_symbols": "PASS scene-frame-original-preserved, native-maps-restore-deferred-explicit-picker-required, native layout and ownership markers",
+      "info_plist": "PASS CFBundleVersion=187; CFBundleShortVersionString=0.1.187"
+    }
+  },
+  "installer_warning": "Control Conflicts contains com.duonavi.app. Do not proceed if installation would remove DuoNavi. This was inherited from previous package family; no installer conflict gate changed in QA187.",
+  "sileo_published": false,
+  "carplay_device_tested": false,
+  "native_two_pane_pass": false,
+  "status": "SIGNED VERIFIED PRIVATE QA187 SAFETY CANDIDATE; NOT USER HARDWARE VERIFIED"
+}
