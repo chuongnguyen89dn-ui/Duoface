@@ -11,8 +11,12 @@ class QA182B1(unittest.TestCase):
   manual=chrome.split('- (void)appPicker:(DFAppPickerVC *)picker\n didSelectBundleID:',1)[1]
   self.assertLess(manual.index('[self assignNativeMaps182:physicalSlot]'),manual.index('hostViewForBundleID:bundleID'))
   restore=chrome.split('- (void)restoreNextSavedWorkspaceApp {',1)[1].split('- (',1)[0]
-  self.assertIn('native-maps-restore-deferred-explicit-picker-required',restore)
-  self.assertNotIn('[self assignNativeMaps182:physical origin:@"workspace-restore"]',restore)
+  # QA188 restores the same saved user choice via the native route;
+  # the static test must not confuse this request with a committed pane.
+  self.assertIn('assignNativeMaps182:physical origin:@"workspace-restore"',restore)
+  self.assertIn('qa188-native-maps-saved-restore-request',restore)
+  self.assertIn('scene=UNVERIFIED',restore)
+  self.assertIn('continue; // Native scene only; no phone-scene fallback on failure.',restore)
   self.assertLess(restore.index('if([bundle isEqual:@"com.google.Maps"])'),restore.index('hostViewForBundleID:bundle'))
   self.assertIn('Maps native assignment forbids phone-scene hosting',read('DFSceneHost.m'))
   self.assertIn('native-slot-unassigned',chrome)
