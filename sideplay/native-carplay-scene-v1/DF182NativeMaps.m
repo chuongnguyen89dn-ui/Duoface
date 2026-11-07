@@ -247,6 +247,7 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  dead[@"Timestamp"]=@(NSDate.date.timeIntervalSince1970);
  if(![dead writeToFile:DF184MapMembershipPath atomically:YES])
   (void)[NSFileManager.defaultManager removeItemAtPath:DF184MapMembershipPath error:nil];
+ notify_post(DF184MapMembershipChanged); // Revoke or expiration restores prior pane.
 }
 - (BOOL)publishMembershipStage:(NSString *)stage controller:(UIViewController *)vc {
  BOOL committed=[stage isEqual:@"COMMITTED"],presented=[stage isEqual:@"PRESENTED"];
@@ -335,6 +336,7 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
   @"Stage":stage,@"PresentedAt":@(self.presentedAt),@"Timestamp":@(now)};
  BOOL saved=[receipt writeToFile:DF184MapMembershipPath atomically:YES];
  DF185_REQUIRE(saved,@"writeToFile",@(saved),@YES,DF184MapMembershipPath);
+ if(saved)notify_post(DF184MapMembershipChanged);
  if(saved && presented)DF182Log(@"identity-admitted",self.assignment,
   [NSString stringWithFormat:@"stage=PRESENTED source=launch-assignment viewHidden=%d pixels=UNVERIFIED touch=UNVERIFIED",
    vc.viewIfLoaded.hidden]);
@@ -437,7 +439,14 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
  for(NSDictionary *e in entries) {
   if(![e[@"PhysicalSlot"] isEqual:self.assignment[@"PhysicalSlot"]])continue;
   DF185_REQUIRE([e[@"NativeAssignmentID"] isEqual:self.assignment[@"AssignmentID"]],@"Windows[PhysicalSlot].NativeAssignmentID",e,self.assignment,source);
-  DF185_REQUIRE([e[@"WindowVisible"] isEqual:@NO],@"Windows[PhysicalSlot].WindowVisible",DF185Value(e[@"WindowVisible"]),@NO,source);
+  // QA189 two-phase: old target is VISIBLE before native launch.
+  // AFTER actual CarPlay PRESENTED, require independent hidden readback
+  // before moving the native controller into its physical pane.
+  BOOL requiresHidden=self.presentedAt>0 || self.placed;
+  NSNumber *expectedVisible=requiresHidden?@NO:@YES;
+  DF185_REQUIRE([e[@"WindowVisible"] isEqual:expectedVisible],
+   @"Windows[PhysicalSlot].WindowVisible",DF185Value(e[@"WindowVisible"]),
+   expectedVisible,requiresHidden?@"PRESENTED-or-COMMITTED-target-hidden":@"PRELAUNCH-target-visible");
   DF185_REQUIRE([e[@"OnExternalScreen"] isEqual:@YES],@"Windows[PhysicalSlot].OnExternalScreen",DF185Value(e[@"OnExternalScreen"]),@YES,source);
   DF185_REQUIRE([e[@"CoordinateSpace"] isEqual:@"external-UIScreen-points"],@"Windows[PhysicalSlot].CoordinateSpace",DF185Value(e[@"CoordinateSpace"]),@"external-UIScreen-points",source);
   CGRect screenRect=CGRectFromString(e[@"Frame"]);
@@ -572,6 +581,11 @@ static BOOL DF185Check(BOOL ok,NSString *stage,NSString *key,id actual,id expect
    if(!DF184Fresh(NSDate.date.timeIntervalSince1970,@(self.presentedAt),0.85))
     [self fail:@"Frame" reason:@"post-admission-visible-view-timeout-STOP"];
    return;
+  }
+  // PRESENTED is a short, bounded grant. Never extend it while waiting
+  // for the target UIWindow to yield; fail and restore after its 0.85s.
+  if(!DF184Fresh(NSDate.date.timeIntervalSince1970,@(self.presentedAt),0.85)) {
+   [self fail:@"Frame" reason:@"presented-target-yield-expired-before-COMMITTED-STOP"];return;
   }
   CGRect target=CGRectZero;
   if(![self targetForWindow:w rect:&target]) {

@@ -337,6 +337,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL restorePending;
 @property(nonatomic,assign) NSInteger restoringPhysical;
 @property(nonatomic,copy) NSString *lastNativeAssignment184;
+@property(nonatomic,copy) NSString *lastNativeStage184; // QA189 short PRESENTED / COMMITTED
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -1621,9 +1622,13 @@ static void DFCLog(NSString *text) {
         NSDictionary *native182=DF182Assignment();
         BOOL nativeReserved=NO;
         if([native182[@"PhysicalSlot"] isEqual:@(i)]) {
-            // Do not hide an existing phone pane from an uncommitted native intent.
+            // Never hide the old target for an assignment alone. PRESENTED
+            // yields ONLY this UIWindow for a bounded, independently verified
+            // CarPlay handoff, while retaining both live hosted view objects.
             NSDictionary *member=[NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath];
-            nativeReserved=[member[@"Stage"] isEqual:@"COMMITTED"] &&
+            BOOL nativeStage=[member[@"Stage"] isEqual:@"PRESENTED"] ||
+                             [member[@"Stage"] isEqual:@"COMMITTED"];
+            nativeReserved=nativeStage &&
                 DF184MapMembershipAccepted(DF182Pulse(),
                   [NSDictionary dictionaryWithContentsOfFile:DFOwnerEvidencePath],
                   member,native182,
@@ -2015,34 +2020,31 @@ static void DFCLog(NSString *text) {
     NSString *current=assignment[@"AssignmentID"];
     if(self.lastNativeAssignment184 &&
        ![self.lastNativeAssignment184 isEqual:current]) {
-        // Revoke/replace came from the actual CarPlay owner; unhide the
-        // still-live prior app in its original physical pane.
         self.lastNativeAssignment184=[current copy];
+        self.lastNativeStage184=nil;
         [self layoutControls];
         DFCLog(@"qa184-maps-handoff-released-layout-rollback");
         return;
     }
     if(!current)return;
     NSDictionary *receipt=[NSDictionary dictionaryWithContentsOfFile:DF184MapMembershipPath];
-    NSDictionary *pulse=DF182Pulse();
-    BOOL valid=DF184MapMembershipAccepted(pulse,
+    BOOL valid=DF184MapMembershipAccepted(DF182Pulse(),
         [NSDictionary dictionaryWithContentsOfFile:DFOwnerEvidencePath],
         receipt,assignment,
         [NSDictionary dictionaryWithContentsOfFile:DFOwnerRevokePath],
         NSDate.date.timeIntervalSince1970);
-    if(valid && [receipt[@"Stage"] isEqual:@"COMMITTED"]) {
-        // Still do not destroy prior target app. It remains hidden and
-        // recoverable until a separate explicit app replacement.
-        static NSString *lastCommitted;
-        NSString *key=[NSString stringWithFormat:@"%@:%@",assignment[@"Session"],current];
-        if(![lastCommitted isEqual:key]) {
-            lastCommitted=key;
-            // First valid COMMITTED receipt is the point for the real handoff.
-            [self layoutControls];
-            DFCLog([NSString stringWithFormat:
-              @"qa184-native-map-member-committed assignment=%@ slot=%@ existing-target-retained=1",
-              current,assignment[@"PhysicalSlot"]]);
-        }
+    NSString *stage=nil;
+    if(valid && ([receipt[@"Stage"] isEqual:@"PRESENTED"] ||
+                 [receipt[@"Stage"] isEqual:@"COMMITTED"]))
+        stage=receipt[@"Stage"];
+    if(![(self.lastNativeStage184?:@"") isEqual:(stage?:@"")]) {
+        self.lastNativeStage184=[stage copy];
+        // A stale/revoked receipt unhides the prior target; neither app
+        // is released and Home/owner revocation remain in the watchdog.
+        [self layoutControls];
+        DFCLog([NSString stringWithFormat:
+            @"qa189-native-map-stage-changed stage=%@ assignment=%@ slot=%@ prior-host-retained=1",
+            stage?:@"RELEASED",current,assignment[@"PhysicalSlot"]]);
     }
 }
 - (BOOL)assignNativeMaps182:(NSInteger)physical {
@@ -2063,8 +2065,9 @@ static void DFCLog(NSString *text) {
     // Two-phase handoff. A native assignment is intent, not a pane commit.
     // Keep any previous live app at the target physical slot recoverable.
     // Do not tear down the other physical slot on Maps selection.
-    // layoutControls hides only the target UIWindow during presentation.
+    // Preserve both old panes until the verified CarPlay PRESENTED receipt.
     self.lastNativeAssignment184=assignment[@"AssignmentID"];
+    self.lastNativeStage184=nil;
     if(prior && ![prior[@"PhysicalSlot"] isEqual:@(physical)])
         (void)DFSavePhysicalBundle([prior[@"PhysicalSlot"] integerValue],@"");
     (void)DFSavePhysicalBundle(physical,@"com.google.Maps");

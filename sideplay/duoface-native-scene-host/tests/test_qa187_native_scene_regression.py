@@ -38,16 +38,26 @@ class NativeMapsRegression(unittest.TestCase):
   self.assertIn("scene=UNVERIFIED",manual)
   self.assertNotIn("hostViewForBundleID:@\"com.google.Maps\"",manual)
 
- def test_only_committed_owner_hides_existing_phone_pane(self):
+ def test_two_phase_presented_yields_target_and_commit_preserves(self):
   layout=self.chrome.split("- (void)layoutControls {",1)[1].split("- (void)refreshGlobalSpeedHUD164",1)[0]
-  self.assertIn('member[@"Stage"] isEqual:@"COMMITTED"',layout)
+  self.assertIn('BOOL nativeStage=[member[@"Stage"] isEqual:@"PRESENTED"]',layout)
+  self.assertIn('[member[@"Stage"] isEqual:@"COMMITTED"]',layout)
+  self.assertIn('nativeReserved=nativeStage &&',layout)
   self.assertIn("DF184MapMembershipAccepted(DF182Pulse()",layout)
   self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere || nativeReserved);",layout)
   reconcile=self.chrome.split("- (void)reconcileNativeMaps184 {",1)[1].split("- (BOOL)assignNativeMaps182:",1)[0]
-  self.assertIn('if(valid && [receipt[@"Stage"] isEqual:@"COMMITTED"])',reconcile)
-  self.assertIn("lastCommitted=key;",reconcile)
-  self.assertIn("[self layoutControls];",reconcile)
+  self.assertIn('self.lastNativeStage184=[stage copy];',reconcile)
+  self.assertIn("qa189-native-map-stage-changed",reconcile)
   self.assertIn("qa184-maps-handoff-released-layout-rollback",reconcile)
+  self.assertNotIn("releaseHostedView:",reconcile)
+
+ def test_stage_dependent_physical_target_visibility(self):
+  target=self.maps.split("- (BOOL)targetForWindow:",1)[1].split("- (BOOL)layoutOwnedPane",1)[0]
+  self.assertIn('BOOL requiresHidden=self.presentedAt>0 || self.placed;',target)
+  self.assertIn('NSNumber *expectedVisible=requiresHidden?@NO:@YES;',target)
+  self.assertIn("PRELAUNCH-target-visible",target)
+  self.assertIn("PRESENTED-or-COMMITTED-target-hidden",target)
+  self.assertIn("presented-target-yield-expired-before-COMMITTED-STOP",self.maps)
 
  def test_owner_loss_home_revoke_still_fail_closed(self):
   self.assertIn('reason:@"committed-native-pane-attestation-lost-STOP"',self.maps)

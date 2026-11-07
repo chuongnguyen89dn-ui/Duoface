@@ -516,6 +516,26 @@ static BOOL DFSessionStillActive(void) {
     return sSession && [pulse[@"Session"] isEqualToString:sSession] &&
            DFOwnerAcceptPulse(pulse);
 }
+// Authenticated, measured physical panes; a notification is never authority.
+static void DFPublishPhysicalPaneSnapshot(void) {
+    if(!sChrome || !sActivated || !sSession || !DFSessionStillActive())return;
+    // Independent live SpringBoard geometry snapshot for *read-only*
+    // cross-process native map pane alignment. A stale/revoked session fails closed.
+    NSDictionary *physical=[sChrome stateSnapshot];
+    NSArray *frames=physical[@"PhysicalWindowReadback"];
+    if([physical[@"Owner"] isEqual:@"SpringBoard"] &&
+       [physical[@"ActiveSlots"] isEqual:@2] &&
+       [frames isKindOfClass:NSArray.class] && frames.count==2 &&
+       [sSession isKindOfClass:NSString.class]){
+       NSDictionary *record=@{@"Version":@1,@"Owner":@"SpringBoard",
+          @"Session":sSession,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+          @"ActiveSlots":@2,@"Focus":physical[@"Focus"]?:@(-2),
+          @"Preset":physical[@"Preset"]?:@(-1),@"Windows":frames};
+       if(![record writeToFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"
+                        atomically:YES])
+          DFTOLog(@"physical-map-window-snapshot-save-failed",@"");
+    }
+}
 // Independent SpringBoard watchdog: works even if CarPlay app crashes,
 // is suspended on Home, or fails to deliver a scene disconnect callback.
 static void DFWatchdog(NSUInteger generation) {
@@ -546,22 +566,7 @@ static void DFWatchdog(NSUInteger generation) {
         sDFBKSUnblanked132=NO;
         sDFBKSSession132=nil;
     } else DFMaybeRestoreDisplay132(@"locked-hosted-pane-watchdog");
-    // Independent live SpringBoard geometry snapshot for *read-only*
-    // cross-process native map pane alignment. A stale/revoked session fails closed.
-    NSDictionary *physical=[sChrome stateSnapshot];
-    NSArray *frames=physical[@"PhysicalWindowReadback"];
-    if([physical[@"Owner"] isEqual:@"SpringBoard"] &&
-       [physical[@"ActiveSlots"] isEqual:@2] &&
-       [frames isKindOfClass:NSArray.class] && frames.count==2 &&
-       [sSession isKindOfClass:NSString.class]){
-       NSDictionary *record=@{@"Version":@1,@"Owner":@"SpringBoard",
-          @"Session":sSession,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
-          @"ActiveSlots":@2,@"Focus":physical[@"Focus"]?:@(-2),
-          @"Preset":physical[@"Preset"]?:@(-1),@"Windows":frames};
-       if(![record writeToFile:@"/var/mobile/Library/Preferences/com.duoface.nativehost.physical-panes.v1.plist"
-                        atomically:YES])
-          DFTOLog(@"physical-map-window-snapshot-save-failed",@"");
-    }
+    DFPublishPhysicalPaneSnapshot();
     // Darwin notifies may be coalesced or dropped when the CarPlay process is
     // briefly busy. A single atomic file contains the LATEST real-state
     // observation, so retry only its notify/receipt (never re-run a UI command).
@@ -753,6 +758,17 @@ static void DFInstallTouchOwnerProbe(void) {
                     if(sSession && DFOwnerSessionRevoked(sSession))
                         DFStopProbe(@"native-home-button");
                 });
+            // The PRESENTED lease is only 0.85s: wake immediately, verify
+            // native membership under the current session, and measure
+            // the just-yielded physical target. Watchdog remains fail-closed.
+            static int nativeMapMemberToken=-1;
+            int member=notify_register_dispatch(
+                DF184MapMembershipChanged,&nativeMapMemberToken,
+                dispatch_get_main_queue(),^(__unused int t) {
+                    if(!sChrome || !sActivated || !DFSessionStillActive())return;
+                    [sChrome reconcileNativeMaps184];
+                    DFPublishPhysicalPaneSnapshot();
+                });
             int ack=notify_register_dispatch(kAckNotify,&sAckToken,
                        dispatch_get_main_queue(),^(int t) {
                 (void)t;DFReceiveAck();
@@ -786,8 +802,8 @@ static void DFInstallTouchOwnerProbe(void) {
                 }
             });
             DFTOLog(@"listener-registered",
-                [NSString stringWithFormat:@"start=%d stop=%d ack=%d layout=%d",
-                 a,b,ack,layout]);
+                [NSString stringWithFormat:@"start=%d stop=%d ack=%d layout=%d native-member=%d",
+                 a,b,ack,layout,member]);
         });
     }
 }

@@ -6,6 +6,9 @@
 #import <math.h>
 static NSString *const DF184MapMembershipPath=
  @"/var/mobile/Library/Preferences/com.duoface.nativehost.maps-membership.v1.plist";
+// Notification only wakes the consumer; the strict on-disk receipt authenticates.
+static const char *const DF184MapMembershipChanged =
+ "com.duoface.nativehost.maps-membership.changed.v1";
 static inline BOOL DF184UUID(id obj) {
  return [obj isKindOfClass:NSString.class] &&
   [[NSUUID alloc]initWithUUIDString:(NSString *)obj]!=nil;
