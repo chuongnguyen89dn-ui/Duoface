@@ -137,6 +137,9 @@ class Gate0Tests(unittest.TestCase):
         self.assertIn('CarPlayApp', inject)
         self.assertIn('Preferences', inject)
         self.assertNotIn('SpringBoard', inject)
+        pack = (ROOT / "build_private_probe.sh").read_text()
+        self.assertIn('chmod 0755 "$STAGING"', pack)
+        self.assertIn('Depends: firmware (>= 16.0), mobilesubstrate', pack)
         for forbidden in (
             "setCarPlayDeclaration:", "setFrame:", "setSceneSize:",
             "hostViewForBundleID:", "requestStateChange:", "setLaunchAsCarApplication:",
