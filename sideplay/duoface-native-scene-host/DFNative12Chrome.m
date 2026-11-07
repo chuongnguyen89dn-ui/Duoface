@@ -450,11 +450,16 @@ static void DFCLog(NSString *text) {
        if([self.hostedScenes[(NSUInteger)physical] isKindOfClass:UIView.class] ||
           [self.pendingScenes[(NSUInteger)physical] isKindOfClass:UIView.class])continue;
        if([bundle isEqual:@"com.google.Maps"]) {
-          // Audit16: both automatically restored native attempts revoked
-          // membership and stopped the entire split. Stored preference is not
-          // a verified authorization to change native FBScene geometry.
-          DFCLog(@"native-maps-restore-deferred-explicit-picker-required");
-          continue; // No native launch and no phone-scene fallback.
+          // QA188 source-only repair: this exact installed, allowlisted
+          // saved app was already explicitly selected by the user. Restore
+          // the native assignment once per workspace queue without restoring
+          // the QA182 unsafe prelaunch FBScene size override.
+          // Do not destroy any peer, claim a committed scene or phone-host Maps.
+          BOOL requested=[self assignNativeMaps182:physical origin:@"workspace-restore"];
+          DFCLog([NSString stringWithFormat:
+             @"qa188-native-maps-saved-restore-request %@ physical=%ld scene=UNVERIFIED",
+             requested?@"ISSUED":@"REJECTED",(long)physical]);
+          continue; // Native scene only; no phone-scene fallback on failure.
        }
        NSError *error=nil;
        UIView *surface=[host hostViewForBundleID:bundle error:&error];
@@ -2078,9 +2083,20 @@ static void DFCLog(NSString *text) {
     if(physicalSlot<0 || physicalSlot>=DFSlotCountForPreset(self.preset))return;
     DF181B0Record(@"duoface",bundleID,@"picker-selection", @"pending",@"DFNative12Chrome",NSStringFromCGRect(self.appSceneContainers[(NSUInteger)physicalSlot].bounds),self.display?NSStringFromClass([self.display class]):@"no-display",[NSString stringWithFormat:@"visual=%ld physical=%ld",(long)slot,(long)physicalSlot]);
     if([bundleID isEqual:@"com.google.Maps"]) {
-        [self assignNativeMaps182:physicalSlot];
+        BOOL requested=[self assignNativeMaps182:physicalSlot];
+        DFCLog([NSString stringWithFormat:
+            @"qa188-native-maps-picker-request %@ visual=%ld physical=%ld scene=UNVERIFIED",
+            requested?@"ISSUED":@"REJECTED",(long)slot,(long)physicalSlot]);
+        if(!requested) {
+            // A rejected request must not close the user's picker or count
+            // as successful app placement. No phone-scene fallback.
+            self.appPickerVisible=YES;
+            self.appPickerWindow.hidden=NO;
+            [self layoutControls];
+            return;
+        }
         [self restoreNextSavedWorkspaceApp];
-        return; // Native assignment has NO phone-scene fallback, even on failure.
+        return; // Real native scene ownership and pixels still require vehicle proof.
     }
     NSDictionary *native182=DF182Assignment();
     if([native182[@"PhysicalSlot"] isEqual:@(physicalSlot)])DF182Revoke(@"app-replaced-in-native-slot");

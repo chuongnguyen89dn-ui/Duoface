@@ -21,15 +21,22 @@ class NativeMapsRegression(unittest.TestCase):
   for bad in ("r.size=", "r.origin=", "r=target", "updateSettingsWithBlock:"):
    self.assertNotIn(bad,frame)
 
- def test_saved_maps_cannot_autostart_native_or_phone_fallback(self):
+ def test_approved_saved_maps_restores_native_request_without_phone_fallback(self):
   restore=self.chrome.split("- (void)restoreNextSavedWorkspaceApp {",1)[1].split("// Shift physical scene WINDOWS",1)[0]
-  self.assertIn("native-maps-restore-deferred-explicit-picker-required",restore)
-  self.assertNotIn('assignNativeMaps182:physical origin:@"workspace-restore"',restore)
-  self.assertIn("continue; // No native launch and no phone-scene fallback.",restore)
+  self.assertIn("DFPickerAllowsApp(bundle,DFConfiguredEnabledAppIDs())",restore)
+  self.assertIn("installedBundleIDsForRestore",restore)
+  self.assertIn('assignNativeMaps182:physical origin:@"workspace-restore"',restore)
+  self.assertIn("scene=UNVERIFIED",restore)
+  self.assertIn("continue; // Native scene only; no phone-scene fallback on failure.",restore)
   self.assertLess(restore.index('if([bundle isEqual:@"com.google.Maps"])'),
                   restore.index("hostViewForBundleID:bundle"))
   manual=self.chrome.split("- (void)appPicker:(DFAppPickerVC *)picker\n didSelectBundleID:",1)[1]
-  self.assertIn("[self assignNativeMaps182:physicalSlot]",manual)
+  self.assertIn("BOOL requested=[self assignNativeMaps182:physicalSlot]",manual)
+  self.assertIn("qa188-native-maps-picker-request",manual)
+  self.assertIn("if(!requested)",manual)
+  self.assertIn("self.appPickerWindow.hidden=NO;",manual)
+  self.assertIn("scene=UNVERIFIED",manual)
+  self.assertNotIn("hostViewForBundleID:@\"com.google.Maps\"",manual)
 
  def test_only_committed_owner_hides_existing_phone_pane(self):
   layout=self.chrome.split("- (void)layoutControls {",1)[1].split("- (void)refreshGlobalSpeedHUD164",1)[0]
