@@ -26,6 +26,8 @@ jobs:
       - name: Ensure all QA182 and H1 source unmodified by this diagnostic
         run: |
           set -euo pipefail
+          git fetch --no-tags --depth=1 origin bdd1116b5308869210a65b79b92b7d873fe4a04c
+          git cat-file -e bdd1116b5308869210a65b79b92b7d873fe4a04c^{commit}
           git diff --quiet bdd1116b5308869210a65b79b92b7d873fe4a04c HEAD -- sideplay/duoface-native-scene-host sideplay/native-carplay-scene-v1 sideplay/jb-embedded-appbridge
           echo GATE0_QA182_H1_SOURCE_IMMUTABLE
   signed-private-probe:
