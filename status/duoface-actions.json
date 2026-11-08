@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-07T20:57:30.586610+00:00",
+  "checked_at_utc": "2026-11-08T00:44:55.948161+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4488,
+  "total_actions_runs": 4489,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 7,
-      "success": 6,
+      "recent_runs": 8,
+      "success": 7,
       "failure": 0,
       "other": 1
     },
@@ -119,19 +119,29 @@
       "other": 0
     },
     "QA176 bounded owned-base regression": {
-      "recent_runs": 17,
+      "recent_runs": 16,
       "success": 1,
-      "failure": 16,
+      "failure": 15,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 42431150902,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 125,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42431150902",
+      "created_at": "2026-11-08T00:44:44Z",
+      "head_sha": "83060828af5e2c9a0aa98190980085b4bcc0b412"
+    },
+    {
       "id": 42413508751,
       "name": "DuoFace Actions status snapshot",
       "run_number": 124,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42413508751",
       "created_at": "2026-11-07T20:57:21Z",
       "head_sha": "858bc7282eb3ad0714864dee38e71a6f74ef0006"
@@ -415,16 +425,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42343786171",
       "created_at": "2026-11-07T05:41:20Z",
       "head_sha": "dcf9455775cda739ce154a938df509da5b74b5ee"
-    },
-    {
-      "id": 42343166133,
-      "name": "QA185 launch-identity admission signed integrated test package",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42343166133",
-      "created_at": "2026-11-07T05:32:33Z",
-      "head_sha": "5bdf81e348f11e474ba2d1e39611e49c83b02dd0"
     }
   ]
 }
