@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-08T00:44:55.948161+00:00",
+  "checked_at_utc": "2026-11-08T07:28:30.008285+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4489,
+  "total_actions_runs": 4490,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 8,
-      "success": 7,
+      "recent_runs": 9,
+      "success": 8,
       "failure": 0,
       "other": 1
     },
@@ -119,19 +119,29 @@
       "other": 0
     },
     "QA176 bounded owned-base regression": {
-      "recent_runs": 16,
+      "recent_runs": 15,
       "success": 1,
-      "failure": 15,
+      "failure": 14,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 42458921119,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 126,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42458921119",
+      "created_at": "2026-11-08T07:28:18Z",
+      "head_sha": "2e8e78135eb554d1b68f1ad40d45ccc9b09ca91c"
+    },
+    {
       "id": 42431150902,
       "name": "DuoFace Actions status snapshot",
       "run_number": 125,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42431150902",
       "created_at": "2026-11-08T00:44:44Z",
       "head_sha": "83060828af5e2c9a0aa98190980085b4bcc0b412"
@@ -415,16 +425,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42346232522",
       "created_at": "2026-11-07T06:15:59Z",
       "head_sha": "a0236ee4cb8f268c3e8a87f034f25033f790351c"
-    },
-    {
-      "id": 42343786171,
-      "name": "QA185 independent public Sileo byte receipt",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42343786171",
-      "created_at": "2026-11-07T05:41:20Z",
-      "head_sha": "dcf9455775cda739ce154a938df509da5b74b5ee"
     }
   ]
 }
