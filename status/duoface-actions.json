@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-11T06:41:24.343639+00:00",
+  "checked_at_utc": "2026-11-11T15:22:56.858193+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4500,
+  "total_actions_runs": 4501,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 19,
-      "success": 18,
+      "recent_runs": 20,
+      "success": 19,
       "failure": 0,
       "other": 1
     },
@@ -119,19 +119,29 @@
       "other": 0
     },
     "QA176 bounded owned-base regression": {
-      "recent_runs": 5,
+      "recent_runs": 4,
       "success": 1,
-      "failure": 4,
+      "failure": 3,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 43047766525,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 137,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43047766525",
+      "created_at": "2026-11-11T15:22:45Z",
+      "head_sha": "bae9288ef356d0b6a05ee660b53716091df92184"
+    },
+    {
       "id": 42974163671,
       "name": "DuoFace Actions status snapshot",
       "run_number": 136,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42974163671",
       "created_at": "2026-11-11T06:41:12Z",
       "head_sha": "3fdee9827f257520823956a236a1070412ee909f"
@@ -415,16 +425,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42357384021",
       "created_at": "2026-11-07T08:53:35Z",
       "head_sha": "6d704e8a62b84b90f3f254ea5ff8ec918d97849b"
-    },
-    {
-      "id": 42354698205,
-      "name": "QA187 Maps regression safety private signed integrated DEB (NO SILEO)",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42354698205",
-      "created_at": "2026-11-07T08:15:29Z",
-      "head_sha": "ac105df683db640f3cb2050314b7fd447f4e4b08"
     }
   ]
 }
