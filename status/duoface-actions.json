@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-12T20:54:45.385869+00:00",
+  "checked_at_utc": "2026-11-13T01:54:57.940254+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4505,
+  "total_actions_runs": 4506,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 24,
-      "success": 23,
+      "recent_runs": 25,
+      "success": 24,
       "failure": 0,
       "other": 1
     },
@@ -111,21 +111,25 @@
       "success": 1,
       "failure": 1,
       "other": 0
-    },
-    "QA177 - distinct signed DuoFace 0.0.177 a1wake1 candidate (no publication)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 43348348996,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 142,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43348348996",
+      "created_at": "2026-11-13T01:54:47Z",
+      "head_sha": "13eab479536b6d16075ac87075f8e27586773df6"
+    },
+    {
       "id": 43304939125,
       "name": "DuoFace Actions status snapshot",
       "run_number": 141,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43304939125",
       "created_at": "2026-11-12T20:54:35Z",
       "head_sha": "6fba0474264e09f332ea2a913eac8d71ca6d9cae"
@@ -409,16 +413,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42358695067",
       "created_at": "2026-11-07T09:11:52Z",
       "head_sha": "4756f1d6a23b0015eb43afc41e8eba3b6173d781"
-    },
-    {
-      "id": 42358505188,
-      "name": "QA184 native Maps owner source-only verification (NO DEB)",
-      "run_number": 24,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42358505188",
-      "created_at": "2026-11-07T09:09:19Z",
-      "head_sha": "826a740a8d48bdb9336ec78d888bbfa572ccaf55"
     }
   ]
 }
