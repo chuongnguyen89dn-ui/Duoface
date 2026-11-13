@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-13T17:50:45.567700+00:00",
+  "checked_at_utc": "2026-11-13T23:39:40.043646+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4508,
+  "total_actions_runs": 4509,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 26,
-      "success": 25,
+      "recent_runs": 27,
+      "success": 26,
       "failure": 0,
       "other": 1
     },
@@ -107,19 +107,29 @@
       "other": 0
     },
     "CarPlayPro 0.9.97 exhaustive read-only static audit": {
-      "recent_runs": 2,
+      "recent_runs": 1,
       "success": 1,
-      "failure": 1,
+      "failure": 0,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 43528727587,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 145,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43528727587",
+      "created_at": "2026-11-13T23:39:29Z",
+      "head_sha": "db5c57e0ebaafabcd7ac68a18ecbc5506915aeae"
+    },
+    {
       "id": 43476779978,
       "name": "DuoFace Actions status snapshot",
       "run_number": 144,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43476779978",
       "created_at": "2026-11-13T17:50:34Z",
       "head_sha": "34092ac05a77d7afc793e8c4acade624bfb081a8"
@@ -403,16 +413,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42363843951",
       "created_at": "2026-11-07T10:24:47Z",
       "head_sha": "d025192c12c768b32ff46a2dd9ad223be3a429b3"
-    },
-    {
-      "id": 42359180381,
-      "name": "QA188 private Maps owner peer retention DEB (NO SILEO)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42359180381",
-      "created_at": "2026-11-07T09:18:33Z",
-      "head_sha": "2fbd5ba88b3f817da53db6d173244000c9267022"
     }
   ]
 }
