@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-13T09:41:01.143079+00:00",
+  "checked_at_utc": "2026-11-13T17:50:45.567700+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4507,
+  "total_actions_runs": 4508,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 25,
-      "success": 24,
+      "recent_runs": 26,
+      "success": 25,
       "failure": 0,
       "other": 1
     },
@@ -101,9 +101,9 @@
       "other": 0
     },
     "SidePlay unpack original DEB to repository": {
-      "recent_runs": 3,
+      "recent_runs": 2,
       "success": 1,
-      "failure": 2,
+      "failure": 1,
       "other": 0
     },
     "CarPlayPro 0.9.97 exhaustive read-only static audit": {
@@ -115,11 +115,21 @@
   },
   "latest_runs": [
     {
+      "id": 43476779978,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 144,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43476779978",
+      "created_at": "2026-11-13T17:50:34Z",
+      "head_sha": "34092ac05a77d7afc793e8c4acade624bfb081a8"
+    },
+    {
       "id": 43403327337,
       "name": "DuoFace Actions status snapshot",
       "run_number": 143,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43403327337",
       "created_at": "2026-11-13T09:40:49Z",
       "head_sha": "37d76b9bb274b926f2d2ed8607363359b21fad08"
@@ -403,16 +413,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42359180381",
       "created_at": "2026-11-07T09:18:33Z",
       "head_sha": "2fbd5ba88b3f817da53db6d173244000c9267022"
-    },
-    {
-      "id": 42359008501,
-      "name": "QA188 private Maps owner peer retention DEB (NO SILEO)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42359008501",
-      "created_at": "2026-11-07T09:16:06Z",
-      "head_sha": "4d293721b10ca13d898c3e40f11133decb38d301"
     }
   ]
 }
