@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-14T14:15:44.187888+00:00",
+  "checked_at_utc": "2026-11-14T19:16:25.900544+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4511,
+  "total_actions_runs": 4512,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 29,
-      "success": 28,
+      "recent_runs": 30,
+      "success": 29,
       "failure": 0,
       "other": 1
     },
@@ -99,21 +99,25 @@
       "success": 0,
       "failure": 1,
       "other": 0
-    },
-    "SidePlay unpack original DEB to repository": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 43631168357,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 148,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43631168357",
+      "created_at": "2026-11-14T19:16:15Z",
+      "head_sha": "f79b46c6ec320c35ba785eb90cc5e19de2b9b079"
+    },
+    {
       "id": 43603920549,
       "name": "DuoFace Actions status snapshot",
       "run_number": 147,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43603920549",
       "created_at": "2026-11-14T14:15:34Z",
       "head_sha": "a5ce2ca3b7a0e93523f20915ad81a8a8db3171a4"
@@ -397,16 +401,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42382187096",
       "created_at": "2026-11-07T14:33:53Z",
       "head_sha": "b063e0cfd2389f57b3772d2292647c251a10c07b"
-    },
-    {
-      "id": 42365996983,
-      "name": "QA184 native Maps owner source-only verification (NO DEB)",
-      "run_number": 27,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42365996983",
-      "created_at": "2026-11-07T10:55:47Z",
-      "head_sha": "e88a73d24335802e9540032b23cf18ec8f10bf83"
     }
   ]
 }
