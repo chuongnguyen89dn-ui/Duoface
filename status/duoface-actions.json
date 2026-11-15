@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-15T17:48:54.394320+00:00",
+  "checked_at_utc": "2026-11-15T22:56:50.877912+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4516,
+  "total_actions_runs": 4517,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 34,
-      "success": 33,
+      "recent_runs": 35,
+      "success": 34,
       "failure": 0,
       "other": 1
     },
@@ -83,19 +83,29 @@
       "other": 3
     },
     "QA180 h1wake3 - signed rootless DuoFace CI build and immutable source archive": {
-      "recent_runs": 3,
+      "recent_runs": 2,
       "success": 2,
-      "failure": 1,
+      "failure": 0,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 43772053001,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 153,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43772053001",
+      "created_at": "2026-11-15T22:56:34Z",
+      "head_sha": "d551f6e16689cb781c73bdab41b37a915cd1abf3"
+    },
+    {
       "id": 43743195265,
       "name": "DuoFace Actions status snapshot",
       "run_number": 152,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43743195265",
       "created_at": "2026-11-15T17:48:44Z",
       "head_sha": "b7faacd11988d1c424ba5cccfc959fdef30d3877"
@@ -379,16 +389,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42413508751",
       "created_at": "2026-11-07T20:57:21Z",
       "head_sha": "858bc7282eb3ad0714864dee38e71a6f74ef0006"
-    },
-    {
-      "id": 42393554073,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 123,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42393554073",
-      "created_at": "2026-11-07T16:53:29Z",
-      "head_sha": "4a728eecd4ac481663bdbd22458e695d7b5881d7"
     }
   ]
 }
