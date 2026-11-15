@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-15T11:10:52.953871+00:00",
+  "checked_at_utc": "2026-11-15T17:48:54.394320+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4515,
+  "total_actions_runs": 4516,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 33,
-      "success": 32,
+      "recent_runs": 34,
+      "success": 33,
       "failure": 0,
       "other": 1
     },
@@ -87,21 +87,25 @@
       "success": 2,
       "failure": 1,
       "other": 0
-    },
-    "QA179 h1wake2 - signed rootless DuoFace CI build and immutable source archive": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 43743195265,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 152,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43743195265",
+      "created_at": "2026-11-15T17:48:44Z",
+      "head_sha": "b7faacd11988d1c424ba5cccfc959fdef30d3877"
+    },
+    {
       "id": 43707643332,
       "name": "DuoFace Actions status snapshot",
       "run_number": 151,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43707643332",
       "created_at": "2026-11-15T11:10:38Z",
       "head_sha": "22bec9a0fb502a0eec9e29151565a9b9bc45d622"
@@ -385,16 +389,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42393554073",
       "created_at": "2026-11-07T16:53:29Z",
       "head_sha": "4a728eecd4ac481663bdbd22458e695d7b5881d7"
-    },
-    {
-      "id": 42382653770,
-      "name": "QA189 private Maps and H1 signed DEB (NO SILEO)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42382653770",
-      "created_at": "2026-11-07T14:39:56Z",
-      "head_sha": "0b34224cb5cd259e5c9909cc40593b55c74d5f6a"
     }
   ]
 }
