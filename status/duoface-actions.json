@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-11-17T14:36:27.235765+00:00",
+  "checked_at_utc": "2026-11-17T22:58:05.288309+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4522,
+  "total_actions_runs": 4523,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 40,
-      "success": 39,
+      "recent_runs": 41,
+      "success": 40,
       "failure": 0,
       "other": 1
     },
@@ -77,19 +77,29 @@
       "other": 0
     },
     "QA181 b0probe1 - read-only scene measurement signed CI archive": {
-      "recent_runs": 3,
+      "recent_runs": 2,
       "success": 2,
       "failure": 0,
-      "other": 1
+      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 44195047147,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 159,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/44195047147",
+      "created_at": "2026-11-17T22:57:55Z",
+      "head_sha": "fd9c38e52e6ba1304695bc1120d5f3a1c4540ec4"
+    },
+    {
       "id": 44104930986,
       "name": "DuoFace Actions status snapshot",
       "run_number": 158,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/44104930986",
       "created_at": "2026-11-17T14:36:17Z",
       "head_sha": "a2d9fcf0cd3c729780f82d541e94441e8a32773a"
@@ -373,16 +383,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42583459063",
       "created_at": "2026-11-09T08:05:29Z",
       "head_sha": "f15535ecabf917f9b858d663a76a1382a33912bd"
-    },
-    {
-      "id": 42543081472,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 129,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/42543081472",
-      "created_at": "2026-11-09T00:58:56Z",
-      "head_sha": "42475e9f18f7c4f8a34e2048676f54cd43a4ef28"
     }
   ]
 }
