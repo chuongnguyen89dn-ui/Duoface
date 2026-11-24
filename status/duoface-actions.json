@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-11-23T14:52:16.336314+00:00",
+  "checked_at_utc": "2026-11-24T02:18:24.141371+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 4541,
+  "total_actions_runs": 4542,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -67,11 +67,21 @@
   },
   "latest_runs": [
     {
+      "id": 45311373768,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 178,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/45311373768",
+      "created_at": "2026-11-24T02:18:15Z",
+      "head_sha": "f0cfd768f933cc5c4a146d7bc869eba6887e4bff"
+    },
+    {
       "id": 45198816644,
       "name": "DuoFace Actions status snapshot",
       "run_number": 177,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/45198816644",
       "created_at": "2026-11-23T14:52:05Z",
       "head_sha": "1d3655793f45a77baf83ea3c9f827041df90bf59"
@@ -355,16 +365,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43651813792",
       "created_at": "2026-11-14T23:09:39Z",
       "head_sha": "092d5e9b9a504a61b291e415d58d59cf76c02647"
-    },
-    {
-      "id": 43631168357,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 148,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/43631168357",
-      "created_at": "2026-11-14T19:16:15Z",
-      "head_sha": "f79b46c6ec320c35ba785eb90cc5e19de2b9b079"
     }
   ]
 }
